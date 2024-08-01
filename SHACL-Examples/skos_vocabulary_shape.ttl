@@ -1,0 +1,127 @@
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+#
+#  pyshacl -s shapes/vocabulary_shape.ttl -m -i rdfs -f human -a -im  -w model/example.ttl
+#
+
+skos:ExtensionVocabularyShape
+    a sh:NodeShape ;
+    sh:property [
+        sh:path skos:inScheme ;
+        sh:nodeKind sh:IRI ;
+        sh:maxCount 1 ;
+        sh:minCount 1 ;
+        sh:description "An extension vocabulary scheme must reference another vocabulary scheme."@en ;
+    ] ;
+    sh:property [
+        sh:path [ sh:inversePath skos:inScheme ];
+        sh:minCount 1;
+        sh:description "An extension vocabulary must have concepts"@en ;
+    ] ;
+.
+
+skos:BaseVocabularyShape
+    a sh:NodeShape ;
+    sh:property [
+        sh:path [ sh:inversePath skos:topConceptOf ];
+        sh:minCount 1;
+        sh:description "A base vocabulary must have a `skos:topConcept`"@en ;
+    ] ;
+    sh:property [
+        sh:path skos:inScheme ;
+        sh:maxCount 0;
+        sh:description "A base vocabulary scheme can not reference another scheme."@en ;
+    ] ;
+.
+
+skos:VocabularyShape
+    a sh:NodeShape ;
+    sh:targetClass skos:ConceptScheme ;
+    sh:property [
+        sh:path skos:prefLabel ;
+        sh:minCount 1 ;
+        sh:datatype rdf:langString ;
+        sh:description "A vocabulary should have a preferred name"@en ;
+        sh:severity sh:Warning ;
+    ] ;
+    sh:property [
+        sh:path skos:definition ;
+        sh:minCount 1 ;
+        sh:datatype rdf:langString ;
+        sh:description "A vocabulary should have a textual description"@en ;
+        sh:severity sh:Warning ;
+    ] ;
+    sh:or (
+        skos:ExtensionVocabularyShape
+        skos:BaseVocabularyShape
+    ) ;
+.
+
+skos:VocabularyConceptSchemeShape
+    a sh:NodeShape ;
+    sh:targetNode skos:ConceptScheme ;
+    sh:property [
+        sh:path [ sh:inversePath rdf:type ] ;
+        sh:minCount 1;
+        sh:maxCount 1;
+        sh:description "A vocabulary must have an instance of skos:ConceptScheme."@en ;
+    ] ;
+.
+
+skos:NarrowerConceptShape
+    a sh:NodeShape ;
+    sh:property [
+        sh:path skos:inScheme ;
+        sh:minCount 1;
+    ] ;
+    sh:property [
+        sh:path skos:broader ;
+        sh:minCount 1;
+    ] ;
+.
+
+skos:TopConceptShape
+    a sh:NodeShape ;
+    sh:property [
+        sh:path skos:topConceptOf ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:dataType skos:ConceptScheme ;
+        sh:node skos:VocabularyShape ;
+    ];
+    sh:property [
+        sh:path skos:broader ;
+        sh:maxCount 0 ;
+    ];
+    sh:property [
+        sh:path skos:inScheme ;
+        sh:maxCount 0 ;
+    ]
+.
+
+skos:VocabularyConceptShape
+    a sh:NodeShape ;
+    sh:targetClass skos:Concept ;
+    sh:property [
+        sh:path skos:prefLabel ;
+        sh:minCount 1;
+        sh:datatype rdf:langString ;
+        sh:description "A vocabulary concept must have a preferred name"@en ;
+    ] ;
+    sh:property [
+        sh:path skos:definition ;
+        sh:minCount 1;
+        sh:datatype rdf:langString ;
+        sh:description "A vocabulary concept should have a textual definition"@en ;
+        sh:severity sh:warning ;
+    ] ;
+    sh:or (
+        skos:NarrowerConceptShape
+        skos:TopConceptShape
+    ) ;
+.
