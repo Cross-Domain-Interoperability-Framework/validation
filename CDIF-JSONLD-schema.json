@@ -4,11 +4,11 @@
     "title": "Dataset metadata schema",
     "description": "JSON schema for JSON-LD documents that describe science datasets, based on Google guide for publishers (https://developers.google.com/search/docs/data-types/dataset), and the Earth Science Information Partners (ESIP) Science on Schema.org recommendations v1.3 prerelease (see https://doi.org/10.5281/zenodo.2628755 dataset.md for current recommendations document). The Google guide asserts only two required fields - name and description. The Google guide suggests the following recommended fields: url, sameAs, version, isAccessibleForFree, keywords, identifeir and variableMeasured. Instances conforming to this schema will validate with schema.org/validator, but there will be numerous warnings about properties that are not expected for various base types. These can be ignored. The context is not specified in the schema, but must be added in instance documents. '\"@context\": [\"https://schema.org/\", {\"dcterms\": \"http://purl.org/dc/terms/\", \"geosparql\": \"http://www.opengis.net/ont/geosparql#\", \"spdx\": \"http://spdx.org/rdf/terms#\",                            \"id\": \"@id\", \"type\": \"@type\" }]' 2024-07-24, SMR change handling of registration information to align with current proposal for cross-domain interoperability (CDIF). Created by Stephen Richard 2024-07-30 based on NSF GeoCODES dataset and iSamples draft2 schema.org JSON schema.",
     "properties": {
-        "id": {
+        "@id": {
             "type": "string",
             "description": "The URI for the resource should be the @id value for the root of the JSON instance document tree. Note that this identifier can be interpreted to identify the resource that is the subject of this metadata record, or the JSON-LD object that is the digital object containing the metadata information."
         },
-        "type": {
+        "@type": {
             "description": "a schema.org Class that specifies the expected information content for the metadata record. For CDIF, default is 'Dataset', but other possible values include(CreativeWork, SoftwareApplication, Product, WebAPI). The type classes for a given resource description enable the schema.org properties used to describe the resource.",
             "type": "array",
             "items": {
@@ -20,7 +20,11 @@
                     "Product",
                     "WebAPI",
                     "Dataset",
-                    "Collection"
+                    "DigitalDocument",
+                    "Collection",
+                    "ImageObject",
+                    "DataCatalog",
+                    "DefinedTermSet"
                 ],
                 "minItems": 1,
                 "default": "Dataset"
@@ -113,9 +117,10 @@
             }
         },
         "creator": {
-            "description": "author or orginator of intellectual content of dataset",
-            "oneOf": [
-                {
+            "description": "author or orginator of intellectual content of dataset. Uset the JSON-LD @list construct to preserve author order. Use contributor with the Role property to specify other roles related to creation or stewardship of the resource.",
+            "type": "object",
+            "properties": {
+                "@list": {
                     "type": "array",
                     "items": {
                         "anyOf": [
@@ -123,47 +128,8 @@
                             {"$ref": "#/definitions/organization_type"}
                         ]
                     }
-                },
-                {
-                    "type": "object",
-                    "description": "The order of these creators can be preserved by the using the @list JSON-LD keyword:",
-                    "properties": {
-                        "@list": {
-                            "type": "array",
-                            "items": {
-                                "anyOf": [
-                                    {"$ref": "#/definitions/person_type"},
-                                    {"$ref": "#/definitions/organization_type"}
-                                ]
-                            }
-                        }
-                    }
-                },
-                {
-                    "type": "array",
-                    "description": "For more granularity on how a person contributed to a Dataset, use schema:Role. The schema.org documentation does not state that the Role type is an expected data type of author, creator and contributor, but that is addressed in this blog post (http://blog.schema.org/2014/06/introducing-role.html). See https://github.com/ESIPFed/science-on-schema.org/blob/develop/guides/Dataset.md#roles-of-people",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "@type": {
-                                "type": "string",
-                                "default": "Role",
-                                "const": "Role"
-                            },
-                            "roleName": {"type": "string"},
-                            "creator": {
-                                "type": "object",
-                                "items": {
-                                    "oneOf": [
-                                        {"$ref": "#/definitions/person_type"},
-                                        {"$ref": "#/definitions/organization_type"}
-                                    ]
-                                }
-                            }
-                        }
-                    }
                 }
-            ]
+            }
         },
         "contributor": {
             "description": "other parties who played a role in production of dataset",
@@ -234,33 +200,13 @@
         },
         "provider": {
             "description": "Party who maintains the distribution options for the dataset. If there are multiple distributions from different providers, use the provider property on distribution/DataDownload",
-            "oneOf": [
-                {
-                    "anyOf": [
-                        {
-                            "type": "object",
-                            "properties": {
-                                "@id": {
-                                    "type": "string",
-                                    "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable"
-                                }
-                            }
-                        },
-                        {"$ref": "#/definitions/person_type"},
-                        {"$ref": "#/definitions/organization_type"}
-                    ]
-                },
-                {
-                    "type": "array",
-                    "description": "For more granularity on how a person contributed to a Dataset, use schema:Role. The schema.org documentation does not state that the Role type is an expected data type of author, creator and contributor, but that is addressed in this blog post (http://blog.schema.org/2014/06/introducing-role.html). see https://github.com/ESIPFed/science-on-schema.org/blob/develop/guides/Dataset.md#roles-of-people",
-                    "items": {
-                        "anyOf": [
-                            {"$ref": "#/definitions/person_type"},
-                            {"$ref": "#/definitions/organization_type"}
-                        ]
-                    }
-                }
-            ]
+            "type": "array",
+            "items": {
+                "anyOf": [
+                    {"$ref": "#/definitions/person_type"},
+                    {"$ref": "#/definitions/organization_type"}
+                ]
+            }
         },
         "funding": {
             "type": "array",
@@ -406,8 +352,11 @@
             "type": "object",
             "description": "see https://github.com/Cross-Domain-Interoperability-Framework/Discovery/issues/13 for discussion on how to make assertion about the sample registration and metadata distinct from statements about the physical object",
             "properties": {
-                "type": {"const": "DigitalDocument"},
-                "id": {
+                "@type": {
+                    "type": "string",
+                    "const": "DigitalDocument"
+                },
+                "@id": {
                     "type": "string",
                     "description": "identifier for the metadata record"
                 },
@@ -421,7 +370,7 @@
                         }
                     }
                 },
-                "dcterms:conformsTo": {"const": "http://resource.isamples.org/schema/0.2/schema.org"},
+                "dcterms:conformsTo": {"const": "ex:cdif_SDO_profile_uri"},
                 "maintainer": {
                     "description": "iSamples Registrant. identification of the agent that registered the sample, with contact information. Should include person name and affiliation, or position name and affiliation, or just organization name. e-mail address is preferred contact information.",
                     "oneOf": [
@@ -461,13 +410,26 @@
             }
         }
     },
-    "required": [
-        "@id",
-        "@type",
-        "@context",
-        "name",
-        "description",
-        "url"
+    "allOf": [
+        {
+            "required": [
+                "@id",
+                "@type",
+                "@context",
+                "name",
+                "description"
+            ]
+        },
+        {
+            "anyOf": [
+                {
+                    "required": ["url"]
+                },
+                {
+                    "required": ["distribution"]
+                }
+            ]
+        }
     ],
     "definitions": {
         "action_type": {
@@ -620,12 +582,13 @@
             "type": "object",
             "description": "this is a shell used mostly for labeled links to other resources, but any schema.org CreativeWork property could be included.",
             "properties": {
-                "name": {"type": "string"},
                 "@type": {
                     "type": "string",
                     "default": "CreativeWork",
                     "const": "CreativeWork"
                 },
+                "name": {"type": "string"},
+                "description": {"type": "string"},
                 "url": {"type": "string"}
             },
             "required": ["@type"]
@@ -633,27 +596,23 @@
         "definedTerm_type": {
             "type": "object",
             "properties": {
-                "name": {
-                    "type": "string",
-                    "description": "text label for the keyord that is useful to human user"
-                },
                 "@type": {
                     "type": "string",
                     "default": "DefinedTerm",
                     "const": "DefinedTerm"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "text label for the keyord that is useful to human user"
                 },
                 "identifier": {"$ref": "#/definitions/identifier_type"},
                 "inDefinedTermSet": {
                     "type": "string",
                     "description": "Identifier for the controlled vocabulary responsible for this keyword."
                 },
-                "url": {
-                    "type": "string",
-                    "description": "The canonical URL for the keyword. (Optional)"
-                },
                 "termCode": {
                     "type": "string",
-                    "description": "A representative code for this keyword in the controlled vocabulary (Optional)"
+                    "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
                 }
             },
             "required": [
@@ -696,8 +655,7 @@
             },
             "required": [
                 "contentUrl",
-                "@type",
-                "encodingFormat"
+                "@type"
             ]
         },
         "identifier_type": {
@@ -754,7 +712,10 @@
                                 },
                                 "latitude": {"type": "number"},
                                 "longitude": {"type": "number"}
-                            }
+                            },
+                            "required":[
+                                "@type","latitude","longitude"
+                            ]
                         },
                         {
                             "type": "object",
@@ -769,17 +730,20 @@
                                     "type": "string",
                                     "description": "A GeoShape box defines an area on the surface of the earth defined by point locations of the southwest corner and northeast corner of the rectangle in latitude-longitude coordinates. A space should be used to separate the latitude and longitude values. The two corner coordinate points are separated by a space. 'East longitude' means positive longitude values are east of the prime (Greenwich) meridian."
                                 }
-                            }
+                            },
+                            "required":[
+                                "@type","box"
+                            ]
                         }
                     ]
                 },
                 "geosparql:hasGeometry": {
                     "type": "object",
-                    "description": "Optional geographic extent using other more wkt geometry, see Ocean InfoHub (https://book.oceaninfohub.org/thematics/spatial/README.html#simple-geosparql-wkt). (Note URIs in example are truncated…) Other geometry schemes might be specified in a specific domain profile, e.g. for atmospheric, subsurface data, or local coordinate systems. NOTE that the location specified here should be the same as the schema.org point or bounding box.",
+                    "description": "Optional geographic extent using wkt geometry, see Ocean InfoHub (https://book.oceaninfohub.org/thematics/spatial/README.html#simple-geosparql-wkt). Other geometry schemes might be specified in a specific domain profile, e.g. for atmospheric, subsurface data, or local coordinate systems. NOTE that the location specified here should be the same as the schema.org point or contained within the specified bounding box.",
                     "properties": {
                         "@type": {
                             "type": "string",
-                            "description": "MUST be sf: (<http://www.opengis.net/ont/sf#>) point, envelope, or polygon. See https://opengeospatial.github.io/ogc-geosparql/geosparql11/sf_geometries.ttl"
+                            "description": "MUST be sf: (<http://www.opengis.net/ont/sf#>) SimpleFeature geometry type. See https://opengeospatial.github.io/ogc-geosparql/geosparql11/sf_geometries.ttl"
                         },
                         "geosparql:asWKT": {
                             "type": "object",
@@ -818,7 +782,7 @@
                 "hasTRS": {
                     "type": "string",
                     "description": "identifier for a temporal reference system; default is million years before prsent as a decimal number",
-                    "default": "gsmla:ma"
+                    "default": "http://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime"
                 },
                 "time:numericPosition": {"type": "number"}
             }
@@ -967,8 +931,10 @@
                     },
                     "description": {"type": "string"},
                     "propertyID": {
-                        "type": "string",
-                        "description": "identifier for the property concept quantified by the values in this variable slot"
+                        "type":"array",
+                        "items":{
+                            "type": "string" },
+                        "description": "identifier or name for the property concept quantified by the values in this variable slot. Multiple values can specify the property at different levels of granularity."
                     },
                     "measurementTechnique": {
                         "type": "string",
