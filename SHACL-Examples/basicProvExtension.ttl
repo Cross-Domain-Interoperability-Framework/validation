@@ -1,0 +1,23 @@
+@prefix schema: <http://schema.org/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix soso: <http://science-on-schema.org/1.2.3/validation/shacl#> .
+@prefix datacite: <http://purl.org/spar/datacite/> .
+@prefix time: <http://www.w3.org/2006/time#>.
+
+
+# CDIF extension bor basic prov information
+@prefix cdifp: <https://cdif.org/validation/prov/0.1/shacl#> .
+# SMR 2025-06-10 for CDIF and AstroMat
+
+cdifd:CDIFDatasetRecommendedShape
+    a sh:NodeShape ;
+    sh:targetClass schema:Dataset ;
+    sh:message "CDIF suite, recommended properties, for basic provenance extension" ;
+    sh:property	
+		cdifd:provGeneratedByProperty,
+        cdifd:provDeriveFromProperty,

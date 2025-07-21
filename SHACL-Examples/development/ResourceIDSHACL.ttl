@@ -1,0 +1,32 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix schema: <https://schema.org/> .
+@prefix cdifs: <https://cdif.org/validation/0.1/shacl#> .
+
+cdifs:CDIFDatasetRecommendedShape a sh:NodeShape ;
+	sh:targetClass schema:Dataset ;
+    sh:sparql [	
+      a sh:SPARQLConstraint ;
+      sh:declare [
+		sh:prefix "schema" ;
+		sh:namespace "https://schema.org/" ;
+		] ;
+        sh:select """
+          SELECT $this 
+          WHERE {
+            ?node1 a schema:Dataset . 
+            FILTER NOT EXISTS {
+                ?node1 ?predicate $this .
+            }
+            FILTER ( ?node1 != $this)
+          }
+
+        """ ;
+      ] ;
+	sh:property [
+		sh:path schema:identifier ;
+		sh:minCount 1 ;
+		sh:datatype <http://www.w3.org/2001/XMLSchema#string> ;
+		sh:severity sh:Warning ;
+		sh:message "An identifier for the documented material sample must be provided"
+	]
+.

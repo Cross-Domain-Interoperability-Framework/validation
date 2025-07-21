@@ -1,0 +1,31 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix schema: <https://schema.org/> .
+@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix time: <http://www.w3.org/2006/time#>.
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+
+
+cdifd:data
+  a sh:NodeShape ;
+  sh:targetClass schema:Dataset ;
+  sh:property	
+		cdifd:responsiblePartyProperty
+		.
+  
+ cdifd:responsiblePartyProperty 
+	a sh:PropertyShape ;
+    sh:path [sh:alternativePath ( schema:creator schema:editor schema:publisher ) ]  ;
+    sh:or ([sh:node rdf:List] 
+           [sh:class  schema:Person ]
+           [sh:class  schema:Organization ]
+)	;
+	sh:minCount 1;
+   	sh:message "Optional: Recommended practice is to identify at least one responsible party as the source authority for the dataset. Options include  creator, editor, or publisher. Each is either a schema:Person or schema:Organization and MUST have at least a name." ;
+    sh:description "https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/schemaorgimplementation.html" ;
+    sh:severity sh:Info 
+    .
+
+#[  sh:class  schema:Person ]
+#             [   sh:class  schema:Organization ]

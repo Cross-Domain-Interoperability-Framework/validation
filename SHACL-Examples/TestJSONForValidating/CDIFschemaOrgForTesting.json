@@ -1,0 +1,410 @@
+{
+    "@context": {
+        "schema": "https://schema.org/",
+        "dcterms": "http://purl.org/dc/terms/",
+        "geosparql": "http://www.opengis.net/ont/geosparql#",
+        "spdx": "http://spdx.org/rdf/terms#",
+        "ada": "https://ada.astromat.org/metadata/",
+        "time": "http://www.w3.org/2006/time#"
+    },
+    "@id": "ada:465509",
+    "@type": [
+        "schema:Dataset",
+        "schema:Product"
+    ],
+    "schema:name": "Specific Heat Measurements of OSIRIS-REx Sample OREX-803224-0 by Differential Scanning Calorimetry (223 to 402 K)",
+    "schema:description": "This dataset contains specific heat measurements of the OSIRIS-REx sample OREX-803224-0, acquired through Differential Scanning Calorimetry (DSC) over a temperature range of 223 K to 402 K. It includes heat capacity versus temperature data, raw and processed heat flow measurements, and a comprehensive description of the measurement methodology.",
+    "schema:additionalType": ["Differential Scanning Calorimetry"],
+    "schema:identifier": "https://doi.org/10.60707/ja51-pz63",
+    "schema:url": "https://ada.astromat.org/doi/10.60707/ja51-pz63",
+    "schema:creator": [
+        {
+            "@id": "https://ada.org/person/5489",
+            "@type": "schema:Person",
+            "schema:name": "ALASLI, Abdulkareem",
+            "schema:identifier": "https://orcid.org/0000-0002-1681-0492",
+            "schema:email": "al.asli.abdulkareem.m6@f.mail.nagoya-u.ac.jp"
+        }
+    ],
+    "schema:editor": {
+        "@list": [
+            {
+                "@type": "schema:Organization",
+                "schema:name": "Alice",
+                "schema:identifier": "https://ror.org/95634yuih0492"
+            },
+            {"@id": "https://ada.org/person/4237",
+                "@type": "schema:Person",
+                "schema:name": "Bob"
+            },
+            {"@type": "schema:Organization",
+            "schema:identifier": "https://ror.org/95634yuih0492",
+            "schema:name":"bozo"}
+        ]
+    },
+    "schema:contributor": [
+        {
+            "@type": "schema:Role",
+            "schema:roleName": "Researcher",
+            "schema:contributor": {
+                "@type": "schema:Person",
+                "@id": "https://ada.org/person/437",
+                "schema:name": "Biele, Jens",
+                "schema:identifier": "https://orcid.org/0000-0002-7414-829X",
+                "schema:email": "Jens.Biele@dlr.de"
+            }
+        },
+        {
+            "@type": "schema:Role",
+            "schema:roleName": "Principal Investigator",
+            "schema:contributor": {
+                "@type": "schema:Person",
+                "@id": "https://ada.org/person/657979",
+                "schema:name": "John Doe",
+                "schema:identifier": "https://orcid.org/0000-0002-7714-8098",
+                "schema:affiliation": {
+                    "@type": "schema:Organization",
+                    "@id": "https://ror.org/4o9480",
+                    "schema:name": "organization name"
+                },
+                "schema:email": "john.chodacki@ucop.edu"
+            }
+        }
+    ],
+    "schema:funding": [
+        {
+            "@type": "schema:MonetaryGrant",
+            "schema:identifier": "NNM10AA11C",
+            "schema:name": "New Frontiers program",
+            "schema:funder": {
+                "@type": "schema:Organization",
+                "schema:name": "National Aeronautics and Space Administration",
+                "schema:identifier": "https://ror.org/027ka1x80"
+            }
+        }
+    ],
+    "schema:license": ["URI for license"],
+    "schema:keywords": [
+        "keyword2",
+        "keyword3",
+        "keyword4"
+    ],
+    "schema:spatialCoverage": [
+        {
+            "@type": "schema:Place",
+            "schema:name": "Bennu"
+        },
+        {
+            "@type": "schema:Place",
+            "description": "for testing",
+            "schema:geo": {
+                "@type": "schema:GeoShape",
+                "schema:box": "-33.8667 25.6333 29.00 115.85"
+            }
+        },
+        {
+            "@type": "schema:Place",
+            "description": "for testing",
+            "schema:geo": {
+                "@type": "schema:GeoCoordinates",
+                "schema:latitude": -33.8667,
+                "schema:longitude": 115.85
+            }
+        }
+    ],
+    "schema:temporalCoverage": [
+        "1777-04-04T12:19",
+        {
+            "@type": "time:ProperInterval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inTimePosition": {
+                    "@type": "time:TimePosition",
+                    "time:numericPosition": 345,
+                    "time:hasTRS": "http://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime"
+                }
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inTimePosition": {
+                    "@type": "time:TimePosition",
+                    "time:numericPosition": 298,
+                    "time:hasTRS": "http://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime"
+                }
+            }
+        },
+        {
+            "@type": "time:Instant",
+            "time:inTimePosition": {
+                "@type": "time:TimePosition",
+                "time:numericPosition": 26.2,
+                "time:hasTRS": "http://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime"
+            }
+        }
+    ],
+    "schema:variableMeasured": [
+        {
+            "@type": "schema:PropertyValue",
+            "schema:name": "Averaged Cp [J/g/K]",
+            "ada:fieldType": "decimal",
+            "schema:unitText": "J/g/K",
+            "schema:propertyID": "https://ocg.org/def/nil/missing",
+            "schema:description": "Averaged specific heat across scan runs"
+        },
+        {
+            "@type": "schema:StatisticalVariable",
+            "schema:measuredProperty": {
+                "@type": "schema:Property",
+                "schema:identifier": "https://properties.org/id/305978",
+                "schema:name": "Average age"
+            },
+            "schema:statType": "Average",
+            "schema:description": "bogus property for testing",
+            "schema:measurementMethod": "ex:https://protocols.org/census",
+            "schema:populationType": {
+                "@type": "schema:Class",
+                "schema:name": "Citizens"
+            }
+        }
+    ],
+    "schema:publishingPrinciples": [
+        {
+            "@type": "schema:CreativeWork",
+            "schema:name": "name of policy",
+            "schema:description": "https://cdif.org/resources/policy/264"
+        }
+    ],
+    "schema:dateCreated": "2025-02-14T08:10:07",
+    "schema:dateModified": "2025-03-07T08:15:15",
+    "schema:datePublished": "2025-09-22T18:22",
+    "schema:relatedLink": [
+        {
+            "@type": "schema:LinkRole",
+            "schema:linkRelationship": "linkRelationshipType",
+            "schema:target": {
+                "@type": "schema:EntryPoint",
+                "schema:encodingType": "text/html",
+                "schema:name": "name to label link",
+                "schema:url": "https://example.org/data/stations"
+            }
+        }
+    ],
+
+    "schema:creativeWorkStatus": "Calibration and Validation",
+    "schema:mainEntity": [
+        {
+            "@type": "schema:Thing",
+            "schema:additionalType": "MaterialSample",
+            "schema:identifier": "OREX-803224-0"
+        }
+    ],
+    "schema:measurementTechnique": {
+        "@type": "schema:DefinedTerm",
+        "schema:name": "Differential Scanning Calorimetry",
+        "schema:termCode": "DSC"
+    },
+    "ada:AnalysisEvent": {
+        "@type": "Event",
+        "schema:identifier": "20241111_DSC_NU_OREX-803224-0_1",
+        "schema:endDate": "2024-11-11T12:00:00+00:00",
+        "ada:analysis.instrument": {
+            "@type": "schema:Thing",
+            "schema:name": "PerkinsElmer DSC 8000",
+            "schema:identifier": "PE-DSC8000"
+        },
+        "schema:location": {
+            "@type": "schema:Place",
+            "schema:identifier": "https://ror.org/04chrp450",
+            "schema:name": "Nagoya University",
+            "schema:alternateName": "NU"
+        }
+    },
+    "hasPart": [
+        {
+            "@type": "schema:Dataset",
+            "schema:name": "20241111_DSC_NU_OREX-803224-0_1_DSCHeatTabular_1.csv",
+            "spdx:checksum": "7fe8c67ed903f49f1c939048b80cfcec1e62da5249d72db4193b59fdc8f1eea1",
+            "schema:size": {
+                "@type": "schema:QuantitativeValue",
+                "schema:value": 947,
+                "schema:unitText": "byte"
+            },
+            "schema:additionalType": "ada:DSCIndividualMeasurements",
+            "schema:variableMeasured": [
+                {
+                    "@type": "schema:PropertyValue",
+                    "schema:name": "T",
+                    "ada:colNum": 0,
+                    "ada:fieldType": "decimal",
+                    "schema:unitText": "K",
+                    "schema:description": "Temperature"
+                },
+                {
+                    "@type": "schema:PropertyValue",
+                    "schema:name": "T",
+                    "ada:colNum": 1,
+                    "ada:fieldType": "decimal",
+                    "schema:unitText": "deg C",
+                    "schema:description": "Temperature"
+                },
+                {
+                    "@type": "schema:PropertyValue",
+                    "schema:name": "Step Scan 1 Cp [J/g/K]",
+                    "ada:colNum": 2,
+                    "ada:fieldType": "decimal",
+                    "schema:unitText": "J/g/K",
+                    "schema:description": "Specific heat of the first scan run"
+                },
+                {
+                    "@type": "schema:PropertyValue",
+                    "schema:name": "Step Scan 2 Cp [J/g/K]",
+                    "ada:colNum": 3,
+                    "ada:fieldType": "decimal",
+                    "schema:unitText": "J/g/K",
+                    "schema:description": "Specific heat of the second scan run"
+                },
+                {
+                    "@type": "schema:PropertyValue",
+                    "schema:name": "Step Scan 3 Cp [J/g/K]",
+                    "ada:colNum": 4,
+                    "ada:fieldType": "decimal",
+                    "schema:unitText": "J/g/K",
+                    "schema:description": "Specific heat of the third scan run"
+                },
+                {
+                    "@type": "schema:PropertyValue",
+                    "schema:name":"Averaged Cp [J/g/K]",
+                    "ada:colNum": 5,
+                    "ada:fieldType": "decimal",
+                    "schema:unitText": "J/g/K",
+                    "schema:description": "Averaged specific heat across scan runs"
+                },
+                {
+                    "@type": "schema:PropertyValue",
+                    "schema:name": "Standard Deviation",
+                    "ada:colNum": 6,
+                    "ada:fieldType": "decimal",
+                    "schema:unitText": "J/g/K",
+                    "schema:description": "Standard deviation of specific heat measurements"
+                }
+            ],
+            "ada:countRows": 20,
+            "schema:description": "Heat Capacity Versus Temperature Tables. Results from individual calorimetry runs are reported in tables of calculated heat capacity versus temperature for the OREX-803224-0 sample.",
+            "schema:about": ["heatCapacity"],
+            "ada:countColumns": 7,
+            "ada:headerRowCount": 1,
+            "schema:encodingFormat": "text/csv",
+            "schema:relatedLink": [
+                {
+                    "@type": "schema:LinkRole",
+                    "schema:linkrelationship": "metthodDescription",
+                    "schema:name": "20241111_DSC_NU_OREX-803224-0_1_methodDescription_1.txt"
+                }
+            ]
+        },
+        {
+            "@type": "schema:Dataset",
+            "schema:additionalType": "ada:Metadata",
+            "schema:name": "20241111_DSC_NU_OREX-803224-0_1_DSCHeatTabular_1.yml",
+            "spdx:checksum": "cbd276b2755f212e24163ac9560c517bd3e88959b3ce3581ab74a72d157f8b5c",
+            "schema:size": {
+                "@type": "schema:QuantitativeValue",
+                "schema:value": 2436,
+                "schema:unitText": "byte"
+            },
+            "schema:about": ["20241111_DSC_NU_OREX-803224-0_1_DSCHeatTabular_1.csv"],
+            "schema:encodingFormat": "application/yaml"
+        },
+        {
+            "@type": "schema:Dataset",
+            "schema:name": "20241111_DSC_NU_OREX-803224-0_1_methodDescription_1.txt",
+            "spdx:checksum": "7f13a1ba02240b738109fdad9da53893f77671694d905382561ae57a5feb5c83",
+            "schema:size": {
+                "@type": "schema:QuantitativeValue",
+                "schema:value": 7409,
+                "schema:unitText": "byte"
+            },
+            "schema:about": ["documentation"],
+            "schema:additionalType": "methodDescription",
+            "schema:description": "Description of the calibration data, data processing, sample preparation, instrument methodologies, and analytical methods for Specific Heat Measurements of OSIRIS-REx Sample OREX-803224-0 by Differential Scanning Calorimetry (223 to 402 K).",
+            "schema:encodingFormat": "text/plain",
+            "schema:relatedLink": [
+                {
+                    "@type": "schema:LinkRole",
+                    "schema:linkrelationship": "resultData",
+                    "schema:name": "20241111_DSC_NU_OREX-803224-0_1_DSCHeatTabular_1.csv"
+                }
+            ]
+        },
+        {
+            "@type": "schema:Dataset",
+            "schema:additionalType": "ada:Metadata",
+            "schema:name": "20241111_DSC_NU_OREX-803224-0_1_methodDescription_1.yaml",
+            "spdx:checksum": "53d89732902b66f93d028cacb50e5e4297d50773e81649537869e6534f13e6c5",
+            "schema:size": {
+                "@type": "schema:QuantitativeValue",
+                "schema:value": 404,
+                "schema:unitText": "byte"
+            },
+            "schema:about": ["20241111_DSC_NU_OREX-803224-0_1_methodDescription_1.txt"],
+            "schema:encodingFormat": "application/yaml"
+        },
+        {
+            "@type": "schema:Dataset",
+            "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_1.csv",
+            "spdx:checksum": "3069dd8739febd56b199d33f7101e6c581421b955a5a70379f115f3ed9b8f1a8",
+            "schema:size": {
+                "@type": "schema:QuantitativeValue",
+                "schema:value": 772690,
+                "schema:unitText": "byte"
+            },
+            "schema:additionalType": "ada:DSCHeatFlow",
+            "schema:encodingFormat": "text/csv",
+            "schema:description": "Raw and Calibrated heat flow values for empty pans for step scan run 1.",
+            "schema:relatedLink": [
+                {
+                    "@type": "schema:LinkRole",
+                    "schema:linkrelationship": "methodDescription",
+                    "schema:name": "20241111_DSC_NU_OREX-803224-0_1_methodDescription_1.txt"
+                }
+            ]
+        },
+        {
+            "@type": "schema:Dataset",
+            "schema:additionalType": "ada:Metadata",
+            "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_1.yml",
+            "spdx:checksum": "dc04c6e2eac8cc5228d50672d7bb824ab92984283e21498b3ab131b08ddf73df",
+            "schema:size": {
+                "@type": "schema:QuantitativeValue",
+                "schema:value": 218,
+                "schema:unitText": "byte"
+            },
+            "schema:about": ["20241111_DSC_NU_OREX-803224-0_1_other_1.csv"],
+            "schema:encodingFormat": "application/yaml"
+        }
+    ],
+    "schema:subjectOf": {
+        "@id": "ada:ja51-pz63",
+        "@type": "schema:Dataset",
+        "schema:dateModified": "2025-05-21",
+        "schema:creator": [
+            {
+                "@id": "https://ada.org/person/3479",
+                "@type": "schema:Person",
+                "schema:name": "Richard, Stephen M.",
+                "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+                "schema:email": "smrTucson@email.org"
+            }
+        ],
+        "schema:about": "ada:465509",
+        "schema:description": "metadata about documentation for https://doi.org/10.60707/ja51-pz63",
+        "dcterms:conformsTo": [
+            {"@id": "CDIF_basic_1.0"},
+            {"@id": "ada:productDetail"},
+            {"@id": "ada:DSCHeatFlow"},
+            {"@id": "ada:DSCIndividualMeasurements"},
+            {"@id": "ada:methodDescription"},
+            {"@id": "ada:Metadata"}
+        ]
+    }
+}
