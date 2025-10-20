@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
-    "title": "Dataset metadata schema",
+    "title": "CDIF discovery metadata schema, with context: https://schema.org",
     "description": "JSON schema for JSON-LD documents that describe science datasets, based on Google guide for publishers (https://developers.google.com/search/docs/data-types/dataset), and the Earth Science Information Partners (ESIP) Science on Schema.org recommendations v1.3 prerelease (see https://doi.org/10.5281/zenodo.2628755 dataset.md for current recommendations document). The Google guide asserts only two required fields - name and description. The Google guide suggests the following recommended fields: url, sameAs, version, isAccessibleForFree, keywords, identifeir and variableMeasured. Instances conforming to this schema will validate with schema.org/validator, but there will be numerous warnings about properties that are not expected for various base types. These can be ignored. The context is not specified in the schema, but must be added in instance documents. '\"@context\": [\"https://schema.org/\", {\"dcterms\": \"http://purl.org/dc/terms/\", \"geosparql\": \"http://www.opengis.net/ont/geosparql#\", \"spdx\": \"http://spdx.org/rdf/terms#\",                            \"id\": \"@id\", \"type\": \"@type\" }]' 2024-07-24, SMR change handling of registration information to align with current proposal for cross-domain interoperability (CDIF). Created by Stephen Richard 2024-07-30 based on NSF GeoCODES dataset and iSamples draft2 schema.org JSON schema. NOTE-- assumes that the schema.org context is declared so schema: namespace prefixs are not expected and will invalidate keys.",
     "properties": {
         "@id": {
@@ -354,7 +354,7 @@
             "properties": {
                 "@type": {
                     "type": "string",
-                    "const": "DigitalDocument"
+                    "const": "Dataset"
                 },
                 "@id": {
                     "type": "string",

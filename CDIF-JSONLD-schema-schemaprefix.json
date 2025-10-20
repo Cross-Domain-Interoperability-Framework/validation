@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
-    "title": "Dataset metadata schema",
+    "title": "CDIF discovery metadata schema, with schema: prefixes",
     "description": "JSON schema for JSON-LD documents that describe science datasets, based on Google guide for publishers (https://developers.google.com/search/docs/data-types/dataset), and the Earth Science Information Partners (ESIP) Science on Schema.org recommendations v1.3 prerelease (see https://doi.org/10.5281/zenodo.2628755 dataset.md for current recommendations document). The Google guide asserts only two required fields - name and description. The Google guide suggests the following recommended fields: url, sameAs, version, isAccessibleForFree, keywords, identifeir and variableMeasured. Instances conforming to this schema will validate with schema.org/validator, but there will be numerous warnings about properties that are not expected for various base types. These can be ignored. The context is not specified in the schema, but must be added in instance documents. '\"@context\": {\"schema\":\"https://schema.org/\", \"dcterms\": \"http://purl.org/dc/terms/\", \"geosparql\": \"http://www.opengis.net/ont/geosparql#\", \"spdx\": \"http://spdx.org/rdf/terms#\" }' 2024-07-24, SMR change handling of registration information to align with current proposal for cross-domain interoperability (CDIF). Created by Stephen Richard 2024-07-30 based on NSF GeoCODES dataset and iSamples draft2 schema.org JSON schema. NOTE-- assumes that schema:https://schema.org is declared in context, so schema: namespace prefixs is required as prefix for all schema.org elements.2025-07-24",
     "properties": {
         "@id": {
@@ -73,8 +73,8 @@
             "type": "array",
             "items": {
                 "anyOf": [
-                    {"type": "string"},
-                    {"$ref": "#/definitions/definedTerm_type"}
+                    {"$ref": "#/definitions/definedTerm_type"},
+                    {"type": "string"}
                 ]
             }
         },
@@ -215,8 +215,8 @@
                 "properties": {
                     "@type": {
                         "type": "string",
-                        "default": "MonetaryGrant",
-                        "const": "MonetaryGrant"
+                        "default": "schema:MonetaryGrant",
+                        "const": "schema:MonetaryGrant"
                     },
                     "identifier": {
                         "type": "string",
@@ -354,7 +354,7 @@
             "properties": {
                 "@type": {
                     "type": "string",
-                    "const": "schema:DigitalDocument"
+                    "const": "schema:Dataset"
                 },
                 "@id": {
                     "type": "string",
@@ -363,8 +363,7 @@
                 "schema:about": {
                     "type": "object",
                     "properties": {
-                        "type": {"const": "DigitalDocument"},
-                        "url": {
+                        "@id": {
                             "type": "string",
                             "description": "this should be the @id value found in the parent sample metadata record"
                         }
@@ -607,11 +606,7 @@
         "definedTerm_type": {
             "type": "object",
             "properties": {
-                "@type": {
-                    "type": "string",
-                    "default": "schema:DefinedTerm",
-                    "const": "schema:DefinedTerm"
-                },
+                "@type": {"const": "schema:DefinedTerm"},
                 "schema:name": {
                     "type": "string",
                     "description": "text label for the keyord that is useful to human user"
@@ -635,9 +630,10 @@
             "type": "object",
             "properties": {
                 "@type": {
-                    "type": "string",
-                    "default": "schema:DataDownload",
-                    "const": "schema:DataDownload"
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "contains": {"const": "schema:DataDownload"},
+                    "minItems": 1
                 },
                 "schema:name": {"type": "string"},
                 "schema:contentUrl": {"type": "string"},
@@ -934,9 +930,10 @@
                 "type": "object",
                 "properties": {
                     "@type": {
-                        "type": "string",
-                        "default": "schema:PropertyValue",
-                        "const": "schema:PropertyValue"
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "contains": {"const": "schema:PropertyValue"},
+                        "minItems": 1
                     },
                     "@id": {"type": "string"},
                     "schema:name": {
@@ -946,11 +943,35 @@
                     "schema:description": {"type": "string"},
                     "schema:propertyID": {
                         "type": "array",
-                        "items": {"type": "string"},
+                        "items": {
+                            "anyOf": [
+                                {"type": "string"},
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "@id": {
+                                            "type": "string",
+                                            "description": "reference to a skos concept for the property"
+                                        }
+                                    }
+                                }
+                            ]
+                        },
                         "description": "identifier or name for the property concept quantified by the values in this variable slot. Multiple values can specify the property at different levels of granularity."
                     },
                     "schema:measurementTechnique": {
-                        "type": "string",
+                        "anyOf": [
+                            {"type": "string"},
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "@id": {
+                                        "type": "string",
+                                        "description": "reference to a skos concept for the property"
+                                    }
+                                }
+                            }
+                        ],
                         "description": "A text description of the measurement method used to determine values for this variable. If standard measurement protocols are defined and registered, these can be identified via http URI's."
                     },
                     "schema:unitText": {
