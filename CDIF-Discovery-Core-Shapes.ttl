@@ -93,7 +93,7 @@ cdifd:resourceIdentifierProperty
 				  sh:message "if possible, provide a resolvable URI that will provide a representation of the identified resource. "
 				];
 			sh:property 
-				[sh:path schema:scheme ;
+				[sh:path schema:propertyID ;
 				  sh:datatype xsd:string ;
 				  sh:minCount 1;
 				  sh:severity sh:Warning;
@@ -743,7 +743,6 @@ cdifd:affiliationProperty
     .
 	
 cdifd:roleNameProperty
-# affiliation is always with an organization
     a sh:PropertyShape ;
     sh:path schema:roleName;
 	sh:minCount 1 ;

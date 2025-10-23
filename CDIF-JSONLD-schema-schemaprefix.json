@@ -1,15 +1,15 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
     "title": "CDIF discovery metadata schema, with schema: prefixes",
-    "description": "JSON schema for JSON-LD documents that describe science datasets, based on Google guide for publishers (https://developers.google.com/search/docs/data-types/dataset), and the Earth Science Information Partners (ESIP) Science on Schema.org recommendations v1.3 prerelease (see https://doi.org/10.5281/zenodo.2628755 dataset.md for current recommendations document). The Google guide asserts only two required fields - name and description. The Google guide suggests the following recommended fields: url, sameAs, version, isAccessibleForFree, keywords, identifeir and variableMeasured. Instances conforming to this schema will validate with schema.org/validator, but there will be numerous warnings about properties that are not expected for various base types. These can be ignored. The context is not specified in the schema, but must be added in instance documents. '\"@context\": {\"schema\":\"https://schema.org/\", \"dcterms\": \"http://purl.org/dc/terms/\", \"geosparql\": \"http://www.opengis.net/ont/geosparql#\", \"spdx\": \"http://spdx.org/rdf/terms#\" }' 2024-07-24, SMR change handling of registration information to align with current proposal for cross-domain interoperability (CDIF). Created by Stephen Richard 2024-07-30 based on NSF GeoCODES dataset and iSamples draft2 schema.org JSON schema. NOTE-- assumes that schema:https://schema.org is declared in context, so schema: namespace prefixs is required as prefix for all schema.org elements.2025-07-24",
+    "description": "JSON schema for JSON-LD documents that describe science datasets, based on Google guide for publishers (https://developers.google.com/search/docs/data-types/dataset), and the Earth Science Information Partners (ESIP) Science on Schema.org recommendations v1.3 prerelease (see https://doi.org/10.5281/zenodo.2628755 dataset.md for current recommendations document). The Google guide asserts only two required fields - name and description. The Google guide suggests the following recommended fields: url, sameAs, version, isAccessibleForFree, keywords, identifeir and variableMeasured. Instances conforming to this schema will validate with schema.org/validator, but there will be numerous warnings about properties that are not expected for various base types. These can be ignored. The context is not specified in the schema, but must be added in instance documents. '\"@context\": {\"schema\":\"https://schema.org/\", \"dcterms\": \"http://purl.org/dc/terms/\", \"geosparql\": \"http://www.opengis.net/ont/geosparql#\", \"spdx\": \"http://spdx.org/rdf/terms#\" }' 2024-07-24, SMR change handling of registration information to align with current proposal for cross-domain interoperability (CDIF). Created by Stephen Richard 2024-07-30 based on NSF GeoCODES dataset and iSamples draft2 schema.org JSON schema. NOTE-- assumes that schema:https://schema.org is declared in context, so schema: namespace prefix is required as prefix for all schema.org elements.2025-07-24.  SMR 2025-10-23 update schemaversion to https://json-schema.org/draft/2020-12/schema; add additionalType on organization with the alt schema.org types as one option, additional required constraints in various places; update constraint on @type to require schema:Dataset.",
     "properties": {
         "@id": {
             "type": "string",
             "description": "The URI for the resource should be the @id value for the root of the JSON instance document tree. Note that this identifier can be interpreted to identify the resource that is the subject of this metadata record, or the JSON-LD object that is the digital object containing the metadata information."
         },
         "@type": {
-            "description": "a schema.org Class that specifies the expected information content for the metadata record. For CDIF, default is 'Dataset', but other possible values include(CreativeWork, SoftwareApplication, Product, WebAPI). The type classes for a given resource description enable the schema.org properties used to describe the resource.",
+            "description": "a schema.org Class that specifies the expected information content for the metadata record. For CDIF, 'schema:Dataset' is required, but other possible values (e.g. CreativeWork, SoftwareApplication, Product, WebAPI) are sometimes included to enable the schema.org properties used to describe the resource without schema.org validation errors.",
             "type": "array",
             "items": {
                 "type": "string",
@@ -27,7 +27,8 @@
                     "schema:DefinedTermSet"
                 ],
                 "minItems": 1,
-                "default": "schema:Dataset"
+                "default": "schema:Dataset",
+                "contains": {"const": "schema:Dataset"}
             }
         },
         "schema:name": {
@@ -47,14 +48,14 @@
         "schema:identifier": {
             "description": "The primary identifier for the dataset; other identifiers should be listed in the sameAs field. Schema.org has three ways of encoding identifiers-- a text description, a URL, or by using the schema:PropertyValue field. The Science on Schema.org guidance strongly recommends using the PropertyValue approach. see https://github.com/ESIPFed/science-on-schema.org   .... Dataset.md#identifier.  Ideally, for any given data provided they would provide identifiers either all as strings or all as identifier_type.  Dataset identifiers must be a URL, Text or PropertyValue&quot;",
             "oneOf": [
-                {"$ref": "#/definitions/identifier_type"},
+                {"$ref": "#/$defs/identifier_type"},
                 {"type": "string"},
                 {
                     "type": "array",
                     "minItems": 1,
                     "items": {
                         "anyOf": [
-                            {"$ref": "#/definitions/identifier_type"},
+                            {"$ref": "#/$defs/identifier_type"},
                             {"type": "string"}
                         ]
                     }
@@ -73,7 +74,7 @@
             "type": "array",
             "items": {
                 "anyOf": [
-                    {"$ref": "#/definitions/definedTerm_type"},
+                    {"$ref": "#/$defs/definedTerm_type"},
                     {"type": "string"}
                 ]
             }
@@ -101,7 +102,7 @@
             "items": {
                 "anyOf": [
                     {"type": "string"},
-                    {"$ref": "#/definitions/creativeWork_type"}
+                    {"$ref": "#/$defs/creativeWork_type"}
                 ]
             }
         },
@@ -112,7 +113,7 @@
             "items": {
                 "anyOf": [
                     {"type": "string"},
-                    {"$ref": "#/definitions/creativeWork_type"}
+                    {"$ref": "#/$defs/creativeWork_type"}
                 ]
             }
         },
@@ -124,8 +125,8 @@
                     "type": "array",
                     "items": {
                         "anyOf": [
-                            {"$ref": "#/definitions/person_type"},
-                            {"$ref": "#/definitions/organization_type"}
+                            {"$ref": "#/$defs/person_type"},
+                            {"$ref": "#/$defs/organization_type"}
                         ]
                     }
                 }
@@ -146,8 +147,8 @@
                             }
                         }
                     },
-                    {"$ref": "#/definitions/person_type"},
-                    {"$ref": "#/definitions/organization_type"},
+                    {"$ref": "#/$defs/person_type"},
+                    {"$ref": "#/$defs/organization_type"},
                     {
                         "type": "object",
                         "description": "For more granularity on how a person contributed to a Dataset, use schema:Role. The schema.org documentation does not state that the Role type is an expected data type of author, creator and contributor, but that is addressed in this blog post (http://blog.schema.org/2014/06/introducing-role.html). see https://github.com/ESIPFed/science-on-schema.org/blob/develop/guides/Dataset.md#roles-of-people",
@@ -172,8 +173,8 @@
                                                 }
                                             }
                                         },
-                                        {"$ref": "#/definitions/person_type"},
-                                        {"$ref": "#/definitions/organization_type"}
+                                        {"$ref": "#/$defs/person_type"},
+                                        {"$ref": "#/$defs/organization_type"}
                                     ]
                                 }
                             }
@@ -194,8 +195,8 @@
                         }
                     }
                 },
-                {"$ref": "#/definitions/person_type"},
-                {"$ref": "#/definitions/organization_type"}
+                {"$ref": "#/$defs/person_type"},
+                {"$ref": "#/$defs/organization_type"}
             ]
         },
         "schema:provider": {
@@ -203,8 +204,8 @@
             "type": "array",
             "items": {
                 "anyOf": [
-                    {"$ref": "#/definitions/person_type"},
-                    {"$ref": "#/definitions/organization_type"}
+                    {"$ref": "#/$defs/person_type"},
+                    {"$ref": "#/$defs/organization_type"}
                 ]
             }
         },
@@ -226,7 +227,7 @@
                         "type": "string",
                         "description": "title of the grant"
                     },
-                    "funder": {"$ref": "#/definitions/funder_type"}
+                    "funder": {"$ref": "#/$defs/funder_type"}
                 }
             }
         },
@@ -276,7 +277,7 @@
                                     "type": "string",
                                     "const": "time:Instant"
                                 },
-                                "time:inTimePosition": {"$ref": "#/definitions/timePosition_type"}
+                                "time:inTimePosition": {"$ref": "#/$defs/timePosition_type"}
                             }
                         },
                         "time:hasEnd": {
@@ -286,7 +287,7 @@
                                     "type": "string",
                                     "const": "time:Instant"
                                 },
-                                "time:inTimePosition": {"$ref": "#/definitions/timePosition_type"}
+                                "time:inTimePosition": {"$ref": "#/$defs/timePosition_type"}
                             }
                         }
                     }
@@ -295,21 +296,21 @@
         },
         "schema:spatialCoverage": {
             "description": "To specify location that is the subject of resource content; use place names, bounding box, or point",
-            "$ref": "#/definitions/spatialCoverage_type"
+            "$ref": "#/$defs/spatialCoverage_type"
         },
         "schema:distribution": {
             "description": "specifies how to download the data in a specific format or access via a web API. This property describes where to get the data and in what format by using the schema:DataDownload type. If user must access data through a landing page, provide link to landing page in the 'url' property for the dataset",
             "type": "array",
             "items": {
                 "anyOf": [
-                    {"$ref": "#/definitions/distribution_type"},
-                    {"$ref": "#/definitions/webapi_type"}
+                    {"$ref": "#/$defs/distribution_type"},
+                    {"$ref": "#/$defs/webapi_type"}
                 ]
             }
         },
         "schema:variableMeasured": {
             "description": "What does the dataset measure? (e.g., temperature, pressure)",
-            "$ref": "#/definitions/variableMeasured_type"
+            "$ref": "#/$defs/variableMeasured_type"
         },
         "schema:relatedLink": {
             "type": "array",
@@ -344,7 +345,7 @@
             "items": {
                 "anyOf": [
                     {"type": "string"},
-                    {"$ref": "#/definitions/creativeWork_type"}
+                    {"$ref": "#/$defs/creativeWork_type"}
                 ]
             }
         },
@@ -384,8 +385,8 @@
                 "schema:maintainer": {
                     "description": "iSamples Registrant. identification of the agent that registered the sample, with contact information. Should include person name and affiliation, or position name and affiliation, or just organization name. e-mail address is preferred contact information.",
                     "oneOf": [
-                        {"$ref": "#/definitions/person_type"},
-                        {"$ref": "#/definitions/organization_type"}
+                        {"$ref": "#/$defs/person_type"},
+                        {"$ref": "#/$defs/organization_type"}
                     ]
                 },
                 "schema:sdDatePublished": {
@@ -412,7 +413,7 @@
                             "description": "locator to access a landing page for the collection or catalog"
                         },
                         "schema:identifier": {
-                            "$ref": "#/definitions/identifier_type",
+                            "$ref": "#/$defs/identifier_type",
                             "description": "identifier for the collection or catalog; use identifier_type to provide information on identifier scheme and context for identifier"
                         }
                     }
@@ -441,7 +442,7 @@
             ]
         }
     ],
-    "definitions": {
+    "$defs": {
         "action_type": {
             "type": "object",
             "description": "this element defines an action (operation) that can be invoked via messages using the protocol defined. In most cases this will be an http request via TCP/IP, but in desktop or LAN environments, other protocols might be used. The target property defines the endpoint and syntax for invoking the action. Result specifies the encoding format for the (possible) response(s) when the action is invoked. Object specifies the information model for the resource that is the object of the action. This approach is an adoptation of the Action Blog Post from schema.org (see https://schema.org/docs/actions.html, and https://github.com/schemaorg/suggestions-questions-brainstorming/issues/62) ",
@@ -456,19 +457,19 @@
                     "description": "text label for the action"
                 },
                 "schema:target": {
-                    "$ref": "#/definitions/target_type",
+                    "$ref": "#/$defs/target_type",
                     "description": "specifies the request target location and request syntax"
                 },
                 "schema:result": {
-                    "$ref": "#/definitions/result_type",
+                    "$ref": "#/$defs/result_type",
                     "description": "specifies the serialization scheme (encoding format, information model) for expected representation of the data"
                 },
                 "schema:object": {
-                    "$ref": "#/definitions/object_type",
+                    "$ref": "#/$defs/object_type",
                     "description": "specification of information model/schema for target resource. Only necessary if the request allow specifying the fields to include in the response"
                 },
                 "schema:query-input": {
-                    "$ref": "#/definitions/query-input_type",
+                    "$ref": "#/$defs/query-input_type",
                     "description": "set of explanations of the parameters in the URL template for the target."
                 }
             }
@@ -611,7 +612,7 @@
                     "type": "string",
                     "description": "text label for the keyord that is useful to human user"
                 },
-                "schema:identifier": {"$ref": "#/definitions/identifier_type"},
+                "schema:identifier": {"$ref": "#/$defs/identifier_type"},
                 "schema:inDefinedTermSet": {
                     "type": "string",
                     "description": "Identifier for the controlled vocabulary responsible for this keyword."
@@ -621,9 +622,16 @@
                     "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
                 }
             },
-            "required": [
-                "@type",
-                "schema:name"
+            "allOf": [
+                {
+                    "required": ["@type"]
+                },
+                {
+                    "anyOf": [
+                        {"required": ["schema:name"]},
+                        {"required": ["schema:identifier"]}
+                    ]
+                }
             ]
         },
         "distribution_type": {
@@ -654,8 +662,8 @@
                     "description": "Party who maintains this particular distribution option for the dataset. Use this property if there are multiple distributions from different providers",
                     "items": {
                         "anyOf": [
-                            {"$ref": "#/definitions/person_type"},
-                            {"$ref": "#/definitions/organization_type"}
+                            {"$ref": "#/$defs/person_type"},
+                            {"$ref": "#/$defs/organization_type"}
                         ]
                     }
                 }
@@ -685,7 +693,22 @@
                     "type": "string",
                     "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
                 }
-            }
+            },
+            "allOf": [
+                {
+                    "required": ["@type"]
+                },
+                {
+                    "anyOf": [
+                        {
+                            "required": ["schema.value"]
+                        },
+                        {
+                            "required": ["schema.url"]
+                        }
+                    ]
+                }
+            ]
         },
         "spatialCoverage_type": {
             "type": "object",
@@ -701,7 +724,7 @@
                     "items": {
                         "anyOf": [
                             {"type": "string"},
-                            {"$ref": "#/definitions/definedTerm_type"}
+                            {"$ref": "#/$defs/definedTerm_type"}
                         ]
                     }
                 },
@@ -810,18 +833,25 @@
                     "type": "string",
                     "description": "string label for person that is meaningful for human users"
                 },
-                "schema:alternateName": {
-                    "type": "string",
-                    "description": "other labels by which the person might be known"
-                },
-                "schema:affiliation": {"$ref": "#/definitions/organization_type"},
+                "schema:affiliation": {"$ref": "#/$defs/organization_type"},
                 "schema:description": {"type": "string"},
                 "schema:identifier": {
                     "description": "identifier for person",
                     "oneOf": [
-                        {"$ref": "#/definitions/identifier_type"},
+                        {"$ref": "#/$defs/identifier_type"},
                         {"type": "string"}
                     ]
+                },
+                "schema:contactPoint": {
+                    "description": "restrict to email only. Schema.org allows telephone and postal contacts as well",
+                    "type": "object",
+                    "properties": {
+                        "schema:email": {"type": "string"}
+                    }
+                },
+                "schema:alternateName": {
+                    "type": "string",
+                    "description": "other labels by which the person might be known"
                 },
                 "schema:sameAs": {
                     "type": "array",
@@ -840,19 +870,31 @@
                 "@id": {"type": "string"},
                 "@type": {
                     "type": "string",
-                    "enum": [
-                        "schema:Organization",
-                        "schema:FundingAgency",
-                        "schema:Consortium",
-                        "schema:Corporation",
-                        "schema:EducationalOrganization",
-                        "schema:FundingScheme",
-                        "schema:GovernmentOrganization",
-                        "schema:NGO",
-                        "schema:Project",
-                        "schema:ResearchOrganization"
-                    ],
+                    "const": "schema:Organization",
                     "default": "schema:Organization"
+                },
+                "schema:additionalType": {
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "enum": [
+                                    "schema:FundingAgency",
+                                    "schema:Consortium",
+                                    "schema:Corporation",
+                                    "schema:EducationalOrganization",
+                                    "schema:FundingScheme",
+                                    "schema:GovernmentOrganization",
+                                    "schema:NGO",
+                                    "schema:Project",
+                                    "schema:ResearchOrganization"
+                                ]
+                            },
+                            {"$ref": "#/$defs/definedTerm_type"},
+                            {"type":"string"}
+                        ]
+                    }
                 },
                 "schema:name": {
                     "type": "string",
@@ -863,7 +905,34 @@
                     "description": "other labels by which the organization might be known"
                 },
                 "schema:description": {"type": "string"},
-                "schema:identifier": {"type": "string"},
+                "schema:identifier": {
+                    "description": "identifier for organization",
+                    "anyOf": [
+                        {
+                            "description": "Properties for a schema.org identifier",
+                            "type": "object",
+                            "properties": {
+                                "@type": {
+                                    "type": "string",
+                                    "const": "schema:PropertyValue"
+                                },
+                                "schema:propertyID": {
+                                    "type": "string",
+                                    "description": "identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+                                },
+                                "schema:value": {
+                                    "type": "string",
+                                    "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+                                },
+                                "schema:url": {
+                                    "type": "string",
+                                    "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+                                }
+                            }
+                        },
+                        {"type": "string"}
+                    ]
+                },
                 "schema:sameAs": {
                     "type": "array",
                     "description": "other identifiers for the organization",
@@ -886,8 +955,8 @@
                         }
                     }
                 },
-                {"$ref": "#/definitions/person_type"},
-                {"$ref": "#/definitions/organization_type"}
+                {"$ref": "#/$defs/person_type"},
+                {"$ref": "#/$defs/organization_type"}
             ]
         },
         "webapi_type": {
@@ -907,19 +976,19 @@
                     "description": "Description of access privileges required to use the API, e.g. registration, licensing, payments. Note that access constraints applying to all distributions of the resource should be specified in the access constraints for the resource description as a whole.",
                     "oneOf": [
                         {"type": "string"},
-                        {"$ref": "#/definitions/creativeWork_type"}
+                        {"$ref": "#/$defs/creativeWork_type"}
                     ]
                 },
                 "schema:documentation": {
                     "description": "a document that provides a machine-actionable description of a service instance. Examples include OpenAPI documents, OGC Capabilities documents. Software designed to utilise a particular service type will typically include functionality to parse such a description document and engage with the service endpoint. If such a document is available for the service instance providing the resource distribution, it should be included in the distribution metadata.",
                     "oneOf": [
                         {"type": "string"},
-                        {"$ref": "#/definitions/creativeWork_type"}
+                        {"$ref": "#/$defs/creativeWork_type"}
                     ]
                 },
                 "schema:potentialAction": {
                     "type": "array",
-                    "items": {"$ref": "#/definitions/action_type"}
+                    "items": {"$ref": "#/$defs/action_type"}
                 }
             }
         },
