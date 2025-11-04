@@ -1,5 +1,5 @@
 @prefix sh: <http://www.w3.org/ns/shacl#> .
-@prefix schema: <https://schema.org/> .
+@prefix schema: <http://schema.org/> .
 @prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix dcterms: <http://purl.org/dc/terms/>.
@@ -12,7 +12,7 @@ cdifd:CDIFDatasetRecommendedShape a sh:NodeShape ;
 	sh:target [
 	  a sh:SPARQLTarget ;
 	  sh:prefixes (
-		[ sh:prefix "schema" ; sh:namespace "https://schema.org/" ]
+		[ sh:prefix "schema" ; sh:namespace "http://schema.org/" ]
 		[ sh:prefix "ada" ; sh:namespace "https://ada.astromat.org/metadata/" ]
 		[ sh:prefix "xsd" ; sh:namespace "http://www.w3.org/2001/XMLSchema#" ]
 		[ sh:prefix "dcterms" ; sh:namespace "http://purl.org/dc/terms/" ]
@@ -21,15 +21,15 @@ cdifd:CDIFDatasetRecommendedShape a sh:NodeShape ;
 		[ sh:prefix "spdx" ; sh:namespace "http://spdx.org/rdf/terms#" ]
 	  ) ;
 	  sh:select """
-		SELECT ?this WHERE {
-		  ?this a schema:Dataset .
-		  FILTER NOT EXISTS {
-			?parent a schema:Dataset .
-			?parent ?p ?this .
-			FILTER (?parent != ?this)
-		  }
-		}
-	  """ ;
+      PREFIX schema: <http://schema.org/>
+      SELECT DISTINCT ?this
+        WHERE {
+          ?this a schema:Dataset .
+          FILTER (
+            NOT EXISTS { ?s ?p ?this . }
+          )
+        }
+""" ;
 	] ;	
     sh:property	
 		cdifd:metadataIdentifierProperty,  
@@ -666,7 +666,7 @@ cdifd:webAPINode
 		];
 	sh:property 
         [sh:path schema:potentialAction;
-			sh:class schema:SearchAction;
+			sh:class schema:Action;
 			sh:property 	
 				[sh:path schema:target;
 					sh:class schema:EntryPoint;
