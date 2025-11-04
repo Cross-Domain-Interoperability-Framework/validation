@@ -46,21 +46,22 @@
             "description": "A short summary describing a dataset. This text will be indexed by search applications, so the more information here, the better."
         },
         "schema:identifier": {
-            "description": "The primary identifier for the dataset; other identifiers should be listed in the sameAs field. Schema.org has three ways of encoding identifiers-- a text description, a URL, or by using the schema:PropertyValue field. The Science on Schema.org guidance strongly recommends using the PropertyValue approach. see https://github.com/ESIPFed/science-on-schema.org   .... Dataset.md#identifier.  Ideally, for any given data provided they would provide identifiers either all as strings or all as identifier_type.  Dataset identifiers must be a URL, Text or PropertyValue&quot;",
-            "oneOf": [
+            "description": "The primary identifier for the dataset; other identifiers should be listed in the sameAs field. Schema.org has three ways of encoding identifiers-- a text description, a URL, or by using the schema:PropertyValue field. The Science on Schema.org guidance strongly recommends using the PropertyValue approach. see https://github.com/ESIPFed/science-on-schema.org   .... Dataset.md#identifier.  Ideally, for any given data provided they would provide identifiers either all as strings or all as identifier_type.",
+            "anyOf": [
                 {"$ref": "#/$defs/identifier_type"},
-                {"type": "string"},
-                {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "anyOf": [
-                            {"$ref": "#/$defs/identifier_type"},
-                            {"type": "string"}
-                        ]
-                    }
-                }
+                {"type": "string"}
             ]
+        },
+        "schema:sameAs": {
+            "description": "The other identifiers for the dataset. Schema.org has three ways of encoding identifiers-- a text description, a URL, or by using the schema:PropertyValue field. The Science on Schema.org guidance strongly recommends using the PropertyValue approach. see https://github.com/ESIPFed/science-on-schema.org   .... Dataset.md#identifier.",
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "anyOf": [
+                    {"$ref": "#/$defs/identifier_type"},
+                    {"type": "string"}
+                ]
+            }
         },
         "schema:version": {
             "type": [
@@ -248,6 +249,10 @@
                             "default": "time:ProperInterval",
                             "const": "time:ProperInterval"
                         },
+                        "schema:description": {
+                            "type": "string",
+                            "description": "free text description of the temporal interval"
+                        },
                         "time:intervalStartedBy": {
                             "type": "string",
                             "format": "uri",
@@ -269,6 +274,10 @@
                             "type": "string",
                             "default": "time:ProperInterval",
                             "const": "time:ProperInterval"
+                        },
+                        "schema:description": {
+                            "type": "string",
+                            "description": "free text description of the temporal interval"
                         },
                         "time:hasBeginning": {
                             "type": "object",
@@ -366,7 +375,7 @@
                     "properties": {
                         "@id": {
                             "type": "string",
-                            "description": "this should be the @id value found in the parent sample metadata record"
+                            "description": "this must be the @id value found in the metadata record this node describes"
                         }
                     }
                 },
@@ -418,7 +427,12 @@
                         }
                     }
                 }
-            }
+            },
+            "required": [
+                "@id",
+                "dcterms:conformsTo",
+                "schema:about"
+            ]
         }
     },
     "allOf": [
@@ -428,7 +442,8 @@
                 "@type",
                 "@context",
                 "schema:name",
-                "schema:description"
+                "schema:identifier",
+                "schema:subjectOf"
             ]
         },
         {
@@ -438,6 +453,16 @@
                 },
                 {
                     "required": ["schema:distribution"]
+                }
+            ]
+        },
+        {
+            "anyOf": [
+                {
+                    "required": ["schema:license"]
+                },
+                {
+                    "required": ["schema:conditionsOfAccess"]
                 }
             ]
         }
@@ -628,8 +653,12 @@
                 },
                 {
                     "anyOf": [
-                        {"required": ["schema:name"]},
-                        {"required": ["schema:identifier"]}
+                        {
+                            "required": ["schema:name"]
+                        },
+                        {
+                            "required": ["schema:identifier"]
+                        }
                     ]
                 }
             ]
@@ -892,7 +921,7 @@
                                 ]
                             },
                             {"$ref": "#/$defs/definedTerm_type"},
-                            {"type":"string"}
+                            {"type": "string"}
                         ]
                     }
                 },
