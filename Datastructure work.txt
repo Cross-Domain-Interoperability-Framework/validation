@@ -1,0 +1,16 @@
+So I've tried to construct a dataset description using the Dataset/Datastructure/DataStructurecomponent route. This is for an XAS NEXUS file, one of the variables haa a value that is an array of all the data. The original data has 32 columns, I trimmed it down to 9 columns for this test. The structure of the 9 column array is described in cdi:isStructuredBy/has_DataStructureComponent/"@type": "cdi:WideDataStructure"/has_DataStructureComponent. Each component has an index position in the array and a link to an InstanceVariable that is 'uses' 
+
+the schema:variableMeasured list includes the top level variables in the NetCDF file, as well as the column variables in the scan/data array. 
+
+in the distribution, there is a StructuredDataMapping to the InstanceVariables at the top level, these are 1-D arrays except for scan/data, which is a 443 row by 9 column array, described by a dataStructure data compononent as a wide dataset.
+
+what do we need to know:
+dataset contains variables
+	what property does each variable quantify
+what kind of value does the variable have	
+	some are quantified with a single value (integer, decimal, boolean, string...(enum))
+		simple datatype with value domains
+	some might have array values.  
+		need to describe array as wide data structure. columns in array are variables, each simple or object 
+	some might have object values
+		describe variables nested in entities. represent class/entity-attribute/property structure

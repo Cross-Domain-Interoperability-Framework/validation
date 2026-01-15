@@ -406,7 +406,7 @@
                     }
                 },
                 "schema:maintainer": {
-                    "description": "Responsible party for creation and/or maintenance of metadata. Should include person name and affiliation, or position name and affiliation, or just organization name. e-mail address is preferred contact information.",
+                    "description": "iSamples Registrant. identification of the agent that registered the sample, with contact information. Should include person name and affiliation, or position name and affiliation, or just organization name. e-mail address is preferred contact information.",
                     "oneOf": [
                         {"$ref": "#/$defs/person_type"},
                         {"$ref": "#/$defs/organization_type"}
@@ -673,7 +673,6 @@
                 },
                 "schema:name": {"type": "string"},
                 "schema:contentUrl": {"type": "string"},
-                "schema:description": {"type": "string"},
                 "schema:encodingFormat": {
                     "type": "array",
                     "items": {"type": "string"}
@@ -730,10 +729,10 @@
                 {
                     "anyOf": [
                         {
-                            "required": ["schema:value"]
+                            "required": ["schema.value"]
                         },
                         {
-                            "required": ["schema:url"]
+                            "required": ["schema.url"]
                         }
                     ]
                 }
@@ -1027,13 +1026,13 @@
             "items": {
                 "type": "object",
                 "properties": {
-                    "@id": {"type": "string"},
                     "@type": {
                         "type": "array",
                         "items": {"type": "string"},
                         "contains": {"const": "schema:PropertyValue"},
                         "minItems": 1
                     },
+                    "@id": {"type": "string"},
                     "schema:name": {
                         "type": "string",
                         "description": "this is the string label that is expected to be associated with the variable in the dataset serialization"
@@ -1094,7 +1093,6 @@
                     }
                 },
                 "required": [
-                    "@id",
                     "@type",
                     "schema:name",
                     "schema:description"

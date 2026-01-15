@@ -5,7 +5,8 @@ import pyshacl
 
 
 # theData = "../integrationPublic/TestCDIMetadata/cdi_wdsNectarValid.jsonld"
-theData = "C:/Users/smrTu/OneDrive/Documents/GithubC/smrgeoinfo/OCGbuildingBlockTest/_sources/provProperties/derivedFrom/exampleDerivedFrom.json"
+theData = "C:/Users/smrTu/OneDrive/Documents/GithubC/CDIF/integrationPublic/TestCDIMetadata/se_na2so4-testschemaorg-cdiv3.jsonLD"
+#theData = "C:/Users/smrTu/OneDrive/Documents/GithubC/smrgeoinfo/OCGbuildingBlockTest/_sources/provProperties/derivedFrom/exampleDerivedFrom.json"
 # theData = "C:/Users/smrTu/OneDrive/Documents/GithubC/smrgeoinfo/OCGbuildingBlockTest/_sources/properties/definedTerm/exampleDefinedTerm.json"
 # theData = "C:/Users/smrTu/OneDrive/Documents/GithubC/smrgeoinfo/OCGbuildingBlockTest/_sources/entities/CDIFDiscovery/CDIF-XAS-Full.json"
 #  C:\Users\smrTu\OneDrive\Documents\GithubC\smrgeoinfo\OCGbuildingBlockTest\_sources\entities\CDIFDiscovery\xrd-2j0t-gq80.json
@@ -18,7 +19,8 @@ print("Length of DataGraph to evaluate:", len(data_graph))
 
 # theShapes = "SHACL-Examples/ddi-cdi.shaclDLingleySMR.ttl"
 # theShapes = "C:/Users/smrTu/OneDrive/Documents/GithubC/CDIF/validation/CDIF-Discovery-Core-Shapes.ttl"
-theShapes = "C:/Users/smrTu/OneDrive/Documents/GithubC/smrgeoinfo/OCGbuildingBlockTest/_sources/provProperties/derivedFrom/rules.shacl"
+# theShapes = "C:/Users/smrTu/OneDrive/Documents/GithubC/smrgeoinfo/OCGbuildingBlockTest/_sources/provProperties/derivedFrom/rules.shacl"
+theShapes = "C:/Users/smrTu/OneDrive/Documents/GithubC/smrgeoinfo/OCGbuildingBlockTest/_sources/schemaorgProperties/cdifMandatory/rules.shacl"
 shapes_graph = Graph()
 shapes_graph.parse(theShapes, format="ttl")
 print("Length of shapesGraph with rules:", len(shapes_graph))
