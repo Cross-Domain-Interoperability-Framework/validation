@@ -133,13 +133,9 @@ cdifd:CDIFMetaMetadataShape
 	sh:nodeKind sh:IRI ;
 	sh:property cdifd:metadataProfileProperty ;
 	sh:property cdifd:metadataSubjectProperty ;
-	#
-			cdifd:metadataIdentifierProperty,  
-		# 
-		cdifd:resourceIdentifierProperty,
-		# 
-		cdifd:nameProperty,
-
+	#	cdifd:metadataIdentifierProperty,
+	#	cdifd:resourceIdentifierProperty,
+	#	cdifd:nameProperty,
 	sh:message "The target of the metadata record (about)." 
 	.
 
@@ -177,14 +173,14 @@ cdifd:CDIFDatasetRecommendedShape a sh:NodeShape ;
         }
 """ ;
 	] ;	
-    sh:property	
-		cdifd:metadataIdentifierProperty,  
+    sh:property
+		cdifd:metadataIdentifierProperty,
 		# +
 		cdifd:resourceIdentifierProperty,
 		# +
-		cdifd:nameProperty,
+		cdifd:resourceNameProperty,
 		# +
-		cdifd:metadataProfileProperty,
+		cdifd:resourceMetadataProfileProperty,
 		# +
 		cdifd:otherIdentifierProperty, 
 		# +
@@ -223,29 +219,29 @@ cdifd:metadataIdentifierProperty
     sh:message "The URI for the metadata record should be the @id value for the 'subjectOf' element in the JSON instance document tree or '@id':{uri} in a separate graph node with 'identifier':'@id' of the node referencing the resource description node" 
     .
 	
-cdifd:resourceIdentifierProperty
+cdifd:graphNodeIdentifierProperty
 # identifier for the graphNode representation, not the entity described by the content of the graph node
     a sh:PropertyShape ;
     sh:path schema:identifier ;
 	sh:minCount 1 ;
-	sh:or ( 
+	sh:or (
 		[sh:datatype xsd:string ;]
 		[ sh:class  schema:PropertyValue ;
-			sh:property 
+			sh:property
 				[sh:path schema:url ;
 				  sh:datatype xsd:string ;
 				  sh:minCount 0;
 				  sh:severity sh:Info;
 				  sh:message "if possible, provide a resolvable URI that will provide a representation of the identified resource. "
 				];
-			sh:property 
+			sh:property
 				[sh:path schema:propertyID ;
 				  sh:datatype xsd:string ;
 				  sh:minCount 1;
 				  sh:severity sh:Warning;
 				  sh:message "If specifying an identifier via the PropertyValue, the scheme (authority, domain) within which the identifier is assigned and unique must be identifed, either by name or preferably using a URI. See https://registry.identifiers.org/registry"
 				];
-			sh:property 
+			sh:property
 				[sh:path schema:value ;
 				  sh:datatype xsd:string ;
 				  sh:minCount 1;
@@ -255,10 +251,10 @@ cdifd:resourceIdentifierProperty
 			]
 		);
 	sh:severity sh:Warning ;
-    sh:message "An identifier for the documented resource must be provided" 
+    sh:message "An identifier for the documented resource must be provided"
     .
 	
-cdifd:nameProperty
+cdifd:resourceNameProperty
 # names must be a literal, .
     a sh:PropertyShape ;
     sh:path schema:name;
@@ -266,17 +262,17 @@ cdifd:nameProperty
     sh:datatype xsd:string ;
 	#sh:minLength 10 ;
 	sh:severity sh:Warning ;
-    sh:message "a name (title) for the described resource must be provided. This name should be unique in the scope of the metadata providers corpus" 
+    sh:message "a name (title) for the described resource must be provided. This name should be unique in the scope of the metadata providers corpus"
     .
-	
-cdifd:metadataProfileProperty
+
+cdifd:resourceMetadataProfileProperty
 # Metadata needs to identify conventions followed in the serialization of this record.
     a sh:PropertyShape ;
     sh:path ( schema:subjectOf dcterms:conformsTo ) ;
 	sh:minCount 1 ;
     sh:nodeKind sh:IRIOrLiteral ;
 	sh:severity sh:Warning ;
-    sh:message "provide identifiers for specifications and datatypes used in this record to provide guidance for machine agents processing the metadata record" 
+    sh:message "provide identifiers for specifications and datatypes used in this record to provide guidance for machine agents processing the metadata record"
     .
 	
 cdifd:otherIdentifierProperty
@@ -442,7 +438,7 @@ cdifd:variableMeasuredProperty
     sh:message "if variable measured is specified, at least one PropertyValue or StatisticalVariable description must be included" 
     .
 	
-cdifd:rightsProperty	
+cdifd:rightsPropertyRecommended
 	a sh:PropertyShape ;
 	sh:path [sh:alternativePath ( schema:license  schema:conditionsOfAccess ) ];
 	sh:or (
