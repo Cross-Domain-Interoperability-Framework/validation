@@ -313,7 +313,7 @@ In addition to JSON Schema validation, CDIF metadata can be validated using SHAC
 | File | Description |
 |------|-------------|
 | `CDIF-Discovery-Core-Shapes2.ttl` | Core SHACL shapes for CDIF Discovery profile |
-| Building block rules in `_sources/` | Modular SHACL rules for individual components |
+| [Building block rules in `_sources/`](https://github.com/smrgeoinfo/OCGbuildingBlockTest/tree/master/_sources) | Modular SHACL rules for individual components |
 
 ### Using ShaclJSONLDContext.py
 
