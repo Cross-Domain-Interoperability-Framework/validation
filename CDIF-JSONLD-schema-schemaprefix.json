@@ -32,6 +32,7 @@
         },
         "schema:name": {
             "type": "string",
+            "minLength": 5,
             "description": "A descriptive name of a dataset (e.g., 'Snow depth in Northern Hemisphere'). The name should uniquely identify the described resource for human use, in the scope of the metadata catalog containing this metadata record."
         },
         "schema:additionalType": {
@@ -597,7 +598,8 @@
                 "@type": {"const": "schema:DefinedTerm"},
                 "schema:name": {
                     "type": "string",
-                    "description": "text label for the keyord that is useful to human user"
+                    "minLength": 5,
+                    "description": "text label for the keyword that is useful to human user"
                 },
                 "schema:identifier": {
                     "anyOf": [
@@ -737,8 +739,18 @@
                                     "const": "schema:GeoCoordinates",
                                     "default": "schema:GeoCoordinates"
                                 },
-                                "schema:latitude": {"type": "number"},
-                                "schema:longitude": {"type": "number"}
+                                "schema:latitude": {
+                                    "type": "number",
+                                    "minimum": -90,
+                                    "maximum": 90,
+                                    "description": "Latitude in decimal degrees, range -90 to 90"
+                                },
+                                "schema:longitude": {
+                                    "type": "number",
+                                    "minimum": -180,
+                                    "maximum": 180,
+                                    "description": "Longitude in decimal degrees, range -180 to 180"
+                                }
                             },
                             "required": [
                                 "@type",
@@ -932,6 +944,7 @@
                 },
                 "schema:name": {
                     "type": "string",
+                    "minLength": 5,
                     "description": "string label for person that is meaningful for human users"
                 },
                 "schema:affiliation": {"$ref": "#/$defs/organization_type"},
@@ -960,9 +973,14 @@
                     "items": {"type": "string"}
                 }
             },
-            "required": [
-                "@type",
-                "schema:name"
+            "allOf": [
+                {"required": ["@type"]},
+                {
+                    "anyOf": [
+                        {"required": ["schema:name"]},
+                        {"required": ["schema:identifier"]}
+                    ]
+                }
             ]
         },
         "organization_type": {
@@ -999,6 +1017,7 @@
                 },
                 "schema:name": {
                     "type": "string",
+                    "minLength": 5,
                     "description": "string label for organization that is meaningful for human users"
                 },
                 "schema:alternateName": {
@@ -1106,10 +1125,12 @@
                 "@id": {"type": "string"},
                 "schema:name": {
                     "type": "string",
+                    "minLength": 5,
                     "description": "this is the string label that is expected to be associated with the variable in the dataset serialization"
                 },
                 "schema:description": {
                     "type": "string",
+                    "minLength": 10,
                     "default": "missing"
                 },
                 "schema:propertyID": {

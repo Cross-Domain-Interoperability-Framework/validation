@@ -109,8 +109,7 @@ cdifd:dateModifiedProperty
     sh:path schema:dateModified;
 	# pyshacl doesn't seem to work validating xsd:date or xsd:dateTime in JSON-LD
     # sh:datatype xsd:dateTime ;
-	# current cdifBook doesn't include modified data as mandatory
-	sh:minCount 0 ;
+	sh:minCount 1 ;
 	sh:datatype xsd:string ;
 	# messy regex to screen for ISO8601 formats
 	sh:pattern "^[1-2][0-9]{3}-([0][1-9]|[1][0-2])(-([0-2][0-9]|[3][0-1])(T([0-1][0-9]|[2][0-3]):[0-5][0-9](:[0-5][0-9](Z|[+-][0-2][0-9]:[0-5][0-9])?)?)?)?$" ;
@@ -582,17 +581,19 @@ cdifd:citationProperty
 cdifd:CDIFPersonShape
     a sh:NodeShape ;
     sh:targetClass schema:Person ;
-	sh:property [
-		sh:path schema:identifier;
-		sh:minCount 1 ;
-		sh:nodeKind sh:IRIOrLiteral ;
-		sh:severity sh:Info ;
-		sh:message "a person should have an identifier that is a URI; use of ORCID is strongly encouraged" ; 
-	];
-    sh:property cdifd:nameProperty ;
+	sh:or (
+		[sh:property [
+			sh:path schema:identifier;
+			sh:minCount 1 ;
+			sh:nodeKind sh:IRIOrLiteral ;
+			sh:message "a person should have an identifier that is a URI; use of ORCID is strongly encouraged" ;
+			];
+		]
+		[sh:property cdifd:nameProperty ;]
+	);
 	sh:property cdifd:contactPointProperty ;
 	sh:property cdifd:affiliationProperty ;
-	sh:message "A person must a name provided; affiliation to an organization and identifier are strongly recommended." 
+	sh:message "A person must have a name OR an identifier; affiliation to an organization and contact point are recommended."
 	.
 
 cdifd:CDIFOrganizationShape
@@ -868,16 +869,28 @@ cdifd:webAPINode
    .
 #  properties for node shapes
 
-cdifd:contactPointProperty 
+cdifd:contactPointProperty
     a sh:PropertyShape ;
-	sh:path schema:email ;
+	sh:path schema:contactPoint;
+	sh:or ( [sh:class schema:ContactPoint;]
+			[sh:nodeKind sh:IRI ;]
+	);
 	sh:minCount 1 ;
-	sh:datatype xsd:string ;
-	# REGEX for standard e-mail address format
-    sh:pattern "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$" ;
-	sh:severity sh:Info ;
-	sh:message "a contact point should be provided; an e-mail address is strongly recommended" ; 
+	sh:message "a contact point is required for a person" ;
 	.
+
+cdifd:CDIFContactPointShape
+    a sh:NodeShape ;
+    sh:targetClass schema:ContactPoint ;
+    sh:property [
+       sh:path schema:email ;
+       sh:minCount 1 ;
+       sh:datatype xsd:string ;
+       # REGEX for standard e-mail address format
+       sh:pattern "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$" ;
+       sh:severity sh:Info ;
+       sh:message "a contact point should include an e-mail address" ;
+    ].
 
 cdifd:affiliationProperty
 # affiliation is always with an organization
