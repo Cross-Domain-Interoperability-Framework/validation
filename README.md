@@ -8,6 +8,7 @@ This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule s
 |------|-------------|
 | `CDIF-JSONLD-schema-schemaprefix.json` | JSON Schema for CDIF Discovery profile metadata with `schema:` prefixes |
 | `CDIF-frame.jsonld` | JSON-LD frame to reshape metadata for schema validation |
+| `CDIF-context.jsonld` | JSON-LD context for authoring instances without namespace prefixes |
 | `CDIF-JSONLD-schema.json` | JSON Schema without prefixes (schema.org as default vocabulary) |
 
 ## Validation Workflow
@@ -183,6 +184,54 @@ Your JSON-LD metadata documents must include a `@context` with the following nam
     }
 }
 ```
+
+## Authoring Instances Without Prefixes
+
+If you prefer to author metadata without namespace prefixes (e.g., `name` instead of `schema:name`), you can use the `CDIF-context.jsonld` context file. This context maps unprefixed property names to their full IRIs.
+
+### Example Instance Without Prefixes
+
+```json
+{
+    "@context": "https://your-server.org/CDIF-context.jsonld",
+    "@type": "Dataset",
+    "@id": "https://example.org/dataset/123",
+    "name": "My Dataset",
+    "description": "A sample dataset description",
+    "identifier": "dataset-123",
+    "dateModified": "2024-01-15",
+    "url": "https://example.org/data/123",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "subjectOf": {
+        "@type": "Dataset",
+        "sdDatePublished": "2024-01-15"
+    }
+}
+```
+
+### How It Works
+
+The validation workflow handles both prefixed and unprefixed instances:
+
+1. **Unprefixed instance** references `CDIF-context.jsonld`
+2. **Framing** with `CDIF-frame.jsonld` transforms the instance
+3. The frame's context uses prefixed names, so the **output has prefixed keys**
+4. **Validate** against `CDIF-JSONLD-schema-schemaprefix.json`
+
+This means you only need one schema (`CDIF-JSONLD-schema-schemaprefix.json`). The framing step normalizes all instances to the prefixed format regardless of how they were authored.
+
+### Deploying the Context
+
+For production use, host `CDIF-context.jsonld` at a stable URL and reference it in your instances:
+
+```json
+{
+    "@context": "https://your-server.org/CDIF-context.jsonld",
+    ...
+}
+```
+
+Or embed the context directly in your instance by copying the contents of `CDIF-context.jsonld`.
 
 ## Schema Structure
 
