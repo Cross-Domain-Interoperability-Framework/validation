@@ -599,7 +599,12 @@
                     "type": "string",
                     "description": "text label for the keyord that is useful to human user"
                 },
-                "schema:identifier": {"$ref": "#/$defs/identifier_type"},
+                "schema:identifier": {
+                    "anyOf": [
+                        {"$ref": "#/$defs/identifier_type"},
+                        {"type": "string"}
+                    ]
+                },
                 "schema:inDefinedTermSet": {
                     "type": "string",
                     "description": "Identifier for the controlled vocabulary responsible for this keyword."
