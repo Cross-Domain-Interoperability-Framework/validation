@@ -2,6 +2,31 @@
 
 This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule sets for validating CDIF metadata documents.
 
+## Table of Contents
+
+- [Files](#files)
+- [Validation Workflow](#validation-workflow)
+  - [Step 1: Frame the JSON-LD Document](#step-1-frame-the-json-ld-document)
+  - [Step 2: Validate Against Schema](#step-2-validate-against-schema)
+- [Usage Examples](#usage-examples)
+  - [Python](#python)
+  - [JavaScript/Node.js](#javascriptnodejs)
+  - [Command Line](#command-line-using-python-script)
+- [Context Requirements](#context-requirements)
+- [Authoring Instances Without Prefixes](#authoring-instances-without-prefixes)
+  - [Example Instance Without Prefixes](#example-instance-without-prefixes)
+  - [How It Works](#how-it-works)
+  - [Deploying the Context](#deploying-the-context)
+- [Schema Structure](#schema-structure)
+- [Troubleshooting](#troubleshooting)
+  - [Common Validation Errors](#common-validation-errors)
+  - [Debugging](#debugging)
+- [SHACL Validation](#shacl-validation)
+  - [SHACL Files](#shacl-files)
+  - [Using ShaclJSONLDContext.py](#using-shacljsonldcontextpy)
+  - [SHACL vs JSON Schema Validation](#shacl-vs-json-schema-validation)
+- [Notes](#notes)
+
 ## Files
 
 | File | Description |
