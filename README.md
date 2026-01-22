@@ -329,113 +329,58 @@ pip install rdflib pyshacl
 
 #### Usage
 
-1. Edit the script to set the paths for your data and shapes files:
-
-```python
-# Path to your JSON-LD metadata file
-theData = "path/to/your/metadata.jsonld"
-
-# Path to SHACL shapes file
-theShapes = "path/to/shapes.ttl"
+```bash
+python ShaclValidation/ShaclJSONLDContext.py <data.jsonld> <shapes.ttl>
 ```
 
-2. Run the validation:
+Or using named arguments:
 
 ```bash
-python ShaclValidation/ShaclJSONLDContext.py
+python ShaclValidation/ShaclJSONLDContext.py --data <data.jsonld> --shapes <shapes.ttl>
 ```
 
-#### Script Output
-
-The script provides detailed validation output:
-
-1. **Data graph size** - Number of triples in the parsed JSON-LD
-2. **Shapes graph size** - Number of triples in the SHACL rules
-3. **SPARQL target matches** - Shows which nodes match SPARQL-based shape targets
-4. **Validation results** - Lists any constraint violations with:
-   - Focus node (the node that failed validation)
-   - Source shape (the SHACL shape that was violated)
-   - Result message (explanation of the violation)
+**Options:**
+- `-d, --data` - Path to JSON-LD metadata file to validate
+- `-s, --shapes` - Path to SHACL shapes file (TTL format)
+- `-v, --verbose` - Show detailed diagnostic output including SPARQL target matches
+- `-h, --help` - Show help message
 
 #### Example: Validating Against Core SHACL
 
-```python
-# In ShaclJSONLDContext.py, set:
-theData = "path/to/my-dataset-metadata.jsonld"
-theShapes = "CDIF-Discovery-Core-Shapes2.ttl"
+```bash
+python ShaclValidation/ShaclJSONLDContext.py my-metadata.jsonld CDIF-Discovery-Core-Shapes2.ttl
 ```
 
 #### Example: Validating Against Building Block Rules
 
 To validate specific components (e.g., variableMeasured):
 
-```python
-theData = "path/to/my-dataset-metadata.jsonld"
-theShapes = "../OCGbuildingBlockTest/_sources/schemaorgProperties/variableMeasured/rules.shacl"
-```
-
-#### Creating a Reusable Validation Script
-
-For a more flexible command-line tool, create `shacl_validate.py`:
-
-```python
-#!/usr/bin/env python3
-"""Validate JSON-LD against SHACL shapes."""
-
-import sys
-from rdflib import Graph
-import pyshacl
-
-def validate_shacl(data_path, shapes_path):
-    """
-    Validate a JSON-LD file against SHACL shapes.
-
-    Args:
-        data_path: Path to JSON-LD data file
-        shapes_path: Path to SHACL shapes file (TTL format)
-
-    Returns:
-        True if valid, False otherwise
-    """
-    # Load data graph
-    data_graph = Graph()
-    data_graph.parse(data_path, format="json-ld")
-    print(f"Loaded data graph: {len(data_graph)} triples")
-
-    # Load shapes graph
-    shapes_graph = Graph()
-    shapes_graph.parse(shapes_path, format="ttl")
-    print(f"Loaded shapes graph: {len(shapes_graph)} triples")
-
-    # Validate
-    conforms, report_graph, report_text = pyshacl.validate(
-        data_graph,
-        shacl_graph=shapes_graph,
-        inference="rdfs",
-        advanced=True
-    )
-
-    if conforms:
-        print("\nValidation PASSED: Data conforms to SHACL shapes.")
-        return True
-    else:
-        print("\nValidation FAILED:")
-        print(report_text)
-        return False
-
-if __name__ == '__main__':
-    if len(sys.argv) < 3:
-        print(f"Usage: {sys.argv[0]} <data.jsonld> <shapes.ttl>")
-        sys.exit(1)
-
-    success = validate_shacl(sys.argv[1], sys.argv[2])
-    sys.exit(0 if success else 1)
-```
-
-Run with:
 ```bash
-python shacl_validate.py my-metadata.jsonld CDIF-Discovery-Core-Shapes2.ttl
+python ShaclValidation/ShaclJSONLDContext.py my-metadata.jsonld path/to/_sources/schemaorgProperties/variableMeasured/rules.shacl
 ```
+
+#### Example: Verbose Output
+
+To see detailed diagnostic information including SPARQL target matches:
+
+```bash
+python ShaclValidation/ShaclJSONLDContext.py -v my-metadata.jsonld CDIF-Discovery-Core-Shapes2.ttl
+```
+
+#### Script Output
+
+The script provides validation output including:
+
+1. **Data graph size** - Number of triples in the parsed JSON-LD
+2. **Shapes graph size** - Number of triples in the SHACL rules
+3. **Validation results** - Lists any constraint violations with:
+   - Focus node (the node that failed validation)
+   - Source shape (the SHACL shape that was violated)
+   - Result message (explanation of the violation)
+
+With `--verbose`, additional output includes:
+- SPARQL target matches showing which nodes match shape targets
+- Debug information from pyshacl
 
 ### SHACL vs JSON Schema Validation
 
