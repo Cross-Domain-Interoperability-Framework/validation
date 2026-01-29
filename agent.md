@@ -24,11 +24,12 @@ CDIF metadata is expressed as JSON-LD, which can represent data as graphs. JSON 
 | `CDIF-JSONLD-schema-2026.json` | **Current** JSON Schema with DDI-CDI/CSVW support |
 | `CDIF-frame-2026.jsonld` | **Current** JSON-LD frame for 2026 schema |
 | `CDIF-context-2026.jsonld` | Context for authoring without prefixes |
-| `CDIF-JSONLD-schema-schemaprefix.json` | Legacy schema (pre-2026) |
-| `CDIF-frame.jsonld` | Legacy frame (pre-2026) |
-| `FrameAndValidate.py` | Main validation script |
+| `FrameAndValidate.py` | Main validation script (Python) |
+| `validate-cdif.bat` | Windows batch script for oXygen integration |
 | `ShaclValidation/ShaclJSONLDContext.py` | SHACL validation script |
 | `CDIF-Discovery-Core-Shapes2.ttl` | SHACL shapes for semantic validation |
+| `CDIF-JSONLD-schema-schemaprefix.json` | Legacy schema (pre-2026) |
+| `CDIF-frame.jsonld` | Legacy frame (pre-2026) |
 
 ## Validation Workflow
 
@@ -42,24 +43,62 @@ CDIF metadata is expressed as JSON-LD, which can represent data as graphs. JSON 
 
 ## Common Tasks
 
-### Validate a Document
+### Validate a Document (Command Line)
 ```bash
+# Using Python script (default: 2026 schema)
 python FrameAndValidate.py path/to/metadata.jsonld -v
+
+# Using Windows batch script
+validate-cdif.bat path/to/metadata.jsonld
 ```
 
 ### Frame and Save Output (for debugging)
 ```bash
 python FrameAndValidate.py path/to/metadata.jsonld -o framed.json
+
+# Or with batch script
+validate-cdif.bat path/to/metadata.jsonld --framed
 ```
 
 ### Use Legacy Schema
 ```bash
 python FrameAndValidate.py metadata.jsonld --frame CDIF-frame.jsonld --schema CDIF-JSONLD-schema-schemaprefix.json -v
+
+# Or with batch script
+validate-cdif.bat metadata.jsonld --legacy
 ```
 
 ### SHACL Validation
 ```bash
 python ShaclValidation/ShaclJSONLDContext.py metadata.jsonld CDIF-Discovery-Core-Shapes2.ttl
+```
+
+## oXygen XML Editor Integration
+
+The `validate-cdif.bat` script enables validation from within oXygen XML Editor.
+
+### Setup
+1. Go to **Tools → External Tools → Configure...**
+2. Create a new tool with these settings:
+
+| Field | Value |
+|-------|-------|
+| **Name** | `CDIF Validate` |
+| **Command** | `C:\Users\smrTu\OneDrive\Documents\GithubC\CDIF\validation\validate-cdif.bat` |
+| **Arguments** | `"${cf}"` |
+| **Working directory** | *(leave empty)* |
+
+### Usage in oXygen
+1. Open a JSON-LD file
+2. Go to **Tools → External Tools → CDIF Validate**
+3. Results appear in the oXygen console
+
+### Batch Script Options
+```
+validate-cdif.bat file.jsonld           # Validate with 2026 schema
+validate-cdif.bat file.jsonld --framed  # Validate + save framed output
+validate-cdif.bat file.jsonld --legacy  # Use pre-2026 schema
+validate-cdif.bat --help                # Show help
 ```
 
 ## Schema Structure (2026)

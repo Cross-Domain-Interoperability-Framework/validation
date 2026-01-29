@@ -5,13 +5,15 @@ This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule s
 ## Table of Contents
 
 - [Files](#files)
+- [Quick Start](#quick-start)
 - [Validation Workflow](#validation-workflow)
   - [Step 1: Frame the JSON-LD Document](#step-1-frame-the-json-ld-document)
   - [Step 2: Validate Against Schema](#step-2-validate-against-schema)
 - [Usage Examples](#usage-examples)
+  - [Command Line (Recommended)](#command-line-recommended)
+  - [oXygen XML Editor](#oxygen-xml-editor)
   - [Python](#python)
   - [JavaScript/Node.js](#javascriptnodejs)
-  - [Command Line](#command-line-using-python-script)
 - [Context Requirements](#context-requirements)
 - [Authoring Instances Without Prefixes](#authoring-instances-without-prefixes)
   - [Example Instance Without Prefixes](#example-instance-without-prefixes)
@@ -29,12 +31,47 @@ This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule s
 
 ## Files
 
+### Current (2026 Schema with DDI-CDI/CSVW)
+
+| File | Description |
+|------|-------------|
+| `CDIF-JSONLD-schema-2026.json` | JSON Schema with DDI-CDI variable types and CSVW tabular dataset properties |
+| `CDIF-frame-2026.jsonld` | JSON-LD frame for 2026 schema |
+| `CDIF-context-2026.jsonld` | JSON-LD context for authoring without namespace prefixes |
+| `FrameAndValidate.py` | Python script for framing and validation |
+| `validate-cdif.bat` | Windows batch script for oXygen XML Editor integration |
+
+### Legacy (Pre-2026)
+
 | File | Description |
 |------|-------------|
 | `CDIF-JSONLD-schema-schemaprefix.json` | JSON Schema for CDIF Discovery profile metadata with `schema:` prefixes |
-| `CDIF-frame.jsonld` | JSON-LD frame to reshape metadata for schema validation |
-| `CDIF-context.jsonld` | JSON-LD context for authoring instances without namespace prefixes |
-| `CDIF-JSONLD-schema.json` | JSON Schema without prefixes (schema.org as default vocabulary) |
+| `CDIF-frame.jsonld` | JSON-LD frame for legacy schema |
+| `CDIF-context.jsonld` | Legacy JSON-LD context |
+
+## Quick Start
+
+### Prerequisites
+
+```bash
+pip install PyLD jsonschema
+```
+
+### Validate a Document
+
+```bash
+# Using Python script (default: 2026 schema)
+python FrameAndValidate.py my-metadata.jsonld -v
+
+# Using Windows batch script
+validate-cdif.bat my-metadata.jsonld
+```
+
+### Save Framed Output for Debugging
+
+```bash
+python FrameAndValidate.py my-metadata.jsonld -o framed.json -v
+```
 
 ## Validation Workflow
 
@@ -47,13 +84,65 @@ CDIF metadata is expressed as JSON-LD. To validate JSON-LD documents against the
 
 ### Step 1: Frame the JSON-LD Document
 
-Use a JSON-LD processor to apply `CDIF-frame.jsonld` to your metadata document.
+Use a JSON-LD processor to apply `CDIF-frame-2026.jsonld` to your metadata document.
 
 ### Step 2: Validate Against Schema
 
-Validate the framed output against `CDIF-JSONLD-schema-schemaprefix.json`.
+Validate the framed output against `CDIF-JSONLD-schema-2026.json`.
 
 ## Usage Examples
+
+### Command Line (Recommended)
+
+The `FrameAndValidate.py` script handles the complete workflow:
+
+```bash
+# Validate with 2026 schema (default)
+python FrameAndValidate.py my-metadata.jsonld -v
+
+# Save framed output
+python FrameAndValidate.py my-metadata.jsonld -o framed.json -v
+
+# Use legacy schema
+python FrameAndValidate.py my-metadata.jsonld --frame CDIF-frame.jsonld --schema CDIF-JSONLD-schema-schemaprefix.json -v
+```
+
+**Options:**
+- `-v, --validate` - Validate against JSON Schema
+- `-o, --output FILE` - Save framed output to file
+- `--schema FILE` - Path to JSON Schema (default: CDIF-JSONLD-schema-2026.json)
+- `--frame FILE` - Path to JSON-LD frame (default: CDIF-frame-2026.jsonld)
+
+### oXygen XML Editor
+
+The `validate-cdif.bat` script enables validation from within oXygen XML Editor.
+
+#### Setup
+
+1. Go to **Tools → External Tools → Configure...**
+2. Click **New** and configure:
+
+| Field | Value |
+|-------|-------|
+| **Name** | `CDIF Validate` |
+| **Command** | Path to `validate-cdif.bat` |
+| **Arguments** | `"${cf}"` |
+| **Working directory** | *(leave empty)* |
+
+#### Usage
+
+1. Open a JSON-LD file in oXygen
+2. Go to **Tools → External Tools → CDIF Validate**
+3. Results appear in the oXygen console
+
+#### Batch Script Options
+
+```bash
+validate-cdif.bat file.jsonld           # Validate with 2026 schema
+validate-cdif.bat file.jsonld --framed  # Validate + save framed output
+validate-cdif.bat file.jsonld --legacy  # Use pre-2026 schema
+validate-cdif.bat --help                # Show help
+```
 
 ### Python
 
@@ -63,7 +152,7 @@ from pyld import jsonld
 import jsonschema
 
 # Load the frame
-with open('CDIF-frame.jsonld') as f:
+with open('CDIF-frame-2026.jsonld') as f:
     frame = json.load(f)
 
 # Load your JSON-LD metadata document
@@ -71,7 +160,7 @@ with open('my-metadata.jsonld') as f:
     doc = json.load(f)
 
 # Load the schema
-with open('CDIF-JSONLD-schema-schemaprefix.json') as f:
+with open('CDIF-JSONLD-schema-2026.json') as f:
     schema = json.load(f)
 
 # Step 1: Frame the document
@@ -100,9 +189,9 @@ const fs = require('fs');
 
 async function validateCDIF(metadataPath) {
     // Load files
-    const frame = JSON.parse(fs.readFileSync('CDIF-frame.jsonld', 'utf8'));
+    const frame = JSON.parse(fs.readFileSync('CDIF-frame-2026.jsonld', 'utf8'));
     const doc = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
-    const schema = JSON.parse(fs.readFileSync('CDIF-JSONLD-schema-schemaprefix.json', 'utf8'));
+    const schema = JSON.parse(fs.readFileSync('CDIF-JSONLD-schema-2026.json', 'utf8'));
 
     // Step 1: Frame the document
     const framed = await jsonld.frame(doc, frame);
@@ -129,72 +218,26 @@ validateCDIF('my-metadata.jsonld');
 npm install jsonld ajv ajv-formats
 ```
 
-### Command Line (using Python script)
-
-Create a validation script `validate_cdif.py`:
-
-```python
-#!/usr/bin/env python3
-"""Validate CDIF JSON-LD metadata against the schema."""
-
-import json
-import sys
-from pyld import jsonld
-import jsonschema
-
-def validate_cdif(metadata_path, frame_path='CDIF-frame.jsonld',
-                  schema_path='CDIF-JSONLD-schema-schemaprefix.json'):
-    """
-    Validate a CDIF metadata document.
-
-    Args:
-        metadata_path: Path to JSON-LD metadata file
-        frame_path: Path to CDIF frame file
-        schema_path: Path to CDIF JSON schema
-
-    Returns:
-        True if valid, False otherwise
-    """
-    # Load files
-    with open(frame_path) as f:
-        frame = json.load(f)
-    with open(metadata_path) as f:
-        doc = json.load(f)
-    with open(schema_path) as f:
-        schema = json.load(f)
-
-    # Frame the document
-    print(f"Framing {metadata_path}...")
-    framed = jsonld.frame(doc, frame)
-
-    # Validate
-    print("Validating against schema...")
-    try:
-        jsonschema.validate(instance=framed, schema=schema)
-        print("Validation PASSED")
-        return True
-    except jsonschema.ValidationError as e:
-        print(f"Validation FAILED: {e.message}")
-        print(f"  Path: {' -> '.join(str(p) for p in e.absolute_path)}")
-        return False
-
-if __name__ == '__main__':
-    if len(sys.argv) < 2:
-        print(f"Usage: {sys.argv[0]} <metadata.jsonld>")
-        sys.exit(1)
-
-    success = validate_cdif(sys.argv[1])
-    sys.exit(0 if success else 1)
-```
-
-Run with:
-```bash
-python validate_cdif.py my-metadata.jsonld
-```
-
 ## Context Requirements
 
-Your JSON-LD metadata documents must include a `@context` with the following namespace prefixes:
+Your JSON-LD metadata documents must include a `@context` with the following namespace prefixes.
+
+### 2026 Schema Requirements
+
+```json
+{
+    "@context": {
+        "schema": "http://schema.org/",
+        "dcterms": "http://purl.org/dc/terms/",
+        "geosparql": "http://www.opengis.net/ont/geosparql#",
+        "spdx": "http://spdx.org/rdf/terms#",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "csvw": "http://www.w3.org/ns/csvw#"
+    }
+}
+```
+
+### Legacy Schema Requirements
 
 ```json
 {
@@ -212,13 +255,13 @@ Your JSON-LD metadata documents must include a `@context` with the following nam
 
 ## Authoring Instances Without Prefixes
 
-If you prefer to author metadata without namespace prefixes (e.g., `name` instead of `schema:name`), you can use the `CDIF-context.jsonld` context file. This context maps unprefixed property names to their full IRIs.
+If you prefer to author metadata without namespace prefixes (e.g., `name` instead of `schema:name`), you can use the `CDIF-context-2026.jsonld` context file. This context maps unprefixed property names to their full IRIs.
 
 ### Example Instance Without Prefixes
 
 ```json
 {
-    "@context": "https://your-server.org/CDIF-context.jsonld",
+    "@context": "https://your-server.org/CDIF-context-2026.jsonld",
     "@type": "Dataset",
     "@id": "https://example.org/dataset/123",
     "name": "My Dataset",
@@ -238,39 +281,54 @@ If you prefer to author metadata without namespace prefixes (e.g., `name` instea
 
 The validation workflow handles both prefixed and unprefixed instances:
 
-1. **Unprefixed instance** references `CDIF-context.jsonld`
-2. **Framing** with `CDIF-frame.jsonld` transforms the instance
+1. **Unprefixed instance** references `CDIF-context-2026.jsonld`
+2. **Framing** with `CDIF-frame-2026.jsonld` transforms the instance
 3. The frame's context uses prefixed names, so the **output has prefixed keys**
-4. **Validate** against `CDIF-JSONLD-schema-schemaprefix.json`
+4. **Validate** against `CDIF-JSONLD-schema-2026.json`
 
-This means you only need one schema (`CDIF-JSONLD-schema-schemaprefix.json`). The framing step normalizes all instances to the prefixed format regardless of how they were authored.
+This means you only need one schema. The framing step normalizes all instances to the prefixed format regardless of how they were authored.
 
 ### Deploying the Context
 
-For production use, host `CDIF-context.jsonld` at a stable URL and reference it in your instances:
+For production use, host `CDIF-context-2026.jsonld` at a stable URL and reference it in your instances:
 
 ```json
 {
-    "@context": "https://your-server.org/CDIF-context.jsonld",
+    "@context": "https://your-server.org/CDIF-context-2026.jsonld",
     ...
 }
 ```
 
-Or embed the context directly in your instance by copying the contents of `CDIF-context.jsonld`.
+Or embed the context directly in your instance by copying the contents of `CDIF-context-2026.jsonld`.
 
 ## Schema Structure
 
 The schema validates CDIF Discovery profile metadata with the following required fields:
 
 - `@id` - Resource identifier
-- `@type` - Must include a valid schema.org type (e.g., `schema:Dataset`)
+- `@type` - Must include `schema:Dataset`
 - `@context` - JSON-LD context with required prefixes
-- `schema:name` - Resource name
+- `schema:name` - Resource name (min 5 characters)
 - `schema:identifier` - Primary identifier
 - `schema:dateModified` - Last modification date
 - `schema:subjectOf` - Metadata about the metadata record
 - Either `schema:url` or `schema:distribution` - Access information
 - Either `schema:license` or `schema:conditionsOfAccess` - Usage terms
+
+### 2026 Schema Additions
+
+The 2026 schema adds support for:
+
+**Variables (`schema:variableMeasured`):**
+- Must have dual typing: `["schema:PropertyValue", "cdi:InstanceVariable"]`
+- DDI-CDI properties: `cdi:role`, `cdi:intendedDataType`, `cdi:simpleUnitOfMeasure`
+
+**Distributions:**
+- `cdi:StructuredDataSet` - For structured formats (JSON, XML)
+- `cdi:TabularTextDataSet` - For tabular text with CSVW properties:
+  - `csvw:delimiter`, `csvw:header`, `csvw:headerRowCount`
+  - `cdi:isDelimited` OR `cdi:isFixedWidth`
+  - `cdi:hasPhysicalMapping` - Links variables to physical representation
 
 ## Troubleshooting
 
@@ -285,16 +343,25 @@ The schema validates CDIF Discovery profile metadata with the following required
    - Check that `@type` values use the `schema:` prefix
 
 3. **Invalid @type**
-   - Root `@type` must include one of: `schema:Dataset`, `schema:CreativeWork`, `schema:DataCatalog`, etc.
+   - Root `@type` must include `schema:Dataset`
+   - For 2026 schema, variables must include both `schema:PropertyValue` and `cdi:InstanceVariable`
 
 4. **Framing issues**
    - Ensure your document has proper `@id` values for node references
    - Check that the `@context` is compatible with the frame
 
+5. **dcterms:conformsTo syntax**
+   - Must use object syntax: `[{"@id": "..."}]` not `["..."]`
+
 ### Debugging
 
 To see the framed output before validation:
 
+```bash
+python FrameAndValidate.py my-metadata.jsonld -o framed.json
+```
+
+Or in Python:
 ```python
 framed = jsonld.frame(doc, frame)
 print(json.dumps(framed, indent=2))
@@ -398,6 +465,8 @@ With `--verbose`, additional output includes:
 
 ## Notes
 
-- `CDIF-JSONLD-schema-schemaprefix.json` requires all schema.org elements to have a `schema:` prefix. This is necessary for SHACL validation compatibility.
+- The 2026 schema (`CDIF-JSONLD-schema-2026.json`) is the current default and includes DDI-CDI and CSVW support.
+- Legacy schema (`CDIF-JSONLD-schema-schemaprefix.json`) is still available for older documents.
+- All schema.org elements require the `schema:` prefix for SHACL validation compatibility.
 - The frame ensures that after framing, the output structure matches what the JSON schema expects.
-- For SHACL validation, use the corresponding `.shacl` files in this repository.
+- For SHACL validation, use the corresponding `.shacl` or `.ttl` files in this repository.
