@@ -2,8 +2,10 @@
 """
 CDIF JSON-LD Framing and Validation Script
 
+Supports both the original schema and the 2026 schema with DDI-CDI and CSVW extensions.
+
 Usage:
-    python FrameAndValidate.py <input-document.jsonld> [--output framed.json] [--validate] [--schema schema.json]
+    python FrameAndValidate.py <input-document.jsonld> [--output framed.json] [--validate] [--schema schema.json] [--frame frame.jsonld]
 """
 
 import json
@@ -20,7 +22,9 @@ jsonld.set_document_loader(jsonld.requests_document_loader())
 SCRIPT_DIR = Path(__file__).parent
 
 # Properties that should always be arrays per the CDIF schema
+# Includes both original properties and 2026 DDI-CDI/CSVW additions
 ARRAY_PROPERTIES = [
+    # schema.org properties
     'schema:contributor',
     'schema:distribution',
     'schema:license',
@@ -41,11 +45,17 @@ ARRAY_PROPERTIES = [
     'schema:contentType',
     'schema:query-input',
     'schema:propertyID',
+    # PROV properties
     'prov:wasGeneratedBy',
     'prov:wasDerivedFrom',
     'prov:used',
+    # DQV properties
     'dqv:hasQualityMeasurement',
-    'dcterms:conformsTo'
+    # Dublin Core properties
+    'dcterms:conformsTo',
+    # DDI-CDI properties (2026)
+    'cdi:hasPhysicalMapping',
+    'cdi:uses',
 ]
 
 # Term mappings: unprefixed -> prefixed (to match schema expectations)
@@ -70,8 +80,10 @@ TERM_MAPPINGS = {
 
 # Output context for compaction - uses explicit term mappings to avoid prefix conflicts
 OUTPUT_CONTEXT = {
-    # schema.org as prefix (most common)
+    # Namespace prefixes
     "schema": "http://schema.org/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "csvw": "http://www.w3.org/ns/csvw#",
 
     # Explicit term mappings for other vocabularies (avoids prefix conflicts)
     "conformsTo": "http://purl.org/dc/terms/conformsTo",
@@ -113,21 +125,27 @@ def is_bare_id_reference(obj):
     return len(keys) == 1 and keys[0] == '@id'
 
 
-def post_process(obj):
+def remove_nulls_and_normalize(obj):
     """
     Post-process the framed output to match schema expectations:
-    1. Rename unprefixed terms to prefixed versions
-    2. Wrap single values in arrays where schema expects arrays
-    3. Convert bare @id references to strings for identifier fields
+    1. Remove null values (framing adds null for missing optional properties)
+    2. Rename unprefixed terms to prefixed versions
+    3. Wrap single values in arrays where schema expects arrays
+    4. Convert bare @id references to strings for identifier fields
     """
     if isinstance(obj, list):
-        return [post_process(item) for item in obj]
+        # Filter out None values and process remaining items
+        return [remove_nulls_and_normalize(item) for item in obj if item is not None]
 
     if isinstance(obj, dict):
         result = {}
 
         for key, value in obj.items():
-            # Skip @context
+            # Skip null values
+            if value is None:
+                continue
+
+            # Skip @context - pass through unchanged
             if key == '@context':
                 result[key] = value
                 continue
@@ -136,14 +154,18 @@ def post_process(obj):
             new_key = TERM_MAPPINGS.get(key, key)
 
             # Process value recursively
-            new_value = post_process(value)
+            new_value = remove_nulls_and_normalize(value)
+
+            # Skip if value became None or empty after processing
+            if new_value is None:
+                continue
 
             # Convert bare @id references to strings for identifier fields
             if new_key == 'schema:identifier' and is_bare_id_reference(new_value):
                 new_value = new_value['@id']
 
             # Wrap in array if schema expects array and value is not already an array
-            if new_key in ARRAY_PROPERTIES and not isinstance(new_value, list) and new_value is not None:
+            if new_key in ARRAY_PROPERTIES and not isinstance(new_value, list):
                 new_value = [new_value]
 
             result[new_key] = new_value
@@ -153,40 +175,53 @@ def post_process(obj):
     return obj
 
 
-def frame_cdif_document(doc_path):
+def frame_cdif_document(doc_path, frame_path=None):
     """Frame a CDIF JSON-LD document using three-step approach"""
     print(f"Loading document: {doc_path}")
     with open(doc_path, 'r', encoding='utf-8') as f:
         doc = json.load(f)
 
+    # Load custom frame if provided, otherwise use minimal frame template
+    if frame_path:
+        print(f"Loading frame: {frame_path}")
+        with open(frame_path, 'r', encoding='utf-8') as f:
+            frame = json.load(f)
+    else:
+        frame = FRAME_TEMPLATE
+
     # Step 1: Expand the document (resolves all prefixes to full IRIs)
     print("Expanding document...")
     expanded = jsonld.expand(doc)
 
-    # Step 2: Frame with minimal frame (no context conflicts)
+    # Step 2: Frame the document
     print("Framing document...")
-    framed = jsonld.frame(expanded, FRAME_TEMPLATE)
+    framed = jsonld.frame(expanded, frame)
 
-    # Step 3: Compact with our desired output context
-    print("Compacting with output context...")
-    compacted = jsonld.compact(framed, OUTPUT_CONTEXT)
+    # Step 3: Compact with our desired output context (if using template frame)
+    if not frame_path:
+        print("Compacting with output context...")
+        framed = jsonld.compact(framed, OUTPUT_CONTEXT)
 
     # Step 4: Extract main dataset from @graph if present
-    result = compacted
-    if '@graph' in compacted and isinstance(compacted['@graph'], list):
-        # Find the main Dataset object
+    result = framed
+    if '@graph' in framed and isinstance(framed['@graph'], list):
+        # Find the main Dataset object - the one with schema:distribution or schema:url
         dataset = None
-        for item in compacted['@graph']:
-            item_type = item.get('@type')
-            if item_type == 'schema:Dataset' or (isinstance(item_type, list) and 'schema:Dataset' in item_type):
+        for item in framed['@graph']:
+            # Check if this item has distribution (indicates it's the main dataset, not metadata record)
+            if item.get('schema:distribution') is not None:
                 dataset = item
                 break
-        if dataset:
-            result = {'@context': compacted.get('@context'), **dataset}
+            # Fallback: check for schema:url
+            if item.get('schema:url') is not None and dataset is None:
+                dataset = item
 
-    # Step 5: Post-process to normalize terms and array properties
+        if dataset:
+            result = {'@context': framed.get('@context'), **dataset}
+
+    # Step 5: Post-process to remove nulls, normalize terms and array properties
     print("Post-processing output...")
-    result = post_process(result)
+    result = remove_nulls_and_normalize(result)
 
     return result
 
@@ -213,22 +248,31 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
+  # Frame and print output
   python FrameAndValidate.py my-metadata.jsonld
-  python FrameAndValidate.py my-metadata.jsonld -o framed.json
-  python FrameAndValidate.py my-metadata.jsonld -v
-  python FrameAndValidate.py my-metadata.jsonld -o framed.json -v
+
+  # Frame with custom frame and save output
+  python FrameAndValidate.py my-metadata.jsonld --frame CDIF-frame-2026.jsonld -o framed.json
+
+  # Validate against 2026 schema
+  python FrameAndValidate.py my-metadata.jsonld --frame CDIF-frame-2026.jsonld -v --schema CDIF-JSONLD-schema-2026.json
+
+  # Full workflow with 2026 files
+  python FrameAndValidate.py my-metadata.jsonld --frame CDIF-frame-2026.jsonld -o framed.json -v --schema CDIF-JSONLD-schema-2026.json
 """
     )
     parser.add_argument('input', help='Input JSON-LD file to process')
     parser.add_argument('-o', '--output', help='Write framed output to file')
     parser.add_argument('-v', '--validate', action='store_true', help='Validate against JSON Schema')
-    parser.add_argument('--schema', default=str(SCRIPT_DIR / 'CDIF-JSONLD-schema-schemaprefix.json'),
-                        help='Path to JSON Schema (default: CDIF-JSONLD-schema-schemaprefix.json)')
+    parser.add_argument('--schema', default=str(SCRIPT_DIR / 'CDIF-JSONLD-schema-2026.json'),
+                        help='Path to JSON Schema (default: CDIF-JSONLD-schema-2026.json)')
+    parser.add_argument('--frame', default=str(SCRIPT_DIR / 'CDIF-frame-2026.jsonld'),
+                        help='Path to JSON-LD frame (default: CDIF-frame-2026.jsonld)')
 
     args = parser.parse_args()
 
     try:
-        framed = frame_cdif_document(args.input)
+        framed = frame_cdif_document(args.input, args.frame)
 
         if args.output:
             with open(args.output, 'w', encoding='utf-8') as f:
@@ -256,6 +300,8 @@ Examples:
 
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)
+        import traceback
+        traceback.print_exc()
         sys.exit(1)
 
 
