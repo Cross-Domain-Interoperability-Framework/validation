@@ -10,13 +10,22 @@ REM   --help       Show help
 REM
 REM In oXygen External Tools:
 REM   Command: C:\Users\smrTu\OneDrive\Documents\GithubC\CDIF\validation\validate-cdif.bat
-REM   Arguments: "${currentFileURL}"
-REM   Or with framed output: "${currentFileURL}" --framed
+REM   Arguments: "${cf}"
+REM   Working directory: (leave empty)
 
 setlocal enabledelayedexpansion
 
 REM Get the directory where this script is located
 set "SCRIPT_DIR=%~dp0"
+
+REM Use miniconda Python which has pyld installed
+REM Change this path if your Python with pyld is elsewhere
+set "PYTHON=C:\Users\smrTu\miniconda3\python.exe"
+
+REM Fallback to system python if miniconda not found
+if not exist "%PYTHON%" (
+    set "PYTHON=python"
+)
 
 REM Default settings
 set "INPUT_FILE="
@@ -82,7 +91,7 @@ echo ========================================
 echo.
 
 REM Build the command
-set "CMD=python "%SCRIPT_DIR%FrameAndValidate.py" "%INPUT_FILE%" --schema "%SCHEMA%" --frame "%FRAME%" -v"
+set "CMD="%PYTHON%" "%SCRIPT_DIR%FrameAndValidate.py" "%INPUT_FILE%" --schema "%SCHEMA%" --frame "%FRAME%" -v"
 
 if "%SAVE_FRAMED%"=="1" (
     set "FRAMED_OUTPUT=%INPUT_DIR%%INPUT_NAME%-framed.json"
