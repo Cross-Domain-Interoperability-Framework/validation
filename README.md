@@ -9,6 +9,10 @@ This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule s
 - [Validation Workflow](#validation-workflow)
   - [Step 1: Frame the JSON-LD Document](#step-1-frame-the-json-ld-document)
   - [Step 2: Validate Against Schema](#step-2-validate-against-schema)
+- [RO-Crate Validation](#ro-crate-validation)
+  - [How the Conversion Works](#how-the-conversion-works)
+  - [Validation Checks](#validation-checks)
+  - [RO-Crate Usage](#ro-crate-usage)
 - [Usage Examples](#usage-examples)
   - [Command Line (Recommended)](#command-line-recommended)
   - [oXygen XML Editor](#oxygen-xml-editor)
@@ -39,6 +43,7 @@ This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule s
 | `CDIF-frame-2026.jsonld` | JSON-LD frame for 2026 schema |
 | `CDIF-context-2026.jsonld` | JSON-LD context for authoring without namespace prefixes |
 | `FrameAndValidate.py` | Python script for framing and validation |
+| `ValidateROCrate.py` | Python script for RO-Crate conversion and validation |
 | `validate-cdif.bat` | Windows batch script for oXygen XML Editor integration |
 
 ### Legacy (Pre-2026)
@@ -89,6 +94,125 @@ Use a JSON-LD processor to apply `CDIF-frame-2026.jsonld` to your metadata docum
 ### Step 2: Validate Against Schema
 
 Validate the framed output against `CDIF-JSONLD-schema-2026.json`.
+
+## RO-Crate Validation
+
+`ValidateROCrate.py` is the complement of `FrameAndValidate.py`. Where `FrameAndValidate.py` takes a flattened `@graph` and *nests* it (via JSON-LD framing) for JSON Schema validation, `ValidateROCrate.py` takes nested/compacted CDIF JSON-LD and *flattens* it (via JSON-LD expand + flatten) for [RO-Crate 1.1](https://www.researchobject.org/ro-crate/1.1/) structural validation.
+
+This confirms that CDIF metadata can be faithfully represented as a standards-compliant Research Object Crate.
+
+### How the Conversion Works
+
+The conversion pipeline has four stages, all handled by [pyld](https://github.com/digitalbazaar/pyld):
+
+```
+Input (nested CDIF JSON-LD)
+  |
+  v
+1. Enrich @context
+   Add missing namespace prefixes, normalize schema to http://
+   (RO-Crate 1.1 uses http://schema.org/, not https://)
+  |
+  v
+2. Expand
+   Resolve all prefixed terms to full IRIs
+   (e.g. schema:name -> http://schema.org/name)
+  |
+  v
+3. Flatten
+   Decompose nested objects into a flat @graph array
+   with @id cross-references
+  |
+  v
+4. Compact
+   Re-compact with the RO-Crate 1.1 context
+   (schema.org terms become unprefixed; CDIF-specific
+   terms keep their prefixes: prov:, spdx:, cdi:, etc.)
+  |
+  v
+5. Inject
+   Add ro-crate-metadata.json descriptor entity,
+   remap root Dataset @id to "./"
+  |
+  v
+Output (RO-Crate 1.1 @graph)
+```
+
+**Namespace normalization**: CDIF documents typically use `https://schema.org/` (with `s`), but the RO-Crate 1.1 context uses `http://schema.org/` (without `s`). The script normalizes this during context enrichment so that schema.org terms compact properly. It also injects all known CDIF namespace prefixes (`prov:`, `xas:`, `nxs:`, etc.) so that prefixed terms used in the input but not declared in its `@context` still resolve correctly.
+
+**Root Dataset detection**: The script identifies the root Dataset entity by looking for the entity whose `@type` includes `Dataset` and that has a `distribution` property. It remaps that entity's `@id` to `"./"` (as RO-Crate requires) and updates all cross-references throughout the graph.
+
+### Validation Checks
+
+The validator runs 13 checks against the RO-Crate 1.1 specification. Checks are classified as FAIL (must fix) or WARN (recommended).
+
+| # | Level | Requirement |
+|---|-------|-------------|
+| 1 | FAIL | Top-level has `@context` |
+| 2 | FAIL | Top-level has `@graph` as an array |
+| 3 | FAIL | `@graph` contains metadata descriptor (`ro-crate-metadata.json` with `conformsTo`) |
+| 4 | FAIL | `@graph` contains root dataset (`@id: "./"`, `@type` includes `Dataset`) |
+| 5 | FAIL | Root dataset has `datePublished` (ISO 8601) |
+| 6 | FAIL | All entities in `@graph` have `@id` |
+| 7 | FAIL | All entities in `@graph` have `@type` |
+| 8 | FAIL | No nested entities -- all cross-references use `{"@id": "..."}` |
+| 9 | FAIL | No `../` in `@id` paths |
+| 10 | WARN | Root dataset has `name` |
+| 11 | WARN | Root dataset has `description` |
+| 12 | WARN | Root dataset has `license` |
+| 13 | WARN | `@context` references the RO-Crate 1.1 context URL |
+
+### RO-Crate Usage
+
+```bash
+# Convert a CDIF document to RO-Crate form and validate
+python ValidateROCrate.py input.jsonld
+
+# Convert, validate, and save the RO-Crate output
+python ValidateROCrate.py input.jsonld -o output-rocrate.json
+
+# Validate a document already in @graph form (skip conversion)
+python ValidateROCrate.py rocrate.jsonld --no-convert
+
+# Verbose output (show details for passing checks too)
+python ValidateROCrate.py input.jsonld -v
+```
+
+**Options:**
+- `-o, --output FILE` - Write the converted RO-Crate JSON-LD to a file
+- `--no-convert` - Skip the conversion step; validate the input document as-is
+- `-v, --verbose` - Show detail messages for all checks, not just failures and warnings
+
+**Exit codes:**
+- `0` - all FAIL-level checks passed (warnings are allowed)
+- `1` - one or more FAIL-level checks failed, or an error occurred
+
+**Example output:**
+
+```
+============================================================
+RO-Crate 1.1 Validation Results
+============================================================
+  PASS  [ 1] @context present
+  PASS  [ 2] @graph is an array (35 entities)
+  PASS  [ 3] Metadata descriptor present with conformsTo
+  PASS  [ 4] Root data entity (./) present with type Dataset
+  PASS  [ 5] Root dataset has datePublished: 2025-01-27
+  PASS  [ 6] All entities have @id
+  PASS  [ 7] All entities have @type
+  PASS  [ 8] No nested entities -- @graph is flat
+  PASS  [ 9] No @id values contain '../'
+  PASS  [10] Root dataset has name
+  PASS  [11] Root dataset has description
+  WARN  [12] Root dataset missing license (SHOULD per RO-Crate spec)
+  PASS  [13] @context references RO-Crate 1.1 context
+
+------------------------------------------------------------
+Summary: 12 passed, 1 warnings, 0 failures
+Result: VALID (with warnings)
+```
+
+The script requires network access on first run to fetch the RO-Crate 1.1 context from `https://w3id.org/ro/crate/1.1/context`.
 
 ## Usage Examples
 
@@ -462,6 +586,19 @@ With `--verbose`, additional output includes:
 **Recommendation**: Use both validation approaches for comprehensive coverage:
 1. JSON Schema for structural validation (property presence, types, formats)
 2. SHACL for semantic validation (relationship constraints, vocabulary usage)
+
+## DataExamples
+
+The `DataExamples/` directory contains sample CDIF JSON-LD documents for testing:
+
+| File | Technique | Description |
+|------|-----------|-------------|
+| `tof-htk9-f770.json` | ToF-SIMS | Time-of-flight mass spectrometry particle analysis |
+| `xrd-2j0t-gq80.json` | XRD | X-ray diffraction |
+| `xanes-2arx-b516.json` | XANES | X-ray absorption near-edge structure |
+| `yv1f-jb20.json` | -- | General dataset |
+
+Corresponding `*-rocrate.json` files contain the converted RO-Crate output produced by `ValidateROCrate.py`.
 
 ## Notes
 
