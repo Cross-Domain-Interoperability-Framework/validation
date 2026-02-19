@@ -1,8 +1,8 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
-    "title": "CDIF discovery metadata schema, with schema: prefixes",
-    "description": "JSON schema for JSON-LD documents that describe science datasets, based on Google guide for publishers (https://developers.google.com/search/docs/data-types/dataset), and the Earth Science Information Partners (ESIP) Science on Schema.org recommendations v1.3 prerelease (see https://doi.org/10.5281/zenodo.2628755 dataset.md for current recommendations document). The Google guide asserts only two required fields - name and description. The Google guide suggests the following recommended fields: url, sameAs, version, isAccessibleForFree, keywords, identifeir and variableMeasured. Instances conforming to this schema will validate with schema.org/validator, but there will be numerous warnings about properties that are not expected for various base types. These can be ignored. The context is not specified in the schema, but must be added in instance documents. '\"@context\": {\"schema\":\"http://schema.org/\", \"dcterms\": \"http://purl.org/dc/terms/\", \"geosparql\": \"http://www.opengis.net/ont/geosparql#\", \"spdx\": \"http://spdx.org/rdf/terms#\" }' 2024-07-24, SMR change handling of registration information to align with current proposal for cross-domain interoperability (CDIF). Created by Stephen Richard 2024-07-30 based on NSF GeoCODES dataset and iSamples draft2 schema.org JSON schema. NOTE-- assumes that schema:https://schema.org is declared in context, so schema: namespace prefix is required as prefix for all schema.org elements.2025-07-24.  SMR 2025-10-23 update schemaversion to https://json-schema.org/draft/2020-12/schema; add additionalType on organization with the alt schema.org types as one option, additional required constraints in various places; update constraint on @type to require schema:Dataset. 2025-12-01 SMR add prov and dqv properties. 2026-02, add data description properties for tabular and structured data.",
+    "title": "CDIF Complete metadata schema",
+    "description": "JSON schema for JSON-LD documents that describe science datasets for the CDIF complete profile. Combines discovery metadata (cdifMandatory + cdifOptional) with data description extensions. Distribution supports three patterns: (1) single-file DataDownload with optional tabular/dataCube data description, (2) archive distributions with hasPart component files that may include data description, (3) WebAPI distributions with potentialAction result data description. Based on CDIF building block profiles CDIFDiscovery + CDIFcomplete. 2026-02-19 SMR derived from CDIF-JSONLD-schema-2026.json, restructured distribution to align with CDIFcomplete building block profile.",
     "properties": {
         "@context": {
             "type": "object",
@@ -283,19 +283,40 @@
             "items": {"$ref": "#/$defs/spatialCoverage_type"}
         },
         "schema:distribution": {
-            "description": "specifies how to download the data in a specific format or access via a web API. This property describes where to get the data and in what format by using the schema:DataDownload type. If user must access data through a landing page, provide link to landing page in the 'url' property for the dataset",
+            "description": "Specifies how to download the data in a specific format or access via a web API. Supports three distribution patterns: (1) single-file DataDownload with optional data description, (2) archive DataDownload with hasPart component files, (3) WebAPI with potentialAction result data description.",
             "type": "array",
             "items": {
                 "anyOf": [
-                    {"$ref": "#/$defs/webapi_type"},
                     {
+                        "description": "Single-file DataDownload, optionally with tabular or data cube data description",
                         "allOf": [
                             {"$ref": "#/$defs/distributionBase_type"},
+                            {"$ref": "#/$defs/dataDescription_type"}
+                        ]
+                    },
+                    {"$ref": "#/$defs/archiveDistribution_type"},
+                    {
+                        "description": "WebAPI distribution with optional data description on potentialAction results",
+                        "allOf": [
+                            {"$ref": "#/$defs/webapi_type"},
                             {
-                                "anyOf": [
-                                    {"$ref": "#/$defs/structuredDatasetMapping_type"},
-                                    {"$ref": "#/$defs/tabularTextDatasetMapping_type"}
-                                ]
+                                "type": "object",
+                                "properties": {
+                                    "schema:potentialAction": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "schema:result": {
+                                                    "allOf": [
+                                                        {"$ref": "#/$defs/distributionBase_type"},
+                                                        {"$ref": "#/$defs/dataDescription_type"}
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         ]
                     }
@@ -670,11 +691,18 @@
         },
         "distributionBase_type": {
             "type": "object",
-            "description": "Implements schema:DataDownload and cdi:PhysicalDataset base properties. ",
+            "description": "Implements schema:DataDownload and cdi:PhysicalDataset base properties.",
             "properties": {
                 "@id": {
                     "type": "string",
                     "description": "identifier for this distribution description. Implements DDI-CDI identifier"
+                },
+                "@type": {
+                    "type": "array",
+                    "description": "Must include schema:DataDownload. Extensions may add additional types (e.g. cdi:StructuredDataSet, cdi:TabularTextDataSet).",
+                    "items": {"type": "string"},
+                    "contains": {"const": "schema:DataDownload"},
+                    "minItems": 1
                 },
                 "schema:name": {"type": "string"},
                 "schema:contentUrl": {
@@ -722,7 +750,15 @@
                 "cdi:fileSize": {"type": "number", "description":"schema.org has contentSize for schema:MediaObject, with a text value, equivalent to concat(string(cdi:fileSize),cdi:fileSizeUofM)"},
                 "cdi:fileSizeUofM": {"type": "string"}
             },
-            "required": ["schema:contentUrl"]
+            "required": ["schema:contentUrl", "@type"]
+        },
+        "dataDescription_type": {
+            "description": "Optional data description extension. A distribution or component file may optionally include structured data cube or tabular text data description properties.",
+            "anyOf": [
+                {"$ref": "#/$defs/structuredDatasetMapping_type"},
+                {"$ref": "#/$defs/tabularTextDatasetMapping_type"},
+                {}
+            ]
         },
         "physicalMapping_type": {
             "type": "object",
@@ -768,19 +804,16 @@
         },
         "structuredDatasetMapping_type": {
             "type": "object",
-            "description": "from the DDI-CDI point of view, schema:DataDownload implements cdi:StructuredDataSet or cdi:TabularTextDataSet, the currently defined concrete subclasses of cdi:PhysicalDataSet.",
+            "description": "Multi-dimensional data cube structure using DDI-CDI. @type must include cdi:StructuredDataSet; schema:DataDownload or schema:MediaObject comes from the base type via allOf composition.",
             "properties": {
                 "@type": {
                     "type": "array",
                     "items": {"type": "string"},
-                    "minItems": 2,
-                    "allOf": [
-                        {"contains": {"const": "schema:DataDownload"}},
-                        {"contains": {"const": "cdi:StructuredDataSet"}}
-                    ]
+                    "contains": {"const": "cdi:StructuredDataSet"}
                 },
                 "cdi:hasPhysicalMapping": {
                     "type": "array",
+                    "description": "Links variables to their physical representation in this dataset.",
                     "items": {
                         "allOf": [
                             {"$ref": "#/$defs/physicalMapping_type"},
@@ -789,7 +822,7 @@
                                 "properties": {
                                     "cdi:locator": {
                                         "type": "string",
-                                        "description": "string that can be used by software to location values of the variable in this physical dataset"
+                                        "description": "string that can be used by software to locate values of the variable in this physical dataset"
                                     }
                                 }
                             }
@@ -801,16 +834,13 @@
         },
         "tabularTextDatasetMapping_type": {
             "type": "object",
-            "description": "implements cdi:TabularTextDataSet, a defined concrete subclasses of cdi:PhysicalDataSet.",
+            "description": "Tabular text data description using DDI-CDI and CSVW properties. @type must include cdi:TabularTextDataSet; schema:DataDownload or schema:MediaObject comes from the base type via allOf composition.",
             "properties": {
                 "@type": {
                     "type": "array",
                     "items": {"type": "string"},
                     "minItems": 2,
-                    "allOf": [
-                        {"contains": {"const": "schema:DataDownload"}},
-                        {"contains": {"const": "cdi:TabularTextDataSet"}}
-                    ]
+                    "contains": {"const": "cdi:TabularTextDataSet"}
                 },
                 "cdi:arrayBase": {"type": "integer"},
                 "csvw:commentPrefix": {
@@ -842,6 +872,7 @@
                 },
                 "cdi:isFixedWidth": {"type": "boolean"},
                 "csvw:lineTerminators": {
+                    "type": "string",
                     "enum": [
                         "CRLF",
                         "LF",
@@ -873,6 +904,7 @@
                     "default": 0
                 },
                 "csvw:tableDirection": {
+                    "type": "string",
                     "enum": [
                         "Ltr",
                         "Rtl"
@@ -880,6 +912,7 @@
                     "default": "Ltr"
                 },
                 "csvw:textDirection": {
+                    "type": "string",
                     "enum": [
                         "Auto",
                         "Inherit",
@@ -894,6 +927,7 @@
                     "default": false
                 },
                 "csvw:trim": {
+                    "type": "string",
                     "enum": [
                         "true",
                         "end",
@@ -930,7 +964,9 @@
                             }
                         ]
                     }
-                }
+                },
+                "countRows": {"type": "integer"},
+                "countColumns": {"type": "integer"}
             },
             "oneOf": [
                 {
@@ -946,6 +982,101 @@
                         "cdi:isFixedWidth": {"const": true}
                     },
                     "required": ["cdi:isFixedWidth"]
+                }
+            ]
+        },
+        "hasPartItem_type": {
+            "type": "object",
+            "description": "A component file within an archive distribution. Typed as schema:MediaObject (not DataDownload, since component files are not independently accessible via URL).",
+            "properties": {
+                "@id": {
+                    "type": "string",
+                    "description": "Identifier for this file, typically a hash-based anchor (e.g. '#abc123'). Used for cross-references from schema:about in metadata sidecar files."
+                },
+                "@type": {
+                    "type": "array",
+                    "description": "Must include schema:MediaObject. Must NOT include schema:DataDownload since this file is not independently accessible. May include additional types for categorization.",
+                    "items": {"type": "string"},
+                    "contains": {"const": "schema:MediaObject"},
+                    "not": {
+                        "contains": {"const": "schema:DataDownload"}
+                    },
+                    "minItems": 1
+                },
+                "schema:name": {
+                    "type": "string",
+                    "description": "Filename of the component file within the archive."
+                },
+                "schema:description": {
+                    "type": "string",
+                    "description": "Description of the file content."
+                },
+                "schema:encodingFormat": {
+                    "type": "array",
+                    "description": "MIME type(s) for this file.",
+                    "items": {"type": "string"}
+                },
+                "schema:size": {
+                    "type": "object",
+                    "description": "File size as a QuantitativeValue.",
+                    "properties": {
+                        "@type": {
+                            "type": "string",
+                            "const": "schema:QuantitativeValue"
+                        },
+                        "schema:value": {
+                            "type": "number",
+                            "description": "Numeric size value."
+                        },
+                        "schema:unitText": {
+                            "type": "string",
+                            "description": "Unit of measure for size (e.g. 'byte')."
+                        }
+                    }
+                },
+                "schema:about": {
+                    "type": "array",
+                    "description": "For metadata sidecar files, references the data file this metadata describes.",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "@id": {
+                                "type": "string",
+                                "description": "Reference to the @id of the data file described by this sidecar."
+                            }
+                        }
+                    }
+                },
+                "spdx:checksum": {
+                    "type": "object",
+                    "description": "Checksum for integrity verification of this component file.",
+                    "properties": {
+                        "spdx:algorithm": {"type": "string"},
+                        "spdx:checksumValue": {"type": "string"}
+                    }
+                }
+            },
+            "required": ["@type", "schema:name", "schema:encodingFormat"]
+        },
+        "archiveDistribution_type": {
+            "description": "A DataDownload distribution that is an archive file (e.g. ZIP) containing multiple component files described in schema:hasPart. The archive itself is typed as schema:DataDownload; each component file is typed as schema:MediaObject. Components may optionally include CDIF data description extensions.",
+            "type": "object",
+            "allOf": [
+                {"$ref": "#/$defs/distributionBase_type"},
+                {
+                    "type": "object",
+                    "properties": {
+                        "schema:hasPart": {
+                            "type": "array",
+                            "description": "Array describing the files contained in the archive. Each item represents a component file that is part of the archive and is not independently accessible.",
+                            "items": {
+                                "allOf": [
+                                    {"$ref": "#/$defs/hasPartItem_type"},
+                                    {"$ref": "#/$defs/dataDescription_type"}
+                                ]
+                            }
+                        }
+                    }
                 }
             ]
         },
@@ -1009,7 +1140,7 @@
                     "anyOf": [
                         {
                             "type": "object",
-                            "description": "A point location. Point locations are recommended for data that is associated with specific sample locations, particularly if these are widely spaced such that an enclosing bounding box would be a misleading representation of the spatial location. Be aware that some client applications might only index or display bounding box extents or a single point location.",
+                            "description": "A point location.",
                             "properties": {
                                 "@type": {
                                     "type": "string",
@@ -1037,7 +1168,7 @@
                         },
                         {
                             "type": "object",
-                            "description": "A schema:GeoShape bounding box. The geometry is described with a set of latitude/longitude pairs (in that order).The documentation for schema:GeoShape states 'Either whitespace or commas can be used to separate latitude and longitude; whitespace should be used when writing a list of several such points.'",
+                            "description": "A schema:GeoShape bounding box.",
                             "properties": {
                                 "@type": {
                                     "type": "string",
@@ -1046,7 +1177,7 @@
                                 },
                                 "schema:box": {
                                     "type": "string",
-                                    "description": "A GeoShape box defines an area on the surface of the earth defined by point locations of the southwest corner and northeast corner of the rectangle in latitude-longitude coordinates. A space should be used to separate the latitude and longitude values. The two corner coordinate points are separated by a space. 'East longitude' means positive longitude values are east of the prime (Greenwich) meridian."
+                                    "description": "A GeoShape box defines an area on the surface of the earth defined by point locations of the southwest corner and northeast corner of the rectangle in latitude-longitude coordinates."
                                 }
                             },
                             "required": [
@@ -1065,7 +1196,7 @@
                                 },
                                 "schema:line": {
                                     "type": "string",
-                                    "description": "A GeoShape line defines a curvilinear geometry as a string of latitude-longitude coordinates. A space should be used to separate the latitude and longitude values. The coordinate point pairs are also separated by a space. 'East longitude' means positive longitude values are east of the prime (Greenwich) meridian. e.g. '39.33 120.77 40.44 123.96 41.00 121.34' "
+                                    "description": "A GeoShape line defines a curvilinear geometry as a string of latitude-longitude coordinates."
                                 }
                             },
                             "required": [
@@ -1077,11 +1208,11 @@
                 },
                 "geosparql:hasGeometry": {
                     "type": "object",
-                    "description": "Optional geographic extent using wkt geometry, see Ocean InfoHub (https://book.oceaninfohub.org/thematics/spatial/README.html#simple-geosparql-wkt). Other geometry schemes might be specified in a specific domain profile, e.g. for atmospheric, subsurface data, or local coordinate systems. NOTE that the location specified here should be the same as the schema.org point or contained within the specified bounding box.",
+                    "description": "Optional geographic extent using wkt geometry.",
                     "properties": {
                         "@type": {
                             "type": "string",
-                            "description": "MUST be sf: (<http://www.opengis.net/ont/sf#>) SimpleFeature geometry type. See https://opengeospatial.github.io/ogc-geosparql/geosparql11/sf_geometries.ttl"
+                            "description": "MUST be sf: (<http://www.opengis.net/ont/sf#>) SimpleFeature geometry type."
                         },
                         "geosparql:asWKT": {
                             "type": "object",
@@ -1130,7 +1261,7 @@
             "anyOf": [
                 {
                     "type": "object",
-                    "description": "a w3c time proper interval with bounds that are named time ordinal eras with identifier, e.g. geologic age. This is a SOSO schema.org extension",
+                    "description": "a w3c time proper interval with bounds that are named time ordinal eras with identifier, e.g. geologic age.",
                     "properties": {
                         "@type": {
                             "type": "string",
@@ -1144,12 +1275,12 @@
                         "time:intervalStartedBy": {
                             "type": "string",
                             "format": "uri",
-                            "description": "identifier for a named time ordinal era that is older bound of time interval, e.g. 'isc:LowerDevonian' "
+                            "description": "identifier for a named time ordinal era that is older bound of time interval"
                         },
                         "time:intervalFinishedBy": {
                             "type": "string",
                             "format": "uri",
-                            "description": "identifier for a named time ordinal era that is younger bound of time interval, e.g. 'isc:LowerDevonian' "
+                            "description": "identifier for a named time ordinal era that is younger bound of time interval"
                         }
                     }
                 },
@@ -1375,21 +1506,21 @@
                     "minItems": 1
                 },
                 "schema:serviceType": {
-                    "description": "specify the kind of service. Ideally this should be a resolvable identifier. Currently there is no widely adopted registry for serviceType identifiers, in large part because services might be defined at different levels of granularity, and classifications might focus on function, data formats, thematic content, security, or other aspects of the service definition. For interoperability, there must be an external arrangement between data providers and consumers on the strings that will be used to specify service types.",
+                    "description": "specify the kind of service. Ideally this should be a resolvable identifier.",
                     "anyOf": [
                         {"type": "string"},
                         {"$ref": "#/$defs/definedTerm_type"}
                     ]
                 },
                 "schema:termsOfService": {
-                    "description": "Description of access privileges required to use the API, e.g. registration, licensing, payments. Note that access constraints applying to all distributions of the resource should be specified in the access constraints for the resource description as a whole.",
+                    "description": "Description of access privileges required to use the API, e.g. registration, licensing, payments.",
                     "oneOf": [
                         {"type": "string"},
                         {"$ref": "#/$defs/labeledLink_type"}
                     ]
                 },
                 "schema:documentation": {
-                    "description": "a document that provides a machine-actionable description of a service instance. Examples include OpenAPI documents, OGC Capabilities documents. Software designed to utilise a particular service type will typically include functionality to parse such a description document and engage with the service endpoint. If such a document is available for the service instance providing the resource distribution, it should be included in the distribution metadata.",
+                    "description": "a document that provides a machine-actionable description of a service instance. Examples include OpenAPI documents, OGC Capabilities documents.",
                     "oneOf": [
                         {"type": "string"},
                         {"$ref": "#/$defs/labeledLink_type"}
@@ -1446,7 +1577,7 @@
                             {"$ref": "#/$defs/definedTerm_type"}
                         ]
                     },
-                    "description": "identifier or name for the property concept quantified by the values in this variable slot. Multiple values can specify the property at different levels of granularity. string IRI reference, or schema:DefinedTerm.."
+                    "description": "identifier or name for the property concept quantified by the values in this variable slot."
                 },
                 "schema:measurementTechnique": {
                     "anyOf": [
@@ -1462,7 +1593,7 @@
                         },
                         {"$ref": "#/$defs/definedTerm_type"}
                     ],
-                    "description": "A text description of the measurement method used to determine values for this variable. If standard measurement protocols are defined and registered, these can be identified via http URI's."
+                    "description": "A text description of the measurement method used to determine values for this variable."
                 },
                 "schema:unitText": {
                     "type": "string",
@@ -1482,20 +1613,20 @@
                         },
                         {"$ref": "#/$defs/definedTerm_type"}
                     ],
-                    "description": "Value is expected to be TEXT or URL. We recommend providing an HTTP URI that identifies a unit of measure from a vocabulary accessible on the web. The QUDT unit vocabulary provides and extensive set of registered units of measure that can be used to populate the schema:unitCode property to specify the units of measure used to report datavalues when that is appropriate."
+                    "description": "Value is expected to be TEXT or URL. We recommend providing an HTTP URI that identifies a unit of measure from a vocabulary accessible on the web."
                 },
                 "schema:minValue": {
                     "type": "number",
-                    "description": " If the value for the variable is numeric, this is the minimum value that occurs in the dataset. Not useful for other value types."
+                    "description": " If the value for the variable is numeric, this is the minimum value that occurs in the dataset."
                 },
                 "schema:maxValue": {
                     "type": "number",
-                    "description": " If the value for the variable is numeric, this is the maximum value that occurs in the dataset. Not useful for other value types."
+                    "description": " If the value for the variable is numeric, this is the maximum value that occurs in the dataset."
                 },
                 "schema:url": {
                     "format": "uri",
                     "type": "string",
-                    "description": "Any schema:Thing can have a URL property, but because the value is simply a url the relationship of the linked resource can not be expressed. Usage is optional. The recommendation is that schema:url should link to a web page that would be useful for a person to interpret the variable, but is not intended to be machine-actionable."
+                    "description": "The recommendation is that schema:url should link to a web page that would be useful for a person to interpret the variable."
                 },
                 "cdi:intendedDataType": {"type": "string"},
                 "cdi:role": {
