@@ -44,6 +44,7 @@ This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule s
 | `CDIF-context-2026.jsonld` | JSON-LD context for authoring without namespace prefixes |
 | `FrameAndValidate.py` | Python script for framing and validation |
 | `ValidateROCrate.py` | Python script for RO-Crate conversion and validation |
+| `RO-Crate-relationship.md` | ADA/CDIF profile mapping to RO-Crate, with ValidateROCrate.py design notes |
 | `validate-cdif.bat` | Windows batch script for oXygen XML Editor integration |
 
 ### Legacy (Pre-2026)
