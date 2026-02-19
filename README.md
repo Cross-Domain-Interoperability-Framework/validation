@@ -588,9 +588,9 @@ With `--verbose`, additional output includes:
 1. JSON Schema for structural validation (property presence, types, formats)
 2. SHACL for semantic validation (relationship constraints, vocabulary usage)
 
-## DataExamples
+## MetadataExamples
 
-The `DataExamples/` directory contains sample CDIF JSON-LD documents for testing:
+The `MetadataExamples/` directory contains sample CDIF JSON-LD documents for testing:
 
 | File | Technique | Description |
 |------|-----------|-------------|

@@ -1,0 +1,553 @@
+{
+  "@context": [
+    "https://w3id.org/ro/crate/1.1/context",
+    {
+      "dcterms": "http://purl.org/dc/terms/",
+      "prov": "http://www.w3.org/ns/prov#",
+      "dqv": "http://www.w3.org/ns/dqv#",
+      "geosparql": "http://www.opengis.net/ont/geosparql#",
+      "spdx": "http://spdx.org/rdf/terms#",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "csvw": "http://www.w3.org/ns/csvw#",
+      "time": "http://www.w3.org/2006/time#"
+    }
+  ],
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "conformsTo": {
+        "@id": "https://w3id.org/ro/crate/1.1"
+      },
+      "about": {
+        "@id": "./"
+      }
+    },
+    {
+      "@id": "#aps",
+      "@type": "Organization",
+      "name": "APS"
+    },
+    {
+      "@id": "_:b0",
+      "@type": "Role",
+      "contributor": {
+        "@id": "#aps"
+      },
+      "roleName": "Facility"
+    },
+    {
+      "@id": "_:b1",
+      "@type": [
+        "DataDownload",
+        "cdi:PhysicalDataSet"
+      ],
+      "cdi:PhysicalDataSet-allowsDuplicates": {
+        "@type": "http://www.w3.org/2001/XMLSchema#boolean",
+        "@value": false
+      },
+      "conformsTo": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/spec.md",
+      "contentSize": "30 kb",
+      "contentUrl": "https://github.com/XraySpectroscopy/XASDataLibrary/blob/master/data/Se/Se_Na2SeO4_rt_01.xdi",
+      "description": "Distribution = PhysicalDataSet text file conformant with XDI specification",
+      "encodingFormat": "text/plain",
+      "tag:DEBUG:UNRECOGNIZED_TERM:isStructuredBy": {
+        "@id": "_:b2"
+      }
+    },
+    {
+      "@id": "_:b10",
+      "@type": "PropertyValue",
+      "tag:DEBUG:UNRECOGNIZED_TERM:url": "http://sweetontology.net/matrElement/Selenium"
+    },
+    {
+      "@id": "_:b11",
+      "@type": "DefinedTerm",
+      "inDefinedTermSet": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md",
+      "name": "K-edge",
+      "termCode": "K"
+    },
+    {
+      "@id": "_:b12",
+      "@type": "DefinedTerm",
+      "identifier": "http://purl.org/pan-science/PaNET/PaNET01196",
+      "inDefinedTermSet": "http://purl.org/pan-science/PaNET/PaNET.owl",
+      "name": "X-Ray Absorption Spectroscopy",
+      "termCode": "XAS"
+    },
+    {
+      "@id": "_:b13",
+      "@type": [
+        "tag:DEBUG:UNRECOGNIZED_TERM:Event",
+        "https://ada.astromat.org/metadata/xas/Analysis_Event"
+      ],
+      "additionalProperty": [
+        {
+          "@id": "_:b14"
+        },
+        {
+          "@id": "_:b15"
+        }
+      ],
+      "identifier": "20241111_DSC_NU_OREX-803224-0_1",
+      "location": {
+        "@id": "_:b16"
+      },
+      "mainEntity": {
+        "@id": "_:b19"
+      },
+      "startDate": "2008-04-10T21:58:50",
+      "prov:used": [
+        {
+          "@id": "_:b23"
+        },
+        {
+          "@id": "_:b27"
+        },
+        {
+          "@id": "https://ada.astromat.org/metadata/xas/Detector10cmN2"
+        }
+      ]
+    },
+    {
+      "@id": "_:b14",
+      "@type": "PropertyValue",
+      "description": "extrinsic properties of measurement environment--temperature, pressure, e-field, mag-field.  have to check magnetic_moment, electrochemical_potential",
+      "propertyID": {
+        "@id": "https://ada.astromat.org/metadata/xas/pressure"
+      },
+      "unitText": "KPa",
+      "value": 3567
+    },
+    {
+      "@id": "_:b15",
+      "@type": "PropertyValue",
+      "propertyID": {
+        "@id": "https://ada.astromat.org/metadata/xas/edge_energy"
+      },
+      "unitText": "eV",
+      "value": "12658.0"
+    },
+    {
+      "@id": "_:b16",
+      "@type": [
+        "Place",
+        "https://ada.astromat.org/metadata/xas/Facility"
+      ],
+      "additionalProperty": [
+        {
+          "@id": "_:b17"
+        },
+        {
+          "@id": "_:b18"
+        }
+      ],
+      "identifier": "https://ror.org/aps",
+      "name": "APS"
+    },
+    {
+      "@id": "_:b17",
+      "@type": "PropertyValue",
+      "propertyID": {
+        "@id": "https://ada.astromat.org/metadata/xas/facility_energy"
+      },
+      "unitText": "GeV",
+      "value": "7.00"
+    },
+    {
+      "@id": "_:b18",
+      "@type": "PropertyValue",
+      "propertyID": {
+        "@id": "https://ada.astromat.org/metadata/xas/xray_source_type"
+      },
+      "value": "APS bending magnet"
+    },
+    {
+      "@id": "_:b19",
+      "@type": "Thing",
+      "additionalProperty": [
+        {
+          "@id": "_:b20"
+        },
+        {
+          "@id": "_:b21"
+        },
+        {
+          "@id": "_:b22"
+        }
+      ],
+      "additionalType": [
+        "MaterialSample",
+        "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+      ],
+      "description": "physical properties of sample: ph, eh, volume, porosity, density, concentration, resistivity, viscosity, crystal structure, opacity from xdi list...",
+      "name": "Na2SeO4"
+    },
+    {
+      "@id": "_:b2",
+      "@type": "cdi:WideDataStructure",
+      "cdifq:nColumns": 3,
+      "cdifq:nRows": 469,
+      "cdi:DataStructure_has_DataStructureComponent": [
+        {
+          "@id": "_:b3"
+        },
+        {
+          "@id": "_:b5"
+        },
+        {
+          "@id": "_:b7"
+        }
+      ],
+      "tag:DEBUG:UNRECOGNIZED_TERM:allowsDuplicates": false,
+      "tag:DEBUG:UNRECOGNIZED_TERM:arrayBase": 1,
+      "tag:DEBUG:UNRECOGNIZED_TERM:commentPrefix": "#",
+      "tag:DEBUG:UNRECOGNIZED_TERM:hasHeader": true,
+      "tag:DEBUG:UNRECOGNIZED_TERM:headerRowCount": 27,
+      "tag:DEBUG:UNRECOGNIZED_TERM:isDelimited": false,
+      "tag:DEBUG:UNRECOGNIZED_TERM:isFixedWidth": true,
+      "tag:DEBUG:UNRECOGNIZED_TERM:skipInitialSpace": true
+    },
+    {
+      "@id": "_:b20",
+      "@type": "PropertyValue",
+      "propertyID": {
+        "@id": "https://ada.astromat.org/metadata/xas/porosity"
+      },
+      "unitText": "percent",
+      "value": 27
+    },
+    {
+      "@id": "_:b21",
+      "@type": "PropertyValue",
+      "propertyID": {
+        "@id": "https://ada.astromat.org/metadata/xas/chemical_composition"
+      },
+      "value": "Na2SeO4"
+    },
+    {
+      "@id": "_:b22",
+      "@type": "PropertyValue",
+      "propertyID": {
+        "@id": "https://ada.astromat.org/metadata/xas/sample_preparation"
+      },
+      "value": "powder on tape, 6 layers"
+    },
+    {
+      "@id": "_:b23",
+      "@type": [
+        "Thing",
+        "prov:Entity",
+        "https://ada.astromat.org/metadata/xas/Beamline"
+      ],
+      "additionalProperty": [
+        {
+          "@id": "_:b24"
+        },
+        {
+          "@id": "_:b25"
+        },
+        {
+          "@id": "_:b26"
+        }
+      ],
+      "identifier": "should have a registry with URIs",
+      "name": "13-BM-D"
+    },
+    {
+      "@id": "_:b24",
+      "@type": "PropertyValue",
+      "propertyID": {
+        "@id": "https://ada.astromat.org/metadata/xas/collimation"
+      },
+      "value": "none"
+    },
+    {
+      "@id": "_:b25",
+      "@type": "PropertyValue",
+      "name": "focusing",
+      "propertyID": {
+        "@id": "https://ada.astromat.org/metadata/xas/focusing"
+      },
+      "value": "???"
+    },
+    {
+      "@id": "_:b26",
+      "@type": "PropertyValue",
+      "name": "harmonic_rejection",
+      "propertyID": {
+        "@id": "https://ada.astromat.org/metadata/xas/harmonic_rejection"
+      },
+      "value": "Rh-coated mirror, detuned"
+    },
+    {
+      "@id": "_:b27",
+      "@type": [
+        "Thing",
+        "https://ada.astromat.org/metadata/xas/Monochromator"
+      ],
+      "additionalProperty": {
+        "@id": "_:b28"
+      },
+      "name": "Si 111"
+    },
+    {
+      "@id": "_:b28",
+      "@type": "PropertyValue",
+      "propertyID": {
+        "@id": "https://ada.astromat.org/metadata/xas/d_spacing"
+      },
+      "unitText": "Angstrom",
+      "value": "3.13550"
+    },
+    {
+      "@id": "_:b29",
+      "@type": "PropertyValue",
+      "alternateName": "detector mode",
+      "name": "flux measurement method",
+      "propertyID": {
+        "@id": "https://ada.astromat.org/metadata/xas/flux_measure_method"
+      },
+      "value": "10cm  N2"
+    },
+    {
+      "@id": "_:b3",
+      "@type": "cdi:IdentifierComponent",
+      "tag:DEBUG:UNRECOGNIZED_TERM:has": {
+        "@id": "_:b4"
+      },
+      "tag:DEBUG:UNRECOGNIZED_TERM:isDefinedBy_InstanceVariable": {
+        "@id": "https://ada.astromat.org/metadata/xas/monochromatorEnergyVariable"
+      }
+    },
+    {
+      "@id": "_:b4",
+      "@type": "cdi:ValueMapping",
+      "cdi:ValueMapping-length": {
+        "@type": "http://www.w3.org/2001/XMLSchema#integer",
+        "@value": 12
+      },
+      "tag:DEBUG:UNRECOGNIZED_TERM:hasIndex": 1
+    },
+    {
+      "@id": "_:b5",
+      "@type": "cdi:MeasureComponent",
+      "tag:DEBUG:UNRECOGNIZED_TERM:has": {
+        "@id": "_:b6"
+      },
+      "tag:DEBUG:UNRECOGNIZED_TERM:isDefinedBy_InstanceVariable": {
+        "@id": "https://ada.astromat.org/metadata/xas/incidentIntensityVariable"
+      }
+    },
+    {
+      "@id": "_:b6",
+      "@type": "cdi:ValueMapping",
+      "cdi:ValueMapping-length": {
+        "@type": "http://www.w3.org/2001/XMLSchema#integer",
+        "@value": 13
+      },
+      "tag:DEBUG:UNRECOGNIZED_TERM:hasIndex": 3
+    },
+    {
+      "@id": "_:b7",
+      "@type": "cdi:MeasureComponent",
+      "tag:DEBUG:UNRECOGNIZED_TERM:has": {
+        "@id": "_:b8"
+      },
+      "tag:DEBUG:UNRECOGNIZED_TERM:isDefinedBy_InstanceVariable": {
+        "@id": "https://ada.astromat.org/metadata/xas/transmittedIntensityVariable"
+      }
+    },
+    {
+      "@id": "_:b8",
+      "@type": "cdi:ValueMapping",
+      "cdi:ValueMapping-length": {
+        "@type": "http://www.w3.org/2001/XMLSchema#integer",
+        "@value": 12
+      },
+      "tag:DEBUG:UNRECOGNIZED_TERM:hasIndex": 2
+    },
+    {
+      "@id": "_:b9",
+      "@type": "DefinedTerm",
+      "identifier": {
+        "@id": "_:b10"
+      },
+      "inDefinedTermSet": "http://sweetontology.net/matrElement",
+      "name": "Selenium",
+      "termCode": "Se"
+    },
+    {
+      "@id": "./",
+      "@type": [
+        "Dataset",
+        "Product"
+      ],
+      "contributor": {
+        "@id": "_:b0"
+      },
+      "description": "comment from xdi file: room temperature; measured at beamline 13-BM-D.  need a better description of what's in this datasset-- maybe the DCAT metadata has what we need?",
+      "distribution": {
+        "@id": "_:b1"
+      },
+      "identifier": "should have a DOI",
+      "keywords": [
+        {
+          "@id": "_:b9"
+        },
+        {
+          "@id": "_:b11"
+        }
+      ],
+      "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "measurementTechnique": {
+        "@id": "_:b12"
+      },
+      "name": "X-ray absorption spectra for K edge, selenium in sodium selenate",
+      "subjectOf": {
+        "@id": "https://ada.astromat.org/metadata/xas/ja51-pz63"
+      },
+      "url": "https://github.com/XraySpectroscopy/XASDataLibrary/blob/master/data/Se/Se_Na2SeO4_rt_01.xdi",
+      "variableMeasured": [
+        {
+          "@id": "https://ada.astromat.org/metadata/xas/monochromatorEnergyVariable"
+        },
+        {
+          "@id": "https://ada.astromat.org/metadata/xas/incidentIntensityVariable"
+        },
+        {
+          "@id": "https://ada.astromat.org/metadata/xas/transmittedIntensityVariable"
+        }
+      ],
+      "prov:wasGeneratedBy": {
+        "@id": "_:b13"
+      }
+    },
+    {
+      "@id": "https://ada.astromat.org/metadata/xas/Detector10cmN2",
+      "@type": "Thing",
+      "additionalProperty": {
+        "@id": "_:b29"
+      },
+      "additionalType": "xas:Detector"
+    },
+    {
+      "@id": "https://ada.astromat.org/metadata/xas/incidentIntensityVariable",
+      "@type": [
+        "cdi:InstanceVariable",
+        "PropertyValue"
+      ],
+      "cdi:Concept-displayLabel": {
+        "@id": "monitor intensity"
+      },
+      "cdi:Concept-identifier": {
+        "@id": "should be URI from nexusFormat organization"
+      },
+      "cdi:Concept-name": {
+        "@id": "i0"
+      },
+      "cdi:InstanceVariable-physicalDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      },
+      "alternateName": "Monitor intensity",
+      "description": "The measured X-ray intensity before it interacts with the sample. ",
+      "measurementTechnique": {
+        "@id": "https://ada.astromat.org/metadata/xas/Detector10cmN2"
+      },
+      "name": "i0",
+      "propertyID": {
+        "@id": "https://ada.astromat.org/metadata/xas/Incident_Intensity"
+      },
+      "unitText": "counts",
+      "tag:DEBUG:UNRECOGNIZED_TERM:uses": "xas:Incident_Intensity"
+    },
+    {
+      "@id": "https://ada.astromat.org/metadata/xas/ja51-pz63",
+      "@type": "Dataset",
+      "conformsTo": [
+        {
+          "@id": "cdif:profile_basic_1.0"
+        },
+        {
+          "@id": "cdif:profile_xasCDIF"
+        }
+      ],
+      "about": {
+        "@id": "./"
+      },
+      "creator": {
+        "@id": "https://ada.org/person/3479"
+      },
+      "dateModified": "2025-08-26",
+      "description": "metadata about documentation for se_na2so4"
+    },
+    {
+      "@id": "https://ada.astromat.org/metadata/xas/monochromatorEnergyVariable",
+      "@type": [
+        "cdi:InstanceVariable",
+        "PropertyValue"
+      ],
+      "cdi:Concept-displayLabel": {
+        "@id": "monochromator energy"
+      },
+      "cdi:Concept-identifier": {
+        "@id": "should be URI from nexusFormat organization"
+      },
+      "cdi:Concept-name": {
+        "@id": "energy"
+      },
+      "cdi:InstanceVariable-physicalDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      },
+      "cdi:RepresentedVariable-simpleUnitOfMeasure": {
+        "@type": "http://www.w3.org/2001/XMLSchema#string",
+        "@value": "eV"
+      },
+      "description": "The energy selected by the X-ray monochromator and delivered to the sample during an absorption scan.",
+      "name": "energy",
+      "propertyID": {
+        "@id": "https://ada.astromat.org/metadata/xas/Monochromator_Energy"
+      },
+      "unitText": "eV",
+      "schame:alternateName": "Monochromator energy",
+      "tag:DEBUG:UNRECOGNIZED_TERM:uses": "xas:Monochromator_Energy"
+    },
+    {
+      "@id": "https://ada.astromat.org/metadata/xas/transmittedIntensityVariable",
+      "@type": [
+        "cdi:InstanceVariable",
+        "PropertyValue"
+      ],
+      "cdi:Concept-displayLabel": {
+        "@id": "transmission intensity"
+      },
+      "cdi:Concept-identifier": {
+        "@id": "should be URI from nexusFormat organization"
+      },
+      "cdi:Concept-name": {
+        "@id": "itrans"
+      },
+      "cdi:InstanceVariable-physicalDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      },
+      "alternateName": "transmission intensity",
+      "description": "missing, definition of what this variable is about (maybe even an iAdopt description",
+      "measurementTechnique": {
+        "@id": "https://ada.astromat.org/metadata/xas/Detector10cmN2"
+      },
+      "name": "itrans",
+      "propertyID": {
+        "@id": "https://ada.astromat.org/metadata/xas/Transmitted_Intensity"
+      },
+      "unitText": "counts",
+      "tag:DEBUG:UNRECOGNIZED_TERM:uses": "xas:Transmitted_Intensity"
+    },
+    {
+      "@id": "https://ada.org/person/3479",
+      "@type": "Person",
+      "email": "smrTucson@email.org",
+      "identifier": "https://orcid.org/0000-0002-7933-2154",
+      "name": "Richard, Stephen M."
+    }
+  ]
+}

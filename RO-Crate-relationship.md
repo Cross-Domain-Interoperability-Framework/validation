@@ -143,16 +143,16 @@ The script requires network access on first run to fetch the RO-Crate 1.1 contex
 
 ```bash
 # Convert a CDIF/ADA document to RO-Crate form and validate
-python ValidateROCrate.py DataExamples/xrd-2j0t-gq80.json
+python ValidateROCrate.py MetadataExamples/xrd-2j0t-gq80.json
 
 # Convert, validate, and save the RO-Crate output
-python ValidateROCrate.py DataExamples/xrd-2j0t-gq80.json -o DataExamples/xrd-2j0t-gq80-rocrate.json
+python ValidateROCrate.py MetadataExamples/xrd-2j0t-gq80.json -o MetadataExamples/xrd-2j0t-gq80-rocrate.json
 
 # Validate a document already in @graph form (skip conversion)
-python ValidateROCrate.py DataExamples/xrd-2j0t-gq80-rocrate.json --no-convert
+python ValidateROCrate.py MetadataExamples/xrd-2j0t-gq80-rocrate.json --no-convert
 
 # Verbose output (show details for passing checks too)
-python ValidateROCrate.py DataExamples/xrd-2j0t-gq80.json -v
+python ValidateROCrate.py MetadataExamples/xrd-2j0t-gq80.json -v
 ```
 
 **Options:**
@@ -290,7 +290,7 @@ Result: VALID (with warnings)
 
 ### Generated RO-Crate Examples
 
-The `DataExamples/` directory contains ADA/CDIF JSON-LD source files and their corresponding RO-Crate conversions produced by `ValidateROCrate.py`:
+The `MetadataExamples/` directory contains ADA/CDIF JSON-LD source files and their corresponding RO-Crate conversions produced by `ValidateROCrate.py`:
 
 | Source File | RO-Crate Output | Technique |
 |---|---|---|
@@ -303,7 +303,7 @@ The `DataExamples/` directory contains ADA/CDIF JSON-LD source files and their c
 To regenerate all RO-Crate outputs:
 
 ```bash
-for f in DataExamples/*.json; do
+for f in MetadataExamples/*.json; do
   case "$f" in *-rocrate.json|*placeholder*|*ro-crate-metadata*) continue;; esac
   python ValidateROCrate.py "$f" -o "${f%.json}-rocrate.json"
 done

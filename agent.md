@@ -163,7 +163,7 @@ pip install PyLD jsonschema rdflib pyshacl
 
 Example documents are in:
 - `../integrationPublic/exampleMetadata/CDIF2026/` - 2026 schema examples
-- `DataExamples/` - Various test cases
+- `MetadataExamples/` - Various test cases
 - `schemaExamples/` - Schema fragment examples
 
 ## Extending the Schema
