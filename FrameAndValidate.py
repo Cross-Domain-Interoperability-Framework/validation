@@ -44,7 +44,6 @@ ARRAY_PROPERTIES = [
     'schema:httpMethod',
     'schema:contentType',
     'schema:query-input',
-    'schema:propertyID',
     # PROV properties
     'prov:wasGeneratedBy',
     'prov:wasDerivedFrom',
@@ -84,6 +83,9 @@ OUTPUT_CONTEXT = {
     "schema": "http://schema.org/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "csvw": "http://www.w3.org/ns/csvw#",
+    "ada": "https://ada.astromat.org/metadata/",
+    "xas": "https://ada.astromat.org/metadata/xas/",
+    "nxs": "https://manual.nexusformat.org/classes/",
 
     # Explicit term mappings for other vocabularies (avoids prefix conflicts)
     "conformsTo": "http://purl.org/dc/terms/conformsTo",
@@ -169,6 +171,18 @@ def remove_nulls_and_normalize(obj):
                 new_value = [new_value]
 
             result[new_key] = new_value
+
+        # Context-aware wrapping for schema:propertyID:
+        # Only wrap in array when inside a variableMeasured_type (cdi:InstanceVariable)
+        obj_type = result.get('@type', '')
+        if isinstance(obj_type, list):
+            type_list = obj_type
+        else:
+            type_list = [obj_type] if obj_type else []
+        if 'cdi:InstanceVariable' in type_list:
+            pid = result.get('schema:propertyID')
+            if pid is not None and not isinstance(pid, list):
+                result['schema:propertyID'] = [pid]
 
         return result
 
