@@ -25,6 +25,8 @@ CDIF metadata is expressed as JSON-LD, which can represent data as graphs. JSON 
 | `CDIF-frame-2026.jsonld` | **Current** JSON-LD frame for 2026 schema |
 | `CDIF-context-2026.jsonld` | Context for authoring without prefixes |
 | `FrameAndValidate.py` | Main validation script (Python) |
+| `ConvertToROCrate.py` | CDIF-to-RO-Crate conversion library + CLI |
+| `ValidateROCrate.py` | RO-Crate validation (imports conversion from ConvertToROCrate) |
 | `validate-cdif.bat` | Windows batch script for oXygen integration |
 | `ShaclValidation/ShaclJSONLDContext.py` | SHACL validation script |
 | `CDIF-Discovery-Core-Shapes2.ttl` | SHACL shapes for semantic validation |
@@ -69,6 +71,16 @@ python FrameAndValidate.py metadata.jsonld --frame CDIF-frame.jsonld --schema CD
 
 # Or with batch script
 validate-cdif.bat metadata.jsonld --legacy
+```
+
+### Convert CDIF to RO-Crate (no validation)
+```bash
+python ConvertToROCrate.py input.jsonld -o output-rocrate.json
+```
+
+### Validate as RO-Crate (converts then validates)
+```bash
+python ValidateROCrate.py input.jsonld -v
 ```
 
 ### SHACL Validation

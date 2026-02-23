@@ -44,7 +44,8 @@ This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule s
 | `CDIF-frame-2026.jsonld` | JSON-LD frame for 2026 schema |
 | `CDIF-context-2026.jsonld` | JSON-LD context for authoring without namespace prefixes |
 | `FrameAndValidate.py` | Python script for framing and validation |
-| `ValidateROCrate.py` | Python script for RO-Crate conversion and validation |
+| `ConvertToROCrate.py` | Python library + CLI for converting CDIF JSON-LD to RO-Crate form |
+| `ValidateROCrate.py` | Python script for RO-Crate validation (imports conversion from ConvertToROCrate) |
 | `RO-Crate-relationship.md` | ADA/CDIF profile mapping to RO-Crate, with ValidateROCrate.py design notes |
 | `validate-cdif.bat` | Windows batch script for oXygen XML Editor integration |
 
@@ -105,9 +106,12 @@ Use a JSON-LD processor to apply `CDIF-frame-2026.jsonld` to your metadata docum
 
 Validate the framed output against `CDIF-JSONLD-schema-2026.json`.
 
-## RO-Crate Validation
+## RO-Crate Conversion and Validation
 
-`ValidateROCrate.py` is the complement of `FrameAndValidate.py`. Where `FrameAndValidate.py` takes a flattened `@graph` and *nests* it (via JSON-LD framing) for JSON Schema validation, `ValidateROCrate.py` takes nested/compacted CDIF JSON-LD and *flattens* it (via JSON-LD expand + flatten) for [RO-Crate 1.1](https://www.researchobject.org/ro-crate/1.1/) structural validation.
+`ConvertToROCrate.py` and `ValidateROCrate.py` are the complement of `FrameAndValidate.py`. Where `FrameAndValidate.py` takes a flattened `@graph` and *nests* it (via JSON-LD framing) for JSON Schema validation, these tools take nested/compacted CDIF JSON-LD and *flatten* it (via JSON-LD expand + flatten) into [RO-Crate 1.1](https://www.researchobject.org/ro-crate/1.1/) form.
+
+- **`ConvertToROCrate.py`** — Pure conversion library and standalone CLI. Can be imported as a library (`from ConvertToROCrate import convert_to_rocrate`) or run directly to convert without validation.
+- **`ValidateROCrate.py`** — Validation script that imports conversion from `ConvertToROCrate` and runs 13 structural checks plus optional SHACL-based validation via `rocrate-validator`.
 
 This confirms that CDIF metadata can be faithfully represented as a standards-compliant Research Object Crate.
 
@@ -175,7 +179,13 @@ The validator runs 13 checks against the RO-Crate 1.1 specification. Checks are 
 ### RO-Crate Usage
 
 ```bash
-# Convert a CDIF document to RO-Crate form and validate
+# Convert CDIF to RO-Crate form only (no validation)
+python ConvertToROCrate.py input.jsonld -o output-rocrate.json
+
+# Convert and print to stdout
+python ConvertToROCrate.py input.jsonld
+
+# Convert CDIF to RO-Crate form and validate
 python ValidateROCrate.py input.jsonld
 
 # Convert, validate, and save the RO-Crate output
@@ -186,12 +196,24 @@ python ValidateROCrate.py rocrate.jsonld --no-convert
 
 # Verbose output (show details for passing checks too)
 python ValidateROCrate.py input.jsonld -v
+
+# Skip rocrate-validator SHACL checks
+python ValidateROCrate.py input.jsonld --no-rocrate-validator
+
+# Include RECOMMENDED-level checks from rocrate-validator
+python ValidateROCrate.py input.jsonld --severity RECOMMENDED
 ```
 
-**Options:**
+**ConvertToROCrate.py options:**
+- `-o, --output FILE` - Write the converted RO-Crate JSON-LD to a file (default: stdout)
+- `-v, --verbose` - Show detailed progress output
+
+**ValidateROCrate.py options:**
 - `-o, --output FILE` - Write the converted RO-Crate JSON-LD to a file
 - `--no-convert` - Skip the conversion step; validate the input document as-is
 - `-v, --verbose` - Show detail messages for all checks, not just failures and warnings
+- `--no-rocrate-validator` - Skip rocrate-validator SHACL-based checks
+- `--severity LEVEL` - Minimum severity for rocrate-validator checks (REQUIRED, RECOMMENDED, OPTIONAL)
 
 **Exit codes:**
 - `0` - all FAIL-level checks passed (warnings are allowed)
