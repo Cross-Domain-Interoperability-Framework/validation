@@ -1,8 +1,7 @@
 {
   "@context": {
     "@language": "en",
-    "@vocab": "https://schema.org/",
-    "sc": "https://schema.org/",
+    "@vocab": "http://schema.org/",
     "cr": "http://mlcommons.org/croissant/",
     "rai": "http://mlcommons.org/croissant/RAI/",
     "dct": "http://purl.org/dc/terms/",
@@ -46,7 +45,7 @@
     "transform": "cr:transform",
     "prov": "http://www.w3.org/ns/prov#"
   },
-  "@type": "sc:Dataset",
+  "@type": "Dataset",
   "conformsTo": "http://mlcommons.org/croissant/1.0",
   "name": "Ti isotope data",
   "description": "Data for Ti isotopes on OREX-803015-101_1",
@@ -83,182 +82,38 @@
   ],
   "distribution": [
     {
-      "@type": "cr:FileObject",
-      "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.csv",
-      "name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.csv",
-      "contentUrl": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.csv",
-      "encodingFormat": "text/csv",
-      "description": "Titanium isotope raw data",
-      "contentSize": "6249 B",
-      "sha256": "fa9c41aaeea99b70cdf46f90299ebd4af07369bebdb360620c8051d5087631d2"
-    },
-    {
-      "@type": "cr:FileObject",
-      "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.yaml",
-      "name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.yaml",
-      "contentUrl": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.yaml",
-      "encodingFormat": "application/yaml",
-      "contentSize": "1840 B",
-      "sha256": "2ebe12bf4a14f7d72aa8518be88f31eb831d85fc89c5232a39ebaedf62264de0"
-    }
-  ],
-  "recordSet": [
-    {
-      "@type": "cr:RecordSet",
-      "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1",
-      "name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1",
-      "field": [
-        {
-          "@type": "cr:Field",
-          "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/Lable",
-          "name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/Lable",
-          "dataType": "sc:Text",
-          "source": {
-            "fileObject": {
-              "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.csv"
-            },
-            "extract": {
-              "column": "Lable"
-            }
-          }
-        },
-        {
-          "@type": "cr:Field",
-          "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/Date_Time",
-          "name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/Date_Time",
-          "dataType": "sc:Date",
-          "source": {
-            "fileObject": {
-              "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.csv"
-            },
-            "extract": {
-              "column": "Date/Time"
-            }
-          },
-          "description": "Starting time of cycle"
-        },
-        {
-          "@type": "cr:Field",
-          "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/44Ca_Static_1_Mean",
-          "name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/44Ca_Static_1_Mean",
-          "dataType": "sc:Float",
-          "source": {
-            "fileObject": {
-              "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.csv"
-            },
-            "extract": {
-              "column": "44Ca Static 1 Mean"
-            }
-          },
-          "description": "voltage recorded for the cup at mass 44 after electronic baseline correction"
-        },
-        {
-          "@type": "cr:Field",
-          "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/46Ti_Static_1_Mean",
-          "name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/46Ti_Static_1_Mean",
-          "dataType": "sc:Float",
-          "source": {
-            "fileObject": {
-              "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.csv"
-            },
-            "extract": {
-              "column": "46Ti Static 1 Mean"
-            }
-          },
-          "description": "voltage recorded for the cup at mass 46 after electronic baseline correction"
-        },
-        {
-          "@type": "cr:Field",
-          "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/47Ti_Static_1_Mean",
-          "name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/47Ti_Static_1_Mean",
-          "dataType": "sc:Float",
-          "source": {
-            "fileObject": {
-              "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.csv"
-            },
-            "extract": {
-              "column": "47Ti Static 1 Mean"
-            }
-          },
-          "description": "voltage recorded for the cup at mass 47 after electronic baseline correction"
-        },
-        {
-          "@type": "cr:Field",
-          "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/48Ti_Static_1_Mean",
-          "name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/48Ti_Static_1_Mean",
-          "dataType": "sc:Float",
-          "source": {
-            "fileObject": {
-              "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.csv"
-            },
-            "extract": {
-              "column": "48Ti Static 1 Mean"
-            }
-          },
-          "description": "voltage recorded for the cup at mass 48 after electronic baseline correction"
-        },
-        {
-          "@type": "cr:Field",
-          "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/49Ti_Static_1_Mean",
-          "name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/49Ti_Static_1_Mean",
-          "dataType": "sc:Float",
-          "source": {
-            "fileObject": {
-              "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.csv"
-            },
-            "extract": {
-              "column": "49Ti Static 1 Mean"
-            }
-          },
-          "description": "voltage recorded for the cup at mass 49 after electronic baseline correction"
-        },
-        {
-          "@type": "cr:Field",
-          "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/50Ti_Static_1_Mean",
-          "name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/50Ti_Static_1_Mean",
-          "dataType": "sc:Float",
-          "source": {
-            "fileObject": {
-              "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.csv"
-            },
-            "extract": {
-              "column": "50Ti Static 1 Mean"
-            }
-          },
-          "description": "voltage recorded for the cup at mass 50 after electronic baseline correction"
-        },
-        {
-          "@type": "cr:Field",
-          "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/51V_Static_1_Mean",
-          "name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/51V_Static_1_Mean",
-          "dataType": "sc:Float",
-          "source": {
-            "fileObject": {
-              "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.csv"
-            },
-            "extract": {
-              "column": "51V Static 1 Mean"
-            }
-          },
-          "description": "voltage recorded for the cup at mass 51 after electronic baseline correction"
-        },
-        {
-          "@type": "cr:Field",
-          "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/52Cr_Static_1_Mean",
-          "name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/52Cr_Static_1_Mean",
-          "dataType": "sc:Float",
-          "source": {
-            "fileObject": {
-              "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.csv"
-            },
-            "extract": {
-              "column": "52Cr Static 1 Mean"
-            }
-          },
-          "description": "voltage recorded for the cup at mass 52 after electronic baseline correction"
-        }
+      "@type": [
+        "cr:FileSet",
+        "DataDownload"
       ],
-      "description": "Titanium isotope raw data"
+      "@id": "archive-0.zip",
+      "name": "archive-0.zip",
+      "encodingFormat": "application/zip",
+      "description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+      "includes": [
+        {
+          "@type": [
+            "cr:FileObject",
+            "MediaObject"
+          ],
+          "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.csv",
+          "name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.csv",
+          "encodingFormat": "text/csv",
+          "contentSize": "6249 B",
+          "sha256": "fa9c41aaeea99b70cdf46f90299ebd4af07369bebdb360620c8051d5087631d2"
+        },
+        {
+          "@type": [
+            "cr:FileObject",
+            "MediaObject"
+          ],
+          "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.yaml",
+          "name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.yaml",
+          "encodingFormat": "application/yaml",
+          "contentSize": "1840 B",
+          "sha256": "2ebe12bf4a14f7d72aa8518be88f31eb831d85fc89c5232a39ebaedf62264de0"
+        }
+      ]
     }
   ],
   "prov:wasGeneratedBy": [
@@ -300,7 +155,7 @@
             "MaterialSample"
           ],
           "schema:identifier": [
-            "OREX-803015-101"
+            "[&#x27;OREX-803015-101&#x27;]"
           ]
         }
       ]
@@ -314,7 +169,7 @@
   "schema:subjectOf": {
     "@id": "ada:metadata_532",
     "@type": "schema:Dataset",
-    "schema:dateModified": "2024-07-02",
+    "schema:sdDatePublished": "2024-07-02",
     "schema:maintainer": {
       "@id": "https://ada.org/person/3479",
       "@type": "schema:Person",
@@ -328,16 +183,10 @@
     "schema:description": "metadata about documentation for https://doi.org/10.60707/0y88-ps96",
     "dcterms:conformsTo": [
       {
-        "@id": "ada:tabularData"
+        "@id": "https://w3id.org/cdif/profiles/discovery"
       },
       {
-        "@id": "ada:metadata"
-      },
-      {
-        "@id": "ada:MCICPMSTabular"
-      },
-      {
-        "@id": "CDIF_basic_1.0"
+        "@id": "ada:profile/adaICPMS"
       }
     ]
   }

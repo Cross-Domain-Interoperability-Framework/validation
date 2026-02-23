@@ -80,25 +80,23 @@ The converter sets the Croissant `conformsTo` and passes through the CDIF `schem
 | CDIF type | Croissant type | Relationship |
 |-----------|---------------|-------------|
 | `schema:DataDownload` (single file) | `cr:FileObject` | Direct: both describe a downloadable file with contentUrl, encodingFormat, name |
-| `schema:DataDownload` (archive with `schema:hasPart`) | `cr:FileObject` (archive) + `cr:FileObject` per component | Archive is a FileObject; components reference it via `containedIn` |
-| `schema:MediaObject` / `schema:Dataset` (hasPart items) | `cr:FileObject` | Individual files within an archive |
+| `schema:DataDownload` (archive with `schema:hasPart`) | `cr:FileSet` with `cr:includes` of `cr:FileObject` per component | Archive is a FileSet with the download URL; component files are nested inside via `includes` |
+| `schema:MediaObject` / `schema:Dataset` (hasPart items) | `cr:FileObject` + `sc:MediaObject` | Individual files within a FileSet (no `contentUrl`; accessed through the archive) |
 | `schema:WebAPI` + `schema:potentialAction` | _(no equivalent)_ | Croissant has no API access pattern |
-| _(no equivalent)_ | `cr:FileSet` (glob-based file collections) | CDIF lists files explicitly |
 
 ### Archive handling
 
-CDIF expresses containment as `archive hasPart [file1, file2, ...]` (parent-to-child). Croissant inverts this: each component file has `containedIn: {archive}` (child-to-parent).
+CDIF expresses containment as `archive hasPart [file1, file2, ...]` (parent-to-child). The converter models this using Croissant's `cr:FileSet` with `cr:includes`:
 
-The converter:
-1. Emits the archive as a `cr:FileObject` if it has a real download URL or checksum
-2. Emits each `hasPart` item as a `cr:FileObject` with `containedIn` referencing the archive
-3. When the archive URL is nil/withheld and has no checksum (virtual archive), skips the archive entry and lists component files as standalone FileObjects
+1. The archive itself becomes a `cr:FileSet` with the `contentUrl` (only the archive has a download URL)
+2. Each `hasPart` item becomes a `cr:FileObject` (also typed `sc:MediaObject`) nested inside the FileSet's `includes` array
+3. Component files have no `contentUrl` — they are accessed through the archive
 
 ### File metadata mapping
 
 | CDIF | Croissant | Notes |
 |------|-----------|-------|
-| `schema:contentUrl` | `contentUrl` | Direct; for contained files, the filename serves as a relative path |
+| `schema:contentUrl` | `contentUrl` | Direct; only on the archive FileSet (component files inside `includes` have no `contentUrl`) |
 | `schema:encodingFormat` (array) | `encodingFormat` (string) | Converter takes first element |
 | `schema:size` (`QuantitativeValue`) | `contentSize` (string) | Converter formats as "NNN B" |
 | `spdx:checksum` (string or object) | `sha256` | Converter handles bare hex strings, `{spdx:checksumValue}` objects, and sha256 hashes embedded in `schema:description` text |
@@ -180,7 +178,7 @@ These properties are not part of the Croissant vocabulary but do not break `mlcr
 | `cr:Field.references` | Foreign key joins between RecordSets | DDI-CDI `qualifies` is the closest analog but semantically different |
 | `cr:Field.subField` | Nested/hierarchical fields | CDIF variables are flat |
 | `cr:Transform` (regex, delimiter, jsonQuery) | Post-extraction data transformations | No equivalent; CDIF describes data as-is |
-| `cr:FileSet` (glob patterns) | Collections of homogeneous files by pattern | CDIF lists files explicitly in `hasPart` |
+| `cr:FileSet` (glob patterns) | Collections of homogeneous files by pattern | Converter uses FileSet for archives with `includes`; Croissant also supports glob-based FileSets which CDIF does not use |
 | `cr:Split` | Train/validation/test data partitions | No equivalent (science data, not ML training) |
 | `cr:Label`, `cr:BoundingBox`, `cr:SegmentationMask` | ML annotation types | No equivalent |
 | `cr:isLiveDataset` | Continuously-updated dataset flag | No equivalent |
