@@ -20,177 +20,34 @@ Usage:
 
     # Verbose output
     python ValidateROCrate.py input.jsonld -v
+
+    # Skip rocrate-validator SHACL checks
+    python ValidateROCrate.py input.jsonld --no-rocrate-validator
+
+    # Include RECOMMENDED-level checks from rocrate-validator
+    python ValidateROCrate.py input.jsonld --severity RECOMMENDED
 """
 
 import json
 import argparse
 import sys
-from pyld import jsonld
 
-# Configure the requests-based document loader
-jsonld.set_document_loader(jsonld.requests_document_loader())
+from ConvertToROCrate import (
+    convert_to_rocrate,
+    ROCRATE_CONFORMSTO_URI,
+    ROCRATE_CONTEXT_URI,
+    METADATA_DESCRIPTOR_ID,
+    ROOT_DATASET_ID,
+)
 
-# RO-Crate-compatible context: unprefixed schema.org terms + CDIF namespaces
-ROCRATE_CONTEXT = [
-    "https://w3id.org/ro/crate/1.1/context",
-    {
-        "dcterms": "http://purl.org/dc/terms/",
-        "prov": "http://www.w3.org/ns/prov#",
-        "dqv": "http://www.w3.org/ns/dqv#",
-        "geosparql": "http://www.opengis.net/ont/geosparql#",
-        "spdx": "http://spdx.org/rdf/terms#",
-        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-        "csvw": "http://www.w3.org/ns/csvw#",
-        "time": "http://www.w3.org/2006/time#"
-    }
-]
-
-ROCRATE_CONFORMSTO_URI = "https://w3id.org/ro/crate/1.1"
-ROCRATE_CONTEXT_URI = "https://w3id.org/ro/crate/1.1/context"
-METADATA_DESCRIPTOR_ID = "ro-crate-metadata.json"
-ROOT_DATASET_ID = "./"
-
-# All CDIF-relevant namespace prefixes. Merged into the input document's
-# @context before expansion so that prefixed terms like prov:Activity or
-# xas:AnalysisEvent resolve to full IRIs even when the input omits them.
-# NOTE: schema MUST be http:// (not https://) to match the RO-Crate 1.1 context.
-CDIF_NAMESPACES = {
-    "schema": "http://schema.org/",
-    "dcterms": "http://purl.org/dc/terms/",
-    "prov": "http://www.w3.org/ns/prov#",
-    "dqv": "http://www.w3.org/ns/dqv#",
-    "geosparql": "http://www.opengis.net/ont/geosparql#",
-    "spdx": "http://spdx.org/rdf/terms#",
-    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "csvw": "http://www.w3.org/ns/csvw#",
-    "time": "http://www.w3.org/2006/time#",
-    "ada": "https://ada.astromat.org/metadata/",
-    "xas": "https://ada.astromat.org/metadata/xas/",
-    "nxs": "https://manual.nexusformat.org/classes/",
-}
-
-
-def _enrich_context(doc):
-    """
-    Return a copy of doc with CDIF_NAMESPACES merged into its @context.
-    CDIF_NAMESPACES wins on conflict (e.g., forces schema to http://).
-    This ensures all prefixed terms expand to full IRIs and that the
-    schema.org namespace matches the RO-Crate context (http:// not https://).
-    """
-    doc = dict(doc)  # shallow copy
-    ctx = doc.get("@context")
-
-    if ctx is None:
-        doc["@context"] = dict(CDIF_NAMESPACES)
-    elif isinstance(ctx, dict):
-        merged = dict(ctx)
-        merged.update(CDIF_NAMESPACES)  # our namespaces win (force http:// for schema)
-        doc["@context"] = merged
-    elif isinstance(ctx, list):
-        # Prepend a context object that can be overridden, then append ours to win
-        new_ctx = []
-        for item in ctx:
-            new_ctx.append(item)
-        new_ctx.append(dict(CDIF_NAMESPACES))
-        doc["@context"] = new_ctx
-    elif isinstance(ctx, str):
-        doc["@context"] = [ctx, dict(CDIF_NAMESPACES)]
-
-    return doc
-
-
-def convert_to_rocrate(doc):
-    """
-    Convert a CDIF JSON-LD document (compacted/nested) to RO-Crate form.
-
-    Steps:
-    1. Enrich context with CDIF namespaces (so all prefixed terms resolve)
-    2. Expand (resolve all prefixes to full IRIs)
-    3. Flatten (produce @graph with flat entities, @id references)
-    4. Compact with RO-Crate-compatible context
-    5. Inject metadata descriptor + remap root Dataset @id to "./"
-    """
-    # Step 0: Enrich input context
-    doc = _enrich_context(doc)
-
-    # Step 1: Expand
-    expanded = jsonld.expand(doc)
-
-    # Step 2: Flatten
-    flattened = jsonld.flatten(expanded)
-
-    # Step 3: Compact with RO-Crate context
-    compacted = jsonld.compact(flattened, ROCRATE_CONTEXT)
-
-    # Ensure @graph is a list
-    graph = compacted.get("@graph", [])
-    if isinstance(graph, dict):
-        graph = [graph]
-
-    # Step 4: Find root Dataset, remap its @id to "./"
-    root_id = None
-    root_idx = None
-    dataset_types = {"Dataset", "schema:Dataset", "http://schema.org/Dataset",
-                     "https://schema.org/Dataset"}
-    dist_keys = {"distribution", "schema:distribution",
-                 "http://schema.org/distribution", "https://schema.org/distribution"}
-    for i, entity in enumerate(graph):
-        entity_type = entity.get("@type", [])
-        if isinstance(entity_type, str):
-            entity_type = [entity_type]
-        if dataset_types.intersection(entity_type):
-            # Heuristic: the root Dataset has distribution or is the "biggest" one.
-            # Pick the first entity with distribution, or fall back to first Dataset.
-            if root_idx is None:
-                root_idx = i
-                root_id = entity.get("@id")
-            if dist_keys.intersection(entity.keys()):
-                root_idx = i
-                root_id = entity.get("@id")
-                break
-
-    if root_id is not None and root_id != ROOT_DATASET_ID:
-        old_id = root_id
-        # Remap all references to the old root @id
-        graph = _remap_id(graph, old_id, ROOT_DATASET_ID)
-
-    # Inject metadata descriptor
-    descriptor = {
-        "@id": METADATA_DESCRIPTOR_ID,
-        "@type": "CreativeWork",
-        "conformsTo": {"@id": ROCRATE_CONFORMSTO_URI},
-        "about": {"@id": ROOT_DATASET_ID}
-    }
-    graph.insert(0, descriptor)
-
-    result = {
-        "@context": ROCRATE_CONTEXT,
-        "@graph": graph
-    }
-    return result
-
-
-def _remap_id(graph, old_id, new_id):
-    """Remap all occurrences of old_id to new_id throughout the @graph."""
-    def _remap_value(val):
-        if isinstance(val, str):
-            return new_id if val == old_id else val
-        if isinstance(val, dict):
-            return _remap_obj(val)
-        if isinstance(val, list):
-            return [_remap_value(item) for item in val]
-        return val
-
-    def _remap_obj(obj):
-        result = {}
-        for k, v in obj.items():
-            if k == "@id" and v == old_id:
-                result[k] = new_id
-            else:
-                result[k] = _remap_value(v)
-        return result
-
-    return [_remap_obj(entity) for entity in graph]
+# Optional: rocrate-validator for thorough SHACL-based validation
+# Install with: pip install roc-validator
+try:
+    from rocrate_validator import services as roc_services
+    from rocrate_validator.models import Severity as RocSeverity
+    HAS_ROC_VALIDATOR = True
+except ImportError:
+    HAS_ROC_VALIDATOR = False
 
 
 # ---------------------------------------------------------------------------
@@ -433,6 +290,101 @@ def _check_nested(entity_id, prop, value, nested):
             _check_nested(entity_id, prop, item, nested)
 
 
+# ---------------------------------------------------------------------------
+# rocrate-validator integration
+# ---------------------------------------------------------------------------
+
+# Map rocrate-validator severity to our PASS/WARN/FAIL levels
+_ROC_SEVERITY_MAP = {}
+if HAS_ROC_VALIDATOR:
+    _ROC_SEVERITY_MAP = {
+        RocSeverity.REQUIRED: FAIL,
+        RocSeverity.RECOMMENDED: WARN,
+        RocSeverity.OPTIONAL: WARN,
+    }
+
+
+def validate_with_rocrate_validator(rocrate_dict, severity="REQUIRED"):
+    """
+    Run rocrate-validator (SHACL-based) on an in-memory RO-Crate dict.
+
+    Args:
+        rocrate_dict: The RO-Crate JSON-LD document as a Python dict.
+        severity: Minimum severity to check: "REQUIRED", "RECOMMENDED", or
+                  "OPTIONAL". Default "REQUIRED".
+
+    Returns:
+        The ValidationResult object, or None if rocrate-validator is not installed.
+    """
+    if not HAS_ROC_VALIDATOR:
+        return None
+
+    sev = getattr(RocSeverity, severity.upper(), RocSeverity.REQUIRED)
+    settings = roc_services.ValidationSettings(
+        rocrate_uri=".",
+        profile_identifier="ro-crate-1.1",
+        requirement_severity=sev,
+        abort_on_first=False,
+    )
+    return roc_services.validate_metadata_as_dict(rocrate_dict, settings)
+
+
+def print_rocrate_validator_results(result, verbose=False):
+    """
+    Print results from rocrate-validator in a format matching our built-in checks.
+
+    Returns True if validation passed (no REQUIRED-level issues).
+    """
+    issues = result.get_issues()
+    if not issues and result.passed():
+        print(f"\n{'='*60}")
+        print("rocrate-validator (SHACL) Results")
+        print(f"{'='*60}")
+        n_checks = len(result.executed_checks) if hasattr(result, 'executed_checks') else 0
+        print(f"  PASS  All checks passed ({n_checks} checks executed)")
+        print(f"\n{'-'*60}")
+        print("Result: VALID")
+        return True
+
+    # Group issues by severity
+    required_issues = []
+    other_issues = []
+    for issue in issues:
+        if issue.severity == RocSeverity.REQUIRED:
+            required_issues.append(issue)
+        else:
+            other_issues.append(issue)
+
+    print(f"\n{'='*60}")
+    print("rocrate-validator (SHACL) Results")
+    print(f"{'='*60}")
+
+    for i, issue in enumerate(issues, 1):
+        level = _ROC_SEVERITY_MAP.get(issue.severity, WARN)
+        marker = f"  {level}"
+        check_id = issue.check.identifier if hasattr(issue, 'check') and issue.check else "?"
+        print(f"{marker}  [{i:2d}] [{issue.severity.name}] {issue.message}")
+        if verbose or level != PASS:
+            if hasattr(issue, 'violatingEntity') and issue.violatingEntity:
+                print(f"              Entity: {issue.violatingEntity}")
+            if hasattr(issue, 'violatingProperty') and issue.violatingProperty:
+                print(f"              Property: {issue.violatingProperty}")
+            print(f"              Check: {check_id}")
+
+    print(f"\n{'-'*60}")
+    print(f"Summary: {len(required_issues)} failures, {len(other_issues)} warnings")
+
+    if not required_issues:
+        if other_issues:
+            print("Result: VALID (with warnings)")
+        else:
+            print("Result: VALID")
+        return True
+    else:
+        print("Result: INVALID")
+        return False
+
+
 def print_results(results, verbose=False):
     """Print validation results."""
     fails = [r for r in results if r[0] == FAIL]
@@ -486,6 +438,12 @@ Examples:
 
   # Verbose output
   python ValidateROCrate.py input.jsonld -v
+
+  # Skip rocrate-validator SHACL checks
+  python ValidateROCrate.py input.jsonld --no-rocrate-validator
+
+  # Include RECOMMENDED-level checks from rocrate-validator
+  python ValidateROCrate.py input.jsonld --severity RECOMMENDED
 """
     )
     parser.add_argument('input', help='Input JSON-LD file to process')
@@ -494,6 +452,11 @@ Examples:
                         help='Skip conversion --validate input as-is')
     parser.add_argument('-v', '--verbose', action='store_true',
                         help='Show detailed output including PASS details')
+    parser.add_argument('--no-rocrate-validator', action='store_true',
+                        help='Skip rocrate-validator SHACL-based checks')
+    parser.add_argument('--severity', choices=['REQUIRED', 'RECOMMENDED', 'OPTIONAL'],
+                        default='REQUIRED',
+                        help='Minimum severity for rocrate-validator checks (default: REQUIRED)')
 
     args = parser.parse_args()
 
@@ -519,11 +482,34 @@ Examples:
                 json.dump(rocrate, f, indent=2)
             print(f"RO-Crate output written to: {args.output}")
 
+        # --- Built-in structural checks ---
         print("\nValidating against RO-Crate 1.1 requirements...")
         results = validate_rocrate(rocrate, verbose=args.verbose)
-        valid = print_results(results, verbose=args.verbose)
+        builtin_valid = print_results(results, verbose=args.verbose)
 
-        if not valid:
+        # --- rocrate-validator SHACL checks ---
+        roc_valid = True
+        if not args.no_rocrate_validator:
+            if not HAS_ROC_VALIDATOR:
+                print(f"\n{'='*60}")
+                print("rocrate-validator (SHACL) Results")
+                print(f"{'='*60}")
+                print("  SKIP  rocrate-validator not installed")
+                print("        Install with: pip install roc-validator")
+                print(f"{'-'*60}")
+            else:
+                print(f"\nRunning rocrate-validator (severity >= {args.severity})...")
+                roc_result = validate_with_rocrate_validator(rocrate, args.severity)
+                roc_valid = print_rocrate_validator_results(
+                    roc_result, verbose=args.verbose)
+
+        # --- Overall result ---
+        overall = builtin_valid and roc_valid
+        print(f"\n{'='*60}")
+        print(f"Overall: {'VALID' if overall else 'INVALID'}")
+        print(f"{'='*60}")
+
+        if not overall:
             sys.exit(1)
 
     except Exception as e:
