@@ -1,0 +1,344 @@
+{
+  "@context": {
+    "@language": "en",
+    "@vocab": "https://schema.org/",
+    "sc": "https://schema.org/",
+    "cr": "http://mlcommons.org/croissant/",
+    "rai": "http://mlcommons.org/croissant/RAI/",
+    "dct": "http://purl.org/dc/terms/",
+    "wd": "https://www.wikidata.org/wiki/",
+    "citeAs": "cr:citeAs",
+    "column": "cr:column",
+    "conformsTo": "dct:conformsTo",
+    "data": {
+      "@id": "cr:data",
+      "@type": "@json"
+    },
+    "dataType": {
+      "@id": "cr:dataType",
+      "@type": "@vocab"
+    },
+    "examples": {
+      "@id": "cr:examples",
+      "@type": "@json"
+    },
+    "extract": "cr:extract",
+    "field": "cr:field",
+    "fileProperty": "cr:fileProperty",
+    "fileObject": "cr:fileObject",
+    "fileSet": "cr:fileSet",
+    "format": "cr:format",
+    "includes": "cr:includes",
+    "isLiveDataset": "cr:isLiveDataset",
+    "jsonPath": "cr:jsonPath",
+    "key": "cr:key",
+    "md5": "cr:md5",
+    "parentField": "cr:parentField",
+    "path": "cr:path",
+    "recordSet": "cr:recordSet",
+    "references": "cr:references",
+    "regex": "cr:regex",
+    "repeated": "cr:repeated",
+    "replace": "cr:replace",
+    "separator": "cr:separator",
+    "source": "cr:source",
+    "subField": "cr:subField",
+    "transform": "cr:transform",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@type": "sc:Dataset",
+  "conformsTo": "http://mlcommons.org/croissant/1.0",
+  "name": "Ti isotope data",
+  "description": "Data for Ti isotopes on OREX-803015-101_1",
+  "url": "https://doi.org/10.60707/0y88-ps96",
+  "license": "http://www.opengis.net/def/nil/OGC/0/missing",
+  "datePublished": "2025-12-31",
+  "creator": [
+    {
+      "@type": "Person",
+      "name": "Shollenberger, Quinn",
+      "@id": "https://orcid.org/0000-0001-6435-2177"
+    },
+    {
+      "@type": "Person",
+      "name": "Brennecka, Greg",
+      "@id": "https://orcid.org/0000-0002-0852-5595"
+    },
+    {
+      "@type": "Person",
+      "name": "Render, Jan",
+      "@id": "https://orcid.org/0000-0002-6534-9129"
+    }
+  ],
+  "citeAs": "https://doi.org/10.60707/0y88-ps96",
+  "dateModified": "2024-07-02",
+  "keywords": [
+    "Multi-Collector Inductively Coupled Plasma Mass Spectrometry"
+  ],
+  "funding": [
+    {
+      "description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program.",
+      "@type": "MonetaryGrant"
+    }
+  ],
+  "distribution": [
+    {
+      "@type": "cr:FileObject",
+      "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.csv",
+      "name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.csv",
+      "contentUrl": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.csv",
+      "encodingFormat": "text/csv",
+      "description": "Titanium isotope raw data",
+      "contentSize": "6249 B",
+      "sha256": "fa9c41aaeea99b70cdf46f90299ebd4af07369bebdb360620c8051d5087631d2"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.yaml",
+      "name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.yaml",
+      "contentUrl": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.yaml",
+      "encodingFormat": "application/yaml",
+      "contentSize": "1840 B",
+      "sha256": "2ebe12bf4a14f7d72aa8518be88f31eb831d85fc89c5232a39ebaedf62264de0"
+    }
+  ],
+  "recordSet": [
+    {
+      "@type": "cr:RecordSet",
+      "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1",
+      "name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/Lable",
+          "name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/Lable",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.csv"
+            },
+            "extract": {
+              "column": "Lable"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/Date_Time",
+          "name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/Date_Time",
+          "dataType": "sc:Date",
+          "source": {
+            "fileObject": {
+              "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.csv"
+            },
+            "extract": {
+              "column": "Date/Time"
+            }
+          },
+          "description": "Starting time of cycle"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/44Ca_Static_1_Mean",
+          "name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/44Ca_Static_1_Mean",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.csv"
+            },
+            "extract": {
+              "column": "44Ca Static 1 Mean"
+            }
+          },
+          "description": "voltage recorded for the cup at mass 44 after electronic baseline correction"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/46Ti_Static_1_Mean",
+          "name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/46Ti_Static_1_Mean",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.csv"
+            },
+            "extract": {
+              "column": "46Ti Static 1 Mean"
+            }
+          },
+          "description": "voltage recorded for the cup at mass 46 after electronic baseline correction"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/47Ti_Static_1_Mean",
+          "name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/47Ti_Static_1_Mean",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.csv"
+            },
+            "extract": {
+              "column": "47Ti Static 1 Mean"
+            }
+          },
+          "description": "voltage recorded for the cup at mass 47 after electronic baseline correction"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/48Ti_Static_1_Mean",
+          "name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/48Ti_Static_1_Mean",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.csv"
+            },
+            "extract": {
+              "column": "48Ti Static 1 Mean"
+            }
+          },
+          "description": "voltage recorded for the cup at mass 48 after electronic baseline correction"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/49Ti_Static_1_Mean",
+          "name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/49Ti_Static_1_Mean",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.csv"
+            },
+            "extract": {
+              "column": "49Ti Static 1 Mean"
+            }
+          },
+          "description": "voltage recorded for the cup at mass 49 after electronic baseline correction"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/50Ti_Static_1_Mean",
+          "name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/50Ti_Static_1_Mean",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.csv"
+            },
+            "extract": {
+              "column": "50Ti Static 1 Mean"
+            }
+          },
+          "description": "voltage recorded for the cup at mass 50 after electronic baseline correction"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/51V_Static_1_Mean",
+          "name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/51V_Static_1_Mean",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.csv"
+            },
+            "extract": {
+              "column": "51V Static 1 Mean"
+            }
+          },
+          "description": "voltage recorded for the cup at mass 51 after electronic baseline correction"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/52Cr_Static_1_Mean",
+          "name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1/52Cr_Static_1_Mean",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSTabular_1.csv"
+            },
+            "extract": {
+              "column": "52Cr Static 1 Mean"
+            }
+          },
+          "description": "voltage recorded for the cup at mass 52 after electronic baseline correction"
+        }
+      ],
+      "description": "Titanium isotope raw data"
+    }
+  ],
+  "prov:wasGeneratedBy": [
+    {
+      "@type": [
+        "schema:Event",
+        "xas:AnalysisEvent",
+        "prov:Activity"
+      ],
+      "schema:startDate": "2024-06-11T15:56:28.141287Z",
+      "schema:identifier": "20231214_mc-icp-ms_llnl_orex-803015-101_1",
+      "prov:used": [
+        {
+          "@type": [
+            "schema:Thing",
+            "prov:Entity",
+            "nxs:BaseClass/NXinstrument"
+          ],
+          "schema:name": "Neoma",
+          "schema:identifier": "Neoma-LLNL"
+        }
+      ],
+      "schema:location": {
+        "@type": [
+          "schema:Place",
+          "nxs:BaseClass/NXsource"
+        ],
+        "schema:identifier": "https://ror.org/041nk4h53",
+        "schema:name": "Lawrence Livermore National Laboratory/Dept of Energy",
+        "schema:alternateName": "LLNL"
+      },
+      "schema:mainEntity": [
+        {
+          "@type": [
+            "schema:Thing",
+            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+          ],
+          "schema:additionalType": [
+            "MaterialSample"
+          ],
+          "schema:identifier": [
+            "OREX-803015-101"
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:measurementTechnique": {
+    "@type": "schema:DefinedTerm",
+    "schema:name": "Multi-Collector Inductively Coupled Plasma Mass Spectrometry",
+    "schema:termCode": "MC-ICP-MS"
+  },
+  "schema:subjectOf": {
+    "@id": "ada:metadata_532",
+    "@type": "schema:Dataset",
+    "schema:dateModified": "2024-07-02",
+    "schema:maintainer": {
+      "@id": "https://ada.org/person/3479",
+      "@type": "schema:Person",
+      "schema:name": "Richard, Stephen M.",
+      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+      "schema:email": "smrTucson@email.org"
+    },
+    "schema:about": {
+      "@id": "ada:record_532"
+    },
+    "schema:description": "metadata about documentation for https://doi.org/10.60707/0y88-ps96",
+    "dcterms:conformsTo": [
+      {
+        "@id": "ada:tabularData"
+      },
+      {
+        "@id": "ada:metadata"
+      },
+      {
+        "@id": "ada:MCICPMSTabular"
+      },
+      {
+        "@id": "CDIF_basic_1.0"
+      }
+    ]
+  }
+}

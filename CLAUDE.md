@@ -27,6 +27,8 @@ This repository contains validation tools for **CDIF (Cross-Domain Interoperabil
 | `ddi-cdi.schema_normative.json` | Full DDI-CDI normative JSON Schema (395 definitions) |
 | `cls-InstanceVariable-resolved.json` | Resolved standalone schema for DDI-CDI InstanceVariable |
 | `cls-InstanceVariable-resolved-README.md` | Documentation for the resolved schema generation |
+| `ConvertToCroissant.py` | Converts CDIF JSON-LD to Croissant (mlcommons.org/croissant/1.0) format |
+| `CDIFtoCroissant.md` | Documents the CDIF-to-Croissant mapping, converter code, and gaps |
 | `CDIF-Discovery-Core-Shapes2.ttl` | SHACL shapes for semantic validation |
 | `ShaclValidation/ShaclJSONLDContext.py` | SHACL validation script |
 
@@ -44,6 +46,12 @@ python ConvertToROCrate.py path/to/metadata.jsonld -o output-rocrate.jsonld
 
 # Validate as RO-Crate (converts then validates)
 python ValidateROCrate.py path/to/metadata.jsonld
+
+# Convert CDIF to Croissant (ML dataset format)
+python ConvertToCroissant.py path/to/metadata.jsonld -o output-croissant.json -v
+
+# Validate Croissant output (requires: pip install mlcroissant)
+mlcroissant validate --jsonld output-croissant.json
 
 # SHACL validation
 python ShaclValidation/ShaclJSONLDContext.py metadata.jsonld CDIF-Discovery-Core-Shapes2.ttl
@@ -64,6 +72,9 @@ pip install PyLD jsonschema rdflib pyshacl
 
 # Optional: for thorough SHACL-based RO-Crate validation (requires Python >= 3.10)
 pip install roc-validator
+
+# Optional: for Croissant output validation
+pip install mlcroissant
 ```
 
 ## Flattened graph schema (generate_graph_schema.py)
@@ -140,6 +151,19 @@ The `rocrate-validator` library provides thorough SHACL-based RO-Crate validatio
 - **Import should be optional** with graceful fallback when library is not installed
 - Runs after the existing 13 custom structural checks, printing results in a matching format
 - CLI flags: `--no-rocrate-validator` to skip, `--severity` to control minimum level (REQUIRED, RECOMMENDED, OPTIONAL)
+
+## ConvertToCroissant.py (CDIF to Croissant)
+
+Converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissant/docs/croissant-spec.html) (mlcommons.org/croissant/1.0) JSON-LD for ML dataset discovery and loading. See `CDIFtoCroissant.md` for the full mapping documentation.
+
+**Key mappings:**
+- `schema:DataDownload` → `cr:FileObject`; archive `hasPart` items become FileObjects with `containedIn`
+- `schema:variableMeasured` + `cdi:hasPhysicalMapping` → `cr:RecordSet` + `cr:Field` with `source.extract.column`
+- `schema:propertyID` / `cdi:uses` → `cr:Field.equivalentProperty`
+- CDIF-only properties (`prov:wasGeneratedBy`, `dqv:hasQualityMeasurement`, `schema:spatialCoverage`, etc.) are passed through verbatim with namespace prefixes added to `@context`
+- Missing `schema:license` gets OGC `nil:missing` placeholder
+
+**Data type mapping:** `xsd:decimal`→`sc:Float`, `String`→`sc:Text`, `xsd:dateTime`→`sc:Date`, `xsd:integer`→`sc:Integer`, `xsd:boolean`→`sc:Boolean`
 
 ## Test documents
 

@@ -1,0 +1,172 @@
+{
+  "@context": {
+    "@language": "en",
+    "@vocab": "https://schema.org/",
+    "sc": "https://schema.org/",
+    "cr": "http://mlcommons.org/croissant/",
+    "rai": "http://mlcommons.org/croissant/RAI/",
+    "dct": "http://purl.org/dc/terms/",
+    "wd": "https://www.wikidata.org/wiki/",
+    "citeAs": "cr:citeAs",
+    "column": "cr:column",
+    "conformsTo": "dct:conformsTo",
+    "data": {
+      "@id": "cr:data",
+      "@type": "@json"
+    },
+    "dataType": {
+      "@id": "cr:dataType",
+      "@type": "@vocab"
+    },
+    "examples": {
+      "@id": "cr:examples",
+      "@type": "@json"
+    },
+    "extract": "cr:extract",
+    "field": "cr:field",
+    "fileProperty": "cr:fileProperty",
+    "fileObject": "cr:fileObject",
+    "fileSet": "cr:fileSet",
+    "format": "cr:format",
+    "includes": "cr:includes",
+    "isLiveDataset": "cr:isLiveDataset",
+    "jsonPath": "cr:jsonPath",
+    "key": "cr:key",
+    "md5": "cr:md5",
+    "parentField": "cr:parentField",
+    "path": "cr:path",
+    "recordSet": "cr:recordSet",
+    "references": "cr:references",
+    "regex": "cr:regex",
+    "repeated": "cr:repeated",
+    "replace": "cr:replace",
+    "separator": "cr:separator",
+    "source": "cr:source",
+    "subField": "cr:subField",
+    "transform": "cr:transform",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@type": "sc:Dataset",
+  "conformsTo": "http://mlcommons.org/croissant/1.0",
+  "name": "C-K, N-K, O-K XANES of N-rich sample from the angular lithology",
+  "description": "XANES was done immediately after FIBing to preserve spectroscopy as best as possible.  Data was taken as linescans to reduce beam damage, and two line scans of carbon were done sequentially to monitor sample modification due to X-ray irradiation.",
+  "url": "https://ada-prod.prod.astromat.org/doi/10.60707/2arx-b516",
+  "license": "http://www.opengis.net/def/nil/OGC/0/missing",
+  "datePublished": "2025-12-31",
+  "creator": [
+    {
+      "@type": "Person",
+      "name": "Gainsforth, Zack",
+      "@id": "https://orcid.org/0000-0001-8180-3507"
+    }
+  ],
+  "citeAs": "https://doi.org/10.60707/2arx-b516",
+  "dateModified": "2025-03-28",
+  "keywords": [
+    "X-ray absorption near edge structure (XANES) spectroscopy"
+  ],
+  "funding": [
+    {
+      "description": "NASA",
+      "@type": "MonetaryGrant"
+    }
+  ],
+  "distribution": [
+    {
+      "@type": "cr:FileObject",
+      "@id": "20241027_XANES_ALS_OREX-800055-125_1_XANESCollection_241026023.yaml",
+      "name": "20241027_XANES_ALS_OREX-800055-125_1_XANESCollection_241026023.yaml",
+      "contentUrl": "20241027_XANES_ALS_OREX-800055-125_1_XANESCollection_241026023.yaml",
+      "encodingFormat": "application/yaml",
+      "contentSize": "92 B",
+      "sha256": "bff6bcf4c5ba05fa0b7a21f362f10367df173a70e4042c3417a48f6adc1b2e92"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "20241027_XANES_ALS_OREX-800055-125_1_XANESCollection_241026023.zip",
+      "name": "20241027_XANES_ALS_OREX-800055-125_1_XANESCollection_241026023.zip",
+      "contentUrl": "20241027_XANES_ALS_OREX-800055-125_1_XANESCollection_241026023.zip",
+      "encodingFormat": "application/zip",
+      "contentSize": "62716 B",
+      "sha256": "eb68f67f103b35f8ab49f6343d27250f3c269452a87dddff932e6802f404fc94"
+    }
+  ],
+  "prov:wasGeneratedBy": {
+    "@type": [
+      "schema:Event",
+      "xas:AnalysisEvent",
+      "prov:Activity"
+    ],
+    "schema:startDate": "2024-10-27T12:00:00+00:00",
+    "schema:identifier": "20241027_XANES_ALS_OREX-800055-125_1",
+    "prov:used": [
+      {
+        "@type": [
+          "schema:Thing",
+          "prov:Entity",
+          "nxs:BaseClass/NXinstrument"
+        ],
+        "schema:name": "ALS STXM beamline 5.3.2.2",
+        "schema:identifier": "ALSSTXM"
+      }
+    ],
+    "schema:location": {
+      "@type": [
+        "schema:Place",
+        "nxs:BaseClass/NXsource"
+      ],
+      "schema:identifier": "",
+      "schema:name": "Advanced Light Source at Lawrence Berkeley National Laboratory",
+      "schema:alternateName": "ALS"
+    },
+    "schema:mainEntity": [
+      {
+        "@type": [
+          "schema:Thing",
+          "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+        ],
+        "schema:additionalType": [
+          "MaterialSample"
+        ],
+        "schema:identifier": "OREX-800055-125"
+      }
+    ]
+  },
+  "schema:measurementTechnique": {
+    "@type": "schema:DefinedTerm",
+    "schema:name": "X-ray absorption near edge structure (XANES) spectroscopy",
+    "schema:termCode": "XANES"
+  },
+  "schema:subjectOf": {
+    "@id": "ada:metadata_2608",
+    "@type": "schema:Dataset",
+    "schema:dateModified": "2025-03-28",
+    "schema:creator": [
+      {
+        "@id": "https://ada.org/person/3479",
+        "@type": "schema:Person",
+        "schema:name": "Richard, Stephen M.",
+        "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+        "schema:email": "smrTucson@email.org"
+      }
+    ],
+    "schema:about": {
+      "@id": "ada:record_2608"
+    },
+    "schema:description": "metadata about documentation for https://doi.org/10.60707/2arx-b516",
+    "dcterms:conformsTo": [
+      {
+        "@id": "ada:XANESCollection"
+      },
+      {
+        "@id": "ada:metadata"
+      },
+      {
+        "@id": "CDIF_basic_1.0"
+      },
+      {
+        "@id": "ada:collection"
+      }
+    ]
+  }
+}

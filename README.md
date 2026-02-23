@@ -13,6 +13,9 @@ This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule s
   - [How the Conversion Works](#how-the-conversion-works)
   - [Validation Checks](#validation-checks)
   - [RO-Crate Usage](#ro-crate-usage)
+- [Croissant Conversion](#croissant-conversion)
+  - [How the Croissant Conversion Works](#how-the-croissant-conversion-works)
+  - [Croissant Usage](#croissant-usage)
 - [Usage Examples](#usage-examples)
   - [Command Line (Recommended)](#command-line-recommended)
   - [oXygen XML Editor](#oxygen-xml-editor)
@@ -46,6 +49,8 @@ This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule s
 | `FrameAndValidate.py` | Python script for framing and validation |
 | `ConvertToROCrate.py` | Python library + CLI for converting CDIF JSON-LD to RO-Crate form |
 | `ValidateROCrate.py` | Python script for RO-Crate validation (imports conversion from ConvertToROCrate) |
+| `ConvertToCroissant.py` | Python script for converting CDIF JSON-LD to Croissant (mlcommons.org/croissant/1.0) format |
+| `CDIFtoCroissant.md` | Documentation for the CDIF-to-Croissant mapping and converter |
 | `RO-Crate-relationship.md` | ADA/CDIF profile mapping to RO-Crate, with ValidateROCrate.py design notes |
 | `validate-cdif.bat` | Windows batch script for oXygen XML Editor integration |
 
@@ -245,6 +250,57 @@ Result: VALID (with warnings)
 ```
 
 The script requires network access on first run to fetch the RO-Crate 1.1 context from `https://w3id.org/ro/crate/1.1/context`.
+
+## Croissant Conversion
+
+`ConvertToCroissant.py` converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissant/docs/croissant-spec.html) (mlcommons.org/croissant/1.0) JSON-LD, an ML-oriented dataset metadata format developed by [MLCommons](https://mlcommons.org/working-groups/data/croissant/). Both formats build on schema.org and JSON-LD, so discovery-level metadata maps directly. See `CDIFtoCroissant.md` for the full mapping documentation.
+
+### How the Croissant Conversion Works
+
+The converter maps CDIF concepts to their Croissant equivalents:
+
+- **Dataset metadata** (name, description, url, license, creator, keywords, funding) maps directly via shared schema.org properties
+- **`schema:DataDownload`** becomes `cr:FileObject` with contentUrl, encodingFormat, contentSize, sha256
+- **Archive distributions** (`schema:hasPart`) are inverted: CDIF says "archive hasPart [files]"; Croissant says "file containedIn archive"
+- **`schema:identifier`** (structured PropertyValue with DOI) maps to `citeAs` and fallback `url`
+- **`cdi:TabularTextDataSet`** + `cdi:hasPhysicalMapping` generates `cr:RecordSet` with `cr:Field` entries, each with `source.extract.column` pointing to the originating CSV column
+- **Data types** are mapped: `xsd:decimal` → `sc:Float`, `xsd:string` → `sc:Text`, `xsd:dateTime` → `sc:Date`, etc.
+- **`schema:propertyID`** and `cdi:uses` Concept map to `cr:Field.equivalentProperty`
+
+CDIF properties with no native Croissant equivalent (`prov:wasGeneratedBy`, `dqv:hasQualityMeasurement`, `schema:spatialCoverage`, `schema:temporalCoverage`, `schema:measurementTechnique`, `schema:contributor`, `schema:subjectOf`) are **passed through verbatim** with their namespace prefixes added to the `@context`. These do not break Croissant validation -- consumers simply ignore unknown properties.
+
+When `schema:license` is absent, the converter uses the OGC nil:missing URI (`http://www.opengis.net/def/nil/OGC/0/missing`) as a placeholder.
+
+### Croissant Usage
+
+```bash
+# Convert a CDIF document to Croissant
+python ConvertToCroissant.py input.jsonld -o output-croissant.json
+
+# Verbose mode (shows conversion progress)
+python ConvertToCroissant.py input.jsonld -o output-croissant.json -v
+
+# Validate the Croissant output (requires: pip install mlcroissant)
+mlcroissant validate --jsonld output-croissant.json
+```
+
+**Options:**
+- `-o, --output FILE` - Write the Croissant JSON-LD to a file (default: stdout)
+- `-v, --verbose` - Show detailed conversion progress
+
+**Dependencies:**
+```bash
+pip install PyLD jsonschema          # core (also used by FrameAndValidate.py)
+pip install mlcroissant              # optional, for validating Croissant output
+```
+
+**Example Croissant output files** are in `MetadataExamples/`:
+
+| CDIF source | Croissant output | Features |
+|---|---|---|
+| `cdif_10.60707-0y88-ps96.json` | `cdif_0y88-ps96-croissant.json` | RecordSet with 10 Fields, physicalMapping, archive distribution |
+| `xanes-2arx-b516.json` | `xanes-2arx-b516-croissant.json` | Archive with 2 component files, provenance pass-through |
+| `tof-htk9-f770.json` | `tof-htk9-f770-croissant.json` | 10 mixed-type files (TIFF, BMP, CSV, PDF, YAML, ZIP), contributor roles |
 
 ## Usage Examples
 
@@ -630,7 +686,7 @@ The `MetadataExamples/` directory contains sample CDIF JSON-LD documents for tes
 | `xanes-2arx-b516.json` | XANES | X-ray absorption near-edge structure |
 | `yv1f-jb20.json` | -- | General dataset |
 
-Corresponding `*-rocrate.json` files contain the converted RO-Crate output produced by `ValidateROCrate.py`.
+Corresponding `*-rocrate.json` files contain the converted RO-Crate output produced by `ValidateROCrate.py`. Corresponding `*-croissant.json` files contain the Croissant output produced by `ConvertToCroissant.py`.
 
 ## DDI-CDI Resolved Schema
 
