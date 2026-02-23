@@ -9,7 +9,112 @@
       "spdx": "http://spdx.org/rdf/terms#",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
       "csvw": "http://www.w3.org/ns/csvw#",
-      "time": "http://www.w3.org/2006/time#"
+      "time": "http://www.w3.org/2006/time#",
+      "ada": "https://ada.astromat.org/metadata/",
+      "xas": "https://ada.astromat.org/metadata/xas/",
+      "nxs": "https://manual.nexusformat.org/classes/",
+      "wasGeneratedBy": {
+        "@id": "prov:wasGeneratedBy",
+        "@container": "@set"
+      },
+      "wasDerivedFrom": {
+        "@id": "prov:wasDerivedFrom",
+        "@container": "@set"
+      },
+      "used": {
+        "@id": "prov:used",
+        "@container": "@set"
+      },
+      "Activity": "prov:Activity",
+      "checksum": "spdx:checksum",
+      "algorithm": "spdx:algorithm",
+      "checksumValue": "spdx:checksumValue",
+      "hasQualityMeasurement": {
+        "@id": "dqv:hasQualityMeasurement",
+        "@container": "@set"
+      },
+      "isMeasurementOf": "dqv:isMeasurementOf",
+      "QualityMeasurement": "dqv:QualityMeasurement",
+      "hasGeometry": "geosparql:hasGeometry",
+      "asWKT": "geosparql:asWKT",
+      "crs": "geosparql:crs",
+      "wktLiteral": "geosparql:wktLiteral",
+      "ProperInterval": "time:ProperInterval",
+      "Instant": "time:Instant",
+      "TimePosition": "time:TimePosition",
+      "intervalStartedBy": {
+        "@id": "time:intervalStartedBy",
+        "@type": "@id"
+      },
+      "intervalFinishedBy": {
+        "@id": "time:intervalFinishedBy",
+        "@type": "@id"
+      },
+      "hasBeginning": "time:hasBeginning",
+      "hasEnd": "time:hasEnd",
+      "inTimePosition": "time:inTimePosition",
+      "hasTRS": {
+        "@id": "time:hasTRS",
+        "@type": "@id"
+      },
+      "numericPosition": "time:numericPosition",
+      "InstanceVariable": "cdi:InstanceVariable",
+      "StructuredDataSet": "cdi:StructuredDataSet",
+      "TabularTextDataSet": "cdi:TabularTextDataSet",
+      "intendedDataType": "cdi:intendedDataType",
+      "role": "cdi:role",
+      "describedUnitOfMeasure": "cdi:describedUnitOfMeasure",
+      "simpleUnitOfMeasure": "cdi:simpleUnitOfMeasure",
+      "unitOfMeasureKind": "cdi:unitOfMeasureKind",
+      "uses": {
+        "@id": "cdi:uses",
+        "@container": "@set"
+      },
+      "characterSet": "cdi:characterSet",
+      "fileSize": "cdi:fileSize",
+      "fileSizeUofM": "cdi:fileSizeUofM",
+      "hasPhysicalMapping": {
+        "@id": "cdi:hasPhysicalMapping",
+        "@container": "@set"
+      },
+      "decimalPositions": "cdi:decimalPositions",
+      "defaultValue": "cdi:defaultValue",
+      "format": "cdi:format",
+      "isRequired": "cdi:isRequired",
+      "maximumLength": "cdi:maximumLength",
+      "minimumLength": "cdi:minimumLength",
+      "nullSequence": "cdi:nullSequence",
+      "physicalDataType": "cdi:physicalDataType",
+      "scale": "cdi:scale",
+      "index": "cdi:index",
+      "locator": "cdi:locator",
+      "formats_InstanceVariable": {
+        "@id": "cdi:formats_InstanceVariable",
+        "@type": "@id"
+      },
+      "arrayBase": "cdi:arrayBase",
+      "escapeCharacter": "cdi:escapeCharacter",
+      "headerIsCaseSensitive": "cdi:headerIsCaseSensitive",
+      "isDelimited": "cdi:isDelimited",
+      "isFixedWidth": "cdi:isFixedWidth",
+      "treatConsecutiveDelimitersAsOne": "cdi:treatConsecutiveDelimitersAsOne",
+      "defaultDecimalSeparator": "cdi:defaultDecimalSeparator",
+      "defaultDigitalGroupSeparator": "cdi:defaultDigitalGroupSeparator",
+      "displayLabel": "cdi:displayLabel",
+      "length": "cdi:length",
+      "commentPrefix": "csvw:commentPrefix",
+      "delimiter": "csvw:delimiter",
+      "header": "csvw:header",
+      "headerRowCount": "csvw:headerRowCount",
+      "lineTerminators": "csvw:lineTerminators",
+      "quoteChar": "csvw:quoteChar",
+      "skipBlankRows": "csvw:skipBlankRows",
+      "skipColumns": "csvw:skipColumns",
+      "skipInitialSpace": "csvw:skipInitialSpace",
+      "skipRows": "csvw:skipRows",
+      "tableDirection": "csvw:tableDirection",
+      "textDirection": "csvw:textDirection",
+      "trim": "csvw:trim"
     }
   ],
   "@graph": [
@@ -35,7 +140,7 @@
       "size": {
         "@id": "_:b4"
       },
-      "spdx:checksum": "b5c913888c9363d36fa28d2e36d67b5f7900786b0652f752c56093e5134bd057"
+      "checksum": "b5c913888c9363d36fa28d2e36d67b5f7900786b0652f752c56093e5134bd057"
     },
     {
       "@id": "#13072e1fffd3d921e04c32a5baee5113",
@@ -46,7 +151,7 @@
       "size": {
         "@id": "_:b9"
       },
-      "spdx:checksum": "b9ed542526a6343e78153c6ac51ff60d260065b9ba3b65d997ecc6ac37182d68"
+      "checksum": "b9ed542526a6343e78153c6ac51ff60d260065b9ba3b65d997ecc6ac37182d68"
     },
     {
       "@id": "#277237413b9254e0092e53c7ece2fbcd",
@@ -57,7 +162,7 @@
       "size": {
         "@id": "_:b7"
       },
-      "spdx:checksum": "46aaa61a8722d8f3b05c352b9e54cb8ef760b7a0c5c85ebfc2abf597add56159"
+      "checksum": "46aaa61a8722d8f3b05c352b9e54cb8ef760b7a0c5c85ebfc2abf597add56159"
     },
     {
       "@id": "#2dc0fa4dcfa4e963481eb0cb3e63bf60",
@@ -71,7 +176,7 @@
       "size": {
         "@id": "_:b1"
       },
-      "spdx:checksum": "6ffbb38de80cee3c7180f9a511a5209a30917554e8b6e4269a2bd4a973ea1222"
+      "checksum": "6ffbb38de80cee3c7180f9a511a5209a30917554e8b6e4269a2bd4a973ea1222"
     },
     {
       "@id": "#3ad26627cf1c48f357828a2b8cf95c7a",
@@ -82,7 +187,7 @@
       "size": {
         "@id": "_:b5"
       },
-      "spdx:checksum": "c8c8e62b476718a9990534998d797cd9a3e85cbe3d223f34ed97234f8556696e"
+      "checksum": "c8c8e62b476718a9990534998d797cd9a3e85cbe3d223f34ed97234f8556696e"
     },
     {
       "@id": "#5c7e1db1b3a446dd973e753018429955",
@@ -93,7 +198,7 @@
       "size": {
         "@id": "_:b3"
       },
-      "spdx:checksum": "50abfb50d371a708632b2cdf185b29fab6bab17795237e25fb7c1606b16210e6"
+      "checksum": "50abfb50d371a708632b2cdf185b29fab6bab17795237e25fb7c1606b16210e6"
     },
     {
       "@id": "#88b2c4d8990ac81dd6a5a4c0b830d64f",
@@ -107,7 +212,7 @@
       "size": {
         "@id": "_:b8"
       },
-      "spdx:checksum": "cb0a3dafa8be7e900999a0b360c392c37947e95d131ae9157ddab616352ec8aa"
+      "checksum": "cb0a3dafa8be7e900999a0b360c392c37947e95d131ae9157ddab616352ec8aa"
     },
     {
       "@id": "#8d03cf9c357fdff035268feceb108200",
@@ -121,7 +226,7 @@
       "size": {
         "@id": "_:b6"
       },
-      "spdx:checksum": "6c27a7b37fd3a6db2c2a599c3ee72d701fa598a60354b121079f2d0e9fbb5ead"
+      "checksum": "6c27a7b37fd3a6db2c2a599c3ee72d701fa598a60354b121079f2d0e9fbb5ead"
     },
     {
       "@id": "#ba5a8e25dd936de490f641462314f3c1",
@@ -132,7 +237,7 @@
       "size": {
         "@id": "_:b2"
       },
-      "spdx:checksum": "17396538b0af53c8ca05490ed0a7f1d66f4baf415eb93fd5284959ecd6afaa65"
+      "checksum": "17396538b0af53c8ca05490ed0a7f1d66f4baf415eb93fd5284959ecd6afaa65"
     },
     {
       "@id": "#c113cb1c7a5675e7c218f9e84a9b7379",
@@ -146,12 +251,12 @@
       "size": {
         "@id": "_:b10"
       },
-      "spdx:checksum": "73168409f51688a8bed6eb289199a953d8153c9651d2cd79a2c9e2772c834fc2"
+      "checksum": "73168409f51688a8bed6eb289199a953d8153c9651d2cd79a2c9e2772c834fc2"
     },
     {
       "@id": "#intensity",
       "@type": "PropertyValue",
-      "cdi:unitOfMeasureKind": "missing",
+      "unitOfMeasureKind": "missing",
       "description": "This is a unitless measure of intensity of the mass peak",
       "name": "Intensity",
       "propertyID": "missing"
@@ -159,7 +264,7 @@
     {
       "@id": "#mass",
       "@type": "PropertyValue",
-      "cdi:unitOfMeasureKind": "missing",
+      "unitOfMeasureKind": "missing",
       "description": "This dimension is the mass-to-charge ratio measured by the mass spectrometer",
       "name": "Mass",
       "propertyID": "missing"
@@ -167,7 +272,7 @@
     {
       "@id": "#time",
       "@type": "PropertyValue",
-      "cdi:unitOfMeasureKind": "missing",
+      "unitOfMeasureKind": "missing",
       "description": "This dimension is the chromatographic retention time",
       "name": "Time",
       "propertyID": "missing"
@@ -243,8 +348,8 @@
       "@id": "_:b14",
       "@type": [
         "Event",
-        "https://ada.astromat.org/metadata/xas/AnalysisEvent",
-        "prov:Activity"
+        "xas:AnalysisEvent",
+        "Activity"
       ],
       "identifier": "20231121_GC-MS_GSFC_OREX-803003-0_1",
       "location": {
@@ -254,15 +359,17 @@
         "@id": "_:b16"
       },
       "startDate": "2023-11-21T14:15:09.935669+00:00",
-      "prov:used": {
-        "@id": "_:b17"
-      }
+      "used": [
+        {
+          "@id": "_:b17"
+        }
+      ]
     },
     {
       "@id": "_:b15",
       "@type": [
         "Place",
-        "https://manual.nexusformat.org/classes/BaseClass/NXsource"
+        "nxs:BaseClass/NXsource"
       ],
       "alternateName": "GSFC",
       "identifier": "",
@@ -282,7 +389,7 @@
       "@type": [
         "Thing",
         "prov:Entity",
-        "https://manual.nexusformat.org/classes/BaseClass/NXinstrument"
+        "nxs:BaseClass/NXinstrument"
       ],
       "identifier": "TSQ9610",
       "name": "Thermo TSQ9610 with Trace 1610 with pyroprobe"
@@ -336,35 +443,35 @@
       "value": 29691
     },
     {
-      "@id": "https://ada.astromat.org/metadata/metadata_134",
+      "@id": "ada:metadata_134",
       "@type": "Dataset",
       "conformsTo": [
         {
-          "@id": "https://ada.astromat.org/metadata/dataCube"
+          "@id": "ada:dataCube"
         },
         {
-          "@id": "https://ada.astromat.org/metadata/methodDescription"
+          "@id": "ada:methodDescription"
         },
         {
-          "@id": "https://ada.astromat.org/metadata/GCMSCollection"
+          "@id": "ada:GCMSCollection"
         },
         {
-          "@id": "https://ada.astromat.org/metadata/samplePreparation"
+          "@id": "ada:samplePreparation"
         },
         {
-          "@id": "https://ada.astromat.org/metadata/image"
+          "@id": "ada:image"
         },
         {
-          "@id": "https://ada.astromat.org/metadata/document"
+          "@id": "ada:document"
         },
         {
-          "@id": "https://ada.astromat.org/metadata/instrumentMetadata"
+          "@id": "ada:instrumentMetadata"
         },
         {
-          "@id": "https://ada.astromat.org/metadata/report"
+          "@id": "ada:report"
         },
         {
-          "@id": "https://ada.astromat.org/metadata/metadata"
+          "@id": "ada:metadata"
         },
         {
           "@id": "CDIF_basic_1.0"
@@ -387,11 +494,7 @@
       ],
       "additionalType": "Gas Chromatography-Mass Spectrometry",
       "creator": {
-        "@list": [
-          {
-            "@id": "https://ada.org/person/5489"
-          }
-        ]
+        "@id": "https://ada.org/person/5489"
       },
       "datePublished": "2024-11-21",
       "description": "This bundle contains data from the pyrolysis GC-MS analysis of bulk Bennu aggregate collected from TAGSAM; 1mg of powder was loaded into quartz cups and pyrolyzed at 600C using a simultaneous full scan and multiple reaction monitoring method for IOM-derived compounds (fullscan+MRM). The collection includes three samples, one procedural blank, Bennu, and Murchison.  The bundle also includes information on sample preparation and analytical methods.",
@@ -409,7 +512,7 @@
       },
       "name": "Pyrolysis GCMS Bundle - First Bennu TAGSAM aggregate",
       "subjectOf": {
-        "@id": "https://ada.astromat.org/metadata/metadata_134"
+        "@id": "ada:metadata_134"
       },
       "url": "",
       "variableMeasured": [
@@ -423,9 +526,52 @@
           "@id": "#intensity"
         }
       ],
-      "prov:wasGeneratedBy": {
-        "@id": "_:b14"
-      }
+      "wasGeneratedBy": [
+        {
+          "@id": "_:b14"
+        }
+      ],
+      "license": {
+        "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+      },
+      "hasPart": [
+        {
+          "@id": "#022df8277967ddb7184d23863723fd73"
+        },
+        {
+          "@id": "#13072e1fffd3d921e04c32a5baee5113"
+        },
+        {
+          "@id": "#277237413b9254e0092e53c7ece2fbcd"
+        },
+        {
+          "@id": "#2dc0fa4dcfa4e963481eb0cb3e63bf60"
+        },
+        {
+          "@id": "#3ad26627cf1c48f357828a2b8cf95c7a"
+        },
+        {
+          "@id": "#5c7e1db1b3a446dd973e753018429955"
+        },
+        {
+          "@id": "#88b2c4d8990ac81dd6a5a4c0b830d64f"
+        },
+        {
+          "@id": "#8d03cf9c357fdff035268feceb108200"
+        },
+        {
+          "@id": "#ba5a8e25dd936de490f641462314f3c1"
+        },
+        {
+          "@id": "#c113cb1c7a5675e7c218f9e84a9b7379"
+        },
+        {
+          "@id": "_:b0"
+        },
+        {
+          "@id": "ada:metadata_134"
+        }
+      ]
     },
     {
       "@id": "https://ada.org/person/3479",

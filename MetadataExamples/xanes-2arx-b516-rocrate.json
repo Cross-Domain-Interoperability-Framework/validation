@@ -9,7 +9,112 @@
       "spdx": "http://spdx.org/rdf/terms#",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
       "csvw": "http://www.w3.org/ns/csvw#",
-      "time": "http://www.w3.org/2006/time#"
+      "time": "http://www.w3.org/2006/time#",
+      "ada": "https://ada.astromat.org/metadata/",
+      "xas": "https://ada.astromat.org/metadata/xas/",
+      "nxs": "https://manual.nexusformat.org/classes/",
+      "wasGeneratedBy": {
+        "@id": "prov:wasGeneratedBy",
+        "@container": "@set"
+      },
+      "wasDerivedFrom": {
+        "@id": "prov:wasDerivedFrom",
+        "@container": "@set"
+      },
+      "used": {
+        "@id": "prov:used",
+        "@container": "@set"
+      },
+      "Activity": "prov:Activity",
+      "checksum": "spdx:checksum",
+      "algorithm": "spdx:algorithm",
+      "checksumValue": "spdx:checksumValue",
+      "hasQualityMeasurement": {
+        "@id": "dqv:hasQualityMeasurement",
+        "@container": "@set"
+      },
+      "isMeasurementOf": "dqv:isMeasurementOf",
+      "QualityMeasurement": "dqv:QualityMeasurement",
+      "hasGeometry": "geosparql:hasGeometry",
+      "asWKT": "geosparql:asWKT",
+      "crs": "geosparql:crs",
+      "wktLiteral": "geosparql:wktLiteral",
+      "ProperInterval": "time:ProperInterval",
+      "Instant": "time:Instant",
+      "TimePosition": "time:TimePosition",
+      "intervalStartedBy": {
+        "@id": "time:intervalStartedBy",
+        "@type": "@id"
+      },
+      "intervalFinishedBy": {
+        "@id": "time:intervalFinishedBy",
+        "@type": "@id"
+      },
+      "hasBeginning": "time:hasBeginning",
+      "hasEnd": "time:hasEnd",
+      "inTimePosition": "time:inTimePosition",
+      "hasTRS": {
+        "@id": "time:hasTRS",
+        "@type": "@id"
+      },
+      "numericPosition": "time:numericPosition",
+      "InstanceVariable": "cdi:InstanceVariable",
+      "StructuredDataSet": "cdi:StructuredDataSet",
+      "TabularTextDataSet": "cdi:TabularTextDataSet",
+      "intendedDataType": "cdi:intendedDataType",
+      "role": "cdi:role",
+      "describedUnitOfMeasure": "cdi:describedUnitOfMeasure",
+      "simpleUnitOfMeasure": "cdi:simpleUnitOfMeasure",
+      "unitOfMeasureKind": "cdi:unitOfMeasureKind",
+      "uses": {
+        "@id": "cdi:uses",
+        "@container": "@set"
+      },
+      "characterSet": "cdi:characterSet",
+      "fileSize": "cdi:fileSize",
+      "fileSizeUofM": "cdi:fileSizeUofM",
+      "hasPhysicalMapping": {
+        "@id": "cdi:hasPhysicalMapping",
+        "@container": "@set"
+      },
+      "decimalPositions": "cdi:decimalPositions",
+      "defaultValue": "cdi:defaultValue",
+      "format": "cdi:format",
+      "isRequired": "cdi:isRequired",
+      "maximumLength": "cdi:maximumLength",
+      "minimumLength": "cdi:minimumLength",
+      "nullSequence": "cdi:nullSequence",
+      "physicalDataType": "cdi:physicalDataType",
+      "scale": "cdi:scale",
+      "index": "cdi:index",
+      "locator": "cdi:locator",
+      "formats_InstanceVariable": {
+        "@id": "cdi:formats_InstanceVariable",
+        "@type": "@id"
+      },
+      "arrayBase": "cdi:arrayBase",
+      "escapeCharacter": "cdi:escapeCharacter",
+      "headerIsCaseSensitive": "cdi:headerIsCaseSensitive",
+      "isDelimited": "cdi:isDelimited",
+      "isFixedWidth": "cdi:isFixedWidth",
+      "treatConsecutiveDelimitersAsOne": "cdi:treatConsecutiveDelimitersAsOne",
+      "defaultDecimalSeparator": "cdi:defaultDecimalSeparator",
+      "defaultDigitalGroupSeparator": "cdi:defaultDigitalGroupSeparator",
+      "displayLabel": "cdi:displayLabel",
+      "length": "cdi:length",
+      "commentPrefix": "csvw:commentPrefix",
+      "delimiter": "csvw:delimiter",
+      "header": "csvw:header",
+      "headerRowCount": "csvw:headerRowCount",
+      "lineTerminators": "csvw:lineTerminators",
+      "quoteChar": "csvw:quoteChar",
+      "skipBlankRows": "csvw:skipBlankRows",
+      "skipColumns": "csvw:skipColumns",
+      "skipInitialSpace": "csvw:skipInitialSpace",
+      "skipRows": "csvw:skipRows",
+      "tableDirection": "csvw:tableDirection",
+      "textDirection": "csvw:textDirection",
+      "trim": "csvw:trim"
     }
   ],
   "@graph": [
@@ -35,7 +140,7 @@
       "size": {
         "@id": "_:b1"
       },
-      "spdx:checksum": "bff6bcf4c5ba05fa0b7a21f362f10367df173a70e4042c3417a48f6adc1b2e92"
+      "checksum": "bff6bcf4c5ba05fa0b7a21f362f10367df173a70e4042c3417a48f6adc1b2e92"
     },
     {
       "@id": "#55a2bc2d9b97bb669ce582df7ed3c323",
@@ -46,7 +151,7 @@
       "size": {
         "@id": "_:b2"
       },
-      "spdx:checksum": "eb68f67f103b35f8ab49f6343d27250f3c269452a87dddff932e6802f404fc94"
+      "checksum": "eb68f67f103b35f8ab49f6343d27250f3c269452a87dddff932e6802f404fc94"
     },
     {
       "@id": "_:b0",
@@ -95,8 +200,8 @@
       "@id": "_:b6",
       "@type": [
         "Event",
-        "https://ada.astromat.org/metadata/xas/AnalysisEvent",
-        "prov:Activity"
+        "xas:AnalysisEvent",
+        "Activity"
       ],
       "identifier": "20241027_XANES_ALS_OREX-800055-125_1",
       "location": {
@@ -106,15 +211,17 @@
         "@id": "_:b8"
       },
       "startDate": "2024-10-27T12:00:00+00:00",
-      "prov:used": {
-        "@id": "_:b9"
-      }
+      "used": [
+        {
+          "@id": "_:b9"
+        }
+      ]
     },
     {
       "@id": "_:b7",
       "@type": [
         "Place",
-        "https://manual.nexusformat.org/classes/BaseClass/NXsource"
+        "nxs:BaseClass/NXsource"
       ],
       "alternateName": "ALS",
       "identifier": "",
@@ -134,26 +241,26 @@
       "@type": [
         "Thing",
         "prov:Entity",
-        "https://manual.nexusformat.org/classes/BaseClass/NXinstrument"
+        "nxs:BaseClass/NXinstrument"
       ],
       "identifier": "ALSSTXM",
       "name": "ALS STXM beamline 5.3.2.2"
     },
     {
-      "@id": "https://ada.astromat.org/metadata/metadata_2608",
+      "@id": "ada:metadata_2608",
       "@type": "Dataset",
       "conformsTo": [
         {
-          "@id": "https://ada.astromat.org/metadata/XANESCollection"
+          "@id": "ada:XANESCollection"
         },
         {
-          "@id": "https://ada.astromat.org/metadata/metadata"
+          "@id": "ada:metadata"
         },
         {
           "@id": "CDIF_basic_1.0"
         },
         {
-          "@id": "https://ada.astromat.org/metadata/collection"
+          "@id": "ada:collection"
         }
       ],
       "about": {
@@ -173,11 +280,7 @@
       ],
       "additionalType": "X-ray absorption near edge structure (XANES) spectroscopy",
       "creator": {
-        "@list": [
-          {
-            "@id": "https://ada.org/person/5489"
-          }
-        ]
+        "@id": "https://ada.org/person/5489"
       },
       "datePublished": "2025-12-31",
       "description": "XANES was done immediately after FIBing to preserve spectroscopy as best as possible.  Data was taken as linescans to reduce beam damage, and two line scans of carbon were done sequentially to monitor sample modification due to X-ray irradiation.",
@@ -195,13 +298,32 @@
       },
       "name": "C-K, N-K, O-K XANES of N-rich sample from the angular lithology",
       "subjectOf": {
-        "@id": "https://ada.astromat.org/metadata/metadata_2608"
+        "@id": "ada:metadata_2608"
       },
       "url": "https://ada-prod.prod.astromat.org/doi/10.60707/2arx-b516",
       "variableMeasured": [],
-      "prov:wasGeneratedBy": {
-        "@id": "_:b6"
-      }
+      "wasGeneratedBy": [
+        {
+          "@id": "_:b6"
+        }
+      ],
+      "license": {
+        "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+      },
+      "hasPart": [
+        {
+          "@id": "#4d372ded45e96d2d7b5a7c66f374eb67"
+        },
+        {
+          "@id": "#55a2bc2d9b97bb669ce582df7ed3c323"
+        },
+        {
+          "@id": "_:b0"
+        },
+        {
+          "@id": "ada:metadata_2608"
+        }
+      ]
     },
     {
       "@id": "https://ada.org/person/3479",

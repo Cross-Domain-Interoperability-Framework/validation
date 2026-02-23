@@ -9,7 +9,112 @@
       "spdx": "http://spdx.org/rdf/terms#",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
       "csvw": "http://www.w3.org/ns/csvw#",
-      "time": "http://www.w3.org/2006/time#"
+      "time": "http://www.w3.org/2006/time#",
+      "ada": "https://ada.astromat.org/metadata/",
+      "xas": "https://ada.astromat.org/metadata/xas/",
+      "nxs": "https://manual.nexusformat.org/classes/",
+      "wasGeneratedBy": {
+        "@id": "prov:wasGeneratedBy",
+        "@container": "@set"
+      },
+      "wasDerivedFrom": {
+        "@id": "prov:wasDerivedFrom",
+        "@container": "@set"
+      },
+      "used": {
+        "@id": "prov:used",
+        "@container": "@set"
+      },
+      "Activity": "prov:Activity",
+      "checksum": "spdx:checksum",
+      "algorithm": "spdx:algorithm",
+      "checksumValue": "spdx:checksumValue",
+      "hasQualityMeasurement": {
+        "@id": "dqv:hasQualityMeasurement",
+        "@container": "@set"
+      },
+      "isMeasurementOf": "dqv:isMeasurementOf",
+      "QualityMeasurement": "dqv:QualityMeasurement",
+      "hasGeometry": "geosparql:hasGeometry",
+      "asWKT": "geosparql:asWKT",
+      "crs": "geosparql:crs",
+      "wktLiteral": "geosparql:wktLiteral",
+      "ProperInterval": "time:ProperInterval",
+      "Instant": "time:Instant",
+      "TimePosition": "time:TimePosition",
+      "intervalStartedBy": {
+        "@id": "time:intervalStartedBy",
+        "@type": "@id"
+      },
+      "intervalFinishedBy": {
+        "@id": "time:intervalFinishedBy",
+        "@type": "@id"
+      },
+      "hasBeginning": "time:hasBeginning",
+      "hasEnd": "time:hasEnd",
+      "inTimePosition": "time:inTimePosition",
+      "hasTRS": {
+        "@id": "time:hasTRS",
+        "@type": "@id"
+      },
+      "numericPosition": "time:numericPosition",
+      "InstanceVariable": "cdi:InstanceVariable",
+      "StructuredDataSet": "cdi:StructuredDataSet",
+      "TabularTextDataSet": "cdi:TabularTextDataSet",
+      "intendedDataType": "cdi:intendedDataType",
+      "role": "cdi:role",
+      "describedUnitOfMeasure": "cdi:describedUnitOfMeasure",
+      "simpleUnitOfMeasure": "cdi:simpleUnitOfMeasure",
+      "unitOfMeasureKind": "cdi:unitOfMeasureKind",
+      "uses": {
+        "@id": "cdi:uses",
+        "@container": "@set"
+      },
+      "characterSet": "cdi:characterSet",
+      "fileSize": "cdi:fileSize",
+      "fileSizeUofM": "cdi:fileSizeUofM",
+      "hasPhysicalMapping": {
+        "@id": "cdi:hasPhysicalMapping",
+        "@container": "@set"
+      },
+      "decimalPositions": "cdi:decimalPositions",
+      "defaultValue": "cdi:defaultValue",
+      "format": "cdi:format",
+      "isRequired": "cdi:isRequired",
+      "maximumLength": "cdi:maximumLength",
+      "minimumLength": "cdi:minimumLength",
+      "nullSequence": "cdi:nullSequence",
+      "physicalDataType": "cdi:physicalDataType",
+      "scale": "cdi:scale",
+      "index": "cdi:index",
+      "locator": "cdi:locator",
+      "formats_InstanceVariable": {
+        "@id": "cdi:formats_InstanceVariable",
+        "@type": "@id"
+      },
+      "arrayBase": "cdi:arrayBase",
+      "escapeCharacter": "cdi:escapeCharacter",
+      "headerIsCaseSensitive": "cdi:headerIsCaseSensitive",
+      "isDelimited": "cdi:isDelimited",
+      "isFixedWidth": "cdi:isFixedWidth",
+      "treatConsecutiveDelimitersAsOne": "cdi:treatConsecutiveDelimitersAsOne",
+      "defaultDecimalSeparator": "cdi:defaultDecimalSeparator",
+      "defaultDigitalGroupSeparator": "cdi:defaultDigitalGroupSeparator",
+      "displayLabel": "cdi:displayLabel",
+      "length": "cdi:length",
+      "commentPrefix": "csvw:commentPrefix",
+      "delimiter": "csvw:delimiter",
+      "header": "csvw:header",
+      "headerRowCount": "csvw:headerRowCount",
+      "lineTerminators": "csvw:lineTerminators",
+      "quoteChar": "csvw:quoteChar",
+      "skipBlankRows": "csvw:skipBlankRows",
+      "skipColumns": "csvw:skipColumns",
+      "skipInitialSpace": "csvw:skipInitialSpace",
+      "skipRows": "csvw:skipRows",
+      "tableDirection": "csvw:tableDirection",
+      "textDirection": "csvw:textDirection",
+      "trim": "csvw:trim"
     }
   ],
   "@graph": [
@@ -35,7 +140,7 @@
       "size": {
         "@id": "_:b11"
       },
-      "spdx:checksum": "465c660f56427224c3831c750fd885f0a36b03baafcf835a8b162cba0ffde08f"
+      "checksum": "465c660f56427224c3831c750fd885f0a36b03baafcf835a8b162cba0ffde08f"
     },
     {
       "@id": "#32d30f9d3a385172ea5906fc06439977",
@@ -46,7 +151,7 @@
       "size": {
         "@id": "_:b6"
       },
-      "spdx:checksum": "3e71eb1547e7cc24eba6e71684220966f056aafeedf6ad5e9c10ba13a9cca884"
+      "checksum": "3e71eb1547e7cc24eba6e71684220966f056aafeedf6ad5e9c10ba13a9cca884"
     },
     {
       "@id": "#5675f68dfab6a3446878949e7fbd5882",
@@ -57,7 +162,7 @@
       "size": {
         "@id": "_:b8"
       },
-      "spdx:checksum": "e3c4e2b7512ad6ad2c991a43bf57b58cbae9577d8d5c94e65d33b8931054366e"
+      "checksum": "e3c4e2b7512ad6ad2c991a43bf57b58cbae9577d8d5c94e65d33b8931054366e"
     },
     {
       "@id": "#5e088bc092e318ab8ae61a1284320499",
@@ -71,7 +176,7 @@
       "size": {
         "@id": "_:b9"
       },
-      "spdx:checksum": "b8905b8020ec5e6079dfcd2ad54c3838129a3f177f593810633b8f893b89108e"
+      "checksum": "b8905b8020ec5e6079dfcd2ad54c3838129a3f177f593810633b8f893b89108e"
     },
     {
       "@id": "#6c0aed6923c6fca37469cc59e5add8ce",
@@ -82,7 +187,7 @@
       "size": {
         "@id": "_:b10"
       },
-      "spdx:checksum": "59a4e5ca3eaca8cf2a77fd9e5ce20763d585c8d0c6ed4355a145fcf61b373127"
+      "checksum": "59a4e5ca3eaca8cf2a77fd9e5ce20763d585c8d0c6ed4355a145fcf61b373127"
     },
     {
       "@id": "#9e05d561e951f4d8db305abc5d9e90d9",
@@ -96,7 +201,7 @@
       "size": {
         "@id": "_:b5"
       },
-      "spdx:checksum": "7a8d2eac2079d3f94ba55870428b0d670f4f90493f28ba57522465f853754d6f"
+      "checksum": "7a8d2eac2079d3f94ba55870428b0d670f4f90493f28ba57522465f853754d6f"
     },
     {
       "@id": "#bc5a1735d767daa691aef225824ff94a",
@@ -107,7 +212,7 @@
       "size": {
         "@id": "_:b4"
       },
-      "spdx:checksum": "205cb106ce0349f4f663c687c28a098226c75f5b4b955fdcb8c5a1962d5a50d7"
+      "checksum": "205cb106ce0349f4f663c687c28a098226c75f5b4b955fdcb8c5a1962d5a50d7"
     },
     {
       "@id": "#f3005aae39bd9125e9d74fa3e4622636",
@@ -121,7 +226,7 @@
       "size": {
         "@id": "_:b7"
       },
-      "spdx:checksum": "d3620f56e0ebb9eccf96a53a0f6eecb77437400359733cbeff1f36c57ba21655"
+      "checksum": "d3620f56e0ebb9eccf96a53a0f6eecb77437400359733cbeff1f36c57ba21655"
     },
     {
       "@id": "#f3d05b898982b3f44d88fb0dd37dd066",
@@ -132,7 +237,7 @@
       "size": {
         "@id": "_:b3"
       },
-      "spdx:checksum": "2c9522e6bf3912db75ed86a07f4bfe77552d35c9546ee2e50240c86ea57252bb"
+      "checksum": "2c9522e6bf3912db75ed86a07f4bfe77552d35c9546ee2e50240c86ea57252bb"
     },
     {
       "@id": "#f857ac1e5bb24d4273f93fe1a636a9a0",
@@ -146,7 +251,7 @@
       "size": {
         "@id": "_:b2"
       },
-      "spdx:checksum": "817ec2e1f4723f816d8e92be9cd96e7caf9743ff392e535f4c6534407020b644"
+      "checksum": "817ec2e1f4723f816d8e92be9cd96e7caf9743ff392e535f4c6534407020b644"
     },
     {
       "@id": "_:b0",
@@ -227,8 +332,8 @@
       "@id": "_:b15",
       "@type": [
         "Event",
-        "https://ada.astromat.org/metadata/xas/AnalysisEvent",
-        "prov:Activity"
+        "xas:AnalysisEvent",
+        "Activity"
       ],
       "identifier": "20231125_ToF-SIMS_CUWA_OREX-501070-0_1",
       "location": {
@@ -238,15 +343,17 @@
         "@id": "_:b17"
       },
       "startDate": "2023-11-25T18:00:00+00:00",
-      "prov:used": {
-        "@id": "_:b18"
-      }
+      "used": [
+        {
+          "@id": "_:b18"
+        }
+      ]
     },
     {
       "@id": "_:b16",
       "@type": [
         "Place",
-        "https://manual.nexusformat.org/classes/BaseClass/NXsource"
+        "nxs:BaseClass/NXsource"
       ],
       "alternateName": "CUWA",
       "identifier": "",
@@ -266,7 +373,7 @@
       "@type": [
         "Thing",
         "prov:Entity",
-        "https://manual.nexusformat.org/classes/BaseClass/NXinstrument"
+        "nxs:BaseClass/NXinstrument"
       ],
       "identifier": "IONTOFM6",
       "name": "IONTOF M6"
@@ -320,35 +427,35 @@
       "value": 430
     },
     {
-      "@id": "https://ada.astromat.org/metadata/metadata_1354",
+      "@id": "ada:metadata_1354",
       "@type": "Dataset",
       "conformsTo": [
         {
-          "@id": "https://ada.astromat.org/metadata/metadata"
+          "@id": "ada:metadata"
         },
         {
-          "@id": "https://ada.astromat.org/metadata/collection"
+          "@id": "ada:collection"
         },
         {
-          "@id": "https://ada.astromat.org/metadata/contextPhotography"
+          "@id": "ada:contextPhotography"
         },
         {
-          "@id": "https://ada.astromat.org/metadata/peaks"
+          "@id": "ada:peaks"
         },
         {
-          "@id": "https://ada.astromat.org/metadata/TOFSIMSCollection"
+          "@id": "ada:TOFSIMSCollection"
         },
         {
-          "@id": "https://ada.astromat.org/metadata/image"
+          "@id": "ada:image"
         },
         {
-          "@id": "https://ada.astromat.org/metadata/document"
+          "@id": "ada:document"
         },
         {
           "@id": "CDIF_basic_1.0"
         },
         {
-          "@id": "https://ada.astromat.org/metadata/methodDescription"
+          "@id": "ada:methodDescription"
         }
       ],
       "about": {
@@ -371,11 +478,7 @@
         "@id": "_:b0"
       },
       "creator": {
-        "@list": [
-          {
-            "@id": "https://ada.org/person/5489"
-          }
-        ]
+        "@id": "https://ada.org/person/5489"
       },
       "datePublished": "2025-01-27",
       "description": "Ion mapping of particles of OREX-501070-0 via Time of flight mass spectrometry (ToF-SIMS). The dataset comprises ion maps of particles in positive ion and negative ion mapping mode.",
@@ -393,13 +496,56 @@
       },
       "name": "Analysis of particles of OREX-501070-0 by Time of flight mass spectrometry (ToF-SIMS) at Curtin University, Western Australia.",
       "subjectOf": {
-        "@id": "https://ada.astromat.org/metadata/metadata_1354"
+        "@id": "ada:metadata_1354"
       },
       "url": "https://ada-prod.prod.astromat.org/doi/10.60707/htk9-f770",
       "variableMeasured": [],
-      "prov:wasGeneratedBy": {
-        "@id": "_:b15"
-      }
+      "wasGeneratedBy": [
+        {
+          "@id": "_:b15"
+        }
+      ],
+      "license": {
+        "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+      },
+      "hasPart": [
+        {
+          "@id": "#270f08f1895930bc6b7f3da41a25df7a"
+        },
+        {
+          "@id": "#32d30f9d3a385172ea5906fc06439977"
+        },
+        {
+          "@id": "#5675f68dfab6a3446878949e7fbd5882"
+        },
+        {
+          "@id": "#5e088bc092e318ab8ae61a1284320499"
+        },
+        {
+          "@id": "#6c0aed6923c6fca37469cc59e5add8ce"
+        },
+        {
+          "@id": "#9e05d561e951f4d8db305abc5d9e90d9"
+        },
+        {
+          "@id": "#bc5a1735d767daa691aef225824ff94a"
+        },
+        {
+          "@id": "#f3005aae39bd9125e9d74fa3e4622636"
+        },
+        {
+          "@id": "#f3d05b898982b3f44d88fb0dd37dd066"
+        },
+        {
+          "@id": "#f857ac1e5bb24d4273f93fe1a636a9a0"
+        },
+        {
+          "@id": "_:b1"
+        },
+        {
+          "@id": "ada:metadata_1354"
+        }
+      ]
     },
     {
       "@id": "https://ada.org/person/3479",

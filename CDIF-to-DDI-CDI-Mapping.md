@@ -33,12 +33,12 @@ CDIF flattens the DDI-CDI multi-class hierarchy into JSON-LD objects at three le
 | `@id` | string | `@id` | (JSON-LD) | iri-reference | Used for cross-references from `cdi:formats_InstanceVariable` |
 | `schema:name` | string (minLength 5) | `name` | Concept | dt-ObjectName | CDIF uses schema.org property; DDI-CDI uses complex ObjectName type |
 | `schema:description` | string (minLength 10) | `descriptiveText` | ConceptualVariable | dt-InternationalString | CDIF uses schema.org; DDI-CDI uses internationalized string |
-| `schema:propertyID` | array of string/object/DefinedTerm | — | — | — | No direct DDI-CDI equivalent; CDIF-specific semantic identifier |
+| `schema:propertyID` | array of string/object/DefinedTerm | —[cdi:Concept.identifier] | —(Concept) | — | DDI-CDI UML indicates inheritance from Concept class |
 | `schema:measurementTechnique` | string/object/DefinedTerm | — | — | — | No direct DDI-CDI equivalent; schema.org property |
 | `schema:unitText` | string | `simpleUnitOfMeasure` | RepresentedVariable | xsd:string | Parallel property; CDIF also has `cdi:simpleUnitOfMeasure` |
 | `schema:unitCode` | string/object/DefinedTerm | `describedUnitOfMeasure` | RepresentedVariable | ControlledVocabularyEntry | Parallel property; CDIF also has `cdi:describedUnitOfMeasure` |
-| `schema:minValue` | number | — | — | — | No DDI-CDI equivalent at variable level |
-| `schema:maxValue` | number | — | — | — | No DDI-CDI equivalent at variable level |
+| `schema:minValue` | number | —[cdi:SubstantiveValueDomain] | —cdi:ValueAndConceptDescription | — | Link through valueDomain/valueAndConceptDescription |
+| `schema:maxValue` | number | —[cdi:SubstantiveValueDomain] | — | — | Link through valueDomain/valueAndConceptDescription |
 | `schema:url` | uri string | `externalDefinition` | Concept | dt-Reference | Approximate match |
 | `cdi:intendedDataType` | string | `hasIntendedDataType` | RepresentedVariable | ControlledVocabularyEntry | CDIF simplifies to plain string; DDI-CDI uses ControlledVocabularyEntry |
 | `cdi:role` | string enum {MeasureComponent, AttributeComponent, DimensionComponent} | — | DataStructureComponent subclasses | — | DDI-CDI models this as separate subclasses of DataStructureComponent; CDIF flattens to a string enum |
