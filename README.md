@@ -31,6 +31,7 @@ This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule s
   - [SHACL Files](#shacl-files)
   - [Using ShaclJSONLDContext.py](#using-shacljsonldcontextpy)
   - [SHACL vs JSON Schema Validation](#shacl-vs-json-schema-validation)
+- [DDI-CDI Resolved Schema](#ddi-cdi-resolved-schema)
 - [Notes](#notes)
 
 ## Files
@@ -46,6 +47,14 @@ This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule s
 | `ValidateROCrate.py` | Python script for RO-Crate conversion and validation |
 | `RO-Crate-relationship.md` | ADA/CDIF profile mapping to RO-Crate, with ValidateROCrate.py design notes |
 | `validate-cdif.bat` | Windows batch script for oXygen XML Editor integration |
+
+### DDI-CDI Resolved Schema
+
+| File | Description |
+|------|-------------|
+| `ddi-cdi.schema_normative.json` | Full DDI-CDI normative JSON Schema (395 definitions) |
+| `cls-InstanceVariable-resolved.json` | Self-contained resolved schema for DDI-CDI InstanceVariable class |
+| `cls-InstanceVariable-resolved-README.md` | Documentation for the resolved schema generation process |
 
 ### Legacy (Pre-2026)
 
@@ -600,6 +609,21 @@ The `MetadataExamples/` directory contains sample CDIF JSON-LD documents for tes
 | `yv1f-jb20.json` | -- | General dataset |
 
 Corresponding `*-rocrate.json` files contain the converted RO-Crate output produced by `ValidateROCrate.py`.
+
+## DDI-CDI Resolved Schema
+
+The `cls-InstanceVariable-resolved.json` file is a standalone JSON Schema (Draft 2020-12) for the DDI-CDI `InstanceVariable` class, derived from `ddi-cdi.schema_normative.json`. It resolves all `$ref` references into a self-contained schema suitable for use in editors like oXygen without needing the full 395-definition DDI-CDI schema.
+
+The resolved schema applies several transformations to make the schema practical:
+
+- **Reverse properties removed** - 767 `_OF_` reverse relationship properties stripped (use JSON-LD `@reverse` instead)
+- **`catalogDetails` removed** - Catalog-level metadata omitted from all classes
+- **Redundant classes omitted** - `cls-DataPoint`, `cls-Datum`, `cls-RepresentedVariable` simplified to IRI-only references
+- **XSD types inlined** - Primitive types (`xsd:string`, `xsd:integer`, etc.) replaced with inline definitions
+- **Patterns normalized** - `if/then/else` array patterns converted to consistent `anyOf`
+- **Frequency-based `$ref` resolution** - Common definitions (>3 uses) in `$defs`; rare definitions inlined
+
+See `cls-InstanceVariable-resolved-README.md` for full details on the generation process, circular reference analysis, and transformation rationale.
 
 ## Notes
 
