@@ -460,6 +460,15 @@ Your JSON-LD metadata documents must include a `@context` with the following nam
 }
 ```
 
+Domain-specific metadata may also use extension namespace prefixes. For example, the XAS (X-ray absorption spectroscopy) test example uses:
+
+| Prefix | IRI | Purpose |
+|--------|-----|---------|
+| `xas` | `http://cdi4exas.org/` | XAS-specific types and properties (beamline, detector, edge energy, etc.) |
+| `cdifq` | `http://crossdomaininteroperability.org/cdifq/` | Placeholder namespace for data structure properties (`nColumns`, `nRows`) not yet assigned to a formal vocabulary |
+
+The `cdifq` namespace is a temporary placeholder. Properties using it (such as row/column counts on data structures) may migrate to DDI-CDI, CSVW, or another standard vocabulary in the future. Both `ConvertToROCrate.py` and `ConvertToCroissant.py` include `cdifq` in their output contexts so that these terms resolve correctly during JSON-LD processing.
+
 ### Legacy Schema Requirements
 
 ```json
@@ -760,6 +769,7 @@ The `MetadataExamples/` directory contains sample CDIF JSON-LD documents for tes
 | `xrd-2j0t-gq80.json` | XRD | X-ray diffraction |
 | `xanes-2arx-b516.json` | XANES | X-ray absorption near-edge structure |
 | `yv1f-jb20.json` | -- | General dataset |
+| `test_se_na2so4-testschemaorg-cdiv3.jsonLD` | XAS | X-ray absorption spectroscopy with DDI-CDI data structure (WideDataStructure, InstanceVariable, ValueMapping). Uses `xas:` and `cdifq:` extension namespaces |
 
 Corresponding `*-rocrate.json` files contain the converted RO-Crate output produced by `ValidateROCrate.py`. Corresponding `*-croissant.json` files contain the Croissant output produced by `ConvertToCroissant.py`.
 
