@@ -1,0 +1,235 @@
+{
+  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "geosparql": "http://www.opengis.net/ont/geosparql#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "ada": "https://ada.astromat.org/metadata/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "ada:record_2353",
+  "@type": [
+    "schema:Dataset",
+    "schema:Product"
+  ],
+  "schema:name": "O-isotope and chemical compositions of olivine and pyroxene in Bennu measured in Hokkaido University",
+  "schema:description": "O-isotope and chemical compositions of olivine and pyroxene in Bennu measured in Hokkaido University",
+  "schema:identifier": {
+    "@type": "schema:PropertyValue",
+    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:value": "10.60707/c7rk-nk69",
+    "schema:url": "https://doi.org/10.60707/c7rk-nk69"
+  },
+  "schema:additionalType": [
+    "Secondary ion mass spectrometry"
+  ],
+  "schema:datePublished": "2025-12-31",
+  "schema:license": [
+    "missing"
+  ],
+  "schema:url": "",
+  "schema:dateModified": "2025-03-11",
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://orcid.org/0000-0001-6502-6488",
+        "@type": "schema:Person",
+        "schema:name": "Kawasaki, Noriyuki",
+        "schema:identifier": "https://orcid.org/0000-0001-6502-6488",
+        "schema:email": "kawasaki@ep.sci.hokudai.ac.jp"
+      }
+    ]
+  },
+  "schema:measurementTechnique": {
+    "@type": "schema:DefinedTerm",
+    "schema:name": "Secondary ion mass spectrometry",
+    "schema:termCode": "SIMS"
+  },
+  "prov:wasGeneratedBy": [
+    {
+      "@type": [
+        "schema:Event",
+        "xas:AnalysisEvent",
+        "prov:Activity"
+      ],
+      "schema:startDate": "2024-02-29T01:42:37.400743Z",
+      "schema:identifier": "20240229_sims_hu_orex-803114-0_1",
+      "prov:used": [
+        {
+          "@type": [
+            "schema:Thing",
+            "prov:Entity",
+            "nxs:BaseClass/NXinstrument"
+          ],
+          "schema:name": "Cameca IMS 1280",
+          "schema:identifier": "CIMS1280"
+        }
+      ],
+      "schema:location": {
+        "@type": [
+          "schema:Place",
+          "nxs:BaseClass/NXsource"
+        ],
+        "schema:identifier": "https://ror.org/04xt43068",
+        "schema:name": "Hokkaido University",
+        "schema:alternateName": "HU"
+      },
+      "schema:mainEntity": [
+        {
+          "@type": [
+            "schema:Thing",
+            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+          ],
+          "schema:additionalType": [
+            "MaterialSample"
+          ],
+          "schema:identifier": [
+            "['OREX-803114-0']"
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:encodingFormat": [
+        "application/zip"
+      ],
+      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+      "schema:contentUrl": "",
+      "schema:hasPart": [
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#e33c861f26933556628c05ce2c571a99",
+          "schema:name": "20240229_SIMS_HU_OREX-803114-0_1_SIMSTabular_1.xlsx",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "7ea29d8f618736ce64ca1dcb50815b6b280d878022ae7b89a393308ffe1a2564"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 21426,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          ],
+          "componentType": {
+            "@type": "ada:other"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#e8183b90de6e2b4c213b0eda74f6caf4",
+          "schema:name": "20240229_SIMS_HU_OREX-803114-0_1_SIMSTabular_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "6e93ce209a7652d4e962bdd90d60c019531138c716eef8eb29e4d97319c1856a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 365,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#e33c861f26933556628c05ce2c571a99"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#8220c94640fafb25ef88262f8c447152",
+          "schema:name": "20240229_SIMS_HU_OREX-803114-0_1_methodDescription_1.pdf",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "8729b3cbb00b34f665f3aa8bb6056dd1bd6f1fa6b836f6aae4126b2656bd9596"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 152362,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/pdf"
+          ],
+          "componentType": {
+            "@type": "ada:methodDescription"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#4f481371b8b60aec81e14188976f10e0",
+          "schema:name": "20240229_SIMS_HU_OREX-803114-0_1_methodDescription_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "ef8f979681d692b668ec940edfcfda60fdbe536dd90f5a8cf345c85acffc1596"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 215,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#8220c94640fafb25ef88262f8c447152"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ada:metadata_2353",
+    "@type": "schema:Dataset",
+    "schema:sdDatePublished": "2025-03-11",
+    "schema:maintainer": {
+      "@id": "https://ada.org/person/3479",
+      "@type": "schema:Person",
+      "schema:name": "Richard, Stephen M.",
+      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+      "schema:email": "smrTucson@email.org"
+    },
+    "schema:about": {
+      "@id": "ada:record_2353"
+    },
+    "schema:description": "metadata about documentation for https://doi.org/10.60707/c7rk-nk69",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/profiles/discovery"
+      },
+      {
+        "@id": "ada:profile/adaSIMS"
+      }
+    ]
+  }
+}

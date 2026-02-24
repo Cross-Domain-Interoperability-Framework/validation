@@ -1,0 +1,191 @@
+{
+  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "geosparql": "http://www.opengis.net/ont/geosparql#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "ada": "https://ada.astromat.org/metadata/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "ada:record_2331",
+  "@type": [
+    "schema:Dataset",
+    "schema:Product"
+  ],
+  "schema:name": "TEM imaging for space weathering in OREX-501017-102",
+  "schema:description": "STEM analysis of FIB section OREX-501017-102. Images show a solar wind irradiated layer at the surface. EELS analyses performed in two locations, one at surface and one at depth. The sample is composed of a fine-grained phyllosilicate matrix with magnetite, sulfides, carbonates, etc.",
+  "schema:identifier": {
+    "@type": "schema:PropertyValue",
+    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:value": "10.60707/pte6-nf07",
+    "schema:url": "https://doi.org/10.60707/pte6-nf07"
+  },
+  "schema:additionalType": [
+    "Transmission Electron Microscopy"
+  ],
+  "schema:datePublished": "2025-12-31",
+  "schema:license": [
+    "missing"
+  ],
+  "schema:url": "",
+  "schema:dateModified": "2025-03-09",
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://orcid.org/0000-0003-0824-9225",
+        "@type": "schema:Person",
+        "schema:name": "Thompson, Michelle",
+        "schema:identifier": "https://orcid.org/0000-0003-0824-9225",
+        "schema:email": "mthompson@purdue.edu"
+      }
+    ]
+  },
+  "schema:funding": [
+    {
+      "@type": "schema:MonetaryGrant",
+      "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program."
+    }
+  ],
+  "schema:measurementTechnique": {
+    "@type": "schema:DefinedTerm",
+    "schema:name": "Transmission Electron Microscopy",
+    "schema:termCode": "TEM"
+  },
+  "prov:wasGeneratedBy": [
+    {
+      "@type": [
+        "schema:Event",
+        "xas:AnalysisEvent",
+        "prov:Activity"
+      ],
+      "schema:startDate": "2024-02-06T12:00:00Z",
+      "schema:identifier": "20240206_tem_uaz_orex-501017-102_1",
+      "prov:used": [
+        {
+          "@type": [
+            "schema:Thing",
+            "prov:Entity",
+            "nxs:BaseClass/NXinstrument"
+          ],
+          "schema:name": "Hitachi HF5000",
+          "schema:identifier": "HF5000"
+        }
+      ],
+      "schema:location": {
+        "@type": [
+          "schema:Place",
+          "nxs:BaseClass/NXsource"
+        ],
+        "schema:identifier": "https://ror.org/03m2x1q45",
+        "schema:name": "University of Arizona",
+        "schema:alternateName": "UAZ"
+      },
+      "schema:mainEntity": [
+        {
+          "@type": [
+            "schema:Thing",
+            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+          ],
+          "schema:additionalType": [
+            "MaterialSample"
+          ],
+          "schema:identifier": [
+            "['OREX-501017-102']"
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:encodingFormat": [
+        "application/zip"
+      ],
+      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+      "schema:contentUrl": "",
+      "schema:hasPart": [
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#918e8b7d8de29e0f2241894f3ba19d16",
+          "schema:name": "20240206_TEM_UAZ_OREX-501017-102_1_STEMEELSTabular_240.csv",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "7c732963b88cad66dd43bd9705c5be35e6ea3d3a645dfd174ef01ccfc929a0ab"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 82305,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "text/csv"
+          ],
+          "componentType": {
+            "@type": "ada:other"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#4d8dc4b3c246167e935bd3415ac3d11e",
+          "schema:name": "20240206_TEM_UAZ_OREX-501017-102_1_STEMEELSTabular_240.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "dd3c3ac266e6c327e829eeb29634fc6dee94b699c79514751ba63e0e89d1c330"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 563,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#918e8b7d8de29e0f2241894f3ba19d16"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ada:metadata_2331",
+    "@type": "schema:Dataset",
+    "schema:sdDatePublished": "2025-03-09",
+    "schema:maintainer": {
+      "@id": "https://ada.org/person/3479",
+      "@type": "schema:Person",
+      "schema:name": "Richard, Stephen M.",
+      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+      "schema:email": "smrTucson@email.org"
+    },
+    "schema:about": {
+      "@id": "ada:record_2331"
+    },
+    "schema:description": "metadata about documentation for https://doi.org/10.60707/pte6-nf07",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/profiles/discovery"
+      },
+      {
+        "@id": "ada:profile/adaTEM"
+      }
+    ]
+  }
+}

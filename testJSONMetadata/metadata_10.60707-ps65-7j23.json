@@ -1,0 +1,299 @@
+{
+  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "geosparql": "http://www.opengis.net/ont/geosparql#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "ada": "https://ada.astromat.org/metadata/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "ada:record_903",
+  "@type": [
+    "schema:Dataset",
+    "schema:Product"
+  ],
+  "schema:name": "Xenon Isotopic Analysis of OSIRIS REx sample 803060-0",
+  "schema:description": "The dataset includes numbers of atoms of 132Xe and isotope ratios of the other xenon isotopes to 132Xe for each of a series of laser step heating analyses of the sample.  Xenon was released from the sample and admitted into the RELAX (Refrigerator Enhanced Laser Analyser for Xenon) time-of-flight, resonance ionization mass spectrometer at the University of Manchester for xenon isotopic analysis.  56 distinct, sequentially increasing temperature steps were analysed and calibrated with reference to air aliquots and blanks. Temperature was increased by increasing the power delivered to the sample by a fiber laser.  The purpose of the dataset is to test Hypothesis 4 of the OSIRIS-REx Sample Analysis Plan.  The data reveal a bulk xenon isotopic composition similar to Average Carbonaceous Chondrite Xenon, consisting of Q-Xe with excesses of 134Xe and 136Xe consistent with the presence of presolar nanodiamonds hosting Xe-HL; the presence of presolar material supports Hypotheses 3.2: Bennu contains dust grains that condensed in the gaseous envelopes around ancient stars or the ejecta of novae or supernovae (Lauretta et al. 2015) and 4.3: The initial constituents of Bennu%E2%80%99s parent asteroid were materials that were inherited from the protosolar molecular cloud or were formed and altered in the protoplanetary disk, largely composed of: presolar grains, chondrules, refractory inclusions, crystalline and amorphous silicates, metals, sulfides, oxides, phosphates, organic compounds (SOM and IOM), ices (e.g., H2O, CO2, NH3, etc.),  The close similarity of bulk xenon signature to AVCC supports Hypothesis 4.4: Bennu%E2%80%99s parent asteroid accreted in the outer protoplanetary disk, beyond Jupiter, as recorded by distinct isotopic anomalies in a variety of elements (e.g., O, Ca, Ti, Cr, Ni, Zr, Mo, Ru, Pd, Ba, Nd, etc.) (Rowe et al. 1994; McKeegan et al. 1998; Trinquier et al. 2007; Leya et al. 2008; Warren 2011; Connelly et al. 2012; Kruijer et al. 2020; Mezger et al. 2020; Schrader et al. 2020). The presence of excess 129Xe from decay of 129I (half life 16 Myr) in low temperature releases supports Hypothesis 4.1 The initial constituents of Bennu%E2%80%99s parent asteroid formed over several million years of solar system history, starting at a t0 of 4.567 Gyr (Kita et al. 2013; Pape et al. 2019; Connelly et al. 2012) and Hypothesis 5.1: Bennu%E2%80%99s parent asteroid was heated by the decay of short-lived radionuclides for ~10 Myr after accretion (e.g., Miyamoto 1991; Steele et al. 2017).",
+  "schema:identifier": {
+    "@type": "schema:PropertyValue",
+    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:value": "10.60707/ps65-7j23",
+    "schema:url": "https://doi.org/10.60707/ps65-7j23"
+  },
+  "schema:additionalType": [
+    "Resonance ionization time of flight noble gas mass spectrometry"
+  ],
+  "schema:datePublished": "2025-12-31",
+  "schema:license": [
+    "missing"
+  ],
+  "schema:url": "",
+  "schema:dateModified": "2024-07-17",
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://orcid.org/0000-0002-5396-1775",
+        "@type": "schema:Person",
+        "schema:name": "Crowther, Sarah",
+        "schema:identifier": "https://orcid.org/0000-0002-5396-1775",
+        "schema:email": "sarah.crowther@manchester.ac.uk"
+      },
+      {
+        "@id": "https://orcid.org/0000-0003-1990-8636",
+        "@type": "schema:Person",
+        "schema:name": "Gilmour, Jamie",
+        "schema:identifier": "https://orcid.org/0000-0003-1990-8636",
+        "schema:email": "jamie.gilmour@manchester.ac.uk"
+      }
+    ]
+  },
+  "schema:funding": [
+    {
+      "@type": "schema:MonetaryGrant",
+      "schema:description": "Science and Technology Facilities Council (UK) ST/V000675/1 and ST/Y002369/1"
+    }
+  ],
+  "schema:measurementTechnique": {
+    "@type": "schema:DefinedTerm",
+    "schema:name": "Resonance ionization time of flight noble gas mass spectrometry",
+    "schema:termCode": "RI-TOF-NGMS"
+  },
+  "prov:wasGeneratedBy": [
+    {
+      "@type": [
+        "schema:Event",
+        "xas:AnalysisEvent",
+        "prov:Activity"
+      ],
+      "schema:startDate": "2024-01-16T15:35:26.997928Z",
+      "schema:identifier": "20240116_ri-tof-ngms_uom_orex-803060-0_1",
+      "prov:used": [
+        {
+          "@type": [
+            "schema:Thing",
+            "prov:Entity",
+            "nxs:BaseClass/NXinstrument"
+          ],
+          "schema:name": "RELAX",
+          "schema:identifier": "RELAX"
+        }
+      ],
+      "schema:location": {
+        "@type": [
+          "schema:Place",
+          "nxs:BaseClass/NXsource"
+        ],
+        "schema:identifier": "https://ror.org/02aswte26",
+        "schema:name": "University of Manchester",
+        "schema:alternateName": "UoM"
+      },
+      "schema:mainEntity": [
+        {
+          "@type": [
+            "schema:Thing",
+            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+          ],
+          "schema:additionalType": [
+            "MaterialSample"
+          ],
+          "schema:identifier": [
+            "['OREX-803060-0']"
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:encodingFormat": [
+        "application/zip"
+      ],
+      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+      "schema:contentUrl": "",
+      "schema:hasPart": [
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#6559588ac004e45b544fe54bfe08451d",
+          "schema:name": "20240116_RI-TOF-NGMS_UoM_OREX-803060-0_1_RITOFNGMSCollection_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "cd58184cc78ef857b9c92f894d75f319ffc92c80d2a28adc1a5db95ce2685444"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 2560,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#49ec209c01e81b1ba13da40bf00592d6"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:collection",
+            "https://schema.org/Collection",
+            "schema:MediaObject"
+          ],
+          "@id": "#49ec209c01e81b1ba13da40bf00592d6",
+          "schema:name": "20240116_RI-TOF-NGMS_UoM_OREX-803060-0_1_RITOFNGMSCollection_1.zip",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "130528402f9ecd537a85492e719cf4ddfbacd5e07212f8741d6e0c124d3770ad"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 7777103,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/zip"
+          ],
+          "componentType": {
+            "@type": "ada:RITOFNGMSCollection"
+          }
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#9b29d6c44c699438da8fd65836ebfb74",
+          "schema:name": "20240116_RI-TOF-NGMS_UoM_OREX-803060-0_1_instrumentMetadata_1.csv",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "314599d071f3fe8c0c0606852f4cde6c27694df799f695bec0c40c742c1b42b6"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 23819,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "text/csv"
+          ],
+          "componentType": {
+            "@type": "ada:instrumentMetadata"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#4a5448699ca6732bdf6ba738bc1adef7",
+          "schema:name": "20240116_RI-TOF-NGMS_UoM_OREX-803060-0_1_instrumentMetadata_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "3967da74714f9979b5804fb2db2a977d97f9501ea1eb3150794eb3641c2c5aa7"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 287,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#9b29d6c44c699438da8fd65836ebfb74"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#d672d54128017aad9017715225a691b6",
+          "schema:name": "20240116_RI-TOF-NGMS_UoM_OREX-803060-0_1_methodDescription_1.pdf",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "be3e86b003fc7065791c6756468853b53fe63520df5e3f950b80933d4a5e2d24"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 346315,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/pdf"
+          ],
+          "componentType": {
+            "@type": "ada:methodDescription"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#484ae1c847c9b59f0db3bb9937aec5cb",
+          "schema:name": "20240116_RI-TOF-NGMS_UoM_OREX-803060-0_1_methodDescription_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "879eb930ecf5151094adfc5dab89ac55049828e224c5d6f00e463d139b664464"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 213,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#d672d54128017aad9017715225a691b6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ada:metadata_903",
+    "@type": "schema:Dataset",
+    "schema:sdDatePublished": "2024-07-17",
+    "schema:maintainer": {
+      "@id": "https://ada.org/person/3479",
+      "@type": "schema:Person",
+      "schema:name": "Richard, Stephen M.",
+      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+      "schema:email": "smrTucson@email.org"
+    },
+    "schema:about": {
+      "@id": "ada:record_903"
+    },
+    "schema:description": "metadata about documentation for https://doi.org/10.60707/ps65-7j23",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/profiles/discovery"
+      },
+      {
+        "@id": "ada:profile/adaRITOFNGMS"
+      }
+    ]
+  }
+}

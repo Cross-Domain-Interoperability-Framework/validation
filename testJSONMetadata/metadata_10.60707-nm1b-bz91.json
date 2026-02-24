@@ -1,0 +1,192 @@
+{
+  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "geosparql": "http://www.opengis.net/ont/geosparql#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "ada": "https://ada.astromat.org/metadata/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "ada:record_31",
+  "@type": [
+    "schema:Dataset",
+    "schema:Product"
+  ],
+  "schema:name": "NanoSIMS C and O isotopic analysis of fines in sample OREX-501018-100",
+  "schema:description": "The NanoSIMS 50L at NASA JSC was used to analyze concurrently the 12C, 13C, 16O, 17O, 18O, 28Si, and 24Mg16O in sample OREX-501018-100 through raster ion imaging. On the sample, isotope maps were collected for 20 micrometer fields of view. These 20-micron regions were analyzed sequentially during chained analyses. The data were collected with the goal of identifying presolar grains. A cluster of forsterite grains were also targeted for O isotopic analysis. San Carlos olivine (16O, 17O, 18O) and graphite (12C, 13C) were measured as isotopic standards.",
+  "schema:identifier": {
+    "@type": "schema:PropertyValue",
+    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:value": "10.60707/nm1b-bz91",
+    "schema:url": "https://doi.org/10.60707/nm1b-bz91"
+  },
+  "schema:additionalType": [
+    "Nanoscale secondary ion mass spectrometry"
+  ],
+  "schema:datePublished": "2024-06-20",
+  "schema:license": [
+    "missing"
+  ],
+  "schema:url": "",
+  "schema:dateModified": "2024-06-20",
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://orcid.org/0000-0002-0442-1991",
+        "@type": "schema:Person",
+        "schema:name": "Nguyen, Ann",
+        "schema:identifier": "https://orcid.org/0000-0002-0442-1991",
+        "schema:email": "lan-anh.n.nguyen@nasa.gov"
+      }
+    ]
+  },
+  "schema:funding": [
+    {
+      "@type": "schema:MonetaryGrant",
+      "schema:description": "NASA contract NNM10AA11C"
+    }
+  ],
+  "schema:measurementTechnique": {
+    "@type": "schema:DefinedTerm",
+    "schema:name": "Nanoscale secondary ion mass spectrometry",
+    "schema:termCode": "NanoSIMS"
+  },
+  "prov:wasGeneratedBy": [
+    {
+      "@type": [
+        "schema:Event",
+        "xas:AnalysisEvent",
+        "prov:Activity"
+      ],
+      "schema:startDate": "2024-01-02T17:51:02.656491Z",
+      "schema:identifier": "20231221_nanosims_jsc-ares_orex-501018-100_1",
+      "prov:used": [
+        {
+          "@type": [
+            "schema:Thing",
+            "prov:Entity",
+            "nxs:BaseClass/NXinstrument"
+          ],
+          "schema:name": "(JSC-ARES)NanoSIMS 50L",
+          "schema:identifier": "NS50L-JSC-ARES"
+        }
+      ],
+      "schema:location": {
+        "@type": [
+          "schema:Place",
+          "nxs:BaseClass/NXsource"
+        ],
+        "schema:identifier": "https://ror.org/04xx4z452",
+        "schema:name": "NASA Johnson Space Center",
+        "schema:alternateName": "JSC-ARES"
+      },
+      "schema:mainEntity": [
+        {
+          "@type": [
+            "schema:Thing",
+            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+          ],
+          "schema:additionalType": [
+            "MaterialSample"
+          ],
+          "schema:identifier": [
+            "['OREX-501018-100']"
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:encodingFormat": [
+        "application/zip"
+      ],
+      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+      "schema:contentUrl": "",
+      "schema:hasPart": [
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#8e4c14742a86735a19a3bfbd5995df4b",
+          "schema:name": "20231221_NanoSIMS_JSC-ARES_OREX-501018-100_1_NanoSIMSImageCollection_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "466430ac09870bb9018b2ab070b278e7ca4158f7c49faf489d4d7107a5dacab8"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 323,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#628a112226dfcff479c468f27acb5793"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:collection",
+            "https://schema.org/Collection",
+            "schema:MediaObject"
+          ],
+          "@id": "#628a112226dfcff479c468f27acb5793",
+          "schema:name": "20231221_NanoSIMS_JSC-ARES_OREX-501018-100_1_NanoSIMSImageCollection_1.zip",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "486f0cad084cf5afec1a9c88fa3c44ae80c979cf1871de2abc77101f055d1aad"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1273264698,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/zip"
+          ],
+          "componentType": {
+            "@type": "ada:NanoSIMSImageCollection"
+          }
+        }
+      ]
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ada:metadata_31",
+    "@type": "schema:Dataset",
+    "schema:sdDatePublished": "2024-06-20",
+    "schema:maintainer": {
+      "@id": "https://ada.org/person/3479",
+      "@type": "schema:Person",
+      "schema:name": "Richard, Stephen M.",
+      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+      "schema:email": "smrTucson@email.org"
+    },
+    "schema:about": {
+      "@id": "ada:record_31"
+    },
+    "schema:description": "metadata about documentation for https://doi.org/10.60707/nm1b-bz91",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/profiles/discovery"
+      },
+      {
+        "@id": "ada:profile/adaNanoSIMS"
+      }
+    ]
+  }
+}

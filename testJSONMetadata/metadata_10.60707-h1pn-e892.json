@@ -1,0 +1,292 @@
+{
+  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "geosparql": "http://www.opengis.net/ont/geosparql#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "ada": "https://ada.astromat.org/metadata/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "ada:record_2252",
+  "@type": [
+    "schema:Dataset",
+    "schema:Product"
+  ],
+  "schema:name": "X-ray CT data for Bennu particle OREX-800151-0",
+  "schema:description": "This dataset contains X-ray computed tomography images, videos, and metadata for Bennu particle OREX-800151-0 as part of the OSIRIS-REx mission",
+  "schema:identifier": {
+    "@type": "schema:PropertyValue",
+    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:value": "10.60707/h1pn-e892",
+    "schema:url": "https://doi.org/10.60707/h1pn-e892"
+  },
+  "schema:additionalType": [
+    "X-ray computed tomography"
+  ],
+  "schema:datePublished": "2025-12-31",
+  "schema:license": [
+    "missing"
+  ],
+  "schema:url": "",
+  "schema:dateModified": "2025-03-05",
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://orcid.org/0000-0002-2692-2164",
+        "@type": "schema:Person",
+        "schema:name": "Eckley, Scott",
+        "schema:identifier": "https://orcid.org/0000-0002-2692-2164",
+        "schema:email": "scott.a.eckley@nasa.gov"
+      }
+    ]
+  },
+  "schema:funding": [
+    {
+      "@type": "schema:MonetaryGrant",
+      "schema:description": "Astromaterials Curation"
+    }
+  ],
+  "schema:measurementTechnique": {
+    "@type": "schema:DefinedTerm",
+    "schema:name": "X-ray computed tomography",
+    "schema:termCode": "XCT"
+  },
+  "prov:wasGeneratedBy": [
+    {
+      "@type": [
+        "schema:Event",
+        "xas:AnalysisEvent",
+        "prov:Activity"
+      ],
+      "schema:startDate": "2025-01-07T12:00:00Z",
+      "schema:identifier": "20250107_xct_jsc-ares_orex-800151-0_1",
+      "prov:used": [
+        {
+          "@type": [
+            "schema:Thing",
+            "prov:Entity",
+            "nxs:BaseClass/NXinstrument"
+          ],
+          "schema:name": "Nikon XTH 320",
+          "schema:identifier": "XTH320"
+        }
+      ],
+      "schema:location": {
+        "@type": [
+          "schema:Place",
+          "nxs:BaseClass/NXsource"
+        ],
+        "schema:identifier": "https://ror.org/04xx4z452",
+        "schema:name": "NASA Johnson Space Center",
+        "schema:alternateName": "JSC-ARES"
+      },
+      "schema:mainEntity": [
+        {
+          "@type": [
+            "schema:Thing",
+            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+          ],
+          "schema:additionalType": [
+            "MaterialSample"
+          ],
+          "schema:identifier": [
+            "['OREX-800151-0']"
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:encodingFormat": [
+        "application/zip"
+      ],
+      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+      "schema:contentUrl": "",
+      "schema:hasPart": [
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#cfaa2b6a6d71ffb2327692bcb29f82ff",
+          "schema:name": "20250107_XCT_JSC-ARES_OREX-800151-0_1_XCTImageCollection_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "99478d1303830ea08f4e7a1e6a9fcf86a2b1fefbf8e10cf1ebf648a50554bfcf"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1015,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#d084e5f7f6ecfd2c2c30e5bc44fe2e4a"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:collection",
+            "https://schema.org/Collection",
+            "schema:MediaObject"
+          ],
+          "@id": "#d084e5f7f6ecfd2c2c30e5bc44fe2e4a",
+          "schema:name": "20250107_XCT_JSC-ARES_OREX-800151-0_1_XCTImageCollection_1.zip",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "abef913338ec37f60aaf0cd825b53c141d00d47ec6ee686d2562c20fe954ebac"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1993688440,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/zip"
+          ],
+          "componentType": {
+            "@type": "ada:XCTImageCollection"
+          }
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#f6aef363a549d7d0b8711d2d75db7b09",
+          "schema:name": "20250107_XCT_JSC-ARES_OREX-800151-0_1_contextVideo_1.mp4",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "7c1e6c3821e9fbff9bed73471ff5b1921872856a8838ab11f62d78830b2dc9f6"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 78081479,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "video/mp4"
+          ],
+          "componentType": {
+            "@type": "ada:contextVideo"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#9643a8112bc3f697714d5a0148291bff",
+          "schema:name": "20250107_XCT_JSC-ARES_OREX-800151-0_1_contextVideo_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "1d4309bac944d2ee3be3859809ba7d2eaba30a54177167c3585d7ff43428a70d"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 168,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#f6aef363a549d7d0b8711d2d75db7b09"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#f62f563ad6bb2ea581e49f65cb868fbc",
+          "schema:name": "20250107_XCT_JSC-ARES_OREX-800151-0_1_instrumentMetadata_1.pdf",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "36b9c1b580418be361f79e97838d62159afe2b49d8c2282f76414b6310e74a13"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 144045,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/pdf"
+          ],
+          "componentType": {
+            "@type": "ada:instrumentMetadata"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#bdf22d8826f6a8bed5572bf41de21110",
+          "schema:name": "20250107_XCT_JSC-ARES_OREX-800151-0_1_instrumentMetadata_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "a80a953e932974ada8d970a48f3eeb412b9c17f49fe9121bdbe04164934b928f"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 164,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#f62f563ad6bb2ea581e49f65cb868fbc"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ada:metadata_2252",
+    "@type": "schema:Dataset",
+    "schema:sdDatePublished": "2025-03-05",
+    "schema:maintainer": {
+      "@id": "https://ada.org/person/3479",
+      "@type": "schema:Person",
+      "schema:name": "Richard, Stephen M.",
+      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+      "schema:email": "smrTucson@email.org"
+    },
+    "schema:about": {
+      "@id": "ada:record_2252"
+    },
+    "schema:description": "metadata about documentation for https://doi.org/10.60707/h1pn-e892",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/profiles/discovery"
+      },
+      {
+        "@id": "ada:profile/adaXCT"
+      }
+    ]
+  }
+}

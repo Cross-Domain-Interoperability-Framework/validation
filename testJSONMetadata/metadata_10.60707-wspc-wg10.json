@@ -1,0 +1,241 @@
+{
+  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "geosparql": "http://www.opengis.net/ont/geosparql#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "ada": "https://ada.astromat.org/metadata/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "ada:record_481",
+  "@type": [
+    "schema:Dataset",
+    "schema:Product"
+  ],
+  "schema:name": "OREX-501006-0 Particles on KBr, VIS-UV Fluorescence Image Pair",
+  "schema:description": "This is the VIS-UV fluorescence image pair for Bennu sample OREX-501006-0 includes one RGB UV fluorescence TIFF image and one RGB visible light TIFF image.",
+  "schema:identifier": {
+    "@type": "schema:PropertyValue",
+    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:value": "10.60707/wspc-wg10",
+    "schema:url": "https://doi.org/10.60707/wspc-wg10"
+  },
+  "schema:additionalType": [
+    "UV Fluorescence Microscopy"
+  ],
+  "schema:datePublished": "2024-06-20",
+  "schema:license": [
+    "missing"
+  ],
+  "schema:url": "",
+  "schema:dateModified": "2024-06-20",
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://orcid.org/0000-0002-5187-1653",
+        "@type": "schema:Person",
+        "schema:name": "Clemett, Simon",
+        "schema:identifier": "https://orcid.org/0000-0002-5187-1653",
+        "schema:email": "simon.j.clemett@nasa.gov"
+      }
+    ]
+  },
+  "schema:funding": [
+    {
+      "@type": "schema:MonetaryGrant",
+      "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program."
+    }
+  ],
+  "schema:measurementTechnique": {
+    "@type": "schema:DefinedTerm",
+    "schema:name": "UV Fluorescence Microscopy",
+    "schema:termCode": "UVFM"
+  },
+  "prov:wasGeneratedBy": [
+    {
+      "@type": [
+        "schema:Event",
+        "xas:AnalysisEvent",
+        "prov:Activity"
+      ],
+      "schema:startDate": "2024-05-29T20:27:49.457078Z",
+      "schema:identifier": "20231002_uvfm_jsc-ares_orex-501006-0_1",
+      "prov:used": [
+        {
+          "@type": [
+            "schema:Thing",
+            "prov:Entity",
+            "nxs:BaseClass/NXinstrument"
+          ],
+          "schema:name": "Olympus BX-60 Fluorescence Microscope",
+          "schema:identifier": "BX60"
+        }
+      ],
+      "schema:location": {
+        "@type": [
+          "schema:Place",
+          "nxs:BaseClass/NXsource"
+        ],
+        "schema:identifier": "https://ror.org/04xx4z452",
+        "schema:name": "NASA Johnson Space Center",
+        "schema:alternateName": "JSC-ARES"
+      },
+      "schema:mainEntity": [
+        {
+          "@type": [
+            "schema:Thing",
+            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+          ],
+          "schema:additionalType": [
+            "MaterialSample"
+          ],
+          "schema:identifier": [
+            "['OREX-501006-0']"
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:encodingFormat": [
+        "application/zip"
+      ],
+      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+      "schema:contentUrl": "",
+      "schema:hasPart": [
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#239db0a024ff7cd976e1493b5b78e5ac",
+          "schema:name": "20231002_UVFM_JSC-ARES_OREX-501006-0_1_UVFMImage_1.tif",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "1be36057e448883b9dc7cdf8899e69a10081ff5517dfd7810b84c6d74643ea48"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 3495049,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/tiff"
+          ],
+          "componentType": {
+            "@type": "ada:other"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#a0049d3a8dee0134b43d037536b4b3a8",
+          "schema:name": "20231002_UVFM_JSC-ARES_OREX-501006-0_1_UVFMImage_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "8cf5fcb48862a0daf15e24faf5bb99ee94bc8a5dc422b6ddada250ef6a1125f4"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 205,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#239db0a024ff7cd976e1493b5b78e5ac"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#97af538faa6ce40852c884716f79b41f",
+          "schema:name": "20231002_UVFM_JSC-ARES_OREX-501006-0_1_visImage_1.tif",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "571a67341a9807089242906a6113a72a59b5913a3616dc7a7ec8f72a513ff9d0"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 3487223,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/tiff"
+          ],
+          "componentType": {
+            "@type": "ada:other"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#9a49da6b70ae14a26514620c7c86ef37",
+          "schema:name": "20231002_UVFM_JSC-ARES_OREX-501006-0_1_visImage_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "ef465e552a4a6d3d9b37f5ed48a2ef1f5d99a0c583fe69638a18f4b47ac1ca62"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 195,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#97af538faa6ce40852c884716f79b41f"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ada:metadata_481",
+    "@type": "schema:Dataset",
+    "schema:sdDatePublished": "2024-06-20",
+    "schema:maintainer": {
+      "@id": "https://ada.org/person/3479",
+      "@type": "schema:Person",
+      "schema:name": "Richard, Stephen M.",
+      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+      "schema:email": "smrTucson@email.org"
+    },
+    "schema:about": {
+      "@id": "ada:record_481"
+    },
+    "schema:description": "metadata about documentation for https://doi.org/10.60707/wspc-wg10",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/profiles/discovery"
+      },
+      {
+        "@id": "ada:profile/adaUVFM"
+      }
+    ]
+  }
+}

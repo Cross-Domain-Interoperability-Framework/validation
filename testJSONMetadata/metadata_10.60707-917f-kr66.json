@@ -1,0 +1,199 @@
+{
+  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "geosparql": "http://www.opengis.net/ont/geosparql#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "ada": "https://ada.astromat.org/metadata/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "ada:record_459",
+  "@type": [
+    "schema:Dataset",
+    "schema:Product"
+  ],
+  "schema:name": "Level 2 Calibrated 4X Reflectance Images of Sample in Tray A1",
+  "schema:description": "This bundle includes calibrated images taken by the Quantitative Reflectance Imaging System (QRIS) of bulk sample moved from the TAGSAM into Tray A1. We use a 50 mm focal length lens that achieves ~4X magnification. There are 18 images total, including TIFF and PNG images of the sample under all 9 LED wavelength bands. Violet, deep red, and infrared images are taken at seperate focus settings. All images are registered to the green image.",
+  "schema:identifier": {
+    "@type": "schema:PropertyValue",
+    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:value": "10.60707/917f-kr66",
+    "schema:url": "https://doi.org/10.60707/917f-kr66"
+  },
+  "schema:additionalType": [
+    "Quantitative Reflective Imaging System (QRIS) Calibrated"
+  ],
+  "schema:datePublished": "2025-12-31",
+  "schema:license": [
+    "missing"
+  ],
+  "schema:url": "",
+  "schema:dateModified": "2024-06-06",
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://orcid.org/0000-0002-6159-539X",
+        "@type": "schema:Person",
+        "schema:name": "Golish, Dathon",
+        "schema:identifier": "https://orcid.org/0000-0002-6159-539X",
+        "schema:email": "dgolish@orex.lpl.arizona.edu"
+      },
+      {
+        "@id": "",
+        "@type": "schema:Person",
+        "schema:name": "Fulford, Ruby",
+        "schema:identifier": "",
+        "schema:email": "ref1@arizona.edu"
+      }
+    ]
+  },
+  "schema:funding": [
+    {
+      "@type": "schema:MonetaryGrant",
+      "schema:description": "None, besides OSIRIS-REx funding"
+    }
+  ],
+  "schema:measurementTechnique": {
+    "@type": "schema:DefinedTerm",
+    "schema:name": "Quantitative Reflectance Imaging System",
+    "schema:termCode": "QRIS"
+  },
+  "prov:wasGeneratedBy": [
+    {
+      "@type": [
+        "schema:Event",
+        "xas:AnalysisEvent",
+        "prov:Activity"
+      ],
+      "schema:startDate": "2024-05-14T20:23:24.500865Z",
+      "schema:identifier": "20231024_qris_jsc-ares_orex-800010-0_1",
+      "prov:used": [
+        {
+          "@type": [
+            "schema:Thing",
+            "prov:Entity",
+            "nxs:BaseClass/NXinstrument"
+          ],
+          "schema:name": "Quantitative Reflectance Imaging System",
+          "schema:identifier": "QRIS"
+        }
+      ],
+      "schema:location": {
+        "@type": [
+          "schema:Place",
+          "nxs:BaseClass/NXsource"
+        ],
+        "schema:identifier": "https://ror.org/04xx4z452",
+        "schema:name": "NASA Johnson Space Center",
+        "schema:alternateName": "JSC-ARES"
+      },
+      "schema:mainEntity": [
+        {
+          "@type": [
+            "schema:Thing",
+            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+          ],
+          "schema:additionalType": [
+            "MaterialSample"
+          ],
+          "schema:identifier": [
+            "['OREX-800010-0']"
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:encodingFormat": [
+        "application/zip"
+      ],
+      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+      "schema:contentUrl": "",
+      "schema:hasPart": [
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#a4dd6ff0be4f5137d4d428d43d120688",
+          "schema:name": "20231024_QRIS_JSC-ARES_OREX-800010-0_1_QRISCalibratedCollection_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "0c02bf33f61659313d3d5e1781ca8ae0cb542338e9a51d06cb2c91c416f10b1b"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 529,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#0f189c4c1b420753986a64c1381bc564"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:collection",
+            "https://schema.org/Collection",
+            "schema:MediaObject"
+          ],
+          "@id": "#0f189c4c1b420753986a64c1381bc564",
+          "schema:name": "20231024_QRIS_JSC-ARES_OREX-800010-0_1_QRISCalibratedCollection_1.zip",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "4fcce7c721915821df097715b722ddcab0e26c14d21ce3d3eb7706e11144948e"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1182272753,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/zip"
+          ],
+          "componentType": {
+            "@type": "ada:QRISCalibratedCollection"
+          }
+        }
+      ]
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ada:metadata_459",
+    "@type": "schema:Dataset",
+    "schema:sdDatePublished": "2024-06-06",
+    "schema:maintainer": {
+      "@id": "https://ada.org/person/3479",
+      "@type": "schema:Person",
+      "schema:name": "Richard, Stephen M.",
+      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+      "schema:email": "smrTucson@email.org"
+    },
+    "schema:about": {
+      "@id": "ada:record_459"
+    },
+    "schema:description": "metadata about documentation for https://doi.org/10.60707/917f-kr66",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/profiles/discovery"
+      },
+      {
+        "@id": "ada:profile/adaQRIS"
+      }
+    ]
+  }
+}

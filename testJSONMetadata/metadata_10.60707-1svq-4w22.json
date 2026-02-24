@@ -1,0 +1,242 @@
+{
+  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "geosparql": "http://www.opengis.net/ont/geosparql#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "ada": "https://ada.astromat.org/metadata/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "ada:record_1958",
+  "@type": [
+    "schema:Dataset",
+    "schema:Product"
+  ],
+  "schema:name": "Analysis of particle of OREX-803077-0 by scanning electron microscopy (SEM) at Curtin University, Western Australia, including SE, BSE, and CL imaging, EDS element maps, and EBSD maps and data.",
+  "schema:description": "Backscattered electron images, secondary electron images, panchromatic cathodoluminescence images, electron backscatter diffraction and energy dispersive spectroscopy mapping and data from particles in OREX-803077-0.",
+  "schema:identifier": {
+    "@type": "schema:PropertyValue",
+    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:value": "10.60707/1svq-4w22",
+    "schema:url": "https://doi.org/10.60707/1svq-4w22"
+  },
+  "schema:additionalType": [
+    "Scanning electron microscopy"
+  ],
+  "schema:datePublished": "2025-12-31",
+  "schema:license": [
+    "missing"
+  ],
+  "schema:url": "",
+  "schema:dateModified": "2025-01-27",
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://orcid.org/0000-0003-2997-4303",
+        "@type": "schema:Person",
+        "schema:name": "Timms, Nicholas",
+        "schema:identifier": "https://orcid.org/0000-0003-2997-4303",
+        "schema:email": "N.Timms@curtin.edu.au"
+      }
+    ]
+  },
+  "schema:funding": [
+    {
+      "@type": "schema:MonetaryGrant",
+      "schema:description": "Instrument funded by Australian Research Council LIEF program (ARC LE130100053); Analyses funded by Space Science and Technology Centre at Curtin University."
+    }
+  ],
+  "schema:measurementTechnique": {
+    "@type": "schema:DefinedTerm",
+    "schema:name": "Scanning electron microscopy",
+    "schema:termCode": "SEM"
+  },
+  "prov:wasGeneratedBy": [
+    {
+      "@type": [
+        "schema:Event",
+        "xas:AnalysisEvent",
+        "prov:Activity"
+      ],
+      "schema:startDate": "2024-11-15T12:00:00Z",
+      "schema:identifier": "20241115_sem_cuwa_orex-803077-0_1",
+      "prov:used": [
+        {
+          "@type": [
+            "schema:Thing",
+            "prov:Entity",
+            "nxs:BaseClass/NXinstrument"
+          ],
+          "schema:name": "TESCAN MIRA3",
+          "schema:identifier": "TMIRA3"
+        }
+      ],
+      "schema:location": {
+        "@type": [
+          "schema:Place",
+          "nxs:BaseClass/NXsource"
+        ],
+        "schema:identifier": "https://ror.org/02n415q13",
+        "schema:name": "Curtin University",
+        "schema:alternateName": "CUWA"
+      },
+      "schema:mainEntity": [
+        {
+          "@type": [
+            "schema:Thing",
+            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+          ],
+          "schema:additionalType": [
+            "MaterialSample"
+          ],
+          "schema:identifier": [
+            "['OREX-803077-0']"
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:encodingFormat": [
+        "application/zip"
+      ],
+      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+      "schema:contentUrl": "",
+      "schema:hasPart": [
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#3915bd56cab5dc11ea57ab7a3b182e80",
+          "schema:name": "20241115_SEM_CUWA_OREX-803077-0_1_SEMEDSElementalMaps_2.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "d84480d58feec34f02855af9da316045fe340432655c2a5c65f12fb782c29d72"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1773,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#bf1958daab91c098fc922cf898f85e29"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:collection",
+            "https://schema.org/Collection",
+            "schema:MediaObject"
+          ],
+          "@id": "#bf1958daab91c098fc922cf898f85e29",
+          "schema:name": "20241115_SEM_CUWA_OREX-803077-0_1_SEMEDSElementalMaps_2.zip",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "68d7eaa4662379e59d3d730cd4c2b34bcd20d74406a687b10e37875545ad58fb"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 126567007,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/zip"
+          ],
+          "componentType": {
+            "@type": "ada:SEMEDSElementalMaps"
+          }
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#dff3e25ed3b4663633984c21da16f8f3",
+          "schema:name": "20241115_SEM_CUWA_OREX-803077-0_1_methodDescription_1.pdf",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "c6a593e965928f53ee979af67dcec4d163d62f0961ddbf2dadc574b9e31e2d91"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 5598810,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/pdf"
+          ],
+          "componentType": {
+            "@type": "ada:methodDescription"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#6631bd23428dcea0a4db83bd2f39559c",
+          "schema:name": "20241115_SEM_CUWA_OREX-803077-0_1_methodDescription_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "141a44a6c8f933312449d127306237d958ea0c89cd6c07e82946746efcaef6d2"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 3718,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#dff3e25ed3b4663633984c21da16f8f3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ada:metadata_1958",
+    "@type": "schema:Dataset",
+    "schema:sdDatePublished": "2025-01-27",
+    "schema:maintainer": {
+      "@id": "https://ada.org/person/3479",
+      "@type": "schema:Person",
+      "schema:name": "Richard, Stephen M.",
+      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+      "schema:email": "smrTucson@email.org"
+    },
+    "schema:about": {
+      "@id": "ada:record_1958"
+    },
+    "schema:description": "metadata about documentation for https://doi.org/10.60707/1svq-4w22",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/profiles/discovery"
+      },
+      {
+        "@id": "ada:profile/adaSEM"
+      }
+    ]
+  }
+}

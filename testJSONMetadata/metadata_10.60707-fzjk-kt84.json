@@ -1,0 +1,241 @@
+{
+  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "geosparql": "http://www.opengis.net/ont/geosparql#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "ada": "https://ada.astromat.org/metadata/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "ada:record_2243",
+  "@type": [
+    "schema:Dataset",
+    "schema:Product"
+  ],
+  "schema:name": "Q-ICP-MS Bulk elemental analyses of the three Bennu lithologies and the SEIWG and SOAWG bulk aggregates",
+  "schema:description": "The major and trace elemental analyses of the Bennu samples OREX-800117-107 (SEIWG bulk aggregate), OREX-800107-101 (SOAWG bulk aggregate), OREX-800055-103 (angular lithology), OREX-803231-101 (hummocky lithology), and OREX-800023-113 (mottled lithology). All samples, excluding the hummocky lithology, show simialr compositions which are close to the average CI chondrite composition. The SOAWG bulk aggregate does however show contamination of the elements W, La, Ce, and Mo. As for the hummocky lithology, it shows a distinct elemental composition, likely due to its disticnt mineralogic differences.",
+  "schema:identifier": {
+    "@type": "schema:PropertyValue",
+    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:value": "10.60707/fzjk-kt84",
+    "schema:url": "https://doi.org/10.60707/fzjk-kt84"
+  },
+  "schema:additionalType": [
+    "Quadrupole Inductively Coupled Plasma Mass Spectrometry"
+  ],
+  "schema:datePublished": "2025-12-31",
+  "schema:license": [
+    "missing"
+  ],
+  "schema:url": "",
+  "schema:dateModified": "2025-03-04",
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://orcid.org/0000-0002-4036-6088",
+        "@type": "schema:Person",
+        "schema:name": "Koefoed, Piers",
+        "schema:identifier": "https://orcid.org/0000-0002-4036-6088",
+        "schema:email": "piers.koefoed@wustl.edu"
+      }
+    ]
+  },
+  "schema:funding": [
+    {
+      "@type": "schema:MonetaryGrant",
+      "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program."
+    }
+  ],
+  "schema:measurementTechnique": {
+    "@type": "schema:DefinedTerm",
+    "schema:name": "Quadrupole Inductively Coupled Plasma Mass Spectrometry",
+    "schema:termCode": "Q-ICP-MS"
+  },
+  "prov:wasGeneratedBy": [
+    {
+      "@type": [
+        "schema:Event",
+        "xas:AnalysisEvent",
+        "prov:Activity"
+      ],
+      "schema:startDate": "2025-01-28T12:00:00Z",
+      "schema:identifier": "20250128_q-icp-ms_wustl_multisample_1",
+      "prov:used": [
+        {
+          "@type": [
+            "schema:Thing",
+            "prov:Entity",
+            "nxs:BaseClass/NXinstrument"
+          ],
+          "schema:name": "Thermo Fisher Scientific iCAP Q",
+          "schema:identifier": "iCAP-Q"
+        }
+      ],
+      "schema:location": {
+        "@type": [
+          "schema:Place",
+          "nxs:BaseClass/NXsource"
+        ],
+        "schema:identifier": "https://ror.org/01yc7t268",
+        "schema:name": "Washington University in St. Louis",
+        "schema:alternateName": "WUSTL"
+      },
+      "schema:mainEntity": [
+        {
+          "@type": [
+            "schema:Thing",
+            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+          ],
+          "schema:additionalType": [
+            "MaterialSample"
+          ],
+          "schema:identifier": [
+            "['OREX-803231-101']"
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:encodingFormat": [
+        "application/zip"
+      ],
+      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+      "schema:contentUrl": "",
+      "schema:hasPart": [
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#ae658595157f0d7ecf830a013c7c357e",
+          "schema:name": "20250128_Q-ICP-MS_WUSTL_multiSample_1_QICPMSRawTabular_1.csv",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "15dae93d3b61d9ac8178040cff8a08a0b35711aa6cbfacd64ad2e96f93d1805e"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 241348,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "text/csv"
+          ],
+          "componentType": {
+            "@type": "ada:other"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#b484550aaaa064556e7318d2a816db75",
+          "schema:name": "20250128_Q-ICP-MS_WUSTL_multiSample_1_QICPMSRawTabular_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "eb325a7727f6731901efcddf5307bcba63b5d77d120438e720f272f0db0c528f"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 26771,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#ae658595157f0d7ecf830a013c7c357e"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#e650f96d64a3d9dd229a35f1aa3633a3",
+          "schema:name": "20250128_Q-ICP-MS_WUSTL_multiSample_1_methodDescription_1.pdf",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "672b6eb87cc9fb4f25659590544f44ca560fb5d68e9f56b437ada2de555ecca2"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 83011,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/pdf"
+          ],
+          "componentType": {
+            "@type": "ada:methodDescription"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#a5586044d453d2d93e49be77d71ee6d4",
+          "schema:name": "20250128_Q-ICP-MS_WUSTL_multiSample_1_methodDescription_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "6075756ccfcd7daa6b72423830869c110e8e84475c8c947852c07ccec6ea9cb7"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 203,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#e650f96d64a3d9dd229a35f1aa3633a3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ada:metadata_2243",
+    "@type": "schema:Dataset",
+    "schema:sdDatePublished": "2025-03-04",
+    "schema:maintainer": {
+      "@id": "https://ada.org/person/3479",
+      "@type": "schema:Person",
+      "schema:name": "Richard, Stephen M.",
+      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+      "schema:email": "smrTucson@email.org"
+    },
+    "schema:about": {
+      "@id": "ada:record_2243"
+    },
+    "schema:description": "metadata about documentation for https://doi.org/10.60707/fzjk-kt84",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/profiles/discovery"
+      },
+      {
+        "@id": "ada:profile/adaICPMS"
+      }
+    ]
+  }
+}

@@ -1,0 +1,328 @@
+{
+  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "geosparql": "http://www.opengis.net/ont/geosparql#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "ada": "https://ada.astromat.org/metadata/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "ada:record_159",
+  "@type": [
+    "schema:Dataset",
+    "schema:Product"
+  ],
+  "schema:name": "Basemap bundle for sample OREX-500003-100 with etched fiducial marks.",
+  "schema:description": "This is a basemap bundle for sample OREX-500003-100 and includes the basemap in reflected and coaxial illuminations. The basemap shows the three etched fiducial marks (N, E, W) and the entirety of the sample.",
+  "schema:identifier": {
+    "@type": "schema:PropertyValue",
+    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:value": "10.60707/4v1z-b208",
+    "schema:url": "https://doi.org/10.60707/4v1z-b208"
+  },
+  "schema:additionalType": [
+    "Basemap"
+  ],
+  "schema:datePublished": "2025-12-31",
+  "schema:license": [
+    "missing"
+  ],
+  "schema:url": "",
+  "schema:dateModified": "2024-06-05",
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://orcid.org/0000-0002-0972-6321",
+        "@type": "schema:Person",
+        "schema:name": "Bennett, Carina",
+        "schema:identifier": "https://orcid.org/0000-0002-0972-6321",
+        "schema:email": "carinaj@arizona.edu"
+      }
+    ]
+  },
+  "schema:contributor": [
+    {
+      "@type": "schema:Role",
+      "schema:roleName": "Researcher",
+      "schema:contributor": {
+        "@type": "schema:Person",
+        "@id": "https://orcid.org/0000-0001-5671-5388",
+        "schema:name": "Haenecour, Pierre",
+        "schema:identifier": "https://orcid.org/0000-0001-5671-5388",
+        "schema:email": "haenecour@arizona.edu"
+      }
+    }
+  ],
+  "schema:funding": [
+    {
+      "@type": "schema:MonetaryGrant",
+      "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program."
+    }
+  ],
+  "schema:measurementTechnique": {
+    "@type": "schema:DefinedTerm",
+    "schema:name": "Visible Light Microscopy Basemap",
+    "schema:termCode": "VLMBasemap"
+  },
+  "prov:wasGeneratedBy": [
+    {
+      "@type": [
+        "schema:Event",
+        "xas:AnalysisEvent",
+        "prov:Activity"
+      ],
+      "schema:startDate": "2024-04-08T23:44:06.535636Z",
+      "schema:identifier": "20240328_vlmbasemap_uaz_orex-500003-100_1",
+      "prov:used": [
+        {
+          "@type": [
+            "schema:Thing",
+            "prov:Entity",
+            "nxs:BaseClass/NXinstrument"
+          ],
+          "schema:name": "(UAZ)Keyence VHX-7000 Digital Microscope",
+          "schema:identifier": "KEY7000-UAZ"
+        }
+      ],
+      "schema:location": {
+        "@type": [
+          "schema:Place",
+          "nxs:BaseClass/NXsource"
+        ],
+        "schema:identifier": "https://ror.org/03m2x1q45",
+        "schema:name": "University of Arizona",
+        "schema:alternateName": "UAZ"
+      },
+      "schema:mainEntity": [
+        {
+          "@type": [
+            "schema:Thing",
+            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+          ],
+          "schema:additionalType": [
+            "MaterialSample"
+          ],
+          "schema:identifier": [
+            "['OREX-500003-100']"
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:encodingFormat": [
+        "application/zip"
+      ],
+      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+      "schema:contentUrl": "",
+      "schema:hasPart": [
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#b314a982f389ac588c0d852069877df9",
+          "schema:name": "20240328_VLMBasemap_UAZ_OREX-500003-100_1_basemap_1.tfw",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "ef85c14383496d1af4bf9aeb28473d3d18ee1c0233eb794dbf3799eff9f8a82e"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 29,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "text/plain"
+          ],
+          "componentType": {
+            "@type": "ada:basemap"
+          }
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#83ee8beeab994e895e63c2567f81b370",
+          "schema:name": "20240328_VLMBasemap_UAZ_OREX-500003-100_1_basemap_1.tif",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "83b36f7d955b1e0cbcecd1d5fd42c6a5d87943da961d8a30db170fb679faba8a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 150515756,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/tiff"
+          ],
+          "componentType": {
+            "@type": "ada:basemap"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#196c77353c4c2bfe9a8c55d70a83d047",
+          "schema:name": "20240328_VLMBasemap_UAZ_OREX-500003-100_1_basemap_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "1c56ba0ba55b435095e14e6e8eca8afc6e0d0f6b0423bbb8f5ef1405fe4d79cc"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 443,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#b314a982f389ac588c0d852069877df9"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#1c74bb360b20fa4870e427b156590e7c",
+          "schema:name": "20240328_VLMBasemap_UAZ_OREX-500003-100_1_other_1.tif",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "89db37f1f8eac819d2fd3f9d54a4ecef839a7fa48e568e430f3a4cd4c82850b0"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 150510372,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/tiff"
+          ],
+          "componentType": {
+            "@type": "ada:other"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#dbb35dea35fb07c832fac2b949949b9a",
+          "schema:name": "20240328_VLMBasemap_UAZ_OREX-500003-100_1_other_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "61ab927c2ad0763201b9f59f125bf401788782fd59d061253164e86d6b84a0d9"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 343,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#1c74bb360b20fa4870e427b156590e7c"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#514f03ebf4312cab6dbca1dd45122ae1",
+          "schema:name": "20240328_VLMBasemap_UAZ_OREX-500003-100_1_other_2.tif",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "819f7c3d4fc506a9883c09bcc2b7c6f1a1737441ee99a116fdf1e2254e333030"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 150491692,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/tiff"
+          ],
+          "componentType": {
+            "@type": "ada:other"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#4bf6b111c2f86665d99af0382b5be8d9",
+          "schema:name": "20240328_VLMBasemap_UAZ_OREX-500003-100_1_other_2.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "86fc981d1e0e094e7b02044af078c1d0e8df6599821c8e22cd090df6da412393"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 329,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#514f03ebf4312cab6dbca1dd45122ae1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ada:metadata_159",
+    "@type": "schema:Dataset",
+    "schema:sdDatePublished": "2024-06-05",
+    "schema:maintainer": {
+      "@id": "https://ada.org/person/3479",
+      "@type": "schema:Person",
+      "schema:name": "Richard, Stephen M.",
+      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+      "schema:email": "smrTucson@email.org"
+    },
+    "schema:about": {
+      "@id": "ada:record_159"
+    },
+    "schema:description": "metadata about documentation for https://doi.org/10.60707/4v1z-b208",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/profiles/discovery"
+      },
+      {
+        "@id": "ada:profile/adaVLM"
+      }
+    ]
+  }
+}

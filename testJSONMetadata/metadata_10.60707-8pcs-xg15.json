@@ -1,0 +1,241 @@
+{
+  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "geosparql": "http://www.opengis.net/ont/geosparql#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "ada": "https://ada.astromat.org/metadata/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "ada:record_2171",
+  "@type": [
+    "schema:Dataset",
+    "schema:Product"
+  ],
+  "schema:name": "SEM data of hummocky particle OREX-803096-0",
+  "schema:description": "SEM data of hummocky particle OREX-803096-0; image and measure the composition of the particle; the particle has a distinct shape from the angular morphology and contains sheet silicates, carbonates, sulfides, and magnetite",
+  "schema:identifier": {
+    "@type": "schema:PropertyValue",
+    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:value": "10.60707/8pcs-xg15",
+    "schema:url": "https://doi.org/10.60707/8pcs-xg15"
+  },
+  "schema:additionalType": [
+    "Scanning electron microscopy"
+  ],
+  "schema:datePublished": "2025-12-31",
+  "schema:license": [
+    "missing"
+  ],
+  "schema:url": "",
+  "schema:dateModified": "2025-02-24",
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://orcid.org/0000-0002-9549-022X",
+        "@type": "schema:Person",
+        "schema:name": "Zega, Tom",
+        "schema:identifier": "https://orcid.org/0000-0002-9549-022X",
+        "schema:email": "tzega@arizona.edu"
+      }
+    ]
+  },
+  "schema:funding": [
+    {
+      "@type": "schema:MonetaryGrant",
+      "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program."
+    }
+  ],
+  "schema:measurementTechnique": {
+    "@type": "schema:DefinedTerm",
+    "schema:name": "Scanning electron microscopy",
+    "schema:termCode": "SEM"
+  },
+  "prov:wasGeneratedBy": [
+    {
+      "@type": [
+        "schema:Event",
+        "xas:AnalysisEvent",
+        "prov:Activity"
+      ],
+      "schema:startDate": "2024-04-24T12:00:00Z",
+      "schema:identifier": "20240424_sem_uaz_orex-803096-0_1",
+      "prov:used": [
+        {
+          "@type": [
+            "schema:Thing",
+            "prov:Entity",
+            "nxs:BaseClass/NXinstrument"
+          ],
+          "schema:name": "Hitachi S-4800",
+          "schema:identifier": "HS4800"
+        }
+      ],
+      "schema:location": {
+        "@type": [
+          "schema:Place",
+          "nxs:BaseClass/NXsource"
+        ],
+        "schema:identifier": "https://ror.org/03m2x1q45",
+        "schema:name": "University of Arizona",
+        "schema:alternateName": "UAZ"
+      },
+      "schema:mainEntity": [
+        {
+          "@type": [
+            "schema:Thing",
+            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+          ],
+          "schema:additionalType": [
+            "MaterialSample"
+          ],
+          "schema:identifier": [
+            "['OREX-803096-0']"
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:encodingFormat": [
+        "application/zip"
+      ],
+      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+      "schema:contentUrl": "",
+      "schema:hasPart": [
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#3f182687262043a039fb65729e4b88e7",
+          "schema:name": "20240424_SEM_UAZ_OREX-803096-0_1_SEMImageMap_2.tif",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "6cca9dbb6638bb18bcc3b0449e342597fa717a6105393cb36af9950ee1b43137"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 4922078,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/tiff"
+          ],
+          "componentType": {
+            "@type": "ada:other"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#8eb859814a2881fec329dbdca3db6466",
+          "schema:name": "20240424_SEM_UAZ_OREX-803096-0_1_SEMImageMap_2.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "91526daf3325233515783d3f9f49379c5ff69f6b8a74c70ecc86f40199f44ab6"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 256,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#3f182687262043a039fb65729e4b88e7"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#a5b3eebbb247321b81174415a83e8075",
+          "schema:name": "20240424_SEM_UAZ_OREX-803096-0_1_instrumentMetadata_2.txt",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "46458e92adbf1117c456003e30c596a0b4b3226282f2e17d49c7c7bda561c3aa"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 894,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "text/plain"
+          ],
+          "componentType": {
+            "@type": "ada:instrumentMetadata"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#a509dca620480d9c17add3ac3633a1e4",
+          "schema:name": "20240424_SEM_UAZ_OREX-803096-0_1_instrumentMetadata_2.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "ba6ff8d031f9557daaed69dc32140d232342f169c887272dc80234dd8197280a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 162,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#a5b3eebbb247321b81174415a83e8075"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ada:metadata_2171",
+    "@type": "schema:Dataset",
+    "schema:sdDatePublished": "2025-02-24",
+    "schema:maintainer": {
+      "@id": "https://ada.org/person/3479",
+      "@type": "schema:Person",
+      "schema:name": "Richard, Stephen M.",
+      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+      "schema:email": "smrTucson@email.org"
+    },
+    "schema:about": {
+      "@id": "ada:record_2171"
+    },
+    "schema:description": "metadata about documentation for https://doi.org/10.60707/8pcs-xg15",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/profiles/discovery"
+      },
+      {
+        "@id": "ada:profile/adaSEM"
+      }
+    ]
+  }
+}

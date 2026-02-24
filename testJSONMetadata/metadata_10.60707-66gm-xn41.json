@@ -1,0 +1,354 @@
+{
+  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "geosparql": "http://www.opengis.net/ont/geosparql#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "ada": "https://ada.astromat.org/metadata/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "ada:record_494",
+  "@type": [
+    "schema:Dataset",
+    "schema:Product"
+  ],
+  "schema:name": "Bennu SOM analysis using FTICR-MS (ESIneg, ESIpos and APPIpos)",
+  "schema:description": "This is a bundle for a 3.3 mg sample of Bennu (OREX-803006-0_1). The bundle contains data from the DI-FTICR-MS analysis measured with ESI in negative and positive ion mode as well as APPI in positive ion mode. Prior extraction, the surface of the OREX-803006-0_1 sample was gently washed with MeOH (OREX-803006-0_1 MeOH Wash). After washing, the OREX-803006-0_1 sample was crushed in an agate mortar and exctracted in methanol (OREX-803006-0_1 MeOH Extract). Additionally, a Murchison sample was equally crushed and extracted (Murchison MeOH Extract). Each analysis produced a mass spectrum (.mzml), leading to 8 total raw data files. The bundle also includes corresponding tabular files (.csv) and data plots (.pdf) as well as information on sample preparation and analytical methods. The purpose of this dataset was to analyze the nontargeted chemical profiling of C-, H-, O-, N-, and S-bearing soluble organic molecules in the Bennu asteroid using FTICR-MS.",
+  "schema:identifier": {
+    "@type": "schema:PropertyValue",
+    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:value": "10.60707/66gm-xn41",
+    "schema:url": "https://doi.org/10.60707/66gm-xn41"
+  },
+  "schema:additionalType": [
+    "Fourier Transform Ion Cyclotron Resonance Mass Spectrometry"
+  ],
+  "schema:datePublished": "2024-11-21",
+  "schema:license": [
+    "missing"
+  ],
+  "schema:url": "",
+  "schema:dateModified": "2024-11-21",
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://orcid.org/0009-0005-5228-3908",
+        "@type": "schema:Person",
+        "schema:name": "Liss, Michael",
+        "schema:identifier": "https://orcid.org/0009-0005-5228-3908",
+        "schema:email": "michael.liss@helmholtz-munich.de"
+      }
+    ]
+  },
+  "schema:contributor": [
+    {
+      "@type": "schema:Role",
+      "schema:roleName": "Other",
+      "schema:contributor": {
+        "@type": "schema:Person",
+        "@id": "",
+        "schema:name": "",
+        "schema:identifier": "",
+        "schema:email": "philippe.schmitt-kopplin@helmholtz-munich.de"
+      }
+    }
+  ],
+  "schema:funding": [
+    {
+      "@type": "schema:MonetaryGrant",
+      "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program. Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) Project-ID 364653263%E2%80%94TRR 235 (CRC 235)"
+    }
+  ],
+  "schema:measurementTechnique": {
+    "@type": "schema:DefinedTerm",
+    "schema:name": "Fourier Transform Ion Cyclotron Resonance Mass Spectrometry",
+    "schema:termCode": "FTICR-MS"
+  },
+  "prov:wasGeneratedBy": [
+    {
+      "@type": [
+        "schema:Event",
+        "xas:AnalysisEvent",
+        "prov:Activity"
+      ],
+      "schema:startDate": "2024-05-30T13:40:03.050572Z",
+      "schema:identifier": "20240530_fticr-ms_hmgu_orex-803006-0_1",
+      "prov:used": [
+        {
+          "@type": [
+            "schema:Thing",
+            "prov:Entity",
+            "nxs:BaseClass/NXinstrument"
+          ],
+          "schema:name": "FTICR-MS 12 Tesla Solarix Infinity system",
+          "schema:identifier": "12TSI"
+        }
+      ],
+      "schema:location": {
+        "@type": [
+          "schema:Place",
+          "nxs:BaseClass/NXsource"
+        ],
+        "schema:identifier": "https://ror.org/034rhsb33",
+        "schema:name": "Helmholtz University (Helmholtz Zentrum Munchen)",
+        "schema:alternateName": "HMGU"
+      },
+      "schema:mainEntity": [
+        {
+          "@type": [
+            "schema:Thing",
+            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+          ],
+          "schema:additionalType": [
+            "MaterialSample"
+          ],
+          "schema:identifier": [
+            "['OREX-803006-0']"
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:encodingFormat": [
+        "application/zip"
+      ],
+      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+      "schema:contentUrl": "",
+      "schema:hasPart": [
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#1d030c24e6cd5d22fb8847c956da0f4c",
+          "schema:name": "20240530_FTICR-MS_HMGU_OREX-803006-0_1_FTICRMSCube_7.mzml",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "bd27344338aed81d35d0830ccb96dc7312457a38e2c79c6b4ff680d58dcc5b0f"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 6959080,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "text/xml"
+          ],
+          "componentType": {
+            "@type": "ada:other"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#6cb6ae09626456befe3892968d5b356f",
+          "schema:name": "20240530_FTICR-MS_HMGU_OREX-803006-0_1_FTICRMSCube_7.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "6e4089bf9b54b4ed8a17be6525adea4d72ad9e8f58544c72c29e718ba3c277fd"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 628,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#1d030c24e6cd5d22fb8847c956da0f4c"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#15fe16c79a312407e820e2094fa7c775",
+          "schema:name": "20240530_FTICR-MS_HMGU_OREX-803006-0_1_instrumentMetadata_1.csv",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "e9e0a6902b9c9bde03dabfff1fe1881eee1f4721bee102037c05172af48de6ab"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 16735,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "text/csv"
+          ],
+          "componentType": {
+            "@type": "ada:instrumentMetadata"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#35fa4b258c68e882196285ae83853b97",
+          "schema:name": "20240530_FTICR-MS_HMGU_OREX-803006-0_1_instrumentMetadata_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "2c4090d658dd72e9fd3d830ce1c3f2d3619e622f2603d990aa7a2c0734492059"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 524,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#15fe16c79a312407e820e2094fa7c775"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#259b26932cc2d691b4a2663a7e0c7016",
+          "schema:name": "20240530_FTICR-MS_HMGU_OREX-803006-0_1_methodDescription_1.pdf",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "772c97cb4ac890661c3959b6328a445cb090799a29a97d49bb381efddcc27a78"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 63409,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/pdf"
+          ],
+          "componentType": {
+            "@type": "ada:methodDescription"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#fbd7d60f080fc930e3e6d97fa1f8b21d",
+          "schema:name": "20240530_FTICR-MS_HMGU_OREX-803006-0_1_methodDescription_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "a98da1881cf73b0a62a15473a5e997b46d4ac98a439c34cd30e96322632ee76f"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 749,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#259b26932cc2d691b4a2663a7e0c7016"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#c45e053cf2e0c10dc512162569f6de12",
+          "schema:name": "20240530_FTICR-MS_HMGU_OREX-803006-0_1_plot_7.pdf",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "24760baaf32be3189300afc2c569e58ac7f51d799c10bcab796e27d43d56ea8f"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 4674324,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/pdf"
+          ],
+          "componentType": {
+            "@type": "ada:plot"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#9e66cb2f4905e0a3cdda3b2d66318699",
+          "schema:name": "20240530_FTICR-MS_HMGU_OREX-803006-0_1_plot_7.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "742c8fd84334367625069b0b9b6c316a11cb3612b2dc7d936b7db2341d462916"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 351,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#c45e053cf2e0c10dc512162569f6de12"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ada:metadata_494",
+    "@type": "schema:Dataset",
+    "schema:sdDatePublished": "2024-11-21",
+    "schema:maintainer": {
+      "@id": "https://ada.org/person/3479",
+      "@type": "schema:Person",
+      "schema:name": "Richard, Stephen M.",
+      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+      "schema:email": "smrTucson@email.org"
+    },
+    "schema:about": {
+      "@id": "ada:record_494"
+    },
+    "schema:description": "metadata about documentation for https://doi.org/10.60707/66gm-xn41",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/profiles/discovery"
+      },
+      {
+        "@id": "ada:profile/adaFTICRMS"
+      }
+    ]
+  }
+}
