@@ -85,19 +85,19 @@ pip install mlcroissant
 
 **Schema structure**:
 - Root: dispatches objects, arrays, or `{@context, @graph}` documents
-- `root-object`: nested if/then/else chain dispatching by `@type` (21 type branches, most specific first)
+- `root-object`: nested if/then/else chain dispatching by `@type` (22 type branches, most specific first)
 - `root-graph`: validates `@context` prefixes + `@graph` array of nodes
 - `id-reference`: shared `{@id: string}` definition for cross-node references
-- 21 type definitions: `type-Dataset`, `type-Person`, `type-Organization`, etc.
+- 22 type definitions: `type-Dataset`, `type-Person`, `type-Organization`, etc.
 
 **Key transformations from source schemas**:
 1. External `$ref`s between building blocks resolved to `#/$defs/type-X` references
 2. Properties referencing other building block types get `anyOf [type-ref, id-reference]` alternatives
 3. `@type` modified for dispatch disambiguation (e.g., metaMetadata becomes `dcat:CatalogRecord`, identifier adds `cdi:Identifier`)
 4. `@context` stripped from non-root types (goes on root-graph wrapper only)
-5. Composite types assembled: type-Dataset merges mandatory + optional, type-StructuredDataSet/TabularTextDataSet compose dataDownload + CDI extensions
+5. Composite types assembled: type-Dataset merges mandatory + optional, type-StructuredDataSet/TabularTextDataSet/LongStructureDataSet compose dataDownload + CDI extensions
 
-**Type dispatch order** (most specific first): `cdi:StructuredDataSet`, `cdi:TabularTextDataSet`, `cdi:InstanceVariable`, `cdi:Identifier`, `dcat:CatalogRecord`, `schema:Dataset`, `schema:Person`, `schema:Organization`, `schema:PropertyValue`, `schema:DefinedTerm`, `schema:CreativeWork`, `schema:DataDownload`, `schema:MediaObject`, `schema:WebAPI`, `schema:Action`, `schema:Place`, `time:ProperInterval`, `schema:MonetaryGrant`, `schema:Role`, `prov:Activity`, `dqv:QualityMeasurement`.
+**Type dispatch order** (most specific first): `cdi:StructuredDataSet`, `cdi:TabularTextDataSet`, `cdi:LongStructureDataSet`, `cdi:InstanceVariable`, `cdi:Identifier`, `dcat:CatalogRecord`, `schema:Dataset`, `schema:Person`, `schema:Organization`, `schema:PropertyValue`, `schema:DefinedTerm`, `schema:CreativeWork`, `schema:DataDownload`, `schema:MediaObject`, `schema:WebAPI`, `schema:Action`, `schema:Place`, `time:ProperInterval`, `schema:MonetaryGrant`, `schema:Role`, `prov:Activity`, `dqv:QualityMeasurement`.
 
 ## DDI-CDI resolved schema
 

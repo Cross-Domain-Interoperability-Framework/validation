@@ -553,14 +553,21 @@ The 2026 schema adds support for:
 
 **Variables (`schema:variableMeasured`):**
 - Must have dual typing: `["schema:PropertyValue", "cdi:InstanceVariable"]`
-- DDI-CDI properties: `cdi:role`, `cdi:intendedDataType`, `cdi:simpleUnitOfMeasure`
+- DDI-CDI properties: `cdi:intendedDataType`, `cdi:simpleUnitOfMeasure`, `cdi:describedUnitOfMeasure`, `cdi:uses`
+- `cdi:role` — enum: `MeasureComponent`, `AttributeComponent`, `DimensionComponent`, `DescriptorComponent`, `ReferenceValueComponent`
 
 **Distributions:**
-- `cdi:StructuredDataSet` - For structured formats (JSON, XML)
-- `cdi:TabularTextDataSet` - For tabular text with CSVW properties:
+- `cdi:StructuredDataSet` - For structured formats (JSON, XML, HDF5, NetCDF)
+- `cdi:TabularTextDataSet` - For tabular text (wide format) with CSVW properties:
   - `csvw:delimiter`, `csvw:header`, `csvw:headerRowCount`
   - `cdi:isDelimited` OR `cdi:isFixedWidth`
   - `cdi:hasPhysicalMapping` - Links variables to physical representation
+- `cdi:LongStructureDataSet` - For long/narrow data format where each row is a single observation:
+  - A descriptor column identifies which variable each row measures (`cdi:role: DescriptorComponent`)
+  - A reference column holds the actual value (`cdi:role: ReferenceValueComponent`)
+  - Optional CSVW properties (delimiter, header, etc.) and DDI-CDI physical properties
+  - `cdi:hasPhysicalMapping` - Links variables to physical representation
+  - SHACL rules enforce exactly one `DescriptorComponent` and at least one `ReferenceValueComponent`
 
 ## Flattened Graph Schema
 
@@ -612,7 +619,7 @@ The generated schema has this high-level structure:
 - **`root-graph`**: validates `@context` prefix declarations + `@graph` array of nodes
 - **`root-object`**: a nested if/then/else chain dispatching objects by `@type` to the correct type definition
 - **`id-reference`**: shared `{"@id": "string"}` definition for cross-node references
-- **21 type definitions**: `type-Dataset`, `type-Person`, `type-Organization`, `type-PropertyValue`, `type-DefinedTerm`, `type-CreativeWork`, `type-DataDownload`, `type-MediaObject`, `type-WebAPI`, `type-Action`, `type-Place`, `type-ProperInterval`, `type-MonetaryGrant`, `type-Role`, `type-Activity`, `type-QualityMeasurement`, `type-CatalogRecord`, `type-Identifier`, `type-InstanceVariable`, `type-StructuredDataSet`, `type-TabularTextDataSet`
+- **22 type definitions**: `type-Dataset`, `type-Person`, `type-Organization`, `type-PropertyValue`, `type-DefinedTerm`, `type-CreativeWork`, `type-DataDownload`, `type-MediaObject`, `type-WebAPI`, `type-Action`, `type-Place`, `type-ProperInterval`, `type-MonetaryGrant`, `type-Role`, `type-Activity`, `type-QualityMeasurement`, `type-CatalogRecord`, `type-Identifier`, `type-InstanceVariable`, `type-StructuredDataSet`, `type-TabularTextDataSet`, `type-LongStructureDataSet`
 
 Type dispatch is ordered most-specific-first (e.g., `cdi:StructuredDataSet` before `schema:Dataset`) so that subtypes are matched before their parent types.
 
@@ -624,7 +631,7 @@ The generator applies these transformations when reading building block source s
 2. **`anyOf` alternatives** — Properties that reference other building block types get `anyOf [type-ref, id-reference]` so they accept either inline objects or `@id` cross-references
 3. **`@type` disambiguation** — Composite types get additional type markers for dispatch (e.g., metaMetadata becomes `dcat:CatalogRecord`, identifier adds `cdi:Identifier`)
 4. **`@context` stripping** — Context declarations are removed from non-root types (the `@context` goes on the root-graph wrapper only)
-5. **Composite type assembly** — Complex types like `type-Dataset` merge mandatory + optional building blocks; `type-StructuredDataSet`/`type-TabularTextDataSet` compose dataDownload + CDI extensions
+5. **Composite type assembly** — Complex types like `type-Dataset` merge mandatory + optional building blocks; `type-StructuredDataSet`/`type-TabularTextDataSet`/`type-LongStructureDataSet` compose dataDownload + CDI extensions
 
 ## Troubleshooting
 
