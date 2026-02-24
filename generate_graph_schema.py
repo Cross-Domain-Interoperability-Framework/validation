@@ -851,8 +851,13 @@ def build_type_dataset(loader, bb_dir):
     optional = strip_schema_key(optional)
 
     # Load CDIFDataDescription for distribution constraints
-    dd_schema = loader.load("profiles/CDIFDataDescription/CDIFDataDescriptionSchema.json")
-    dd_dir = bb_dir / "profiles" / "CDIFDataDescription"
+    # Try new nested path first, fall back to old flat path
+    dd_rel = "profiles/cdifProfiles/CDIFDataDescription/CDIFDataDescriptionSchema.json"
+    dd_dir = bb_dir / "profiles" / "cdifProfiles" / "CDIFDataDescription"
+    if not (bb_dir / dd_rel).exists():
+        dd_rel = "profiles/CDIFDataDescription/CDIFDataDescriptionSchema.json"
+        dd_dir = bb_dir / "profiles" / "CDIFDataDescription"
+    dd_schema = loader.load(dd_rel)
     dd_schema = resolve_and_transform(dd_schema, dd_dir, loader)
     dd_schema = strip_schema_key(dd_schema)
 

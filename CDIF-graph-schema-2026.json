@@ -2,20 +2,30 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "CDIF Flattened JSON-LD Graph Schema",
     "description": "JSON Schema for validating flattened JSON-LD graphs containing CDIF metadata. Accepts either a single graph node (object), an array of nodes, or a JSON-LD document with @context and @graph. Each node is dispatched by @type to the appropriate type-specific sub-schema. Generated from CDIF building block source schemas.",
-    "if": {"type": "object"},
+    "if": {
+        "type": "object"
+    },
     "then": {
         "anyOf": [
-            {"$ref": "#/$defs/root-graph"},
-            {"$ref": "#/$defs/root-object"}
+            {
+                "$ref": "#/$defs/root-graph"
+            },
+            {
+                "$ref": "#/$defs/root-object"
+            }
         ]
     },
-    "else": {"$ref": "#/$defs/root-array"},
+    "else": {
+        "$ref": "#/$defs/root-array"
+    },
     "$defs": {
         "type-Person": {
             "description": "schema for cdif profile of schema.org/Person",
             "type": "object",
             "properties": {
-                "@id": {"type": "string"},
+                "@id": {
+                    "type": "string"
+                },
                 "@type": {
                     "type": "string",
                     "const": "schema:Person"
@@ -30,8 +40,12 @@
                 },
                 "schema:affiliation": {
                     "anyOf": [
-                        {"$ref": "#/$defs/type-Organization"},
-                        {"$ref": "#/$defs/id-reference"}
+                        {
+                            "$ref": "#/$defs/type-Organization"
+                        },
+                        {
+                            "$ref": "#/$defs/id-reference"
+                        }
                     ]
                 },
                 "schema:contactPoint": {
@@ -43,35 +57,53 @@
                             "const": "schema:ContactPoint",
                             "default": "schema:ContactPoint"
                         },
-                        "schema:email": {"type": "string"}
+                        "schema:email": {
+                            "type": "string"
+                        }
                     }
                 },
-                "schema:description": {"type": "string"},
+                "schema:description": {
+                    "type": "string"
+                },
                 "schema:identifier": {
                     "description": "identifier for person, recommend ORCID",
                     "anyOf": [
-                        {"$ref": "#/$defs/type-Identifier"},
-                        {"type": "string"},
-                        {"$ref": "#/$defs/id-reference"}
+                        {
+                            "$ref": "#/$defs/type-Identifier"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "$ref": "#/$defs/id-reference"
+                        }
                     ]
                 },
                 "schema:sameAs": {
                     "type": "array",
                     "description": "other identifiers for the person",
-                    "items": {"type": "string"}
+                    "items": {
+                        "type": "string"
+                    }
                 }
             },
             "allOf": [
                 {
-                    "required": ["@type"]
+                    "required": [
+                        "@type"
+                    ]
                 },
                 {
                     "anyOf": [
                         {
-                            "required": ["schema:name"]
+                            "required": [
+                                "schema:name"
+                            ]
                         },
                         {
-                            "required": ["schema:identifier"]
+                            "required": [
+                                "schema:identifier"
+                            ]
                         }
                     ]
                 }
@@ -80,7 +112,9 @@
         "type-Organization": {
             "type": "object",
             "properties": {
-                "@id": {"type": "string"},
+                "@id": {
+                    "type": "string"
+                },
                 "@type": {
                     "type": "string",
                     "const": "schema:Organization",
@@ -104,9 +138,15 @@
                                     "schema:ResearchOrganization"
                                 ]
                             },
-                            {"$ref": "#/$defs/type-DefinedTerm"},
-                            {"type": "string"},
-                            {"$ref": "#/$defs/id-reference"}
+                            {
+                                "$ref": "#/$defs/type-DefinedTerm"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
                         ]
                     }
                 },
@@ -118,32 +158,48 @@
                     "type": "string",
                     "description": "other labels by which the organization might be known"
                 },
-                "schema:description": {"type": "string"},
+                "schema:description": {
+                    "type": "string"
+                },
                 "schema:identifier": {
                     "description": "identifier for organization",
                     "anyOf": [
-                        {"$ref": "#/$defs/type-Identifier"},
-                        {"type": "string"},
-                        {"$ref": "#/$defs/id-reference"}
+                        {
+                            "$ref": "#/$defs/type-Identifier"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "$ref": "#/$defs/id-reference"
+                        }
                     ]
                 },
                 "schema:sameAs": {
                     "type": "array",
                     "description": "other identifiers for the organization",
-                    "items": {"type": "string"}
+                    "items": {
+                        "type": "string"
+                    }
                 }
             },
             "allOf": [
                 {
-                    "required": ["@type"]
+                    "required": [
+                        "@type"
+                    ]
                 },
                 {
                     "anyOf": [
                         {
-                            "required": ["schema:name"]
+                            "required": [
+                                "schema:name"
+                            ]
                         },
                         {
-                            "required": ["schema:identifier"]
+                            "required": [
+                                "schema:identifier"
+                            ]
                         }
                     ]
                 }
@@ -155,13 +211,19 @@
             "properties": {
                 "@type": {
                     "type": "array",
-                    "items": {"type": "string"},
+                    "items": {
+                        "type": "string"
+                    },
                     "allOf": [
                         {
-                            "contains": {"const": "schema:PropertyValue"}
+                            "contains": {
+                                "const": "schema:PropertyValue"
+                            }
                         },
                         {
-                            "contains": {"const": "cdi:Identifier"}
+                            "contains": {
+                                "const": "cdi:Identifier"
+                            }
                         }
                     ]
                 },
@@ -178,19 +240,27 @@
                     "type": "string",
                     "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
                 },
-                "@id": {"type": "string"}
+                "@id": {
+                    "type": "string"
+                }
             },
             "allOf": [
                 {
-                    "required": ["@type"]
+                    "required": [
+                        "@type"
+                    ]
                 },
                 {
                     "anyOf": [
                         {
-                            "required": ["schema:value"]
+                            "required": [
+                                "schema:value"
+                            ]
                         },
                         {
-                            "required": ["schema:url"]
+                            "required": [
+                                "schema:url"
+                            ]
                         }
                     ]
                 }
@@ -200,16 +270,24 @@
             "description": "schema.org Defined Term schema",
             "type": "object",
             "properties": {
-                "@type": {"const": "schema:DefinedTerm"},
+                "@type": {
+                    "const": "schema:DefinedTerm"
+                },
                 "schema:name": {
                     "type": "string",
                     "description": "text label for the term that is useful to human user"
                 },
                 "schema:identifier": {
                     "anyOf": [
-                        {"type": "string"},
-                        {"$ref": "#/$defs/type-Identifier"},
-                        {"$ref": "#/$defs/id-reference"}
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "$ref": "#/$defs/type-Identifier"
+                        },
+                        {
+                            "$ref": "#/$defs/id-reference"
+                        }
                     ]
                 },
                 "schema:inDefinedTermSet": {
@@ -220,19 +298,27 @@
                     "type": "string",
                     "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
                 },
-                "@id": {"type": "string"}
+                "@id": {
+                    "type": "string"
+                }
             },
             "allOf": [
                 {
-                    "required": ["@type"]
+                    "required": [
+                        "@type"
+                    ]
                 },
                 {
                     "anyOf": [
                         {
-                            "required": ["schema:name"]
+                            "required": [
+                                "schema:name"
+                            ]
                         },
                         {
-                            "required": ["schema:identifier"]
+                            "required": [
+                                "schema:identifier"
+                            ]
                         }
                     ]
                 }
@@ -247,13 +333,19 @@
                     "default": "schema:CreativeWork",
                     "const": "schema:CreativeWork"
                 },
-                "schema:name": {"type": "string"},
-                "schema:description": {"type": "string"},
+                "schema:name": {
+                    "type": "string"
+                },
+                "schema:description": {
+                    "type": "string"
+                },
                 "schema:url": {
                     "type": "string",
                     "format": "uri"
                 },
-                "@id": {"type": "string"}
+                "@id": {
+                    "type": "string"
+                }
             },
             "required": [
                 "@type",
@@ -264,29 +356,43 @@
             "description": "schema to document file-based access to a resoruce via URL, based on schema.org/DataDownload",
             "type": "object",
             "properties": {
-                "@id": {"type": "string"},
+                "@id": {
+                    "type": "string"
+                },
                 "@type": {
                     "type": "array",
                     "description": "implement as array because extensions might need to add additional types",
-                    "items": {"type": "string"},
-                    "contains": {"const": "schema:DataDownload"},
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "schema:DataDownload"
+                    },
                     "minItems": 1
                 },
-                "schema:name": {"type": "string"},
+                "schema:name": {
+                    "type": "string"
+                },
                 "schema:contentUrl": {
                     "type": "string",
                     "format": "uri"
                 },
                 "schema:encodingFormat": {
                     "type": "array",
-                    "items": {"type": "string"}
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "spdx:checksum": {
                     "type": "object",
                     "description": "A string value calculated from the content of the resource representation, used to test if content has been modified. The checksum is a property of a particular distribution/DataDownload.",
                     "properties": {
-                        "spdx:algorithm": {"type": "string"},
-                        "spdx:checksumValue": {"type": "string"}
+                        "spdx:algorithm": {
+                            "type": "string"
+                        },
+                        "spdx:checksumValue": {
+                            "type": "string"
+                        }
                     }
                 },
                 "schema:provider": {
@@ -303,9 +409,15 @@
                                     }
                                 }
                             },
-                            {"$ref": "#/$defs/type-Person"},
-                            {"$ref": "#/$defs/type-Organization"},
-                            {"$ref": "#/$defs/id-reference"}
+                            {
+                                "$ref": "#/$defs/type-Person"
+                            },
+                            {
+                                "$ref": "#/$defs/type-Organization"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
                         ]
                     }
                 },
@@ -314,12 +426,18 @@
                     "description": "Component files in an archive distribution.",
                     "items": {
                         "anyOf": [
-                            {"$ref": "#/$defs/type-MediaObject"},
-                            {"$ref": "#/$defs/id-reference"}
+                            {
+                                "$ref": "#/$defs/type-MediaObject"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
                         ]
                     }
                 },
-                "schema:description": {"type": "string"}
+                "schema:description": {
+                    "type": "string"
+                }
             },
             "required": [
                 "schema:contentUrl",
@@ -336,10 +454,16 @@
                 },
                 "@type": {
                     "type": "array",
-                    "items": {"type": "string"},
-                    "contains": {"const": "schema:MediaObject"},
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "schema:MediaObject"
+                    },
                     "not": {
-                        "contains": {"const": "schema:DataDownload"}
+                        "contains": {
+                            "const": "schema:DataDownload"
+                        }
                     },
                     "minItems": 1
                 },
@@ -347,10 +471,14 @@
                     "type": "string",
                     "description": "Filename of the component file within the archive."
                 },
-                "schema:description": {"type": "string"},
+                "schema:description": {
+                    "type": "string"
+                },
                 "schema:encodingFormat": {
                     "type": "array",
-                    "items": {"type": "string"}
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "schema:size": {
                     "type": "object",
@@ -359,33 +487,55 @@
                             "type": "string",
                             "const": "schema:QuantitativeValue"
                         },
-                        "schema:value": {"type": "number"},
-                        "schema:unitText": {"type": "string"}
+                        "schema:value": {
+                            "type": "number"
+                        },
+                        "schema:unitText": {
+                            "type": "string"
+                        }
                     }
                 },
                 "schema:about": {
                     "type": "array",
                     "description": "For metadata sidecar files, references the data file this metadata describes.",
-                    "items": {"$ref": "#/$defs/id-reference"}
+                    "items": {
+                        "$ref": "#/$defs/id-reference"
+                    }
                 },
                 "spdx:checksum": {
                     "type": "object",
                     "properties": {
-                        "spdx:algorithm": {"type": "string"},
-                        "spdx:checksumValue": {"type": "string"}
+                        "spdx:algorithm": {
+                            "type": "string"
+                        },
+                        "spdx:checksumValue": {
+                            "type": "string"
+                        }
                     }
                 },
-                "cdi:arrayBase": {"type": "integer"},
-                "csvw:commentPrefix": {"type": "string"},
-                "csvw:delimiter": {"type": "string"},
-                "csvw:header": {"type": "boolean"},
+                "cdi:arrayBase": {
+                    "type": "integer"
+                },
+                "csvw:commentPrefix": {
+                    "type": "string"
+                },
+                "csvw:delimiter": {
+                    "type": "string"
+                },
+                "csvw:header": {
+                    "type": "boolean"
+                },
                 "csvw:headerRowCount": {
                     "type": "integer",
                     "minimum": 0,
                     "default": 1
                 },
-                "cdi:isDelimited": {"type": "boolean"},
-                "cdi:isFixedWidth": {"type": "boolean"},
+                "cdi:isDelimited": {
+                    "type": "boolean"
+                },
+                "cdi:isFixedWidth": {
+                    "type": "boolean"
+                },
                 "csvw:lineTerminators": {
                     "type": "string",
                     "enum": [
@@ -415,8 +565,12 @@
                     "type": "integer",
                     "default": 0
                 },
-                "countRows": {"type": "integer"},
-                "countColumns": {"type": "integer"},
+                "countRows": {
+                    "type": "integer"
+                },
+                "countColumns": {
+                    "type": "integer"
+                },
                 "cdi:hasPhysicalMapping": {
                     "type": "array",
                     "description": "Links variables to their physical representation. Present when this component has tabular or structured data description.",
@@ -436,7 +590,9 @@
                                         "type": "string",
                                         "description": "A format for number expressed as a string, or date format like YYYY/MM or MM-DD-YY."
                                     },
-                                    "cdi:physicalDataType": {"type": "string"},
+                                    "cdi:physicalDataType": {
+                                        "type": "string"
+                                    },
                                     "cdi:length": {
                                         "type": "integer",
                                         "description": "The column width if the tabular text is fixed width."
@@ -449,10 +605,18 @@
                                         "type": "string",
                                         "description": "A default string indicating the value to substitute for an empty string."
                                     },
-                                    "cdi:scale": {"type": "integer"},
-                                    "cdi:decimalPositions": {"type": "integer"},
-                                    "cdi:minimumLength": {"type": "integer"},
-                                    "cdi:maximumLength": {"type": "integer"},
+                                    "cdi:scale": {
+                                        "type": "integer"
+                                    },
+                                    "cdi:decimalPositions": {
+                                        "type": "integer"
+                                    },
+                                    "cdi:minimumLength": {
+                                        "type": "integer"
+                                    },
+                                    "cdi:maximumLength": {
+                                        "type": "integer"
+                                    },
                                     "cdi:isRequired": {
                                         "type": "boolean",
                                         "default": false
@@ -495,32 +659,54 @@
             "properties": {
                 "@type": {
                     "type": "array",
-                    "items": {"type": "string"},
-                    "contains": {"const": "schema:WebAPI"},
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "schema:WebAPI"
+                    },
                     "minItems": 1
                 },
                 "schema:serviceType": {
                     "anyOf": [
-                        {"type": "string"},
-                        {"$ref": "#/$defs/type-DefinedTerm"},
-                        {"$ref": "#/$defs/id-reference"}
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "$ref": "#/$defs/type-DefinedTerm"
+                        },
+                        {
+                            "$ref": "#/$defs/id-reference"
+                        }
                     ],
                     "description": "specify the kind of service. Ideally this should be a resolvable identifier. Currently there is no widely adopted registry for serviceType identifiers, in large part because services might be defined at different levels of granularity, and classifications might focus on function, data formats, thematic content, security, or other aspects of the service definition. For interoperability, there must be an external arrangement between data providers and consumers on the strings that will be used to specify service types."
                 },
                 "schema:termsOfService": {
                     "description": "Description of access privileges required to use the API, e.g. registration, licensing, payments. Note that access constraints applying to all distributions of the resource should be specified in the access constraints for the resource description as a whole.",
                     "anyOf": [
-                        {"type": "string"},
-                        {"$ref": "#/$defs/type-CreativeWork"},
-                        {"$ref": "#/$defs/id-reference"}
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "$ref": "#/$defs/type-CreativeWork"
+                        },
+                        {
+                            "$ref": "#/$defs/id-reference"
+                        }
                     ]
                 },
                 "schema:documentation": {
                     "description": "a document that provides a machine-actionable description of a service instance. Examples include OpenAPI documents, OGC Capabilities documents. Software designed to utilise a particular service type will typically include functionality to parse such a description document and engage with the service endpoint. If such a document is available for the service instance providing the resource distribution, it should be included in the distribution metadata.",
                     "anyOf": [
-                        {"type": "string"},
-                        {"$ref": "#/$defs/type-CreativeWork"},
-                        {"$ref": "#/$defs/id-reference"}
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "$ref": "#/$defs/type-CreativeWork"
+                        },
+                        {
+                            "$ref": "#/$defs/id-reference"
+                        }
                     ]
                 },
                 "schema:potentialAction": {
@@ -528,12 +714,18 @@
                     "description": "actions that can be invoked via the API",
                     "items": {
                         "anyOf": [
-                            {"$ref": "#/$defs/type-Action"},
-                            {"$ref": "#/$defs/id-reference"}
+                            {
+                                "$ref": "#/$defs/type-Action"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
                         ]
                     }
                 },
-                "@id": {"type": "string"}
+                "@id": {
+                    "type": "string"
+                }
             },
             "required": [
                 "schema:serviceType",
@@ -571,7 +763,9 @@
                     "$ref": "#/$defs/type-Action--query-input_type",
                     "description": "set of explanations of the parameters in the URL template for the target."
                 },
-                "@id": {"type": "string"}
+                "@id": {
+                    "type": "string"
+                }
             },
             "required": [
                 "schema:name",
@@ -592,9 +786,15 @@
                     "type": "array",
                     "items": {
                         "anyOf": [
-                            {"type": "string"},
-                            {"$ref": "#/$defs/type-DefinedTerm"},
-                            {"$ref": "#/$defs/id-reference"}
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/$defs/type-DefinedTerm"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
                         ]
                     }
                 },
@@ -610,8 +810,12 @@
                                     "const": "schema:GeoCoordinates",
                                     "default": "schema:GeoCoordinates"
                                 },
-                                "schema:latitude": {"type": "number"},
-                                "schema:longitude": {"type": "number"}
+                                "schema:latitude": {
+                                    "type": "number"
+                                },
+                                "schema:longitude": {
+                                    "type": "number"
+                                }
                             },
                             "required": [
                                 "@type",
@@ -691,7 +895,9 @@
                         }
                     }
                 },
-                "@id": {"type": "string"}
+                "@id": {
+                    "type": "string"
+                }
             }
         },
         "type-ProperInterval": {
@@ -720,7 +926,9 @@
                             "format": "uri",
                             "description": "identifier for a named time ordinal era that is younger bound of time interval, e.g. 'isc:LowerDevonian' "
                         },
-                        "@id": {"type": "string"}
+                        "@id": {
+                            "type": "string"
+                        }
                     }
                 },
                 {
@@ -743,7 +951,9 @@
                                     "type": "string",
                                     "const": "time:Instant"
                                 },
-                                "time:inTimePosition": {"$ref": "#/$defs/type-ProperInterval--timePosition_type"}
+                                "time:inTimePosition": {
+                                    "$ref": "#/$defs/type-ProperInterval--timePosition_type"
+                                }
                             }
                         },
                         "time:hasEnd": {
@@ -753,10 +963,14 @@
                                     "type": "string",
                                     "const": "time:Instant"
                                 },
-                                "time:inTimePosition": {"$ref": "#/$defs/type-ProperInterval--timePosition_type"}
+                                "time:inTimePosition": {
+                                    "$ref": "#/$defs/type-ProperInterval--timePosition_type"
+                                }
                             }
                         },
-                        "@id": {"type": "string"}
+                        "@id": {
+                            "type": "string"
+                        }
                     }
                 },
                 {
@@ -780,7 +994,9 @@
                             "$ref": "#/$defs/type-Identifier",
                             "description": "identifier for a particular grant"
                         },
-                        {"$ref": "#/$defs/id-reference"}
+                        {
+                            "$ref": "#/$defs/id-reference"
+                        }
                     ]
                 },
                 "schema:description": {
@@ -802,25 +1018,41 @@
                                 }
                             }
                         },
-                        {"$ref": "#/$defs/type-Person"},
-                        {"$ref": "#/$defs/type-Organization"},
-                        {"$ref": "#/$defs/id-reference"}
+                        {
+                            "$ref": "#/$defs/type-Person"
+                        },
+                        {
+                            "$ref": "#/$defs/type-Organization"
+                        },
+                        {
+                            "$ref": "#/$defs/id-reference"
+                        }
                     ]
                 },
-                "@id": {"type": "string"}
+                "@id": {
+                    "type": "string"
+                }
             },
             "anyOf": [
                 {
-                    "required": ["schema:funder"]
+                    "required": [
+                        "schema:funder"
+                    ]
                 },
                 {
-                    "required": ["schema:identifier"]
+                    "required": [
+                        "schema:identifier"
+                    ]
                 },
                 {
-                    "required": ["schema:name"]
+                    "required": [
+                        "schema:name"
+                    ]
                 },
                 {
-                    "required": ["schema:description"]
+                    "required": [
+                        "schema:description"
+                    ]
                 }
             ]
         },
@@ -835,19 +1067,33 @@
                 },
                 "schema:roleName": {
                     "anyOf": [
-                        {"type": "string"},
-                        {"$ref": "#/$defs/type-DefinedTerm"},
-                        {"$ref": "#/$defs/id-reference"}
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "$ref": "#/$defs/type-DefinedTerm"
+                        },
+                        {
+                            "$ref": "#/$defs/id-reference"
+                        }
                     ]
                 },
                 "schema:contributor": {
                     "anyOf": [
-                        {"$ref": "#/$defs/type-Person"},
-                        {"$ref": "#/$defs/type-Organization"},
-                        {"$ref": "#/$defs/id-reference"}
+                        {
+                            "$ref": "#/$defs/type-Person"
+                        },
+                        {
+                            "$ref": "#/$defs/type-Organization"
+                        },
+                        {
+                            "$ref": "#/$defs/id-reference"
+                        }
                     ]
                 },
-                "@id": {"type": "string"}
+                "@id": {
+                    "type": "string"
+                }
             },
             "required": [
                 "schema:roleName",
@@ -860,15 +1106,21 @@
             "properties": {
                 "@type": {
                     "type": "array",
-                    "items": {"type": "string"},
+                    "items": {
+                        "type": "string"
+                    },
                     "minItems": 1,
-                    "contains": {"const": "prov:Activity"}
+                    "contains": {
+                        "const": "prov:Activity"
+                    }
                 },
                 "prov:used": {
                     "type": "array",
                     "items": {
                         "anyOf": [
-                            {"type": "string"},
+                            {
+                                "type": "string"
+                            },
                             {
                                 "type": "object",
                                 "properties": {
@@ -881,18 +1133,24 @@
                         ]
                     }
                 },
-                "@id": {"type": "string"}
+                "@id": {
+                    "type": "string"
+                }
             }
         },
         "type-QualityMeasurement": {
             "title": "definitions for simple quality measure property",
             "type": "object",
             "properties": {
-                "@type": {"const": "dqv:QualityMeasurement"},
+                "@type": {
+                    "const": "dqv:QualityMeasurement"
+                },
                 "dqv:isMeasurementOf": {
                     "description": "specify the quality measure that is reported, by name, with an ID ref, or as a Defined Term",
                     "anyOf": [
-                        {"type": "string"},
+                        {
+                            "type": "string"
+                        },
                         {
                             "type": "object",
                             "properties": {
@@ -902,19 +1160,31 @@
                                 }
                             }
                         },
-                        {"$ref": "#/$defs/type-DefinedTerm"},
-                        {"$ref": "#/$defs/id-reference"}
+                        {
+                            "$ref": "#/$defs/type-DefinedTerm"
+                        },
+                        {
+                            "$ref": "#/$defs/id-reference"
+                        }
                     ]
                 },
                 "dqv:value": {
                     "description": "the reported result of the quality measure, either as a string or a defined term from a vocabulary",
                     "anyOf": [
-                        {"type": "string"},
-                        {"$ref": "#/$defs/type-DefinedTerm"},
-                        {"$ref": "#/$defs/id-reference"}
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "$ref": "#/$defs/type-DefinedTerm"
+                        },
+                        {
+                            "$ref": "#/$defs/id-reference"
+                        }
                     ]
                 },
-                "@id": {"type": "string"}
+                "@id": {
+                    "type": "string"
+                }
             },
             "required": [
                 "dqv:isMeasurementOf",
@@ -932,13 +1202,21 @@
                 },
                 "schema:propertyID": {
                     "type": "array",
-                    "items": {"$ref": "#/$defs/type-PropertyValue--propertyID_item"},
+                    "items": {
+                        "$ref": "#/$defs/type-PropertyValue--propertyID_item"
+                    },
                     "minItems": 1,
                     "description": "identifier or name for the property concept quantified by the values in this variable slot. Multiple values can specify the property at different levels of granularity."
                 },
-                "schema:name": {"type": "string"},
-                "schema:value": {"type": "string"},
-                "@id": {"type": "string"}
+                "schema:name": {
+                    "type": "string"
+                },
+                "schema:value": {
+                    "type": "string"
+                },
+                "@id": {
+                    "type": "string"
+                }
             },
             "required": [
                 "schema:name",
@@ -951,17 +1229,25 @@
                 "@type": {
                     "type": "array",
                     "description": "require additional type besided schema:PropertyValue required by CDIF variableMeasured, so min items should add up to 2 (we'll see if this works....)",
-                    "items": {"type": "string"},
+                    "items": {
+                        "type": "string"
+                    },
                     "allOf": [
                         {
-                            "contains": {"const": "cdi:InstanceVariable"}
+                            "contains": {
+                                "const": "cdi:InstanceVariable"
+                            }
                         },
                         {
-                            "contains": {"const": "schema:PropertyValue"}
+                            "contains": {
+                                "const": "schema:PropertyValue"
+                            }
                         }
                     ]
                 },
-                "@id": {"type": "string"},
+                "@id": {
+                    "type": "string"
+                },
                 "schema:name": {
                     "type": "string",
                     "description": "this is the string label that is expected to be associated with the variable in the dataset serialization"
@@ -981,7 +1267,9 @@
                     "type": "array",
                     "items": {
                         "anyOf": [
-                            {"type": "string"},
+                            {
+                                "type": "string"
+                            },
                             {
                                 "type": "object",
                                 "properties": {
@@ -991,15 +1279,21 @@
                                     }
                                 }
                             },
-                            {"$ref": "#/$defs/type-DefinedTerm"},
-                            {"$ref": "#/$defs/id-reference"}
+                            {
+                                "$ref": "#/$defs/type-DefinedTerm"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
                         ]
                     },
                     "description": "identifier or name for the property concept quantified by the values in this variable slot. Multiple values can specify the property at different levels of granularity."
                 },
                 "schema:measurementTechnique": {
                     "anyOf": [
-                        {"type": "string"},
+                        {
+                            "type": "string"
+                        },
                         {
                             "type": "object",
                             "properties": {
@@ -1009,8 +1303,12 @@
                                 }
                             }
                         },
-                        {"$ref": "#/$defs/type-DefinedTerm"},
-                        {"$ref": "#/$defs/id-reference"}
+                        {
+                            "$ref": "#/$defs/type-DefinedTerm"
+                        },
+                        {
+                            "$ref": "#/$defs/id-reference"
+                        }
                     ],
                     "description": "A text description of the measurement method used to determine values for this variable. If standard measurement protocols are defined and registered, these can be identified via http URI's."
                 },
@@ -1020,7 +1318,9 @@
                 },
                 "schema:unitCode": {
                     "anyOf": [
-                        {"type": "string"},
+                        {
+                            "type": "string"
+                        },
                         {
                             "type": "object",
                             "properties": {
@@ -1030,8 +1330,12 @@
                                 }
                             }
                         },
-                        {"$ref": "#/$defs/type-DefinedTerm"},
-                        {"$ref": "#/$defs/id-reference"}
+                        {
+                            "$ref": "#/$defs/type-DefinedTerm"
+                        },
+                        {
+                            "$ref": "#/$defs/id-reference"
+                        }
                     ],
                     "description": "Value is expected to be TEXT or URL. We recommend providing an HTTP URI that identifies a unit of measure from a vocabulary accessible on the web. The QUDT unit vocabulary provides and extensive set of registered units of measure that can be used to populate the schema:unitCode property to specify the units of measure used to report datavalues when that is appropriate."
                 },
@@ -1048,12 +1352,16 @@
                     "type": "string",
                     "description": "Any schema:Thing can have a URL property, but because the value is simply a url the relationship of the linked resource can not be expressed. Usage is optional. The recommendation is that schema:url should link to a web page that would be useful for a person to interpret the variable, but is not intended to be machine-actionable."
                 },
-                "cdi:identifier": {"type": "string"},
+                "cdi:identifier": {
+                    "type": "string"
+                },
                 "cdi:physicalDataType": {
                     "type": "array",
                     "items": {
                         "anyOf": [
-                            {"type": "string"},
+                            {
+                                "type": "string"
+                            },
                             {
                                 "type": "object",
                                 "properties": {
@@ -1063,15 +1371,21 @@
                                     }
                                 }
                             },
-                            {"$ref": "#/$defs/type-DefinedTerm"},
-                            {"$ref": "#/$defs/id-reference"}
+                            {
+                                "$ref": "#/$defs/type-DefinedTerm"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
                         ]
                     },
                     "description": "identifier or name for the data type concept."
                 },
                 "cdi:simpleUnitOfMeasure": {
                     "anyOf": [
-                        {"type": "string"},
+                        {
+                            "type": "string"
+                        },
                         {
                             "type": "object",
                             "properties": {
@@ -1081,16 +1395,24 @@
                                 }
                             }
                         },
-                        {"$ref": "#/$defs/type-DefinedTerm"},
-                        {"$ref": "#/$defs/id-reference"}
+                        {
+                            "$ref": "#/$defs/type-DefinedTerm"
+                        },
+                        {
+                            "$ref": "#/$defs/id-reference"
+                        }
                     ]
                 },
                 "cdi:uses": {
                     "type": "string",
                     "description": "reference to a skos concept for the data type"
                 },
-                "cdi:name": {"type": "string"},
-                "cdi:displayLabel": {"type": "string"}
+                "cdi:name": {
+                    "type": "string"
+                },
+                "cdi:displayLabel": {
+                    "type": "string"
+                }
             },
             "allOf": [
                 {
@@ -1131,16 +1453,24 @@
                 },
                 "dcterms:conformsTo": {
                     "type": "array",
-                    "items": {"$ref": "#/$defs/type-CatalogRecord--conformsTo_item"},
+                    "items": {
+                        "$ref": "#/$defs/type-CatalogRecord--conformsTo_item"
+                    },
                     "minItems": 1,
                     "description": "uri for specifications that this metadata record conforms to. Minimimally should specify uri for CDIF discovery profile.  Implement as $def to facilitate extension for profiles that need to add conformance statements"
                 },
                 "schema:maintainer": {
                     "description": "iSamples Registrant. identification of the agent that registered the sample, with contact information. Should include person name and affiliation, or position name and affiliation, or just organization name. e-mail address is preferred contact information.",
                     "anyOf": [
-                        {"$ref": "#/$defs/type-Person"},
-                        {"$ref": "#/$defs/type-Organization"},
-                        {"$ref": "#/$defs/id-reference"}
+                        {
+                            "$ref": "#/$defs/type-Person"
+                        },
+                        {
+                            "$ref": "#/$defs/type-Organization"
+                        },
+                        {
+                            "$ref": "#/$defs/id-reference"
+                        }
                     ]
                 },
                 "schema:sdDatePublished": {
@@ -1161,7 +1491,9 @@
                             "default": "schema:DataCatalog",
                             "const": "schema:DataCatalog"
                         },
-                        "schema:name": {"type": "string"},
+                        "schema:name": {
+                            "type": "string"
+                        },
                         "schema:url": {
                             "type": "string",
                             "format": "uri",
@@ -1173,7 +1505,9 @@
                                     "$ref": "#/$defs/type-Identifier",
                                     "description": "identifier for the collection or catalog; use identifier_type to provide information on identifier scheme and context for identifier"
                                 },
-                                {"$ref": "#/$defs/id-reference"}
+                                {
+                                    "$ref": "#/$defs/id-reference"
+                                }
                             ]
                         }
                     }
@@ -1214,7 +1548,9 @@
                         "default": "schema:Dataset"
                     },
                     "minItems": 1,
-                    "contains": {"const": "schema:Dataset"}
+                    "contains": {
+                        "const": "schema:Dataset"
+                    }
                 },
                 "schema:name": {
                     "type": "string",
@@ -1222,9 +1558,15 @@
                 },
                 "schema:identifier": {
                     "anyOf": [
-                        {"$ref": "#/$defs/type-Identifier"},
-                        {"type": "string"},
-                        {"$ref": "#/$defs/id-reference"}
+                        {
+                            "$ref": "#/$defs/type-Identifier"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "$ref": "#/$defs/id-reference"
+                        }
                     ]
                 },
                 "schema:dateModified": {
@@ -1235,9 +1577,15 @@
                     "type": "array",
                     "items": {
                         "anyOf": [
-                            {"type": "string"},
-                            {"$ref": "#/$defs/type-CreativeWork"},
-                            {"$ref": "#/$defs/id-reference"}
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/$defs/type-CreativeWork"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
                         ]
                     }
                 },
@@ -1245,9 +1593,15 @@
                     "type": "array",
                     "items": {
                         "anyOf": [
-                            {"type": "string"},
-                            {"$ref": "#/$defs/type-CreativeWork"},
-                            {"$ref": "#/$defs/id-reference"}
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/$defs/type-CreativeWork"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
                         ]
                     }
                 },
@@ -1260,18 +1614,32 @@
                     "type": "array",
                     "items": {
                         "anyOf": [
-                            {"$ref": "#/$defs/type-DataDownload"},
-                            {"$ref": "#/$defs/type-WebAPI"},
-                            {"$ref": "#/$defs/type-StructuredDataSet"},
-                            {"$ref": "#/$defs/type-TabularTextDataSet"},
-                            {"$ref": "#/$defs/id-reference"}
+                            {
+                                "$ref": "#/$defs/type-DataDownload"
+                            },
+                            {
+                                "$ref": "#/$defs/type-WebAPI"
+                            },
+                            {
+                                "$ref": "#/$defs/type-StructuredDataSet"
+                            },
+                            {
+                                "$ref": "#/$defs/type-TabularTextDataSet"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
                         ]
                     }
                 },
                 "schema:subjectOf": {
                     "anyOf": [
-                        {"$ref": "#/$defs/type-CatalogRecord"},
-                        {"$ref": "#/$defs/id-reference"}
+                        {
+                            "$ref": "#/$defs/type-CatalogRecord"
+                        },
+                        {
+                            "$ref": "#/$defs/id-reference"
+                        }
                     ]
                 },
                 "schema:description": {
@@ -1282,9 +1650,15 @@
                     "type": "array",
                     "items": {
                         "anyOf": [
-                            {"type": "string"},
-                            {"$ref": "#/$defs/type-DefinedTerm"},
-                            {"$ref": "#/$defs/id-reference"}
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/$defs/type-DefinedTerm"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
                         ]
                     }
                 },
@@ -1292,9 +1666,15 @@
                     "type": "array",
                     "items": {
                         "anyOf": [
-                            {"$ref": "#/$defs/type-Identifier"},
-                            {"type": "string"},
-                            {"$ref": "#/$defs/id-reference"}
+                            {
+                                "$ref": "#/$defs/type-Identifier"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
                         ]
                     }
                 },
@@ -1325,8 +1705,12 @@
                             },
                             "schema:linkRelationship": {
                                 "anyOf": [
-                                    {"$ref": "#/$defs/type-DefinedTerm"},
-                                    {"type": "string"}
+                                    {
+                                        "$ref": "#/$defs/type-DefinedTerm"
+                                    },
+                                    {
+                                        "type": "string"
+                                    }
                                 ]
                             },
                             "target": {
@@ -1340,7 +1724,9 @@
                                         "type": "string",
                                         "description": "registered MIME types are expected"
                                     },
-                                    "schema:name": {"type": "string"},
+                                    "schema:name": {
+                                        "type": "string"
+                                    },
                                     "schema:url": {
                                         "type": "string",
                                         "format": "uri"
@@ -1354,9 +1740,15 @@
                     "type": "array",
                     "items": {
                         "anyOf": [
-                            {"type": "string"},
-                            {"$ref": "#/$defs/type-CreativeWork"},
-                            {"$ref": "#/$defs/id-reference"}
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/$defs/type-CreativeWork"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
                         ]
                     }
                 },
@@ -1364,9 +1756,15 @@
                     "type": "array",
                     "items": {
                         "anyOf": [
-                            {"$ref": "#/$defs/type-DefinedTerm"},
-                            {"type": "string"},
-                            {"$ref": "#/$defs/id-reference"}
+                            {
+                                "$ref": "#/$defs/type-DefinedTerm"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
                         ]
                     }
                 },
@@ -1377,9 +1775,15 @@
                             "type": "array",
                             "items": {
                                 "anyOf": [
-                                    {"$ref": "#/$defs/type-Person"},
-                                    {"$ref": "#/$defs/type-Organization"},
-                                    {"$ref": "#/$defs/id-reference"}
+                                    {
+                                        "$ref": "#/$defs/type-Person"
+                                    },
+                                    {
+                                        "$ref": "#/$defs/type-Organization"
+                                    },
+                                    {
+                                        "$ref": "#/$defs/id-reference"
+                                    }
                                 ]
                             }
                         }
@@ -1389,27 +1793,47 @@
                     "type": "array",
                     "items": {
                         "anyOf": [
-                            {"$ref": "#/$defs/type-Person"},
-                            {"$ref": "#/$defs/type-Organization"},
-                            {"$ref": "#/$defs/type-Role"},
-                            {"$ref": "#/$defs/id-reference"}
+                            {
+                                "$ref": "#/$defs/type-Person"
+                            },
+                            {
+                                "$ref": "#/$defs/type-Organization"
+                            },
+                            {
+                                "$ref": "#/$defs/type-Role"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
                         ]
                     }
                 },
                 "schema:publisher": {
                     "anyOf": [
-                        {"$ref": "#/$defs/type-Person"},
-                        {"$ref": "#/$defs/type-Organization"},
-                        {"$ref": "#/$defs/id-reference"}
+                        {
+                            "$ref": "#/$defs/type-Person"
+                        },
+                        {
+                            "$ref": "#/$defs/type-Organization"
+                        },
+                        {
+                            "$ref": "#/$defs/id-reference"
+                        }
                     ]
                 },
                 "schema:provider": {
                     "type": "array",
                     "items": {
                         "anyOf": [
-                            {"$ref": "#/$defs/type-Person"},
-                            {"$ref": "#/$defs/type-Organization"},
-                            {"$ref": "#/$defs/id-reference"}
+                            {
+                                "$ref": "#/$defs/type-Person"
+                            },
+                            {
+                                "$ref": "#/$defs/type-Organization"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
                         ]
                     }
                 },
@@ -1417,8 +1841,12 @@
                     "type": "array",
                     "items": {
                         "anyOf": [
-                            {"$ref": "#/$defs/type-MonetaryGrant"},
-                            {"$ref": "#/$defs/id-reference"}
+                            {
+                                "$ref": "#/$defs/type-MonetaryGrant"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
                         ]
                     }
                 },
@@ -1426,8 +1854,12 @@
                     "type": "array",
                     "items": {
                         "anyOf": [
-                            {"$ref": "#/$defs/type-InstanceVariable"},
-                            {"$ref": "#/$defs/id-reference"}
+                            {
+                                "$ref": "#/$defs/type-InstanceVariable"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
                         ]
                     }
                 },
@@ -1435,8 +1867,12 @@
                     "type": "array",
                     "items": {
                         "anyOf": [
-                            {"$ref": "#/$defs/type-Place"},
-                            {"$ref": "#/$defs/id-reference"}
+                            {
+                                "$ref": "#/$defs/type-Place"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
                         ]
                     }
                 },
@@ -1444,9 +1880,15 @@
                     "type": "array",
                     "items": {
                         "anyOf": [
-                            {"$ref": "#/$defs/type-ProperInterval"},
-                            {"type": "string"},
-                            {"$ref": "#/$defs/id-reference"}
+                            {
+                                "$ref": "#/$defs/type-ProperInterval"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
                         ]
                     }
                 },
@@ -1454,8 +1896,12 @@
                     "type": "array",
                     "items": {
                         "anyOf": [
-                            {"$ref": "#/$defs/type-Activity"},
-                            {"$ref": "#/$defs/id-reference"}
+                            {
+                                "$ref": "#/$defs/type-Activity"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
                         ]
                     }
                 },
@@ -1463,9 +1909,15 @@
                     "type": "array",
                     "items": {
                         "anyOf": [
-                            {"type": "string"},
-                            {"$ref": "#/$defs/type-CreativeWork"},
-                            {"$ref": "#/$defs/id-reference"}
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/$defs/type-CreativeWork"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
                         ]
                     }
                 },
@@ -1473,8 +1925,12 @@
                     "type": "array",
                     "items": {
                         "anyOf": [
-                            {"$ref": "#/$defs/type-QualityMeasurement"},
-                            {"$ref": "#/$defs/id-reference"}
+                            {
+                                "$ref": "#/$defs/type-QualityMeasurement"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
                         ]
                     }
                 }
@@ -1493,20 +1949,28 @@
                 {
                     "anyOf": [
                         {
-                            "required": ["schema:license"]
+                            "required": [
+                                "schema:license"
+                            ]
                         },
                         {
-                            "required": ["schema:conditionsOfAccess"]
+                            "required": [
+                                "schema:conditionsOfAccess"
+                            ]
                         }
                     ]
                 },
                 {
                     "anyOf": [
                         {
-                            "required": ["schema:url"]
+                            "required": [
+                                "schema:url"
+                            ]
                         },
                         {
-                            "required": ["schema:distribution"]
+                            "required": [
+                                "schema:distribution"
+                            ]
                         }
                     ]
                 }
@@ -1515,34 +1979,50 @@
         "type-StructuredDataSet": {
             "type": "object",
             "properties": {
-                "@id": {"type": "string"},
+                "@id": {
+                    "type": "string"
+                },
                 "@type": {
                     "type": "array",
-                    "items": {"type": "string"},
+                    "items": {
+                        "type": "string"
+                    },
                     "allOf": [
                         {
-                            "contains": {"const": "schema:DataDownload"}
+                            "contains": {
+                                "const": "schema:DataDownload"
+                            }
                         },
                         {
-                            "contains": {"const": "cdi:StructuredDataSet"}
+                            "contains": {
+                                "const": "cdi:StructuredDataSet"
+                            }
                         }
                     ]
                 },
-                "schema:name": {"type": "string"},
+                "schema:name": {
+                    "type": "string"
+                },
                 "schema:contentUrl": {
                     "type": "string",
                     "format": "uri"
                 },
                 "schema:encodingFormat": {
                     "type": "array",
-                    "items": {"type": "string"}
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "spdx:checksum": {
                     "type": "object",
                     "description": "A string value calculated from the content of the resource representation, used to test if content has been modified. The checksum is a property of a particular distribution/DataDownload.",
                     "properties": {
-                        "spdx:algorithm": {"type": "string"},
-                        "spdx:checksumValue": {"type": "string"}
+                        "spdx:algorithm": {
+                            "type": "string"
+                        },
+                        "spdx:checksumValue": {
+                            "type": "string"
+                        }
                     }
                 },
                 "schema:provider": {
@@ -1559,9 +2039,15 @@
                                     }
                                 }
                             },
-                            {"$ref": "#/$defs/type-Person"},
-                            {"$ref": "#/$defs/type-Organization"},
-                            {"$ref": "#/$defs/id-reference"}
+                            {
+                                "$ref": "#/$defs/type-Person"
+                            },
+                            {
+                                "$ref": "#/$defs/type-Organization"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
                         ]
                     }
                 },
@@ -1584,7 +2070,9 @@
                                         "type": "string",
                                         "description": "A format for number expressed as a string, or date format like YYYY/MM or MM-DD-YY."
                                     },
-                                    "cdi:physicalDataType": {"type": "string"},
+                                    "cdi:physicalDataType": {
+                                        "type": "string"
+                                    },
                                     "cdi:length": {
                                         "type": "integer",
                                         "description": "The column width if the tabular text is fixed width."
@@ -1597,10 +2085,18 @@
                                         "type": "string",
                                         "description": "A default string indicating the value to substitute for an empty string."
                                     },
-                                    "cdi:scale": {"type": "integer"},
-                                    "cdi:decimalPositions": {"type": "integer"},
-                                    "cdi:minimumLength": {"type": "integer"},
-                                    "cdi:maximumLength": {"type": "integer"},
+                                    "cdi:scale": {
+                                        "type": "integer"
+                                    },
+                                    "cdi:decimalPositions": {
+                                        "type": "integer"
+                                    },
+                                    "cdi:minimumLength": {
+                                        "type": "integer"
+                                    },
+                                    "cdi:maximumLength": {
+                                        "type": "integer"
+                                    },
                                     "cdi:isRequired": {
                                         "type": "boolean",
                                         "default": false
@@ -1638,34 +2134,50 @@
         "type-TabularTextDataSet": {
             "type": "object",
             "properties": {
-                "@id": {"type": "string"},
+                "@id": {
+                    "type": "string"
+                },
                 "@type": {
                     "type": "array",
-                    "items": {"type": "string"},
+                    "items": {
+                        "type": "string"
+                    },
                     "allOf": [
                         {
-                            "contains": {"const": "schema:DataDownload"}
+                            "contains": {
+                                "const": "schema:DataDownload"
+                            }
                         },
                         {
-                            "contains": {"const": "cdi:TabularTextDataSet"}
+                            "contains": {
+                                "const": "cdi:TabularTextDataSet"
+                            }
                         }
                     ]
                 },
-                "schema:name": {"type": "string"},
+                "schema:name": {
+                    "type": "string"
+                },
                 "schema:contentUrl": {
                     "type": "string",
                     "format": "uri"
                 },
                 "schema:encodingFormat": {
                     "type": "array",
-                    "items": {"type": "string"}
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "spdx:checksum": {
                     "type": "object",
                     "description": "A string value calculated from the content of the resource representation, used to test if content has been modified. The checksum is a property of a particular distribution/DataDownload.",
                     "properties": {
-                        "spdx:algorithm": {"type": "string"},
-                        "spdx:checksumValue": {"type": "string"}
+                        "spdx:algorithm": {
+                            "type": "string"
+                        },
+                        "spdx:checksumValue": {
+                            "type": "string"
+                        }
                     }
                 },
                 "schema:provider": {
@@ -1682,13 +2194,21 @@
                                     }
                                 }
                             },
-                            {"$ref": "#/$defs/type-Person"},
-                            {"$ref": "#/$defs/type-Organization"},
-                            {"$ref": "#/$defs/id-reference"}
+                            {
+                                "$ref": "#/$defs/type-Person"
+                            },
+                            {
+                                "$ref": "#/$defs/type-Organization"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
                         ]
                     }
                 },
-                "cdi:arrayBase": {"type": "integer"},
+                "cdi:arrayBase": {
+                    "type": "integer"
+                },
                 "csvw:commentPrefix": {
                     "type": "string",
                     "description": "An atomic property that sets the comment prefix flag to the single provided value, which MUST be a string. The default is '#'."
@@ -1711,7 +2231,9 @@
                     "type": "boolean",
                     "description": "Schema constraint is that one of {'isDelimited','isFixedWidth'} must be present with a True value; the other one may be present or omitted, but if present must have a false value."
                 },
-                "cdi:isFixedWidth": {"type": "boolean"},
+                "cdi:isFixedWidth": {
+                    "type": "boolean"
+                },
                 "csvw:lineTerminators": {
                     "type": "string",
                     "enum": [
@@ -1761,7 +2283,9 @@
                                 "type": "string",
                                 "description": "A format for number expressed as a string, or date format like YYYY/MM or MM-DD-YY."
                             },
-                            "cdi:physicalDataType": {"type": "string"},
+                            "cdi:physicalDataType": {
+                                "type": "string"
+                            },
                             "cdi:length": {
                                 "type": "integer",
                                 "description": "The column width if the tabular text is fixed width."
@@ -1774,10 +2298,18 @@
                                 "type": "string",
                                 "description": "A default string indicating the value to substitute for an empty string."
                             },
-                            "cdi:scale": {"type": "integer"},
-                            "cdi:decimalPositions": {"type": "integer"},
-                            "cdi:minimumLength": {"type": "integer"},
-                            "cdi:maximumLength": {"type": "integer"},
+                            "cdi:scale": {
+                                "type": "integer"
+                            },
+                            "cdi:decimalPositions": {
+                                "type": "integer"
+                            },
+                            "cdi:minimumLength": {
+                                "type": "integer"
+                            },
+                            "cdi:maximumLength": {
+                                "type": "integer"
+                            },
                             "cdi:isRequired": {
                                 "type": "boolean",
                                 "default": false
@@ -1795,8 +2327,12 @@
                         }
                     }
                 },
-                "countRows": {"type": "integer"},
-                "countColumns": {"type": "integer"}
+                "countRows": {
+                    "type": "integer"
+                },
+                "countColumns": {
+                    "type": "integer"
+                }
             },
             "required": [
                 "schema:contentUrl",
@@ -1805,17 +2341,29 @@
             "oneOf": [
                 {
                     "properties": {
-                        "cdi:isDelimited": {"const": true},
-                        "cdi:isFixedWidth": {"const": false}
+                        "cdi:isDelimited": {
+                            "const": true
+                        },
+                        "cdi:isFixedWidth": {
+                            "const": false
+                        }
                     },
-                    "required": ["cdi:isDelimited"]
+                    "required": [
+                        "cdi:isDelimited"
+                    ]
                 },
                 {
                     "properties": {
-                        "cdi:isDelimited": {"const": false},
-                        "cdi:isFixedWidth": {"const": true}
+                        "cdi:isDelimited": {
+                            "const": false
+                        },
+                        "cdi:isFixedWidth": {
+                            "const": true
+                        }
                     },
-                    "required": ["cdi:isFixedWidth"]
+                    "required": [
+                        "cdi:isFixedWidth"
+                    ]
                 }
             ]
         },
@@ -1828,7 +2376,9 @@
                     "default": "schema:EntryPoint",
                     "const": "schema:EntryPoint"
                 },
-                "schema:description": {"type": "string"},
+                "schema:description": {
+                    "type": "string"
+                },
                 "schema:urlTemplate": {
                     "type": "string",
                     "description": "a templated URL; parameters are enclosed in curly braces ('{..}'); parameters are not required. If included, parameters MUST be documented in the query-input element. Template should be consitent with URI Template (https://datatracker.ietf.org/doc/html/rfc6570)",
@@ -1861,24 +2411,39 @@
                 "schema:contentType": {
                     "type": "array",
                     "description": "The supported content type(s) for an EntryPoint response. a MIME type (https://www.iana.org/assignments/media-types/media-types.xhtml) that specifies the content type for messages in resonses from the service endpoint. This is a schema.org property, and is redundant with encodingFormat in the result property for the Action.",
-                    "items": {"type": "string"}
+                    "items": {
+                        "type": "string"
+                    }
                 }
             },
-            "required": ["schema:urlTemplate"]
+            "required": [
+                "schema:urlTemplate"
+            ]
         },
         "type-Action--result_type": {
             "type": "object",
             "description": "documentation of the serialization format for the API response, i.e. an implementation of the structure specified in the object type field",
             "properties": {
                 "@type": {
-                    "type": "string",
-                    "default": "schema:DataDownload"
+                    "type": "array",
+                    "description": "Type of result object. Typically schema:DataDownload, but may include additional types.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "schema:DataDownload"
+                    },
+                    "minItems": 1
                 },
                 "schema:encodingFormat": {
                     "type": "array",
-                    "items": {"type": "string"}
+                    "items": {
+                        "type": "string"
+                    }
                 },
-                "schema:description": {"type": "string"}
+                "schema:description": {
+                    "type": "string"
+                }
             }
         },
         "type-Action--query-input_type": {
@@ -1888,19 +2453,27 @@
             "items": {
                 "type": "object",
                 "properties": {
-                    "@id": {"type": "string"},
+                    "@id": {
+                        "type": "string"
+                    },
                     "@type": {
                         "type": "string",
                         "default": "schema:PropertyValueSpecification",
                         "const": "schema:PropertyValueSpecification"
                     },
-                    "schema:valueName": {"type": "string"},
-                    "schema:description": {"type": "string"},
+                    "schema:valueName": {
+                        "type": "string"
+                    },
+                    "schema:description": {
+                        "type": "string"
+                    },
                     "schema:valueRequired": {
                         "type": "boolean",
                         "default": true
                     },
-                    "schema:valuePattern": {"type": "string"}
+                    "schema:valuePattern": {
+                        "type": "string"
+                    }
                 },
                 "required": [
                     "schema:valueName",
@@ -1917,10 +2490,14 @@
                     "default": "schema:DataFeed",
                     "const": "schema:DataFeed"
                 },
-                "schema:description": {"type": "string"},
+                "schema:description": {
+                    "type": "string"
+                },
                 "schema:variableMeasured": {
                     "type": "array",
-                    "items": {"$ref": "#/$defs/type-InstanceVariable"}
+                    "items": {
+                        "$ref": "#/$defs/type-InstanceVariable"
+                    }
                 }
             }
         },
@@ -1937,19 +2514,27 @@
                     "description": "identifier for a temporal reference system; default is million years before prsent as a decimal number",
                     "default": "http://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime"
                 },
-                "time:numericPosition": {"type": "number"}
+                "time:numericPosition": {
+                    "type": "number"
+                }
             }
         },
         "type-PropertyValue--propertyID_item": {
             "anyOf": [
-                {"type": "string"},
+                {
+                    "type": "string"
+                },
                 {
                     "type": "object",
                     "properties": {
-                        "@id": {"type": "string"}
+                        "@id": {
+                            "type": "string"
+                        }
                     }
                 },
-                {"$ref": "#/$defs/type-DefinedTerm"}
+                {
+                    "$ref": "#/$defs/type-DefinedTerm"
+                }
             ]
         },
         "type-CatalogRecord--conformsTo_item": {
@@ -1963,7 +2548,9 @@
         },
         "root-object": {
             "type": "object",
-            "required": ["@type"],
+            "required": [
+                "@type"
+            ],
             "$comment": "Dispatch each graph node to its type-specific schema by @type value.",
             "anyOf": [
                 {
@@ -1971,16 +2558,22 @@
                         "properties": {
                             "@type": {
                                 "anyOf": [
-                                    {"const": "cdi:StructuredDataSet"},
+                                    {
+                                        "const": "cdi:StructuredDataSet"
+                                    },
                                     {
                                         "type": "array",
-                                        "contains": {"const": "cdi:StructuredDataSet"}
+                                        "contains": {
+                                            "const": "cdi:StructuredDataSet"
+                                        }
                                     }
                                 ]
                             }
                         }
                     },
-                    "then": {"$ref": "#/$defs/type-StructuredDataSet"},
+                    "then": {
+                        "$ref": "#/$defs/type-StructuredDataSet"
+                    },
                     "else": false
                 },
                 {
@@ -1988,16 +2581,22 @@
                         "properties": {
                             "@type": {
                                 "anyOf": [
-                                    {"const": "cdi:TabularTextDataSet"},
+                                    {
+                                        "const": "cdi:TabularTextDataSet"
+                                    },
                                     {
                                         "type": "array",
-                                        "contains": {"const": "cdi:TabularTextDataSet"}
+                                        "contains": {
+                                            "const": "cdi:TabularTextDataSet"
+                                        }
                                     }
                                 ]
                             }
                         }
                     },
-                    "then": {"$ref": "#/$defs/type-TabularTextDataSet"},
+                    "then": {
+                        "$ref": "#/$defs/type-TabularTextDataSet"
+                    },
                     "else": false
                 },
                 {
@@ -2005,16 +2604,22 @@
                         "properties": {
                             "@type": {
                                 "anyOf": [
-                                    {"const": "cdi:InstanceVariable"},
+                                    {
+                                        "const": "cdi:InstanceVariable"
+                                    },
                                     {
                                         "type": "array",
-                                        "contains": {"const": "cdi:InstanceVariable"}
+                                        "contains": {
+                                            "const": "cdi:InstanceVariable"
+                                        }
                                     }
                                 ]
                             }
                         }
                     },
-                    "then": {"$ref": "#/$defs/type-InstanceVariable"},
+                    "then": {
+                        "$ref": "#/$defs/type-InstanceVariable"
+                    },
                     "else": false
                 },
                 {
@@ -2022,16 +2627,22 @@
                         "properties": {
                             "@type": {
                                 "anyOf": [
-                                    {"const": "cdi:Identifier"},
+                                    {
+                                        "const": "cdi:Identifier"
+                                    },
                                     {
                                         "type": "array",
-                                        "contains": {"const": "cdi:Identifier"}
+                                        "contains": {
+                                            "const": "cdi:Identifier"
+                                        }
                                     }
                                 ]
                             }
                         }
                     },
-                    "then": {"$ref": "#/$defs/type-Identifier"},
+                    "then": {
+                        "$ref": "#/$defs/type-Identifier"
+                    },
                     "else": false
                 },
                 {
@@ -2039,16 +2650,22 @@
                         "properties": {
                             "@type": {
                                 "anyOf": [
-                                    {"const": "dcat:CatalogRecord"},
+                                    {
+                                        "const": "dcat:CatalogRecord"
+                                    },
                                     {
                                         "type": "array",
-                                        "contains": {"const": "dcat:CatalogRecord"}
+                                        "contains": {
+                                            "const": "dcat:CatalogRecord"
+                                        }
                                     }
                                 ]
                             }
                         }
                     },
-                    "then": {"$ref": "#/$defs/type-CatalogRecord"},
+                    "then": {
+                        "$ref": "#/$defs/type-CatalogRecord"
+                    },
                     "else": false
                 },
                 {
@@ -2056,16 +2673,22 @@
                         "properties": {
                             "@type": {
                                 "anyOf": [
-                                    {"const": "schema:Dataset"},
+                                    {
+                                        "const": "schema:Dataset"
+                                    },
                                     {
                                         "type": "array",
-                                        "contains": {"const": "schema:Dataset"}
+                                        "contains": {
+                                            "const": "schema:Dataset"
+                                        }
                                     }
                                 ]
                             }
                         }
                     },
-                    "then": {"$ref": "#/$defs/type-Dataset"},
+                    "then": {
+                        "$ref": "#/$defs/type-Dataset"
+                    },
                     "else": false
                 },
                 {
@@ -2073,16 +2696,22 @@
                         "properties": {
                             "@type": {
                                 "anyOf": [
-                                    {"const": "schema:Person"},
+                                    {
+                                        "const": "schema:Person"
+                                    },
                                     {
                                         "type": "array",
-                                        "contains": {"const": "schema:Person"}
+                                        "contains": {
+                                            "const": "schema:Person"
+                                        }
                                     }
                                 ]
                             }
                         }
                     },
-                    "then": {"$ref": "#/$defs/type-Person"},
+                    "then": {
+                        "$ref": "#/$defs/type-Person"
+                    },
                     "else": false
                 },
                 {
@@ -2090,16 +2719,22 @@
                         "properties": {
                             "@type": {
                                 "anyOf": [
-                                    {"const": "schema:Organization"},
+                                    {
+                                        "const": "schema:Organization"
+                                    },
                                     {
                                         "type": "array",
-                                        "contains": {"const": "schema:Organization"}
+                                        "contains": {
+                                            "const": "schema:Organization"
+                                        }
                                     }
                                 ]
                             }
                         }
                     },
-                    "then": {"$ref": "#/$defs/type-Organization"},
+                    "then": {
+                        "$ref": "#/$defs/type-Organization"
+                    },
                     "else": false
                 },
                 {
@@ -2107,16 +2742,22 @@
                         "properties": {
                             "@type": {
                                 "anyOf": [
-                                    {"const": "schema:PropertyValue"},
+                                    {
+                                        "const": "schema:PropertyValue"
+                                    },
                                     {
                                         "type": "array",
-                                        "contains": {"const": "schema:PropertyValue"}
+                                        "contains": {
+                                            "const": "schema:PropertyValue"
+                                        }
                                     }
                                 ]
                             }
                         }
                     },
-                    "then": {"$ref": "#/$defs/type-PropertyValue"},
+                    "then": {
+                        "$ref": "#/$defs/type-PropertyValue"
+                    },
                     "else": false
                 },
                 {
@@ -2124,16 +2765,22 @@
                         "properties": {
                             "@type": {
                                 "anyOf": [
-                                    {"const": "schema:DefinedTerm"},
+                                    {
+                                        "const": "schema:DefinedTerm"
+                                    },
                                     {
                                         "type": "array",
-                                        "contains": {"const": "schema:DefinedTerm"}
+                                        "contains": {
+                                            "const": "schema:DefinedTerm"
+                                        }
                                     }
                                 ]
                             }
                         }
                     },
-                    "then": {"$ref": "#/$defs/type-DefinedTerm"},
+                    "then": {
+                        "$ref": "#/$defs/type-DefinedTerm"
+                    },
                     "else": false
                 },
                 {
@@ -2141,16 +2788,22 @@
                         "properties": {
                             "@type": {
                                 "anyOf": [
-                                    {"const": "schema:CreativeWork"},
+                                    {
+                                        "const": "schema:CreativeWork"
+                                    },
                                     {
                                         "type": "array",
-                                        "contains": {"const": "schema:CreativeWork"}
+                                        "contains": {
+                                            "const": "schema:CreativeWork"
+                                        }
                                     }
                                 ]
                             }
                         }
                     },
-                    "then": {"$ref": "#/$defs/type-CreativeWork"},
+                    "then": {
+                        "$ref": "#/$defs/type-CreativeWork"
+                    },
                     "else": false
                 },
                 {
@@ -2158,16 +2811,22 @@
                         "properties": {
                             "@type": {
                                 "anyOf": [
-                                    {"const": "schema:DataDownload"},
+                                    {
+                                        "const": "schema:DataDownload"
+                                    },
                                     {
                                         "type": "array",
-                                        "contains": {"const": "schema:DataDownload"}
+                                        "contains": {
+                                            "const": "schema:DataDownload"
+                                        }
                                     }
                                 ]
                             }
                         }
                     },
-                    "then": {"$ref": "#/$defs/type-DataDownload"},
+                    "then": {
+                        "$ref": "#/$defs/type-DataDownload"
+                    },
                     "else": false
                 },
                 {
@@ -2175,16 +2834,22 @@
                         "properties": {
                             "@type": {
                                 "anyOf": [
-                                    {"const": "schema:MediaObject"},
+                                    {
+                                        "const": "schema:MediaObject"
+                                    },
                                     {
                                         "type": "array",
-                                        "contains": {"const": "schema:MediaObject"}
+                                        "contains": {
+                                            "const": "schema:MediaObject"
+                                        }
                                     }
                                 ]
                             }
                         }
                     },
-                    "then": {"$ref": "#/$defs/type-MediaObject"},
+                    "then": {
+                        "$ref": "#/$defs/type-MediaObject"
+                    },
                     "else": false
                 },
                 {
@@ -2192,16 +2857,22 @@
                         "properties": {
                             "@type": {
                                 "anyOf": [
-                                    {"const": "schema:WebAPI"},
+                                    {
+                                        "const": "schema:WebAPI"
+                                    },
                                     {
                                         "type": "array",
-                                        "contains": {"const": "schema:WebAPI"}
+                                        "contains": {
+                                            "const": "schema:WebAPI"
+                                        }
                                     }
                                 ]
                             }
                         }
                     },
-                    "then": {"$ref": "#/$defs/type-WebAPI"},
+                    "then": {
+                        "$ref": "#/$defs/type-WebAPI"
+                    },
                     "else": false
                 },
                 {
@@ -2209,16 +2880,22 @@
                         "properties": {
                             "@type": {
                                 "anyOf": [
-                                    {"const": "schema:Action"},
+                                    {
+                                        "const": "schema:Action"
+                                    },
                                     {
                                         "type": "array",
-                                        "contains": {"const": "schema:Action"}
+                                        "contains": {
+                                            "const": "schema:Action"
+                                        }
                                     }
                                 ]
                             }
                         }
                     },
-                    "then": {"$ref": "#/$defs/type-Action"},
+                    "then": {
+                        "$ref": "#/$defs/type-Action"
+                    },
                     "else": false
                 },
                 {
@@ -2226,16 +2903,22 @@
                         "properties": {
                             "@type": {
                                 "anyOf": [
-                                    {"const": "schema:Place"},
+                                    {
+                                        "const": "schema:Place"
+                                    },
                                     {
                                         "type": "array",
-                                        "contains": {"const": "schema:Place"}
+                                        "contains": {
+                                            "const": "schema:Place"
+                                        }
                                     }
                                 ]
                             }
                         }
                     },
-                    "then": {"$ref": "#/$defs/type-Place"},
+                    "then": {
+                        "$ref": "#/$defs/type-Place"
+                    },
                     "else": false
                 },
                 {
@@ -2243,16 +2926,22 @@
                         "properties": {
                             "@type": {
                                 "anyOf": [
-                                    {"const": "time:ProperInterval"},
+                                    {
+                                        "const": "time:ProperInterval"
+                                    },
                                     {
                                         "type": "array",
-                                        "contains": {"const": "time:ProperInterval"}
+                                        "contains": {
+                                            "const": "time:ProperInterval"
+                                        }
                                     }
                                 ]
                             }
                         }
                     },
-                    "then": {"$ref": "#/$defs/type-ProperInterval"},
+                    "then": {
+                        "$ref": "#/$defs/type-ProperInterval"
+                    },
                     "else": false
                 },
                 {
@@ -2260,16 +2949,22 @@
                         "properties": {
                             "@type": {
                                 "anyOf": [
-                                    {"const": "schema:MonetaryGrant"},
+                                    {
+                                        "const": "schema:MonetaryGrant"
+                                    },
                                     {
                                         "type": "array",
-                                        "contains": {"const": "schema:MonetaryGrant"}
+                                        "contains": {
+                                            "const": "schema:MonetaryGrant"
+                                        }
                                     }
                                 ]
                             }
                         }
                     },
-                    "then": {"$ref": "#/$defs/type-MonetaryGrant"},
+                    "then": {
+                        "$ref": "#/$defs/type-MonetaryGrant"
+                    },
                     "else": false
                 },
                 {
@@ -2277,16 +2972,22 @@
                         "properties": {
                             "@type": {
                                 "anyOf": [
-                                    {"const": "schema:Role"},
+                                    {
+                                        "const": "schema:Role"
+                                    },
                                     {
                                         "type": "array",
-                                        "contains": {"const": "schema:Role"}
+                                        "contains": {
+                                            "const": "schema:Role"
+                                        }
                                     }
                                 ]
                             }
                         }
                     },
-                    "then": {"$ref": "#/$defs/type-Role"},
+                    "then": {
+                        "$ref": "#/$defs/type-Role"
+                    },
                     "else": false
                 },
                 {
@@ -2294,16 +2995,22 @@
                         "properties": {
                             "@type": {
                                 "anyOf": [
-                                    {"const": "prov:Activity"},
+                                    {
+                                        "const": "prov:Activity"
+                                    },
                                     {
                                         "type": "array",
-                                        "contains": {"const": "prov:Activity"}
+                                        "contains": {
+                                            "const": "prov:Activity"
+                                        }
                                     }
                                 ]
                             }
                         }
                     },
-                    "then": {"$ref": "#/$defs/type-Activity"},
+                    "then": {
+                        "$ref": "#/$defs/type-Activity"
+                    },
                     "else": false
                 },
                 {
@@ -2311,23 +3018,31 @@
                         "properties": {
                             "@type": {
                                 "anyOf": [
-                                    {"const": "dqv:QualityMeasurement"},
+                                    {
+                                        "const": "dqv:QualityMeasurement"
+                                    },
                                     {
                                         "type": "array",
-                                        "contains": {"const": "dqv:QualityMeasurement"}
+                                        "contains": {
+                                            "const": "dqv:QualityMeasurement"
+                                        }
                                     }
                                 ]
                             }
                         }
                     },
-                    "then": {"$ref": "#/$defs/type-QualityMeasurement"},
+                    "then": {
+                        "$ref": "#/$defs/type-QualityMeasurement"
+                    },
                     "else": false
                 }
             ]
         },
         "root-array": {
             "type": "array",
-            "items": {"$ref": "#/$defs/root-object"}
+            "items": {
+                "$ref": "#/$defs/root-object"
+            }
         },
         "root-graph": {
             "type": "object",
@@ -2339,16 +3054,36 @@
                 "@context": {
                     "type": "object",
                     "properties": {
-                        "schema": {"const": "http://schema.org/"},
-                        "dcterms": {"const": "http://purl.org/dc/terms/"},
-                        "geosparql": {"const": "http://www.opengis.net/ont/geosparql#"},
-                        "spdx": {"const": "http://spdx.org/rdf/terms#"},
-                        "cdi": {"const": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"},
-                        "csvw": {"const": "http://www.w3.org/ns/csvw#"},
-                        "prov": {"const": "http://www.w3.org/ns/prov#"},
-                        "dcat": {"const": "http://www.w3.org/ns/dcat#"},
-                        "dqv": {"const": "http://www.w3.org/ns/dqv#"},
-                        "time": {"const": "http://www.w3.org/2006/time#"}
+                        "schema": {
+                            "const": "http://schema.org/"
+                        },
+                        "dcterms": {
+                            "const": "http://purl.org/dc/terms/"
+                        },
+                        "geosparql": {
+                            "const": "http://www.opengis.net/ont/geosparql#"
+                        },
+                        "spdx": {
+                            "const": "http://spdx.org/rdf/terms#"
+                        },
+                        "cdi": {
+                            "const": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+                        },
+                        "csvw": {
+                            "const": "http://www.w3.org/ns/csvw#"
+                        },
+                        "prov": {
+                            "const": "http://www.w3.org/ns/prov#"
+                        },
+                        "dcat": {
+                            "const": "http://www.w3.org/ns/dcat#"
+                        },
+                        "dqv": {
+                            "const": "http://www.w3.org/ns/dqv#"
+                        },
+                        "time": {
+                            "const": "http://www.w3.org/2006/time#"
+                        }
                     },
                     "required": [
                         "schema",
@@ -2356,14 +3091,20 @@
                     ],
                     "additionalProperties": true
                 },
-                "@graph": {"$ref": "#/$defs/root-array"}
+                "@graph": {
+                    "$ref": "#/$defs/root-array"
+                }
             }
         },
         "id-reference": {
             "type": "object",
-            "required": ["@id"],
+            "required": [
+                "@id"
+            ],
             "properties": {
-                "@id": {"type": "string"}
+                "@id": {
+                    "type": "string"
+                }
             },
             "additionalProperties": false
         }
