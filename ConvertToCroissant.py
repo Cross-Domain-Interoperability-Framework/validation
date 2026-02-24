@@ -60,6 +60,7 @@ CROISSANT_CONTEXT = {
     "regex": "cr:regex",
     "repeated": "cr:repeated",
     "replace": "cr:replace",
+    "samplingRate": "cr:samplingRate",
     "separator": "cr:separator",
     "source": "cr:source",
     "subField": "cr:subField",
@@ -331,6 +332,8 @@ def _convert_archive_distribution(dist, di, cr_dist, tabular_files,
         archive_obj["description"] = desc
     if archive_sha:
         archive_obj["sha256"] = archive_sha
+    else:
+        archive_obj["sha256"] = "0" * 64  # nil placeholder – archive checksum not available
     cr_dist.append(archive_obj)
 
     # Component files — flat in distribution with containedIn back-reference
@@ -584,8 +587,7 @@ def convert_cdif_to_croissant(cdif, verbose=False):
 
     # recommended properties
     ver = _get(cdif, "schema:version")
-    if ver:
-        cr["version"] = str(ver)
+    cr["version"] = str(ver) if ver else "not assigned"
 
     dm = _extract_date_modified(cdif)
     if dm:

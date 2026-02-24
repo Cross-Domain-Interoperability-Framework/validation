@@ -1,297 +1,429 @@
 {
-    "@context": {
-        "ada": "https://ada.astromat.org/metadata/",
-        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-        "dcterms": "http://purl.org/dc/terms/",
-        "geosparql": "http://www.opengis.net/ont/geosparql#",
-        "schema": "http://schema.org/",
-        "spdx": "http://spdx.org/rdf/terms#"
-    },
-    "@id": "ada:record_134",
-    "@schema": "https://w3id.org/adaJSONLD/schema/1.0",
-    "@type": [
-        "schema:Dataset",
-        "schema:Product"
-    ],
-    "prov:wasGeneratedBy": {
-        "@type": [
-            "schema:Event",
-            "xas:AnalysisEvent",
-            "prov:Activity"
-        ],
-        "prov:used": [
-            {
-                "@type": [
-                    "schema:Thing",
-                    "prov:Entity",
-                    "nxs:BaseClass/NXinstrument"
-                ],
-                "schema:identifier": "TSQ9610",
-                "schema:name": "Thermo TSQ9610 with Trace 1610 with pyroprobe"
-            }
-        ],
-        "schema:identifier": "20231121_GC-MS_GSFC_OREX-803003-0_1",
-        "schema:location": {
-            "@type": [
-                "schema:Place",
-                "nxs:BaseClass/NXsource"
-            ],
-            "schema:alternateName": "GSFC",
-            "schema:identifier": "",
-            "schema:name": "NASA Goddard Space Flight Center"
-        },
-        "schema:mainEntity": [
-            {
-                "@type": [
-                    "schema:Thing",
-                    "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
-                ],
-                "schema:additionalType": ["MaterialSample"],
-                "schema:identifier": "OREX-803003-0"
-            }
-        ],
-        "schema:startDate": "2023-11-21T14:15:09.935669+00:00"
-    },
-    "schema:additionalType": ["Gas Chromatography-Mass Spectrometry"],
-    "schema:creator": {
-        "@list": [
-            {
-                "@id": "https://ada.org/person/5489",
-                "@type": "schema:Person",
-                "schema:email": "angel.mojarro@nasa.gov",
-                "schema:identifier": "https://orcid.org/0000-0003-4547-4747",
-                "schema:name": "Mojarro, Angel"
-            }
-        ]
-    },
-    "schema:datePublished": "2024-11-21",
-    "schema:description": "This bundle contains data from the pyrolysis GC-MS analysis of bulk Bennu aggregate collected from TAGSAM; 1mg of powder was loaded into quartz cups and pyrolyzed at 600C using a simultaneous full scan and multiple reaction monitoring method for IOM-derived compounds (fullscan+MRM). The collection includes three samples, one procedural blank, Bennu, and Murchison.  The bundle also includes information on sample preparation and analytical methods.",
-    "schema:distribution": [
-        {
-            "@type": ["schema:DataDownload"],
-            "schema:contentUrl": "",
-            "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
-            "schema:encodingFormat": ["application/zip"],
-            "schema:hasPart": [
-                {
-                    "@id": "#2dc0fa4dcfa4e963481eb0cb3e63bf60",
-                    "@type": "schema:Dataset",
-                    "schema:about": [
-                        {"@id": "#ba5a8e25dd936de490f641462314f3c1"}
-                    ],
-                    "schema:description": "",
-                    "schema:encodingFormat": "application/yaml",
-                    "schema:name": "20231121_GC-MS_GSFC_OREX-803003-0_1_GCMSCollection_1.yaml",
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:unitText": "byte",
-                        "schema:value": 729
-                    },
-                    "spdx:checksum": "6ffbb38de80cee3c7180f9a511a5209a30917554e8b6e4269a2bd4a973ea1222"
-                },
-                {
-                    "@id": "#ba5a8e25dd936de490f641462314f3c1",
-                    "@type": "schema:Dataset",
-                    "schema:description": "This is a bundle with data from the pyrolysis GC-MS analysis of the Bennu TAGSAM aggregate; the sample was pyrolyzed at 600 C. The collection includes analyses of a procedural blank, Murchison, and Bennu.",
-                    "schema:encodingFormat": "application/zip",
-                    "schema:name": "20231121_GC-MS_GSFC_OREX-803003-0_1_GCMSCollection_1.zip",
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:unitText": "byte",
-                        "schema:value": 105053303
-                    },
-                    "spdx:checksum": "17396538b0af53c8ca05490ed0a7f1d66f4baf415eb93fd5284959ecd6afaa65"
-                },
-                {
-                    "@id": "#5c7e1db1b3a446dd973e753018429955",
-                    "@type": "schema:Dataset",
-                    "schema:description": "This is the instrumental output that describes conditions for the GC-MS instrument during these analyses.",
-                    "schema:encodingFormat": "application/pdf",
-                    "schema:name": "20231121_GC-MS_GSFC_OREX-803003-0_1_instrumentMetadata_1.pdf",
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:unitText": "byte",
-                        "schema:value": 404221
-                    },
-                    "spdx:checksum": "50abfb50d371a708632b2cdf185b29fab6bab17795237e25fb7c1606b16210e6"
-                },
-                {
-                    "@id": "#022df8277967ddb7184d23863723fd73",
-                    "@type": "schema:Dataset",
-                    "schema:about": [
-                        {"@id": "#5c7e1db1b3a446dd973e753018429955"}
-                    ],
-                    "schema:description": "",
-                    "schema:encodingFormat": "application/yaml",
-                    "schema:name": "20231121_GC-MS_GSFC_OREX-803003-0_1_instrumentMetadata_1.yaml",
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:unitText": "byte",
-                        "schema:value": 407
-                    },
-                    "spdx:checksum": "b5c913888c9363d36fa28d2e36d67b5f7900786b0652f752c56093e5134bd057"
-                },
-                {
-                    "@id": "#3ad26627cf1c48f357828a2b8cf95c7a",
-                    "@type": "schema:Dataset",
-                    "schema:description": "This describes the naming conventions of the analysis files, the standards used, which compound class is being analyzed, and the instrumental conditions for the analysis.",
-                    "schema:encodingFormat": "application/pdf",
-                    "schema:name": "20231121_GC-MS_GSFC_OREX-803003-0_1_methodDescription_1.pdf",
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:unitText": "byte",
-                        "schema:value": 43019
-                    },
-                    "spdx:checksum": "c8c8e62b476718a9990534998d797cd9a3e85cbe3d223f34ed97234f8556696e"
-                },
-                {
-                    "@id": "#8d03cf9c357fdff035268feceb108200",
-                    "@type": "schema:Dataset",
-                    "schema:about": [
-                        {"@id": "#3ad26627cf1c48f357828a2b8cf95c7a"}
-                    ],
-                    "schema:description": "",
-                    "schema:encodingFormat": "application/yaml",
-                    "schema:name": "20231121_GC-MS_GSFC_OREX-803003-0_1_methodDescription_1.yaml",
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:unitText": "byte",
-                        "schema:value": 314
-                    },
-                    "spdx:checksum": "6c27a7b37fd3a6db2c2a599c3ee72d701fa598a60354b121079f2d0e9fbb5ead"
-                },
-                {
-                    "@id": "#277237413b9254e0092e53c7ece2fbcd",
-                    "@type": "schema:Dataset",
-                    "schema:description": "Bulk powders were weighed in quartz pyrolysis cups prior to analysis.",
-                    "schema:encodingFormat": "application/pdf",
-                    "schema:name": "20231121_GC-MS_GSFC_OREX-803003-0_1_report_1.pdf",
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:unitText": "byte",
-                        "schema:value": 43900
-                    },
-                    "spdx:checksum": "46aaa61a8722d8f3b05c352b9e54cb8ef760b7a0c5c85ebfc2abf597add56159"
-                },
-                {
-                    "@id": "#88b2c4d8990ac81dd6a5a4c0b830d64f",
-                    "@type": "schema:Dataset",
-                    "schema:about": [
-                        {"@id": "#277237413b9254e0092e53c7ece2fbcd"}
-                    ],
-                    "schema:description": "",
-                    "schema:encodingFormat": "application/yaml",
-                    "schema:name": "20231121_GC-MS_GSFC_OREX-803003-0_1_report_1.yaml",
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:unitText": "byte",
-                        "schema:value": 198
-                    },
-                    "spdx:checksum": "cb0a3dafa8be7e900999a0b360c392c37947e95d131ae9157ddab616352ec8aa"
-                },
-                {
-                    "@id": "#13072e1fffd3d921e04c32a5baee5113",
-                    "@type": "schema:Dataset",
-                    "schema:description": "Sample was weighed in quartz pyrolysis tubes and was pyrolyzed at 600 C.",
-                    "schema:encodingFormat": "application/pdf",
-                    "schema:name": "20231121_GC-MS_GSFC_OREX-803003-0_1_samplePreparation_1.pdf",
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:unitText": "byte",
-                        "schema:value": 29691
-                    },
-                    "spdx:checksum": "b9ed542526a6343e78153c6ac51ff60d260065b9ba3b65d997ecc6ac37182d68"
-                },
-                {
-                    "@id": "#c113cb1c7a5675e7c218f9e84a9b7379",
-                    "@type": "schema:Dataset",
-                    "schema:about": [
-                        {"@id": "#13072e1fffd3d921e04c32a5baee5113"}
-                    ],
-                    "schema:description": "",
-                    "schema:encodingFormat": "application/yaml",
-                    "schema:name": "20231121_GC-MS_GSFC_OREX-803003-0_1_samplePreparation_1.yaml",
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:unitText": "byte",
-                        "schema:value": 214
-                    },
-                    "spdx:checksum": "73168409f51688a8bed6eb289199a953d8153c9651d2cd79a2c9e2772c834fc2"
-                }
-            ]
-        }
-    ],
-    "schema:funding": [
-        {
-            "@type": "schema:MonetaryGrant",
-            "schema:description": "NASA"
-        }
-    ],
-    "schema:identifier": {
-        "@type": "schema:PropertyValue",
-        "schema:propertyID": "https://registry.identifiers.org/registry/doi",
-        "url": "https://doi.org/10.60707/yv1f-jb20",
-        "value": "10.60707/yv1f-jb20"
-    },
-    "schema:measurementTechnique": {
-        "@type": "schema:DefinedTerm",
-        "schema:name": "Gas Chromatography-Mass Spectrometry",
-        "schema:termCode": "GC-MS"
-    },
-    "schema:name": "Pyrolysis GCMS Bundle - First Bennu TAGSAM aggregate",
-    "schema:subjectOf": {
-        "@id": "ada:metadata_134",
-        "@type": "schema:Dataset",
-        "dcterms:conformsTo": [
-            {"@id": "ada:dataCube"},
-            {"@id": "ada:methodDescription"},
-            {"@id": "ada:GCMSCollection"},
-            {"@id": "ada:samplePreparation"},
-            {"@id": "ada:image"},
-            {"@id": "ada:document"},
-            {"@id": "ada:instrumentMetadata"},
-            {"@id": "ada:report"},
-            {"@id": "ada:metadata"},
-            {"@id": "CDIF_basic_1.0"}
-        ],
-        "schema:about": {"@id": "ada:record_134"},
-        "schema:creator": [
-            {
-                "@id": "https://ada.org/person/3479",
-                "@type": "schema:Person",
-                "schema:email": "smrTucson@email.org",
-                "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
-                "schema:name": "Richard, Stephen M."
-            }
-        ],
-        "schema:dateModified": "2024-11-21",
-        "schema:description": "metadata about documentation for https://doi.org/10.60707/yv1f-jb20"
-    },
-    "schema:url": "",
-    "schema:variableMeasured": [
-        {
-            "@id": "#time",
-            "@type": ["schema:PropertyValue"],
-            "cdi:unitOfMeasureKind": "missing",
-            "schema:description": "This dimension is the chromatographic retention time",
-            "schema:name": "Time",
-            "schema:propertyID": ["missing"]
-        },
-        {
-            "@id": "#mass",
-            "@type": ["schema:PropertyValue"],
-            "cdi:unitOfMeasureKind": "missing",
-            "schema:description": "This dimension is the mass-to-charge ratio measured by the mass spectrometer",
-            "schema:name": "Mass",
-            "schema:propertyID": ["missing"]
-        },
-        {
-            "@id": "#intensity",
-            "@type": ["schema:PropertyValue"],
-            "cdi:unitOfMeasureKind": "missing",
-            "schema:description": "This is a unitless measure of intensity of the mass peak",
-            "schema:name": "Intensity",
-            "schema:propertyID": ["missing"]
-        }
+  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "geosparql": "http://www.opengis.net/ont/geosparql#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "ada": "https://ada.astromat.org/metadata/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "ada:record_134",
+  "@type": [
+    "schema:Dataset",
+    "schema:Product"
+  ],
+  "schema:name": "Pyrolysis GCMS Bundle - First Bennu TAGSAM aggregate",
+  "schema:description": "This bundle contains data from the pyrolysis GC-MS analysis of bulk Bennu aggregate collected from TAGSAM; 1mg of powder was loaded into quartz cups and pyrolyzed at 600C using a simultaneous full scan and multiple reaction monitoring method for IOM-derived compounds (fullscan+MRM). The collection includes three samples, one procedural blank, Bennu, and Murchison.  The bundle also includes information on sample preparation and analytical methods.",
+  "schema:identifier": {
+    "@type": "schema:PropertyValue",
+    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:value": "10.60707/yv1f-jb20",
+    "schema:url": "https://doi.org/10.60707/yv1f-jb20"
+  },
+  "schema:additionalType": [
+    "Gas Chromatography-Mass Spectrometry"
+  ],
+  "schema:datePublished": "2024-11-21",
+  "schema:license": [
+    "missing"
+  ],
+  "schema:url": "",
+  "schema:dateModified": "2024-11-21",
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://orcid.org/0000-0003-4547-4747",
+        "@type": "schema:Person",
+        "schema:name": "Mojarro, Angel",
+        "schema:identifier": "https://orcid.org/0000-0003-4547-4747",
+        "schema:email": "angel.mojarro@nasa.gov"
+      }
     ]
+  },
+  "schema:funding": [
+    {
+      "@type": "schema:MonetaryGrant",
+      "schema:description": "NASA"
+    }
+  ],
+  "schema:measurementTechnique": {
+    "@type": "schema:DefinedTerm",
+    "schema:name": "Gas Chromatography-Mass Spectrometry",
+    "schema:termCode": "GC-MS"
+  },
+  "prov:wasGeneratedBy": [
+    {
+      "@type": [
+        "schema:Event",
+        "xas:AnalysisEvent",
+        "prov:Activity"
+      ],
+      "schema:startDate": "2023-11-21T14:15:09.935669Z",
+      "schema:identifier": "20231121_gc-ms_gsfc_orex-803003-0_1",
+      "prov:used": [
+        {
+          "@type": [
+            "schema:Thing",
+            "prov:Entity",
+            "nxs:BaseClass/NXinstrument"
+          ],
+          "schema:name": "Thermo TSQ9610 with Trace 1610 with pyroprobe",
+          "schema:identifier": "TSQ9610"
+        }
+      ],
+      "schema:location": {
+        "@type": [
+          "schema:Place",
+          "nxs:BaseClass/NXsource"
+        ],
+        "schema:identifier": "https://ror.org/0171mag52",
+        "schema:name": "NASA Goddard Space Flight Center",
+        "schema:alternateName": "GSFC"
+      },
+      "schema:mainEntity": [
+        {
+          "@type": [
+            "schema:Thing",
+            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+          ],
+          "schema:additionalType": [
+            "MaterialSample"
+          ],
+          "schema:identifier": [
+            "['OREX-803003-0']"
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [
+    {
+      "@id": "#time",
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "cdi:unitOfMeasureKind": "missing",
+      "schema:description": "This dimension is the chromatographic retention time",
+      "schema:name": "Time",
+      "schema:propertyID": [
+        "missing"
+      ]
+    },
+    {
+      "@id": "#mass",
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "cdi:unitOfMeasureKind": "missing",
+      "schema:description": "This dimension is the mass-to-charge ratio measured by the mass spectrometer",
+      "schema:name": "Mass",
+      "schema:propertyID": [
+        "missing"
+      ]
+    },
+    {
+      "@id": "#intensity",
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "cdi:unitOfMeasureKind": "missing",
+      "schema:description": "This is a unitless measure of intensity of the mass peak",
+      "schema:name": "Intensity",
+      "schema:propertyID": [
+        "missing"
+      ]
+    }
+  ],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:encodingFormat": [
+        "application/zip"
+      ],
+      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+      "schema:contentUrl": "",
+      "schema:hasPart": [
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#2dc0fa4dcfa4e963481eb0cb3e63bf60",
+          "schema:name": "20231121_GC-MS_GSFC_OREX-803003-0_1_GCMSCollection_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "6ffbb38de80cee3c7180f9a511a5209a30917554e8b6e4269a2bd4a973ea1222"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 729,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#ba5a8e25dd936de490f641462314f3c1"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:collection",
+            "https://schema.org/Collection",
+            "schema:MediaObject"
+          ],
+          "@id": "#ba5a8e25dd936de490f641462314f3c1",
+          "schema:name": "20231121_GC-MS_GSFC_OREX-803003-0_1_GCMSCollection_1.zip",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "17396538b0af53c8ca05490ed0a7f1d66f4baf415eb93fd5284959ecd6afaa65"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 105053303,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/zip"
+          ],
+          "componentType": {
+            "@type": "ada:GCMSCollection"
+          }
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#5c7e1db1b3a446dd973e753018429955",
+          "schema:name": "20231121_GC-MS_GSFC_OREX-803003-0_1_instrumentMetadata_1.pdf",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "50abfb50d371a708632b2cdf185b29fab6bab17795237e25fb7c1606b16210e6"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 404221,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/pdf"
+          ],
+          "componentType": {
+            "@type": "ada:instrumentMetadata"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#022df8277967ddb7184d23863723fd73",
+          "schema:name": "20231121_GC-MS_GSFC_OREX-803003-0_1_instrumentMetadata_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "b5c913888c9363d36fa28d2e36d67b5f7900786b0652f752c56093e5134bd057"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 407,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#5c7e1db1b3a446dd973e753018429955"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#3ad26627cf1c48f357828a2b8cf95c7a",
+          "schema:name": "20231121_GC-MS_GSFC_OREX-803003-0_1_methodDescription_1.pdf",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "c8c8e62b476718a9990534998d797cd9a3e85cbe3d223f34ed97234f8556696e"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 43019,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/pdf"
+          ],
+          "componentType": {
+            "@type": "ada:methodDescription"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#8d03cf9c357fdff035268feceb108200",
+          "schema:name": "20231121_GC-MS_GSFC_OREX-803003-0_1_methodDescription_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "6c27a7b37fd3a6db2c2a599c3ee72d701fa598a60354b121079f2d0e9fbb5ead"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 314,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#3ad26627cf1c48f357828a2b8cf95c7a"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#277237413b9254e0092e53c7ece2fbcd",
+          "schema:name": "20231121_GC-MS_GSFC_OREX-803003-0_1_report_1.pdf",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "46aaa61a8722d8f3b05c352b9e54cb8ef760b7a0c5c85ebfc2abf597add56159"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 43900,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/pdf"
+          ],
+          "componentType": {
+            "@type": "ada:report"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#88b2c4d8990ac81dd6a5a4c0b830d64f",
+          "schema:name": "20231121_GC-MS_GSFC_OREX-803003-0_1_report_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "cb0a3dafa8be7e900999a0b360c392c37947e95d131ae9157ddab616352ec8aa"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 198,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#277237413b9254e0092e53c7ece2fbcd"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#13072e1fffd3d921e04c32a5baee5113",
+          "schema:name": "20231121_GC-MS_GSFC_OREX-803003-0_1_samplePreparation_1.pdf",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "b9ed542526a6343e78153c6ac51ff60d260065b9ba3b65d997ecc6ac37182d68"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 29691,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/pdf"
+          ],
+          "componentType": {
+            "@type": "ada:samplePreparation"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#c113cb1c7a5675e7c218f9e84a9b7379",
+          "schema:name": "20231121_GC-MS_GSFC_OREX-803003-0_1_samplePreparation_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "73168409f51688a8bed6eb289199a953d8153c9651d2cd79a2c9e2772c834fc2"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 214,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#13072e1fffd3d921e04c32a5baee5113"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ada:metadata_134",
+    "@type": "schema:Dataset",
+    "schema:sdDatePublished": "2024-11-21",
+    "schema:maintainer": {
+      "@id": "https://ada.org/person/3479",
+      "@type": "schema:Person",
+      "schema:name": "Richard, Stephen M.",
+      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+      "schema:email": "smrTucson@email.org"
+    },
+    "schema:about": {
+      "@id": "ada:record_134"
+    },
+    "schema:description": "metadata about documentation for https://doi.org/10.60707/yv1f-jb20",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/profiles/discovery"
+      },
+      {
+        "@id": "ada:profile/adaGCMS"
+      }
+    ]
+  }
 }
