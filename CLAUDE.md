@@ -168,4 +168,6 @@ Converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissa
 ## Test documents
 
 - `MetadataExamples/` - Sample CDIF metadata files
+  - `nwis-water-quality-longdata.json` — NWIS water quality long data example using `cdi:LongStructureDataSet` with 20 CSV column variables (DescriptorComponent, ReferenceValueComponent, DimensionComponent, AttributeComponent roles) and 5 MeasureComponent domain variables. Validates against graph schema; framed schema validation has expected failures (no LongStructureDataSet branch in framed schema yet).
 - `../integrationPublic/exampleMetadata/CDIF2026/` - 2026 schema examples
+- `../integrationPublic/LongData/` - Long data CSV and older (pre-2026) long data metadata examples

@@ -777,6 +777,7 @@ The `MetadataExamples/` directory contains sample CDIF JSON-LD documents for tes
 | `xanes-2arx-b516.json` | XANES | X-ray absorption near-edge structure |
 | `yv1f-jb20.json` | -- | General dataset |
 | `test_se_na2so4-testschemaorg-cdiv3.jsonLD` | XAS | X-ray absorption spectroscopy with DDI-CDI data structure (WideDataStructure, InstanceVariable, ValueMapping). Uses `xas:` and `cdifq:` extension namespaces |
+| `nwis-water-quality-longdata.json` | Water Quality | NWIS groundwater nutrient analysis (464 rows, 20 columns) in `cdi:LongStructureDataSet` long (narrow) format with `DescriptorComponent`/`ReferenceValueComponent` roles, `cdi:hasPhysicalMapping`, and 5 MeasureComponent domain variables. Validates against graph schema (`CDIF-graph-schema-2026.json`) |
 
 Corresponding `*-rocrate.json` files contain the converted RO-Crate output produced by `ValidateROCrate.py`. Corresponding `*-croissant.json` files contain the Croissant output produced by `ConvertToCroissant.py`.
 
