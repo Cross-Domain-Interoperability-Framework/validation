@@ -1,391 +1,395 @@
 {
-  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
-  "@context": {
-    "schema": "http://schema.org/",
-    "dcterms": "http://purl.org/dc/terms/",
-    "geosparql": "http://www.opengis.net/ont/geosparql#",
-    "spdx": "http://spdx.org/rdf/terms#",
-    "ada": "https://ada.astromat.org/metadata/",
-    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "csvw": "http://www.w3.org/ns/csvw#",
-    "prov": "http://www.w3.org/ns/prov#"
-  },
-  "@id": "ada:record_5",
-  "@type": [
-    "schema:Dataset",
-    "schema:Product"
-  ],
-  "schema:name": "3d scan of large quick-look particle",
-  "schema:description": "Scanned the large ~2mm quick-look particle that was also CT scanned and shown in the press release. Scanned in Tucson under ambient conditions with multiple scanner look-angles to get difficult edges. I had to do a smoothed merge instead of the usual precise merge of particle scans in order to create a good complete model, because the particle was quite small and challenging to measure.",
-  "schema:identifier": {
-    "@type": "schema:PropertyValue",
-    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
-    "schema:value": "10.60707/papb-7t64",
-    "schema:url": "https://doi.org/10.60707/papb-7t64"
-  },
-  "schema:additionalType": [
-    "Structured Light Scanning"
-  ],
-  "schema:datePublished": "2025-12-31",
-  "schema:license": [
-    "missing"
-  ],
-  "schema:url": "",
-  "schema:dateModified": "2024-01-31",
-  "schema:creator": {
-    "@list": [
-      {
-        "@id": "https://orcid.org/0000-0002-7535-8416",
-        "@type": "schema:Person",
-        "schema:name": "Ryan, Andy",
-        "schema:identifier": "https://orcid.org/0000-0002-7535-8416",
-        "schema:email": "ajryan@orex.lpl.arizona.edu"
-      }
-    ]
-  },
-  "schema:funding": [
-    {
-      "@type": "schema:MonetaryGrant",
-      "schema:description": "N/A"
-    }
-  ],
-  "schema:measurementTechnique": {
-    "@type": "schema:DefinedTerm",
-    "schema:name": "Structured Light Scanning",
-    "schema:termCode": "SLS"
-  },
-  "prov:wasGeneratedBy": [
-    {
-      "@type": [
-        "schema:Event",
-        "xas:AnalysisEvent",
-        "prov:Activity"
-      ],
-      "schema:startDate": "2023-10-13T21:57:23.658194Z",
-      "schema:identifier": "20231013_sls_uaz_orex-500003-100_1",
-      "prov:used": [
-        {
-          "@type": [
-            "schema:Thing",
-            "prov:Entity",
-            "nxs:BaseClass/NXinstrument"
-          ],
-          "schema:name": "(UAZ) Polyga Compact C506 structured light scanner",
-          "schema:identifier": "PCC506-UAZ"
-        }
-      ],
-      "schema:location": {
+    "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+    "@context": {
+        "schema": "http://schema.org/",
+        "dcterms": "http://purl.org/dc/terms/",
+        "geosparql": "http://www.opengis.net/ont/geosparql#",
+        "spdx": "http://spdx.org/rdf/terms#",
+        "ada": "https://ada.astromat.org/metadata/",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "csvw": "http://www.w3.org/ns/csvw#",
+        "prov": "http://www.w3.org/ns/prov#"
+    },
+    "@id": "ada:record_5",
+    "@type": [
+        "schema:Dataset",
+        "schema:Product"
+    ],
+    "schema:name": "3d scan of large quick-look particle",
+    "schema:description": "Scanned the large ~2mm quick-look particle that was also CT scanned and shown in the press release. Scanned in Tucson under ambient conditions with multiple scanner look-angles to get difficult edges. I had to do a smoothed merge instead of the usual precise merge of particle scans in order to create a good complete model, because the particle was quite small and challenging to measure.",
+    "schema:identifier": {
         "@type": [
-          "schema:Place",
-          "nxs:BaseClass/NXsource"
+            "schema:PropertyValue",
+            "cdi:Identifier"
         ],
-        "schema:identifier": "https://ror.org/03m2x1q45",
-        "schema:name": "University of Arizona",
-        "schema:alternateName": "UAZ"
-      },
-      "schema:mainEntity": [
-        {
-          "@type": [
-            "schema:Thing",
-            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
-          ],
-          "schema:additionalType": [
-            "MaterialSample"
-          ],
-          "schema:identifier": [
-            "['OREX-500003-100']"
-          ]
-        }
-      ]
-    }
-  ],
-  "schema:variableMeasured": [],
-  "schema:distribution": [
-    {
-      "@type": [
-        "schema:DataDownload"
-      ],
-      "schema:encodingFormat": [
-        "application/zip"
-      ],
-      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
-      "schema:contentUrl": "",
-      "schema:hasPart": [
-        {
-          "@type": [
-            "ada:otherFileType",
-            "schema:MediaObject"
-          ],
-          "@id": "#f81cfea1eb4f296281d2a95cbe9444e4",
-          "schema:name": "20231013_SLS_UAZ_OREX-500003-100_1_SLSShapeModel_2.obj",
-          "schema:description": "default description",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "078de0147a3cb5f15a07b20a41bd3ab1edacd93eb3565e6f077c9a8f884897fc"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 2486516,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "model/obj"
-          ],
-          "componentType": {
-            "@type": "ada:other"
-          }
-        },
-        {
-          "@type": [
-            "Metadata",
-            "schema:MediaObject"
-          ],
-          "@id": "#07c91ad4eec5a04e3a91d4893d5d1eed",
-          "schema:name": "20231013_SLS_UAZ_OREX-500003-100_1_SLSShapeModel_2.yml",
-          "schema:description": "metadata file for ",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "c70e59d3f66a91a459622ed18457d564947ad5c409c64674c3f065546061ceed"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 328,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/yaml"
-          ],
-          "schema:about": [
-            {
-              "@id": "#f81cfea1eb4f296281d2a95cbe9444e4"
-            }
-          ]
-        },
-        {
-          "@type": [
-            "ada:otherFileType",
-            "schema:MediaObject"
-          ],
-          "@id": "#14c85f53da9d70da8a7a9f6c7b0dfc83",
-          "schema:name": "20231013_SLS_UAZ_OREX-500003-100_1_contextPhotography_1.png",
-          "schema:description": "default description",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "445511b57a45687844de901828de710e27a3e9846ab46f3fbcbd7c81aab0a789"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 753615,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "image/png"
-          ],
-          "componentType": {
-            "@type": "ada:contextPhotography"
-          }
-        },
-        {
-          "@type": [
-            "Metadata",
-            "schema:MediaObject"
-          ],
-          "@id": "#748c4a2e7d56b0bcbe39787e2b40daf6",
-          "schema:name": "20231013_SLS_UAZ_OREX-500003-100_1_contextPhotography_1.yml",
-          "schema:description": "metadata file for ",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "320baa3d1e3a4494325e9970bea8750fa06d14faa75c95f1b9dcc9fb9b674bf1"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 283,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/yaml"
-          ],
-          "schema:about": [
-            {
-              "@id": "#14c85f53da9d70da8a7a9f6c7b0dfc83"
-            }
-          ]
-        },
-        {
-          "@type": [
-            "ada:otherFileType",
-            "schema:MediaObject"
-          ],
-          "@id": "#cad7977d837689a1c37608feba60c140",
-          "schema:name": "20231013_SLS_UAZ_OREX-500003-100_1_contextPhotography_2.jpeg",
-          "schema:description": "default description",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "ca1cad45050be1fe5657a7eb1a6abdb1605d15f17ba3b407c7f7940f89fa0395"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 2412336,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "image/jpeg"
-          ],
-          "componentType": {
-            "@type": "ada:contextPhotography"
-          }
-        },
-        {
-          "@type": [
-            "Metadata",
-            "schema:MediaObject"
-          ],
-          "@id": "#3154421fbd78159053054717d55dc2a2",
-          "schema:name": "20231013_SLS_UAZ_OREX-500003-100_1_contextPhotography_2.yml",
-          "schema:description": "metadata file for ",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "0034c076ef798de1be7670f2724821794416ee33ca58d3c44d7f00e93cbccbcd"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 275,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/yaml"
-          ],
-          "schema:about": [
-            {
-              "@id": "#cad7977d837689a1c37608feba60c140"
-            }
-          ]
-        },
-        {
-          "@type": [
-            "ada:otherFileType",
-            "schema:MediaObject"
-          ],
-          "@id": "#3cacbbd8aaec3909e71bdd8835d7b954",
-          "schema:name": "20231013_SLS_UAZ_OREX-500003-100_1_other_2.stl",
-          "schema:description": "default description",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "f87155bb25c08cdf9fd7b0da9bd0bcc348b22866796dbfbc6b977e9289f6f4fb"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 3545984,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "model/stl"
-          ],
-          "componentType": {
-            "@type": "ada:other"
-          }
-        },
-        {
-          "@type": [
-            "Metadata",
-            "schema:MediaObject"
-          ],
-          "@id": "#59f73165e021bbd2d0fe3395a937d0ae",
-          "schema:name": "20231013_SLS_UAZ_OREX-500003-100_1_other_2.yml",
-          "schema:description": "metadata file for ",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "c627e5eec050494d2e02920425199579ee38c039caa5288a1b7bfc2849b7065d"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 174,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/yaml"
-          ],
-          "schema:about": [
-            {
-              "@id": "#3cacbbd8aaec3909e71bdd8835d7b954"
-            }
-          ]
-        },
-        {
-          "@type": [
-            "ada:otherFileType",
-            "schema:MediaObject"
-          ],
-          "@id": "#04682ac26b1dec6a84427601b4d76cad",
-          "schema:name": "20231013_SLS_UAZ_OREX-500003-100_1_quickLook_1.png",
-          "schema:description": "default description",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "9416076c9b97e78287d6692d3871336341c30477e26da6c2d49d010ca3a5dc5b"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 45739,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "image/png"
-          ],
-          "componentType": {
-            "@type": "ada:quickLook"
-          }
-        },
-        {
-          "@type": [
-            "Metadata",
-            "schema:MediaObject"
-          ],
-          "@id": "#4c15e0ed51ac88e43dd10ce0403b55bf",
-          "schema:name": "20231013_SLS_UAZ_OREX-500003-100_1_quickLook_1.yml",
-          "schema:description": "metadata file for ",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "7ea41b352228c9a683c599007a0da88be30733f8c9d903f51664fb50160e441b"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 223,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/yaml"
-          ],
-          "schema:about": [
-            {
-              "@id": "#04682ac26b1dec6a84427601b4d76cad"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "schema:subjectOf": {
-    "@id": "ada:metadata_5",
-    "@type": "schema:Dataset",
-    "schema:sdDatePublished": "2024-01-31",
-    "schema:maintainer": {
-      "@id": "https://ada.org/person/3479",
-      "@type": "schema:Person",
-      "schema:name": "Richard, Stephen M.",
-      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
-      "schema:email": "smrTucson@email.org"
+        "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+        "schema:value": "10.60707/papb-7t64",
+        "schema:url": "https://doi.org/10.60707/papb-7t64"
     },
-    "schema:about": {
-      "@id": "ada:record_5"
+    "schema:additionalType": [
+        "Structured Light Scanning"
+    ],
+    "schema:datePublished": "2025-12-31",
+    "schema:license": [
+        "missing"
+    ],
+    "schema:url": "",
+    "schema:dateModified": "2024-01-31",
+    "schema:creator": {
+        "@list": [
+            {
+                "@id": "https://orcid.org/0000-0002-7535-8416",
+                "@type": "schema:Person",
+                "schema:name": "Ryan, Andy",
+                "schema:identifier": "https://orcid.org/0000-0002-7535-8416",
+                "schema:email": "ajryan@orex.lpl.arizona.edu"
+            }
+        ]
     },
-    "schema:description": "metadata about documentation for https://doi.org/10.60707/papb-7t64",
-    "dcterms:conformsTo": [
-      {
-        "@id": "https://w3id.org/cdif/profiles/discovery"
-      },
-      {
-        "@id": "ada:profile/adaSLS"
-      }
-    ]
-  }
+    "schema:funding": [
+        {
+            "@type": "schema:MonetaryGrant",
+            "schema:description": "N/A"
+        }
+    ],
+    "schema:measurementTechnique": {
+        "@type": "schema:DefinedTerm",
+        "schema:name": "Structured Light Scanning",
+        "schema:termCode": "SLS"
+    },
+    "prov:wasGeneratedBy": [
+        {
+            "@type": [
+                "schema:Event",
+                "xas:AnalysisEvent",
+                "prov:Activity",
+                "schema:Action"
+            ],
+            "schema:startDate": "2023-10-13T21:57:23.658194Z",
+            "schema:identifier": "20231013_sls_uaz_orex-500003-100_1",
+            "prov:used": [
+                {
+                    "@type": [
+                        "schema:Thing",
+                        "prov:Entity",
+                        "nxs:BaseClass/NXinstrument"
+                    ],
+                    "schema:name": "(UAZ) Polyga Compact C506 structured light scanner",
+                    "schema:identifier": "PCC506-UAZ"
+                }
+            ],
+            "schema:location": {
+                "@type": [
+                    "schema:Place",
+                    "nxs:BaseClass/NXsource"
+                ],
+                "schema:identifier": "https://ror.org/03m2x1q45",
+                "schema:name": "University of Arizona",
+                "schema:alternateName": "UAZ"
+            },
+            "schema:mainEntity": [
+                {
+                    "@type": [
+                        "schema:Thing",
+                        "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+                    ],
+                    "schema:additionalType": [
+                        "MaterialSample"
+                    ],
+                    "schema:identifier": [
+                        "['OREX-500003-100']"
+                    ]
+                }
+            ]
+        }
+    ],
+    "schema:variableMeasured": [],
+    "schema:distribution": [
+        {
+            "@type": [
+                "schema:DataDownload"
+            ],
+            "schema:encodingFormat": [
+                "application/zip"
+            ],
+            "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+            "schema:contentUrl": "",
+            "schema:hasPart": [
+                {
+                    "@type": [
+                        "ada:otherFileType",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#f81cfea1eb4f296281d2a95cbe9444e4",
+                    "schema:name": "20231013_SLS_UAZ_OREX-500003-100_1_SLSShapeModel_2.obj",
+                    "schema:description": "default description",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "078de0147a3cb5f15a07b20a41bd3ab1edacd93eb3565e6f077c9a8f884897fc"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 2486516,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "model/obj"
+                    ],
+                    "componentType": {
+                        "@type": "ada:other"
+                    }
+                },
+                {
+                    "@type": [
+                        "Metadata",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#07c91ad4eec5a04e3a91d4893d5d1eed",
+                    "schema:name": "20231013_SLS_UAZ_OREX-500003-100_1_SLSShapeModel_2.yml",
+                    "schema:description": "metadata file for ",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "c70e59d3f66a91a459622ed18457d564947ad5c409c64674c3f065546061ceed"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 328,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/yaml"
+                    ],
+                    "schema:about": [
+                        {
+                            "@id": "#f81cfea1eb4f296281d2a95cbe9444e4"
+                        }
+                    ]
+                },
+                {
+                    "@type": [
+                        "ada:otherFileType",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#14c85f53da9d70da8a7a9f6c7b0dfc83",
+                    "schema:name": "20231013_SLS_UAZ_OREX-500003-100_1_contextPhotography_1.png",
+                    "schema:description": "default description",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "445511b57a45687844de901828de710e27a3e9846ab46f3fbcbd7c81aab0a789"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 753615,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "image/png"
+                    ],
+                    "componentType": {
+                        "@type": "ada:contextPhotography"
+                    }
+                },
+                {
+                    "@type": [
+                        "Metadata",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#748c4a2e7d56b0bcbe39787e2b40daf6",
+                    "schema:name": "20231013_SLS_UAZ_OREX-500003-100_1_contextPhotography_1.yml",
+                    "schema:description": "metadata file for ",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "320baa3d1e3a4494325e9970bea8750fa06d14faa75c95f1b9dcc9fb9b674bf1"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 283,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/yaml"
+                    ],
+                    "schema:about": [
+                        {
+                            "@id": "#14c85f53da9d70da8a7a9f6c7b0dfc83"
+                        }
+                    ]
+                },
+                {
+                    "@type": [
+                        "ada:otherFileType",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#cad7977d837689a1c37608feba60c140",
+                    "schema:name": "20231013_SLS_UAZ_OREX-500003-100_1_contextPhotography_2.jpeg",
+                    "schema:description": "default description",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "ca1cad45050be1fe5657a7eb1a6abdb1605d15f17ba3b407c7f7940f89fa0395"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 2412336,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "image/jpeg"
+                    ],
+                    "componentType": {
+                        "@type": "ada:contextPhotography"
+                    }
+                },
+                {
+                    "@type": [
+                        "Metadata",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#3154421fbd78159053054717d55dc2a2",
+                    "schema:name": "20231013_SLS_UAZ_OREX-500003-100_1_contextPhotography_2.yml",
+                    "schema:description": "metadata file for ",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "0034c076ef798de1be7670f2724821794416ee33ca58d3c44d7f00e93cbccbcd"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 275,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/yaml"
+                    ],
+                    "schema:about": [
+                        {
+                            "@id": "#cad7977d837689a1c37608feba60c140"
+                        }
+                    ]
+                },
+                {
+                    "@type": [
+                        "ada:otherFileType",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#3cacbbd8aaec3909e71bdd8835d7b954",
+                    "schema:name": "20231013_SLS_UAZ_OREX-500003-100_1_other_2.stl",
+                    "schema:description": "default description",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "f87155bb25c08cdf9fd7b0da9bd0bcc348b22866796dbfbc6b977e9289f6f4fb"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 3545984,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "model/stl"
+                    ],
+                    "componentType": {
+                        "@type": "ada:other"
+                    }
+                },
+                {
+                    "@type": [
+                        "Metadata",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#59f73165e021bbd2d0fe3395a937d0ae",
+                    "schema:name": "20231013_SLS_UAZ_OREX-500003-100_1_other_2.yml",
+                    "schema:description": "metadata file for ",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "c627e5eec050494d2e02920425199579ee38c039caa5288a1b7bfc2849b7065d"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 174,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/yaml"
+                    ],
+                    "schema:about": [
+                        {
+                            "@id": "#3cacbbd8aaec3909e71bdd8835d7b954"
+                        }
+                    ]
+                },
+                {
+                    "@type": [
+                        "ada:otherFileType",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#04682ac26b1dec6a84427601b4d76cad",
+                    "schema:name": "20231013_SLS_UAZ_OREX-500003-100_1_quickLook_1.png",
+                    "schema:description": "default description",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "9416076c9b97e78287d6692d3871336341c30477e26da6c2d49d010ca3a5dc5b"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 45739,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "image/png"
+                    ],
+                    "componentType": {
+                        "@type": "ada:quickLook"
+                    }
+                },
+                {
+                    "@type": [
+                        "Metadata",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#4c15e0ed51ac88e43dd10ce0403b55bf",
+                    "schema:name": "20231013_SLS_UAZ_OREX-500003-100_1_quickLook_1.yml",
+                    "schema:description": "metadata file for ",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "7ea41b352228c9a683c599007a0da88be30733f8c9d903f51664fb50160e441b"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 223,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/yaml"
+                    ],
+                    "schema:about": [
+                        {
+                            "@id": "#04682ac26b1dec6a84427601b4d76cad"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "schema:subjectOf": {
+        "@id": "ada:metadata_5",
+        "@type": "dcat:CatalogRecord",
+        "schema:sdDatePublished": "2024-01-31",
+        "schema:maintainer": {
+            "@id": "https://ada.org/person/3479",
+            "@type": "schema:Person",
+            "schema:name": "Richard, Stephen M.",
+            "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+            "schema:email": "smrTucson@email.org"
+        },
+        "schema:about": {
+            "@id": "ada:record_5"
+        },
+        "schema:description": "metadata about documentation for https://doi.org/10.60707/papb-7t64",
+        "dcterms:conformsTo": [
+            {
+                "@id": "https://w3id.org/cdif/profiles/discovery"
+            },
+            {
+                "@id": "ada:profile/adaSLS"
+            }
+        ]
+    }
 }

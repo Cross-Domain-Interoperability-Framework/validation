@@ -1,230 +1,234 @@
 {
-  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
-  "@context": {
-    "schema": "http://schema.org/",
-    "dcterms": "http://purl.org/dc/terms/",
-    "geosparql": "http://www.opengis.net/ont/geosparql#",
-    "spdx": "http://spdx.org/rdf/terms#",
-    "ada": "https://ada.astromat.org/metadata/",
-    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "csvw": "http://www.w3.org/ns/csvw#",
-    "prov": "http://www.w3.org/ns/prov#"
-  },
-  "@id": "ada:record_544",
-  "@type": [
-    "schema:Dataset",
-    "schema:Product"
-  ],
-  "schema:name": "73001,1005",
-  "schema:description": "This dataset contains X-ray computed tomography data for an individual clast removed from Apollo drive tube 73001.",
-  "schema:identifier": {
-    "@type": "schema:PropertyValue",
-    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
-    "schema:value": "10.60707/4b5r-q306",
-    "schema:url": "https://doi.org/10.60707/4b5r-q306"
-  },
-  "schema:additionalType": [
-    "X-ray computed tomography"
-  ],
-  "schema:datePublished": "2025-01-13",
-  "schema:license": [
-    "missing"
-  ],
-  "schema:url": "",
-  "schema:dateModified": "2025-01-13",
-  "schema:creator": {
-    "@list": [
-      {
-        "@id": "https://orcid.org/0000-0002-2692-2164",
-        "@type": "schema:Person",
-        "schema:name": "Eckley, Scott",
-        "schema:identifier": "https://orcid.org/0000-0002-2692-2164",
-        "schema:email": "scott.a.eckley@nasa.gov"
-      },
-      {
-        "@id": "https://orcid.org/0000-0002-1139-7571",
-        "@type": "schema:Person",
-        "schema:name": "Zeigler, Ryan",
-        "schema:identifier": "https://orcid.org/0000-0002-1139-7571",
-        "schema:email": "ryan.a.zeigler@nasa.gov"
-      },
-      {
-        "@id": "https://orcid.org/0000-0002-5288-0981",
-        "@type": "schema:Person",
-        "schema:name": "Gross, Juliane",
-        "schema:identifier": "https://orcid.org/0000-0002-5288-0981",
-        "schema:email": "juliane.gross@nasa.gov"
-      }
-    ]
-  },
-  "schema:funding": [
-    {
-      "@type": "schema:MonetaryGrant",
-      "schema:description": "Astromaterials Curation"
-    }
-  ],
-  "schema:measurementTechnique": {
-    "@type": "schema:DefinedTerm",
-    "schema:name": "X-ray computed tomography",
-    "schema:termCode": "XCT"
-  },
-  "prov:wasGeneratedBy": [
-    {
-      "@type": [
-        "schema:Event",
-        "xas:AnalysisEvent",
-        "prov:Activity"
-      ],
-      "schema:startDate": "2022-05-24T04:00:00Z",
-      "schema:identifier": "ada_10.60707_4b5r-q306",
-      "prov:used": [
-        {
-          "@type": [
-            "schema:Thing",
-            "prov:Entity",
-            "nxs:BaseClass/NXinstrument"
-          ],
-          "schema:name": "Nikon XTH 320",
-          "schema:identifier": "XTH320"
-        }
-      ],
-      "schema:location": {
+    "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+    "@context": {
+        "schema": "http://schema.org/",
+        "dcterms": "http://purl.org/dc/terms/",
+        "geosparql": "http://www.opengis.net/ont/geosparql#",
+        "spdx": "http://spdx.org/rdf/terms#",
+        "ada": "https://ada.astromat.org/metadata/",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "csvw": "http://www.w3.org/ns/csvw#",
+        "prov": "http://www.w3.org/ns/prov#"
+    },
+    "@id": "ada:record_544",
+    "@type": [
+        "schema:Dataset",
+        "schema:Product"
+    ],
+    "schema:name": "73001,1005",
+    "schema:description": "This dataset contains X-ray computed tomography data for an individual clast removed from Apollo drive tube 73001.",
+    "schema:identifier": {
         "@type": [
-          "schema:Place",
-          "nxs:BaseClass/NXsource"
+            "schema:PropertyValue",
+            "cdi:Identifier"
         ],
-        "schema:identifier": "https://ror.org/04xx4z452",
-        "schema:name": "Astromaterials X-ray Fluorescence and Computed Tomography (X-FaCT) Lab at NASA JSC",
-        "schema:alternateName": "X-FaCT at NASA JSC"
-      },
-      "schema:mainEntity": [
-        {
-          "@type": [
-            "schema:Thing",
-            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
-          ],
-          "schema:additionalType": [
-            "MaterialSample"
-          ],
-          "schema:identifier": [
-            "['73001,1005']"
-          ]
-        }
-      ]
-    }
-  ],
-  "schema:variableMeasured": [],
-  "schema:distribution": [
-    {
-      "@type": [
-        "schema:DataDownload"
-      ],
-      "schema:encodingFormat": [
-        "application/zip"
-      ],
-      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
-      "schema:contentUrl": "",
-      "schema:hasPart": [
-        {
-          "@type": [
-            "Metadata",
-            "schema:MediaObject"
-          ],
-          "@id": "#9bad2408d440501cd53ad1af068aca60",
-          "schema:name": "73001_1005_contents.docx",
-          "schema:description": "metadata file for original fileName, not PDS4 compliant: 73001,1005_contents.docx",
-          "spdx:checksum": {
-            "spdx:algorithm": "unknown",
-            "spdx:checksumValue": "j9+ta8BrlTQGV8h9Tdbw7Bmehq2XIf1sD+fXDEcdAaM="
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 12073,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-          ],
-          "schema:about": [
+        "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+        "schema:value": "10.60707/4b5r-q306",
+        "schema:url": "https://doi.org/10.60707/4b5r-q306"
+    },
+    "schema:additionalType": [
+        "X-ray computed tomography"
+    ],
+    "schema:datePublished": "2025-01-13",
+    "schema:license": [
+        "missing"
+    ],
+    "schema:url": "",
+    "schema:dateModified": "2025-01-13",
+    "schema:creator": {
+        "@list": [
             {
-              "@id": "#cbe540ff4b720fde08f90ad3a324366f"
+                "@id": "https://orcid.org/0000-0002-2692-2164",
+                "@type": "schema:Person",
+                "schema:name": "Eckley, Scott",
+                "schema:identifier": "https://orcid.org/0000-0002-2692-2164",
+                "schema:email": "scott.a.eckley@nasa.gov"
+            },
+            {
+                "@id": "https://orcid.org/0000-0002-1139-7571",
+                "@type": "schema:Person",
+                "schema:name": "Zeigler, Ryan",
+                "schema:identifier": "https://orcid.org/0000-0002-1139-7571",
+                "schema:email": "ryan.a.zeigler@nasa.gov"
+            },
+            {
+                "@id": "https://orcid.org/0000-0002-5288-0981",
+                "@type": "schema:Person",
+                "schema:name": "Gross, Juliane",
+                "schema:identifier": "https://orcid.org/0000-0002-5288-0981",
+                "schema:email": "juliane.gross@nasa.gov"
             }
-          ]
-        },
+        ]
+    },
+    "schema:funding": [
         {
-          "@type": [
-            "ada:otherFileType",
-            "schema:MediaObject"
-          ],
-          "@id": "#dbe8d78941f1e340d54d6ad67c2fb68a",
-          "schema:name": "73001_1005_TIFF_video.m4v",
-          "schema:description": "default description",
-          "spdx:checksum": {
-            "spdx:algorithm": "unknown",
-            "spdx:checksumValue": "RFf3u69Fc2fBcWz5LXaAfjo3DrJFbLmdQeWk9AIJgqs="
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 33314248,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "video/x-m4v"
-          ],
-          "componentType": {
-            "@type": "ada:other"
-          }
-        },
-        {
-          "@type": [
-            "ada:collection",
-            "https://schema.org/Collection",
-            "schema:MediaObject"
-          ],
-          "@id": "#cbe540ff4b720fde08f90ad3a324366f",
-          "schema:name": "16-bit_TIFF.zip",
-          "schema:description": "default description",
-          "spdx:checksum": {
-            "spdx:algorithm": "unknown",
-            "spdx:checksumValue": "rpADh4vpBcMailk9NZa/l70aPlb16NaonYWKjijJ9ac="
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 1965858202,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/zip"
-          ],
-          "componentType": {
-            "@type": "ada:XCTImageCollection"
-          }
+            "@type": "schema:MonetaryGrant",
+            "schema:description": "Astromaterials Curation"
         }
-      ]
+    ],
+    "schema:measurementTechnique": {
+        "@type": "schema:DefinedTerm",
+        "schema:name": "X-ray computed tomography",
+        "schema:termCode": "XCT"
+    },
+    "prov:wasGeneratedBy": [
+        {
+            "@type": [
+                "schema:Event",
+                "xas:AnalysisEvent",
+                "prov:Activity",
+                "schema:Action"
+            ],
+            "schema:startDate": "2022-05-24T04:00:00Z",
+            "schema:identifier": "ada_10.60707_4b5r-q306",
+            "prov:used": [
+                {
+                    "@type": [
+                        "schema:Thing",
+                        "prov:Entity",
+                        "nxs:BaseClass/NXinstrument"
+                    ],
+                    "schema:name": "Nikon XTH 320",
+                    "schema:identifier": "XTH320"
+                }
+            ],
+            "schema:location": {
+                "@type": [
+                    "schema:Place",
+                    "nxs:BaseClass/NXsource"
+                ],
+                "schema:identifier": "https://ror.org/04xx4z452",
+                "schema:name": "Astromaterials X-ray Fluorescence and Computed Tomography (X-FaCT) Lab at NASA JSC",
+                "schema:alternateName": "X-FaCT at NASA JSC"
+            },
+            "schema:mainEntity": [
+                {
+                    "@type": [
+                        "schema:Thing",
+                        "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+                    ],
+                    "schema:additionalType": [
+                        "MaterialSample"
+                    ],
+                    "schema:identifier": [
+                        "['73001,1005']"
+                    ]
+                }
+            ]
+        }
+    ],
+    "schema:variableMeasured": [],
+    "schema:distribution": [
+        {
+            "@type": [
+                "schema:DataDownload"
+            ],
+            "schema:encodingFormat": [
+                "application/zip"
+            ],
+            "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+            "schema:contentUrl": "",
+            "schema:hasPart": [
+                {
+                    "@type": [
+                        "Metadata",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#9bad2408d440501cd53ad1af068aca60",
+                    "schema:name": "73001_1005_contents.docx",
+                    "schema:description": "metadata file for original fileName, not PDS4 compliant: 73001,1005_contents.docx",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "unknown",
+                        "spdx:checksumValue": "j9+ta8BrlTQGV8h9Tdbw7Bmehq2XIf1sD+fXDEcdAaM="
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 12073,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                    ],
+                    "schema:about": [
+                        {
+                            "@id": "#cbe540ff4b720fde08f90ad3a324366f"
+                        }
+                    ]
+                },
+                {
+                    "@type": [
+                        "ada:otherFileType",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#dbe8d78941f1e340d54d6ad67c2fb68a",
+                    "schema:name": "73001_1005_TIFF_video.m4v",
+                    "schema:description": "default description",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "unknown",
+                        "spdx:checksumValue": "RFf3u69Fc2fBcWz5LXaAfjo3DrJFbLmdQeWk9AIJgqs="
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 33314248,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "video/x-m4v"
+                    ],
+                    "componentType": {
+                        "@type": "ada:other"
+                    }
+                },
+                {
+                    "@type": [
+                        "ada:collection",
+                        "https://schema.org/Collection",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#cbe540ff4b720fde08f90ad3a324366f",
+                    "schema:name": "16-bit_TIFF.zip",
+                    "schema:description": "default description",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "unknown",
+                        "spdx:checksumValue": "rpADh4vpBcMailk9NZa/l70aPlb16NaonYWKjijJ9ac="
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 1965858202,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/zip"
+                    ],
+                    "componentType": {
+                        "@type": "ada:XCTImageCollection"
+                    }
+                }
+            ]
+        }
+    ],
+    "schema:subjectOf": {
+        "@id": "ada:metadata_544",
+        "@type": "dcat:CatalogRecord",
+        "schema:sdDatePublished": "2025-01-13",
+        "schema:maintainer": {
+            "@id": "https://ada.org/person/3479",
+            "@type": "schema:Person",
+            "schema:name": "Richard, Stephen M.",
+            "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+            "schema:email": "smrTucson@email.org"
+        },
+        "schema:about": {
+            "@id": "ada:record_544"
+        },
+        "schema:description": "metadata about documentation for https://doi.org/10.60707/4b5r-q306",
+        "dcterms:conformsTo": [
+            {
+                "@id": "https://w3id.org/cdif/profiles/discovery"
+            },
+            {
+                "@id": "ada:profile/adaXCT"
+            }
+        ]
     }
-  ],
-  "schema:subjectOf": {
-    "@id": "ada:metadata_544",
-    "@type": "schema:Dataset",
-    "schema:sdDatePublished": "2025-01-13",
-    "schema:maintainer": {
-      "@id": "https://ada.org/person/3479",
-      "@type": "schema:Person",
-      "schema:name": "Richard, Stephen M.",
-      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
-      "schema:email": "smrTucson@email.org"
-    },
-    "schema:about": {
-      "@id": "ada:record_544"
-    },
-    "schema:description": "metadata about documentation for https://doi.org/10.60707/4b5r-q306",
-    "dcterms:conformsTo": [
-      {
-        "@id": "https://w3id.org/cdif/profiles/discovery"
-      },
-      {
-        "@id": "ada:profile/adaXCT"
-      }
-    ]
-  }
 }

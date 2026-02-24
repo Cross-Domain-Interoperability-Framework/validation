@@ -1,704 +1,708 @@
 {
-  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
-  "@context": {
-    "schema": "http://schema.org/",
-    "dcterms": "http://purl.org/dc/terms/",
-    "geosparql": "http://www.opengis.net/ont/geosparql#",
-    "spdx": "http://spdx.org/rdf/terms#",
-    "ada": "https://ada.astromat.org/metadata/",
-    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "csvw": "http://www.w3.org/ns/csvw#",
-    "prov": "http://www.w3.org/ns/prov#"
-  },
-  "@id": "ada:record_2277",
-  "@type": [
-    "schema:Dataset",
-    "schema:Product"
-  ],
-  "schema:name": "Specific Heat Measurements of OSIRIS-REx Sample OREX-803224-0 by Differential Scanning Calorimetry (223 to 402 K)",
-  "schema:description": "This dataset contains specific heat measurements of the OSIRIS-REx sample OREX-803224-0, acquired through Differential Scanning Calorimetry (DSC) over a temperature range of 223 K to 402 K. It includes heat capacity versus temperature data, raw and processed heat flow measurements, and a comprehensive description of the measurement methodology.",
-  "schema:identifier": {
-    "@type": "schema:PropertyValue",
-    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
-    "schema:value": "10.60707/rd8a-6z91",
-    "schema:url": "https://doi.org/10.60707/rd8a-6z91"
-  },
-  "schema:additionalType": [
-    "Differential Scanning Calorimetry"
-  ],
-  "schema:datePublished": "2025-12-31",
-  "schema:license": [
-    "missing"
-  ],
-  "schema:url": "",
-  "schema:dateModified": "2025-03-07",
-  "schema:creator": {
-    "@list": [
-      {
-        "@id": "https://orcid.org/0000-0002-1681-0492",
-        "@type": "schema:Person",
-        "schema:name": "ALASLI, Abdulkareem",
-        "schema:identifier": "https://orcid.org/0000-0002-1681-0492",
-        "schema:email": "al.asli.abdulkareem.m6@f.mail.nagoya-u.ac.jp"
-      }
-    ]
-  },
-  "schema:contributor": [
-    {
-      "@type": "schema:Role",
-      "schema:roleName": "Researcher",
-      "schema:contributor": {
-        "@type": "schema:Person",
-        "@id": "https://orcid.org/0000-0002-7414-829X",
-        "schema:name": "Biele, Jens",
-        "schema:identifier": "https://orcid.org/0000-0002-7414-829X",
-        "schema:email": "Jens.Biele@dlr.de"
-      }
-    }
-  ],
-  "schema:funding": [
-    {
-      "@type": "schema:MonetaryGrant",
-      "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program."
-    }
-  ],
-  "schema:measurementTechnique": {
-    "@type": "schema:DefinedTerm",
-    "schema:name": "Differential Scanning Calorimetry",
-    "schema:termCode": "DSC"
-  },
-  "prov:wasGeneratedBy": [
-    {
-      "@type": [
-        "schema:Event",
-        "xas:AnalysisEvent",
-        "prov:Activity"
-      ],
-      "schema:startDate": "2024-11-11T12:00:00Z",
-      "schema:identifier": "20241111_dsc_nu_orex-803224-0_1",
-      "prov:used": [
-        {
-          "@type": [
-            "schema:Thing",
-            "prov:Entity",
-            "nxs:BaseClass/NXinstrument"
-          ],
-          "schema:name": "PerkinsElmer DSC 8000",
-          "schema:identifier": "PE-DSC8000"
-        }
-      ],
-      "schema:location": {
+    "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+    "@context": {
+        "schema": "http://schema.org/",
+        "dcterms": "http://purl.org/dc/terms/",
+        "geosparql": "http://www.opengis.net/ont/geosparql#",
+        "spdx": "http://spdx.org/rdf/terms#",
+        "ada": "https://ada.astromat.org/metadata/",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "csvw": "http://www.w3.org/ns/csvw#",
+        "prov": "http://www.w3.org/ns/prov#"
+    },
+    "@id": "ada:record_2277",
+    "@type": [
+        "schema:Dataset",
+        "schema:Product"
+    ],
+    "schema:name": "Specific Heat Measurements of OSIRIS-REx Sample OREX-803224-0 by Differential Scanning Calorimetry (223 to 402 K)",
+    "schema:description": "This dataset contains specific heat measurements of the OSIRIS-REx sample OREX-803224-0, acquired through Differential Scanning Calorimetry (DSC) over a temperature range of 223 K to 402 K. It includes heat capacity versus temperature data, raw and processed heat flow measurements, and a comprehensive description of the measurement methodology.",
+    "schema:identifier": {
         "@type": [
-          "schema:Place",
-          "nxs:BaseClass/NXsource"
+            "schema:PropertyValue",
+            "cdi:Identifier"
         ],
-        "schema:identifier": "https://ror.org/04chrp450",
-        "schema:name": "Nagoya University",
-        "schema:alternateName": "NU"
-      },
-      "schema:mainEntity": [
-        {
-          "@type": [
-            "schema:Thing",
-            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
-          ],
-          "schema:additionalType": [
-            "MaterialSample"
-          ],
-          "schema:identifier": [
-            "['OREX-803224-0']"
-          ]
-        }
-      ]
-    }
-  ],
-  "schema:variableMeasured": [],
-  "schema:distribution": [
-    {
-      "@type": [
-        "schema:DataDownload"
-      ],
-      "schema:encodingFormat": [
-        "application/zip"
-      ],
-      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
-      "schema:contentUrl": "",
-      "schema:hasPart": [
-        {
-          "@type": [
-            "ada:otherFileType",
-            "schema:MediaObject"
-          ],
-          "@id": "#7354f0399b5f646bc0e30fa5490ca3f3",
-          "schema:name": "20241111_DSC_NU_OREX-803224-0_1_DSCResultsTabular_1.csv",
-          "schema:description": "default description",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "068f1dccf7df831059ffb079d85756a4b1bbfdf36e261b4df4d27922bd1bf85f"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 529,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "text/csv"
-          ],
-          "componentType": {
-            "@type": "ada:other"
-          }
-        },
-        {
-          "@type": [
-            "Metadata",
-            "schema:MediaObject"
-          ],
-          "@id": "#6ba9b609da87a922eff7fe27c4b0e4f9",
-          "schema:name": "20241111_DSC_NU_OREX-803224-0_1_DSCResultsTabular_1.yml",
-          "schema:description": "metadata file for ",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "d175702b77fe2ca9e13e12911fd67fd009c814d6ecd15a61dbba783d041e1735"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 1376,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/yaml"
-          ],
-          "schema:about": [
-            {
-              "@id": "#7354f0399b5f646bc0e30fa5490ca3f3"
-            }
-          ]
-        },
-        {
-          "@type": [
-            "ada:otherFileType",
-            "schema:MediaObject"
-          ],
-          "@id": "#1a4053c260fbdcfbf09f729faaaf66b0",
-          "schema:name": "20241111_DSC_NU_OREX-803224-0_1_methodDescription_1.txt",
-          "schema:description": "default description",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "7f13a1ba02240b738109fdad9da53893f77671694d905382561ae57a5feb5c83"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 7409,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "text/plain"
-          ],
-          "componentType": {
-            "@type": "ada:methodDescription"
-          }
-        },
-        {
-          "@type": [
-            "Metadata",
-            "schema:MediaObject"
-          ],
-          "@id": "#49a4a18ed5ae0fdccdd39df2849f4ba7",
-          "schema:name": "20241111_DSC_NU_OREX-803224-0_1_methodDescription_1.yaml",
-          "schema:description": "metadata file for ",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "0f8c036397219a8cc21bf13982074cc8f588a275be8bb26c80968a7beff0af64"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 407,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/yaml"
-          ],
-          "schema:about": [
-            {
-              "@id": "#1a4053c260fbdcfbf09f729faaaf66b0"
-            }
-          ]
-        },
-        {
-          "@type": [
-            "ada:otherFileType",
-            "schema:MediaObject"
-          ],
-          "@id": "#4c430f3717c074e1e364e2ed72958027",
-          "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_1.csv",
-          "schema:description": "default description",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "3069dd8739febd56b199d33f7101e6c581421b955a5a70379f115f3ed9b8f1a8"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 772690,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "text/csv"
-          ],
-          "componentType": {
-            "@type": "ada:other"
-          }
-        },
-        {
-          "@type": [
-            "Metadata",
-            "schema:MediaObject"
-          ],
-          "@id": "#13e9095d8fd2fb28780afbea8ad7499b",
-          "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_1.yml",
-          "schema:description": "metadata file for ",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "be5520faffda2a2d6c2fe78b0e1d925d965c7a2c36c4653a687f627ed5251ae4"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 221,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/yaml"
-          ],
-          "schema:about": [
-            {
-              "@id": "#4c430f3717c074e1e364e2ed72958027"
-            }
-          ]
-        },
-        {
-          "@type": [
-            "ada:otherFileType",
-            "schema:MediaObject"
-          ],
-          "@id": "#47a66df1ea44117c5e23ebf4c0b01115",
-          "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_2.csv",
-          "schema:description": "default description",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "852e9d5f0388c4f4f047ed28f94c914e9e5f1375840731a3eee869f3ef395f5b"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 849027,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "text/csv"
-          ],
-          "componentType": {
-            "@type": "ada:other"
-          }
-        },
-        {
-          "@type": [
-            "Metadata",
-            "schema:MediaObject"
-          ],
-          "@id": "#040107d017513d7674b151911d0d860d",
-          "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_2.yml",
-          "schema:description": "metadata file for ",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "d7f497fd1195522f1b1d45c8dfa13c8bf2d68827e363f7f54a04132d3aae0bea"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 221,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/yaml"
-          ],
-          "schema:about": [
-            {
-              "@id": "#47a66df1ea44117c5e23ebf4c0b01115"
-            }
-          ]
-        },
-        {
-          "@type": [
-            "ada:otherFileType",
-            "schema:MediaObject"
-          ],
-          "@id": "#00593fc05960882642086f20f02151a3",
-          "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_3.csv",
-          "schema:description": "default description",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "d4b3d442aecde93ee5a45b4121fbca45528a9106229405e0f3bc7a62854ab3e9"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 845529,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "text/csv"
-          ],
-          "componentType": {
-            "@type": "ada:other"
-          }
-        },
-        {
-          "@type": [
-            "Metadata",
-            "schema:MediaObject"
-          ],
-          "@id": "#06b26b9dc54c25f64552dc7fd772d177",
-          "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_3.yml",
-          "schema:description": "metadata file for ",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "fadebb0c336658fbc31d6aaeffc4670722ae0c106d0a28c8ea2296aae691cde5"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 221,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/yaml"
-          ],
-          "schema:about": [
-            {
-              "@id": "#00593fc05960882642086f20f02151a3"
-            }
-          ]
-        },
-        {
-          "@type": [
-            "ada:otherFileType",
-            "schema:MediaObject"
-          ],
-          "@id": "#643d0723cb79fe5c72554bafb1e3ba63",
-          "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_4.csv",
-          "schema:description": "default description",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "7137c1a127d1f99ba41d0327e43d3a963874c5f88f47162842a8c01af4256c2a"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 773631,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "text/csv"
-          ],
-          "componentType": {
-            "@type": "ada:other"
-          }
-        },
-        {
-          "@type": [
-            "Metadata",
-            "schema:MediaObject"
-          ],
-          "@id": "#409d46cade8f162c2cffb9e155e53325",
-          "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_4.yml",
-          "schema:description": "metadata file for ",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "8220db13986210437ea15e118e6ec677be09f7fe5894b5411a0004bf13cf1e82"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 247,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/yaml"
-          ],
-          "schema:about": [
-            {
-              "@id": "#643d0723cb79fe5c72554bafb1e3ba63"
-            }
-          ]
-        },
-        {
-          "@type": [
-            "ada:otherFileType",
-            "schema:MediaObject"
-          ],
-          "@id": "#c3ff06b30a52c786487d26d9a87c6124",
-          "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_5.csv",
-          "schema:description": "default description",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "c8cf5ce0e533091874820b4bb7f88742632c7698cb10f900978cfababa7433a1"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 850870,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "text/csv"
-          ],
-          "componentType": {
-            "@type": "ada:other"
-          }
-        },
-        {
-          "@type": [
-            "Metadata",
-            "schema:MediaObject"
-          ],
-          "@id": "#e154903512e398207cdf72ab09e175db",
-          "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_5.yml",
-          "schema:description": "metadata file for ",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "ff9fe5479a709a40cc77b0d2e982922a98d11b486493e876d03779eb1c29b1ea"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 247,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/yaml"
-          ],
-          "schema:about": [
-            {
-              "@id": "#c3ff06b30a52c786487d26d9a87c6124"
-            }
-          ]
-        },
-        {
-          "@type": [
-            "ada:otherFileType",
-            "schema:MediaObject"
-          ],
-          "@id": "#a07cf913ab89b9383bd844dd7f1af523",
-          "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_6.csv",
-          "schema:description": "default description",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "84af4b030463068196b2c75eb85469c96438b61cedbc277ead5413e6886fbdda"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 845295,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "text/csv"
-          ],
-          "componentType": {
-            "@type": "ada:other"
-          }
-        },
-        {
-          "@type": [
-            "Metadata",
-            "schema:MediaObject"
-          ],
-          "@id": "#9fe9a74197520aff08c8f5b4f500921b",
-          "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_6.yml",
-          "schema:description": "metadata file for ",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "2ca7a711d5612c6719f119fb0157ff70a3ea5c21a30bf3f899740a332122cb1b"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 247,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/yaml"
-          ],
-          "schema:about": [
-            {
-              "@id": "#a07cf913ab89b9383bd844dd7f1af523"
-            }
-          ]
-        },
-        {
-          "@type": [
-            "ada:otherFileType",
-            "schema:MediaObject"
-          ],
-          "@id": "#81727e7c72d0e27daec6d22690013586",
-          "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_7.csv",
-          "schema:description": "default description",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "bac26c819144baeb62ba30170e9c2c70619fdbbca9ebb747d787ec444e6a22b7"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 771635,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "text/csv"
-          ],
-          "componentType": {
-            "@type": "ada:other"
-          }
-        },
-        {
-          "@type": [
-            "Metadata",
-            "schema:MediaObject"
-          ],
-          "@id": "#556dc8dba2231650ffb262eb165a66c4",
-          "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_7.yml",
-          "schema:description": "metadata file for ",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "6f5b52576c6cfae276d424d217d21084f9dba39a1ee04f2fc0c00c03d271df87"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 245,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/yaml"
-          ],
-          "schema:about": [
-            {
-              "@id": "#81727e7c72d0e27daec6d22690013586"
-            }
-          ]
-        },
-        {
-          "@type": [
-            "ada:otherFileType",
-            "schema:MediaObject"
-          ],
-          "@id": "#45c6682d0a6645f3fa2f0267bb6c05c3",
-          "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_8.csv",
-          "schema:description": "default description",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "772ebd4f810c9ef6b5d05bb84f61ce4dacd6af46119e7dccb310fa13129ded7a"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 845706,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "text/csv"
-          ],
-          "componentType": {
-            "@type": "ada:other"
-          }
-        },
-        {
-          "@type": [
-            "Metadata",
-            "schema:MediaObject"
-          ],
-          "@id": "#8a2fcea1f77d1269bed54e0e711659c4",
-          "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_8.yml",
-          "schema:description": "metadata file for ",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "c8691e88cc9c7162e467da3d41b632abb9f8e88720ec0d1842a3a6d64d66e141"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 245,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/yaml"
-          ],
-          "schema:about": [
-            {
-              "@id": "#45c6682d0a6645f3fa2f0267bb6c05c3"
-            }
-          ]
-        },
-        {
-          "@type": [
-            "ada:otherFileType",
-            "schema:MediaObject"
-          ],
-          "@id": "#56241b33ad43e2a945805fd8c0527cb8",
-          "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_9.csv",
-          "schema:description": "default description",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "df88387ed64958c62d6c6c95f06593e74b1d3ee405e07d6617eb3eba8599ccb9"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 849839,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "text/csv"
-          ],
-          "componentType": {
-            "@type": "ada:other"
-          }
-        },
-        {
-          "@type": [
-            "Metadata",
-            "schema:MediaObject"
-          ],
-          "@id": "#b0c172051fdf5abe6819b9d956293e7d",
-          "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_9.yml",
-          "schema:description": "metadata file for ",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "a9ab4cf8a45174f11db112c6a22dd62ce845f355c224b371d036c717ba7fca89"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 245,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/yaml"
-          ],
-          "schema:about": [
-            {
-              "@id": "#56241b33ad43e2a945805fd8c0527cb8"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "schema:subjectOf": {
-    "@id": "ada:metadata_2277",
-    "@type": "schema:Dataset",
-    "schema:sdDatePublished": "2025-03-07",
-    "schema:maintainer": {
-      "@id": "https://ada.org/person/3479",
-      "@type": "schema:Person",
-      "schema:name": "Richard, Stephen M.",
-      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
-      "schema:email": "smrTucson@email.org"
+        "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+        "schema:value": "10.60707/rd8a-6z91",
+        "schema:url": "https://doi.org/10.60707/rd8a-6z91"
     },
-    "schema:about": {
-      "@id": "ada:record_2277"
+    "schema:additionalType": [
+        "Differential Scanning Calorimetry"
+    ],
+    "schema:datePublished": "2025-12-31",
+    "schema:license": [
+        "missing"
+    ],
+    "schema:url": "",
+    "schema:dateModified": "2025-03-07",
+    "schema:creator": {
+        "@list": [
+            {
+                "@id": "https://orcid.org/0000-0002-1681-0492",
+                "@type": "schema:Person",
+                "schema:name": "ALASLI, Abdulkareem",
+                "schema:identifier": "https://orcid.org/0000-0002-1681-0492",
+                "schema:email": "al.asli.abdulkareem.m6@f.mail.nagoya-u.ac.jp"
+            }
+        ]
     },
-    "schema:description": "metadata about documentation for https://doi.org/10.60707/rd8a-6z91",
-    "dcterms:conformsTo": [
-      {
-        "@id": "https://w3id.org/cdif/profiles/discovery"
-      },
-      {
-        "@id": "ada:profile/adaDSC"
-      }
-    ]
-  }
+    "schema:contributor": [
+        {
+            "@type": "schema:Role",
+            "schema:roleName": "Researcher",
+            "schema:contributor": {
+                "@type": "schema:Person",
+                "@id": "https://orcid.org/0000-0002-7414-829X",
+                "schema:name": "Biele, Jens",
+                "schema:identifier": "https://orcid.org/0000-0002-7414-829X",
+                "schema:email": "Jens.Biele@dlr.de"
+            }
+        }
+    ],
+    "schema:funding": [
+        {
+            "@type": "schema:MonetaryGrant",
+            "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program."
+        }
+    ],
+    "schema:measurementTechnique": {
+        "@type": "schema:DefinedTerm",
+        "schema:name": "Differential Scanning Calorimetry",
+        "schema:termCode": "DSC"
+    },
+    "prov:wasGeneratedBy": [
+        {
+            "@type": [
+                "schema:Event",
+                "xas:AnalysisEvent",
+                "prov:Activity",
+                "schema:Action"
+            ],
+            "schema:startDate": "2024-11-11T12:00:00Z",
+            "schema:identifier": "20241111_dsc_nu_orex-803224-0_1",
+            "prov:used": [
+                {
+                    "@type": [
+                        "schema:Thing",
+                        "prov:Entity",
+                        "nxs:BaseClass/NXinstrument"
+                    ],
+                    "schema:name": "PerkinsElmer DSC 8000",
+                    "schema:identifier": "PE-DSC8000"
+                }
+            ],
+            "schema:location": {
+                "@type": [
+                    "schema:Place",
+                    "nxs:BaseClass/NXsource"
+                ],
+                "schema:identifier": "https://ror.org/04chrp450",
+                "schema:name": "Nagoya University",
+                "schema:alternateName": "NU"
+            },
+            "schema:mainEntity": [
+                {
+                    "@type": [
+                        "schema:Thing",
+                        "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+                    ],
+                    "schema:additionalType": [
+                        "MaterialSample"
+                    ],
+                    "schema:identifier": [
+                        "['OREX-803224-0']"
+                    ]
+                }
+            ]
+        }
+    ],
+    "schema:variableMeasured": [],
+    "schema:distribution": [
+        {
+            "@type": [
+                "schema:DataDownload"
+            ],
+            "schema:encodingFormat": [
+                "application/zip"
+            ],
+            "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+            "schema:contentUrl": "",
+            "schema:hasPart": [
+                {
+                    "@type": [
+                        "ada:otherFileType",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#7354f0399b5f646bc0e30fa5490ca3f3",
+                    "schema:name": "20241111_DSC_NU_OREX-803224-0_1_DSCResultsTabular_1.csv",
+                    "schema:description": "default description",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "068f1dccf7df831059ffb079d85756a4b1bbfdf36e261b4df4d27922bd1bf85f"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 529,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "text/csv"
+                    ],
+                    "componentType": {
+                        "@type": "ada:other"
+                    }
+                },
+                {
+                    "@type": [
+                        "Metadata",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#6ba9b609da87a922eff7fe27c4b0e4f9",
+                    "schema:name": "20241111_DSC_NU_OREX-803224-0_1_DSCResultsTabular_1.yml",
+                    "schema:description": "metadata file for ",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "d175702b77fe2ca9e13e12911fd67fd009c814d6ecd15a61dbba783d041e1735"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 1376,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/yaml"
+                    ],
+                    "schema:about": [
+                        {
+                            "@id": "#7354f0399b5f646bc0e30fa5490ca3f3"
+                        }
+                    ]
+                },
+                {
+                    "@type": [
+                        "ada:otherFileType",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#1a4053c260fbdcfbf09f729faaaf66b0",
+                    "schema:name": "20241111_DSC_NU_OREX-803224-0_1_methodDescription_1.txt",
+                    "schema:description": "default description",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "7f13a1ba02240b738109fdad9da53893f77671694d905382561ae57a5feb5c83"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 7409,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "text/plain"
+                    ],
+                    "componentType": {
+                        "@type": "ada:methodDescription"
+                    }
+                },
+                {
+                    "@type": [
+                        "Metadata",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#49a4a18ed5ae0fdccdd39df2849f4ba7",
+                    "schema:name": "20241111_DSC_NU_OREX-803224-0_1_methodDescription_1.yaml",
+                    "schema:description": "metadata file for ",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "0f8c036397219a8cc21bf13982074cc8f588a275be8bb26c80968a7beff0af64"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 407,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/yaml"
+                    ],
+                    "schema:about": [
+                        {
+                            "@id": "#1a4053c260fbdcfbf09f729faaaf66b0"
+                        }
+                    ]
+                },
+                {
+                    "@type": [
+                        "ada:otherFileType",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#4c430f3717c074e1e364e2ed72958027",
+                    "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_1.csv",
+                    "schema:description": "default description",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "3069dd8739febd56b199d33f7101e6c581421b955a5a70379f115f3ed9b8f1a8"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 772690,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "text/csv"
+                    ],
+                    "componentType": {
+                        "@type": "ada:other"
+                    }
+                },
+                {
+                    "@type": [
+                        "Metadata",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#13e9095d8fd2fb28780afbea8ad7499b",
+                    "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_1.yml",
+                    "schema:description": "metadata file for ",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "be5520faffda2a2d6c2fe78b0e1d925d965c7a2c36c4653a687f627ed5251ae4"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 221,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/yaml"
+                    ],
+                    "schema:about": [
+                        {
+                            "@id": "#4c430f3717c074e1e364e2ed72958027"
+                        }
+                    ]
+                },
+                {
+                    "@type": [
+                        "ada:otherFileType",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#47a66df1ea44117c5e23ebf4c0b01115",
+                    "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_2.csv",
+                    "schema:description": "default description",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "852e9d5f0388c4f4f047ed28f94c914e9e5f1375840731a3eee869f3ef395f5b"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 849027,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "text/csv"
+                    ],
+                    "componentType": {
+                        "@type": "ada:other"
+                    }
+                },
+                {
+                    "@type": [
+                        "Metadata",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#040107d017513d7674b151911d0d860d",
+                    "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_2.yml",
+                    "schema:description": "metadata file for ",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "d7f497fd1195522f1b1d45c8dfa13c8bf2d68827e363f7f54a04132d3aae0bea"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 221,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/yaml"
+                    ],
+                    "schema:about": [
+                        {
+                            "@id": "#47a66df1ea44117c5e23ebf4c0b01115"
+                        }
+                    ]
+                },
+                {
+                    "@type": [
+                        "ada:otherFileType",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#00593fc05960882642086f20f02151a3",
+                    "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_3.csv",
+                    "schema:description": "default description",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "d4b3d442aecde93ee5a45b4121fbca45528a9106229405e0f3bc7a62854ab3e9"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 845529,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "text/csv"
+                    ],
+                    "componentType": {
+                        "@type": "ada:other"
+                    }
+                },
+                {
+                    "@type": [
+                        "Metadata",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#06b26b9dc54c25f64552dc7fd772d177",
+                    "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_3.yml",
+                    "schema:description": "metadata file for ",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "fadebb0c336658fbc31d6aaeffc4670722ae0c106d0a28c8ea2296aae691cde5"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 221,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/yaml"
+                    ],
+                    "schema:about": [
+                        {
+                            "@id": "#00593fc05960882642086f20f02151a3"
+                        }
+                    ]
+                },
+                {
+                    "@type": [
+                        "ada:otherFileType",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#643d0723cb79fe5c72554bafb1e3ba63",
+                    "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_4.csv",
+                    "schema:description": "default description",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "7137c1a127d1f99ba41d0327e43d3a963874c5f88f47162842a8c01af4256c2a"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 773631,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "text/csv"
+                    ],
+                    "componentType": {
+                        "@type": "ada:other"
+                    }
+                },
+                {
+                    "@type": [
+                        "Metadata",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#409d46cade8f162c2cffb9e155e53325",
+                    "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_4.yml",
+                    "schema:description": "metadata file for ",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "8220db13986210437ea15e118e6ec677be09f7fe5894b5411a0004bf13cf1e82"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 247,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/yaml"
+                    ],
+                    "schema:about": [
+                        {
+                            "@id": "#643d0723cb79fe5c72554bafb1e3ba63"
+                        }
+                    ]
+                },
+                {
+                    "@type": [
+                        "ada:otherFileType",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#c3ff06b30a52c786487d26d9a87c6124",
+                    "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_5.csv",
+                    "schema:description": "default description",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "c8cf5ce0e533091874820b4bb7f88742632c7698cb10f900978cfababa7433a1"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 850870,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "text/csv"
+                    ],
+                    "componentType": {
+                        "@type": "ada:other"
+                    }
+                },
+                {
+                    "@type": [
+                        "Metadata",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#e154903512e398207cdf72ab09e175db",
+                    "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_5.yml",
+                    "schema:description": "metadata file for ",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "ff9fe5479a709a40cc77b0d2e982922a98d11b486493e876d03779eb1c29b1ea"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 247,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/yaml"
+                    ],
+                    "schema:about": [
+                        {
+                            "@id": "#c3ff06b30a52c786487d26d9a87c6124"
+                        }
+                    ]
+                },
+                {
+                    "@type": [
+                        "ada:otherFileType",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#a07cf913ab89b9383bd844dd7f1af523",
+                    "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_6.csv",
+                    "schema:description": "default description",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "84af4b030463068196b2c75eb85469c96438b61cedbc277ead5413e6886fbdda"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 845295,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "text/csv"
+                    ],
+                    "componentType": {
+                        "@type": "ada:other"
+                    }
+                },
+                {
+                    "@type": [
+                        "Metadata",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#9fe9a74197520aff08c8f5b4f500921b",
+                    "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_6.yml",
+                    "schema:description": "metadata file for ",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "2ca7a711d5612c6719f119fb0157ff70a3ea5c21a30bf3f899740a332122cb1b"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 247,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/yaml"
+                    ],
+                    "schema:about": [
+                        {
+                            "@id": "#a07cf913ab89b9383bd844dd7f1af523"
+                        }
+                    ]
+                },
+                {
+                    "@type": [
+                        "ada:otherFileType",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#81727e7c72d0e27daec6d22690013586",
+                    "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_7.csv",
+                    "schema:description": "default description",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "bac26c819144baeb62ba30170e9c2c70619fdbbca9ebb747d787ec444e6a22b7"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 771635,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "text/csv"
+                    ],
+                    "componentType": {
+                        "@type": "ada:other"
+                    }
+                },
+                {
+                    "@type": [
+                        "Metadata",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#556dc8dba2231650ffb262eb165a66c4",
+                    "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_7.yml",
+                    "schema:description": "metadata file for ",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "6f5b52576c6cfae276d424d217d21084f9dba39a1ee04f2fc0c00c03d271df87"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 245,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/yaml"
+                    ],
+                    "schema:about": [
+                        {
+                            "@id": "#81727e7c72d0e27daec6d22690013586"
+                        }
+                    ]
+                },
+                {
+                    "@type": [
+                        "ada:otherFileType",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#45c6682d0a6645f3fa2f0267bb6c05c3",
+                    "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_8.csv",
+                    "schema:description": "default description",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "772ebd4f810c9ef6b5d05bb84f61ce4dacd6af46119e7dccb310fa13129ded7a"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 845706,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "text/csv"
+                    ],
+                    "componentType": {
+                        "@type": "ada:other"
+                    }
+                },
+                {
+                    "@type": [
+                        "Metadata",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#8a2fcea1f77d1269bed54e0e711659c4",
+                    "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_8.yml",
+                    "schema:description": "metadata file for ",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "c8691e88cc9c7162e467da3d41b632abb9f8e88720ec0d1842a3a6d64d66e141"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 245,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/yaml"
+                    ],
+                    "schema:about": [
+                        {
+                            "@id": "#45c6682d0a6645f3fa2f0267bb6c05c3"
+                        }
+                    ]
+                },
+                {
+                    "@type": [
+                        "ada:otherFileType",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#56241b33ad43e2a945805fd8c0527cb8",
+                    "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_9.csv",
+                    "schema:description": "default description",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "df88387ed64958c62d6c6c95f06593e74b1d3ee405e07d6617eb3eba8599ccb9"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 849839,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "text/csv"
+                    ],
+                    "componentType": {
+                        "@type": "ada:other"
+                    }
+                },
+                {
+                    "@type": [
+                        "Metadata",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#b0c172051fdf5abe6819b9d956293e7d",
+                    "schema:name": "20241111_DSC_NU_OREX-803224-0_1_other_9.yml",
+                    "schema:description": "metadata file for ",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "a9ab4cf8a45174f11db112c6a22dd62ce845f355c224b371d036c717ba7fca89"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 245,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/yaml"
+                    ],
+                    "schema:about": [
+                        {
+                            "@id": "#56241b33ad43e2a945805fd8c0527cb8"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "schema:subjectOf": {
+        "@id": "ada:metadata_2277",
+        "@type": "dcat:CatalogRecord",
+        "schema:sdDatePublished": "2025-03-07",
+        "schema:maintainer": {
+            "@id": "https://ada.org/person/3479",
+            "@type": "schema:Person",
+            "schema:name": "Richard, Stephen M.",
+            "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+            "schema:email": "smrTucson@email.org"
+        },
+        "schema:about": {
+            "@id": "ada:record_2277"
+        },
+        "schema:description": "metadata about documentation for https://doi.org/10.60707/rd8a-6z91",
+        "dcterms:conformsTo": [
+            {
+                "@id": "https://w3id.org/cdif/profiles/discovery"
+            },
+            {
+                "@id": "ada:profile/adaDSC"
+            }
+        ]
+    }
 }

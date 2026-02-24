@@ -1,204 +1,208 @@
 {
-  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
-  "@context": {
-    "schema": "http://schema.org/",
-    "dcterms": "http://purl.org/dc/terms/",
-    "geosparql": "http://www.opengis.net/ont/geosparql#",
-    "spdx": "http://spdx.org/rdf/terms#",
-    "ada": "https://ada.astromat.org/metadata/",
-    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "csvw": "http://www.w3.org/ns/csvw#",
-    "prov": "http://www.w3.org/ns/prov#"
-  },
-  "@id": "ada:record_951",
-  "@type": [
-    "schema:Dataset",
-    "schema:Product"
-  ],
-  "schema:name": "Gas Pycnometry Bundle Data for OREX-800023-0",
-  "schema:description": "Ideal gas pycnometry performed at JSC-ARES in glove box environment for grain density. Bundled data contains raw calibration files, raw measurement files of specimens, may contain raw measurement files of spheres of comparable volume, and log file. Also contains corrected volume for the specimen. Caveat-Due to unforeseen effects, data are not representative of true grain density.",
-  "schema:identifier": {
-    "@type": "schema:PropertyValue",
-    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
-    "schema:value": "10.60707/7hya-7y42",
-    "schema:url": "https://doi.org/10.60707/7hya-7y42"
-  },
-  "schema:additionalType": [
-    "Gas pycnometry"
-  ],
-  "schema:datePublished": "2025-12-31",
-  "schema:license": [
-    "missing"
-  ],
-  "schema:url": "",
-  "schema:dateModified": "2025-01-27",
-  "schema:creator": {
-    "@list": [
-      {
-        "@id": "https://orcid.org/0000-0002-7387-6498",
-        "@type": "schema:Person",
-        "schema:name": "Macke, Robert",
-        "schema:identifier": "https://orcid.org/0000-0002-7387-6498",
-        "schema:email": "macke@jesuits.net"
-      }
-    ]
-  },
-  "schema:contributor": [
-    {
-      "@type": "schema:Role",
-      "schema:roleName": "Other",
-      "schema:contributor": {
-        "@type": "schema:Person",
-        "@id": "https://orcid.org/0000-0002-7535-8416",
-        "schema:name": "Ryan, Andy",
-        "schema:identifier": "https://orcid.org/0000-0002-7535-8416",
-        "schema:email": "ajryan@orex.lpl.arizona.edu"
-      }
-    }
-  ],
-  "schema:funding": [
-    {
-      "@type": "schema:MonetaryGrant",
-      "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program."
-    }
-  ],
-  "schema:measurementTechnique": {
-    "@type": "schema:DefinedTerm",
-    "schema:name": "Gas pycnometry",
-    "schema:termCode": "GPYC"
-  },
-  "prov:wasGeneratedBy": [
-    {
-      "@type": [
-        "schema:Event",
-        "xas:AnalysisEvent",
-        "prov:Activity"
-      ],
-      "schema:startDate": "2024-02-26T12:00:00Z",
-      "schema:identifier": "20240226_gpyc_jsc-ares_orex-800023-0_1",
-      "prov:used": [
-        {
-          "@type": [
-            "schema:Thing",
-            "prov:Entity",
-            "nxs:BaseClass/NXinstrument"
-          ],
-          "schema:name": "Densinator - Custom-built glove-box mounted pycnometer",
-          "schema:identifier": "DENSINATOR"
-        }
-      ],
-      "schema:location": {
+    "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+    "@context": {
+        "schema": "http://schema.org/",
+        "dcterms": "http://purl.org/dc/terms/",
+        "geosparql": "http://www.opengis.net/ont/geosparql#",
+        "spdx": "http://spdx.org/rdf/terms#",
+        "ada": "https://ada.astromat.org/metadata/",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "csvw": "http://www.w3.org/ns/csvw#",
+        "prov": "http://www.w3.org/ns/prov#"
+    },
+    "@id": "ada:record_951",
+    "@type": [
+        "schema:Dataset",
+        "schema:Product"
+    ],
+    "schema:name": "Gas Pycnometry Bundle Data for OREX-800023-0",
+    "schema:description": "Ideal gas pycnometry performed at JSC-ARES in glove box environment for grain density. Bundled data contains raw calibration files, raw measurement files of specimens, may contain raw measurement files of spheres of comparable volume, and log file. Also contains corrected volume for the specimen. Caveat-Due to unforeseen effects, data are not representative of true grain density.",
+    "schema:identifier": {
         "@type": [
-          "schema:Place",
-          "nxs:BaseClass/NXsource"
+            "schema:PropertyValue",
+            "cdi:Identifier"
         ],
-        "schema:identifier": "https://ror.org/04xx4z452",
-        "schema:name": "NASA Johnson Space Center",
-        "schema:alternateName": "JSC-ARES"
-      },
-      "schema:mainEntity": [
-        {
-          "@type": [
-            "schema:Thing",
-            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
-          ],
-          "schema:additionalType": [
-            "MaterialSample"
-          ],
-          "schema:identifier": [
-            "['OREX-800023-0']"
-          ]
-        }
-      ]
-    }
-  ],
-  "schema:variableMeasured": [],
-  "schema:distribution": [
-    {
-      "@type": [
-        "schema:DataDownload"
-      ],
-      "schema:encodingFormat": [
-        "application/zip"
-      ],
-      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
-      "schema:contentUrl": "",
-      "schema:hasPart": [
-        {
-          "@type": [
-            "ada:otherFileType",
-            "schema:MediaObject"
-          ],
-          "@id": "#d407bfa24f2a347e635c444237cf691c",
-          "schema:name": "20240226_GPYC_JSC-ARES_OREX-800023-0_1_GPYCProcessedTabular_1.csv",
-          "schema:description": "default description",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "697b3a7eb38dc7cc8459760ef09c21cc55f690e5ffe0df535d3663107278a764"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 214,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "text/csv"
-          ],
-          "componentType": {
-            "@type": "ada:other"
-          }
-        },
-        {
-          "@type": [
-            "Metadata",
-            "schema:MediaObject"
-          ],
-          "@id": "#e873941f0e04db7370a0ff2a2151593a",
-          "schema:name": "20240226_GPYC_JSC-ARES_OREX-800023-0_1_GPYCProcessedTabular_1.yaml",
-          "schema:description": "metadata file for ",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "ad447a482cdb916796c869c1129054ffa669a719da0149d415f702b8def1c0dd"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 1864,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/yaml"
-          ],
-          "schema:about": [
+        "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+        "schema:value": "10.60707/7hya-7y42",
+        "schema:url": "https://doi.org/10.60707/7hya-7y42"
+    },
+    "schema:additionalType": [
+        "Gas pycnometry"
+    ],
+    "schema:datePublished": "2025-12-31",
+    "schema:license": [
+        "missing"
+    ],
+    "schema:url": "",
+    "schema:dateModified": "2025-01-27",
+    "schema:creator": {
+        "@list": [
             {
-              "@id": "#d407bfa24f2a347e635c444237cf691c"
+                "@id": "https://orcid.org/0000-0002-7387-6498",
+                "@type": "schema:Person",
+                "schema:name": "Macke, Robert",
+                "schema:identifier": "https://orcid.org/0000-0002-7387-6498",
+                "schema:email": "macke@jesuits.net"
             }
-          ]
+        ]
+    },
+    "schema:contributor": [
+        {
+            "@type": "schema:Role",
+            "schema:roleName": "Other",
+            "schema:contributor": {
+                "@type": "schema:Person",
+                "@id": "https://orcid.org/0000-0002-7535-8416",
+                "schema:name": "Ryan, Andy",
+                "schema:identifier": "https://orcid.org/0000-0002-7535-8416",
+                "schema:email": "ajryan@orex.lpl.arizona.edu"
+            }
         }
-      ]
+    ],
+    "schema:funding": [
+        {
+            "@type": "schema:MonetaryGrant",
+            "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program."
+        }
+    ],
+    "schema:measurementTechnique": {
+        "@type": "schema:DefinedTerm",
+        "schema:name": "Gas pycnometry",
+        "schema:termCode": "GPYC"
+    },
+    "prov:wasGeneratedBy": [
+        {
+            "@type": [
+                "schema:Event",
+                "xas:AnalysisEvent",
+                "prov:Activity",
+                "schema:Action"
+            ],
+            "schema:startDate": "2024-02-26T12:00:00Z",
+            "schema:identifier": "20240226_gpyc_jsc-ares_orex-800023-0_1",
+            "prov:used": [
+                {
+                    "@type": [
+                        "schema:Thing",
+                        "prov:Entity",
+                        "nxs:BaseClass/NXinstrument"
+                    ],
+                    "schema:name": "Densinator - Custom-built glove-box mounted pycnometer",
+                    "schema:identifier": "DENSINATOR"
+                }
+            ],
+            "schema:location": {
+                "@type": [
+                    "schema:Place",
+                    "nxs:BaseClass/NXsource"
+                ],
+                "schema:identifier": "https://ror.org/04xx4z452",
+                "schema:name": "NASA Johnson Space Center",
+                "schema:alternateName": "JSC-ARES"
+            },
+            "schema:mainEntity": [
+                {
+                    "@type": [
+                        "schema:Thing",
+                        "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+                    ],
+                    "schema:additionalType": [
+                        "MaterialSample"
+                    ],
+                    "schema:identifier": [
+                        "['OREX-800023-0']"
+                    ]
+                }
+            ]
+        }
+    ],
+    "schema:variableMeasured": [],
+    "schema:distribution": [
+        {
+            "@type": [
+                "schema:DataDownload"
+            ],
+            "schema:encodingFormat": [
+                "application/zip"
+            ],
+            "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+            "schema:contentUrl": "",
+            "schema:hasPart": [
+                {
+                    "@type": [
+                        "ada:otherFileType",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#d407bfa24f2a347e635c444237cf691c",
+                    "schema:name": "20240226_GPYC_JSC-ARES_OREX-800023-0_1_GPYCProcessedTabular_1.csv",
+                    "schema:description": "default description",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "697b3a7eb38dc7cc8459760ef09c21cc55f690e5ffe0df535d3663107278a764"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 214,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "text/csv"
+                    ],
+                    "componentType": {
+                        "@type": "ada:other"
+                    }
+                },
+                {
+                    "@type": [
+                        "Metadata",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#e873941f0e04db7370a0ff2a2151593a",
+                    "schema:name": "20240226_GPYC_JSC-ARES_OREX-800023-0_1_GPYCProcessedTabular_1.yaml",
+                    "schema:description": "metadata file for ",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "ad447a482cdb916796c869c1129054ffa669a719da0149d415f702b8def1c0dd"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 1864,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/yaml"
+                    ],
+                    "schema:about": [
+                        {
+                            "@id": "#d407bfa24f2a347e635c444237cf691c"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "schema:subjectOf": {
+        "@id": "ada:metadata_951",
+        "@type": "dcat:CatalogRecord",
+        "schema:sdDatePublished": "2025-01-27",
+        "schema:maintainer": {
+            "@id": "https://ada.org/person/3479",
+            "@type": "schema:Person",
+            "schema:name": "Richard, Stephen M.",
+            "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+            "schema:email": "smrTucson@email.org"
+        },
+        "schema:about": {
+            "@id": "ada:record_951"
+        },
+        "schema:description": "metadata about documentation for https://doi.org/10.60707/7hya-7y42",
+        "dcterms:conformsTo": [
+            {
+                "@id": "https://w3id.org/cdif/profiles/discovery"
+            },
+            {
+                "@id": "ada:profile/adaGPYC"
+            }
+        ]
     }
-  ],
-  "schema:subjectOf": {
-    "@id": "ada:metadata_951",
-    "@type": "schema:Dataset",
-    "schema:sdDatePublished": "2025-01-27",
-    "schema:maintainer": {
-      "@id": "https://ada.org/person/3479",
-      "@type": "schema:Person",
-      "schema:name": "Richard, Stephen M.",
-      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
-      "schema:email": "smrTucson@email.org"
-    },
-    "schema:about": {
-      "@id": "ada:record_951"
-    },
-    "schema:description": "metadata about documentation for https://doi.org/10.60707/7hya-7y42",
-    "dcterms:conformsTo": [
-      {
-        "@id": "https://w3id.org/cdif/profiles/discovery"
-      },
-      {
-        "@id": "ada:profile/adaGPYC"
-      }
-    ]
-  }
 }

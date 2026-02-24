@@ -1,262 +1,266 @@
 {
-  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
-  "@context": {
-    "schema": "http://schema.org/",
-    "dcterms": "http://purl.org/dc/terms/",
-    "geosparql": "http://www.opengis.net/ont/geosparql#",
-    "spdx": "http://spdx.org/rdf/terms#",
-    "ada": "https://ada.astromat.org/metadata/",
-    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "csvw": "http://www.w3.org/ns/csvw#",
-    "prov": "http://www.w3.org/ns/prov#"
-  },
-  "@id": "ada:record_901",
-  "@type": [
-    "schema:Dataset",
-    "schema:Product"
-  ],
-  "schema:name": "Concentration data",
-  "schema:description": "Data for major and trace elemental abundances",
-  "schema:identifier": {
-    "@type": "schema:PropertyValue",
-    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
-    "schema:value": "10.60707/q4b0-v203",
-    "schema:url": "https://doi.org/10.60707/q4b0-v203"
-  },
-  "schema:additionalType": [
-    "High-resolution inductively coupled plasma mass spectrometry"
-  ],
-  "schema:datePublished": "2025-12-31",
-  "schema:license": [
-    "missing"
-  ],
-  "schema:url": "",
-  "schema:dateModified": "2024-07-16",
-  "schema:creator": {
-    "@list": [
-      {
-        "@id": "https://orcid.org/0000-0002-7637-0978",
-        "@type": "schema:Person",
-        "schema:name": "Wimpenny, Josh",
-        "schema:identifier": "https://orcid.org/0000-0002-7637-0978",
-        "schema:email": "wimpenny1@llnl.gov"
-      },
-      {
-        "@id": "https://orcid.org/0000-0002-0852-5595",
-        "@type": "schema:Person",
-        "schema:name": "Brennecka, Greg",
-        "schema:identifier": "https://orcid.org/0000-0002-0852-5595",
-        "schema:email": "brennecka2@llnl.gov"
-      },
-      {
-        "@id": "https://orcid.org/0000-0002-6534-9129",
-        "@type": "schema:Person",
-        "schema:name": "Render, Jan",
-        "schema:identifier": "https://orcid.org/0000-0002-6534-9129",
-        "schema:email": "render1@llnl.gov"
-      },
-      {
-        "@id": "https://orcid.org/0000-0001-6435-2177",
-        "@type": "schema:Person",
-        "schema:name": "Shollenberger, Quinn",
-        "schema:identifier": "https://orcid.org/0000-0001-6435-2177",
-        "schema:email": "shollenberger@llnl.gov"
-      }
-    ]
-  },
-  "schema:funding": [
-    {
-      "@type": "schema:MonetaryGrant",
-      "schema:description": "NASA OSIRIS-REx"
-    }
-  ],
-  "schema:measurementTechnique": {
-    "@type": "schema:DefinedTerm",
-    "schema:name": "High-resolution inductively coupled plasma mass spectrometry",
-    "schema:termCode": "HR-ICP-MS"
-  },
-  "prov:wasGeneratedBy": [
-    {
-      "@type": [
-        "schema:Event",
-        "xas:AnalysisEvent",
-        "prov:Activity"
-      ],
-      "schema:startDate": "2024-06-11T15:57:29.233199Z",
-      "schema:identifier": "20240206_hr-icp-ms_llnl_orex-803015-101_1",
-      "prov:used": [
-        {
-          "@type": [
-            "schema:Thing",
-            "prov:Entity",
-            "nxs:BaseClass/NXinstrument"
-          ],
-          "schema:name": "Element 2XR",
-          "schema:identifier": "Element-LLNL"
-        }
-      ],
-      "schema:location": {
+    "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+    "@context": {
+        "schema": "http://schema.org/",
+        "dcterms": "http://purl.org/dc/terms/",
+        "geosparql": "http://www.opengis.net/ont/geosparql#",
+        "spdx": "http://spdx.org/rdf/terms#",
+        "ada": "https://ada.astromat.org/metadata/",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "csvw": "http://www.w3.org/ns/csvw#",
+        "prov": "http://www.w3.org/ns/prov#"
+    },
+    "@id": "ada:record_901",
+    "@type": [
+        "schema:Dataset",
+        "schema:Product"
+    ],
+    "schema:name": "Concentration data",
+    "schema:description": "Data for major and trace elemental abundances",
+    "schema:identifier": {
         "@type": [
-          "schema:Place",
-          "nxs:BaseClass/NXsource"
+            "schema:PropertyValue",
+            "cdi:Identifier"
         ],
-        "schema:identifier": "https://ror.org/041nk4h53",
-        "schema:name": "Lawrence Livermore National Laboratory/Dept of Energy",
-        "schema:alternateName": "LLNL"
-      },
-      "schema:mainEntity": [
-        {
-          "@type": [
-            "schema:Thing",
-            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
-          ],
-          "schema:additionalType": [
-            "MaterialSample"
-          ],
-          "schema:identifier": [
-            "['OREX-803015-101']"
-          ]
-        }
-      ]
-    }
-  ],
-  "schema:variableMeasured": [],
-  "schema:distribution": [
-    {
-      "@type": [
-        "schema:DataDownload"
-      ],
-      "schema:encodingFormat": [
-        "application/zip"
-      ],
-      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
-      "schema:contentUrl": "",
-      "schema:hasPart": [
-        {
-          "@type": [
-            "ada:otherFileType",
-            "schema:MediaObject"
-          ],
-          "@id": "#029a8607f7b0f8638a3df444eeefe336",
-          "schema:name": "20240206_HR-ICP-MS_LLNL_OREX-803015-101_1_HRICPMSProcessed_1.csv",
-          "schema:description": "default description",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "177313e0802890e193c440fe781485809f8fe69f905ec058dff1d8882c505649"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 5468,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "text/csv"
-          ],
-          "componentType": {
-            "@type": "ada:other"
-          }
-        },
-        {
-          "@type": [
-            "Metadata",
-            "schema:MediaObject"
-          ],
-          "@id": "#289cda39da82f2130997bff07bd2efef",
-          "schema:name": "20240206_HR-ICP-MS_LLNL_OREX-803015-101_1_HRICPMSProcessed_1.yaml",
-          "schema:description": "metadata file for ",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "b1d31f971d374f097f6068525560161566b62fa9ec9b57efdbd14711fd119270"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 3294,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/yaml"
-          ],
-          "schema:about": [
-            {
-              "@id": "#029a8607f7b0f8638a3df444eeefe336"
-            }
-          ]
-        },
-        {
-          "@type": [
-            "ada:otherFileType",
-            "schema:MediaObject"
-          ],
-          "@id": "#c68aac2bc328822f0e51ec5929e82b94",
-          "schema:name": "20240206_HR-ICP-MS_LLNL_OREX-803015-101_1_methodDescription_1.txt",
-          "schema:description": "default description",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "92c4b5e84b58620c11fcf0a5964e515c81613b6387b4e61c681ef95d4a2ea3f4"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 1153,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "text/plain"
-          ],
-          "componentType": {
-            "@type": "ada:methodDescription"
-          }
-        },
-        {
-          "@type": [
-            "Metadata",
-            "schema:MediaObject"
-          ],
-          "@id": "#2ac17f98578f662006f0948acd41fab5",
-          "schema:name": "20240206_HR-ICP-MS_LLNL_OREX-803015-101_1_methodDescription_1.yaml",
-          "schema:description": "metadata file for ",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "3fdfaedad4bc1f1cfa884cfdf02b80d971583f6044571121577598ee4b944503"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 242,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/yaml"
-          ],
-          "schema:about": [
-            {
-              "@id": "#c68aac2bc328822f0e51ec5929e82b94"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "schema:subjectOf": {
-    "@id": "ada:metadata_901",
-    "@type": "schema:Dataset",
-    "schema:sdDatePublished": "2024-07-16",
-    "schema:maintainer": {
-      "@id": "https://ada.org/person/3479",
-      "@type": "schema:Person",
-      "schema:name": "Richard, Stephen M.",
-      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
-      "schema:email": "smrTucson@email.org"
+        "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+        "schema:value": "10.60707/q4b0-v203",
+        "schema:url": "https://doi.org/10.60707/q4b0-v203"
     },
-    "schema:about": {
-      "@id": "ada:record_901"
+    "schema:additionalType": [
+        "High-resolution inductively coupled plasma mass spectrometry"
+    ],
+    "schema:datePublished": "2025-12-31",
+    "schema:license": [
+        "missing"
+    ],
+    "schema:url": "",
+    "schema:dateModified": "2024-07-16",
+    "schema:creator": {
+        "@list": [
+            {
+                "@id": "https://orcid.org/0000-0002-7637-0978",
+                "@type": "schema:Person",
+                "schema:name": "Wimpenny, Josh",
+                "schema:identifier": "https://orcid.org/0000-0002-7637-0978",
+                "schema:email": "wimpenny1@llnl.gov"
+            },
+            {
+                "@id": "https://orcid.org/0000-0002-0852-5595",
+                "@type": "schema:Person",
+                "schema:name": "Brennecka, Greg",
+                "schema:identifier": "https://orcid.org/0000-0002-0852-5595",
+                "schema:email": "brennecka2@llnl.gov"
+            },
+            {
+                "@id": "https://orcid.org/0000-0002-6534-9129",
+                "@type": "schema:Person",
+                "schema:name": "Render, Jan",
+                "schema:identifier": "https://orcid.org/0000-0002-6534-9129",
+                "schema:email": "render1@llnl.gov"
+            },
+            {
+                "@id": "https://orcid.org/0000-0001-6435-2177",
+                "@type": "schema:Person",
+                "schema:name": "Shollenberger, Quinn",
+                "schema:identifier": "https://orcid.org/0000-0001-6435-2177",
+                "schema:email": "shollenberger@llnl.gov"
+            }
+        ]
     },
-    "schema:description": "metadata about documentation for https://doi.org/10.60707/q4b0-v203",
-    "dcterms:conformsTo": [
-      {
-        "@id": "https://w3id.org/cdif/profiles/discovery"
-      },
-      {
-        "@id": "ada:profile/adaICPMS"
-      }
-    ]
-  }
+    "schema:funding": [
+        {
+            "@type": "schema:MonetaryGrant",
+            "schema:description": "NASA OSIRIS-REx"
+        }
+    ],
+    "schema:measurementTechnique": {
+        "@type": "schema:DefinedTerm",
+        "schema:name": "High-resolution inductively coupled plasma mass spectrometry",
+        "schema:termCode": "HR-ICP-MS"
+    },
+    "prov:wasGeneratedBy": [
+        {
+            "@type": [
+                "schema:Event",
+                "xas:AnalysisEvent",
+                "prov:Activity",
+                "schema:Action"
+            ],
+            "schema:startDate": "2024-06-11T15:57:29.233199Z",
+            "schema:identifier": "20240206_hr-icp-ms_llnl_orex-803015-101_1",
+            "prov:used": [
+                {
+                    "@type": [
+                        "schema:Thing",
+                        "prov:Entity",
+                        "nxs:BaseClass/NXinstrument"
+                    ],
+                    "schema:name": "Element 2XR",
+                    "schema:identifier": "Element-LLNL"
+                }
+            ],
+            "schema:location": {
+                "@type": [
+                    "schema:Place",
+                    "nxs:BaseClass/NXsource"
+                ],
+                "schema:identifier": "https://ror.org/041nk4h53",
+                "schema:name": "Lawrence Livermore National Laboratory/Dept of Energy",
+                "schema:alternateName": "LLNL"
+            },
+            "schema:mainEntity": [
+                {
+                    "@type": [
+                        "schema:Thing",
+                        "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+                    ],
+                    "schema:additionalType": [
+                        "MaterialSample"
+                    ],
+                    "schema:identifier": [
+                        "['OREX-803015-101']"
+                    ]
+                }
+            ]
+        }
+    ],
+    "schema:variableMeasured": [],
+    "schema:distribution": [
+        {
+            "@type": [
+                "schema:DataDownload"
+            ],
+            "schema:encodingFormat": [
+                "application/zip"
+            ],
+            "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+            "schema:contentUrl": "",
+            "schema:hasPart": [
+                {
+                    "@type": [
+                        "ada:otherFileType",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#029a8607f7b0f8638a3df444eeefe336",
+                    "schema:name": "20240206_HR-ICP-MS_LLNL_OREX-803015-101_1_HRICPMSProcessed_1.csv",
+                    "schema:description": "default description",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "177313e0802890e193c440fe781485809f8fe69f905ec058dff1d8882c505649"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 5468,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "text/csv"
+                    ],
+                    "componentType": {
+                        "@type": "ada:other"
+                    }
+                },
+                {
+                    "@type": [
+                        "Metadata",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#289cda39da82f2130997bff07bd2efef",
+                    "schema:name": "20240206_HR-ICP-MS_LLNL_OREX-803015-101_1_HRICPMSProcessed_1.yaml",
+                    "schema:description": "metadata file for ",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "b1d31f971d374f097f6068525560161566b62fa9ec9b57efdbd14711fd119270"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 3294,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/yaml"
+                    ],
+                    "schema:about": [
+                        {
+                            "@id": "#029a8607f7b0f8638a3df444eeefe336"
+                        }
+                    ]
+                },
+                {
+                    "@type": [
+                        "ada:otherFileType",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#c68aac2bc328822f0e51ec5929e82b94",
+                    "schema:name": "20240206_HR-ICP-MS_LLNL_OREX-803015-101_1_methodDescription_1.txt",
+                    "schema:description": "default description",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "92c4b5e84b58620c11fcf0a5964e515c81613b6387b4e61c681ef95d4a2ea3f4"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 1153,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "text/plain"
+                    ],
+                    "componentType": {
+                        "@type": "ada:methodDescription"
+                    }
+                },
+                {
+                    "@type": [
+                        "Metadata",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#2ac17f98578f662006f0948acd41fab5",
+                    "schema:name": "20240206_HR-ICP-MS_LLNL_OREX-803015-101_1_methodDescription_1.yaml",
+                    "schema:description": "metadata file for ",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "3fdfaedad4bc1f1cfa884cfdf02b80d971583f6044571121577598ee4b944503"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 242,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/yaml"
+                    ],
+                    "schema:about": [
+                        {
+                            "@id": "#c68aac2bc328822f0e51ec5929e82b94"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "schema:subjectOf": {
+        "@id": "ada:metadata_901",
+        "@type": "dcat:CatalogRecord",
+        "schema:sdDatePublished": "2024-07-16",
+        "schema:maintainer": {
+            "@id": "https://ada.org/person/3479",
+            "@type": "schema:Person",
+            "schema:name": "Richard, Stephen M.",
+            "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+            "schema:email": "smrTucson@email.org"
+        },
+        "schema:about": {
+            "@id": "ada:record_901"
+        },
+        "schema:description": "metadata about documentation for https://doi.org/10.60707/q4b0-v203",
+        "dcterms:conformsTo": [
+            {
+                "@id": "https://w3id.org/cdif/profiles/discovery"
+            },
+            {
+                "@id": "ada:profile/adaICPMS"
+            }
+        ]
+    }
 }

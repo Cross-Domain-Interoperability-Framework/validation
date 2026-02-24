@@ -96,7 +96,7 @@ pip install mlcroissant
 3. `@type` modified for dispatch disambiguation (e.g., metaMetadata becomes `dcat:CatalogRecord`, identifier adds `cdi:Identifier`)
 4. `@context` stripped from non-root types (goes on root-graph wrapper only)
 5. Composite types assembled: type-Dataset merges mandatory + optional, type-StructuredDataSet/TabularTextDataSet/LongStructureDataSet compose dataDownload + CDI extensions
-6. type-Activity built from cdifProv building block (extended provenance with schema.org Action properties), merging base generatedBy properties (`prov:used`, `@type`) with extended properties (`schema:agent`, `schema:instrument`, `schema:actionProcess`, etc.)
+6. type-Activity built from cdifProv building block (extended provenance with schema.org Action properties), requiring multi-typed `@type: ["schema:Action", "prov:Activity"]`, merging base generatedBy properties (`prov:used`) with extended properties (`schema:agent`, `schema:instrument`, `schema:actionProcess`, etc.)
 
 **Type dispatch order** (most specific first): `cdi:StructuredDataSet`, `cdi:TabularTextDataSet`, `cdi:LongStructureDataSet`, `cdi:InstanceVariable`, `cdi:Identifier`, `dcat:CatalogRecord`, `schema:Dataset`, `schema:Person`, `schema:Organization`, `schema:PropertyValue`, `schema:DefinedTerm`, `schema:CreativeWork`, `schema:DataDownload`, `schema:MediaObject`, `schema:WebAPI`, `schema:Action`, `schema:HowTo`, `schema:Place`, `time:ProperInterval`, `schema:MonetaryGrant`, `schema:Role`, `prov:Activity`, `dqv:QualityMeasurement`, `schema:Claim`.
 
@@ -173,3 +173,17 @@ Converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissa
   - `prov-ocean-temp-example.json` — Extended provenance example demonstrating `cdifProv` building block features: action chaining (QC activity → compilation activity via `schema:object`/`schema:result`), multi-typed activities (`prov:Activity` + `schema:Action`), agents with Role wrappers, inline `schema:HowTo` methodology with 3 steps, diverse instruments (DefinedTerm, CreativeWork, strings), Place location, and backward-compatible `prov:used`.
 - `../integrationPublic/exampleMetadata/CDIF2026/` - 2026 schema examples
 - `../integrationPublic/LongData/` - Long data CSV and older (pre-2026) long data metadata examples
+
+## Known issues
+
+### `schema:actionProcess` — in schema.org but not in the RDF export
+
+The property `schema:actionProcess` (domain: `schema:Action`, range: `schema:HowTo`) was added to schema.org via [PR #3692](https://github.com/schemaorg/schemaorg/issues/3692), merged 2024-10-22. It is listed on the [schema.org website](https://schema.org/actionProcess) as of V29.4, but has **not yet appeared** in the downloadable RDF vocabulary files ([schemaorg-current-https.jsonld](https://schema.org/version/latest/schemaorg-current-https.jsonld) and the `-all-` variant). This is a lag in the RDF export, not a missing property.
+
+The [ODIS provenance recommendations](https://github.com/iodepo/odis-arch/blob/414-update-provenance-recommendations/book/thematics/provenance/common-provenance-cases.md) use `actionProcess` to link Actions to HowTo methodologies with ordered HowToStep arrays.
+
+### `prov:wasGeneratedBy` has no schema.org equivalent
+
+There is no schema.org property that maps to `prov:wasGeneratedBy` (linking an Entity to the Activity that produced it). Schema.org has `schema:result` (Action→Entity, forward direction) but nothing in the reverse direction. CDIF retains `prov:wasGeneratedBy` from PROV-O for this purpose.
+
+**CDIF provenance chain pattern**: `Dataset --prov:wasGeneratedBy--> {"@type": ["schema:Action", "prov:Activity"]} --schema:actionProcess--> schema:HowTo`. Activity nodes are multi-typed to get both PROV linkage and schema.org Action properties (`agent`, `instrument`, `object`, `result`, `startTime`, `endTime`, `actionStatus`, `location`, `participant`).

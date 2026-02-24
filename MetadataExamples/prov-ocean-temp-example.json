@@ -134,12 +134,17 @@
             "schema:actionStatus": "schema:CompletedActionStatus",
             "schema:startTime": "2024-06-01T00:00:00Z",
             "schema:endTime": "2024-09-15T23:59:59Z",
-            "schema:location": {"@id": "#spatial-na"},
+            "schema:location": {
+                "@type": "schema:Place",
+                "schema:name": "Woods Hole Oceanographic Institution",
+                "schema:address": "266 Woods Hole Road, Woods Hole, MA 02543",
+                "schema:url": "https://www.whoi.edu"
+            },
             "schema:error": ""
         },
         {
             "@id": "#activity-compilation",
-            "@type": ["prov:Activity"],
+            "@type": ["prov:Activity", "schema:Action"],
             "schema:name": "Data Compilation and Gridding",
             "schema:description": "Compilation of QC'd temperature profiles into a gridded product covering the North Atlantic, using optimal interpolation.",
             "prov:used": [
@@ -159,6 +164,12 @@
             "schema:actionStatus": "schema:CompletedActionStatus",
             "schema:startTime": "2024-10-01T00:00:00Z",
             "schema:endTime": "2024-12-01T23:59:59Z",
+            "schema:location": {
+                "@type": "schema:Place",
+                "schema:name": "Woods Hole Oceanographic Institution",
+                "schema:address": "266 Woods Hole Road, Woods Hole, MA 02543",
+                "schema:url": "https://www.whoi.edu"
+            },
             "schema:actionProcess": {
                 "@type": "schema:HowTo",
                 "schema:name": "North Atlantic Temperature Compilation Protocol",

@@ -1,291 +1,295 @@
 {
-  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
-  "@context": {
-    "schema": "http://schema.org/",
-    "dcterms": "http://purl.org/dc/terms/",
-    "geosparql": "http://www.opengis.net/ont/geosparql#",
-    "spdx": "http://spdx.org/rdf/terms#",
-    "ada": "https://ada.astromat.org/metadata/",
-    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "csvw": "http://www.w3.org/ns/csvw#",
-    "prov": "http://www.w3.org/ns/prov#"
-  },
-  "@id": "ada:record_524",
-  "@type": [
-    "schema:Dataset",
-    "schema:Product"
-  ],
-  "schema:name": "Neon, argon, and nitrogen analysis using the Noblesse-HR",
-  "schema:description": "Step-heating Ne-Ar-N analyses of single aggregate particle OREX-803034-0 (0.1578 mg) were performed using the Noblesse-HR noble gas mass spectrometer at CRPGs noble gas facility.",
-  "schema:identifier": {
-    "@type": "schema:PropertyValue",
-    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
-    "schema:value": "10.60707/08fx-rj13",
-    "schema:url": "https://doi.org/10.60707/08fx-rj13"
-  },
-  "schema:additionalType": [
-    "Noble gas and Nitrogen Static Mass Spectrometry"
-  ],
-  "schema:datePublished": "2025-12-31",
-  "schema:license": [
-    "missing"
-  ],
-  "schema:url": "",
-  "schema:dateModified": "2024-06-28",
-  "schema:creator": {
-    "@list": [
-      {
-        "@id": "https://orcid.org/0000-0002-7680-2478",
-        "@type": "schema:Person",
-        "schema:name": "Fueri, Evelyn",
-        "schema:identifier": "https://orcid.org/0000-0002-7680-2478",
-        "schema:email": "evelyn.furi@univ-lorraine.fr"
-      }
-    ]
-  },
-  "schema:funding": [
-    {
-      "@type": "schema:MonetaryGrant",
-      "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program. This work was cofunded by the European Union (ERC, IRONIS, 10187562). Support from the French Space Agency (CNES) is also acknowledged."
-    }
-  ],
-  "schema:measurementTechnique": {
-    "@type": "schema:DefinedTerm",
-    "schema:name": "Noble gas and Nitrogen Static Mass Spectrometry",
-    "schema:termCode": "NG-NS-MS"
-  },
-  "prov:wasGeneratedBy": [
-    {
-      "@type": [
-        "schema:Event",
-        "xas:AnalysisEvent",
-        "prov:Activity"
-      ],
-      "schema:startDate": "2024-01-18T15:41:27.994673Z",
-      "schema:identifier": "20240118_ng-ns-ms_cnrs-crpg_orex-803034-0_1",
-      "prov:used": [
-        {
-          "@type": [
-            "schema:Thing",
-            "prov:Entity",
-            "nxs:BaseClass/NXinstrument"
-          ],
-          "schema:name": "(CNRS-CRPG)Nu Instruments Noblesse HR",
-          "schema:identifier": "NOBLESSE-CNRS-CRPG"
-        }
-      ],
-      "schema:location": {
+    "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+    "@context": {
+        "schema": "http://schema.org/",
+        "dcterms": "http://purl.org/dc/terms/",
+        "geosparql": "http://www.opengis.net/ont/geosparql#",
+        "spdx": "http://spdx.org/rdf/terms#",
+        "ada": "https://ada.astromat.org/metadata/",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "csvw": "http://www.w3.org/ns/csvw#",
+        "prov": "http://www.w3.org/ns/prov#"
+    },
+    "@id": "ada:record_524",
+    "@type": [
+        "schema:Dataset",
+        "schema:Product"
+    ],
+    "schema:name": "Neon, argon, and nitrogen analysis using the Noblesse-HR",
+    "schema:description": "Step-heating Ne-Ar-N analyses of single aggregate particle OREX-803034-0 (0.1578 mg) were performed using the Noblesse-HR noble gas mass spectrometer at CRPGs noble gas facility.",
+    "schema:identifier": {
         "@type": [
-          "schema:Place",
-          "nxs:BaseClass/NXsource"
+            "schema:PropertyValue",
+            "cdi:Identifier"
         ],
-        "schema:identifier": "https://ror.org/011nqat45",
-        "schema:name": "Centre de Recherches Petrographiques et Geochimiques (Nancy, France)",
-        "schema:alternateName": "CNRS-CRPG"
-      },
-      "schema:mainEntity": [
-        {
-          "@type": [
-            "schema:Thing",
-            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
-          ],
-          "schema:additionalType": [
-            "MaterialSample"
-          ],
-          "schema:identifier": [
-            "['OREX-803034-0']"
-          ]
-        }
-      ]
-    }
-  ],
-  "schema:variableMeasured": [],
-  "schema:distribution": [
-    {
-      "@type": [
-        "schema:DataDownload"
-      ],
-      "schema:encodingFormat": [
-        "application/zip"
-      ],
-      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
-      "schema:contentUrl": "",
-      "schema:hasPart": [
-        {
-          "@type": [
-            "ada:otherFileType",
-            "schema:MediaObject"
-          ],
-          "@id": "#5ae22fc68e97feb8f07da023920e2f0e",
-          "schema:name": "20240118_NG-NS-MS_CNRS-CRPG_OREX-803034-0_1_NGNSMSRaw_11.csv",
-          "schema:description": "default description",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "f962af0b2e2f02752aa258a58cede1263f05c7a78e3b9d162da960368f7dc54b"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 4808,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "text/csv"
-          ],
-          "componentType": {
-            "@type": "ada:other"
-          }
-        },
-        {
-          "@type": [
-            "Metadata",
-            "schema:MediaObject"
-          ],
-          "@id": "#d640488b65b53b6bcc1abcb66b3cde7e",
-          "schema:name": "20240118_NG-NS-MS_CNRS-CRPG_OREX-803034-0_1_NGNSMSRaw_11.yaml",
-          "schema:description": "metadata file for ",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "28956d5947eedf6cc3e4f38924dbd5db1890e5773a458608c08f0065c31b64b3"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 2281,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/yaml"
-          ],
-          "schema:about": [
-            {
-              "@id": "#5ae22fc68e97feb8f07da023920e2f0e"
-            }
-          ]
-        },
-        {
-          "@type": [
-            "ada:otherFileType",
-            "schema:MediaObject"
-          ],
-          "@id": "#3eaec0f86900d58d874bd7c18bedb156",
-          "schema:name": "20240118_NG-NS-MS_CNRS-CRPG_OREX-803034-0_1_logFile_1.pdf",
-          "schema:description": "default description",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "0204277917f82a93082549d6a8e28859db70c1408a69f6485aac1c5045b168fb"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 24661,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/pdf"
-          ],
-          "componentType": {
-            "@type": "ada:logFile"
-          }
-        },
-        {
-          "@type": [
-            "Metadata",
-            "schema:MediaObject"
-          ],
-          "@id": "#1be6d4504e4304b01315215dd21f12cf",
-          "schema:name": "20240118_NG-NS-MS_CNRS-CRPG_OREX-803034-0_1_logFile_1.yaml",
-          "schema:description": "metadata file for ",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "55f43d419986495f8b032d9441eae5ce987010ad48731a51dbbbed347f36c64b"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 516,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/yaml"
-          ],
-          "schema:about": [
-            {
-              "@id": "#3eaec0f86900d58d874bd7c18bedb156"
-            }
-          ]
-        },
-        {
-          "@type": [
-            "ada:otherFileType",
-            "schema:MediaObject"
-          ],
-          "@id": "#119a3e2d68e13f7a68ed6cbdf0e2ac4d",
-          "schema:name": "20240118_NG-NS-MS_CNRS-CRPG_OREX-803034-0_1_methodDescription_1.pdf",
-          "schema:description": "default description",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "9f492c17e6730b7832e6fbf67b7e9ca4cd9b3076e8cc96d71a4d63e234fff449"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 56062,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/pdf"
-          ],
-          "componentType": {
-            "@type": "ada:methodDescription"
-          }
-        },
-        {
-          "@type": [
-            "Metadata",
-            "schema:MediaObject"
-          ],
-          "@id": "#6720072d494f6ec857a89be51a601a71",
-          "schema:name": "20240118_NG-NS-MS_CNRS-CRPG_OREX-803034-0_1_methodDescription_1.yaml",
-          "schema:description": "metadata file for ",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "69df351ae7c7902520684f6183b808be15bce84616662567bd7dc8ae9a70dd56"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 505,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/yaml"
-          ],
-          "schema:about": [
-            {
-              "@id": "#119a3e2d68e13f7a68ed6cbdf0e2ac4d"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "schema:subjectOf": {
-    "@id": "ada:metadata_524",
-    "@type": "schema:Dataset",
-    "schema:sdDatePublished": "2024-06-28",
-    "schema:maintainer": {
-      "@id": "https://ada.org/person/3479",
-      "@type": "schema:Person",
-      "schema:name": "Richard, Stephen M.",
-      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
-      "schema:email": "smrTucson@email.org"
+        "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+        "schema:value": "10.60707/08fx-rj13",
+        "schema:url": "https://doi.org/10.60707/08fx-rj13"
     },
-    "schema:about": {
-      "@id": "ada:record_524"
+    "schema:additionalType": [
+        "Noble gas and Nitrogen Static Mass Spectrometry"
+    ],
+    "schema:datePublished": "2025-12-31",
+    "schema:license": [
+        "missing"
+    ],
+    "schema:url": "",
+    "schema:dateModified": "2024-06-28",
+    "schema:creator": {
+        "@list": [
+            {
+                "@id": "https://orcid.org/0000-0002-7680-2478",
+                "@type": "schema:Person",
+                "schema:name": "Fueri, Evelyn",
+                "schema:identifier": "https://orcid.org/0000-0002-7680-2478",
+                "schema:email": "evelyn.furi@univ-lorraine.fr"
+            }
+        ]
     },
-    "schema:description": "metadata about documentation for https://doi.org/10.60707/08fx-rj13",
-    "dcterms:conformsTo": [
-      {
-        "@id": "https://w3id.org/cdif/profiles/discovery"
-      },
-      {
-        "@id": "ada:profile/adaNGNSMS"
-      }
-    ]
-  }
+    "schema:funding": [
+        {
+            "@type": "schema:MonetaryGrant",
+            "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program. This work was cofunded by the European Union (ERC, IRONIS, 10187562). Support from the French Space Agency (CNES) is also acknowledged."
+        }
+    ],
+    "schema:measurementTechnique": {
+        "@type": "schema:DefinedTerm",
+        "schema:name": "Noble gas and Nitrogen Static Mass Spectrometry",
+        "schema:termCode": "NG-NS-MS"
+    },
+    "prov:wasGeneratedBy": [
+        {
+            "@type": [
+                "schema:Event",
+                "xas:AnalysisEvent",
+                "prov:Activity",
+                "schema:Action"
+            ],
+            "schema:startDate": "2024-01-18T15:41:27.994673Z",
+            "schema:identifier": "20240118_ng-ns-ms_cnrs-crpg_orex-803034-0_1",
+            "prov:used": [
+                {
+                    "@type": [
+                        "schema:Thing",
+                        "prov:Entity",
+                        "nxs:BaseClass/NXinstrument"
+                    ],
+                    "schema:name": "(CNRS-CRPG)Nu Instruments Noblesse HR",
+                    "schema:identifier": "NOBLESSE-CNRS-CRPG"
+                }
+            ],
+            "schema:location": {
+                "@type": [
+                    "schema:Place",
+                    "nxs:BaseClass/NXsource"
+                ],
+                "schema:identifier": "https://ror.org/011nqat45",
+                "schema:name": "Centre de Recherches Petrographiques et Geochimiques (Nancy, France)",
+                "schema:alternateName": "CNRS-CRPG"
+            },
+            "schema:mainEntity": [
+                {
+                    "@type": [
+                        "schema:Thing",
+                        "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+                    ],
+                    "schema:additionalType": [
+                        "MaterialSample"
+                    ],
+                    "schema:identifier": [
+                        "['OREX-803034-0']"
+                    ]
+                }
+            ]
+        }
+    ],
+    "schema:variableMeasured": [],
+    "schema:distribution": [
+        {
+            "@type": [
+                "schema:DataDownload"
+            ],
+            "schema:encodingFormat": [
+                "application/zip"
+            ],
+            "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+            "schema:contentUrl": "",
+            "schema:hasPart": [
+                {
+                    "@type": [
+                        "ada:otherFileType",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#5ae22fc68e97feb8f07da023920e2f0e",
+                    "schema:name": "20240118_NG-NS-MS_CNRS-CRPG_OREX-803034-0_1_NGNSMSRaw_11.csv",
+                    "schema:description": "default description",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "f962af0b2e2f02752aa258a58cede1263f05c7a78e3b9d162da960368f7dc54b"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 4808,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "text/csv"
+                    ],
+                    "componentType": {
+                        "@type": "ada:other"
+                    }
+                },
+                {
+                    "@type": [
+                        "Metadata",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#d640488b65b53b6bcc1abcb66b3cde7e",
+                    "schema:name": "20240118_NG-NS-MS_CNRS-CRPG_OREX-803034-0_1_NGNSMSRaw_11.yaml",
+                    "schema:description": "metadata file for ",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "28956d5947eedf6cc3e4f38924dbd5db1890e5773a458608c08f0065c31b64b3"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 2281,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/yaml"
+                    ],
+                    "schema:about": [
+                        {
+                            "@id": "#5ae22fc68e97feb8f07da023920e2f0e"
+                        }
+                    ]
+                },
+                {
+                    "@type": [
+                        "ada:otherFileType",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#3eaec0f86900d58d874bd7c18bedb156",
+                    "schema:name": "20240118_NG-NS-MS_CNRS-CRPG_OREX-803034-0_1_logFile_1.pdf",
+                    "schema:description": "default description",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "0204277917f82a93082549d6a8e28859db70c1408a69f6485aac1c5045b168fb"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 24661,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/pdf"
+                    ],
+                    "componentType": {
+                        "@type": "ada:logFile"
+                    }
+                },
+                {
+                    "@type": [
+                        "Metadata",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#1be6d4504e4304b01315215dd21f12cf",
+                    "schema:name": "20240118_NG-NS-MS_CNRS-CRPG_OREX-803034-0_1_logFile_1.yaml",
+                    "schema:description": "metadata file for ",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "55f43d419986495f8b032d9441eae5ce987010ad48731a51dbbbed347f36c64b"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 516,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/yaml"
+                    ],
+                    "schema:about": [
+                        {
+                            "@id": "#3eaec0f86900d58d874bd7c18bedb156"
+                        }
+                    ]
+                },
+                {
+                    "@type": [
+                        "ada:otherFileType",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#119a3e2d68e13f7a68ed6cbdf0e2ac4d",
+                    "schema:name": "20240118_NG-NS-MS_CNRS-CRPG_OREX-803034-0_1_methodDescription_1.pdf",
+                    "schema:description": "default description",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "9f492c17e6730b7832e6fbf67b7e9ca4cd9b3076e8cc96d71a4d63e234fff449"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 56062,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/pdf"
+                    ],
+                    "componentType": {
+                        "@type": "ada:methodDescription"
+                    }
+                },
+                {
+                    "@type": [
+                        "Metadata",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#6720072d494f6ec857a89be51a601a71",
+                    "schema:name": "20240118_NG-NS-MS_CNRS-CRPG_OREX-803034-0_1_methodDescription_1.yaml",
+                    "schema:description": "metadata file for ",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "69df351ae7c7902520684f6183b808be15bce84616662567bd7dc8ae9a70dd56"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 505,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/yaml"
+                    ],
+                    "schema:about": [
+                        {
+                            "@id": "#119a3e2d68e13f7a68ed6cbdf0e2ac4d"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "schema:subjectOf": {
+        "@id": "ada:metadata_524",
+        "@type": "dcat:CatalogRecord",
+        "schema:sdDatePublished": "2024-06-28",
+        "schema:maintainer": {
+            "@id": "https://ada.org/person/3479",
+            "@type": "schema:Person",
+            "schema:name": "Richard, Stephen M.",
+            "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+            "schema:email": "smrTucson@email.org"
+        },
+        "schema:about": {
+            "@id": "ada:record_524"
+        },
+        "schema:description": "metadata about documentation for https://doi.org/10.60707/08fx-rj13",
+        "dcterms:conformsTo": [
+            {
+                "@id": "https://w3id.org/cdif/profiles/discovery"
+            },
+            {
+                "@id": "ada:profile/adaNGNSMS"
+            }
+        ]
+    }
 }

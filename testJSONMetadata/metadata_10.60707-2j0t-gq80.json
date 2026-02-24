@@ -1,291 +1,295 @@
 {
-  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
-  "@context": {
-    "schema": "http://schema.org/",
-    "dcterms": "http://purl.org/dc/terms/",
-    "geosparql": "http://www.opengis.net/ont/geosparql#",
-    "spdx": "http://spdx.org/rdf/terms#",
-    "ada": "https://ada.astromat.org/metadata/",
-    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "csvw": "http://www.w3.org/ns/csvw#",
-    "prov": "http://www.w3.org/ns/prov#"
-  },
-  "@id": "ada:record_44",
-  "@type": [
-    "schema:Dataset",
-    "schema:Product"
-  ],
-  "schema:name": "JSC-ARES Panalytical XRD data for sample OREX-500005-0",
-  "schema:description": "JSC-ARES Panalytical XRD data for sample OREX-500005-0",
-  "schema:identifier": {
-    "@type": "schema:PropertyValue",
-    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
-    "schema:value": "10.60707/2j0t-gq80",
-    "schema:url": "https://doi.org/10.60707/2j0t-gq80"
-  },
-  "schema:additionalType": [
-    "X-ray diffraction"
-  ],
-  "schema:datePublished": "2024-06-20",
-  "schema:license": [
-    "missing"
-  ],
-  "schema:url": "",
-  "schema:dateModified": "2024-06-20",
-  "schema:creator": {
-    "@list": [
-      {
-        "@id": "https://orcid.org/0000-0001-6113-5417",
-        "@type": "schema:Person",
-        "schema:name": "King, Ashley",
-        "schema:identifier": "https://orcid.org/0000-0001-6113-5417",
-        "schema:email": "a.king@nhm.ac.uk"
-      }
-    ]
-  },
-  "schema:funding": [
-    {
-      "@type": "schema:MonetaryGrant",
-      "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program."
-    }
-  ],
-  "schema:measurementTechnique": {
-    "@type": "schema:DefinedTerm",
-    "schema:name": "X-ray diffraction",
-    "schema:termCode": "XRD"
-  },
-  "prov:wasGeneratedBy": [
-    {
-      "@type": [
-        "schema:Event",
-        "xas:AnalysisEvent",
-        "prov:Activity"
-      ],
-      "schema:startDate": "2024-01-28T14:06:04.101222Z",
-      "schema:identifier": "20230928_xrd_jsc-ares_orex-500005-0_1",
-      "prov:used": [
-        {
-          "@type": [
-            "schema:Thing",
-            "prov:Entity",
-            "nxs:BaseClass/NXinstrument"
-          ],
-          "schema:name": "(JSC-ARES)Malvern PANalytical XPert Pro XRD",
-          "schema:identifier": "MPANX-JSC-ARES"
-        }
-      ],
-      "schema:location": {
+    "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+    "@context": {
+        "schema": "http://schema.org/",
+        "dcterms": "http://purl.org/dc/terms/",
+        "geosparql": "http://www.opengis.net/ont/geosparql#",
+        "spdx": "http://spdx.org/rdf/terms#",
+        "ada": "https://ada.astromat.org/metadata/",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "csvw": "http://www.w3.org/ns/csvw#",
+        "prov": "http://www.w3.org/ns/prov#"
+    },
+    "@id": "ada:record_44",
+    "@type": [
+        "schema:Dataset",
+        "schema:Product"
+    ],
+    "schema:name": "JSC-ARES Panalytical XRD data for sample OREX-500005-0",
+    "schema:description": "JSC-ARES Panalytical XRD data for sample OREX-500005-0",
+    "schema:identifier": {
         "@type": [
-          "schema:Place",
-          "nxs:BaseClass/NXsource"
+            "schema:PropertyValue",
+            "cdi:Identifier"
         ],
-        "schema:identifier": "https://ror.org/04xx4z452",
-        "schema:name": "NASA Johnson Space Center",
-        "schema:alternateName": "JSC-ARES"
-      },
-      "schema:mainEntity": [
-        {
-          "@type": [
-            "schema:Thing",
-            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
-          ],
-          "schema:additionalType": [
-            "MaterialSample"
-          ],
-          "schema:identifier": [
-            "['OREX-500005-0']"
-          ]
-        }
-      ]
-    }
-  ],
-  "schema:variableMeasured": [],
-  "schema:distribution": [
-    {
-      "@type": [
-        "schema:DataDownload"
-      ],
-      "schema:encodingFormat": [
-        "application/zip"
-      ],
-      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
-      "schema:contentUrl": "",
-      "schema:hasPart": [
-        {
-          "@type": [
-            "ada:otherFileType",
-            "schema:MediaObject"
-          ],
-          "@id": "#45cdecbbbf9f72f25aa8bdad035680b4",
-          "schema:name": "20230928_XRD_JSC-ARES_OREX-500005-0_1_XRDTabular_1.csv",
-          "schema:description": "default description",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "7f98ff5f2ce5078a6820725580280d742d020eb4cb99bcad296ffea565bdf4fa"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 311630,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "text/csv"
-          ],
-          "componentType": {
-            "@type": "ada:other"
-          }
-        },
-        {
-          "@type": [
-            "Metadata",
-            "schema:MediaObject"
-          ],
-          "@id": "#f4f6382d0c78fa623d6262d357ed43ce",
-          "schema:name": "20230928_XRD_JSC-ARES_OREX-500005-0_1_XRDTabular_1.yaml",
-          "schema:description": "metadata file for ",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "37be2186d5fcd22e6695aca0d3fe903fce95b580c558b0d4e957751b062f2221"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 765,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/yaml"
-          ],
-          "schema:about": [
-            {
-              "@id": "#45cdecbbbf9f72f25aa8bdad035680b4"
-            }
-          ]
-        },
-        {
-          "@type": [
-            "ada:otherFileType",
-            "schema:MediaObject"
-          ],
-          "@id": "#c7e1fba9edcb558853eae3ab879b0c92",
-          "schema:name": "20230928_XRD_JSC-ARES_OREX-500005-0_1_instrumentMetadata_1.txt",
-          "schema:description": "default description",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "255c055e7e7937f318e0db6a2847319618538f7caa40ac4e598173669955ab7d"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 232,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "text/plain"
-          ],
-          "componentType": {
-            "@type": "ada:instrumentMetadata"
-          }
-        },
-        {
-          "@type": [
-            "Metadata",
-            "schema:MediaObject"
-          ],
-          "@id": "#f2aec1be3078bdacf5e68570a5af7690",
-          "schema:name": "20230928_XRD_JSC-ARES_OREX-500005-0_1_instrumentMetadata_1.yaml",
-          "schema:description": "metadata file for ",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "f2092bb9336d1dc718ce56d7c92912038d8556c17d814a978a8351898567af23"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 200,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/yaml"
-          ],
-          "schema:about": [
-            {
-              "@id": "#c7e1fba9edcb558853eae3ab879b0c92"
-            }
-          ]
-        },
-        {
-          "@type": [
-            "ada:otherFileType",
-            "schema:MediaObject"
-          ],
-          "@id": "#18d65475a618cf414ee568fc801c164b",
-          "schema:name": "20230928_XRD_JSC-ARES_OREX-500005-0_1_plot_1.jpg",
-          "schema:description": "default description",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "6f86127a8542aed46f664e66d52b384a571a88474a37af8189f72d3b6b5632d2"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 244385,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "image/jpeg"
-          ],
-          "componentType": {
-            "@type": "ada:plot"
-          }
-        },
-        {
-          "@type": [
-            "Metadata",
-            "schema:MediaObject"
-          ],
-          "@id": "#ea1b4bca7e1d1b01b466b7c8aa377a79",
-          "schema:name": "20230928_XRD_JSC-ARES_OREX-500005-0_1_plot_1.yaml",
-          "schema:description": "metadata file for ",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "e669b4a4aee3488e635b94a0a790f42f5b04aaca21679e429e005a2f403f4605"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 213,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/yaml"
-          ],
-          "schema:about": [
-            {
-              "@id": "#18d65475a618cf414ee568fc801c164b"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "schema:subjectOf": {
-    "@id": "ada:metadata_44",
-    "@type": "schema:Dataset",
-    "schema:sdDatePublished": "2024-06-20",
-    "schema:maintainer": {
-      "@id": "https://ada.org/person/3479",
-      "@type": "schema:Person",
-      "schema:name": "Richard, Stephen M.",
-      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
-      "schema:email": "smrTucson@email.org"
+        "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+        "schema:value": "10.60707/2j0t-gq80",
+        "schema:url": "https://doi.org/10.60707/2j0t-gq80"
     },
-    "schema:about": {
-      "@id": "ada:record_44"
+    "schema:additionalType": [
+        "X-ray diffraction"
+    ],
+    "schema:datePublished": "2024-06-20",
+    "schema:license": [
+        "missing"
+    ],
+    "schema:url": "",
+    "schema:dateModified": "2024-06-20",
+    "schema:creator": {
+        "@list": [
+            {
+                "@id": "https://orcid.org/0000-0001-6113-5417",
+                "@type": "schema:Person",
+                "schema:name": "King, Ashley",
+                "schema:identifier": "https://orcid.org/0000-0001-6113-5417",
+                "schema:email": "a.king@nhm.ac.uk"
+            }
+        ]
     },
-    "schema:description": "metadata about documentation for https://doi.org/10.60707/2j0t-gq80",
-    "dcterms:conformsTo": [
-      {
-        "@id": "https://w3id.org/cdif/profiles/discovery"
-      },
-      {
-        "@id": "ada:profile/adaXRD"
-      }
-    ]
-  }
+    "schema:funding": [
+        {
+            "@type": "schema:MonetaryGrant",
+            "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program."
+        }
+    ],
+    "schema:measurementTechnique": {
+        "@type": "schema:DefinedTerm",
+        "schema:name": "X-ray diffraction",
+        "schema:termCode": "XRD"
+    },
+    "prov:wasGeneratedBy": [
+        {
+            "@type": [
+                "schema:Event",
+                "xas:AnalysisEvent",
+                "prov:Activity",
+                "schema:Action"
+            ],
+            "schema:startDate": "2024-01-28T14:06:04.101222Z",
+            "schema:identifier": "20230928_xrd_jsc-ares_orex-500005-0_1",
+            "prov:used": [
+                {
+                    "@type": [
+                        "schema:Thing",
+                        "prov:Entity",
+                        "nxs:BaseClass/NXinstrument"
+                    ],
+                    "schema:name": "(JSC-ARES)Malvern PANalytical XPert Pro XRD",
+                    "schema:identifier": "MPANX-JSC-ARES"
+                }
+            ],
+            "schema:location": {
+                "@type": [
+                    "schema:Place",
+                    "nxs:BaseClass/NXsource"
+                ],
+                "schema:identifier": "https://ror.org/04xx4z452",
+                "schema:name": "NASA Johnson Space Center",
+                "schema:alternateName": "JSC-ARES"
+            },
+            "schema:mainEntity": [
+                {
+                    "@type": [
+                        "schema:Thing",
+                        "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+                    ],
+                    "schema:additionalType": [
+                        "MaterialSample"
+                    ],
+                    "schema:identifier": [
+                        "['OREX-500005-0']"
+                    ]
+                }
+            ]
+        }
+    ],
+    "schema:variableMeasured": [],
+    "schema:distribution": [
+        {
+            "@type": [
+                "schema:DataDownload"
+            ],
+            "schema:encodingFormat": [
+                "application/zip"
+            ],
+            "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+            "schema:contentUrl": "",
+            "schema:hasPart": [
+                {
+                    "@type": [
+                        "ada:otherFileType",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#45cdecbbbf9f72f25aa8bdad035680b4",
+                    "schema:name": "20230928_XRD_JSC-ARES_OREX-500005-0_1_XRDTabular_1.csv",
+                    "schema:description": "default description",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "7f98ff5f2ce5078a6820725580280d742d020eb4cb99bcad296ffea565bdf4fa"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 311630,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "text/csv"
+                    ],
+                    "componentType": {
+                        "@type": "ada:other"
+                    }
+                },
+                {
+                    "@type": [
+                        "Metadata",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#f4f6382d0c78fa623d6262d357ed43ce",
+                    "schema:name": "20230928_XRD_JSC-ARES_OREX-500005-0_1_XRDTabular_1.yaml",
+                    "schema:description": "metadata file for ",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "37be2186d5fcd22e6695aca0d3fe903fce95b580c558b0d4e957751b062f2221"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 765,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/yaml"
+                    ],
+                    "schema:about": [
+                        {
+                            "@id": "#45cdecbbbf9f72f25aa8bdad035680b4"
+                        }
+                    ]
+                },
+                {
+                    "@type": [
+                        "ada:otherFileType",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#c7e1fba9edcb558853eae3ab879b0c92",
+                    "schema:name": "20230928_XRD_JSC-ARES_OREX-500005-0_1_instrumentMetadata_1.txt",
+                    "schema:description": "default description",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "255c055e7e7937f318e0db6a2847319618538f7caa40ac4e598173669955ab7d"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 232,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "text/plain"
+                    ],
+                    "componentType": {
+                        "@type": "ada:instrumentMetadata"
+                    }
+                },
+                {
+                    "@type": [
+                        "Metadata",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#f2aec1be3078bdacf5e68570a5af7690",
+                    "schema:name": "20230928_XRD_JSC-ARES_OREX-500005-0_1_instrumentMetadata_1.yaml",
+                    "schema:description": "metadata file for ",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "f2092bb9336d1dc718ce56d7c92912038d8556c17d814a978a8351898567af23"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 200,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/yaml"
+                    ],
+                    "schema:about": [
+                        {
+                            "@id": "#c7e1fba9edcb558853eae3ab879b0c92"
+                        }
+                    ]
+                },
+                {
+                    "@type": [
+                        "ada:otherFileType",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#18d65475a618cf414ee568fc801c164b",
+                    "schema:name": "20230928_XRD_JSC-ARES_OREX-500005-0_1_plot_1.jpg",
+                    "schema:description": "default description",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "6f86127a8542aed46f664e66d52b384a571a88474a37af8189f72d3b6b5632d2"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 244385,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "image/jpeg"
+                    ],
+                    "componentType": {
+                        "@type": "ada:plot"
+                    }
+                },
+                {
+                    "@type": [
+                        "Metadata",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#ea1b4bca7e1d1b01b466b7c8aa377a79",
+                    "schema:name": "20230928_XRD_JSC-ARES_OREX-500005-0_1_plot_1.yaml",
+                    "schema:description": "metadata file for ",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "e669b4a4aee3488e635b94a0a790f42f5b04aaca21679e429e005a2f403f4605"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 213,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/yaml"
+                    ],
+                    "schema:about": [
+                        {
+                            "@id": "#18d65475a618cf414ee568fc801c164b"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "schema:subjectOf": {
+        "@id": "ada:metadata_44",
+        "@type": "dcat:CatalogRecord",
+        "schema:sdDatePublished": "2024-06-20",
+        "schema:maintainer": {
+            "@id": "https://ada.org/person/3479",
+            "@type": "schema:Person",
+            "schema:name": "Richard, Stephen M.",
+            "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+            "schema:email": "smrTucson@email.org"
+        },
+        "schema:about": {
+            "@id": "ada:record_44"
+        },
+        "schema:description": "metadata about documentation for https://doi.org/10.60707/2j0t-gq80",
+        "dcterms:conformsTo": [
+            {
+                "@id": "https://w3id.org/cdif/profiles/discovery"
+            },
+            {
+                "@id": "ada:profile/adaXRD"
+            }
+        ]
+    }
 }

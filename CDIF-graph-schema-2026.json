@@ -1110,10 +1110,11 @@
                     "items": {
                         "type": "string"
                     },
-                    "minItems": 1,
+                    "minItems": 2,
                     "contains": {
-                        "const": "prov:Activity"
-                    }
+                        "const": "schema:Action"
+                    },
+                    "description": "Must include both schema:Action and prov:Activity (prov:Activity required by base generatedBy schema)"
                 },
                 "prov:used": {
                     "type": "array",

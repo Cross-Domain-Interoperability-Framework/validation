@@ -1,236 +1,240 @@
 {
-  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
-  "@context": {
-    "schema": "http://schema.org/",
-    "dcterms": "http://purl.org/dc/terms/",
-    "geosparql": "http://www.opengis.net/ont/geosparql#",
-    "spdx": "http://spdx.org/rdf/terms#",
-    "ada": "https://ada.astromat.org/metadata/",
-    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "csvw": "http://www.w3.org/ns/csvw#",
-    "prov": "http://www.w3.org/ns/prov#"
-  },
-  "@id": "ada:record_4",
-  "@type": [
-    "schema:Dataset",
-    "schema:Product"
-  ],
-  "schema:name": "EA-IRMS Analysis, H for the sample OREX-501034-0; OREX-501035-0; OREX-501036-0; OREX-501037-0;OREX-501040-0",
-  "schema:description": "QuickLook Samples",
-  "schema:identifier": {
-    "@type": "schema:PropertyValue",
-    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
-    "schema:value": "10.60707/6c5n-e486",
-    "schema:url": "https://doi.org/10.60707/6c5n-e486"
-  },
-  "schema:additionalType": [
-    "Elemental analysis - isotope ratio mass spectrometry"
-  ],
-  "schema:datePublished": "2024-06-20",
-  "schema:license": [
-    "missing"
-  ],
-  "schema:url": "",
-  "schema:dateModified": "2024-06-20",
-  "schema:creator": {
-    "@list": [
-      {
-        "@id": "https://orcid.org/0000-0001-8402-3717",
-        "@type": "schema:Person",
-        "schema:name": "Foustoukos, Dionysis",
-        "schema:identifier": "https://orcid.org/0000-0001-8402-3717",
-        "schema:email": "dfoustoukos@carnegiescience.edu"
-      }
-    ]
-  },
-  "schema:measurementTechnique": {
-    "@type": "schema:DefinedTerm",
-    "schema:name": "Elemental analysis - isotope ratio mass spectrometry",
-    "schema:termCode": "EA-IRMS"
-  },
-  "prov:wasGeneratedBy": [
-    {
-      "@type": [
-        "schema:Event",
-        "xas:AnalysisEvent",
-        "prov:Activity"
-      ],
-      "schema:startDate": "2023-10-05T11:46:22.457349Z",
-      "schema:identifier": "20231005_ea-irms_cis_multisample_1",
-      "prov:used": [
-        {
-          "@type": [
-            "schema:Thing",
-            "prov:Entity",
-            "nxs:BaseClass/NXinstrument"
-          ],
-          "schema:name": "Thermo Quest Finnigan DeltaPlus XL",
-          "schema:identifier": "TQFDPXL"
-        }
-      ],
-      "schema:location": {
+    "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+    "@context": {
+        "schema": "http://schema.org/",
+        "dcterms": "http://purl.org/dc/terms/",
+        "geosparql": "http://www.opengis.net/ont/geosparql#",
+        "spdx": "http://spdx.org/rdf/terms#",
+        "ada": "https://ada.astromat.org/metadata/",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "csvw": "http://www.w3.org/ns/csvw#",
+        "prov": "http://www.w3.org/ns/prov#"
+    },
+    "@id": "ada:record_4",
+    "@type": [
+        "schema:Dataset",
+        "schema:Product"
+    ],
+    "schema:name": "EA-IRMS Analysis, H for the sample OREX-501034-0; OREX-501035-0; OREX-501036-0; OREX-501037-0;OREX-501040-0",
+    "schema:description": "QuickLook Samples",
+    "schema:identifier": {
         "@type": [
-          "schema:Place",
-          "nxs:BaseClass/NXsource"
+            "schema:PropertyValue",
+            "cdi:Identifier"
         ],
-        "schema:identifier": "https://ror.org/04jr01610",
-        "schema:name": "Carnegie Institution for Science",
-        "schema:alternateName": "CIS"
-      },
-      "schema:mainEntity": [
-        {
-          "@type": [
-            "schema:Thing",
-            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
-          ],
-          "schema:additionalType": [
-            "MaterialSample"
-          ],
-          "schema:identifier": [
-            "['OREX-501040-0']"
-          ]
-        }
-      ]
-    }
-  ],
-  "schema:variableMeasured": [],
-  "schema:distribution": [
-    {
-      "@type": [
-        "schema:DataDownload"
-      ],
-      "schema:encodingFormat": [
-        "application/zip"
-      ],
-      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
-      "schema:contentUrl": "",
-      "schema:hasPart": [
-        {
-          "@type": [
-            "Metadata",
-            "schema:MediaObject"
-          ],
-          "@id": "#e7ac25f28e0efe5d94a7765e771882d0",
-          "schema:name": "20231005_EA-IRMS_CIS_multiSample_1_EAIRMSCollection_1.yaml",
-          "schema:description": "metadata file for ",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "80be6167ac71aff8320ae9a6b79ff333920d187b4be757ef63cdbdcb5eb21798"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 1122,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/yaml"
-          ],
-          "schema:about": [
-            {
-              "@id": "#c99e9e8b7640d8a8716581f30e18d861"
-            }
-          ]
-        },
-        {
-          "@type": [
-            "ada:collection",
-            "https://schema.org/Collection",
-            "schema:MediaObject"
-          ],
-          "@id": "#c99e9e8b7640d8a8716581f30e18d861",
-          "schema:name": "20231005_EA-IRMS_CIS_multiSample_1_EAIRMSCollection_1.zip",
-          "schema:description": "default description",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "1b5a48925d9a82660ff16bfbebc681b74125dac2cfca7094e717083de0050ad8"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 819577,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/zip"
-          ],
-          "componentType": {
-            "@type": "ada:EAIRMSCollection"
-          }
-        },
-        {
-          "@type": [
-            "ada:otherFileType",
-            "schema:MediaObject"
-          ],
-          "@id": "#4933c4f6c3f40d74cc9acea74e667e67",
-          "schema:name": "20231005_EA-IRMS_CIS_multiSample_1_methodDescription_1.txt",
-          "schema:description": "default description",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "fe485ae907b9f7f751e86ce12887c03e1a192177ee74c85bd00d25d7b40e6021"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 2996,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "text/plain"
-          ],
-          "componentType": {
-            "@type": "ada:methodDescription"
-          }
-        },
-        {
-          "@type": [
-            "Metadata",
-            "schema:MediaObject"
-          ],
-          "@id": "#262656e50e01c00554f56cf606f57e8f",
-          "schema:name": "20231005_EA-IRMS_CIS_multiSample_1_methodDescription_1.yaml",
-          "schema:description": "metadata file for ",
-          "spdx:checksum": {
-            "spdx:algorithm": "SHA-256",
-            "spdx:checksumValue": "ea4cbab94d3fd6a99f761db29ced1b4501fc8e380248e8eda836c9522746aa6d"
-          },
-          "schema:size": {
-            "@type": "schema:QuantitativeValue",
-            "schema:value": 159,
-            "schema:unitText": "byte"
-          },
-          "schema:encodingFormat": [
-            "application/yaml"
-          ],
-          "schema:about": [
-            {
-              "@id": "#4933c4f6c3f40d74cc9acea74e667e67"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "schema:subjectOf": {
-    "@id": "ada:metadata_4",
-    "@type": "schema:Dataset",
-    "schema:sdDatePublished": "2024-06-20",
-    "schema:maintainer": {
-      "@id": "https://ada.org/person/3479",
-      "@type": "schema:Person",
-      "schema:name": "Richard, Stephen M.",
-      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
-      "schema:email": "smrTucson@email.org"
+        "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+        "schema:value": "10.60707/6c5n-e486",
+        "schema:url": "https://doi.org/10.60707/6c5n-e486"
     },
-    "schema:about": {
-      "@id": "ada:record_4"
+    "schema:additionalType": [
+        "Elemental analysis - isotope ratio mass spectrometry"
+    ],
+    "schema:datePublished": "2024-06-20",
+    "schema:license": [
+        "missing"
+    ],
+    "schema:url": "",
+    "schema:dateModified": "2024-06-20",
+    "schema:creator": {
+        "@list": [
+            {
+                "@id": "https://orcid.org/0000-0001-8402-3717",
+                "@type": "schema:Person",
+                "schema:name": "Foustoukos, Dionysis",
+                "schema:identifier": "https://orcid.org/0000-0001-8402-3717",
+                "schema:email": "dfoustoukos@carnegiescience.edu"
+            }
+        ]
     },
-    "schema:description": "metadata about documentation for https://doi.org/10.60707/6c5n-e486",
-    "dcterms:conformsTo": [
-      {
-        "@id": "https://w3id.org/cdif/profiles/discovery"
-      },
-      {
-        "@id": "ada:profile/adaEAIRMS"
-      }
-    ]
-  }
+    "schema:measurementTechnique": {
+        "@type": "schema:DefinedTerm",
+        "schema:name": "Elemental analysis - isotope ratio mass spectrometry",
+        "schema:termCode": "EA-IRMS"
+    },
+    "prov:wasGeneratedBy": [
+        {
+            "@type": [
+                "schema:Event",
+                "xas:AnalysisEvent",
+                "prov:Activity",
+                "schema:Action"
+            ],
+            "schema:startDate": "2023-10-05T11:46:22.457349Z",
+            "schema:identifier": "20231005_ea-irms_cis_multisample_1",
+            "prov:used": [
+                {
+                    "@type": [
+                        "schema:Thing",
+                        "prov:Entity",
+                        "nxs:BaseClass/NXinstrument"
+                    ],
+                    "schema:name": "Thermo Quest Finnigan DeltaPlus XL",
+                    "schema:identifier": "TQFDPXL"
+                }
+            ],
+            "schema:location": {
+                "@type": [
+                    "schema:Place",
+                    "nxs:BaseClass/NXsource"
+                ],
+                "schema:identifier": "https://ror.org/04jr01610",
+                "schema:name": "Carnegie Institution for Science",
+                "schema:alternateName": "CIS"
+            },
+            "schema:mainEntity": [
+                {
+                    "@type": [
+                        "schema:Thing",
+                        "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+                    ],
+                    "schema:additionalType": [
+                        "MaterialSample"
+                    ],
+                    "schema:identifier": [
+                        "['OREX-501040-0']"
+                    ]
+                }
+            ]
+        }
+    ],
+    "schema:variableMeasured": [],
+    "schema:distribution": [
+        {
+            "@type": [
+                "schema:DataDownload"
+            ],
+            "schema:encodingFormat": [
+                "application/zip"
+            ],
+            "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+            "schema:contentUrl": "",
+            "schema:hasPart": [
+                {
+                    "@type": [
+                        "Metadata",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#e7ac25f28e0efe5d94a7765e771882d0",
+                    "schema:name": "20231005_EA-IRMS_CIS_multiSample_1_EAIRMSCollection_1.yaml",
+                    "schema:description": "metadata file for ",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "80be6167ac71aff8320ae9a6b79ff333920d187b4be757ef63cdbdcb5eb21798"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 1122,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/yaml"
+                    ],
+                    "schema:about": [
+                        {
+                            "@id": "#c99e9e8b7640d8a8716581f30e18d861"
+                        }
+                    ]
+                },
+                {
+                    "@type": [
+                        "ada:collection",
+                        "https://schema.org/Collection",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#c99e9e8b7640d8a8716581f30e18d861",
+                    "schema:name": "20231005_EA-IRMS_CIS_multiSample_1_EAIRMSCollection_1.zip",
+                    "schema:description": "default description",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "1b5a48925d9a82660ff16bfbebc681b74125dac2cfca7094e717083de0050ad8"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 819577,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/zip"
+                    ],
+                    "componentType": {
+                        "@type": "ada:EAIRMSCollection"
+                    }
+                },
+                {
+                    "@type": [
+                        "ada:otherFileType",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#4933c4f6c3f40d74cc9acea74e667e67",
+                    "schema:name": "20231005_EA-IRMS_CIS_multiSample_1_methodDescription_1.txt",
+                    "schema:description": "default description",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "fe485ae907b9f7f751e86ce12887c03e1a192177ee74c85bd00d25d7b40e6021"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 2996,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "text/plain"
+                    ],
+                    "componentType": {
+                        "@type": "ada:methodDescription"
+                    }
+                },
+                {
+                    "@type": [
+                        "Metadata",
+                        "schema:MediaObject"
+                    ],
+                    "@id": "#262656e50e01c00554f56cf606f57e8f",
+                    "schema:name": "20231005_EA-IRMS_CIS_multiSample_1_methodDescription_1.yaml",
+                    "schema:description": "metadata file for ",
+                    "spdx:checksum": {
+                        "spdx:algorithm": "SHA-256",
+                        "spdx:checksumValue": "ea4cbab94d3fd6a99f761db29ced1b4501fc8e380248e8eda836c9522746aa6d"
+                    },
+                    "schema:size": {
+                        "@type": "schema:QuantitativeValue",
+                        "schema:value": 159,
+                        "schema:unitText": "byte"
+                    },
+                    "schema:encodingFormat": [
+                        "application/yaml"
+                    ],
+                    "schema:about": [
+                        {
+                            "@id": "#4933c4f6c3f40d74cc9acea74e667e67"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "schema:subjectOf": {
+        "@id": "ada:metadata_4",
+        "@type": "dcat:CatalogRecord",
+        "schema:sdDatePublished": "2024-06-20",
+        "schema:maintainer": {
+            "@id": "https://ada.org/person/3479",
+            "@type": "schema:Person",
+            "schema:name": "Richard, Stephen M.",
+            "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+            "schema:email": "smrTucson@email.org"
+        },
+        "schema:about": {
+            "@id": "ada:record_4"
+        },
+        "schema:description": "metadata about documentation for https://doi.org/10.60707/6c5n-e486",
+        "dcterms:conformsTo": [
+            {
+                "@id": "https://w3id.org/cdif/profiles/discovery"
+            },
+            {
+                "@id": "ada:profile/adaEAIRMS"
+            }
+        ]
+    }
 }
