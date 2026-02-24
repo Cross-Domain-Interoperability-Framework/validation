@@ -261,7 +261,7 @@ The converter maps CDIF concepts to their Croissant equivalents:
 
 - **Dataset metadata** (name, description, url, license, creator, keywords, funding) maps directly via shared schema.org properties
 - **`schema:DataDownload`** becomes `cr:FileObject` with contentUrl, encodingFormat, contentSize, sha256
-- **Archive distributions** (`schema:hasPart`) are inverted: CDIF says "archive hasPart [files]"; Croissant says "file containedIn archive"
+- **Archive distributions** (`schema:hasPart`) are inverted: CDIF says "archive hasPart [files]"; Croissant uses flat `cr:FileObject` entries with `containedIn` back-references. Component files use OGC `nil:inapplicable` for `contentUrl` (not independently downloadable). Archives without a source checksum get a nil `sha256` placeholder (64 zeros)
 - **`schema:identifier`** (structured PropertyValue with DOI) maps to `citeAs` and fallback `url`
 - **`cdi:TabularTextDataSet`** + `cdi:hasPhysicalMapping` generates `cr:RecordSet` with `cr:Field` entries, each with `source.extract.column` pointing to the originating CSV column
 - **Data types** are mapped: `xsd:decimal` → `sc:Float`, `xsd:string` → `sc:Text`, `xsd:dateTime` → `sc:Date`, etc.
@@ -269,7 +269,7 @@ The converter maps CDIF concepts to their Croissant equivalents:
 
 CDIF properties with no native Croissant equivalent (`prov:wasGeneratedBy`, `dqv:hasQualityMeasurement`, `schema:spatialCoverage`, `schema:temporalCoverage`, `schema:measurementTechnique`, `schema:contributor`, `schema:subjectOf`) are **passed through verbatim** with their namespace prefixes added to the `@context`. These do not break Croissant validation -- consumers simply ignore unknown properties.
 
-When `schema:license` is absent, the converter uses the OGC nil:missing URI (`http://www.opengis.net/def/nil/OGC/0/missing`) as a placeholder.
+When `schema:license` is absent, the converter uses the OGC nil:missing URI (`http://www.opengis.net/def/nil/OGC/0/missing`) as a placeholder. When `schema:version` is absent, the converter uses `"not assigned"` as a default (Croissant recommends this property).
 
 ### Croissant Usage
 
@@ -301,6 +301,10 @@ pip install mlcroissant              # optional, for validating Croissant output
 | `cdif_10.60707-0y88-ps96.json` | `cdif_0y88-ps96-croissant.json` | RecordSet with 10 Fields, physicalMapping, archive distribution |
 | `xanes-2arx-b516.json` | `xanes-2arx-b516-croissant.json` | Archive with 2 component files, provenance pass-through |
 | `tof-htk9-f770.json` | `tof-htk9-f770-croissant.json` | 10 mixed-type files (TIFF, BMP, CSV, PDF, YAML, ZIP), contributor roles |
+| `xrd-2j0t-gq80.json` | `xrd-2j0t-gq80-croissant.json` | Archive with 2 files, hand-added variableMeasured |
+| `yv1f-jb20.json` | `yv1f-jb20-croissant.json` | Archive with 3 files, hand-added variableMeasured |
+
+All examples pass `mlcroissant validate` with zero errors.
 
 ## Usage Examples
 
