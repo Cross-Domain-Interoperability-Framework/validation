@@ -30,7 +30,8 @@ from copy import deepcopy
 
 CROISSANT_CONTEXT = {
     "@language": "en",
-    "@vocab": "http://schema.org/",
+    "@vocab": "https://schema.org/",
+    "sc": "https://schema.org/",
     "cr": "http://mlcommons.org/croissant/",
     "rai": "http://mlcommons.org/croissant/RAI/",
     "dct": "http://purl.org/dc/terms/",
@@ -67,22 +68,22 @@ CROISSANT_CONTEXT = {
 
 CROISSANT_CONFORMS_TO = "http://mlcommons.org/croissant/1.0"
 
-# Map CDIF / XSD data types → Croissant types (resolved via @vocab)
+# Map CDIF / XSD data types → Croissant sc: types
 DATATYPE_MAP = {
-    "xsd:decimal": "Float",
-    "xsd:float": "Float",
-    "xsd:double": "Float",
-    "xsd:integer": "Integer",
-    "xsd:int": "Integer",
-    "xsd:long": "Integer",
-    "xsd:DateTime": "Date",
-    "xsd:dateTime": "Date",
-    "xsd:date": "Date",
-    "xsd:boolean": "Boolean",
-    "xsd:string": "Text",
-    "String": "Text",
-    "string": "Text",
-    "Text": "Text",
+    "xsd:decimal": "sc:Float",
+    "xsd:float": "sc:Float",
+    "xsd:double": "sc:Float",
+    "xsd:integer": "sc:Integer",
+    "xsd:int": "sc:Integer",
+    "xsd:long": "sc:Integer",
+    "xsd:DateTime": "sc:Date",
+    "xsd:dateTime": "sc:Date",
+    "xsd:date": "sc:Date",
+    "xsd:boolean": "sc:Boolean",
+    "xsd:string": "sc:Text",
+    "String": "sc:Text",
+    "string": "sc:Text",
+    "Text": "sc:Text",
 }
 
 
@@ -233,8 +234,8 @@ def _format_size(size_obj):
 
 def _map_datatype(cdif_type):
     if not cdif_type:
-        return "Text"
-    return DATATYPE_MAP.get(cdif_type, "Text")
+        return "sc:Text"
+    return DATATYPE_MAP.get(cdif_type, "sc:Text")
 
 
 # ---------------------------------------------------------------------------
@@ -304,10 +305,11 @@ def _convert_archive_distribution(dist, di, cr_dist, tabular_files,
                                   content_url, verbose):
     """Handle archive (zip) distribution with hasPart.
 
-    Produces a cr:FileSet for the archive with component files nested
-    inside via cr:includes.  Each component is typed as both cr:FileObject
-    and sc:MediaObject, with no contentUrl (the archive FileSet owns the
-    download URL).
+    The archive itself becomes a cr:FileObject with the real contentUrl.
+    Each component file becomes a separate cr:FileObject in distribution
+    with containedIn referencing the archive and contentUrl set to
+    OGC nil:inapplicable (component files are not independently
+    downloadable).
     """
     has_parts = _as_list(_get(dist, "schema:hasPart"))
     nil_url = _is_nil_url(content_url)
@@ -316,24 +318,22 @@ def _convert_archive_distribution(dist, di, cr_dist, tabular_files,
     archive_id = _sanitize_id(archive_name)
     archive_sha = _extract_sha256(dist)
 
-    # Build the FileSet object for the archive
+    # Archive FileObject
     archive_obj = {
-        "@type": ["cr:FileSet", "DataDownload"],
+        "@type": "cr:FileObject",
         "@id": archive_id,
         "name": archive_name,
         "encodingFormat": "application/zip",
+        "contentUrl": content_url if not nil_url else archive_name,
     }
-    if not nil_url:
-        archive_obj["contentUrl"] = content_url
-
     desc = _get(dist, "schema:description")
     if desc:
         archive_obj["description"] = desc
     if archive_sha:
         archive_obj["sha256"] = archive_sha
+    cr_dist.append(archive_obj)
 
-    # Component files — nested inside the FileSet via "includes"
-    includes = []
+    # Component files — flat in distribution with containedIn back-reference
     for pi, part in enumerate(has_parts):
         if not isinstance(part, dict):
             continue
@@ -346,9 +346,11 @@ def _convert_archive_distribution(dist, di, cr_dist, tabular_files,
             part_enc = part_enc[0] if part_enc else ""
 
         fobj = {
-            "@type": ["cr:FileObject", "MediaObject"],
+            "@type": "cr:FileObject",
             "@id": part_id,
             "name": part_name,
+            "contentUrl": "http://www.opengis.net/def/nil/ogc/0/inapplicable",
+            "containedIn": {"@id": archive_id},
         }
         if part_enc:
             fobj["encodingFormat"] = part_enc
@@ -368,7 +370,7 @@ def _convert_archive_distribution(dist, di, cr_dist, tabular_files,
         if sha:
             fobj["sha256"] = sha
 
-        includes.append(fobj)
+        cr_dist.append(fobj)
 
         # Track tabular files with physical mapping for RecordSet generation
         if _get(part, "cdi:hasPhysicalMapping"):
@@ -376,10 +378,6 @@ def _convert_archive_distribution(dist, di, cr_dist, tabular_files,
             if verbose:
                 print(f"  Tabular file with physical mapping: {part_name}")
 
-    if includes:
-        archive_obj["includes"] = includes
-
-    cr_dist.append(archive_obj)
     return cr_dist, tabular_files
 
 
@@ -534,7 +532,7 @@ def convert_cdif_to_croissant(cdif, verbose=False):
 
     # -- context & conformsTo -------------------------------------------
     cr["@context"] = deepcopy(CROISSANT_CONTEXT)
-    cr["@type"] = "Dataset"
+    cr["@type"] = "sc:Dataset"
     cr["conformsTo"] = CROISSANT_CONFORMS_TO
 
     # -- discovery metadata ---------------------------------------------

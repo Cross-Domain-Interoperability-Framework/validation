@@ -1,7 +1,8 @@
 {
   "@context": {
     "@language": "en",
-    "@vocab": "http://schema.org/",
+    "@vocab": "https://schema.org/",
+    "sc": "https://schema.org/",
     "cr": "http://mlcommons.org/croissant/",
     "rai": "http://mlcommons.org/croissant/RAI/",
     "dct": "http://purl.org/dc/terms/",
@@ -45,7 +46,7 @@
     "transform": "cr:transform",
     "prov": "http://www.w3.org/ns/prov#"
   },
-  "@type": "Dataset",
+  "@type": "sc:Dataset",
   "conformsTo": "http://mlcommons.org/croissant/1.0",
   "name": "C-K, N-K, O-K XANES of N-rich sample from the angular lithology",
   "description": "XANES was done immediately after FIBing to preserve spectroscopy as best as possible.  Data was taken as linescans to reduce beam damage, and two line scans of carbon were done sequentially to monitor sample modification due to X-ray irradiation.",
@@ -72,38 +73,36 @@
   ],
   "distribution": [
     {
-      "@type": [
-        "cr:FileSet",
-        "DataDownload"
-      ],
+      "@type": "cr:FileObject",
       "@id": "archive-0.zip",
       "name": "archive-0.zip",
       "encodingFormat": "application/zip",
-      "description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
-      "includes": [
-        {
-          "@type": [
-            "cr:FileObject",
-            "MediaObject"
-          ],
-          "@id": "20241027_XANES_ALS_OREX-800055-125_1_XANESCollection_241026023.yaml",
-          "name": "20241027_XANES_ALS_OREX-800055-125_1_XANESCollection_241026023.yaml",
-          "encodingFormat": "application/yaml",
-          "contentSize": "92 B",
-          "sha256": "bff6bcf4c5ba05fa0b7a21f362f10367df173a70e4042c3417a48f6adc1b2e92"
-        },
-        {
-          "@type": [
-            "cr:FileObject",
-            "MediaObject"
-          ],
-          "@id": "20241027_XANES_ALS_OREX-800055-125_1_XANESCollection_241026023.zip",
-          "name": "20241027_XANES_ALS_OREX-800055-125_1_XANESCollection_241026023.zip",
-          "encodingFormat": "application/zip",
-          "contentSize": "62716 B",
-          "sha256": "eb68f67f103b35f8ab49f6343d27250f3c269452a87dddff932e6802f404fc94"
-        }
-      ]
+      "contentUrl": "archive-0.zip",
+      "description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "20241027_XANES_ALS_OREX-800055-125_1_XANESCollection_241026023.yaml",
+      "name": "20241027_XANES_ALS_OREX-800055-125_1_XANESCollection_241026023.yaml",
+      "contentUrl": "http://www.opengis.net/def/nil/ogc/0/inapplicable",
+      "containedIn": {
+        "@id": "archive-0.zip"
+      },
+      "encodingFormat": "application/yaml",
+      "contentSize": "92 B",
+      "sha256": "bff6bcf4c5ba05fa0b7a21f362f10367df173a70e4042c3417a48f6adc1b2e92"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "20241027_XANES_ALS_OREX-800055-125_1_XANESCollection_241026023.zip",
+      "name": "20241027_XANES_ALS_OREX-800055-125_1_XANESCollection_241026023.zip",
+      "contentUrl": "http://www.opengis.net/def/nil/ogc/0/inapplicable",
+      "containedIn": {
+        "@id": "archive-0.zip"
+      },
+      "encodingFormat": "application/zip",
+      "contentSize": "62716 B",
+      "sha256": "eb68f67f103b35f8ab49f6343d27250f3c269452a87dddff932e6802f404fc94"
     }
   ],
   "prov:wasGeneratedBy": {
