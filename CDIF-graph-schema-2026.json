@@ -1381,6 +1381,32 @@
                     },
                     "description": "identifier or name for the data type concept."
                 },
+                "cdi:intendedDataType": {
+                    "type": "string",
+                    "description": "The intended data type for values of this variable, from DDI-CDI RepresentedVariable.hasIntendedDataType. Recommended values are XML Schema datatypes (e.g. https://www.w3.org/TR/xmlschema-2/#decimal)."
+                },
+                "cdi:role": {
+                    "type": "string",
+                    "enum": [
+                        "MeasureComponent",
+                        "AttributeComponent",
+                        "DimensionComponent",
+                        "DescriptorComponent",
+                        "ReferenceValueComponent"
+                    ],
+                    "description": "Specifies the relation of the variable to the data structure, corresponding to DDI-CDI DataStructureComponent subtypes."
+                },
+                "cdi:describedUnitOfMeasure": {
+                    "anyOf": [
+                        {
+                            "description": "A structured unit of measure from a controlled vocabulary, from DDI-CDI RepresentedVariable.describedUnitOfMeasure.",
+                            "$ref": "#/$defs/type-DefinedTerm"
+                        },
+                        {
+                            "$ref": "#/$defs/id-reference"
+                        }
+                    ]
+                },
                 "cdi:simpleUnitOfMeasure": {
                     "anyOf": [
                         {
@@ -1404,8 +1430,30 @@
                     ]
                 },
                 "cdi:uses": {
-                    "type": "string",
-                    "description": "reference to a skos concept for the data type"
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "@id": {
+                                        "type": "string",
+                                        "description": "reference to a skos concept for the property"
+                                    }
+                                }
+                            },
+                            {
+                                "$ref": "#/$defs/type-DefinedTerm"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
+                        ]
+                    },
+                    "description": "Essentially the same as schema:propertyID. References to concepts that this variable measures or represents."
                 },
                 "cdi:name": {
                     "type": "string"
@@ -1625,6 +1673,9 @@
                             },
                             {
                                 "$ref": "#/$defs/type-TabularTextDataSet"
+                            },
+                            {
+                                "$ref": "#/$defs/type-LongStructureDataSet"
                             },
                             {
                                 "$ref": "#/$defs/id-reference"
@@ -2367,6 +2418,208 @@
                 }
             ]
         },
+        "type-LongStructureDataSet": {
+            "type": "object",
+            "properties": {
+                "@id": {
+                    "type": "string"
+                },
+                "@type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "allOf": [
+                        {
+                            "contains": {
+                                "const": "schema:DataDownload"
+                            }
+                        },
+                        {
+                            "contains": {
+                                "const": "cdi:LongStructureDataSet"
+                            }
+                        }
+                    ]
+                },
+                "schema:name": {
+                    "type": "string"
+                },
+                "schema:contentUrl": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "schema:encodingFormat": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "spdx:checksum": {
+                    "type": "object",
+                    "description": "A string value calculated from the content of the resource representation, used to test if content has been modified. The checksum is a property of a particular distribution/DataDownload.",
+                    "properties": {
+                        "spdx:algorithm": {
+                            "type": "string"
+                        },
+                        "spdx:checksumValue": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "schema:provider": {
+                    "type": "array",
+                    "description": "Party who maintains this particular distribution option for the dataset. Use this property if there are multiple distributions from different providers",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "@id": {
+                                        "type": "string",
+                                        "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable"
+                                    }
+                                }
+                            },
+                            {
+                                "$ref": "#/$defs/type-Person"
+                            },
+                            {
+                                "$ref": "#/$defs/type-Organization"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
+                        ]
+                    }
+                },
+                "cdi:hasPhysicalMapping": {
+                    "type": "array",
+                    "description": "Links variables to their physical representation in this dataset.",
+                    "items": {
+                        "title": "Physical Mapping Type",
+                        "description": "Defines implementation-specific properties for the representation of a variable in a dataset. Aligned with CDIF 2026 schema using DDI-CDI flat per-column mapping structure.",
+                        "type": "object",
+                        "properties": {
+                            "cdi:index": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "description": "Non-negative integer that orders the fields in the data structure (column number)."
+                            },
+                            "cdi:format": {
+                                "type": "string",
+                                "description": "A format for number expressed as a string, or date format like YYYY/MM or MM-DD-YY."
+                            },
+                            "cdi:physicalDataType": {
+                                "type": "string"
+                            },
+                            "cdi:length": {
+                                "type": "integer",
+                                "description": "The column width if the tabular text is fixed width."
+                            },
+                            "cdi:nullSequence": {
+                                "type": "string",
+                                "description": "The value of this property becomes the null annotation for the described column."
+                            },
+                            "cdi:defaultValue": {
+                                "type": "string",
+                                "description": "A default string indicating the value to substitute for an empty string."
+                            },
+                            "cdi:scale": {
+                                "type": "integer"
+                            },
+                            "cdi:decimalPositions": {
+                                "type": "integer"
+                            },
+                            "cdi:minimumLength": {
+                                "type": "integer"
+                            },
+                            "cdi:maximumLength": {
+                                "type": "integer"
+                            },
+                            "cdi:isRequired": {
+                                "type": "boolean",
+                                "default": false
+                            },
+                            "cdi:formats_InstanceVariable": {
+                                "type": "object",
+                                "description": "Reference to a variable defined in schema:variableMeasured.",
+                                "properties": {
+                                    "@id": {
+                                        "type": "string",
+                                        "description": "This should be a reference to a variable defined in the schema:variableMeasured section."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "cdi:arrayBase": {
+                    "type": "integer"
+                },
+                "csvw:delimiter": {
+                    "type": "string",
+                    "description": "Sets the delimiter flag to the single provided value, which MUST be a string. The default is ','."
+                },
+                "csvw:header": {
+                    "type": "boolean",
+                    "description": "If true, sets the header row count flag to 1, and if false to 0, unless headerRowCount is provided, in which case the value provided for the header property is ignored. The default is true."
+                },
+                "csvw:headerRowCount": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "default": 1,
+                    "description": "A numeric atomic property that sets the header row count flag to the single provided value, which MUST be a non-negative integer."
+                },
+                "csvw:commentPrefix": {
+                    "type": "string",
+                    "description": "An atomic property that sets the comment prefix flag to the single provided value, which MUST be a string. The default is '#'."
+                },
+                "csvw:skipBlankRows": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "csvw:skipInitialSpace": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "csvw:skipRows": {
+                    "type": "integer",
+                    "description": "The number of rows to skip at the beginning of the file, before a header row or tabular data.",
+                    "default": 0
+                },
+                "csvw:lineTerminators": {
+                    "type": "string",
+                    "enum": [
+                        "CRLF",
+                        "LF",
+                        "\r\n",
+                        "\n"
+                    ]
+                },
+                "csvw:quoteChar": {
+                    "type": "string",
+                    "default": "\"",
+                    "description": "Same as DDI-CDI quoteCharacter. The string that is used around escaped cells."
+                },
+                "cdi:isDelimited": {
+                    "type": "boolean",
+                    "description": "Indicates whether the data uses a delimiter to separate fields."
+                },
+                "cdi:isFixedWidth": {
+                    "type": "boolean",
+                    "description": "Indicates whether the data uses fixed-width fields."
+                },
+                "cdi:escapeCharacter": {
+                    "type": "string",
+                    "description": "The character used to escape special characters in the data. From DDI-CDI PhysicalSegmentLayout.escapeCharacter."
+                }
+            },
+            "required": [
+                "schema:contentUrl",
+                "@type"
+            ]
+        },
         "type-Action--target_type": {
             "type": "object",
             "description": "documentation of the URL end point and syntax to invoke the service. This schema doesn't handle post requests",
@@ -2596,6 +2849,29 @@
                     },
                     "then": {
                         "$ref": "#/$defs/type-TabularTextDataSet"
+                    },
+                    "else": false
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "@type": {
+                                "anyOf": [
+                                    {
+                                        "const": "cdi:LongStructureDataSet"
+                                    },
+                                    {
+                                        "type": "array",
+                                        "contains": {
+                                            "const": "cdi:LongStructureDataSet"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "then": {
+                        "$ref": "#/$defs/type-LongStructureDataSet"
                     },
                     "else": false
                 },

@@ -29,6 +29,7 @@ from pathlib import Path
 TYPE_DISPATCH = [
     ("cdi:StructuredDataSet", "type-StructuredDataSet"),
     ("cdi:TabularTextDataSet", "type-TabularTextDataSet"),
+    ("cdi:LongStructureDataSet", "type-LongStructureDataSet"),
     ("cdi:InstanceVariable", "type-InstanceVariable"),
     ("cdi:Identifier", "type-Identifier"),
     ("dcat:CatalogRecord", "type-CatalogRecord"),
@@ -92,6 +93,8 @@ BB_REF_MAP = {
     "cdifDataCubeSchema.json": "type-StructuredDataSet",
     "cdifTabularData": "type-TabularTextDataSet",
     "cdifTabularDataSchema.json": "type-TabularTextDataSet",
+    "cdifLongData": "type-LongStructureDataSet",
+    "cdifLongDataSchema.json": "type-LongStructureDataSet",
     "cdiVariableMeasured": "type-InstanceVariable",
     "cdiVariableMeasuredSchema.json": "type-InstanceVariable",
 }
@@ -914,6 +917,7 @@ def build_type_dataset(loader, bb_dir):
                     {"$ref": "#/$defs/type-WebAPI"},
                     {"$ref": "#/$defs/type-StructuredDataSet"},
                     {"$ref": "#/$defs/type-TabularTextDataSet"},
+                    {"$ref": "#/$defs/type-LongStructureDataSet"},
                     {"$ref": "#/$defs/id-reference"}
                 ]
             }
@@ -1286,6 +1290,65 @@ def build_type_tabular_text_dataset(loader, bb_dir):
     return merged
 
 
+def build_type_long_structure_dataset(loader, bb_dir):
+    """Build type-LongStructureDataSet: compose dataDownload + cdifLongData."""
+    dd_schema = loader.load("schemaorgProperties/dataDownload/dataDownloadSchema.json")
+    dd_dir = bb_dir / "schemaorgProperties" / "dataDownload"
+    dd_schema = resolve_and_transform(dd_schema, dd_dir, loader)
+    dd_schema = strip_schema_key(dd_schema)
+
+    long_schema = loader.load("cdifProperties/cdifLongData/cdifLongDataSchema.json")
+    long_dir = bb_dir / "cdifProperties" / "cdifLongData"
+    long_schema = resolve_and_transform(long_schema, long_dir, loader)
+    long_schema = strip_schema_key(long_schema)
+
+    # Load physical mapping inline
+    pm_schema = loader.load("cdifProperties/cdifPhysicalMapping/cdifPhysicalMappingSchema.json")
+    pm_schema = strip_schema_key(pm_schema)
+
+    # Merge
+    merged = {"type": "object", "properties": {}}
+
+    # Copy dataDownload properties
+    for key, val in dd_schema.get("properties", {}).items():
+        merged["properties"][key] = val
+
+    # Copy longData properties
+    for key, val in long_schema.get("properties", {}).items():
+        merged["properties"][key] = val
+
+    # Override @type to require both schema:DataDownload and cdi:LongStructureDataSet
+    merged["properties"]["@type"] = {
+        "type": "array",
+        "items": {"type": "string"},
+        "allOf": [
+            {"contains": {"const": "schema:DataDownload"}},
+            {"contains": {"const": "cdi:LongStructureDataSet"}}
+        ]
+    }
+
+    # Inline physical mapping in cdi:hasPhysicalMapping
+    merged["properties"]["cdi:hasPhysicalMapping"] = {
+        "type": "array",
+        "description": "Links variables to their physical representation in this dataset.",
+        "items": pm_schema
+    }
+
+    # Required
+    merged["required"] = ["schema:contentUrl", "@type"]
+
+    # Merge $defs
+    merged_defs = {}
+    for src in [dd_schema]:
+        merged_defs.update(src.get("$defs", {}))
+    if merged_defs:
+        merged["$defs"] = merged_defs
+
+    merged = flatten_local_defs(merged)
+    merged = ensure_id_property(merged)
+    return merged
+
+
 # ---------------------------------------------------------------------------
 # Phase 5: Assemble output schema
 # ---------------------------------------------------------------------------
@@ -1516,6 +1579,7 @@ def main():
         "type-Dataset": build_type_dataset,
         "type-StructuredDataSet": build_type_structured_dataset,
         "type-TabularTextDataSet": build_type_tabular_text_dataset,
+        "type-LongStructureDataSet": build_type_long_structure_dataset,
     }
 
     for name, builder in builders.items():
