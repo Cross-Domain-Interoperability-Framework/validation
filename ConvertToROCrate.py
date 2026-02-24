@@ -44,6 +44,7 @@ ROCRATE_CONTEXT = [
         "ada": "https://ada.astromat.org/metadata/",
         "xas": "https://ada.astromat.org/metadata/xas/",
         "nxs": "https://manual.nexusformat.org/classes/",
+        "cdifq": "http://crossdomaininteroperability.org/cdifq/",
 
         # --- PROV term mappings ---
         "wasGeneratedBy": {"@id": "prov:wasGeneratedBy", "@container": "@set"},
@@ -119,6 +120,21 @@ ROCRATE_CONTEXT = [
         "defaultDigitalGroupSeparator": "cdi:defaultDigitalGroupSeparator",
         "displayLabel": "cdi:displayLabel",
         "length": "cdi:length",
+        "allowsDuplicates": "cdi:allowsDuplicates",
+        "isStructuredBy": {"@id": "cdi:isStructuredBy", "@type": "@id"},
+        "has_DataStructureComponent": {"@id": "cdi:has_DataStructureComponent",
+                                       "@container": "@set"},
+        "isDefinedBy_InstanceVariable": {"@id": "cdi:isDefinedBy_InstanceVariable",
+                                         "@type": "@id"},
+        "has": {"@id": "cdi:has", "@type": "@id"},
+        "hasIndex": "cdi:hasIndex",
+        "PhysicalDataSet": "cdi:PhysicalDataSet",
+        "WideDataStructure": "cdi:WideDataStructure",
+        "IdentifierComponent": "cdi:IdentifierComponent",
+        "MeasureComponent": "cdi:MeasureComponent",
+        "ValueMapping": "cdi:ValueMapping",
+        "cdiIdentifier": "cdi:identifier",
+        "cdiName": "cdi:name",
 
         # --- CSVW term mappings ---
         "commentPrefix": "csvw:commentPrefix",
@@ -134,6 +150,10 @@ ROCRATE_CONTEXT = [
         "tableDirection": "csvw:tableDirection",
         "textDirection": "csvw:textDirection",
         "trim": "csvw:trim",
+
+        # --- CDIFQ term mappings (placeholder namespace) ---
+        "nColumns": "cdifq:nColumns",
+        "nRows": "cdifq:nRows",
     }
 ]
 
