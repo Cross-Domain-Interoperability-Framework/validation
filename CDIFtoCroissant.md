@@ -53,7 +53,7 @@ The output uses the standard Croissant `@context` with additional CDIF namespace
 | `schema:creator` | `creator` | CDIF wraps in `@list` for ordering; converter unwraps |
 | `schema:keywords` | `keywords` | Direct; converter falls back to `schema:additionalType` values |
 | `schema:publisher` | `publisher` | Direct match |
-| `schema:version` | `version` | Direct match |
+| `schema:version` | `version` | Direct match; defaults to `"not assigned"` when absent (Croissant recommends this property) |
 | `schema:inLanguage` | `inLanguage` | Direct match |
 | `schema:sameAs` | `sameAs` | Direct match |
 | `schema:funding` | `funding` | Both support `MonetaryGrant`; converter maps description and funder |
@@ -80,26 +80,27 @@ The converter sets the Croissant `conformsTo` and passes through the CDIF `schem
 | CDIF type | Croissant type | Relationship |
 |-----------|---------------|-------------|
 | `schema:DataDownload` (single file) | `cr:FileObject` | Direct: both describe a downloadable file with contentUrl, encodingFormat, name |
-| `schema:DataDownload` (archive with `schema:hasPart`) | `cr:FileSet` with `cr:includes` of `cr:FileObject` per component | Archive is a FileSet with the download URL; component files are nested inside via `includes` |
-| `schema:MediaObject` / `schema:Dataset` (hasPart items) | `cr:FileObject` + `sc:MediaObject` | Individual files within a FileSet (no `contentUrl`; accessed through the archive) |
+| `schema:DataDownload` (archive with `schema:hasPart`) | `cr:FileObject` (archive) + `cr:FileObject` per component with `containedIn` | Archive FileObject has the download URL; component FileObjects reference it via `containedIn` and use `nil:inapplicable` for `contentUrl` |
+| `schema:MediaObject` / `schema:Dataset` (hasPart items) | `cr:FileObject` with `containedIn` | Individual files within an archive (not independently downloadable) |
 | `schema:WebAPI` + `schema:potentialAction` | _(no equivalent)_ | Croissant has no API access pattern |
 
 ### Archive handling
 
-CDIF expresses containment as `archive hasPart [file1, file2, ...]` (parent-to-child). The converter models this using Croissant's `cr:FileSet` with `cr:includes`:
+CDIF expresses containment as `archive hasPart [file1, file2, ...]` (parent-to-child). The converter models this as flat `cr:FileObject` entries in the `distribution` array with `containedIn` back-references:
 
-1. The archive itself becomes a `cr:FileSet` with the `contentUrl` (only the archive has a download URL)
-2. Each `hasPart` item becomes a `cr:FileObject` (also typed `sc:MediaObject`) nested inside the FileSet's `includes` array
-3. Component files have no `contentUrl` — they are accessed through the archive
+1. The archive itself becomes a `cr:FileObject` with the `contentUrl` (only the archive has a download URL)
+2. Each `hasPart` item becomes a separate `cr:FileObject` in `distribution` with `containedIn: {"@id": "<archive-id>"}` referencing the archive
+3. Component files use `contentUrl: "http://www.opengis.net/def/nil/ogc/0/inapplicable"` since they are not independently downloadable
+4. If the archive has no checksum in the source, a nil placeholder (`sha256` of 64 zeros) is added to satisfy Croissant's requirement that FileObjects have `sha256` or `md5`
 
 ### File metadata mapping
 
 | CDIF | Croissant | Notes |
 |------|-----------|-------|
-| `schema:contentUrl` | `contentUrl` | Direct; only on the archive FileSet (component files inside `includes` have no `contentUrl`) |
+| `schema:contentUrl` | `contentUrl` | Direct; archive FileObject has the download URL; component FileObjects use OGC `nil:inapplicable` |
 | `schema:encodingFormat` (array) | `encodingFormat` (string) | Converter takes first element |
 | `schema:size` (`QuantitativeValue`) | `contentSize` (string) | Converter formats as "NNN B" |
-| `spdx:checksum` (string or object) | `sha256` | Converter handles bare hex strings, `{spdx:checksumValue}` objects, and sha256 hashes embedded in `schema:description` text |
+| `spdx:checksum` (string or object) | `sha256` | Converter handles bare hex strings, `{spdx:checksumValue}` objects, and sha256 hashes embedded in `schema:description` text. Archive FileObjects without a source checksum get a nil placeholder (64 zeros) |
 | `schema:name` | `name` | Direct |
 
 ## Property Mapping: Data Structure
@@ -178,7 +179,7 @@ These properties are not part of the Croissant vocabulary but do not break `mlcr
 | `cr:Field.references` | Foreign key joins between RecordSets | DDI-CDI `qualifies` is the closest analog but semantically different |
 | `cr:Field.subField` | Nested/hierarchical fields | CDIF variables are flat |
 | `cr:Transform` (regex, delimiter, jsonQuery) | Post-extraction data transformations | No equivalent; CDIF describes data as-is |
-| `cr:FileSet` (glob patterns) | Collections of homogeneous files by pattern | Converter uses FileSet for archives with `includes`; Croissant also supports glob-based FileSets which CDIF does not use |
+| `cr:FileSet` (glob patterns) | Collections of homogeneous files by pattern | CDIF does not use glob-based file sets; archives are modeled as `cr:FileObject` with `containedIn` references |
 | `cr:Split` | Train/validation/test data partitions | No equivalent (science data, not ML training) |
 | `cr:Label`, `cr:BoundingBox`, `cr:SegmentationMask` | ML annotation types | No equivalent |
 | `cr:isLiveDataset` | Continuously-updated dataset flag | No equivalent |
@@ -203,12 +204,14 @@ Croissant handles CSV parsing details implicitly through its extract/transform p
 
 ## Example Conversions
 
-Three CDIF examples have been converted and validated:
+Five CDIF examples have been converted and validated:
 
 | CDIF source | Croissant output | Features exercised |
 |---|---|---|
 | `cdif_10.60707-0y88-ps96.json` | `cdif_0y88-ps96-croissant.json` | 10 InstanceVariables, physicalMapping, RecordSet with 10 Fields, archive distribution |
 | `xanes-2arx-b516.json` | `xanes-2arx-b516-croissant.json` | Archive with 2 component files, no variables, provenance pass-through |
 | `tof-htk9-f770.json` | `tof-htk9-f770-croissant.json` | 10 mixed-type files (TIFF, BMP, CSV, PDF, YAML, ZIP), contributor roles |
+| `xrd-2j0t-gq80.json` | `xrd-2j0t-gq80-croissant.json` | Archive with 2 files, hand-added variableMeasured (no physicalMapping) |
+| `yv1f-jb20.json` | `yv1f-jb20-croissant.json` | Archive with 3 files, hand-added variableMeasured (no physicalMapping) |
 
-All three pass `mlcroissant validate` with zero errors.
+All five pass `mlcroissant validate` with zero errors. All 77 ADA test metadata files also pass validation when converted.
