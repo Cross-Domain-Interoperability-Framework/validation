@@ -1101,7 +1101,8 @@
             ]
         },
         "type-Activity": {
-            "title": "very simple links or names of software or instruments used to generate a resource.",
+            "title": "CDIF Provenance Activity",
+            "description": "Extended provenance activity for CDIF. Extends the minimal prov:Activity with schema.org Action properties for comprehensive provenance documentation.",
             "type": "object",
             "properties": {
                 "@type": {
@@ -1133,10 +1134,356 @@
                         ]
                     }
                 },
+                "schema:name": {
+                    "type": "string",
+                    "description": "Human-readable name for the activity"
+                },
+                "schema:description": {
+                    "type": "string",
+                    "description": "Text description of what this activity did"
+                },
+                "schema:identifier": {
+                    "description": "Formal identifier for this activity",
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/type-Identifier"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "$ref": "#/$defs/id-reference"
+                        }
+                    ]
+                },
+                "schema:agent": {
+                    "description": "Primary responsible agent for this activity (maps to PROV wasAssociatedWith)",
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/type-Person"
+                        },
+                        {
+                            "$ref": "#/$defs/type-Organization"
+                        },
+                        {
+                            "$ref": "#/$defs/type-Role"
+                        },
+                        {
+                            "type": "object",
+                            "properties": {
+                                "@id": {
+                                    "type": "string",
+                                    "description": "reference to an agent defined elsewhere"
+                                }
+                            }
+                        },
+                        {
+                            "$ref": "#/$defs/id-reference"
+                        }
+                    ]
+                },
+                "schema:participant": {
+                    "description": "Other participants in this activity",
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/$defs/type-Person"
+                            },
+                            {
+                                "$ref": "#/$defs/type-Organization"
+                            },
+                            {
+                                "$ref": "#/$defs/type-Role"
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "@id": {
+                                        "type": "string",
+                                        "description": "reference to a participant defined elsewhere"
+                                    }
+                                }
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
+                        ]
+                    }
+                },
+                "schema:instrument": {
+                    "description": "Tools, software, sensors, or instruments used in this activity",
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/$defs/type-DefinedTerm"
+                            },
+                            {
+                                "$ref": "#/$defs/type-CreativeWork"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "@id": {
+                                        "type": "string",
+                                        "description": "reference to an instrument defined elsewhere"
+                                    }
+                                }
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
+                        ]
+                    }
+                },
+                "schema:object": {
+                    "description": "Input entity for this activity (for action chaining)",
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "object",
+                            "properties": {
+                                "@id": {
+                                    "type": "string",
+                                    "description": "reference to an input entity"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "schema:result": {
+                    "description": "Output entity produced by this activity",
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "object",
+                            "properties": {
+                                "@id": {
+                                    "type": "string",
+                                    "description": "reference to an output entity"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "schema:actionStatus": {
+                    "type": "string",
+                    "description": "Status of this activity",
+                    "enum": [
+                        "schema:CompletedActionStatus",
+                        "schema:ActiveActionStatus",
+                        "schema:PotentialActionStatus",
+                        "schema:FailedActionStatus"
+                    ]
+                },
+                "schema:startTime": {
+                    "type": "string",
+                    "description": "ISO8601 date-time when the activity started"
+                },
+                "schema:endTime": {
+                    "type": "string",
+                    "description": "ISO8601 date-time when the activity ended"
+                },
+                "schema:location": {
+                    "description": "Where the activity occurred",
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/type-Place"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "object",
+                            "properties": {
+                                "@id": {
+                                    "type": "string",
+                                    "description": "reference to a place defined elsewhere"
+                                }
+                            }
+                        },
+                        {
+                            "$ref": "#/$defs/id-reference"
+                        }
+                    ]
+                },
+                "schema:actionProcess": {
+                    "description": "Methodology or protocol for this activity",
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/type-Activity--HowTo"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "object",
+                            "properties": {
+                                "@id": {
+                                    "type": "string",
+                                    "description": "reference to a methodology defined elsewhere"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "schema:error": {
+                    "type": "string",
+                    "description": "Error description for failed activities"
+                },
+                "schema:additionalProperty": {
+                    "description": "Domain-specific extension properties",
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/$defs/type-PropertyValue"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
+                        ]
+                    }
+                },
                 "@id": {
                     "type": "string"
                 }
             }
+        },
+        "type-HowTo": {
+            "type": "object",
+            "description": "A methodology or protocol described as a HowTo with optional steps.",
+            "properties": {
+                "@id": {
+                    "type": "string"
+                },
+                "@type": {
+                    "type": "string",
+                    "const": "schema:HowTo"
+                },
+                "schema:name": {
+                    "type": "string",
+                    "description": "Name of the methodology or protocol"
+                },
+                "schema:description": {
+                    "type": "string",
+                    "description": "Description of the methodology"
+                },
+                "schema:url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "URL to a published methodology or protocol document"
+                },
+                "schema:step": {
+                    "type": "array",
+                    "description": "Ordered steps in this methodology",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "@type": {
+                                "type": "string",
+                                "const": "schema:HowToStep"
+                            },
+                            "schema:name": {
+                                "type": "string",
+                                "description": "Name of this step"
+                            },
+                            "schema:description": {
+                                "type": "string",
+                                "description": "Description of what this step involves"
+                            },
+                            "schema:url": {
+                                "type": "string",
+                                "format": "uri"
+                            },
+                            "schema:position": {
+                                "type": "integer",
+                                "description": "Ordinal position of this step"
+                            }
+                        },
+                        "required": [
+                            "@type",
+                            "schema:name"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "@type"
+            ],
+            "anyOf": [
+                {
+                    "required": [
+                        "schema:name"
+                    ]
+                },
+                {
+                    "required": [
+                        "schema:url"
+                    ]
+                }
+            ]
+        },
+        "type-Claim": {
+            "type": "object",
+            "description": "A statement or assertion, such as a quality claim about a dataset.",
+            "properties": {
+                "@id": {
+                    "type": "string"
+                },
+                "@type": {
+                    "type": "string",
+                    "const": "schema:Claim"
+                },
+                "schema:claimReviewed": {
+                    "type": "string",
+                    "description": "The claim being reviewed or asserted"
+                },
+                "schema:author": {
+                    "description": "Author of this claim",
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/type-Person"
+                        },
+                        {
+                            "$ref": "#/$defs/type-Organization"
+                        },
+                        {
+                            "$ref": "#/$defs/id-reference"
+                        }
+                    ]
+                },
+                "schema:datePublished": {
+                    "type": "string",
+                    "description": "ISO8601 date when this claim was published"
+                },
+                "schema:appearance": {
+                    "description": "Where this claim appears",
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "$ref": "#/$defs/type-CreativeWork"
+                        },
+                        {
+                            "$ref": "#/$defs/id-reference"
+                        }
+                    ]
+                }
+            },
+            "required": [
+                "@type",
+                "schema:claimReviewed"
+            ]
         },
         "type-QualityMeasurement": {
             "title": "definitions for simple quality measure property",
@@ -2772,6 +3119,139 @@
                 }
             }
         },
+        "type-Activity--HowTo": {
+            "type": "object",
+            "description": "A methodology or protocol described as a HowTo with optional steps",
+            "properties": {
+                "@type": {
+                    "type": "string",
+                    "const": "schema:HowTo"
+                },
+                "@id": {
+                    "type": "string"
+                },
+                "schema:name": {
+                    "type": "string",
+                    "description": "Name of the methodology or protocol"
+                },
+                "schema:description": {
+                    "type": "string",
+                    "description": "Description of the methodology"
+                },
+                "schema:url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "URL to a published methodology or protocol document"
+                },
+                "schema:step": {
+                    "type": "array",
+                    "description": "Ordered steps in this methodology",
+                    "items": {
+                        "$ref": "#/$defs/type-Activity--HowToStep"
+                    }
+                }
+            },
+            "required": [
+                "@type"
+            ],
+            "anyOf": [
+                {
+                    "required": [
+                        "schema:name"
+                    ]
+                },
+                {
+                    "required": [
+                        "schema:url"
+                    ]
+                }
+            ]
+        },
+        "type-Activity--HowToStep": {
+            "type": "object",
+            "description": "A single step in a HowTo methodology",
+            "properties": {
+                "@type": {
+                    "type": "string",
+                    "const": "schema:HowToStep"
+                },
+                "schema:name": {
+                    "type": "string",
+                    "description": "Name of this step"
+                },
+                "schema:description": {
+                    "type": "string",
+                    "description": "Description of what this step involves"
+                },
+                "schema:url": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "schema:position": {
+                    "type": "integer",
+                    "description": "Ordinal position of this step"
+                }
+            },
+            "required": [
+                "@type",
+                "schema:name"
+            ]
+        },
+        "type-Activity--Claim": {
+            "type": "object",
+            "description": "A statement or assertion about the dataset",
+            "properties": {
+                "@type": {
+                    "type": "string",
+                    "const": "schema:Claim"
+                },
+                "@id": {
+                    "type": "string"
+                },
+                "schema:claimReviewed": {
+                    "type": "string",
+                    "description": "The claim being reviewed or asserted"
+                },
+                "schema:author": {
+                    "description": "Author of this claim",
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/type-Person"
+                        },
+                        {
+                            "$ref": "#/$defs/type-Organization"
+                        },
+                        {
+                            "type": "object",
+                            "properties": {
+                                "@id": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "schema:datePublished": {
+                    "type": "string",
+                    "description": "ISO8601 date when this claim was published"
+                },
+                "schema:appearance": {
+                    "description": "Where this claim appears",
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "$ref": "#/$defs/type-CreativeWork"
+                        }
+                    ]
+                }
+            },
+            "required": [
+                "@type",
+                "schema:claimReviewed"
+            ]
+        },
         "type-PropertyValue--propertyID_item": {
             "anyOf": [
                 {
@@ -3180,6 +3660,29 @@
                             "@type": {
                                 "anyOf": [
                                     {
+                                        "const": "schema:HowTo"
+                                    },
+                                    {
+                                        "type": "array",
+                                        "contains": {
+                                            "const": "schema:HowTo"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "then": {
+                        "$ref": "#/$defs/type-HowTo"
+                    },
+                    "else": false
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "@type": {
+                                "anyOf": [
+                                    {
                                         "const": "schema:Place"
                                     },
                                     {
@@ -3309,6 +3812,29 @@
                     },
                     "then": {
                         "$ref": "#/$defs/type-QualityMeasurement"
+                    },
+                    "else": false
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "@type": {
+                                "anyOf": [
+                                    {
+                                        "const": "schema:Claim"
+                                    },
+                                    {
+                                        "type": "array",
+                                        "contains": {
+                                            "const": "schema:Claim"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "then": {
+                        "$ref": "#/$defs/type-Claim"
                     },
                     "else": false
                 }

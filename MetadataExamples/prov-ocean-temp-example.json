@@ -1,0 +1,205 @@
+{
+    "@context": {
+        "schema": "http://schema.org/",
+        "dcterms": "http://purl.org/dc/terms/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "dcat": "http://www.w3.org/ns/dcat#",
+        "dqv": "http://www.w3.org/ns/dqv#",
+        "time": "http://www.w3.org/2006/time#",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "csvw": "http://www.w3.org/ns/csvw#",
+        "geosparql": "http://www.opengis.net/ont/geosparql#",
+        "spdx": "http://spdx.org/rdf/terms#"
+    },
+    "@graph": [
+        {
+            "@id": "https://example.org/dataset/ocean-temp-2024",
+            "@type": ["schema:Dataset"],
+            "schema:name": "Ocean Temperature Observations - North Atlantic 2024",
+            "schema:description": "Quality-controlled ocean temperature observations from the North Atlantic collected during 2024 cruises, compiled from multiple CTD casts.",
+            "schema:identifier": {
+                "@id": "#dataset-id",
+                "@type": ["schema:PropertyValue", "cdi:Identifier"],
+                "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+                "schema:value": "10.5678/example.ocean-temp-2024",
+                "schema:url": "https://doi.org/10.5678/example.ocean-temp-2024"
+            },
+            "schema:license": [
+                {
+                    "@type": "schema:CreativeWork",
+                    "schema:name": "Creative Commons Attribution 4.0",
+                    "schema:url": "https://creativecommons.org/licenses/by/4.0/"
+                }
+            ],
+            "schema:subjectOf": {
+                "@id": "#catalog-record"
+            },
+            "schema:creator": {
+                "@list": [
+                    {"@id": "#person-smith"},
+                    {"@id": "#org-whoi"}
+                ]
+            },
+            "schema:dateModified": "2024-12-15",
+            "schema:spatialCoverage": [
+                {"@id": "#spatial-na"}
+            ],
+            "schema:temporalCoverage": [
+                {"@id": "#temporal-2024"}
+            ],
+            "prov:wasGeneratedBy": [
+                {"@id": "#activity-qc"},
+                {"@id": "#activity-compilation"}
+            ],
+            "schema:distribution": [
+                {"@id": "#download-csv"}
+            ]
+        },
+        {
+            "@id": "#catalog-record",
+            "@type": "dcat:CatalogRecord",
+            "schema:about": {"@id": "https://example.org/dataset/ocean-temp-2024"},
+            "dcterms:conformsTo": [
+                {"@id": "https://w3id.org/cdif/cdif-discovery"}
+            ],
+            "schema:dateModified": "2024-12-15"
+        },
+        {
+            "@id": "#person-smith",
+            "@type": "schema:Person",
+            "schema:name": "Dr. Jane Smith",
+            "schema:identifier": "https://orcid.org/0000-0001-2345-6789",
+            "schema:affiliation": {"@id": "#org-whoi"}
+        },
+        {
+            "@id": "#org-whoi",
+            "@type": "schema:Organization",
+            "schema:name": "Woods Hole Oceanographic Institution",
+            "schema:url": "https://www.whoi.edu"
+        },
+        {
+            "@id": "#spatial-na",
+            "@type": "schema:Place",
+            "schema:name": ["North Atlantic"],
+            "schema:geo": {
+                "@type": "schema:GeoShape",
+                "schema:box": "30.0 -80.0 60.0 -10.0"
+            }
+        },
+        {
+            "@id": "#temporal-2024",
+            "@type": "time:ProperInterval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDate": "2024-01-15"
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDate": "2024-11-30"
+            }
+        },
+        {
+            "@id": "#activity-qc",
+            "@type": ["prov:Activity", "schema:Action"],
+            "schema:name": "Quality Control Processing",
+            "schema:description": "Automated and manual quality control of raw CTD temperature data, including spike removal, range checks, and gradient tests.",
+            "prov:used": [
+                "SeaBird SBE 911plus CTD",
+                {"@id": "https://www.seabird.com/sbe-911plus"}
+            ],
+            "schema:agent": {"@id": "#person-smith"},
+            "schema:participant": [
+                {
+                    "@type": "schema:Role",
+                    "schema:roleName": "QC Technician",
+                    "schema:contributor": {"@id": "#person-smith"}
+                }
+            ],
+            "schema:instrument": [
+                {
+                    "@type": "schema:DefinedTerm",
+                    "schema:name": "GTSPP Quality Control",
+                    "schema:termCode": "GTSPP-QC",
+                    "schema:inDefinedTermSet": "https://www.nodc.noaa.gov/GTSPP/"
+                },
+                {
+                    "@type": "schema:CreativeWork",
+                    "schema:name": "Argo QC Manual v3.7",
+                    "schema:url": "https://doi.org/10.13155/33951"
+                },
+                "Python 3.11 with numpy and pandas"
+            ],
+            "schema:object": "Raw CTD data files from R/V Atlantis cruise AT-50",
+            "schema:result": {"@id": "#qc-output"},
+            "schema:actionStatus": "schema:CompletedActionStatus",
+            "schema:startTime": "2024-06-01T00:00:00Z",
+            "schema:endTime": "2024-09-15T23:59:59Z",
+            "schema:location": {"@id": "#spatial-na"},
+            "schema:error": ""
+        },
+        {
+            "@id": "#activity-compilation",
+            "@type": ["prov:Activity"],
+            "schema:name": "Data Compilation and Gridding",
+            "schema:description": "Compilation of QC'd temperature profiles into a gridded product covering the North Atlantic, using optimal interpolation.",
+            "prov:used": [
+                {"@id": "#qc-output"}
+            ],
+            "schema:agent": {"@id": "#person-smith"},
+            "schema:instrument": [
+                "DIVA interpolation software v4.7",
+                {
+                    "@type": "schema:DefinedTerm",
+                    "schema:name": "Optimal Interpolation",
+                    "schema:termCode": "OI"
+                }
+            ],
+            "schema:object": {"@id": "#qc-output"},
+            "schema:result": {"@id": "https://example.org/dataset/ocean-temp-2024"},
+            "schema:actionStatus": "schema:CompletedActionStatus",
+            "schema:startTime": "2024-10-01T00:00:00Z",
+            "schema:endTime": "2024-12-01T23:59:59Z",
+            "schema:actionProcess": {
+                "@type": "schema:HowTo",
+                "schema:name": "North Atlantic Temperature Compilation Protocol",
+                "schema:description": "Standard operating procedure for compiling CTD temperature data into gridded products.",
+                "schema:url": "https://example.org/protocols/na-temp-compilation-v2",
+                "schema:step": [
+                    {
+                        "@type": "schema:HowToStep",
+                        "schema:name": "Data ingestion",
+                        "schema:description": "Import QC'd profile data and apply format normalization",
+                        "schema:position": 1
+                    },
+                    {
+                        "@type": "schema:HowToStep",
+                        "schema:name": "Background field estimation",
+                        "schema:description": "Compute climatological background using WOA23 monthly means",
+                        "schema:position": 2
+                    },
+                    {
+                        "@type": "schema:HowToStep",
+                        "schema:name": "Optimal interpolation",
+                        "schema:description": "Apply DIVA interpolation with correlation length scales estimated from data density",
+                        "schema:position": 3
+                    }
+                ]
+            },
+            "schema:additionalProperty": [
+                {
+                    "@type": "schema:PropertyValue",
+                    "schema:propertyID": ["gridResolution"],
+                    "schema:name": "Grid Resolution",
+                    "schema:value": "0.25 degrees"
+                }
+            ]
+        },
+        {
+            "@id": "#download-csv",
+            "@type": ["schema:DataDownload"],
+            "schema:name": "Ocean temperature CSV download",
+            "schema:contentUrl": "https://example.org/data/ocean-temp-2024.csv",
+            "schema:encodingFormat": ["text/csv"]
+        }
+    ]
+}

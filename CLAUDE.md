@@ -85,10 +85,10 @@ pip install mlcroissant
 
 **Schema structure**:
 - Root: dispatches objects, arrays, or `{@context, @graph}` documents
-- `root-object`: nested if/then/else chain dispatching by `@type` (22 type branches, most specific first)
+- `root-object`: nested if/then/else chain dispatching by `@type` (24 type branches, most specific first)
 - `root-graph`: validates `@context` prefixes + `@graph` array of nodes
 - `id-reference`: shared `{@id: string}` definition for cross-node references
-- 22 type definitions: `type-Dataset`, `type-Person`, `type-Organization`, etc.
+- 24 type definitions: `type-Dataset`, `type-Person`, `type-Organization`, `type-HowTo`, `type-Claim`, etc.
 
 **Key transformations from source schemas**:
 1. External `$ref`s between building blocks resolved to `#/$defs/type-X` references
@@ -96,8 +96,9 @@ pip install mlcroissant
 3. `@type` modified for dispatch disambiguation (e.g., metaMetadata becomes `dcat:CatalogRecord`, identifier adds `cdi:Identifier`)
 4. `@context` stripped from non-root types (goes on root-graph wrapper only)
 5. Composite types assembled: type-Dataset merges mandatory + optional, type-StructuredDataSet/TabularTextDataSet/LongStructureDataSet compose dataDownload + CDI extensions
+6. type-Activity built from cdifProv building block (extended provenance with schema.org Action properties), merging base generatedBy properties (`prov:used`, `@type`) with extended properties (`schema:agent`, `schema:instrument`, `schema:actionProcess`, etc.)
 
-**Type dispatch order** (most specific first): `cdi:StructuredDataSet`, `cdi:TabularTextDataSet`, `cdi:LongStructureDataSet`, `cdi:InstanceVariable`, `cdi:Identifier`, `dcat:CatalogRecord`, `schema:Dataset`, `schema:Person`, `schema:Organization`, `schema:PropertyValue`, `schema:DefinedTerm`, `schema:CreativeWork`, `schema:DataDownload`, `schema:MediaObject`, `schema:WebAPI`, `schema:Action`, `schema:Place`, `time:ProperInterval`, `schema:MonetaryGrant`, `schema:Role`, `prov:Activity`, `dqv:QualityMeasurement`.
+**Type dispatch order** (most specific first): `cdi:StructuredDataSet`, `cdi:TabularTextDataSet`, `cdi:LongStructureDataSet`, `cdi:InstanceVariable`, `cdi:Identifier`, `dcat:CatalogRecord`, `schema:Dataset`, `schema:Person`, `schema:Organization`, `schema:PropertyValue`, `schema:DefinedTerm`, `schema:CreativeWork`, `schema:DataDownload`, `schema:MediaObject`, `schema:WebAPI`, `schema:Action`, `schema:HowTo`, `schema:Place`, `time:ProperInterval`, `schema:MonetaryGrant`, `schema:Role`, `prov:Activity`, `dqv:QualityMeasurement`, `schema:Claim`.
 
 ## DDI-CDI resolved schema
 
@@ -169,5 +170,6 @@ Converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissa
 
 - `MetadataExamples/` - Sample CDIF metadata files
   - `nwis-water-quality-longdata.json` — NWIS water quality long data example using `cdi:LongStructureDataSet` with 20 CSV column variables (DescriptorComponent, ReferenceValueComponent, DimensionComponent, AttributeComponent roles) and 5 MeasureComponent domain variables. Validates against graph schema; framed schema validation has expected failures (no LongStructureDataSet branch in framed schema yet).
+  - `prov-ocean-temp-example.json` — Extended provenance example demonstrating `cdifProv` building block features: action chaining (QC activity → compilation activity via `schema:object`/`schema:result`), multi-typed activities (`prov:Activity` + `schema:Action`), agents with Role wrappers, inline `schema:HowTo` methodology with 3 steps, diverse instruments (DefinedTerm, CreativeWork, strings), Place location, and backward-compatible `prov:used`.
 - `../integrationPublic/exampleMetadata/CDIF2026/` - 2026 schema examples
 - `../integrationPublic/LongData/` - Long data CSV and older (pre-2026) long data metadata examples

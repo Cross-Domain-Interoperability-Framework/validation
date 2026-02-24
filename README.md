@@ -619,7 +619,7 @@ The generated schema has this high-level structure:
 - **`root-graph`**: validates `@context` prefix declarations + `@graph` array of nodes
 - **`root-object`**: a nested if/then/else chain dispatching objects by `@type` to the correct type definition
 - **`id-reference`**: shared `{"@id": "string"}` definition for cross-node references
-- **22 type definitions**: `type-Dataset`, `type-Person`, `type-Organization`, `type-PropertyValue`, `type-DefinedTerm`, `type-CreativeWork`, `type-DataDownload`, `type-MediaObject`, `type-WebAPI`, `type-Action`, `type-Place`, `type-ProperInterval`, `type-MonetaryGrant`, `type-Role`, `type-Activity`, `type-QualityMeasurement`, `type-CatalogRecord`, `type-Identifier`, `type-InstanceVariable`, `type-StructuredDataSet`, `type-TabularTextDataSet`, `type-LongStructureDataSet`
+- **24 type definitions**: `type-Dataset`, `type-Person`, `type-Organization`, `type-PropertyValue`, `type-DefinedTerm`, `type-CreativeWork`, `type-DataDownload`, `type-MediaObject`, `type-WebAPI`, `type-Action`, `type-HowTo`, `type-Place`, `type-ProperInterval`, `type-MonetaryGrant`, `type-Role`, `type-Activity`, `type-QualityMeasurement`, `type-Claim`, `type-CatalogRecord`, `type-Identifier`, `type-InstanceVariable`, `type-StructuredDataSet`, `type-TabularTextDataSet`, `type-LongStructureDataSet`
 
 Type dispatch is ordered most-specific-first (e.g., `cdi:StructuredDataSet` before `schema:Dataset`) so that subtypes are matched before their parent types.
 
@@ -632,6 +632,7 @@ The generator applies these transformations when reading building block source s
 3. **`@type` disambiguation** — Composite types get additional type markers for dispatch (e.g., metaMetadata becomes `dcat:CatalogRecord`, identifier adds `cdi:Identifier`)
 4. **`@context` stripping** — Context declarations are removed from non-root types (the `@context` goes on the root-graph wrapper only)
 5. **Composite type assembly** — Complex types like `type-Dataset` merge mandatory + optional building blocks; `type-StructuredDataSet`/`type-TabularTextDataSet`/`type-LongStructureDataSet` compose dataDownload + CDI extensions
+6. **Extended provenance** — `type-Activity` built from `cdifProv` building block, merging base `generatedBy` properties (`prov:used`, `@type`) with schema.org Action properties (`schema:agent`, `schema:instrument`, `schema:actionProcess`, etc.); `type-HowTo` and `type-Claim` added as new dispatch types for methodology and assertion objects
 
 ## Troubleshooting
 
@@ -778,6 +779,7 @@ The `MetadataExamples/` directory contains sample CDIF JSON-LD documents for tes
 | `yv1f-jb20.json` | -- | General dataset |
 | `test_se_na2so4-testschemaorg-cdiv3.jsonLD` | XAS | X-ray absorption spectroscopy with DDI-CDI data structure (WideDataStructure, InstanceVariable, ValueMapping). Uses `xas:` and `cdifq:` extension namespaces |
 | `nwis-water-quality-longdata.json` | Water Quality | NWIS groundwater nutrient analysis (464 rows, 20 columns) in `cdi:LongStructureDataSet` long (narrow) format with `DescriptorComponent`/`ReferenceValueComponent` roles, `cdi:hasPhysicalMapping`, and 5 MeasureComponent domain variables. Validates against graph schema (`CDIF-graph-schema-2026.json`) |
+| `prov-ocean-temp-example.json` | Ocean Temperature | Extended provenance example demonstrating `cdifProv` building block: action chaining (`schema:object`/`schema:result`), multi-typed `prov:Activity`, agents with Role wrappers, inline `schema:HowTo` methodology with 3 steps, diverse instruments, Place location, and backward-compatible `prov:used`. Validates against graph schema |
 
 Corresponding `*-rocrate.json` files contain the converted RO-Crate output produced by `ValidateROCrate.py`. Corresponding `*-croissant.json` files contain the Croissant output produced by `ConvertToCroissant.py`.
 

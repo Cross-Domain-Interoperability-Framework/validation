@@ -43,12 +43,14 @@ TYPE_DISPATCH = [
     ("schema:MediaObject", "type-MediaObject"),
     ("schema:WebAPI", "type-WebAPI"),
     ("schema:Action", "type-Action"),
+    ("schema:HowTo", "type-HowTo"),
     ("schema:Place", "type-Place"),
     ("time:ProperInterval", "type-ProperInterval"),
     ("schema:MonetaryGrant", "type-MonetaryGrant"),
     ("schema:Role", "type-Role"),
     ("prov:Activity", "type-Activity"),
     ("dqv:QualityMeasurement", "type-QualityMeasurement"),
+    ("schema:Claim", "type-Claim"),
 ]
 
 # Mapping from building-block $ref aliases to output $defs names
@@ -85,6 +87,8 @@ BB_REF_MAP = {
     "additionalPropertySchema.json": "type-PropertyValue",
     "generatedBy": "type-Activity",
     "generatedBySchema.json": "type-Activity",
+    "cdifProv": "type-Activity",
+    "cdifProvSchema.json": "type-Activity",
     "derivedFrom": "type-Dataset",  # derivedFrom is a property on Dataset, not a dispatch type
     "derivedFromSchema.json": "type-Dataset",
     "qualityMeasure": "type-QualityMeasurement",
@@ -738,13 +742,165 @@ def build_type_role(loader, bb_dir):
 
 
 def build_type_activity(loader, bb_dir):
-    """Build type-Activity (generatedBy) definition."""
-    schema = loader.load("provProperties/generatedBy/generatedBySchema.json")
-    base_dir = bb_dir / "provProperties" / "generatedBy"
-    schema = resolve_and_transform(schema, base_dir, loader)
-    schema = flatten_local_defs(schema)
-    schema = strip_schema_key(schema)
+    """Build type-Activity from cdifProv (extended) or generatedBy (minimal fallback)."""
+    cdif_prov_path = bb_dir / "cdifProperties" / "cdifProv" / "cdifProvSchema.json"
+    if cdif_prov_path.is_file():
+        # Load the base generatedBy schema directly (before resolve_and_transform
+        # turns the $ref into a self-reference #/$defs/type-Activity)
+        base_schema = loader.load("provProperties/generatedBy/generatedBySchema.json")
+        base_schema = strip_schema_key(base_schema)
+
+        # Load the extended cdifProv schema
+        schema = loader.load("cdifProperties/cdifProv/cdifProvSchema.json")
+        base_dir = bb_dir / "cdifProperties" / "cdifProv"
+        schema = resolve_and_transform(schema, base_dir, loader)
+        schema = flatten_local_defs(schema)
+        schema = strip_schema_key(schema)
+
+        # Merge: start with base generatedBy properties (@type, prov:used),
+        # then overlay the extended cdifProv properties from allOf
+        merged_props = {}
+        for key, val in base_schema.get("properties", {}).items():
+            merged_props[key] = val
+
+        # Extract extended properties from allOf items
+        if "allOf" in schema:
+            remaining_allof = []
+            for item in schema["allOf"]:
+                if isinstance(item, dict) and "properties" in item:
+                    for key, val in item["properties"].items():
+                        merged_props[key] = val
+                elif isinstance(item, dict) and "$ref" in item:
+                    ref = item["$ref"]
+                    if "type-Activity" in ref:
+                        continue  # skip self-reference (already merged base above)
+                    remaining_allof.append(item)
+                else:
+                    remaining_allof.append(item)
+            if remaining_allof:
+                schema["allOf"] = remaining_allof
+            else:
+                schema.pop("allOf", None)
+
+        # Also pick up any top-level properties
+        for key, val in schema.get("properties", {}).items():
+            if key not in merged_props:
+                merged_props[key] = val
+
+        schema["properties"] = merged_props
+    else:
+        schema = loader.load("provProperties/generatedBy/generatedBySchema.json")
+        base_dir = bb_dir / "provProperties" / "generatedBy"
+        schema = resolve_and_transform(schema, base_dir, loader)
+        schema = flatten_local_defs(schema)
+        schema = strip_schema_key(schema)
+
     schema = ensure_id_property(schema)
+    return schema
+
+
+def build_type_howto(loader, bb_dir):
+    """Build type-HowTo definition for methodology/protocol references."""
+    schema = {
+        "type": "object",
+        "description": "A methodology or protocol described as a HowTo with optional steps.",
+        "properties": {
+            "@id": {"type": "string"},
+            "@type": {
+                "type": "string",
+                "const": "schema:HowTo"
+            },
+            "schema:name": {
+                "type": "string",
+                "description": "Name of the methodology or protocol"
+            },
+            "schema:description": {
+                "type": "string",
+                "description": "Description of the methodology"
+            },
+            "schema:url": {
+                "type": "string",
+                "format": "uri",
+                "description": "URL to a published methodology or protocol document"
+            },
+            "schema:step": {
+                "type": "array",
+                "description": "Ordered steps in this methodology",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "@type": {
+                            "type": "string",
+                            "const": "schema:HowToStep"
+                        },
+                        "schema:name": {
+                            "type": "string",
+                            "description": "Name of this step"
+                        },
+                        "schema:description": {
+                            "type": "string",
+                            "description": "Description of what this step involves"
+                        },
+                        "schema:url": {
+                            "type": "string",
+                            "format": "uri"
+                        },
+                        "schema:position": {
+                            "type": "integer",
+                            "description": "Ordinal position of this step"
+                        }
+                    },
+                    "required": ["@type", "schema:name"]
+                }
+            }
+        },
+        "required": ["@type"],
+        "anyOf": [
+            {"required": ["schema:name"]},
+            {"required": ["schema:url"]}
+        ]
+    }
+    return schema
+
+
+def build_type_claim(loader, bb_dir):
+    """Build type-Claim definition for quality or provenance assertions."""
+    schema = {
+        "type": "object",
+        "description": "A statement or assertion, such as a quality claim about a dataset.",
+        "properties": {
+            "@id": {"type": "string"},
+            "@type": {
+                "type": "string",
+                "const": "schema:Claim"
+            },
+            "schema:claimReviewed": {
+                "type": "string",
+                "description": "The claim being reviewed or asserted"
+            },
+            "schema:author": {
+                "description": "Author of this claim",
+                "anyOf": [
+                    {"$ref": "#/$defs/type-Person"},
+                    {"$ref": "#/$defs/type-Organization"},
+                    {"$ref": "#/$defs/id-reference"}
+                ]
+            },
+            "schema:datePublished": {
+                "type": "string",
+                "description": "ISO8601 date when this claim was published"
+            },
+            "schema:appearance": {
+                "description": "Where this claim appears",
+                "anyOf": [
+                    {"type": "string"},
+                    {"$ref": "#/$defs/type-CreativeWork"},
+                    {"$ref": "#/$defs/id-reference"}
+                ]
+            }
+        },
+        "required": ["@type", "schema:claimReviewed"]
+    }
     return schema
 
 
@@ -1572,6 +1728,8 @@ def main():
         "type-MonetaryGrant": build_type_monetary_grant,
         "type-Role": build_type_role,
         "type-Activity": build_type_activity,
+        "type-HowTo": build_type_howto,
+        "type-Claim": build_type_claim,
         "type-QualityMeasurement": build_type_quality_measurement,
         "type-PropertyValue": build_type_property_value,
         "type-InstanceVariable": build_type_instance_variable,
