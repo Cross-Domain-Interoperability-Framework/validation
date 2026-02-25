@@ -126,8 +126,8 @@ When adding new properties:
 ## ConvertToROCrate.py / ValidateROCrate.py architecture
 
 Conversion and validation are split into two modules:
-- **`ConvertToROCrate.py`** — pure conversion library + standalone CLI. Can be imported (`from ConvertToROCrate import convert_to_rocrate`) or run directly.
-- **`ValidateROCrate.py`** — validation-only script that imports conversion from `ConvertToROCrate`. CLI unchanged.
+- **`ConvertToROCrate.py`** -- pure conversion library + standalone CLI. Can be imported (`from ConvertToROCrate import convert_to_rocrate`) or run directly.
+- **`ValidateROCrate.py`** -- validation-only script that imports conversion from `ConvertToROCrate`. CLI unchanged.
 
 **Conversion pipeline** (in `ConvertToROCrate.py`, uses `pyld`):
 1. Enrich input `@context` with CDIF namespace prefixes (forces `schema` to `http://` for RO-Crate compatibility)
@@ -169,16 +169,16 @@ Converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissa
 ## Test documents
 
 - `MetadataExamples/` - Sample CDIF metadata files
-  - `nwis-water-quality-longdata.json` — NWIS water quality long data example using `cdi:LongStructureDataSet` with 20 CSV column variables (DescriptorComponent, ReferenceValueComponent, DimensionComponent, AttributeComponent roles) and 5 MeasureComponent domain variables. Validates against graph schema; framed schema validation has expected failures (no LongStructureDataSet branch in framed schema yet).
-  - `prov-ocean-temp-example.json` — Extended provenance example demonstrating `cdifProv` building block features: action chaining (QC activity → compilation activity via `schema:object`/`schema:result`), multi-typed activities (`["schema:Action", "prov:Activity"]`), agents with Role wrappers, inline `schema:HowTo` methodology via `schema:actionProcess` with 3 steps, diverse instruments (DefinedTerm, CreativeWork, strings), facility location (WHOI — `schema:location` is where the activity was performed, not spatial coverage of the data), and backward-compatible `prov:used`.
-- `BuildingBlockSubmodule/_sources/cdifProperties/cdifProv/exampleCdifProv.json` — Single-node building block example: soil chemistry analysis activity (`["schema:Action", "prov:Activity"]`) with agent (Person with ORCID), instrument (DefinedTerm ICP-MS with `schema:alternateName` for specific model and `schema:additionalProperty` detection limit), `prov:used` array (vocab URI, sample description string, CreativeWork EPA Method 6200), action chaining (`schema:object`/`schema:result`), `schema:actionProcess` HowTo with 2 steps, facility location (Nevada Bureau of Mines), and temporal bounds. Companion `rules.shacl` provides SHACL validation shapes.
-- `BuildingBlockSubmodule/_sources/ddiProperties/ddicdiProv/exampleDdicdiProv.json` — Multi-node `@graph` document: same soil chemistry analysis scenario expressed in DDI-CDI vocabulary. Contains 8 graph nodes: `cdi:Activity` with `entityUsed`/`entityProduced` References and `has_Step` refs, 2 `cdi:Step` nodes with `script` (CommandCode/CommandFile) and `receives`/`produces` Parameter refs, 3 `cdi:Parameter` nodes with `entityBound` References, `cdi:ProcessingAgent` with ORCID identifier and `performs`/`operatesOn` links, `cdi:ProductionEnvironment` for the lab facility. Companion `rules.shacl` provides SHACL validation shapes.
+  - `nwis-water-quality-longdata.json` -- NWIS water quality long data example using `cdi:LongStructureDataSet` with 20 CSV column variables (DescriptorComponent, ReferenceValueComponent, DimensionComponent, AttributeComponent roles) and 5 MeasureComponent domain variables. Validates against graph schema; framed schema validation has expected failures (no LongStructureDataSet branch in framed schema yet).
+  - `prov-ocean-temp-example.json` -- Extended provenance example demonstrating `cdifProv` building block features: action chaining (QC activity → compilation activity via `schema:object`/`schema:result`), multi-typed activities (`["schema:Action", "prov:Activity"]`), agents with Role wrappers, inline `schema:HowTo` methodology via `schema:actionProcess` with 3 steps, diverse instruments (DefinedTerm, CreativeWork, strings), facility location (WHOI -- `schema:location` is where the activity was performed, not spatial coverage of the data), and backward-compatible `prov:used`.
+- `BuildingBlockSubmodule/_sources/cdifProperties/cdifProv/exampleCdifProv.json` -- Single-node building block example: soil chemistry analysis activity (`["schema:Action", "prov:Activity"]`) with agent (Person with ORCID), instrument (DefinedTerm ICP-MS with `schema:alternateName` for specific model and `schema:additionalProperty` detection limit), `prov:used` array (vocab URI, sample description string, CreativeWork EPA Method 6200), action chaining (`schema:object`/`schema:result`), `schema:actionProcess` HowTo with 2 steps, facility location (Nevada Bureau of Mines), and temporal bounds. Companion `rules.shacl` provides SHACL validation shapes.
+- `BuildingBlockSubmodule/_sources/ddiProperties/ddicdiProv/exampleDdicdiProv.json` -- Multi-node `@graph` document: same soil chemistry analysis scenario expressed in DDI-CDI vocabulary. Contains 8 graph nodes: `cdi:Activity` with `entityUsed`/`entityProduced` References and `has_Step` refs, 2 `cdi:Step` nodes with `script` (CommandCode/CommandFile) and `receives`/`produces` Parameter refs, 3 `cdi:Parameter` nodes with `entityBound` References, `cdi:ProcessingAgent` with ORCID identifier and `performs`/`operatesOn` links, `cdi:ProductionEnvironment` for the lab facility. Companion `rules.shacl` provides SHACL validation shapes.
 - `../integrationPublic/exampleMetadata/CDIF2026/` - 2026 schema examples
 - `../integrationPublic/LongData/` - Long data CSV and older (pre-2026) long data metadata examples
 
 ## Known issues
 
-### `schema:actionProcess` — in schema.org but not in the RDF export
+### `schema:actionProcess` -- in schema.org but not in the RDF export
 
 The property `schema:actionProcess` (domain: `schema:Action`, range: `schema:HowTo`) was added to schema.org via [PR #3692](https://github.com/schemaorg/schemaorg/issues/3692), merged 2024-10-22. It is listed on the [schema.org website](https://schema.org/actionProcess) as of V29.4, but has **not yet appeared** in the downloadable RDF vocabulary files ([schemaorg-current-https.jsonld](https://schema.org/version/latest/schemaorg-current-https.jsonld) and the `-all-` variant). This is a lag in the RDF export, not a missing property.
 
@@ -222,6 +222,6 @@ Located at `BuildingBlockSubmodule/_sources/ddiProperties/ddicdiProv/`. Implemen
 
 **Schema `$defs`** (15 definitions): `id-reference`, `ObjectName`, `LabelForDisplay`, `LanguageString`, `Identifier`, `InternationalRegistrationDataIdentifier`, `NonDdiIdentifier`, `Reference`, `Step`, `CommandCode`, `Command`, `CommandFile`, `ControlledVocabularyEntry`, `Parameter`, `ProcessingAgent`, `ProductionEnvironment`.
 
-**Schema pattern for graph links**: Properties referencing other graph nodes use `anyOf [inline-typed-object, id-reference]` — e.g., `cdi:has_Step` accepts either an inline Step object or an `{"@id": "..."}` reference. Self-referencing properties (`cdi:hasSubActivity`, `cdi:performs`) use `$ref: "#"` to point back to the root Activity schema.
+**Schema pattern for graph links**: Properties referencing other graph nodes use `anyOf [inline-typed-object, id-reference]` -- e.g., `cdi:has_Step` accepts either an inline Step object or an `{"@id": "..."}` reference. Self-referencing properties (`cdi:hasSubActivity`, `cdi:performs`) use `$ref: "#"` to point back to the root Activity schema.
 
 **DDI-CDI provenance chain pattern**: `Dataset --prov:wasGeneratedBy--> cdi:Activity --cdi:has_Step--> cdi:Step --cdi:receives/cdi:produces--> cdi:Parameter`. Agent linkage is inverted: `cdi:ProcessingAgent --cdi:performs--> cdi:Activity`.

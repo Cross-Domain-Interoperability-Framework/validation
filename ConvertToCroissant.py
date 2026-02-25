@@ -333,10 +333,10 @@ def _convert_archive_distribution(dist, di, cr_dist, tabular_files,
     if archive_sha:
         archive_obj["sha256"] = archive_sha
     else:
-        archive_obj["sha256"] = "0" * 64  # nil placeholder – archive checksum not available
+        archive_obj["sha256"] = "0" * 64  # nil placeholder - archive checksum not available
     cr_dist.append(archive_obj)
 
-    # Component files — flat in distribution with containedIn back-reference
+    # Component files -- flat in distribution with containedIn back-reference
     for pi, part in enumerate(has_parts):
         if not isinstance(part, dict):
             continue

@@ -122,8 +122,8 @@ Validate the framed output against `CDIF-JSONLD-schema-2026.json`.
 
 `ConvertToROCrate.py` and `ValidateROCrate.py` are the complement of `FrameAndValidate.py`. Where `FrameAndValidate.py` takes a flattened `@graph` and *nests* it (via JSON-LD framing) for JSON Schema validation, these tools take nested/compacted CDIF JSON-LD and *flatten* it (via JSON-LD expand + flatten) into [RO-Crate 1.1](https://www.researchobject.org/ro-crate/1.1/) form.
 
-- **`ConvertToROCrate.py`** — Pure conversion library and standalone CLI. Can be imported as a library (`from ConvertToROCrate import convert_to_rocrate`) or run directly to convert without validation.
-- **`ValidateROCrate.py`** — Validation script that imports conversion from `ConvertToROCrate` and runs 13 structural checks plus optional SHACL-based validation via `rocrate-validator`.
+- **`ConvertToROCrate.py`** -- Pure conversion library and standalone CLI. Can be imported as a library (`from ConvertToROCrate import convert_to_rocrate`) or run directly to convert without validation.
+- **`ValidateROCrate.py`** -- Validation script that imports conversion from `ConvertToROCrate` and runs 13 structural checks plus optional SHACL-based validation via `rocrate-validator`.
 
 This confirms that CDIF metadata can be faithfully represented as a standards-compliant Research Object Crate.
 
@@ -554,7 +554,7 @@ The 2026 schema adds support for:
 **Variables (`schema:variableMeasured`):**
 - Must have dual typing: `["schema:PropertyValue", "cdi:InstanceVariable"]`
 - DDI-CDI properties: `cdi:intendedDataType`, `cdi:simpleUnitOfMeasure`, `cdi:describedUnitOfMeasure`, `cdi:uses`
-- `cdi:role` — enum: `MeasureComponent`, `AttributeComponent`, `DimensionComponent`, `DescriptorComponent`, `ReferenceValueComponent`
+- `cdi:role` -- enum: `MeasureComponent`, `AttributeComponent`, `DimensionComponent`, `DescriptorComponent`, `ReferenceValueComponent`
 
 **Distributions:**
 - `cdi:StructuredDataSet` - For structured formats (JSON, XML, HDF5, NetCDF)
@@ -627,12 +627,12 @@ Type dispatch is ordered most-specific-first (e.g., `cdi:StructuredDataSet` befo
 
 The generator applies these transformations when reading building block source schemas:
 
-1. **External `$ref` resolution** — Cross-building-block `$ref`s (e.g., `../person/schema.yaml`) are resolved to internal `#/$defs/type-X` references
-2. **`anyOf` alternatives** — Properties that reference other building block types get `anyOf [type-ref, id-reference]` so they accept either inline objects or `@id` cross-references
-3. **`@type` disambiguation** — Composite types get additional type markers for dispatch (e.g., metaMetadata becomes `dcat:CatalogRecord`, identifier adds `cdi:Identifier`)
-4. **`@context` stripping** — Context declarations are removed from non-root types (the `@context` goes on the root-graph wrapper only)
-5. **Composite type assembly** — Complex types like `type-Dataset` merge mandatory + optional building blocks; `type-StructuredDataSet`/`type-TabularTextDataSet`/`type-LongStructureDataSet` compose dataDownload + CDI extensions
-6. **Extended provenance** — `type-Activity` built from `cdifProv` building block, requiring multi-typed `@type: ["schema:Action", "prov:Activity"]`, merging base `generatedBy` properties (`prov:used`) with schema.org Action properties (`schema:agent`, `schema:instrument`, `schema:actionProcess`, etc.); `type-HowTo` and `type-Claim` added as new dispatch types for methodology and assertion objects
+1. **External `$ref` resolution** -- Cross-building-block `$ref`s (e.g., `../person/schema.yaml`) are resolved to internal `#/$defs/type-X` references
+2. **`anyOf` alternatives** -- Properties that reference other building block types get `anyOf [type-ref, id-reference]` so they accept either inline objects or `@id` cross-references
+3. **`@type` disambiguation** -- Composite types get additional type markers for dispatch (e.g., metaMetadata becomes `dcat:CatalogRecord`, identifier adds `cdi:Identifier`)
+4. **`@context` stripping** -- Context declarations are removed from non-root types (the `@context` goes on the root-graph wrapper only)
+5. **Composite type assembly** -- Complex types like `type-Dataset` merge mandatory + optional building blocks; `type-StructuredDataSet`/`type-TabularTextDataSet`/`type-LongStructureDataSet` compose dataDownload + CDI extensions
+6. **Extended provenance** -- `type-Activity` built from `cdifProv` building block, requiring multi-typed `@type: ["schema:Action", "prov:Activity"]`, merging base `generatedBy` properties (`prov:used`) with schema.org Action properties (`schema:agent`, `schema:instrument`, `schema:actionProcess`, etc.); `type-HowTo` and `type-Claim` added as new dispatch types for methodology and assertion objects
 
 ## Troubleshooting
 

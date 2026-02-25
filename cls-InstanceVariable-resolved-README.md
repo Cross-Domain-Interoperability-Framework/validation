@@ -64,7 +64,7 @@ All `xsd:*` type definitions were inlined directly rather than referenced via `$
 
 The source schema uses two different patterns to express "single value or array" for multi-valued properties:
 
-**Pattern A** (`if/then/else`, 196 occurrences in source — used for class-owned attributes):
+**Pattern A** (`if/then/else`, 196 occurrences in source -- used for class-owned attributes):
 ```json
 {
   "if": {"type": "array"},
@@ -73,7 +73,7 @@ The source schema uses two different patterns to express "single value or array"
 }
 ```
 
-**Pattern B** (`anyOf`, 897 occurrences in source — used for inter-class relationships):
+**Pattern B** (`anyOf`, 897 occurrences in source -- used for inter-class relationships):
 ```json
 {
   "anyOf": [

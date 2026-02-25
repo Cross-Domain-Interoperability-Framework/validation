@@ -33,18 +33,18 @@ CDIF flattens the DDI-CDI multi-class hierarchy into JSON-LD objects at three le
 | `@id` | string | `@id` | (JSON-LD) | iri-reference | Used for cross-references from `cdi:formats_InstanceVariable` |
 | `schema:name` | string (minLength 5) | `name` | Concept | dt-ObjectName | CDIF uses schema.org property; DDI-CDI uses complex ObjectName type |
 | `schema:description` | string (minLength 10) | `descriptiveText` | ConceptualVariable | dt-InternationalString | CDIF uses schema.org; DDI-CDI uses internationalized string |
-| `schema:propertyID` | array of string/object/DefinedTerm | —[cdi:Concept.identifier] | —(Concept) | — | DDI-CDI UML indicates inheritance from Concept class |
-| `schema:measurementTechnique` | string/object/DefinedTerm | — | — | — | No direct DDI-CDI equivalent; schema.org property |
+| `schema:propertyID` | array of string/object/DefinedTerm | --[cdi:Concept.identifier] | --(Concept) | -- | DDI-CDI UML indicates inheritance from Concept class |
+| `schema:measurementTechnique` | string/object/DefinedTerm | -- | -- | -- | No direct DDI-CDI equivalent; schema.org property |
 | `schema:unitText` | string | `simpleUnitOfMeasure` | RepresentedVariable | xsd:string | Parallel property; CDIF also has `cdi:simpleUnitOfMeasure` |
 | `schema:unitCode` | string/object/DefinedTerm | `describedUnitOfMeasure` | RepresentedVariable | ControlledVocabularyEntry | Parallel property; CDIF also has `cdi:describedUnitOfMeasure` |
-| `schema:minValue` | number | —[cdi:SubstantiveValueDomain] | —cdi:ValueAndConceptDescription | — | Link through valueDomain/valueAndConceptDescription |
-| `schema:maxValue` | number | —[cdi:SubstantiveValueDomain] | — | — | Link through valueDomain/valueAndConceptDescription |
+| `schema:minValue` | number | --[cdi:SubstantiveValueDomain] | --cdi:ValueAndConceptDescription | -- | Link through valueDomain/valueAndConceptDescription |
+| `schema:maxValue` | number | --[cdi:SubstantiveValueDomain] | -- | -- | Link through valueDomain/valueAndConceptDescription |
 | `schema:url` | uri string | `externalDefinition` | Concept | dt-Reference | Approximate match |
 | `cdi:intendedDataType` | string | `hasIntendedDataType` | RepresentedVariable | ControlledVocabularyEntry | CDIF simplifies to plain string; DDI-CDI uses ControlledVocabularyEntry |
-| `cdi:role` | string enum {MeasureComponent, AttributeComponent, DimensionComponent} | — | DataStructureComponent subclasses | — | DDI-CDI models this as separate subclasses of DataStructureComponent; CDIF flattens to a string enum |
+| `cdi:role` | string enum {MeasureComponent, AttributeComponent, DimensionComponent} | -- | DataStructureComponent subclasses | -- | DDI-CDI models this as separate subclasses of DataStructureComponent; CDIF flattens to a string enum |
 | `cdi:describedUnitOfMeasure` | DefinedTerm | `describedUnitOfMeasure` | RepresentedVariable | ControlledVocabularyEntry | Direct mapping |
 | `cdi:simpleUnitOfMeasure` | string | `simpleUnitOfMeasure` | RepresentedVariable | xsd:string | Direct mapping |
-| `cdi:uses` | array of string/object/DefinedTerm | — | — | — | CDIF description says "same as schema:propertyID"; no direct DDI-CDI match |
+| `cdi:uses` | array of string/object/DefinedTerm | -- | -- | -- | CDIF description says "same as schema:propertyID"; no direct DDI-CDI match |
 
 ### Building block divergence (cdifVariableMeasured/schema.yaml)
 
@@ -74,7 +74,7 @@ Properties in CDIFCompleteSchema.json missing from building block:
 
 | CDIF Property | Type in CDIF | DDI-CDI Property | DDI-CDI Type | Notes |
 |---|---|---|---|---|
-| `cdi:index` | integer (min 0) | — | — | CDIF-specific; orders fields. DDI-CDI uses `ValueMappingPosition` for ordering |
+| `cdi:index` | integer (min 0) | -- | -- | CDIF-specific; orders fields. DDI-CDI uses `ValueMappingPosition` for ordering |
 | `cdi:format` | string | `format` | ControlledVocabularyEntry | CDIF simplifies to string |
 | `cdi:physicalDataType` | string | `physicalDataType` | ControlledVocabularyEntry | CDIF simplifies to string |
 | `cdi:length` | integer | `length` | xsd:integer | Direct mapping |
@@ -113,11 +113,11 @@ These appear in CDIFCompleteSchema.json `tabularTextDatasetMapping_type` > `cdi:
 **CDIF location:** `tabularTextDatasetMapping_type` in CDIFCompleteSchema.json; `cdifTabularData/schema.yaml` building block
 **DDI-CDI class:** `cls-PhysicalSegmentLayout`
 
-CDIF types this as `cdi:TabularTextDataSet` rather than `cdi:PhysicalSegmentLayout` — this is a CDIF design choice that merges the DDI-CDI DataSet and PhysicalSegmentLayout concepts.
+CDIF types this as `cdi:TabularTextDataSet` rather than `cdi:PhysicalSegmentLayout` -- this is a CDIF design choice that merges the DDI-CDI DataSet and PhysicalSegmentLayout concepts.
 
 | CDIF Property | Type in CDIF | DDI-CDI Property | DDI-CDI Class | Notes |
 |---|---|---|---|---|
-| `@type` (contains `cdi:TabularTextDataSet`) | array | — | — | CDIF-specific composite type |
+| `@type` (contains `cdi:TabularTextDataSet`) | array | -- | -- | CDIF-specific composite type |
 | `cdi:arrayBase` | integer | `arrayBase` | PhysicalSegmentLayout | Direct mapping |
 | `csvw:commentPrefix` | string | `commentPrefix` | PhysicalSegmentLayout | CSVW alias for DDI-CDI property |
 | `csvw:delimiter` | string | `delimiter` | PhysicalSegmentLayout | CSVW alias for DDI-CDI property |
@@ -137,9 +137,9 @@ CDIF types this as `cdi:TabularTextDataSet` rather than `cdi:PhysicalSegmentLayo
 | `csvw:textDirection` | enum {Auto, Inherit, Ltr, Rtl} | `textDirection` | PhysicalSegmentLayout | DDI-CDI type: enum-TextDirectionValues |
 | `cdi:treatConsecutiveDelimitersAsOne` | boolean (default false) | `treatConsecutiveDelimitersAsOne` | PhysicalSegmentLayout | Direct mapping (Complete schema only) |
 | `csvw:trim` | enum {true, end, false, start} | `trim` | PhysicalSegmentLayout | DDI-CDI type: enum-TrimValues |
-| `cdi:hasPhysicalMapping` | array of physicalMapping_type | — | — | CDIF design; links to ValueMapping items inline |
+| `cdi:hasPhysicalMapping` | array of physicalMapping_type | -- | -- | CDIF design; links to ValueMapping items inline |
 | `countRows` | integer | `recordCount` | DataStore | Cross-class mapping |
-| `countColumns` | integer | — | — | No direct DDI-CDI equivalent |
+| `countColumns` | integer | -- | -- | No direct DDI-CDI equivalent |
 
 ### Building block divergence (cdifTabularData/schema.yaml)
 
@@ -170,13 +170,13 @@ Properties in CDIFCompleteSchema.json missing from building block:
 ## 4. Structured Dataset Mapping (Data Cube)
 
 **CDIF location:** `structuredDatasetMapping_type` in CDIFCompleteSchema.json; `cdifDataCube/schema.yaml` building block
-**DDI-CDI classes:** No single class — combines `PhysicalDataSet` and `DataSet` concepts
+**DDI-CDI classes:** No single class -- combines `PhysicalDataSet` and `DataSet` concepts
 
 | CDIF Property | Type in CDIF | DDI-CDI Property | DDI-CDI Class | Notes |
 |---|---|---|---|---|
-| `@type` (contains `cdi:StructuredDataSet`) | array | — | — | CDIF-specific type combining dataset concepts |
-| `cdi:hasPhysicalMapping` | array | — | — | CDIF design; same as tabular but with `cdi:locator` |
-| `cdi:locator` | string (on mapping items) | — | — | CDIF-specific; for locating values in multi-dimensional structures (e.g., NetCDF variable paths) |
+| `@type` (contains `cdi:StructuredDataSet`) | array | -- | -- | CDIF-specific type combining dataset concepts |
+| `cdi:hasPhysicalMapping` | array | -- | -- | CDIF design; same as tabular but with `cdi:locator` |
+| `cdi:locator` | string (on mapping items) | -- | -- | CDIF-specific; for locating values in multi-dimensional structures (e.g., NetCDF variable paths) |
 
 ---
 
@@ -189,9 +189,9 @@ Properties in CDIFCompleteSchema.json missing from building block:
 |---|---|---|---|---|
 | `schema:contentUrl` | string | `overview` | PhysicalDataSet | Approximate; DDI-CDI `overview` is descriptive text, not a URL. `physicalFileName` is closer for file name |
 | `cdi:characterSet` | string | `characterSet` | DataStore | Direct mapping |
-| `cdi:fileSize` | number | — | — | No direct DDI-CDI equivalent; closest is schema.org contentSize |
-| `cdi:fileSizeUofM` | string | — | — | No direct DDI-CDI equivalent |
-| `spdx:checksum` | object (algorithm + value) | — | — | No DDI-CDI equivalent; SPDX vocabulary |
+| `cdi:fileSize` | number | -- | -- | No direct DDI-CDI equivalent; closest is schema.org contentSize |
+| `cdi:fileSizeUofM` | string | -- | -- | No direct DDI-CDI equivalent |
+| `spdx:checksum` | object (algorithm + value) | -- | -- | No DDI-CDI equivalent; SPDX vocabulary |
 | `schema:encodingFormat` | array of strings | `encoding` | PhysicalSegmentLayout | Approximate; DDI-CDI uses ControlledVocabularyEntry |
 
 ---
