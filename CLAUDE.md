@@ -96,7 +96,7 @@ pip install mlcroissant
 3. `@type` modified for dispatch disambiguation (e.g., metaMetadata becomes `dcat:CatalogRecord`, identifier adds `cdi:Identifier`)
 4. `@context` stripped from non-root types (goes on root-graph wrapper only)
 5. Composite types assembled: type-Dataset merges mandatory + optional, type-StructuredDataSet/TabularTextDataSet/LongStructureDataSet compose dataDownload + CDI extensions
-6. type-Activity built from cdifProv building block (extended provenance with schema.org Action properties), requiring multi-typed `@type: ["schema:Action", "prov:Activity"]`, merging base generatedBy properties (`prov:used`) with extended properties (`schema:agent`, `schema:instrument`, `schema:actionProcess`, etc.)
+6. type-Activity built from cdifProv building block (extended provenance with schema.org Action properties), requiring multi-typed `@type: ["schema:Action", "prov:Activity"]`, merging base generatedBy properties (`prov:used`) with extended properties (`schema:agent`, `schema:actionProcess`, etc.). Instruments are nested within `prov:used` items via `schema:instrument` sub-key (instruments are `prov:Entity` subclasses).
 
 **Type dispatch order** (most specific first): `cdi:StructuredDataSet`, `cdi:TabularTextDataSet`, `cdi:LongStructureDataSet`, `cdi:InstanceVariable`, `cdi:Identifier`, `dcat:CatalogRecord`, `schema:Dataset`, `schema:Person`, `schema:Organization`, `schema:PropertyValue`, `schema:DefinedTerm`, `schema:CreativeWork`, `schema:DataDownload`, `schema:MediaObject`, `schema:WebAPI`, `schema:Action`, `schema:HowTo`, `schema:Place`, `time:ProperInterval`, `schema:MonetaryGrant`, `schema:Role`, `prov:Activity`, `dqv:QualityMeasurement`, `schema:Claim`.
 
@@ -171,8 +171,9 @@ Converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissa
 - `MetadataExamples/` - Sample CDIF metadata files
   - `nwis-water-quality-longdata.json` -- NWIS water quality long data example using `cdi:LongStructureDataSet` with 20 CSV column variables (DescriptorComponent, ReferenceValueComponent, DimensionComponent, AttributeComponent roles) and 5 MeasureComponent domain variables. Validates against graph schema; framed schema validation has expected failures (no LongStructureDataSet branch in framed schema yet).
   - `prov-ocean-temp-example.json` -- Extended provenance example demonstrating `cdifProv` building block features: action chaining (QC activity → compilation activity via `schema:object`/`schema:result`), multi-typed activities (`["schema:Action", "prov:Activity"]`), agents with Role wrappers, inline `schema:HowTo` methodology via `schema:actionProcess` with 3 steps, diverse instruments (DefinedTerm, CreativeWork, strings), facility location (WHOI -- `schema:location` is where the activity was performed, not spatial coverage of the data), and backward-compatible `prov:used`.
-- `BuildingBlockSubmodule/_sources/cdifProperties/cdifProv/exampleCdifProv.json` -- Single-node building block example: soil chemistry analysis activity (`["schema:Action", "prov:Activity"]`) with agent (Person with ORCID), instrument (DefinedTerm ICP-MS with `schema:alternateName` for specific model and `schema:additionalProperty` detection limit), `prov:used` array (vocab URI, sample description string, CreativeWork EPA Method 6200), action chaining (`schema:object`/`schema:result`), `schema:actionProcess` HowTo with 2 steps, facility location (Nevada Bureau of Mines), and temporal bounds. Companion `rules.shacl` provides SHACL validation shapes.
+- `BuildingBlockSubmodule/_sources/cdifProperties/cdifProv/exampleCdifProv.json` -- Single-node building block example: soil chemistry analysis activity (`["schema:Action", "prov:Activity"]`) with agent (Person with ORCID), `prov:used` array containing instrument wrapper (`schema:instrument` sub-key with DefinedTerm ICP-MS, `schema:alternateName` for specific model, `schema:additionalProperty` detection limit), vocab URI, sample description string, and CreativeWork EPA Method 6200. Action chaining (`schema:object`/`schema:result`), `schema:actionProcess` HowTo with 2 steps, facility location (Nevada Bureau of Mines), and temporal bounds. Companion `rules.shacl` provides SHACL validation shapes.
 - `BuildingBlockSubmodule/_sources/ddiProperties/ddicdiProv/exampleDdicdiProv.json` -- Multi-node `@graph` document: same soil chemistry analysis scenario expressed in DDI-CDI vocabulary. Contains 8 graph nodes: `cdi:Activity` with `entityUsed`/`entityProduced` References and `has_Step` refs, 2 `cdi:Step` nodes with `script` (CommandCode/CommandFile) and `receives`/`produces` Parameter refs, 3 `cdi:Parameter` nodes with `entityBound` References, `cdi:ProcessingAgent` with ORCID identifier and `performs`/`operatesOn` links, `cdi:ProductionEnvironment` for the lab facility. Companion `rules.shacl` provides SHACL validation shapes.
+- `BuildingBlockSubmodule/_sources/provProperties/provActivity/exampleProvActivity.json` -- Single-node building block example: same soil chemistry analysis scenario expressed in PROV-O vocabulary. `@type: ["prov:Activity"]` (single-typed, no `schema:Action`), `prov:used` array containing instrument wrapper (`schema:instrument` sub-key with DefinedTerm ICP-MS), vocab URI, sample description string, and CreativeWork EPA Method 6200. `prov:generated` output reference, `prov:wasAssociatedWith` agent (Person with ORCID), `prov:wasInformedBy` activity chain, `prov:startedAtTime`/`prov:endedAtTime` temporal bounds, `prov:atLocation` facility (Nevada Bureau of Mines), `schema:actionStatus`, `schema:actionProcess` HowTo with 2 steps. Companion `rules.shacl` provides SHACL validation shapes.
 - `../integrationPublic/exampleMetadata/CDIF2026/` - 2026 schema examples
 - `../integrationPublic/LongData/` - Long data CSV and older (pre-2026) long data metadata examples
 
@@ -188,7 +189,7 @@ The [ODIS provenance recommendations](https://github.com/iodepo/odis-arch/blob/4
 
 There is no schema.org property that maps to `prov:wasGeneratedBy` (linking an Entity to the Activity that produced it). Schema.org has `schema:result` (Action→Entity, forward direction) but nothing in the reverse direction. CDIF retains `prov:wasGeneratedBy` from PROV-O for this purpose.
 
-**CDIF provenance chain pattern**: `Dataset --prov:wasGeneratedBy--> {"@type": ["schema:Action", "prov:Activity"]} --schema:actionProcess--> schema:HowTo`. Activity nodes are multi-typed to get both PROV linkage and schema.org Action properties (`agent`, `instrument`, `object`, `result`, `startTime`, `endTime`, `actionStatus`, `location`, `participant`).
+**CDIF provenance chain pattern**: `Dataset --prov:wasGeneratedBy--> {"@type": ["schema:Action", "prov:Activity"]} --schema:actionProcess--> schema:HowTo`. Activity nodes are multi-typed to get both PROV linkage and schema.org Action properties (`agent`, `object`, `result`, `startTime`, `endTime`, `actionStatus`, `location`, `participant`). Instruments are nested within `prov:used` items via a `schema:instrument` sub-key, since instruments are `prov:Entity` subclasses that are "used" by an activity.
 
 ## ddicdiProv building block (DDI-CDI native provenance)
 
@@ -225,3 +226,93 @@ Located at `BuildingBlockSubmodule/_sources/ddiProperties/ddicdiProv/`. Implemen
 **Schema pattern for graph links**: Properties referencing other graph nodes use `anyOf [inline-typed-object, id-reference]` -- e.g., `cdi:has_Step` accepts either an inline Step object or an `{"@id": "..."}` reference. Self-referencing properties (`cdi:hasSubActivity`, `cdi:performs`) use `$ref: "#"` to point back to the root Activity schema.
 
 **DDI-CDI provenance chain pattern**: `Dataset --prov:wasGeneratedBy--> cdi:Activity --cdi:has_Step--> cdi:Step --cdi:receives/cdi:produces--> cdi:Parameter`. Agent linkage is inverted: `cdi:ProcessingAgent --cdi:performs--> cdi:Activity`.
+
+## provActivity building block (PROV-O native provenance)
+
+Located at `BuildingBlockSubmodule/_sources/provProperties/provActivity/`. Implements the same provenance concepts as `cdifProv` and `ddicdiProv` (activities, agents, inputs/outputs, methodology, temporal bounds) but using **W3C PROV-O vocabulary** as the primary vocabulary, with schema.org fallbacks only where PROV-O has no equivalent property.
+
+**Files:**
+
+| File | Role |
+|------|------|
+| `bblock.json` | Building block metadata |
+| `schema.yaml` | YAML schema source (human-editable) |
+| `provActivitySchema.json` | JSON Schema (Draft 2020-12) |
+| `rules.shacl` | SHACL validation shapes (Activity, HowTo, HowToStep) |
+| `exampleProvActivity.json` | Example single-node document (soil chemistry scenario) |
+| `examples.yaml` | Example reference metadata |
+
+**Schema composition**: Extends `generatedBy` via `allOf` (same pattern as cdifProv). The base provides `@type` containing `prov:Activity` and `prov:used`. provActivity adds all remaining PROV-O and schema.org fallback properties on top.
+
+**Property vocabulary mapping** (PROV-O first, schema.org fallback):
+
+| Concept | provActivity property | cdifProv equivalent | Notes |
+|---------|----------------------|---------------------|-------|
+| Activity type | `prov:Activity` (single) | `["schema:Action", "prov:Activity"]` (dual) | No schema:Action needed |
+| Name | `schema:name` | `schema:name` | schema.org fallback (no PROV equivalent) |
+| Description | `schema:description` | `schema:description` | schema.org fallback |
+| Inputs | `prov:used` | `prov:used` | Same (from generatedBy base) |
+| Outputs | `prov:generated` | `schema:result` | PROV-O native (inverse of wasGeneratedBy) |
+| Agent | `prov:wasAssociatedWith` | `schema:agent` | PROV-O native |
+| Start time | `prov:startedAtTime` | `schema:startTime` | PROV-O native (xsd:dateTime) |
+| End time | `prov:endedAtTime` | `schema:endTime` | PROV-O native (xsd:dateTime) |
+| Location | `prov:atLocation` | `schema:location` | PROV-O expanded term |
+| Activity chain | `prov:wasInformedBy` | `schema:object`/`schema:result` | PROV-O native (Activity->Activity) |
+| Start trigger | `prov:wasStartedBy` | -- | PROV-O expanded term (Entity triggers Activity) |
+| End trigger | `prov:wasEndedBy` | -- | PROV-O expanded term |
+| Instrument | nested in `prov:used` via `schema:instrument` sub-key | nested in `prov:used` via `schema:instrument` sub-key | Instruments are `prov:Entity` subclasses within `prov:used` |
+| Status | `schema:actionStatus` | `schema:actionStatus` | schema.org fallback |
+| Methodology | `schema:actionProcess` | `schema:actionProcess` | schema.org fallback (PROV `hadPlan` is qualified-only) |
+| Error | `schema:error` | `schema:error` | schema.org fallback |
+
+**Schema `$defs`**: External refs to `Person`, `Organization`, `AgentInRole`, `Instrument`, `DefinedTerm`, `LabeledLink`, `SpatialExtent` (via `../../schemaorgProperties/*/schema.yaml`). Local definitions for `HowTo` and `HowToStep` (same as cdifProv).
+
+**SHACL shapes** (3 shapes, same severity pattern as cdifProv):
+- `provActivityShape` -- SPARQL-targeted on `prov:Activity` nodes (standalone or via `prov:wasGeneratedBy`). Required: `prov:used` (minCount 1), `schema:name` (minCount 1, minLength 5). Warning: `schema:description`, `prov:wasAssociatedWith`, `prov:startedAtTime`, `prov:endedAtTime`. Info: `prov:generated`, `prov:wasInformedBy`, `prov:atLocation`, `schema:instrument`, `schema:actionStatus`, `schema:actionProcess`.
+- `provActivityHowToShape` -- targetClass `schema:HowTo`. Required: `schema:name`. Warning: `schema:step`.
+- `provActivityHowToStepShape` -- targetClass `schema:HowToStep`. Required: `schema:name`. Warning: `schema:position`.
+
+**Qualified pattern deferred**: PROV-O qualified influences (`prov:qualifiedAssociation`, `prov:qualifiedUsage`, `prov:qualifiedGeneration`, etc.) are not included to keep complexity parallel with cdifProv and ddicdiProv.
+
+**PROV-O provenance chain pattern**: `Dataset --prov:wasGeneratedBy--> prov:Activity --schema:actionProcess--> schema:HowTo`. Activity chain: `prov:Activity --prov:wasInformedBy--> prov:Activity`.
+
+## Instrument building block (generic instrument)
+
+Located at `BuildingBlockSubmodule/_sources/schemaorgProperties/instrument/`. Defines a generic instrument or instrument system using `schema:Thing` as the base type, with optional `schema:Product` or domain-specific typing. Supports hierarchical instrument systems via `schema:hasPart` for sub-components.
+
+**Files:**
+
+| File | Role |
+|------|------|
+| `bblock.json` | Building block metadata |
+| `schema.yaml` | YAML schema source |
+| `instrumentSchema.json` | JSON Schema (Draft 2020-12) |
+| `exampleInstrument.json` | Example ICP-MS system with sub-components |
+| `examples.yaml` | Example reference metadata |
+
+**Key properties**: `@type` (must include `schema:Thing`), `schema:name` (required), `schema:identifier`, `schema:description`, `schema:alternateName` (specific make/model), `schema:additionalType` (domain-specific type URIs), `schema:additionalProperty` (detection limits, calibration info, etc.), `schema:hasPart` (recursive sub-components or `@id` references).
+
+**Schema `$defs`**: `Identifier` (via `../identifier/schema.yaml`), `AdditionalProperty` (via `../additionalProperty/schema.yaml`).
+
+**Instrument nesting pattern**: Instruments are not top-level Activity properties. Instead, they are nested within `prov:used` items via a `schema:instrument` sub-key, reflecting that instruments are `prov:Entity` subclasses that are "used" by an activity. Both `cdifProv` and `provActivity` building blocks include an `Instrument` $def referencing this building block. Example:
+
+```json
+"prov:used": [
+    {
+        "schema:instrument": {
+            "@type": ["schema:Thing", "schema:Product"],
+            "schema:name": "ICP-MS Analytical System",
+            "schema:hasPart": [
+                {"@type": ["schema:Thing"], "schema:name": "autosampler"},
+                {"@type": ["schema:Thing"], "schema:name": "spray chamber"}
+            ]
+        }
+    },
+    "https://vocab.example.org/method/LAB02",
+    "Sample description string"
+]
+```
+
+**XAS instrument extensions**: The `xasInstrument` building block (`xasProperties/xasInstrument/`) extends the generic instrument with required `wd:Q3099911` (scientific instrument) `schema:additionalType` and adds `schema:hasPart` referencing the generic instrument for sub-components. XAS profile schemas (`xasRequired`, `xasOptional`) validate that `prov:used` contains an instrument wrapper with specific NXsource and NXmonochromator sub-components in `schema:hasPart`.
+
+**`schema:object` replaces `schema:mainEntity`**: In xasGeneratedBy (and xasRequired/xasOptional profiles), `schema:mainEntity` has been renamed to `schema:object` for the sample being analyzed, per Ocean Info Hub recommendation. `schema:object` is the standard schema.org Action property for the input entity.
