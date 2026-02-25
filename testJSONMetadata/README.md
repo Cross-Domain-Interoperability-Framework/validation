@@ -1,6 +1,6 @@
 # CDIF Test JSON-LD Metadata
 
-77 CDIF metadata records in JSON-LD format, validated against `CDIFCompleteSchema.json`.
+77 CDIF metadata records in JSON-LD format, validated against `CDIF-graph-schema-2026.json`.
 
 ## Source
 
@@ -22,7 +22,7 @@ Files are named `metadata_10.60707-XXXX-XXXX.json` where the suffix corresponds 
 
 ## Validation
 
-All files pass validation against `CDIFCompleteSchema.json` (JSON Schema Draft 2020-12).
+All files pass validation against `CDIF-graph-schema-2026.json` (JSON Schema Draft 2020-12).
 
 To validate:
 
@@ -31,7 +31,7 @@ python -c "
 import json, os
 from jsonschema import Draft202012Validator
 
-with open('../CDIFCompleteSchema.json') as f:
+with open('../CDIF-graph-schema-2026.json') as f:
     schema = json.load(f)
 validator = Draft202012Validator(schema)
 
