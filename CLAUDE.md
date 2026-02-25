@@ -124,6 +124,20 @@ When adding new properties:
 4. If property should be array, add to `ARRAY_PROPERTIES` in `FrameAndValidate.py`
 5. Update SHACL shapes if semantic constraints needed
 
+## JSON-LD frame structure (CDIF-frame-2026.jsonld)
+
+The frame reshapes flattened JSON-LD graphs into nested trees rooted at `schema:Dataset`. Most top-level properties use simple `"@embed": "@always"` directives. The `prov:wasGeneratedBy` section is the most complex, embedding the full activity structure:
+
+- **`prov:used`** -- embeds items, including the `schema:instrument` sub-key pattern (with `schema:identifier`, `schema:additionalProperty`, and `schema:hasPart` for hierarchical instruments)
+- **`schema:agent`** -- embeds with `schema:identifier`, `schema:contactPoint`, `schema:affiliation`
+- **`schema:participant`** -- embeds with `schema:contributor`
+- **`schema:instrument`** -- top-level embed for backward compatibility with older examples
+- **`schema:actionProcess`** -- embeds with `schema:step` for HowTo methodology
+- **`schema:location`**, **`schema:object`**, **`schema:result`**, **`schema:identifier`**, **`schema:additionalProperty`** -- simple embeds
+- **`prov:generated`**, **`prov:wasAssociatedWith`** (with identifier/contactPoint/affiliation), **`prov:atLocation`**, **`prov:wasInformedBy`** -- PROV-O property embeds for provActivity building block
+
+Other notable frame sections: `schema:distribution` embeds `schema:hasPart` for archive sub-files with physical mappings, `schema:creator`/`schema:contributor` embed affiliations and identifiers, and `schema:subjectOf` filters on `@type: schema:Dataset` for metadata-about-metadata records.
+
 ## ConvertToROCrate.py / ValidateROCrate.py architecture
 
 Conversion and validation are split into two modules:
