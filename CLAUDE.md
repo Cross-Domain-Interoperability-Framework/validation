@@ -31,6 +31,7 @@ This repository contains validation tools for **CDIF (Cross-Domain Interoperabil
 | `CDIFtoCroissant.md` | Documents the CDIF-to-Croissant mapping, converter code, and gaps |
 | `CDIF-Discovery-Core-Shapes2.ttl` | SHACL shapes for semantic validation |
 | `ShaclValidation/ShaclJSONLDContext.py` | SHACL validation script |
+| `CDIF-Provenance-Building-Blocks-Comparison.md` | Comparison of three provenance activity building blocks (cdifProv, provActivity, ddicdiProv) |
 
 ## Common commands
 
@@ -190,6 +191,16 @@ The [ODIS provenance recommendations](https://github.com/iodepo/odis-arch/blob/4
 There is no schema.org property that maps to `prov:wasGeneratedBy` (linking an Entity to the Activity that produced it). Schema.org has `schema:result` (Action→Entity, forward direction) but nothing in the reverse direction. CDIF retains `prov:wasGeneratedBy` from PROV-O for this purpose.
 
 **CDIF provenance chain pattern**: `Dataset --prov:wasGeneratedBy--> {"@type": ["schema:Action", "prov:Activity"]} --schema:actionProcess--> schema:HowTo`. Activity nodes are multi-typed to get both PROV linkage and schema.org Action properties (`agent`, `object`, `result`, `startTime`, `endTime`, `actionStatus`, `location`, `participant`). Instruments are nested within `prov:used` items via a `schema:instrument` sub-key, since instruments are `prov:Entity` subclasses that are "used" by an activity.
+
+## Provenance building blocks comparison
+
+`CDIF-Provenance-Building-Blocks-Comparison.md` documents and compares the three building blocks for describing activities (the value of `prov:wasGeneratedBy`):
+
+- **cdifProv** (schema.org-first) -- dual-typed `["schema:Action", "prov:Activity"]`, uses schema.org properties (`agent`, `object`, `result`, `startTime`, `location`, `actionProcess`). Primary CDIF recommendation, aligned with [ODIS provenance recommendations](https://github.com/iodepo/odis-arch/blob/414-update-provenance-recommendations/book/thematics/provenance/common-provenance-cases.md).
+- **provActivity** (PROV-O-first) -- single-typed `["prov:Activity"]`, uses PROV-O properties (`wasAssociatedWith`, `generated`, `startedAtTime`, `atLocation`, `wasInformedBy`) with schema.org fallbacks for gaps.
+- **ddicdiProv** (DDI-CDI native) -- `cdi:Activity` with separate graph nodes for Steps, Parameters, ProcessingAgent, ProductionEnvironment. Multi-node `@graph` serialization.
+
+The comparison includes property mappings, benefits/challenges, usage recommendations, and links to resolved schemas and examples on GitHub. All three share a common soil chemistry analysis scenario for direct comparison.
 
 ## ddicdiProv building block (DDI-CDI native provenance)
 
