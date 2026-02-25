@@ -108,7 +108,7 @@ ddicdiProv uses `cdi:has_Step` to reference separate `cdi:Step` graph nodes, eac
 
 cdifProv and provActivity produce a single JSON object that can be embedded inline as the value of `prov:wasGeneratedBy` on a Dataset node, or placed as a separate node in a `@graph` array with an `@id` reference from the Dataset.
 
-ddicdiProv produces a multi-node `@graph` document with separate nodes for the Activity, each Step, each Parameter, the ProcessingAgent, and the ProductionEnvironment. These nodes cross-reference each other via `@id`. This makes ddicdiProv more verbose but enables richer querying of individual workflow components.
+ddicdiProv produces a multi-node `@graph` document with separate nodes for the Activity, each Step, each Parameter, the ProcessingAgent, and the ProductionEnvironment. These nodes cross-reference each other via `@id`. This makes ddicdiProv more verbose but enables richer querying of individual workflow components. Note that the serialization could be implemented using a hierarchical structure as well.
 
 **cdifProv / provActivity** (single node, ~77 lines):
 ```
@@ -155,8 +155,6 @@ ddicdiProv is a standalone schema with its own `$defs` section (15 type definiti
 **Challenges:**
 - `schema:actionProcess` is present on the schema.org website (V29.4+) but has not yet appeared in the downloadable RDF vocabulary files, which may cause issues for strict RDF validators
 - Dual typing adds a concept (`schema:Action`) that is less familiar to provenance specialists
-- No explicit data-flow modeling between steps (inputs/outputs of individual steps are not tracked)
-- Agents are limited to a single `schema:agent` (plus `schema:participant` array), rather than the richer qualified associations of full PROV-O
 
 ### provActivity
 
