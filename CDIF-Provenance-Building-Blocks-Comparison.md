@@ -68,9 +68,8 @@ The table below shows how each provenance concept maps across the three building
 | **Start time** | `schema:startTime` | `prov:startedAtTime` | Not expressible |
 | **End time** | `schema:endTime` | `prov:endedAtTime` | Not expressible |
 | **Location** | `schema:location` | `prov:atLocation` | Separate `cdi:ProductionEnvironment` node |
-| **Activity chain** | `schema:object` / `schema:result` | `prov:wasInformedBy` | `cdi:hasSubActivity`, `cdi:has_Step` |
+| **Action chain / data flow** | `schema:object` / `schema:result` | `prov:wasInformedBy` | `cdi:receives` / `cdi:produces` -> `cdi:Parameter` nodes; `cdi:hasSubActivity` |
 | **Status** | `schema:actionStatus` | `schema:actionStatus` (fallback) | Not expressible |
-| **Data flow** | Not explicit | Not explicit | `cdi:receives` / `cdi:produces` -> `cdi:Parameter` nodes |
 | **Error** | `schema:error` | `schema:error` (fallback) | Not expressible |
 | **Start trigger** | -- | `prov:wasStartedBy` | -- |
 | **End trigger** | -- | `prov:wasEndedBy` | -- |
