@@ -1212,35 +1212,6 @@
                         ]
                     }
                 },
-                "schema:instrument": {
-                    "description": "Tools, software, sensors, or instruments used in this activity",
-                    "type": "array",
-                    "items": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/$defs/type-DefinedTerm"
-                            },
-                            {
-                                "$ref": "#/$defs/type-CreativeWork"
-                            },
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "object",
-                                "properties": {
-                                    "@id": {
-                                        "type": "string",
-                                        "description": "reference to an instrument defined elsewhere"
-                                    }
-                                }
-                            },
-                            {
-                                "$ref": "#/$defs/id-reference"
-                            }
-                        ]
-                    }
-                },
                 "schema:object": {
                     "description": "Input entity for this activity (for action chaining)",
                     "anyOf": [
@@ -3119,6 +3090,102 @@
                     "type": "number"
                 }
             }
+        },
+        "type-Activity--Instrument": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "title": "Generic Instrument",
+            "description": "A generic instrument or instrument system. Uses schema:Thing as base type with optional schema:Product typing. Supports hierarchical instrument systems via schema:hasPart for sub-components.",
+            "type": "object",
+            "properties": {
+                "@type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "minItems": 1,
+                    "contains": {
+                        "const": "schema:Thing"
+                    },
+                    "description": "Must include schema:Thing. May also include schema:Product or domain-specific types."
+                },
+                "@id": {
+                    "type": "string"
+                },
+                "schema:name": {
+                    "type": "string",
+                    "description": "Human-readable name for this instrument"
+                },
+                "schema:identifier": {
+                    "description": "Formal identifier for this instrument",
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "$ref": "#/$defs/type-Identifier"
+                        }
+                    ]
+                },
+                "schema:description": {
+                    "type": "string",
+                    "description": "Text description of this instrument"
+                },
+                "schema:alternateName": {
+                    "type": "string",
+                    "description": "Alternate name, e.g. specific make/model"
+                },
+                "schema:additionalType": {
+                    "description": "Domain-specific type URIs for this instrument",
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    ]
+                },
+                "schema:additionalProperty": {
+                    "type": "array",
+                    "description": "Domain-specific properties (detection limits, calibration info, etc.)",
+                    "items": {
+                        "$ref": "#/$defs/type-PropertyValue"
+                    }
+                },
+                "schema:hasPart": {
+                    "type": "array",
+                    "description": "Sub-components of this instrument system",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#"
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "@id": {
+                                        "type": "string",
+                                        "description": "reference to a sub-component defined elsewhere"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "schema:name"
+            ],
+            "allOf": [
+                {
+                    "required": [
+                        "@type"
+                    ]
+                }
+            ]
         },
         "type-Activity--HowTo": {
             "type": "object",

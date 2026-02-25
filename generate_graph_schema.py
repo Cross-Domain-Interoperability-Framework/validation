@@ -1555,42 +1555,52 @@ def promote_internal_defs(defs):
     When a type definition has its own $defs (e.g., type-Action has target_type),
     those must be promoted to the root $defs with qualified names, and all
     internal refs rewritten accordingly.
-    """
-    promoted = {}
-    for type_name, type_schema in list(defs.items()):
-        if not isinstance(type_schema, dict):
-            continue
-        internal_defs = type_schema.get("$defs", {})
-        if not internal_defs:
-            continue
 
-        # Build a mapping from old refs to new qualified names
-        ref_mapping = {}
-        for def_name, def_schema in list(internal_defs.items()):
-            # Skip defs that are already just redirects to root-level type defs
-            if (isinstance(def_schema, dict) and "$ref" in def_schema
-                    and def_schema["$ref"].startswith("#/$defs/type-")):
-                # This is already pointing to a root type; just rewrite refs to it
-                ref_mapping[f"#/$defs/{def_name}"] = def_schema["$ref"]
+    Runs iteratively until no more internal $defs remain, handling cases where
+    promoted defs themselves contain $defs (e.g., instrument building block
+    promoted from type-Activity has its own Identifier/AdditionalProperty $defs).
+    """
+    changed = True
+    while changed:
+        changed = False
+        promoted = {}
+        for type_name, type_schema in list(defs.items()):
+            if not isinstance(type_schema, dict):
+                continue
+            internal_defs = type_schema.get("$defs", {})
+            if not internal_defs:
                 continue
 
-            qualified_name = f"{type_name}--{def_name}"
-            ref_mapping[f"#/$defs/{def_name}"] = f"#/$defs/{qualified_name}"
-            promoted[qualified_name] = def_schema
+            changed = True
 
-        # Remove the internal $defs from the type schema
-        del type_schema["$defs"]
+            # Build a mapping from old refs to new qualified names
+            ref_mapping = {}
+            for def_name, def_schema in list(internal_defs.items()):
+                # Skip defs that are already just redirects to root-level type defs
+                if (isinstance(def_schema, dict) and "$ref" in def_schema
+                        and def_schema["$ref"].startswith("#/$defs/type-")):
+                    # This is already pointing to a root type; just rewrite refs to it
+                    ref_mapping[f"#/$defs/{def_name}"] = def_schema["$ref"]
+                    continue
 
-        # Rewrite all refs within this type schema
-        _replace_refs(type_schema, ref_mapping)
+                qualified_name = f"{type_name}--{def_name}"
+                ref_mapping[f"#/$defs/{def_name}"] = f"#/$defs/{qualified_name}"
+                promoted[qualified_name] = def_schema
 
-        # Also rewrite refs within the promoted defs themselves
-        for qname, qschema in promoted.items():
-            if qname.startswith(f"{type_name}--"):
-                _replace_refs(qschema, ref_mapping)
+            # Remove the internal $defs from the type schema
+            del type_schema["$defs"]
 
-    # Add all promoted defs to root
-    defs.update(promoted)
+            # Rewrite all refs within this type schema
+            _replace_refs(type_schema, ref_mapping)
+
+            # Also rewrite refs within the promoted defs themselves
+            for qname, qschema in promoted.items():
+                if qname.startswith(f"{type_name}--"):
+                    _replace_refs(qschema, ref_mapping)
+
+        # Add all promoted defs to root
+        defs.update(promoted)
+
     return defs
 
 
