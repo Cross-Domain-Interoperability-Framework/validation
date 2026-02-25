@@ -172,6 +172,7 @@ Converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissa
   - `nwis-water-quality-longdata.json` — NWIS water quality long data example using `cdi:LongStructureDataSet` with 20 CSV column variables (DescriptorComponent, ReferenceValueComponent, DimensionComponent, AttributeComponent roles) and 5 MeasureComponent domain variables. Validates against graph schema; framed schema validation has expected failures (no LongStructureDataSet branch in framed schema yet).
   - `prov-ocean-temp-example.json` — Extended provenance example demonstrating `cdifProv` building block features: action chaining (QC activity → compilation activity via `schema:object`/`schema:result`), multi-typed activities (`["schema:Action", "prov:Activity"]`), agents with Role wrappers, inline `schema:HowTo` methodology via `schema:actionProcess` with 3 steps, diverse instruments (DefinedTerm, CreativeWork, strings), facility location (WHOI — `schema:location` is where the activity was performed, not spatial coverage of the data), and backward-compatible `prov:used`.
 - `BuildingBlockSubmodule/_sources/cdifProperties/cdifProv/exampleCdifProv.json` — Single-node building block example: soil chemistry analysis activity (`["schema:Action", "prov:Activity"]`) with agent (Person with ORCID), instrument (DefinedTerm ICP-MS with `schema:alternateName` for specific model and `schema:additionalProperty` detection limit), `prov:used` array (vocab URI, sample description string, CreativeWork EPA Method 6200), action chaining (`schema:object`/`schema:result`), `schema:actionProcess` HowTo with 2 steps, facility location (Nevada Bureau of Mines), and temporal bounds. Companion `rules.shacl` provides SHACL validation shapes.
+- `BuildingBlockSubmodule/_sources/ddiProperties/ddicdiProv/exampleDdicdiProv.json` — Multi-node `@graph` document: same soil chemistry analysis scenario expressed in DDI-CDI vocabulary. Contains 8 graph nodes: `cdi:Activity` with `entityUsed`/`entityProduced` References and `has_Step` refs, 2 `cdi:Step` nodes with `script` (CommandCode/CommandFile) and `receives`/`produces` Parameter refs, 3 `cdi:Parameter` nodes with `entityBound` References, `cdi:ProcessingAgent` with ORCID identifier and `performs`/`operatesOn` links, `cdi:ProductionEnvironment` for the lab facility. Companion `rules.shacl` provides SHACL validation shapes.
 - `../integrationPublic/exampleMetadata/CDIF2026/` - 2026 schema examples
 - `../integrationPublic/LongData/` - Long data CSV and older (pre-2026) long data metadata examples
 
@@ -188,3 +189,39 @@ The [ODIS provenance recommendations](https://github.com/iodepo/odis-arch/blob/4
 There is no schema.org property that maps to `prov:wasGeneratedBy` (linking an Entity to the Activity that produced it). Schema.org has `schema:result` (Action→Entity, forward direction) but nothing in the reverse direction. CDIF retains `prov:wasGeneratedBy` from PROV-O for this purpose.
 
 **CDIF provenance chain pattern**: `Dataset --prov:wasGeneratedBy--> {"@type": ["schema:Action", "prov:Activity"]} --schema:actionProcess--> schema:HowTo`. Activity nodes are multi-typed to get both PROV linkage and schema.org Action properties (`agent`, `instrument`, `object`, `result`, `startTime`, `endTime`, `actionStatus`, `location`, `participant`).
+
+## ddicdiProv building block (DDI-CDI native provenance)
+
+Located at `BuildingBlockSubmodule/_sources/ddiProperties/ddicdiProv/`. Implements the same provenance concepts as `cdifProv` (activities, agents, inputs/outputs, steps, instruments) but using **DDI-CDI vocabulary** natively, for communities already using that standard. Based on the BBeuster EU-SoGreen-Prov example pattern.
+
+**Files:**
+
+| File | Role |
+|------|------|
+| `bblock.json` | Building block metadata |
+| `schema.yaml` | YAML schema source (human-editable) |
+| `ddicdiProvSchema.json` | JSON Schema (Draft 2020-12) |
+| `resolvedSchema.json` | Fully resolved schema (all `$ref` inlined, circular refs marked with `$comment`) |
+| `rules.shacl` | SHACL validation shapes (Activity, Step, ProcessingAgent) |
+| `exampleDdicdiProv.json` | Example `@graph` document (soil chemistry scenario) |
+| `examples.yaml` | Example reference metadata |
+
+**Key differences from cdifProv:**
+
+| Aspect | cdifProv | ddicdiProv |
+|--------|----------|------------|
+| Activity type | `["schema:Action", "prov:Activity"]` | `cdi:Activity` |
+| Inputs/outputs | `prov:used`, `schema:result` | `cdi:entityUsed`, `cdi:entityProduced` (References) |
+| Agent | `schema:agent` (inline Person/Org) | Separate `cdi:ProcessingAgent` node with `cdi:performs` |
+| Methodology | `schema:actionProcess` → HowTo/Steps | `cdi:has_Step` → separate Step nodes with `cdi:script` (CommandCode) |
+| Data flow | Not explicit | `cdi:receives`/`cdi:produces` → Parameter nodes |
+| Temporal bounds | `schema:startTime`/`endTime` | Not expressible (DDI-CDI gap) |
+| Location | `schema:location` | Not expressible (DDI-CDI gap) |
+| Status | `schema:actionStatus` | Not expressible (DDI-CDI gap) |
+| Serialization | Single-node tree | Multi-node `@graph` document |
+
+**Schema `$defs`** (15 definitions): `id-reference`, `ObjectName`, `LabelForDisplay`, `LanguageString`, `Identifier`, `InternationalRegistrationDataIdentifier`, `NonDdiIdentifier`, `Reference`, `Step`, `CommandCode`, `Command`, `CommandFile`, `ControlledVocabularyEntry`, `Parameter`, `ProcessingAgent`, `ProductionEnvironment`.
+
+**Schema pattern for graph links**: Properties referencing other graph nodes use `anyOf [inline-typed-object, id-reference]` — e.g., `cdi:has_Step` accepts either an inline Step object or an `{"@id": "..."}` reference. Self-referencing properties (`cdi:hasSubActivity`, `cdi:performs`) use `$ref: "#"` to point back to the root Activity schema.
+
+**DDI-CDI provenance chain pattern**: `Dataset --prov:wasGeneratedBy--> cdi:Activity --cdi:has_Step--> cdi:Step --cdi:receives/cdi:produces--> cdi:Parameter`. Agent linkage is inverted: `cdi:ProcessingAgent --cdi:performs--> cdi:Activity`.
