@@ -82,6 +82,7 @@
 
     "schema:funding": {
         "@embed": "@always",
+        "schema:name": {},
         "schema:funder": {
             "@embed": "@always",
             "schema:identifier": {"@embed": "@always"}
@@ -160,6 +161,21 @@
             },
             "schema:query-input": {
                 "@embed": "@always"
+            }
+        },
+        "schema:hasPart": {
+            "@embed": "@always",
+            "schema:name": {},
+            "schema:contentUrl": {},
+            "schema:description": {},
+            "schema:encodingFormat": {},
+            "cdi:fileSize": {},
+            "cdi:fileSizeUofM": {},
+            "spdx:checksum": {"@embed": "@always"},
+            "dcterms:conformsTo": {"@embed": "@always"},
+            "cdi:hasPhysicalMapping": {
+                "@embed": "@always",
+                "cdi:formats_InstanceVariable": {"@embed": "@always"}
             }
         },
         "schema:serviceType": {},
@@ -241,6 +257,7 @@
         "@embed": "@always",
         "@type": "schema:Dataset",
         "schema:about": {"@embed": "@always"},
+        "schema:sdDatePublished": {},
         "dcterms:conformsTo": {
             "@embed": "@always"
         },
