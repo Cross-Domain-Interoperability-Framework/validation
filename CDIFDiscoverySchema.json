@@ -326,8 +326,8 @@
                         "const": "schema:MonetaryGrant"
                     },
                     "schema:identifier": {
-                        "type": "string",
-                        "description": "string that identifies a particular grant"
+                        "$ref": "#/$defs/identifier_type",
+                        "description": "identifier for a particular grant"
                     },
                     "schema:name": {
                         "type": "string",
@@ -375,19 +375,20 @@
             }
         },
         "schema:measurementTechnique": {
-            "type": "object",
-            "description": "A text description of the measurement method used to determine values for this variable. If standard measurement protocols are defined and registered, these can be identified via http URI's. Note that if diefferent techniques are used for different variables, measurementTechnique can also be assigned in the InstanceVariables in variableMeasured.",
-            "properties": {
-                "@type": {
-                    "const": "schema:DefinedTerm"
-                },
-                "schema:name": {
-                    "type": "string"
-                },
-                "schema:identifier": {
-                    "type": "string"
+            "anyOf": [
+                {"type": "string"},
+                {"$ref": "#/$defs/definedTerm_type"},
+                {
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {"type": "string"},
+                            {"$ref": "#/$defs/definedTerm_type"}
+                        ]
+                    }
                 }
-            }
+            ],
+            "description": "A text description of the measurement method used to determine values for this variable. If standard measurement protocols are defined and registered, these can be identified via http URI's. Note that if diefferent techniques are used for different variables, measurementTechnique can also be assigned in the InstanceVariables in variableMeasured."
         },
         "schema:relatedLink": {
             "type": "array",
@@ -400,7 +401,10 @@
                         "const": "schema:LinkRole"
                     },
                     "schema:linkRelationship": {
-                        "type": "string"
+                        "anyOf": [
+                            {"$ref": "#/$defs/definedTerm_type"},
+                            {"type": "string"}
+                        ]
                     },
                     "schema:target": {
                         "type": "object",
@@ -594,7 +598,13 @@
                 "@type": {
                     "type": "string",
                     "default": "schema:Action",
-                    "const": "schema:Action"
+                    "enum": [
+                        "schema:Action",
+                        "schema:SearchAction",
+                        "schema:CreateAction",
+                        "schema:MoveAction",
+                        "schema:UpdateAction"
+                    ]
                 },
                 "schema:name": {
                     "type": "string",

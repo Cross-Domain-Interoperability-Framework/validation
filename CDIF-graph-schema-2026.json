@@ -739,9 +739,15 @@
             "properties": {
                 "@type": {
                     "type": "string",
-                    "description": "TBD, recognize other actions, e.g. SearchAction, UpdateAction..., others?",
+                    "description": "The type of action. Use schema:Action for a generic action, or a more specific subclass.",
                     "default": "schema:Action",
-                    "const": "schema:Action"
+                    "enum": [
+                        "schema:Action",
+                        "schema:SearchAction",
+                        "schema:CreateAction",
+                        "schema:MoveAction",
+                        "schema:UpdateAction"
+                    ]
                 },
                 "schema:name": {
                     "type": "string",
@@ -1112,9 +1118,15 @@
                     },
                     "minItems": 2,
                     "contains": {
-                        "const": "schema:Action"
+                        "enum": [
+                            "schema:Action",
+                            "schema:SearchAction",
+                            "schema:CreateAction",
+                            "schema:MoveAction",
+                            "schema:UpdateAction"
+                        ]
                     },
-                    "description": "Must include both schema:Action and prov:Activity (prov:Activity required by base generatedBy schema)"
+                    "description": "Must include both an Action type and prov:Activity (prov:Activity required by base generatedBy schema)"
                 },
                 "prov:used": {
                     "type": "array",
@@ -3705,12 +3717,24 @@
                             "@type": {
                                 "anyOf": [
                                     {
-                                        "const": "schema:Action"
+                                        "enum": [
+                                            "schema:Action",
+                                            "schema:SearchAction",
+                                            "schema:CreateAction",
+                                            "schema:MoveAction",
+                                            "schema:UpdateAction"
+                                        ]
                                     },
                                     {
                                         "type": "array",
                                         "contains": {
-                                            "const": "schema:Action"
+                                            "enum": [
+                                                "schema:Action",
+                                                "schema:SearchAction",
+                                                "schema:CreateAction",
+                                                "schema:MoveAction",
+                                                "schema:UpdateAction"
+                                            ]
                                         }
                                     }
                                 ]
