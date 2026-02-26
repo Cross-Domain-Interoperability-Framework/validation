@@ -81,8 +81,8 @@ BB_REF_MAP = {
     "agentInRoleSchema.json": "type-Role",
     "variableMeasured": "type-InstanceVariable",
     "variableMeasuredSchema.json": "type-InstanceVariable",
-    "metaMetadata": "type-CatalogRecord",
-    "metaMetadataSchema.json": "type-CatalogRecord",
+    "cdifCatalogRecord": "type-CatalogRecord",
+    "cdifCatalogRecordSchema.json": "type-CatalogRecord",
     "additionalProperty": "type-PropertyValue",
     "additionalPropertySchema.json": "type-PropertyValue",
     "generatedBy": "type-Activity",
@@ -979,9 +979,9 @@ def build_type_instance_variable(loader, bb_dir):
 
 
 def build_type_catalog_record(loader, bb_dir):
-    """Build type-CatalogRecord from metaMetadata with @type changed to dcat:CatalogRecord."""
-    schema = loader.load("schemaorgProperties/metaMetadata/metaMetadataSchema.json")
-    base_dir = bb_dir / "schemaorgProperties" / "metaMetadata"
+    """Build type-CatalogRecord from cdifCatalogRecord with @type changed to dcat:CatalogRecord."""
+    schema = loader.load("cdifProperties/cdifCatalogRecord/cdifCatalogRecordSchema.json")
+    base_dir = bb_dir / "cdifProperties" / "cdifCatalogRecord"
     schema = resolve_and_transform(schema, base_dir, loader)
     schema = flatten_local_defs(schema)
     schema = strip_schema_key(schema)

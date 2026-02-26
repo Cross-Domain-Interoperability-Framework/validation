@@ -1817,6 +1817,17 @@
                     "type": "string",
                     "const": "dcat:CatalogRecord"
                 },
+                "schema:additionalType": {
+                    "type": "array",
+                    "description": "additional type assertions for the catalog record node. dcat:CatalogRecord is required.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "dcat:CatalogRecord"
+                    },
+                    "minItems": 1
+                },
                 "@id": {
                     "type": "string",
                     "description": "identifier for the metadata record"
@@ -1895,6 +1906,7 @@
             "required": [
                 "schema:about",
                 "dcterms:conformsTo",
+                "schema:additionalType",
                 "@type",
                 "@id"
             ]
@@ -3717,24 +3729,12 @@
                             "@type": {
                                 "anyOf": [
                                     {
-                                        "enum": [
-                                            "schema:Action",
-                                            "schema:SearchAction",
-                                            "schema:CreateAction",
-                                            "schema:MoveAction",
-                                            "schema:UpdateAction"
-                                        ]
+                                        "const": "schema:Action"
                                     },
                                     {
                                         "type": "array",
                                         "contains": {
-                                            "enum": [
-                                                "schema:Action",
-                                                "schema:SearchAction",
-                                                "schema:CreateAction",
-                                                "schema:MoveAction",
-                                                "schema:UpdateAction"
-                                            ]
+                                            "const": "schema:Action"
                                         }
                                     }
                                 ]

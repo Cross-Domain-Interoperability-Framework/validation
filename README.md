@@ -629,7 +629,7 @@ The generator applies these transformations when reading building block source s
 
 1. **External `$ref` resolution** -- Cross-building-block `$ref`s (e.g., `../person/schema.yaml`) are resolved to internal `#/$defs/type-X` references
 2. **`anyOf` alternatives** -- Properties that reference other building block types get `anyOf [type-ref, id-reference]` so they accept either inline objects or `@id` cross-references
-3. **`@type` disambiguation** -- Composite types get additional type markers for dispatch (e.g., metaMetadata becomes `dcat:CatalogRecord`, identifier adds `cdi:Identifier`)
+3. **`@type` disambiguation** -- Composite types get additional type markers for dispatch (e.g., cdifCatalogRecord becomes `dcat:CatalogRecord`, identifier adds `cdi:Identifier`)
 4. **`@context` stripping** -- Context declarations are removed from non-root types (the `@context` goes on the root-graph wrapper only)
 5. **Composite type assembly** -- Complex types like `type-Dataset` merge mandatory + optional building blocks; `type-StructuredDataSet`/`type-TabularTextDataSet`/`type-LongStructureDataSet` compose dataDownload + CDI extensions
 6. **Extended provenance** -- `type-Activity` built from `cdifProv` building block, requiring multi-typed `@type: ["schema:Action", "prov:Activity"]`, merging base `generatedBy` properties (`prov:used`) with schema.org Action properties (`schema:agent`, `schema:actionProcess`, etc.). Instruments are nested within `prov:used` items via `schema:instrument` sub-key (instruments are `prov:Entity` subclasses). `type-HowTo` and `type-Claim` added as new dispatch types for methodology and assertion objects

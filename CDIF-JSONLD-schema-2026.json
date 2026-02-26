@@ -384,8 +384,17 @@
             "description": "see https://github.com/Cross-Domain-Interoperability-Framework/Discovery/issues/13 for discussion on how to make assertion about the sample registration and metadata distinct from statements about the physical object",
             "properties": {
                 "@type": {
-                    "type": "string",
-                    "const": "schema:Dataset"
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "contains": {"const": "schema:Dataset"},
+                    "minItems": 1
+                },
+                "schema:additionalType": {
+                    "type": "array",
+                    "description": "additional type assertions for the catalog record node. dcat:CatalogRecord is required.",
+                    "items": {"type": "string"},
+                    "contains": {"const": "dcat:CatalogRecord"},
+                    "minItems": 1
                 },
                 "@id": {
                     "type": "string",
@@ -454,6 +463,7 @@
             "required": [
                 "schema:about",
                 "dcterms:conformsTo",
+                "schema:additionalType",
                 "@type",
                 "@id"
             ]

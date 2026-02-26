@@ -94,7 +94,7 @@ pip install mlcroissant
 **Key transformations from source schemas**:
 1. External `$ref`s between building blocks resolved to `#/$defs/type-X` references
 2. Properties referencing other building block types get `anyOf [type-ref, id-reference]` alternatives
-3. `@type` modified for dispatch disambiguation (e.g., metaMetadata becomes `dcat:CatalogRecord`, identifier adds `cdi:Identifier`)
+3. `@type` modified for dispatch disambiguation (e.g., cdifCatalogRecord becomes `dcat:CatalogRecord`, identifier adds `cdi:Identifier`)
 4. `@context` stripped from non-root types (goes on root-graph wrapper only)
 5. Composite types assembled: type-Dataset merges mandatory + optional, type-StructuredDataSet/TabularTextDataSet/LongStructureDataSet compose dataDownload + CDI extensions
 6. type-Activity built from cdifProv building block (extended provenance with schema.org Action properties), requiring multi-typed `@type: ["schema:Action", "prov:Activity"]`, merging base generatedBy properties (`prov:used`) with extended properties (`schema:agent`, `schema:actionProcess`, etc.). Instruments are nested within `prov:used` items via `schema:instrument` sub-key (instruments are `prov:Entity` subclasses).

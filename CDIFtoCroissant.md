@@ -167,7 +167,7 @@ These CDIF properties are preserved verbatim in the output with their namespace 
 | `schema:temporalCoverage` | schema.org | Time period covered by the dataset |
 | `schema:measurementTechnique` | schema.org | Analytical technique (as DefinedTerm with termCode) |
 | `schema:contributor` | schema.org | Contributors with roles (CDIF uses `schema:Role` wrapper) |
-| `schema:subjectOf` | schema.org | CDIF metaMetadata: catalog record with `dcterms:conformsTo` profile URIs |
+| `schema:subjectOf` | schema.org | CDIF catalog record (dcat:CatalogRecord) with `dcterms:conformsTo` profile URIs |
 
 These properties are not part of the Croissant vocabulary but do not break `mlcroissant` validation. They are valid JSON-LD with resolvable namespace IRIs, so Croissant consumers simply ignore them while CDIF-aware tools can still read them.
 
