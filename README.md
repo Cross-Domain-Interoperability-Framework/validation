@@ -503,7 +503,8 @@ If you prefer to author metadata without namespace prefixes (e.g., `name` instea
     "url": "https://example.org/data/123",
     "license": "https://creativecommons.org/licenses/by/4.0/",
     "subjectOf": {
-        "@type": "Dataset",
+        "@type": ["Dataset"],
+        "additionalType": ["dcat:CatalogRecord"],
         "sdDatePublished": "2024-01-15"
     }
 }
@@ -543,7 +544,7 @@ The schema validates CDIF Discovery profile metadata with the following required
 - `schema:name` - Resource name (min 5 characters)
 - `schema:identifier` - Primary identifier
 - `schema:dateModified` - Last modification date
-- `schema:subjectOf` - Metadata about the metadata record
+- `schema:subjectOf` - Metadata about the metadata record (requires `@type` containing `schema:Dataset` and `schema:additionalType` containing `dcat:CatalogRecord`)
 - Either `schema:url` or `schema:distribution` - Access information
 - Either `schema:license` or `schema:conditionsOfAccess` - Usage terms
 
