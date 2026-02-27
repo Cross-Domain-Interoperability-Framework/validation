@@ -5,7 +5,7 @@
 This repository provides validation tools for **CDIF (Cross-Domain Interoperability Framework)** JSON-LD metadata documents describing scientific datasets. CDIF metadata uses vocabularies from schema.org, DDI-CDI, CSVW, PROV-O, and DQV.
 
 Validation is performed at three levels:
-- **JSON Schema** (structural) -- `FrameAndValidate.py` frames JSON-LD into trees, then validates against `CDIF-JSONLD-schema-2026.json`
+- **JSON Schema** (structural) -- `FrameAndValidate.py` frames JSON-LD into trees, then validates against `CDIFCompleteSchema.json` (or `CDIFDiscoverySchema.json`)
 - **SHACL** (semantic) -- `ShaclValidation/ShaclJSONLDContext.py` validates RDF graphs against SHACL shapes
 - **RO-Crate** (structural) -- `ValidateROCrate.py` converts to RO-Crate and checks structural requirements
 - **Batch** -- `batch_validate.py` runs both JSON Schema and SHACL validation across multiple file groups (testJSONMetadata, cdifbook examples, CDIF profiles, ADA profiles)
@@ -108,9 +108,11 @@ python generate_shacl_shapes.py
 Building block _sources/
   *.Schema.json ──> generate_graph_schema.py ──> CDIF-graph-schema-2026.json
   rules.shacl   ──> generate_shacl_shapes.py ──> CDIF-Discovery-Core-Shapes.ttl
+                                              ──> CDIF-Complete-Shapes.ttl
 
-CDIF-frame-2026.jsonld + CDIF-JSONLD-schema-2026.json ──> FrameAndValidate.py
-CDIF-Discovery-Core-Shapes.ttl ──> ShaclValidation/ShaclJSONLDContext.py
+CDIF-frame-2026.jsonld + CDIFCompleteSchema.json ──> FrameAndValidate.py
+CDIF-Discovery-Core-Shapes.ttl   ──> ShaclValidation/ShaclJSONLDContext.py
+CDIF-Complete-Shapes.ttl         ──> generate_shacl_report.py
 
 batch_validate.py ──> FrameAndValidate.py (JSON Schema)
                   ──> ShaclValidation/ShaclJSONLDContext.py (SHACL)

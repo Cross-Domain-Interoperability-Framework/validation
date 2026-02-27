@@ -31,7 +31,7 @@ REM Default settings
 set "INPUT_FILE="
 set "SAVE_FRAMED=0"
 set "USE_LEGACY=0"
-set "SCHEMA=%SCRIPT_DIR%CDIF-JSONLD-schema-2026.json"
+set "SCHEMA=%SCRIPT_DIR%CDIFCompleteSchema.json"
 set "FRAME=%SCRIPT_DIR%CDIF-frame-2026.jsonld"
 
 REM Parse arguments
@@ -45,7 +45,7 @@ if /i "%~1"=="--framed" (
 if /i "%~1"=="--legacy" (
     set "USE_LEGACY=1"
     set "SCHEMA=%SCRIPT_DIR%CDIF-JSONLD-schema-schemaprefix.json"
-    set "FRAME=%SCRIPT_DIR%CDIF-frame.jsonld"
+    set "FRAME=%SCRIPT_DIR%archive\CDIF-frame.jsonld"
     shift
     goto :parse_args
 )

@@ -277,17 +277,17 @@ Examples:
   python FrameAndValidate.py my-metadata.jsonld --frame CDIF-frame-2026.jsonld -o framed.json
 
   # Validate against 2026 schema
-  python FrameAndValidate.py my-metadata.jsonld --frame CDIF-frame-2026.jsonld -v --schema CDIF-JSONLD-schema-2026.json
+  python FrameAndValidate.py my-metadata.jsonld --frame CDIF-frame-2026.jsonld -v --schema CDIFCompleteSchema.json
 
   # Full workflow with 2026 files
-  python FrameAndValidate.py my-metadata.jsonld --frame CDIF-frame-2026.jsonld -o framed.json -v --schema CDIF-JSONLD-schema-2026.json
+  python FrameAndValidate.py my-metadata.jsonld --frame CDIF-frame-2026.jsonld -o framed.json -v --schema CDIFCompleteSchema.json
 """
     )
     parser.add_argument('input', help='Input JSON-LD file to process')
     parser.add_argument('-o', '--output', help='Write framed output to file')
     parser.add_argument('-v', '--validate', action='store_true', help='Validate against JSON Schema')
-    parser.add_argument('--schema', default=str(SCRIPT_DIR / 'CDIF-JSONLD-schema-2026.json'),
-                        help='Path to JSON Schema (default: CDIF-JSONLD-schema-2026.json)')
+    parser.add_argument('--schema', default=str(SCRIPT_DIR / 'CDIFCompleteSchema.json'),
+                        help='Path to JSON Schema (default: CDIFCompleteSchema.json)')
     parser.add_argument('--frame', default=str(SCRIPT_DIR / 'CDIF-frame-2026.jsonld'),
                         help='Path to JSON-LD frame (default: CDIF-frame-2026.jsonld)')
 

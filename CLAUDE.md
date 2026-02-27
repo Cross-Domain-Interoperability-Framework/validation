@@ -8,7 +8,7 @@ This repository contains validation tools for **CDIF (Cross-Domain Interoperabil
 
 - **CDIF** metadata is JSON-LD built on schema.org, DDI-CDI, CSVW, PROV, and DQV vocabularies.
 - JSON-LD is a **graph format**; JSON Schema validates **trees**. The **framing** step (via `CDIF-frame-2026.jsonld`) reshapes graphs into trees for schema validation.
-- The 2026 schema (`CDIF-JSONLD-schema-2026.json`) is the current default for framed (tree) validation.
+- The framed (tree) schemas are split by profile: `CDIFDiscoverySchema.json` (discovery only) and `CDIFCompleteSchema.json` (discovery + data description). The original all-in-one `CDIF-JSONLD-schema-2026.json` is in `archive/`.
 - The graph schema (`CDIF-graph-schema-2026.json`) validates **flattened** JSON-LD with `@graph` arrays directly, without framing. Generated from building block source schemas by `generate_graph_schema.py`.
 - **`@type` flexibility**: The framed schema accepts `@type` as either a string or an array for most node types (DataDownload, PropertyValue, WebAPI, prov:Activity). JSON-LD framing may compact single-element arrays to strings; `FrameAndValidate.py` normalizes `@type` back to arrays at the root Dataset and `schema:subjectOf` levels after framing.
 
@@ -21,7 +21,8 @@ This repository contains validation tools for **CDIF (Cross-Domain Interoperabil
 | `ValidateROCrate.py` | Validates RO-Crate documents (imports conversion from ConvertToROCrate) |
 | `validate-cdif.bat` | Windows batch wrapper for oXygen XML Editor integration |
 | `batch_validate.py` | Batch validation of CDIF metadata files across multiple file groups |
-| `CDIF-JSONLD-schema-2026.json` | Current JSON Schema for framed (tree) CDIF metadata |
+| `CDIFDiscoverySchema.json` | JSON Schema for framed (tree) CDIF discovery profile metadata |
+| `CDIFCompleteSchema.json` | JSON Schema for framed (tree) CDIF complete profile metadata |
 | `CDIF-graph-schema-2026.json` | JSON Schema for flattened JSON-LD graphs (generated) |
 | `generate_graph_schema.py` | Generates graph schema from building block source schemas |
 | `CDIF-frame-2026.jsonld` | JSON-LD frame for 2026 schema |
@@ -189,7 +190,7 @@ The DDI-CDI schema has pervasive circular dependencies (293 of 395 definitions).
 
 When adding new properties:
 
-1. Add to `CDIF-JSONLD-schema-2026.json` in appropriate `$defs` section
+1. Add to `CDIFCompleteSchema.json` (and `CDIFDiscoverySchema.json` if applicable) in appropriate `$defs` section
 2. Add framing instructions to `CDIF-frame-2026.jsonld`
 3. Add term mapping to `CDIF-context-2026.jsonld` (for prefix-free authoring)
 4. If property should be array, add to `ARRAY_PROPERTIES` in `FrameAndValidate.py`
