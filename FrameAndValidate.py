@@ -162,6 +162,11 @@ def remove_nulls_and_normalize(obj):
             if new_value is None:
                 continue
 
+            # Normalize @type to array throughout the entire document
+            # (framing compacts single-element arrays to strings)
+            if new_key == '@type' and isinstance(new_value, str):
+                new_value = [new_value]
+
             # Convert bare @id references to strings for identifier fields
             if new_key == 'schema:identifier' and is_bare_id_reference(new_value):
                 new_value = new_value['@id']
@@ -236,14 +241,6 @@ def frame_cdif_document(doc_path, frame_path=None):
     # Step 5: Post-process to remove nulls, normalize terms and array properties
     print("Post-processing output...")
     result = remove_nulls_and_normalize(result)
-
-    # Step 6: Normalize @type to array at root and subjectOf levels
-    # (schema requires arrays there, but framing compacts single-element arrays to strings)
-    if isinstance(result.get('@type'), str):
-        result['@type'] = [result['@type']]
-    so = result.get('schema:subjectOf')
-    if isinstance(so, dict) and isinstance(so.get('@type'), str):
-        so['@type'] = [so['@type']]
 
     return result
 

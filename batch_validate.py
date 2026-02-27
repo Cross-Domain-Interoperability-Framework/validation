@@ -14,7 +14,7 @@ from pathlib import Path
 VALIDATION_DIR = Path(__file__).parent
 FRAME_VALIDATE = VALIDATION_DIR / "FrameAndValidate.py"
 SHACL_VALIDATE = VALIDATION_DIR / "ShaclValidation" / "ShaclJSONLDContext.py"
-SHACL_SHAPES = VALIDATION_DIR / "CDIF-Discovery-Core-Shapes2.ttl"
+SHACL_SHAPES = VALIDATION_DIR / "CDIF-Complete-Shapes.ttl"
 
 # Repo roots
 CDIF_VALIDATION = VALIDATION_DIR
