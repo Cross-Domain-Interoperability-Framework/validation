@@ -29,7 +29,9 @@ This repository contains validation tools for **CDIF (Cross-Domain Interoperabil
 | `cls-InstanceVariable-resolved-README.md` | Documentation for the resolved schema generation |
 | `ConvertToCroissant.py` | Converts CDIF JSON-LD to Croissant (mlcommons.org/croissant/1.0) format |
 | `CDIFtoCroissant.md` | Documents the CDIF-to-Croissant mapping, converter code, and gaps |
-| `CDIF-Discovery-Core-Shapes2.ttl` | SHACL shapes for semantic validation |
+| `generate_shacl_shapes.py` | Generates composite SHACL shapes from building block rules.shacl files |
+| `CDIF-Discovery-Core-Shapes.ttl` | Composite SHACL shapes for CDIFDiscovery profile (generated) |
+| `CDIF-Discovery-Core-Shapes2.ttl` | Legacy hand-maintained SHACL shapes (superseded by CDIF-Discovery-Core-Shapes.ttl) |
 | `ShaclValidation/ShaclJSONLDContext.py` | SHACL validation script |
 | `CDIF-Provenance-Building-Blocks-Comparison.md` | Comparison of three provenance activity building blocks (cdifProv, provActivity, ddicdiProv) |
 
@@ -55,7 +57,7 @@ python ConvertToCroissant.py path/to/metadata.jsonld -o output-croissant.json -v
 mlcroissant validate --jsonld output-croissant.json
 
 # SHACL validation
-python ShaclValidation/ShaclJSONLDContext.py metadata.jsonld CDIF-Discovery-Core-Shapes2.ttl
+python ShaclValidation/ShaclJSONLDContext.py metadata.jsonld CDIF-Discovery-Core-Shapes.ttl
 
 # Windows batch (for oXygen)
 validate-cdif.bat path/to/metadata.jsonld
@@ -64,6 +66,11 @@ validate-cdif.bat path/to/metadata.jsonld
 python generate_graph_schema.py
 # Or with explicit paths:
 python generate_graph_schema.py --bb-dir /path/to/_sources --output CDIF-graph-schema-2026.json
+
+# Regenerate the composite SHACL shapes from building block sources
+python generate_shacl_shapes.py
+# Or with explicit paths:
+python generate_shacl_shapes.py --bb-dir /path/to/_sources --output CDIF-Discovery-Core-Shapes.ttl
 ```
 
 ## Dependencies
@@ -100,6 +107,28 @@ pip install mlcroissant
 6. type-Activity built from cdifProv building block (extended provenance with schema.org Action properties), requiring multi-typed `@type: ["schema:Action", "prov:Activity"]`, merging base generatedBy properties (`prov:used`) with extended properties (`schema:agent`, `schema:actionProcess`, etc.). Instruments are nested within `prov:used` items via `schema:instrument` sub-key (instruments are `prov:Entity` subclasses).
 
 **Type dispatch order** (most specific first): `cdi:StructuredDataSet`, `cdi:TabularTextDataSet`, `cdi:LongStructureDataSet`, `cdi:InstanceVariable`, `cdi:Identifier`, `dcat:CatalogRecord`, `schema:Dataset`, `schema:Person`, `schema:Organization`, `schema:PropertyValue`, `schema:DefinedTerm`, `schema:CreativeWork`, `schema:DataDownload`, `schema:MediaObject`, `schema:WebAPI`, `schema:Action`, `schema:HowTo`, `schema:Place`, `time:ProperInterval`, `schema:MonetaryGrant`, `schema:Role`, `prov:Activity`, `dqv:QualityMeasurement`, `schema:Claim`.
+
+## Composite SHACL shapes (generate_shacl_shapes.py)
+
+`generate_shacl_shapes.py` reads CDIF building block `rules.shacl` files and merges them into a single composite Turtle file (`CDIF-Discovery-Core-Shapes.ttl`) for the CDIFDiscovery profile. This is the SHACL counterpart to the graph schema generator.
+
+**Building block source location**: Same auto-detection as `generate_graph_schema.py` — tries `BuildingBlockSubmodule/_sources/`, `../metadataBuildingBlocks/_sources/`, OneDrive paths. Override with `--bb-dir` or `CDIF_BB_DIR` env var.
+
+**Building blocks included** (22 rule sets, 21 unique after deduplication):
+- Sub-building blocks: identifier, person, organization, definedTerm, dataDownload, webAPI, spatialExtent, temporalExtent, variableMeasured, funder, agentInRole, additionalProperty, labeledLink, action, generatedBy, derivedFrom, qualityMeasure
+- CDIF composites: cdifCatalogRecord, cdifProv
+- CDIF aggregates: cdifMandatory, cdifOptional
+- Profile level: CDIFDiscovery
+
+**Conflict resolution**: When the same named shape URI (e.g., `cdifd:CDIFDefinedTermShape`) appears in multiple files, the script uses priority ordering — sub-building blocks (most specific) win over composites, which win over aggregates, which win over profile-level copies. Conflicts are logged with `--verbose`.
+
+**Key conflicts resolved**:
+- `cdifd:CDIFDefinedTermShape` — definedTerm (SPARQLTarget) wins over spatialExtent and agentInRole (targetClass copies)
+- `cdifd:nameProperty` — person version wins over organization and cdifMandatory copies
+- `cdifd:CDIFCatalogRecordShape` — cdifCatalogRecord wins over cdifMandatory and CDIFDiscovery copies
+- `cdifd:CDIFDatasetMandatoryShape` — cdifMandatory wins over CDIFDiscovery profile copy
+
+**Adding new building blocks**: Add the building block path to `CDIF_DISCOVERY_BLOCKS` in `generate_shacl_shapes.py`, then rerun the script.
 
 ## DDI-CDI resolved schema
 
