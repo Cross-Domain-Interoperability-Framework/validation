@@ -126,6 +126,17 @@ File groups validated:
 
 Output shows per-file pass/fail for each validation type, group summaries, and an overall summary listing all failures.
 
+### Current Validation Status
+
+As of February 2026, batch validation across all 128 files shows:
+
+- **JSON Schema**: 128/128 pass
+- **SHACL Violations**: 0 in testJSONMetadata files; a small number remain in building block example files due to source data quality issues (wrong namespace variants, short property names, missing dates)
+- **SHACL Warnings**: Dominated by missing activity names, keyword formatting issues, missing contact points, and missing physical data types — these reflect optional-but-recommended properties
+- **SHACL Info**: Contact point suggestions and publication date recommendations
+
+SHACL severity levels are aligned with JSON Schema: properties that are optional in the JSON Schema are `sh:Warning` (not `sh:Violation`) in SHACL.
+
 ## Validation Workflow
 
 CDIF metadata is expressed as JSON-LD. To validate JSON-LD documents against the JSON Schema, you need to first **frame** the document to ensure it has the correct structure. The framing process:
@@ -701,8 +712,8 @@ print(json.dumps(framed, indent=2))
 
 The `generate_shacl_shapes.py` script merges building block `rules.shacl` files into composite Turtle files. It supports two profiles:
 
-- **discovery** (default) → `CDIF-Discovery-Core-Shapes.ttl` — 64 shapes for the CDIFDiscovery profile
-- **complete** → `CDIF-Complete-Shapes.ttl` — 76 shapes for the CDIFcomplete profile (discovery + data description + provenance)
+- **discovery** (default) → `CDIF-Discovery-Core-Shapes.ttl` — 63 shapes for the CDIFDiscovery profile
+- **complete** → `CDIF-Complete-Shapes.ttl` — 75 shapes for the CDIFcomplete profile (discovery + data description + provenance)
 
 ```bash
 # Regenerate discovery profile shapes (default)
@@ -734,8 +745,8 @@ In addition to JSON Schema validation, CDIF metadata can be validated using SHAC
 
 | File | Description |
 |------|-------------|
-| `CDIF-Discovery-Core-Shapes.ttl` | Composite SHACL shapes for CDIFDiscovery profile (64 shapes, generated) |
-| `CDIF-Complete-Shapes.ttl` | Composite SHACL shapes for CDIFcomplete profile (76 shapes, generated) |
+| `CDIF-Discovery-Core-Shapes.ttl` | Composite SHACL shapes for CDIFDiscovery profile (63 shapes, generated) |
+| `CDIF-Complete-Shapes.ttl` | Composite SHACL shapes for CDIFcomplete profile (75 shapes, generated) |
 | `CDIF-Discovery-Core-Shapes2.ttl` | Legacy hand-maintained SHACL shapes (superseded by generated versions) |
 | `generate_shacl_shapes.py` | Generates composite SHACL shapes files from building block sources |
 | `generate_shacl_report.py` | Generates markdown validation reports from SHACL validation results |
@@ -885,3 +896,5 @@ See `ddi-cdi/cls-InstanceVariable-resolved-README.md` for full details on the ge
 - All schema.org elements require the `schema:` prefix for SHACL validation compatibility.
 - The frame ensures that after framing, the output structure matches what the JSON schema expects.
 - For SHACL validation, use the corresponding `.shacl` or `.ttl` files in this repository.
+- **`@type` flexibility**: All `@type` definitions in the framed schemas use `anyOf` to accept either a string (`"schema:Dataset"`) or an array (`["schema:Dataset"]`). JSON-LD framing may compact single-element arrays to strings; `FrameAndValidate.py` recursively normalizes all `@type` values back to arrays.
+- **`spdx:Checksum` typing**: All `spdx:checksum` objects must include `"@type": "spdx:Checksum"`. This is required by both the JSON Schema (`required: ["@type"]`) and SHACL shapes (`sh:class spdx:Checksum`).

@@ -59,7 +59,7 @@ Key operations: resolve cross-building-block `$ref`s, transform `@type` for disp
 
 Reads building block SHACL rules (`rules.shacl`) and merges them into a single composite Turtle file (`CDIF-Discovery-Core-Shapes.ttl`) for the CDIFDiscovery profile.
 
-Key operations: parse each Turtle file with rdflib, detect named shape URIs, resolve conflicts via priority ordering (sub-building blocks win over composites, which win over profile-level copies), serialize merged graph.
+Key operations: parse each Turtle file with rdflib, detect named shape URIs, resolve conflicts via priority ordering (sub-building blocks win over composites, which win over profile-level copies), serialize merged graph. Supports `--profile discovery` (63 shapes) and `--profile complete` (75 shapes).
 
 ## Common workflows
 
@@ -69,8 +69,11 @@ Key operations: parse each Turtle file with rdflib, detect named shape URIs, res
 # JSON Schema validation (frames then validates)
 python FrameAndValidate.py metadata.jsonld -v
 
-# SHACL validation
-python ShaclValidation/ShaclJSONLDContext.py metadata.jsonld CDIF-Discovery-Core-Shapes.ttl
+# SHACL validation (complete profile)
+python ShaclValidation/ShaclJSONLDContext.py metadata.jsonld CDIF-Complete-Shapes.ttl
+
+# SHACL validation report (markdown)
+python generate_shacl_report.py metadata.jsonld CDIF-Complete-Shapes.ttl -o report.md
 
 # RO-Crate validation
 python ValidateROCrate.py metadata.jsonld
@@ -85,8 +88,9 @@ python batch_validate.py
 # Regenerate graph schema (JSON Schema for @graph documents)
 python generate_graph_schema.py
 
-# Regenerate composite SHACL shapes
-python generate_shacl_shapes.py
+# Regenerate composite SHACL shapes (both profiles)
+python generate_shacl_shapes.py --profile discovery
+python generate_shacl_shapes.py --profile complete
 ```
 
 ### Add or modify a building block
@@ -117,6 +121,13 @@ CDIF-Complete-Shapes.ttl         ──> generate_shacl_report.py
 batch_validate.py ──> FrameAndValidate.py (JSON Schema)
                   ──> ShaclValidation/ShaclJSONLDContext.py (SHACL)
 ```
+
+## Schema conventions
+
+- **`@type` flexibility**: All framed schema `@type` definitions use `anyOf` accepting both string and array. `FrameAndValidate.py` recursively normalizes all `@type` values to arrays after framing.
+- **`spdx:Checksum` typing**: All `spdx:checksum` objects require `"@type": "spdx:Checksum"` (JSON Schema `required` + SHACL `sh:class`).
+- **SHACL severity alignment**: Properties optional in JSON Schema use `sh:Warning` (not `sh:Violation`) in SHACL. Only structurally required properties use `sh:Violation`.
+- **Activity name authority**: `provActivity/rules.shacl` is the sole source for `schema:name` checks on Activity nodes. Duplicates removed from `cdifProv/rules.shacl` and `action/rules.shacl`.
 
 ## Dependencies
 

@@ -10,7 +10,8 @@ This repository contains validation tools for **CDIF (Cross-Domain Interoperabil
 - JSON-LD is a **graph format**; JSON Schema validates **trees**. The **framing** step (via `CDIF-frame-2026.jsonld`) reshapes graphs into trees for schema validation.
 - The framed (tree) schemas are split by profile: `CDIFDiscoverySchema.json` (discovery only) and `CDIFCompleteSchema.json` (discovery + data description). The original all-in-one `CDIF-JSONLD-schema-2026.json` is in `archive/`.
 - The graph schema (`CDIF-graph-schema-2026.json`) validates **flattened** JSON-LD with `@graph` arrays directly, without framing. Generated from building block source schemas by `generate_graph_schema.py`.
-- **`@type` flexibility**: The framed schema accepts `@type` as either a string or an array for most node types (DataDownload, PropertyValue, WebAPI, prov:Activity). JSON-LD framing may compact single-element arrays to strings; `FrameAndValidate.py` normalizes `@type` back to arrays at the root Dataset and `schema:subjectOf` levels after framing.
+- **`@type` flexibility**: All framed schema `@type` definitions use `anyOf` to accept either a string or an array. JSON-LD framing compacts single-element arrays to strings; `FrameAndValidate.py` recursively normalizes all `@type` values back to arrays throughout the entire document tree (in `remove_nulls_and_normalize()`).
+- **`spdx:Checksum` typing**: All `spdx:checksum` objects must include `"@type": "spdx:Checksum"` (required by both JSON Schema and SHACL `sh:class spdx:Checksum`). The `@type` uses the same `anyOf` pattern (string or array) as other typed nodes.
 
 ## Important files
 
@@ -128,8 +129,8 @@ pip install mlcroissant
 
 `generate_shacl_shapes.py` reads CDIF building block `rules.shacl` files and merges them into a single composite Turtle file. Supports two profiles via `--profile`:
 
-- **discovery** (default) → `CDIF-Discovery-Core-Shapes.ttl` — 64 shapes for the CDIFDiscovery profile
-- **complete** → `CDIF-Complete-Shapes.ttl` — 76 shapes for the CDIFcomplete profile (discovery + data description + provenance)
+- **discovery** (default) → `CDIF-Discovery-Core-Shapes.ttl` — 63 shapes for the CDIFDiscovery profile
+- **complete** → `CDIF-Complete-Shapes.ttl` — 75 shapes for the CDIFcomplete profile (discovery + data description + provenance)
 
 **Building block source location**: Same auto-detection as `generate_graph_schema.py` — tries `BuildingBlockSubmodule/_sources/`, `../metadataBuildingBlocks/_sources/`, OneDrive paths. Override with `--bb-dir` or `CDIF_BB_DIR` env var.
 
@@ -265,6 +266,15 @@ Converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissa
 - `../integrationPublic/exampleMetadata/CDIF2026/` - 2026 schema examples
 - `../integrationPublic/LongData/` - Long data CSV and older (pre-2026) long data metadata examples
 
+## Current validation status
+
+`batch_validate.py` runs both JSON Schema and SHACL validation across 128 files (77 testJSONMetadata + 10 cdifbook + 5 cdifProfiles + 36 adaProfiles).
+
+- **JSON Schema**: 128/128 pass
+- **SHACL**: 0 violations in testJSONMetadata; remaining violations are source data quality issues in building block examples (wrong namespace, short names, missing dates). Warnings are dominated by missing activity names (123), keyword formatting (181), missing contactPoint (81), and missing physicalDataType (81).
+
+**SHACL severity rationale**: Properties that are optional in JSON Schema (`schema:name` on activities, `cdi:physicalDataType` on InstanceVariable) are set to `sh:Warning` in SHACL for consistency. Only structurally required properties (e.g., `prov:used` on activities) use `sh:Violation`.
+
 ## Known issues
 
 ### `schema:actionProcess` -- in schema.org but not in the RDF export
@@ -365,8 +375,8 @@ Located at `BuildingBlockSubmodule/_sources/provProperties/provActivity/`. Imple
 
 **Schema `$defs`**: External refs to `Person`, `Organization`, `AgentInRole`, `Instrument`, `DefinedTerm`, `LabeledLink`, `SpatialExtent` (via `../../schemaorgProperties/*/schema.yaml`). Local definitions for `HowTo` and `HowToStep` (same as cdifProv).
 
-**SHACL shapes** (3 shapes, same severity pattern as cdifProv):
-- `provActivityShape` -- SPARQL-targeted on `prov:Activity` nodes (standalone or via `prov:wasGeneratedBy`). Required: `prov:used` (minCount 1), `schema:name` (minCount 1, minLength 5). Warning: `schema:description`, `prov:wasAssociatedWith`, `prov:startedAtTime`, `prov:endedAtTime`. Info: `prov:generated`, `prov:wasInformedBy`, `prov:atLocation`, `schema:instrument`, `schema:actionStatus`, `schema:actionProcess`.
+**SHACL shapes** (3 shapes — provActivity is the **sole authoritative source** for `schema:name` checks on Activity nodes; duplicate checks were removed from `cdifProv/rules.shacl` and `action/rules.shacl`):
+- `provActivityShape` -- SPARQL-targeted on `prov:Activity` nodes (standalone or via `prov:wasGeneratedBy`). Required: `prov:used` (minCount 1). Warning: `schema:name` (minCount 1, minLength 5), `schema:description`, `prov:wasAssociatedWith`, `prov:startedAtTime`, `prov:endedAtTime`. Info: `prov:generated`, `prov:wasInformedBy`, `prov:atLocation`, `schema:instrument`, `schema:actionStatus`, `schema:actionProcess`.
 - `provActivityHowToShape` -- targetClass `schema:HowTo`. Required: `schema:name`. Warning: `schema:step`.
 - `provActivityHowToStepShape` -- targetClass `schema:HowToStep`. Required: `schema:name`. Warning: `schema:position`.
 
