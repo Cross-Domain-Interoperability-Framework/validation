@@ -298,6 +298,23 @@
                                 ]
                             }
                         ]
+                    },
+                    {
+                        "$comment": "plain DataDownload without CDI dataset type mapping",
+                        "allOf": [
+                            {"$ref": "#/$defs/distributionBase_type"},
+                            {
+                                "properties": {
+                                    "@type": {
+                                        "anyOf": [
+                                            {"type": "string", "const": "schema:DataDownload"},
+                                            {"type": "array", "items": {"type": "string"}, "contains": {"const": "schema:DataDownload"}, "minItems": 1}
+                                        ]
+                                    }
+                                },
+                                "required": ["@type"]
+                            }
+                        ]
                     }
                 ]
             }
@@ -589,8 +606,10 @@
             "type": "object",
             "properties": {
                 "@type": {
-                    "type": "array",
-                    "items": {"type": "string"},
+                    "anyOf": [
+                        {"type": "string"},
+                        {"type": "array", "items": {"type": "string"}}
+                    ],
                     "default": ["schema:DataDownload"]
                 },
                 "schema:encodingFormat": {
@@ -981,9 +1000,10 @@
             "type": "object",
             "properties": {
                 "@type": {
-                    "type": "string",
-                    "const": "schema:PropertyValue",
-                    "default": "schema:PropertyValue"
+                    "anyOf": [
+                        {"type": "string", "const": "schema:PropertyValue"},
+                        {"type": "array", "items": {"type": "string"}, "contains": {"const": "schema:PropertyValue"}, "minItems": 1}
+                    ]
                 },
                 "schema:propertyID": {
                     "type": "string",
@@ -1397,10 +1417,10 @@
             "description": "use schema.org Action to document url or url template and parameters to request data through a web accessible location. At this point, schema is set up for one action-- an HTTP Get that requests data. The url template parameters (in curly brackets '{}') specify query paramters to filter the source data, request particular output formats or other aspects of data.",
             "properties": {
                 "@type": {
-                    "type": "array",
-                    "items": {"type": "string"},
-                    "contains": {"const": "schema:WebAPI"},
-                    "minItems": 1
+                    "anyOf": [
+                        {"type": "string", "const": "schema:WebAPI"},
+                        {"type": "array", "items": {"type": "string"}, "contains": {"const": "schema:WebAPI"}, "minItems": 1}
+                    ]
                 },
                 "schema:serviceType": {
                     "description": "specify the kind of service. Ideally this should be a resolvable identifier. Currently there is no widely adopted registry for serviceType identifiers, in large part because services might be defined at different levels of granularity, and classifications might focus on function, data formats, thematic content, security, or other aspects of the service definition. For interoperability, there must be an external arrangement between data providers and consumers on the strings that will be used to specify service types.",
@@ -1567,10 +1587,10 @@
             "type": "object",
             "properties": {
                 "@type": {
-                    "type": "array",
-                    "items": {"type": "string"},
-                    "minItems": 1,
-                    "contains": {"const": "prov:Activity"}
+                    "anyOf": [
+                        {"type": "string", "const": "prov:Activity"},
+                        {"type": "array", "items": {"type": "string"}, "contains": {"const": "prov:Activity"}, "minItems": 1}
+                    ]
                 },
                 "prov:used": {
                     "type": "array",

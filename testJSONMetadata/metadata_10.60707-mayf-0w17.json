@@ -8,14 +8,17 @@
         "ada": "https://ada.astromat.org/metadata/",
         "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
         "csvw": "http://www.w3.org/ns/csvw#",
-        "prov": "http://www.w3.org/ns/prov#"
+        "prov": "http://www.w3.org/ns/prov#",
+        "dcat": "http://www.w3.org/ns/dcat#",
+        "xas": "https://ada.astromat.org/metadata/xas/",
+        "nxs": "https://manual.nexusformat.org/classes/"
     },
     "@id": "ada:record_1339",
     "@type": [
         "schema:Dataset",
         "schema:Product"
     ],
-    "schema:name": "Raman spectroscopy of a 250 µm particle of Bennu (OREX-803141-0)",
+    "schema:name": "Raman spectroscopy of a 250 Âµm particle of Bennu (OREX-803141-0)",
     "schema:description": "Raman analysis of a 250 %C2%B5m particle of Bennu (OREX-803141-0). The bundle includes four raw data files from the amorphous carbon, calcite, magnetite and the aliphatic CH carbon.",
     "schema:identifier": {
         "@type": [
@@ -233,7 +236,12 @@
     ],
     "schema:subjectOf": {
         "@id": "ada:metadata_1339",
-        "@type": "dcat:CatalogRecord",
+        "@type": [
+            "schema:Dataset"
+        ],
+        "schema:additionalType": [
+            "dcat:CatalogRecord"
+        ],
         "schema:sdDatePublished": "2025-01-27",
         "schema:maintainer": {
             "@id": "https://ada.org/person/3479",

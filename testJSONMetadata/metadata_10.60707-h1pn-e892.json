@@ -8,7 +8,10 @@
         "ada": "https://ada.astromat.org/metadata/",
         "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
         "csvw": "http://www.w3.org/ns/csvw#",
-        "prov": "http://www.w3.org/ns/prov#"
+        "prov": "http://www.w3.org/ns/prov#",
+        "dcat": "http://www.w3.org/ns/dcat#",
+        "xas": "https://ada.astromat.org/metadata/xas/",
+        "nxs": "https://manual.nexusformat.org/classes/"
     },
     "@id": "ada:record_2252",
     "@type": [
@@ -271,7 +274,12 @@
     ],
     "schema:subjectOf": {
         "@id": "ada:metadata_2252",
-        "@type": "dcat:CatalogRecord",
+        "@type": [
+            "schema:Dataset"
+        ],
+        "schema:additionalType": [
+            "dcat:CatalogRecord"
+        ],
         "schema:sdDatePublished": "2025-03-05",
         "schema:maintainer": {
             "@id": "https://ada.org/person/3479",
