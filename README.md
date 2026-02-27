@@ -64,8 +64,8 @@ This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule s
 | `ConvertToROCrate.py` | Python library + CLI for converting CDIF JSON-LD to RO-Crate form |
 | `ValidateROCrate.py` | Python script for RO-Crate validation (imports conversion from ConvertToROCrate) |
 | `ConvertToCroissant.py` | Python script for converting CDIF JSON-LD to Croissant (mlcommons.org/croissant/1.0) format |
-| `CDIFtoCroissant.md` | Documentation for the CDIF-to-Croissant mapping and converter |
-| `RO-Crate-relationship.md` | ADA/CDIF profile mapping to RO-Crate, with ValidateROCrate.py design notes |
+| `docs/CDIFtoCroissant.md` | Documentation for the CDIF-to-Croissant mapping and converter |
+| `docs/RO-Crate-relationship.md` | ADA/CDIF profile mapping to RO-Crate, with ValidateROCrate.py design notes |
 | `validate-cdif.bat` | Windows batch script for oXygen XML Editor integration |
 | `batch_validate.py` | Batch validation of CDIF metadata files across multiple file groups (JSON Schema + SHACL) |
 
@@ -73,9 +73,9 @@ This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule s
 
 | File | Description |
 |------|-------------|
-| `ddi-cdi.schema_normative.json` | Full DDI-CDI normative JSON Schema (395 definitions) |
-| `cls-InstanceVariable-resolved.json` | Self-contained resolved schema for DDI-CDI InstanceVariable class |
-| `cls-InstanceVariable-resolved-README.md` | Documentation for the resolved schema generation process |
+| `ddi-cdi/ddi-cdi.schema_normative.json` | Full DDI-CDI normative JSON Schema (395 definitions) |
+| `ddi-cdi/cls-InstanceVariable-resolved.json` | Self-contained resolved schema for DDI-CDI InstanceVariable class |
+| `ddi-cdi/cls-InstanceVariable-resolved-README.md` | Documentation for the resolved schema generation process |
 
 ### Legacy (Pre-2026, in `archive/`)
 
@@ -285,7 +285,7 @@ The script requires network access on first run to fetch the RO-Crate 1.1 contex
 
 ## Croissant Conversion
 
-`ConvertToCroissant.py` converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissant/docs/croissant-spec.html) (mlcommons.org/croissant/1.0) JSON-LD, an ML-oriented dataset metadata format developed by [MLCommons](https://mlcommons.org/working-groups/data/croissant/). Both formats build on schema.org and JSON-LD, so discovery-level metadata maps directly. See `CDIFtoCroissant.md` for the full mapping documentation.
+`ConvertToCroissant.py` converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissant/docs/croissant-spec.html) (mlcommons.org/croissant/1.0) JSON-LD, an ML-oriented dataset metadata format developed by [MLCommons](https://mlcommons.org/working-groups/data/croissant/). Both formats build on schema.org and JSON-LD, so discovery-level metadata maps directly. See `docs/CDIFtoCroissant.md` for the full mapping documentation.
 
 ### How the Croissant Conversion Works
 
@@ -865,7 +865,7 @@ Corresponding `*-rocrate.json` files contain the converted RO-Crate output produ
 
 ## DDI-CDI Resolved Schema
 
-The `cls-InstanceVariable-resolved.json` file is a standalone JSON Schema (Draft 2020-12) for the DDI-CDI `InstanceVariable` class, derived from `ddi-cdi.schema_normative.json`. It resolves all `$ref` references into a self-contained schema suitable for use in editors like oXygen without needing the full 395-definition DDI-CDI schema.
+The `ddi-cdi/cls-InstanceVariable-resolved.json` file is a standalone JSON Schema (Draft 2020-12) for the DDI-CDI `InstanceVariable` class, derived from `ddi-cdi/ddi-cdi.schema_normative.json`. It resolves all `$ref` references into a self-contained schema suitable for use in editors like oXygen without needing the full 395-definition DDI-CDI schema.
 
 The resolved schema applies several transformations to make the schema practical:
 
@@ -876,7 +876,7 @@ The resolved schema applies several transformations to make the schema practical
 - **Patterns normalized** - `if/then/else` array patterns converted to consistent `anyOf`
 - **Frequency-based `$ref` resolution** - Common definitions (>3 uses) in `$defs`; rare definitions inlined
 
-See `cls-InstanceVariable-resolved-README.md` for full details on the generation process, circular reference analysis, and transformation rationale.
+See `ddi-cdi/cls-InstanceVariable-resolved-README.md` for full details on the generation process, circular reference analysis, and transformation rationale.
 
 ## Notes
 

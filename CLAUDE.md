@@ -27,18 +27,18 @@ This repository contains validation tools for **CDIF (Cross-Domain Interoperabil
 | `generate_graph_schema.py` | Generates graph schema from building block source schemas |
 | `CDIF-frame-2026.jsonld` | JSON-LD frame for 2026 schema |
 | `CDIF-context-2026.jsonld` | JSON-LD context for prefix-free authoring |
-| `ddi-cdi.schema_normative.json` | Full DDI-CDI normative JSON Schema (395 definitions) |
-| `cls-InstanceVariable-resolved.json` | Resolved standalone schema for DDI-CDI InstanceVariable |
-| `cls-InstanceVariable-resolved-README.md` | Documentation for the resolved schema generation |
+| `ddi-cdi/ddi-cdi.schema_normative.json` | Full DDI-CDI normative JSON Schema (395 definitions) |
+| `ddi-cdi/cls-InstanceVariable-resolved.json` | Resolved standalone schema for DDI-CDI InstanceVariable |
+| `ddi-cdi/cls-InstanceVariable-resolved-README.md` | Documentation for the resolved schema generation |
 | `ConvertToCroissant.py` | Converts CDIF JSON-LD to Croissant (mlcommons.org/croissant/1.0) format |
-| `CDIFtoCroissant.md` | Documents the CDIF-to-Croissant mapping, converter code, and gaps |
+| `docs/CDIFtoCroissant.md` | Documents the CDIF-to-Croissant mapping, converter code, and gaps |
 | `generate_shacl_shapes.py` | Generates composite SHACL shapes from building block rules.shacl files |
 | `generate_shacl_report.py` | Generates markdown SHACL validation reports with severity grouping |
 | `CDIF-Discovery-Core-Shapes.ttl` | Composite SHACL shapes for CDIFDiscovery profile (generated) |
 | `CDIF-Complete-Shapes.ttl` | Composite SHACL shapes for CDIFcomplete profile (generated) |
 | `CDIF-Discovery-Core-Shapes2.ttl` | Legacy hand-maintained SHACL shapes (superseded by generated versions) |
 | `ShaclValidation/ShaclJSONLDContext.py` | SHACL validation script |
-| `CDIF-Provenance-Building-Blocks-Comparison.md` | Comparison of three provenance activity building blocks (cdifProv, provActivity, ddicdiProv) |
+| `docs/CDIF-Provenance-Building-Blocks-Comparison.md` | Comparison of three provenance activity building blocks (cdifProv, provActivity, ddicdiProv) |
 
 ## Common commands
 
@@ -175,7 +175,7 @@ python generate_shacl_report.py -d metadata.jsonld -s CDIF-Complete-Shapes.ttl -
 
 ## DDI-CDI resolved schema
 
-The `cls-InstanceVariable-resolved.json` was generated from `ddi-cdi.schema_normative.json` with these transformations:
+The `ddi-cdi/cls-InstanceVariable-resolved.json` was generated from `ddi-cdi/ddi-cdi.schema_normative.json` with these transformations:
 
 1. Remove `_OF_` reverse relationship properties (767 removed; use JSON-LD `@reverse` instead)
 2. Remove `catalogDetails` property and `dt-CatalogDetails` type from all classes
@@ -242,7 +242,7 @@ The `rocrate-validator` library provides thorough SHACL-based RO-Crate validatio
 
 ## ConvertToCroissant.py (CDIF to Croissant)
 
-Converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissant/docs/croissant-spec.html) (mlcommons.org/croissant/1.0) JSON-LD for ML dataset discovery and loading. See `CDIFtoCroissant.md` for the full mapping documentation.
+Converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissant/docs/croissant-spec.html) (mlcommons.org/croissant/1.0) JSON-LD for ML dataset discovery and loading. See `docs/CDIFtoCroissant.md` for the full mapping documentation.
 
 **Key mappings:**
 - `schema:DataDownload` → `cr:FileObject`; archive `hasPart` items become FileObjects with `containedIn`
@@ -281,7 +281,7 @@ There is no schema.org property that maps to `prov:wasGeneratedBy` (linking an E
 
 ## Provenance building blocks comparison
 
-`CDIF-Provenance-Building-Blocks-Comparison.md` documents and compares the three building blocks for describing activities (the value of `prov:wasGeneratedBy`):
+`docs/CDIF-Provenance-Building-Blocks-Comparison.md` documents and compares the three building blocks for describing activities (the value of `prov:wasGeneratedBy`):
 
 - **cdifProv** (schema.org-first) -- dual-typed `["schema:Action", "prov:Activity"]`, uses schema.org properties (`agent`, `object`, `result`, `startTime`, `location`, `actionProcess`). Primary CDIF recommendation, aligned with [ODIS provenance recommendations](https://github.com/iodepo/odis-arch/blob/414-update-provenance-recommendations/book/thematics/provenance/common-provenance-cases.md).
 - **provActivity** (PROV-O-first) -- single-typed `["prov:Activity"]`, uses PROV-O properties (`wasAssociatedWith`, `generated`, `startedAtTime`, `atLocation`, `wasInformedBy`) with schema.org fallbacks for gaps.
