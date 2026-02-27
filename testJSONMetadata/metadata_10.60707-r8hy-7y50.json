@@ -1,316 +1,322 @@
 {
-    "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
-    "@context": {
-        "schema": "http://schema.org/",
-        "dcterms": "http://purl.org/dc/terms/",
-        "geosparql": "http://www.opengis.net/ont/geosparql#",
-        "spdx": "http://spdx.org/rdf/terms#",
-        "ada": "https://ada.astromat.org/metadata/",
-        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-        "csvw": "http://www.w3.org/ns/csvw#",
-        "prov": "http://www.w3.org/ns/prov#",
-        "dcat": "http://www.w3.org/ns/dcat#",
-        "xas": "https://ada.astromat.org/metadata/xas/",
-        "nxs": "https://manual.nexusformat.org/classes/"
-    },
-    "@id": "ada:record_492",
+  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "geosparql": "http://www.opengis.net/ont/geosparql#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "ada": "https://ada.astromat.org/metadata/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "xas": "https://ada.astromat.org/metadata/xas/",
+    "nxs": "https://manual.nexusformat.org/classes/"
+  },
+  "@id": "ada:record_492",
+  "@type": [
+    "schema:Dataset",
+    "schema:Product"
+  ],
+  "schema:name": "Bennu SOM analysis using FTICR-MS (ESIneg, ESIpos and APPIpos)",
+  "schema:description": "This is a bundle for a 3.3 mg sample of Bennu (OREX-803006-0_1). The bundle contains data from the DI-FTICR-MS analysis measured with ESI in negative and positive ion mode as well as APPI in positive ion mode. Prior extraction, the surface of the OREX-803006-0_1 sample was gently washed with MeOH (OREX-803006-0_1 MeOH Wash). After washing, the OREX-803006-0_1 sample was crushed in an agate mortar and exctracted in methanol (OREX-803006-0_1 MeOH Extract). Additionally, a Murchison sample was equally crushed and extracted (Murchison MeOH Extract). Each analysis produced a mass spectrum (.mzml), leading to 8 total raw data files. The bundle also includes corresponding tabular files (.csv) and data plots (.pdf) as well as information on sample preparation and analytical methods. The purpose of this dataset was to analyze the nontargeted chemical profiling of C-, H-, O-, N-, and S-bearing soluble organic molecules in the Bennu asteroid using FTICR-MS.",
+  "schema:identifier": {
     "@type": [
-        "schema:Dataset",
-        "schema:Product"
+      "schema:PropertyValue",
+      "cdi:Identifier"
     ],
-    "schema:name": "Bennu SOM analysis using FTICR-MS (ESIneg, ESIpos and APPIpos)",
-    "schema:description": "This is a bundle for a 3.3 mg sample of Bennu (OREX-803006-0_1). The bundle contains data from the DI-FTICR-MS analysis measured with ESI in negative and positive ion mode as well as APPI in positive ion mode. Prior extraction, the surface of the OREX-803006-0_1 sample was gently washed with MeOH (OREX-803006-0_1 MeOH Wash). After washing, the OREX-803006-0_1 sample was crushed in an agate mortar and exctracted in methanol (OREX-803006-0_1 MeOH Extract). Additionally, a Murchison sample was equally crushed and extracted (Murchison MeOH Extract). Each analysis produced a mass spectrum (.mzml), leading to 8 total raw data files. The bundle also includes corresponding tabular files (.csv) and data plots (.pdf) as well as information on sample preparation and analytical methods. The purpose of this dataset was to analyze the nontargeted chemical profiling of C-, H-, O-, N-, and S-bearing soluble organic molecules in the Bennu asteroid using FTICR-MS.",
-    "schema:identifier": {
-        "@type": [
-            "schema:PropertyValue",
-            "cdi:Identifier"
-        ],
-        "schema:propertyID": "https://registry.identifiers.org/registry/doi",
-        "schema:value": "10.60707/r8hy-7y50",
-        "schema:url": "https://doi.org/10.60707/r8hy-7y50"
-    },
-    "schema:additionalType": [
-        "Fourier Transform Ion Cyclotron Resonance Mass Spectrometry"
-    ],
-    "schema:datePublished": "2024-11-21",
-    "schema:license": [
-        "missing"
-    ],
-    "schema:url": "",
-    "schema:dateModified": "2024-11-21",
-    "schema:creator": {
-        "@list": [
-            {
-                "@id": "https://orcid.org/0009-0005-5228-3908",
-                "@type": "schema:Person",
-                "schema:name": "Liss, Michael",
-                "schema:identifier": "https://orcid.org/0009-0005-5228-3908",
-                "schema:email": "michael.liss@helmholtz-munich.de"
-            }
-        ]
-    },
-    "schema:contributor": [
-        {
-            "@type": "schema:Role",
-            "schema:roleName": "Other",
-            "schema:contributor": {
-                "@type": "schema:Person",
-                "@id": "",
-                "schema:name": "",
-                "schema:identifier": "",
-                "schema:email": "philippe.schmitt-kopplin@helmholtz-munich.de"
-            }
-        }
-    ],
-    "schema:funding": [
-        {
-            "@type": "schema:MonetaryGrant",
-            "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program. Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) Project-ID 364653263%E2%80%94TRR 235 (CRC 235)"
-        }
-    ],
-    "schema:measurementTechnique": {
-        "@type": "schema:DefinedTerm",
-        "schema:name": "Fourier Transform Ion Cyclotron Resonance Mass Spectrometry",
-        "schema:termCode": "FTICR-MS"
-    },
-    "prov:wasGeneratedBy": [
-        {
-            "@type": [
-                "schema:Event",
-                "xas:AnalysisEvent",
-                "prov:Activity",
-                "schema:Action"
-            ],
-            "schema:startDate": "2024-05-30T13:40:03.050572Z",
-            "schema:identifier": "20240530_fticr-ms_hmgu_orex-803006-0_1",
-            "prov:used": [
-                {
-                    "@type": [
-                        "schema:Thing",
-                        "prov:Entity",
-                        "nxs:BaseClass/NXinstrument"
-                    ],
-                    "schema:name": "FTICR-MS 12 Tesla Solarix Infinity system",
-                    "schema:identifier": "12TSI"
-                }
-            ],
-            "schema:location": {
-                "@type": [
-                    "schema:Place",
-                    "nxs:BaseClass/NXsource"
-                ],
-                "schema:identifier": "https://ror.org/034rhsb33",
-                "schema:name": "Helmholtz University (Helmholtz Zentrum Munchen)",
-                "schema:alternateName": "HMGU"
-            },
-            "schema:mainEntity": [
-                {
-                    "@type": [
-                        "schema:Thing",
-                        "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
-                    ],
-                    "schema:additionalType": [
-                        "MaterialSample"
-                    ],
-                    "schema:identifier": [
-                        "['OREX-803006-0']"
-                    ]
-                }
-            ]
-        }
-    ],
-    "schema:variableMeasured": [],
-    "schema:distribution": [
-        {
-            "@type": [
-                "schema:DataDownload"
-            ],
-            "schema:encodingFormat": [
-                "application/zip"
-            ],
-            "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
-            "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/withheld",
-            "schema:hasPart": [
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#5d8fabdc1858691149d0dc863009e650",
-                    "schema:name": "20240530_FTICR-MS_HMGU_OREX-803006-0_1_FTICRMSTabular_1.csv",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "a0e330a14f605d51c216b3d5c2c9cdbe6b9dd79260dc93fc7e609434c37e58ce"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 106433,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "text/csv"
-                    ],
-                    "componentType": {
-                        "@type": "ada:other"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#dd301b7aaf563e0428c1bff811dc4235",
-                    "schema:name": "20240530_FTICR-MS_HMGU_OREX-803006-0_1_FTICRMSTabular_1.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "554004208d4fc59012ac6040c3cc4082e874c1686c31afc568621cc5d65fdb9a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 672,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#5d8fabdc1858691149d0dc863009e650"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#259b26932cc2d691b4a2663a7e0c7016",
-                    "schema:name": "20240530_FTICR-MS_HMGU_OREX-803006-0_1_methodDescription_1.pdf",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "772c97cb4ac890661c3959b6328a445cb090799a29a97d49bb381efddcc27a78"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 63409,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/pdf"
-                    ],
-                    "componentType": {
-                        "@type": "ada:methodDescription"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#fbd7d60f080fc930e3e6d97fa1f8b21d",
-                    "schema:name": "20240530_FTICR-MS_HMGU_OREX-803006-0_1_methodDescription_1.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "0e73159b99c6528e13c70027cd89eb6cd67a658b5d80eec96801e17991d87e5b"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 752,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#259b26932cc2d691b4a2663a7e0c7016"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#fdade1f3aa39e8f8879993d719256213",
-                    "schema:name": "20240530_FTICR-MS_HMGU_OREX-803006-0_1_plot_1.pdf",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "1d67d0133c84bb2fd95f0e82363092168f5ecc9d40fa9877a748dbcbb880277e"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 4171697,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/pdf"
-                    ],
-                    "componentType": {
-                        "@type": "ada:plot"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#21bed8bda3a9b27d83c1bc1eea51da27",
-                    "schema:name": "20240530_FTICR-MS_HMGU_OREX-803006-0_1_plot_1.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "edfa8634561c517b2fe182be2906069ef93d908fb2fbd4b75eac2d9a3b205e38"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 348,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#fdade1f3aa39e8f8879993d719256213"
-                        }
-                    ]
-                }
-            ]
-        }
-    ],
-    "schema:subjectOf": {
-        "@id": "ada:metadata_492",
-        "@type": [
-            "schema:Dataset"
-        ],
-        "schema:additionalType": [
-            "dcat:CatalogRecord"
-        ],
-        "schema:sdDatePublished": "2024-11-21",
-        "schema:maintainer": {
-            "@id": "https://ada.org/person/3479",
-            "@type": "schema:Person",
-            "schema:name": "Richard, Stephen M.",
-            "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
-            "schema:email": "smrTucson@email.org"
-        },
-        "schema:about": {
-            "@id": "ada:record_492"
-        },
-        "schema:description": "metadata about documentation for https://doi.org/10.60707/r8hy-7y50",
-        "dcterms:conformsTo": [
-            {
-                "@id": "https://w3id.org/cdif/profiles/discovery"
-            },
-            {
-                "@id": "ada:profile/adaFTICRMS"
-            }
-        ]
+    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:value": "10.60707/r8hy-7y50",
+    "schema:url": "https://doi.org/10.60707/r8hy-7y50"
+  },
+  "schema:additionalType": [
+    "Fourier Transform Ion Cyclotron Resonance Mass Spectrometry"
+  ],
+  "schema:datePublished": "2024-11-21",
+  "schema:license": [
+    "missing"
+  ],
+  "schema:url": "",
+  "schema:dateModified": "2024-11-21",
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://orcid.org/0009-0005-5228-3908",
+        "@type": "schema:Person",
+        "schema:name": "Liss, Michael",
+        "schema:identifier": "https://orcid.org/0009-0005-5228-3908",
+        "schema:email": "michael.liss@helmholtz-munich.de"
+      }
+    ]
+  },
+  "schema:contributor": [
+    {
+      "@type": "schema:Role",
+      "schema:roleName": "Other",
+      "schema:contributor": {
+        "@type": "schema:Person",
+        "@id": "",
+        "schema:name": "",
+        "schema:identifier": "",
+        "schema:email": "philippe.schmitt-kopplin@helmholtz-munich.de"
+      }
     }
+  ],
+  "schema:funding": [
+    {
+      "@type": "schema:MonetaryGrant",
+      "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program. Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) Project-ID 364653263%E2%80%94TRR 235 (CRC 235)"
+    }
+  ],
+  "schema:measurementTechnique": {
+    "@type": "schema:DefinedTerm",
+    "schema:name": "Fourier Transform Ion Cyclotron Resonance Mass Spectrometry",
+    "schema:termCode": "FTICR-MS"
+  },
+  "prov:wasGeneratedBy": [
+    {
+      "@type": [
+        "schema:Event",
+        "xas:AnalysisEvent",
+        "prov:Activity",
+        "schema:Action"
+      ],
+      "schema:startDate": "2024-05-30T13:40:03.050572Z",
+      "schema:identifier": "20240530_fticr-ms_hmgu_orex-803006-0_1",
+      "prov:used": [
+        {
+          "@type": [
+            "schema:Thing",
+            "prov:Entity",
+            "nxs:BaseClass/NXinstrument"
+          ],
+          "schema:name": "FTICR-MS 12 Tesla Solarix Infinity system",
+          "schema:identifier": "12TSI"
+        }
+      ],
+      "schema:location": {
+        "@type": [
+          "schema:Place",
+          "nxs:BaseClass/NXsource"
+        ],
+        "schema:identifier": "https://ror.org/034rhsb33",
+        "schema:name": "Helmholtz University (Helmholtz Zentrum Munchen)",
+        "schema:alternateName": "HMGU"
+      },
+      "schema:mainEntity": [
+        {
+          "@type": [
+            "schema:Thing",
+            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+          ],
+          "schema:additionalType": [
+            "MaterialSample"
+          ],
+          "schema:identifier": [
+            "['OREX-803006-0']"
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:encodingFormat": [
+        "application/zip"
+      ],
+      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+      "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/withheld",
+      "schema:hasPart": [
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#5d8fabdc1858691149d0dc863009e650",
+          "schema:name": "20240530_FTICR-MS_HMGU_OREX-803006-0_1_FTICRMSTabular_1.csv",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "a0e330a14f605d51c216b3d5c2c9cdbe6b9dd79260dc93fc7e609434c37e58ce"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 106433,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "text/csv"
+          ],
+          "componentType": {
+            "@type": "ada:other"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#dd301b7aaf563e0428c1bff811dc4235",
+          "schema:name": "20240530_FTICR-MS_HMGU_OREX-803006-0_1_FTICRMSTabular_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "554004208d4fc59012ac6040c3cc4082e874c1686c31afc568621cc5d65fdb9a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 672,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#5d8fabdc1858691149d0dc863009e650"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#259b26932cc2d691b4a2663a7e0c7016",
+          "schema:name": "20240530_FTICR-MS_HMGU_OREX-803006-0_1_methodDescription_1.pdf",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "772c97cb4ac890661c3959b6328a445cb090799a29a97d49bb381efddcc27a78"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 63409,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/pdf"
+          ],
+          "componentType": {
+            "@type": "ada:methodDescription"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#fbd7d60f080fc930e3e6d97fa1f8b21d",
+          "schema:name": "20240530_FTICR-MS_HMGU_OREX-803006-0_1_methodDescription_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "0e73159b99c6528e13c70027cd89eb6cd67a658b5d80eec96801e17991d87e5b"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 752,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#259b26932cc2d691b4a2663a7e0c7016"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#fdade1f3aa39e8f8879993d719256213",
+          "schema:name": "20240530_FTICR-MS_HMGU_OREX-803006-0_1_plot_1.pdf",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "1d67d0133c84bb2fd95f0e82363092168f5ecc9d40fa9877a748dbcbb880277e"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 4171697,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/pdf"
+          ],
+          "componentType": {
+            "@type": "ada:plot"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#21bed8bda3a9b27d83c1bc1eea51da27",
+          "schema:name": "20240530_FTICR-MS_HMGU_OREX-803006-0_1_plot_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "edfa8634561c517b2fe182be2906069ef93d908fb2fbd4b75eac2d9a3b205e38"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 348,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#fdade1f3aa39e8f8879993d719256213"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ada:metadata_492",
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      "dcat:CatalogRecord"
+    ],
+    "schema:sdDatePublished": "2024-11-21",
+    "schema:maintainer": {
+      "@id": "https://ada.org/person/3479",
+      "@type": "schema:Person",
+      "schema:name": "Richard, Stephen M.",
+      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+      "schema:email": "smrTucson@email.org"
+    },
+    "schema:about": {
+      "@id": "ada:record_492"
+    },
+    "schema:description": "metadata about documentation for https://doi.org/10.60707/r8hy-7y50",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/profiles/discovery"
+      },
+      {
+        "@id": "ada:profile/adaFTICRMS"
+      }
+    ]
+  }
 }

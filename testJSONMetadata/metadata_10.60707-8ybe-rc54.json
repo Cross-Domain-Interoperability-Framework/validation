@@ -1,542 +1,557 @@
 {
-    "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
-    "@context": {
-        "schema": "http://schema.org/",
-        "dcterms": "http://purl.org/dc/terms/",
-        "geosparql": "http://www.opengis.net/ont/geosparql#",
-        "spdx": "http://spdx.org/rdf/terms#",
-        "ada": "https://ada.astromat.org/metadata/",
-        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-        "csvw": "http://www.w3.org/ns/csvw#",
-        "prov": "http://www.w3.org/ns/prov#",
-        "dcat": "http://www.w3.org/ns/dcat#",
-        "xas": "https://ada.astromat.org/metadata/xas/",
-        "nxs": "https://manual.nexusformat.org/classes/"
-    },
-    "@id": "ada:record_2343",
+  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "geosparql": "http://www.opengis.net/ont/geosparql#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "ada": "https://ada.astromat.org/metadata/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "xas": "https://ada.astromat.org/metadata/xas/",
+    "nxs": "https://manual.nexusformat.org/classes/"
+  },
+  "@id": "ada:record_2343",
+  "@type": [
+    "schema:Dataset",
+    "schema:Product"
+  ],
+  "schema:name": "Thermal diffusivity measuremnts by Lock-in thermography technique of particle of interest OREX-803009-102 (Polar Distribution Data)",
+  "schema:description": "This bundle contains the results of thermal diffusivity measurements conducted on four different regions of OREX-803009-102 using the Lock-In Thermography (LIT) technique. The dataset includes the polar distribution of thermal diffusivity, detailed measurement conditions, and the lock-in thermal response with corresponding infrared images.",
+  "schema:identifier": {
     "@type": [
-        "schema:Dataset",
-        "schema:Product"
+      "schema:PropertyValue",
+      "cdi:Identifier"
     ],
-    "schema:name": "Thermal diffusivity measuremnts by Lock-in thermography technique of particle of interest OREX-803009-102 (Polar Distribution Data)",
-    "schema:description": "This bundle contains the results of thermal diffusivity measurements conducted on four different regions of OREX-803009-102 using the Lock-In Thermography (LIT) technique. The dataset includes the polar distribution of thermal diffusivity, detailed measurement conditions, and the lock-in thermal response with corresponding infrared images.",
-    "schema:identifier": {
-        "@type": [
-            "schema:PropertyValue",
-            "cdi:Identifier"
-        ],
-        "schema:propertyID": "https://registry.identifiers.org/registry/doi",
-        "schema:value": "10.60707/8ybe-rc54",
-        "schema:url": "https://doi.org/10.60707/8ybe-rc54"
-    },
-    "schema:additionalType": [
-        "Lock-In Thermography"
-    ],
-    "schema:datePublished": "2025-12-31",
-    "schema:license": [
-        "missing"
-    ],
-    "schema:url": "",
-    "schema:dateModified": "2025-03-10",
-    "schema:creator": {
-        "@list": [
-            {
-                "@id": "https://orcid.org/0000-0002-1681-0492",
-                "@type": "schema:Person",
-                "schema:name": "ALASLI, Abdulkareem",
-                "schema:identifier": "https://orcid.org/0000-0002-1681-0492",
-                "schema:email": "al.asli.abdulkareem.m6@f.mail.nagoya-u.ac.jp"
-            }
-        ]
-    },
-    "schema:contributor": [
-        {
-            "@type": "schema:Role",
-            "schema:roleName": "Researcher",
-            "schema:contributor": {
-                "@type": "schema:Person",
-                "@id": "https://orcid.org/0000-0002-3094-6716",
-                "schema:name": "Ishizaki, Takuya",
-                "schema:identifier": "https://orcid.org/0000-0002-3094-6716",
-                "schema:email": "ishizaki.takuya@jaxa.jp"
-            }
-        }
-    ],
-    "schema:funding": [
-        {
-            "@type": "schema:MonetaryGrant",
-            "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program."
-        }
-    ],
-    "schema:measurementTechnique": {
-        "@type": "schema:DefinedTerm",
-        "schema:name": "Lock-In Thermography",
-        "schema:termCode": "LIT"
-    },
-    "prov:wasGeneratedBy": [
-        {
-            "@type": [
-                "schema:Event",
-                "xas:AnalysisEvent",
-                "prov:Activity",
-                "schema:Action"
-            ],
-            "schema:startDate": "2024-01-10T12:00:00Z",
-            "schema:identifier": "20240110_lit_jaxa_orex-803009-102_1",
-            "prov:used": [
-                {
-                    "@type": [
-                        "schema:Thing",
-                        "prov:Entity",
-                        "nxs:BaseClass/NXinstrument"
-                    ],
-                    "schema:name": "Infratec camera model Image IR 8350 hp",
-                    "schema:identifier": "InfRec-8350hp"
-                }
-            ],
-            "schema:location": {
-                "@type": [
-                    "schema:Place",
-                    "nxs:BaseClass/NXsource"
-                ],
-                "schema:identifier": "https://ror.org/059yhyy33",
-                "schema:name": "Japan Aerospace Exploration Agency",
-                "schema:alternateName": "JAXA"
-            },
-            "schema:mainEntity": [
-                {
-                    "@type": [
-                        "schema:Thing",
-                        "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
-                    ],
-                    "schema:additionalType": [
-                        "MaterialSample"
-                    ],
-                    "schema:identifier": [
-                        "['OREX-803009-102']"
-                    ]
-                }
-            ]
-        }
-    ],
-    "schema:variableMeasured": [],
-    "schema:distribution": [
-        {
-            "@type": [
-                "schema:DataDownload"
-            ],
-            "schema:encodingFormat": [
-                "application/zip"
-            ],
-            "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
-            "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/withheld",
-            "schema:hasPart": [
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#88478bc70e33520dd7c5add9440679ed",
-                    "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_LITPolarDataCollection_2.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "d50d66fbebb7453e3b32533c60836facdf2850d7c26434eaef98800c57952036"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 339,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#3b4707dee161c43651196729a21bf3a0"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:collection",
-                        "https://schema.org/Collection",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#3b4707dee161c43651196729a21bf3a0",
-                    "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_LITPolarDataCollection_2.zip",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "bbc2c82c76d029c8288db9fa7bea91886f81ad256c99de3b56f14095078a885d"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 343500,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/zip"
-                    ],
-                    "componentType": {
-                        "@type": "ada:LITPolarDataCollection"
-                    }
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#1018a6c0da08f43705b9671a06ac3a66",
-                    "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_analysisLocation_2.png",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "a367c1abfe7c8b128aa36d170292ec616f74902167eba844cbae017abfefe0a5"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 50107,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/png"
-                    ],
-                    "componentType": {
-                        "@type": "ada:analysisLocation"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#0c78c169a7626b9756224ef91c1f9647",
-                    "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_analysisLocation_2.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "f68f1e0aa8cab7929b6f80cd8ce14430a6c118ce9e9b482a4355b52c86b96384"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 312,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#1018a6c0da08f43705b9671a06ac3a66"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#94cc85b187a01f913fd1881847b6b16e",
-                    "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_instrumentMetadata_2.txt",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "c16845bfc5c9231691852b983560f6da799b184fd66792a911939fa436134746"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 960,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "text/plain"
-                    ],
-                    "componentType": {
-                        "@type": "ada:instrumentMetadata"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#69d44b9bce29c807669117f7582a5555",
-                    "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_instrumentMetadata_2.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "bf15ad35bac8ee3f250bd4a07e149e7eaf17fb053abbf098f7b6ecc1d152381f"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 451,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#94cc85b187a01f913fd1881847b6b16e"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#ef4759be34c3bbdd67728f7d38cf9621",
-                    "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_methodDescription_2.txt",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "8a72929e095d9a67990c867f4991441e45ec9440ddd4babc1806330121ac22d0"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 2378,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "text/plain"
-                    ],
-                    "componentType": {
-                        "@type": "ada:methodDescription"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#e435bd95c3488bc0815af12f7f0b1ead",
-                    "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_methodDescription_2.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "fab78ae9958e6b0af61cd676ef5a52fb7704cc3811ce5379082b89b8f96f2be6"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 541,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#ef4759be34c3bbdd67728f7d38cf9621"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#8f35d75381be53654bbc9c8b18db1e61",
-                    "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_other_2.csv",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "1e269c9882345eb13613f00ecf98916ddd34a1c63287822da6e1f2e42cd522a3"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 57,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "text/csv"
-                    ],
-                    "componentType": {
-                        "@type": "ada:other"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#316bfe56e130cfdab33c4854fd81cb46",
-                    "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_other_2.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "f978af9344f893a8ed0b266341aef721940fbe8c9e33d169a357a18fc6d065ce"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 335,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#8f35d75381be53654bbc9c8b18db1e61"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:collection",
-                        "https://schema.org/Collection",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#4e8177b8516e915bc9f51f0f259968e6",
-                    "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_other_2.zip",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "7f906d737378cc597a9d2829b1682268bd7282f21324156482c0c45c52ab4963"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 2259431,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/zip"
-                    ],
-                    "componentType": {
-                        "@type": "ada:LIT2DDataCollection"
-                    }
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#0922c882702b14139c6ff58ebb6eb168",
-                    "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_other_3.csv",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "3baeb498578a0152cacf57abbe16e92564913fc06a89912cf8167d6c21a4e902"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 57,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "text/csv"
-                    ],
-                    "componentType": {
-                        "@type": "ada:other"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#73ac93e726b8ad68c14c72cd61c30242",
-                    "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_other_3.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "7ac3437095cd99b108a0398536623375e55328e32ef7abffbda2f3f4b527b17e"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 389,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#0922c882702b14139c6ff58ebb6eb168"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#39ecb1d7513f4fbcf7d6050ec5d05ed6",
-                    "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_other_4.csv",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "1e269c9882345eb13613f00ecf98916ddd34a1c63287822da6e1f2e42cd522a3"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 57,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "text/csv"
-                    ],
-                    "componentType": {
-                        "@type": "ada:other"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#6885beaeecc8ec8f213e0ebf8e7d834a",
-                    "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_other_4.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "dcb615e88573abd1a706a02ed6f1dfb530a0a51f5c67472dbf6d520ecd440c67"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 389,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#39ecb1d7513f4fbcf7d6050ec5d05ed6"
-                        }
-                    ]
-                }
-            ]
-        }
-    ],
-    "schema:subjectOf": {
-        "@id": "ada:metadata_2343",
-        "@type": [
-            "schema:Dataset"
-        ],
-        "schema:additionalType": [
-            "dcat:CatalogRecord"
-        ],
-        "schema:sdDatePublished": "2025-03-10",
-        "schema:maintainer": {
-            "@id": "https://ada.org/person/3479",
-            "@type": "schema:Person",
-            "schema:name": "Richard, Stephen M.",
-            "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
-            "schema:email": "smrTucson@email.org"
-        },
-        "schema:about": {
-            "@id": "ada:record_2343"
-        },
-        "schema:description": "metadata about documentation for https://doi.org/10.60707/8ybe-rc54",
-        "dcterms:conformsTo": [
-            {
-                "@id": "https://w3id.org/cdif/profiles/discovery"
-            },
-            {
-                "@id": "ada:profile/adaLIT"
-            }
-        ]
+    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:value": "10.60707/8ybe-rc54",
+    "schema:url": "https://doi.org/10.60707/8ybe-rc54"
+  },
+  "schema:additionalType": [
+    "Lock-In Thermography"
+  ],
+  "schema:datePublished": "2025-12-31",
+  "schema:license": [
+    "missing"
+  ],
+  "schema:url": "",
+  "schema:dateModified": "2025-03-10",
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://orcid.org/0000-0002-1681-0492",
+        "@type": "schema:Person",
+        "schema:name": "ALASLI, Abdulkareem",
+        "schema:identifier": "https://orcid.org/0000-0002-1681-0492",
+        "schema:email": "al.asli.abdulkareem.m6@f.mail.nagoya-u.ac.jp"
+      }
+    ]
+  },
+  "schema:contributor": [
+    {
+      "@type": "schema:Role",
+      "schema:roleName": "Researcher",
+      "schema:contributor": {
+        "@type": "schema:Person",
+        "@id": "https://orcid.org/0000-0002-3094-6716",
+        "schema:name": "Ishizaki, Takuya",
+        "schema:identifier": "https://orcid.org/0000-0002-3094-6716",
+        "schema:email": "ishizaki.takuya@jaxa.jp"
+      }
     }
+  ],
+  "schema:funding": [
+    {
+      "@type": "schema:MonetaryGrant",
+      "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program."
+    }
+  ],
+  "schema:measurementTechnique": {
+    "@type": "schema:DefinedTerm",
+    "schema:name": "Lock-In Thermography",
+    "schema:termCode": "LIT"
+  },
+  "prov:wasGeneratedBy": [
+    {
+      "@type": [
+        "schema:Event",
+        "xas:AnalysisEvent",
+        "prov:Activity",
+        "schema:Action"
+      ],
+      "schema:startDate": "2024-01-10T12:00:00Z",
+      "schema:identifier": "20240110_lit_jaxa_orex-803009-102_1",
+      "prov:used": [
+        {
+          "@type": [
+            "schema:Thing",
+            "prov:Entity",
+            "nxs:BaseClass/NXinstrument"
+          ],
+          "schema:name": "Infratec camera model Image IR 8350 hp",
+          "schema:identifier": "InfRec-8350hp"
+        }
+      ],
+      "schema:location": {
+        "@type": [
+          "schema:Place",
+          "nxs:BaseClass/NXsource"
+        ],
+        "schema:identifier": "https://ror.org/059yhyy33",
+        "schema:name": "Japan Aerospace Exploration Agency",
+        "schema:alternateName": "JAXA"
+      },
+      "schema:mainEntity": [
+        {
+          "@type": [
+            "schema:Thing",
+            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+          ],
+          "schema:additionalType": [
+            "MaterialSample"
+          ],
+          "schema:identifier": [
+            "['OREX-803009-102']"
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:encodingFormat": [
+        "application/zip"
+      ],
+      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+      "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/withheld",
+      "schema:hasPart": [
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#88478bc70e33520dd7c5add9440679ed",
+          "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_LITPolarDataCollection_2.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "d50d66fbebb7453e3b32533c60836facdf2850d7c26434eaef98800c57952036"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 339,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#3b4707dee161c43651196729a21bf3a0"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:collection",
+            "https://schema.org/Collection",
+            "schema:MediaObject"
+          ],
+          "@id": "#3b4707dee161c43651196729a21bf3a0",
+          "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_LITPolarDataCollection_2.zip",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "bbc2c82c76d029c8288db9fa7bea91886f81ad256c99de3b56f14095078a885d"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 343500,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/zip"
+          ],
+          "componentType": {
+            "@type": "ada:LITPolarDataCollection"
+          }
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#1018a6c0da08f43705b9671a06ac3a66",
+          "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_analysisLocation_2.png",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "a367c1abfe7c8b128aa36d170292ec616f74902167eba844cbae017abfefe0a5"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 50107,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/png"
+          ],
+          "componentType": {
+            "@type": "ada:analysisLocation"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#0c78c169a7626b9756224ef91c1f9647",
+          "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_analysisLocation_2.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "f68f1e0aa8cab7929b6f80cd8ce14430a6c118ce9e9b482a4355b52c86b96384"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 312,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#1018a6c0da08f43705b9671a06ac3a66"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#94cc85b187a01f913fd1881847b6b16e",
+          "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_instrumentMetadata_2.txt",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "c16845bfc5c9231691852b983560f6da799b184fd66792a911939fa436134746"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 960,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "text/plain"
+          ],
+          "componentType": {
+            "@type": "ada:instrumentMetadata"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#69d44b9bce29c807669117f7582a5555",
+          "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_instrumentMetadata_2.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "bf15ad35bac8ee3f250bd4a07e149e7eaf17fb053abbf098f7b6ecc1d152381f"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 451,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#94cc85b187a01f913fd1881847b6b16e"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#ef4759be34c3bbdd67728f7d38cf9621",
+          "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_methodDescription_2.txt",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "8a72929e095d9a67990c867f4991441e45ec9440ddd4babc1806330121ac22d0"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 2378,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "text/plain"
+          ],
+          "componentType": {
+            "@type": "ada:methodDescription"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#e435bd95c3488bc0815af12f7f0b1ead",
+          "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_methodDescription_2.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "fab78ae9958e6b0af61cd676ef5a52fb7704cc3811ce5379082b89b8f96f2be6"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 541,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#ef4759be34c3bbdd67728f7d38cf9621"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#8f35d75381be53654bbc9c8b18db1e61",
+          "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_other_2.csv",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "1e269c9882345eb13613f00ecf98916ddd34a1c63287822da6e1f2e42cd522a3"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 57,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "text/csv"
+          ],
+          "componentType": {
+            "@type": "ada:other"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#316bfe56e130cfdab33c4854fd81cb46",
+          "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_other_2.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "f978af9344f893a8ed0b266341aef721940fbe8c9e33d169a357a18fc6d065ce"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 335,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#8f35d75381be53654bbc9c8b18db1e61"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:collection",
+            "https://schema.org/Collection",
+            "schema:MediaObject"
+          ],
+          "@id": "#4e8177b8516e915bc9f51f0f259968e6",
+          "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_other_2.zip",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "7f906d737378cc597a9d2829b1682268bd7282f21324156482c0c45c52ab4963"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 2259431,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/zip"
+          ],
+          "componentType": {
+            "@type": "ada:LIT2DDataCollection"
+          }
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#0922c882702b14139c6ff58ebb6eb168",
+          "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_other_3.csv",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "3baeb498578a0152cacf57abbe16e92564913fc06a89912cf8167d6c21a4e902"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 57,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "text/csv"
+          ],
+          "componentType": {
+            "@type": "ada:other"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#73ac93e726b8ad68c14c72cd61c30242",
+          "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_other_3.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "7ac3437095cd99b108a0398536623375e55328e32ef7abffbda2f3f4b527b17e"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 389,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#0922c882702b14139c6ff58ebb6eb168"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#39ecb1d7513f4fbcf7d6050ec5d05ed6",
+          "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_other_4.csv",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "1e269c9882345eb13613f00ecf98916ddd34a1c63287822da6e1f2e42cd522a3"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 57,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "text/csv"
+          ],
+          "componentType": {
+            "@type": "ada:other"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#6885beaeecc8ec8f213e0ebf8e7d834a",
+          "schema:name": "20240110_LIT_JAXA_OREX-803009-102_1_other_4.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "dcb615e88573abd1a706a02ed6f1dfb530a0a51f5c67472dbf6d520ecd440c67"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 389,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#39ecb1d7513f4fbcf7d6050ec5d05ed6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ada:metadata_2343",
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      "dcat:CatalogRecord"
+    ],
+    "schema:sdDatePublished": "2025-03-10",
+    "schema:maintainer": {
+      "@id": "https://ada.org/person/3479",
+      "@type": "schema:Person",
+      "schema:name": "Richard, Stephen M.",
+      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+      "schema:email": "smrTucson@email.org"
+    },
+    "schema:about": {
+      "@id": "ada:record_2343"
+    },
+    "schema:description": "metadata about documentation for https://doi.org/10.60707/8ybe-rc54",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/profiles/discovery"
+      },
+      {
+        "@id": "ada:profile/adaLIT"
+      }
+    ]
+  }
 }

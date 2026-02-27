@@ -1,204 +1,206 @@
 {
-    "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
-    "@context": {
-        "schema": "http://schema.org/",
-        "dcterms": "http://purl.org/dc/terms/",
-        "geosparql": "http://www.opengis.net/ont/geosparql#",
-        "spdx": "http://spdx.org/rdf/terms#",
-        "ada": "https://ada.astromat.org/metadata/",
-        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-        "csvw": "http://www.w3.org/ns/csvw#",
-        "prov": "http://www.w3.org/ns/prov#",
-        "dcat": "http://www.w3.org/ns/dcat#",
-        "xas": "https://ada.astromat.org/metadata/xas/",
-        "nxs": "https://manual.nexusformat.org/classes/"
-    },
-    "@id": "ada:record_483",
+  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "geosparql": "http://www.opengis.net/ont/geosparql#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "ada": "https://ada.astromat.org/metadata/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "xas": "https://ada.astromat.org/metadata/xas/",
+    "nxs": "https://manual.nexusformat.org/classes/"
+  },
+  "@id": "ada:record_483",
+  "@type": [
+    "schema:Dataset",
+    "schema:Product"
+  ],
+  "schema:name": "NanoIR imaging of a small grain that was FIB polished.",
+  "schema:description": "AFM-IR tapping mode for IR imaging and IR spectroscopy of sample OREX-803030-0. Found submicron regions with strong absorption at 953 cm-1.",
+  "schema:identifier": {
     "@type": [
-        "schema:Dataset",
-        "schema:Product"
+      "schema:PropertyValue",
+      "cdi:Identifier"
     ],
-    "schema:name": "NanoIR imaging of a small grain that was FIB polished.",
-    "schema:description": "AFM-IR tapping mode for IR imaging and IR spectroscopy of sample OREX-803030-0. Found submicron regions with strong absorption at 953 cm-1.",
-    "schema:identifier": {
-        "@type": [
-            "schema:PropertyValue",
-            "cdi:Identifier"
-        ],
-        "schema:propertyID": "https://registry.identifiers.org/registry/doi",
-        "schema:value": "10.60707/pmm3-st23",
-        "schema:url": "https://doi.org/10.60707/pmm3-st23"
-    },
-    "schema:additionalType": [
-        "Nanoscale Infrared Mapping"
-    ],
-    "schema:datePublished": "2025-12-31",
-    "schema:license": [
-        "missing"
-    ],
-    "schema:url": "",
-    "schema:dateModified": "2024-06-20",
-    "schema:creator": {
-        "@list": [
-            {
-                "@id": "https://orcid.org/0000-0002-0861-2744",
-                "@type": "schema:Person",
-                "schema:name": "Dominguez, Gerardo",
-                "schema:identifier": "https://orcid.org/0000-0002-0861-2744",
-                "schema:email": "gdominguez@csusm.edu"
-            }
-        ]
-    },
-    "schema:funding": [
-        {
-            "@type": "schema:MonetaryGrant",
-            "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program. Development of NanoIR for returned samples was supported by NASA under award 80NSSC19K1051."
-        }
-    ],
-    "schema:measurementTechnique": {
-        "@type": "schema:DefinedTerm",
-        "schema:name": "Nanoscale Infrared Mapping",
-        "schema:termCode": "NanoIR"
-    },
-    "prov:wasGeneratedBy": [
-        {
-            "@type": [
-                "schema:Event",
-                "xas:AnalysisEvent",
-                "prov:Activity",
-                "schema:Action"
-            ],
-            "schema:startDate": "2024-05-28T21:19:43.666944Z",
-            "schema:identifier": "20240216_nanoir_csusm_orex-803030-0_1",
-            "prov:used": [
-                {
-                    "@type": [
-                        "schema:Thing",
-                        "prov:Entity",
-                        "nxs:BaseClass/NXinstrument"
-                    ],
-                    "schema:name": "Bruker NanoIR3-s",
-                    "schema:identifier": "BNIR3S"
-                }
-            ],
-            "schema:location": {
-                "@type": [
-                    "schema:Place",
-                    "nxs:BaseClass/NXsource"
-                ],
-                "schema:identifier": "https://ror.org/01j8e0j24",
-                "schema:name": "California State University, San Marcos",
-                "schema:alternateName": "CSUSM"
-            },
-            "schema:mainEntity": [
-                {
-                    "@type": [
-                        "schema:Thing",
-                        "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
-                    ],
-                    "schema:additionalType": [
-                        "MaterialSample"
-                    ],
-                    "schema:identifier": [
-                        "['OREX-803030-0']"
-                    ]
-                }
-            ]
-        }
-    ],
-    "schema:variableMeasured": [],
-    "schema:distribution": [
-        {
-            "@type": [
-                "schema:DataDownload"
-            ],
-            "schema:encodingFormat": [
-                "application/zip"
-            ],
-            "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
-            "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/withheld",
-            "schema:hasPart": [
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#2ab688dd3228b44eb5b2a74a0afe1481",
-                    "schema:name": "20240216_NanoIR_CSUSM_OREX-803030-0_1_NanoIRMapCollection_1.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "0806934eb4202d4649101b7317543dd540cf09882e4a2393fb5a1c12a9639cf9"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 246,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#c54e7ab98f107608aa14567eff7fe0d7"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:collection",
-                        "https://schema.org/Collection",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#c54e7ab98f107608aa14567eff7fe0d7",
-                    "schema:name": "20240216_NanoIR_CSUSM_OREX-803030-0_1_NanoIRMapCollection_1.zip",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "796c63ec77e429842d64e775cbf1e220b225a9d714eb2dcb26effd5bfa18e2f0"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 370614,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/zip"
-                    ],
-                    "componentType": {
-                        "@type": "ada:NanoIRMapCollection"
-                    }
-                }
-            ]
-        }
-    ],
-    "schema:subjectOf": {
-        "@id": "ada:metadata_483",
-        "@type": [
-            "schema:Dataset"
-        ],
-        "schema:additionalType": [
-            "dcat:CatalogRecord"
-        ],
-        "schema:sdDatePublished": "2024-06-20",
-        "schema:maintainer": {
-            "@id": "https://ada.org/person/3479",
-            "@type": "schema:Person",
-            "schema:name": "Richard, Stephen M.",
-            "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
-            "schema:email": "smrTucson@email.org"
-        },
-        "schema:about": {
-            "@id": "ada:record_483"
-        },
-        "schema:description": "metadata about documentation for https://doi.org/10.60707/pmm3-st23",
-        "dcterms:conformsTo": [
-            {
-                "@id": "https://w3id.org/cdif/profiles/discovery"
-            },
-            {
-                "@id": "ada:profile/adaNanoIR"
-            }
-        ]
+    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:value": "10.60707/pmm3-st23",
+    "schema:url": "https://doi.org/10.60707/pmm3-st23"
+  },
+  "schema:additionalType": [
+    "Nanoscale Infrared Mapping"
+  ],
+  "schema:datePublished": "2025-12-31",
+  "schema:license": [
+    "missing"
+  ],
+  "schema:url": "",
+  "schema:dateModified": "2024-06-20",
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://orcid.org/0000-0002-0861-2744",
+        "@type": "schema:Person",
+        "schema:name": "Dominguez, Gerardo",
+        "schema:identifier": "https://orcid.org/0000-0002-0861-2744",
+        "schema:email": "gdominguez@csusm.edu"
+      }
+    ]
+  },
+  "schema:funding": [
+    {
+      "@type": "schema:MonetaryGrant",
+      "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program. Development of NanoIR for returned samples was supported by NASA under award 80NSSC19K1051."
     }
+  ],
+  "schema:measurementTechnique": {
+    "@type": "schema:DefinedTerm",
+    "schema:name": "Nanoscale Infrared Mapping",
+    "schema:termCode": "NanoIR"
+  },
+  "prov:wasGeneratedBy": [
+    {
+      "@type": [
+        "schema:Event",
+        "xas:AnalysisEvent",
+        "prov:Activity",
+        "schema:Action"
+      ],
+      "schema:startDate": "2024-05-28T21:19:43.666944Z",
+      "schema:identifier": "20240216_nanoir_csusm_orex-803030-0_1",
+      "prov:used": [
+        {
+          "@type": [
+            "schema:Thing",
+            "prov:Entity",
+            "nxs:BaseClass/NXinstrument"
+          ],
+          "schema:name": "Bruker NanoIR3-s",
+          "schema:identifier": "BNIR3S"
+        }
+      ],
+      "schema:location": {
+        "@type": [
+          "schema:Place",
+          "nxs:BaseClass/NXsource"
+        ],
+        "schema:identifier": "https://ror.org/01j8e0j24",
+        "schema:name": "California State University, San Marcos",
+        "schema:alternateName": "CSUSM"
+      },
+      "schema:mainEntity": [
+        {
+          "@type": [
+            "schema:Thing",
+            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+          ],
+          "schema:additionalType": [
+            "MaterialSample"
+          ],
+          "schema:identifier": [
+            "['OREX-803030-0']"
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:encodingFormat": [
+        "application/zip"
+      ],
+      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+      "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/withheld",
+      "schema:hasPart": [
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#2ab688dd3228b44eb5b2a74a0afe1481",
+          "schema:name": "20240216_NanoIR_CSUSM_OREX-803030-0_1_NanoIRMapCollection_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "0806934eb4202d4649101b7317543dd540cf09882e4a2393fb5a1c12a9639cf9"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 246,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#c54e7ab98f107608aa14567eff7fe0d7"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:collection",
+            "https://schema.org/Collection",
+            "schema:MediaObject"
+          ],
+          "@id": "#c54e7ab98f107608aa14567eff7fe0d7",
+          "schema:name": "20240216_NanoIR_CSUSM_OREX-803030-0_1_NanoIRMapCollection_1.zip",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "796c63ec77e429842d64e775cbf1e220b225a9d714eb2dcb26effd5bfa18e2f0"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 370614,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/zip"
+          ],
+          "componentType": {
+            "@type": "ada:NanoIRMapCollection"
+          }
+        }
+      ]
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ada:metadata_483",
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      "dcat:CatalogRecord"
+    ],
+    "schema:sdDatePublished": "2024-06-20",
+    "schema:maintainer": {
+      "@id": "https://ada.org/person/3479",
+      "@type": "schema:Person",
+      "schema:name": "Richard, Stephen M.",
+      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+      "schema:email": "smrTucson@email.org"
+    },
+    "schema:about": {
+      "@id": "ada:record_483"
+    },
+    "schema:description": "metadata about documentation for https://doi.org/10.60707/pmm3-st23",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/profiles/discovery"
+      },
+      {
+        "@id": "ada:profile/adaNanoIR"
+      }
+    ]
+  }
 }

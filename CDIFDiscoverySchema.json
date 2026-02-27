@@ -1064,13 +1064,33 @@
           "type": "object",
           "description": "A string value calculated from the content of the resource representation, used to test if content has been modified. The checksum is a property of a particular distribution/DataDownload. Implements DDI-CDI fingerprint",
           "properties": {
+            "@type": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "const": "spdx:Checksum"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "spdx:Checksum"
+                  }
+                }
+              ]
+            },
             "spdx:algorithm": {
               "type": "string"
             },
             "spdx:checksumValue": {
               "type": "string"
             }
-          }
+          },
+          "required": [
+            "@type"
+          ]
         },
         "schema:provider": {
           "type": "array",

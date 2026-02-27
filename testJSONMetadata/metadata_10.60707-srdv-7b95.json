@@ -1,303 +1,309 @@
 {
-    "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
-    "@context": {
-        "schema": "http://schema.org/",
-        "dcterms": "http://purl.org/dc/terms/",
-        "geosparql": "http://www.opengis.net/ont/geosparql#",
-        "spdx": "http://spdx.org/rdf/terms#",
-        "ada": "https://ada.astromat.org/metadata/",
-        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-        "csvw": "http://www.w3.org/ns/csvw#",
-        "prov": "http://www.w3.org/ns/prov#",
-        "dcat": "http://www.w3.org/ns/dcat#",
-        "xas": "https://ada.astromat.org/metadata/xas/",
-        "nxs": "https://manual.nexusformat.org/classes/"
-    },
-    "@id": "ada:record_473",
+  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "geosparql": "http://www.opengis.net/ont/geosparql#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "ada": "https://ada.astromat.org/metadata/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "xas": "https://ada.astromat.org/metadata/xas/",
+    "nxs": "https://manual.nexusformat.org/classes/"
+  },
+  "@id": "ada:record_473",
+  "@type": [
+    "schema:Dataset",
+    "schema:Product"
+  ],
+  "schema:name": "uL2MS Summed Mass Spectrum OREX-501006-0 PG5",
+  "schema:description": "uL2MS mass spectrum of particle group 5 on OREX-501006-0",
+  "schema:identifier": {
     "@type": [
-        "schema:Dataset",
-        "schema:Product"
+      "schema:PropertyValue",
+      "cdi:Identifier"
     ],
-    "schema:name": "uL2MS Summed Mass Spectrum OREX-501006-0 PG5",
-    "schema:description": "uL2MS mass spectrum of particle group 5 on OREX-501006-0",
-    "schema:identifier": {
-        "@type": [
-            "schema:PropertyValue",
-            "cdi:Identifier"
-        ],
-        "schema:propertyID": "https://registry.identifiers.org/registry/doi",
-        "schema:value": "10.60707/srdv-7b95",
-        "schema:url": "https://doi.org/10.60707/srdv-7b95"
-    },
-    "schema:additionalType": [
-        "Microprobe Two-Step Laser Mass Spectrometry"
-    ],
-    "schema:datePublished": "2024-11-21",
-    "schema:license": [
-        "missing"
-    ],
-    "schema:url": "",
-    "schema:dateModified": "2024-11-21",
-    "schema:creator": {
-        "@list": [
-            {
-                "@id": "https://orcid.org/0000-0002-5187-1653",
-                "@type": "schema:Person",
-                "schema:name": "Clemett, Simon",
-                "schema:identifier": "https://orcid.org/0000-0002-5187-1653",
-                "schema:email": "simon.j.clemett@nasa.gov"
-            }
-        ]
-    },
-    "schema:funding": [
-        {
-            "@type": "schema:MonetaryGrant",
-            "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program."
-        }
-    ],
-    "schema:measurementTechnique": {
-        "@type": "schema:DefinedTerm",
-        "schema:name": "Microprobe Two-Step Laser Mass Spectrometry",
-        "schema:termCode": "uL2MS"
-    },
-    "prov:wasGeneratedBy": [
-        {
-            "@type": [
-                "schema:Event",
-                "xas:AnalysisEvent",
-                "prov:Activity",
-                "schema:Action"
-            ],
-            "schema:startDate": "2024-05-24T18:49:44.145534Z",
-            "schema:identifier": "20231127_ul2ms_jsc-ares_orex-501006-0_1",
-            "prov:used": [
-                {
-                    "@type": [
-                        "schema:Thing",
-                        "prov:Entity",
-                        "nxs:BaseClass/NXinstrument"
-                    ],
-                    "schema:name": "uL2MS instrument",
-                    "schema:identifier": "uL2MS"
-                }
-            ],
-            "schema:location": {
-                "@type": [
-                    "schema:Place",
-                    "nxs:BaseClass/NXsource"
-                ],
-                "schema:identifier": "https://ror.org/04xx4z452",
-                "schema:name": "NASA Johnson Space Center",
-                "schema:alternateName": "JSC-ARES"
-            },
-            "schema:mainEntity": [
-                {
-                    "@type": [
-                        "schema:Thing",
-                        "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
-                    ],
-                    "schema:additionalType": [
-                        "MaterialSample"
-                    ],
-                    "schema:identifier": [
-                        "['OREX-501006-0']"
-                    ]
-                }
-            ]
-        }
-    ],
-    "schema:variableMeasured": [],
-    "schema:distribution": [
-        {
-            "@type": [
-                "schema:DataDownload"
-            ],
-            "schema:encodingFormat": [
-                "application/zip"
-            ],
-            "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
-            "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/withheld",
-            "schema:hasPart": [
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#a6bf8ccda28d8a7d0d0a7f3eb1f0a477",
-                    "schema:name": "20231127_uL2MS_JSC-ARES_OREX-501006-0_1_L2MSCube_11.h5",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "93e81e04f6b564583406877b4841a762ec0979c0f68692be6875fe71c3b40451"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 3212864,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/x-hdf5"
-                    ],
-                    "componentType": {
-                        "@type": "ada:other"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#26e4670ea44c3b30088045156c222ebb",
-                    "schema:name": "20231127_uL2MS_JSC-ARES_OREX-501006-0_1_L2MSCube_11.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "0e50ba27a73a40c968a3fbc649746cebc34529017f2006e7055dc5ae0ed98ae6"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 505,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#a6bf8ccda28d8a7d0d0a7f3eb1f0a477"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#56f8f50f7d009bc25862d231c4e690df",
-                    "schema:name": "20231127_uL2MS_JSC-ARES_OREX-501006-0_1_other_1.txt",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "0aab091fb8f0a831dd3e12ae17ec4d275677f9d90e13f46d7ec14754c65b5c20"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 29,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "text/plain"
-                    ],
-                    "componentType": {
-                        "@type": "ada:other"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#abe5e16c45f06ba4b8a45bd9f26542d2",
-                    "schema:name": "20231127_uL2MS_JSC-ARES_OREX-501006-0_1_other_1.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "f9cd6710f5c8cbae94ef96b3a0181f692ab1401e3e5c2cec04626d7b78cad3dd"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 312,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#56f8f50f7d009bc25862d231c4e690df"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#666d11da0da74b54ced7b24dd8ef201b",
-                    "schema:name": "20231127_uL2MS_JSC-ARES_OREX-501006-0_1_other_2.txt",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "b484eb81018bbe4852c7cd430376afb5bc473367eca05431f8cfa1ff888f293d"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 20,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "text/plain"
-                    ],
-                    "componentType": {
-                        "@type": "ada:other"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#0bdd9f9df2b8aae4c3d53b7d74854e97",
-                    "schema:name": "20231127_uL2MS_JSC-ARES_OREX-501006-0_1_other_2.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "caba390d6935b422e2a4c4c67237819094a0daf84041bc8f499be81efa8b9828"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 300,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#666d11da0da74b54ced7b24dd8ef201b"
-                        }
-                    ]
-                }
-            ]
-        }
-    ],
-    "schema:subjectOf": {
-        "@id": "ada:metadata_473",
-        "@type": [
-            "schema:Dataset"
-        ],
-        "schema:additionalType": [
-            "dcat:CatalogRecord"
-        ],
-        "schema:sdDatePublished": "2024-11-21",
-        "schema:maintainer": {
-            "@id": "https://ada.org/person/3479",
-            "@type": "schema:Person",
-            "schema:name": "Richard, Stephen M.",
-            "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
-            "schema:email": "smrTucson@email.org"
-        },
-        "schema:about": {
-            "@id": "ada:record_473"
-        },
-        "schema:description": "metadata about documentation for https://doi.org/10.60707/srdv-7b95",
-        "dcterms:conformsTo": [
-            {
-                "@id": "https://w3id.org/cdif/profiles/discovery"
-            },
-            {
-                "@id": "ada:profile/adaL2MS"
-            }
-        ]
+    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:value": "10.60707/srdv-7b95",
+    "schema:url": "https://doi.org/10.60707/srdv-7b95"
+  },
+  "schema:additionalType": [
+    "Microprobe Two-Step Laser Mass Spectrometry"
+  ],
+  "schema:datePublished": "2024-11-21",
+  "schema:license": [
+    "missing"
+  ],
+  "schema:url": "",
+  "schema:dateModified": "2024-11-21",
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://orcid.org/0000-0002-5187-1653",
+        "@type": "schema:Person",
+        "schema:name": "Clemett, Simon",
+        "schema:identifier": "https://orcid.org/0000-0002-5187-1653",
+        "schema:email": "simon.j.clemett@nasa.gov"
+      }
+    ]
+  },
+  "schema:funding": [
+    {
+      "@type": "schema:MonetaryGrant",
+      "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program."
     }
+  ],
+  "schema:measurementTechnique": {
+    "@type": "schema:DefinedTerm",
+    "schema:name": "Microprobe Two-Step Laser Mass Spectrometry",
+    "schema:termCode": "uL2MS"
+  },
+  "prov:wasGeneratedBy": [
+    {
+      "@type": [
+        "schema:Event",
+        "xas:AnalysisEvent",
+        "prov:Activity",
+        "schema:Action"
+      ],
+      "schema:startDate": "2024-05-24T18:49:44.145534Z",
+      "schema:identifier": "20231127_ul2ms_jsc-ares_orex-501006-0_1",
+      "prov:used": [
+        {
+          "@type": [
+            "schema:Thing",
+            "prov:Entity",
+            "nxs:BaseClass/NXinstrument"
+          ],
+          "schema:name": "uL2MS instrument",
+          "schema:identifier": "uL2MS"
+        }
+      ],
+      "schema:location": {
+        "@type": [
+          "schema:Place",
+          "nxs:BaseClass/NXsource"
+        ],
+        "schema:identifier": "https://ror.org/04xx4z452",
+        "schema:name": "NASA Johnson Space Center",
+        "schema:alternateName": "JSC-ARES"
+      },
+      "schema:mainEntity": [
+        {
+          "@type": [
+            "schema:Thing",
+            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+          ],
+          "schema:additionalType": [
+            "MaterialSample"
+          ],
+          "schema:identifier": [
+            "['OREX-501006-0']"
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:encodingFormat": [
+        "application/zip"
+      ],
+      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+      "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/withheld",
+      "schema:hasPart": [
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#a6bf8ccda28d8a7d0d0a7f3eb1f0a477",
+          "schema:name": "20231127_uL2MS_JSC-ARES_OREX-501006-0_1_L2MSCube_11.h5",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "93e81e04f6b564583406877b4841a762ec0979c0f68692be6875fe71c3b40451"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 3212864,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/x-hdf5"
+          ],
+          "componentType": {
+            "@type": "ada:other"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#26e4670ea44c3b30088045156c222ebb",
+          "schema:name": "20231127_uL2MS_JSC-ARES_OREX-501006-0_1_L2MSCube_11.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "0e50ba27a73a40c968a3fbc649746cebc34529017f2006e7055dc5ae0ed98ae6"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 505,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#a6bf8ccda28d8a7d0d0a7f3eb1f0a477"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#56f8f50f7d009bc25862d231c4e690df",
+          "schema:name": "20231127_uL2MS_JSC-ARES_OREX-501006-0_1_other_1.txt",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "0aab091fb8f0a831dd3e12ae17ec4d275677f9d90e13f46d7ec14754c65b5c20"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 29,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "text/plain"
+          ],
+          "componentType": {
+            "@type": "ada:other"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#abe5e16c45f06ba4b8a45bd9f26542d2",
+          "schema:name": "20231127_uL2MS_JSC-ARES_OREX-501006-0_1_other_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "f9cd6710f5c8cbae94ef96b3a0181f692ab1401e3e5c2cec04626d7b78cad3dd"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 312,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#56f8f50f7d009bc25862d231c4e690df"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#666d11da0da74b54ced7b24dd8ef201b",
+          "schema:name": "20231127_uL2MS_JSC-ARES_OREX-501006-0_1_other_2.txt",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "b484eb81018bbe4852c7cd430376afb5bc473367eca05431f8cfa1ff888f293d"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 20,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "text/plain"
+          ],
+          "componentType": {
+            "@type": "ada:other"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#0bdd9f9df2b8aae4c3d53b7d74854e97",
+          "schema:name": "20231127_uL2MS_JSC-ARES_OREX-501006-0_1_other_2.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "caba390d6935b422e2a4c4c67237819094a0daf84041bc8f499be81efa8b9828"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 300,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#666d11da0da74b54ced7b24dd8ef201b"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ada:metadata_473",
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      "dcat:CatalogRecord"
+    ],
+    "schema:sdDatePublished": "2024-11-21",
+    "schema:maintainer": {
+      "@id": "https://ada.org/person/3479",
+      "@type": "schema:Person",
+      "schema:name": "Richard, Stephen M.",
+      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+      "schema:email": "smrTucson@email.org"
+    },
+    "schema:about": {
+      "@id": "ada:record_473"
+    },
+    "schema:description": "metadata about documentation for https://doi.org/10.60707/srdv-7b95",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/profiles/discovery"
+      },
+      {
+        "@id": "ada:profile/adaL2MS"
+      }
+    ]
+  }
 }

@@ -1,216 +1,218 @@
 {
-    "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
-    "@context": {
-        "schema": "http://schema.org/",
-        "dcterms": "http://purl.org/dc/terms/",
-        "geosparql": "http://www.opengis.net/ont/geosparql#",
-        "spdx": "http://spdx.org/rdf/terms#",
-        "ada": "https://ada.astromat.org/metadata/",
-        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-        "csvw": "http://www.w3.org/ns/csvw#",
-        "prov": "http://www.w3.org/ns/prov#",
-        "dcat": "http://www.w3.org/ns/dcat#",
-        "xas": "https://ada.astromat.org/metadata/xas/",
-        "nxs": "https://manual.nexusformat.org/classes/"
-    },
-    "@id": "ada:record_2235",
+  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "geosparql": "http://www.opengis.net/ont/geosparql#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "ada": "https://ada.astromat.org/metadata/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "xas": "https://ada.astromat.org/metadata/xas/",
+    "nxs": "https://manual.nexusformat.org/classes/"
+  },
+  "@id": "ada:record_2235",
+  "@type": [
+    "schema:Dataset",
+    "schema:Product"
+  ],
+  "schema:name": "40Ar/39Ar geochronology and thermochronology",
+  "schema:description": "Argon isotope analyses of a single white particles with Lab ID OREX-803393-0 and with a size of 325 x 223 microns. The data were collected at the Western Australia Argon Isotope Facility, John de Laeter Centre, Curtin University, Western Australia",
+  "schema:identifier": {
     "@type": [
-        "schema:Dataset",
-        "schema:Product"
+      "schema:PropertyValue",
+      "cdi:Identifier"
     ],
-    "schema:name": "40Ar/39Ar geochronology and thermochronology",
-    "schema:description": "Argon isotope analyses of a single white particles with Lab ID OREX-803393-0 and with a size of 325 x 223 microns. The data were collected at the Western Australia Argon Isotope Facility, John de Laeter Centre, Curtin University, Western Australia",
-    "schema:identifier": {
-        "@type": [
-            "schema:PropertyValue",
-            "cdi:Identifier"
-        ],
-        "schema:propertyID": "https://registry.identifiers.org/registry/doi",
-        "schema:value": "10.60707/zh1b-jk54",
-        "schema:url": "https://doi.org/10.60707/zh1b-jk54"
-    },
-    "schema:additionalType": [
-        "40Ar/39Ar geochronology and thermochronology"
-    ],
-    "schema:datePublished": "2025-12-31",
-    "schema:license": [
-        "missing"
-    ],
-    "schema:url": "",
-    "schema:dateModified": "2025-02-27",
-    "schema:creator": {
-        "@list": [
-            {
-                "@id": "https://orcid.org/0000-0001-5626-4521",
-                "@type": "schema:Person",
-                "schema:name": "Jourdan, Fred",
-                "schema:identifier": "https://orcid.org/0000-0001-5626-4521",
-                "schema:email": "f.jourdan@curtin.edu.au"
-            }
-        ]
-    },
-    "schema:contributor": [
-        {
-            "@type": "schema:Role",
-            "schema:roleName": "Other",
-            "schema:contributor": {
-                "@type": "schema:Person",
-                "@id": "",
-                "schema:name": "",
-                "schema:identifier": "",
-                "schema:email": "A.Frew@exchange.curtin.edu.au"
-            }
-        }
-    ],
-    "schema:funding": [
-        {
-            "@type": "schema:MonetaryGrant",
-            "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program."
-        }
-    ],
-    "schema:measurementTechnique": {
-        "@type": "schema:DefinedTerm",
-        "schema:name": "40Ar/39Ar geochronology and thermochronology",
-        "schema:termCode": "ARGT"
-    },
-    "prov:wasGeneratedBy": [
-        {
-            "@type": [
-                "schema:Event",
-                "xas:AnalysisEvent",
-                "prov:Activity",
-                "schema:Action"
-            ],
-            "schema:startDate": "2025-01-24T12:00:00Z",
-            "schema:identifier": "20250124_argt_cuwa_orex-803393-0_1",
-            "prov:used": [
-                {
-                    "@type": [
-                        "schema:Thing",
-                        "prov:Entity",
-                        "nxs:BaseClass/NXinstrument"
-                    ],
-                    "schema:name": "Thermo Fisher ARGUS VI",
-                    "schema:identifier": "TFA5"
-                }
-            ],
-            "schema:location": {
-                "@type": [
-                    "schema:Place",
-                    "nxs:BaseClass/NXsource"
-                ],
-                "schema:identifier": "https://ror.org/02n415q13",
-                "schema:name": "Curtin University",
-                "schema:alternateName": "CUWA"
-            },
-            "schema:mainEntity": [
-                {
-                    "@type": [
-                        "schema:Thing",
-                        "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
-                    ],
-                    "schema:additionalType": [
-                        "MaterialSample"
-                    ],
-                    "schema:identifier": [
-                        "['OREX-803393-0']"
-                    ]
-                }
-            ]
-        }
-    ],
-    "schema:variableMeasured": [],
-    "schema:distribution": [
-        {
-            "@type": [
-                "schema:DataDownload"
-            ],
-            "schema:encodingFormat": [
-                "application/zip"
-            ],
-            "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
-            "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/withheld",
-            "schema:hasPart": [
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#bdfe8371dc249c7458a68cad93ae4740",
-                    "schema:name": "20250124_ARGT_CUWA_OREX-803393-0_1_ARGTDocument_1.pdf",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "a7668b969f609ca9af86dbb933babc66478af99b164067d7c50a8bb396a6f6c5"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 57175,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/pdf"
-                    ],
-                    "componentType": {
-                        "@type": "ada:other"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#3e9f9c491a94df58a71ecbed343c21d2",
-                    "schema:name": "20250124_ARGT_CUWA_OREX-803393-0_1_ARGTDocument_1.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "e13aecff7a8d6e99a399f13721353c1e441ccfabba40e5a11180c5c0d2c1e055"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 369,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#bdfe8371dc249c7458a68cad93ae4740"
-                        }
-                    ]
-                }
-            ]
-        }
-    ],
-    "schema:subjectOf": {
-        "@id": "ada:metadata_2235",
-        "@type": [
-            "schema:Dataset"
-        ],
-        "schema:additionalType": [
-            "dcat:CatalogRecord"
-        ],
-        "schema:sdDatePublished": "2025-02-27",
-        "schema:maintainer": {
-            "@id": "https://ada.org/person/3479",
-            "@type": "schema:Person",
-            "schema:name": "Richard, Stephen M.",
-            "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
-            "schema:email": "smrTucson@email.org"
-        },
-        "schema:about": {
-            "@id": "ada:record_2235"
-        },
-        "schema:description": "metadata about documentation for https://doi.org/10.60707/zh1b-jk54",
-        "dcterms:conformsTo": [
-            {
-                "@id": "https://w3id.org/cdif/profiles/discovery"
-            },
-            {
-                "@id": "ada:profile/adaARGT"
-            }
-        ]
+    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:value": "10.60707/zh1b-jk54",
+    "schema:url": "https://doi.org/10.60707/zh1b-jk54"
+  },
+  "schema:additionalType": [
+    "40Ar/39Ar geochronology and thermochronology"
+  ],
+  "schema:datePublished": "2025-12-31",
+  "schema:license": [
+    "missing"
+  ],
+  "schema:url": "",
+  "schema:dateModified": "2025-02-27",
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://orcid.org/0000-0001-5626-4521",
+        "@type": "schema:Person",
+        "schema:name": "Jourdan, Fred",
+        "schema:identifier": "https://orcid.org/0000-0001-5626-4521",
+        "schema:email": "f.jourdan@curtin.edu.au"
+      }
+    ]
+  },
+  "schema:contributor": [
+    {
+      "@type": "schema:Role",
+      "schema:roleName": "Other",
+      "schema:contributor": {
+        "@type": "schema:Person",
+        "@id": "",
+        "schema:name": "",
+        "schema:identifier": "",
+        "schema:email": "A.Frew@exchange.curtin.edu.au"
+      }
     }
+  ],
+  "schema:funding": [
+    {
+      "@type": "schema:MonetaryGrant",
+      "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program."
+    }
+  ],
+  "schema:measurementTechnique": {
+    "@type": "schema:DefinedTerm",
+    "schema:name": "40Ar/39Ar geochronology and thermochronology",
+    "schema:termCode": "ARGT"
+  },
+  "prov:wasGeneratedBy": [
+    {
+      "@type": [
+        "schema:Event",
+        "xas:AnalysisEvent",
+        "prov:Activity",
+        "schema:Action"
+      ],
+      "schema:startDate": "2025-01-24T12:00:00Z",
+      "schema:identifier": "20250124_argt_cuwa_orex-803393-0_1",
+      "prov:used": [
+        {
+          "@type": [
+            "schema:Thing",
+            "prov:Entity",
+            "nxs:BaseClass/NXinstrument"
+          ],
+          "schema:name": "Thermo Fisher ARGUS VI",
+          "schema:identifier": "TFA5"
+        }
+      ],
+      "schema:location": {
+        "@type": [
+          "schema:Place",
+          "nxs:BaseClass/NXsource"
+        ],
+        "schema:identifier": "https://ror.org/02n415q13",
+        "schema:name": "Curtin University",
+        "schema:alternateName": "CUWA"
+      },
+      "schema:mainEntity": [
+        {
+          "@type": [
+            "schema:Thing",
+            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+          ],
+          "schema:additionalType": [
+            "MaterialSample"
+          ],
+          "schema:identifier": [
+            "['OREX-803393-0']"
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:encodingFormat": [
+        "application/zip"
+      ],
+      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+      "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/withheld",
+      "schema:hasPart": [
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#bdfe8371dc249c7458a68cad93ae4740",
+          "schema:name": "20250124_ARGT_CUWA_OREX-803393-0_1_ARGTDocument_1.pdf",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "a7668b969f609ca9af86dbb933babc66478af99b164067d7c50a8bb396a6f6c5"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 57175,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/pdf"
+          ],
+          "componentType": {
+            "@type": "ada:other"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#3e9f9c491a94df58a71ecbed343c21d2",
+          "schema:name": "20250124_ARGT_CUWA_OREX-803393-0_1_ARGTDocument_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "e13aecff7a8d6e99a399f13721353c1e441ccfabba40e5a11180c5c0d2c1e055"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 369,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#bdfe8371dc249c7458a68cad93ae4740"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ada:metadata_2235",
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      "dcat:CatalogRecord"
+    ],
+    "schema:sdDatePublished": "2025-02-27",
+    "schema:maintainer": {
+      "@id": "https://ada.org/person/3479",
+      "@type": "schema:Person",
+      "schema:name": "Richard, Stephen M.",
+      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+      "schema:email": "smrTucson@email.org"
+    },
+    "schema:about": {
+      "@id": "ada:record_2235"
+    },
+    "schema:description": "metadata about documentation for https://doi.org/10.60707/zh1b-jk54",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/profiles/discovery"
+      },
+      {
+        "@id": "ada:profile/adaARGT"
+      }
+    ]
+  }
 }

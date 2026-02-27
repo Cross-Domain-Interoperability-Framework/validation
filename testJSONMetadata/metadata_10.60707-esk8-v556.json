@@ -1,560 +1,576 @@
 {
-    "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
-    "@context": {
-        "schema": "http://schema.org/",
-        "dcterms": "http://purl.org/dc/terms/",
-        "geosparql": "http://www.opengis.net/ont/geosparql#",
-        "spdx": "http://spdx.org/rdf/terms#",
-        "ada": "https://ada.astromat.org/metadata/",
-        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-        "csvw": "http://www.w3.org/ns/csvw#",
-        "prov": "http://www.w3.org/ns/prov#",
-        "dcat": "http://www.w3.org/ns/dcat#",
-        "xas": "https://ada.astromat.org/metadata/xas/",
-        "nxs": "https://manual.nexusformat.org/classes/"
-    },
-    "@id": "ada:record_2077",
+  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "geosparql": "http://www.opengis.net/ont/geosparql#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "ada": "https://ada.astromat.org/metadata/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "xas": "https://ada.astromat.org/metadata/xas/",
+    "nxs": "https://manual.nexusformat.org/classes/"
+  },
+  "@id": "ada:record_2077",
+  "@type": [
+    "schema:Dataset",
+    "schema:Product"
+  ],
+  "schema:name": "P and S Wave Seismic Velocity Measurement Data Bundle for Bennu Particle OREX-800123-0",
+  "schema:description": "The data bundle contains methods description, seismic velocity measurements, as well as supplementary sample reference images, seismic waveform data, and seismic waveform data plots of Bennu particle OREX-800123-0, which has been cut into a parallel-sided slab. Additionally, the dataset will be used to derive dynamic elastic constants of an angular Bennu particle. The sample measurements went nominally without the slab breaking along known XCT-imaged fractures. The seismic velocities were slightly faster than expected.",
+  "schema:identifier": {
     "@type": [
-        "schema:Dataset",
-        "schema:Product"
+      "schema:PropertyValue",
+      "cdi:Identifier"
     ],
-    "schema:name": "P and S Wave Seismic Velocity Measurement Data Bundle for Bennu Particle OREX-800123-0",
-    "schema:description": "The data bundle contains methods description, seismic velocity measurements, as well as supplementary sample reference images, seismic waveform data, and seismic waveform data plots of Bennu particle OREX-800123-0, which has been cut into a parallel-sided slab. Additionally, the dataset will be used to derive dynamic elastic constants of an angular Bennu particle. The sample measurements went nominally without the slab breaking along known XCT-imaged fractures. The seismic velocities were slightly faster than expected.",
-    "schema:identifier": {
-        "@type": [
-            "schema:PropertyValue",
-            "cdi:Identifier"
-        ],
-        "schema:propertyID": "https://registry.identifiers.org/registry/doi",
-        "schema:value": "10.60707/esk8-v556",
-        "schema:url": "https://doi.org/10.60707/esk8-v556"
-    },
-    "schema:additionalType": [
-        "Seismic Velocities and Rock Ultrasonic Elastic Constants"
-    ],
-    "schema:datePublished": "2025-12-31",
-    "schema:license": [
-        "missing"
-    ],
-    "schema:url": "",
-    "schema:dateModified": "2025-01-30",
-    "schema:creator": {
-        "@list": [
-            {
-                "@id": "https://orcid.org/0000-0001-9926-2059",
-                "@type": "schema:Person",
-                "schema:name": "Hildebrand, Alan",
-                "schema:identifier": "https://orcid.org/0000-0001-9926-2059",
-                "schema:email": "ahildebr@ucalgary.ca"
-            },
-            {
-                "@id": "https://orcid.org/0000-0001-5497-4554",
-                "@type": "schema:Person",
-                "schema:name": "Hanton, Lincoln",
-                "schema:identifier": "https://orcid.org/0000-0001-5497-4554",
-                "schema:email": "ltjhanto@ucalgary.ca"
-            }
-        ]
-    },
-    "schema:funding": [
-        {
-            "@type": "schema:MonetaryGrant",
-            "schema:description": "Grant 22EXPOSICA from Planetary Exploration, Space Exploration, Canadian Space Agency. This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program."
-        }
-    ],
-    "schema:measurementTechnique": {
-        "@type": "schema:DefinedTerm",
-        "schema:name": "Seismic Velocities and Rock Ultrasonic Elastic Constants",
-        "schema:termCode": "SV-RUEC"
-    },
-    "prov:wasGeneratedBy": [
-        {
-            "@type": [
-                "schema:Event",
-                "xas:AnalysisEvent",
-                "prov:Activity",
-                "schema:Action"
-            ],
-            "schema:startDate": "2024-12-16T12:00:00Z",
-            "schema:identifier": "20241216_sv-ruec_uca_orex-800123-0_1",
-            "prov:used": [
-                {
-                    "@type": [
-                        "schema:Thing",
-                        "prov:Entity",
-                        "nxs:BaseClass/NXinstrument"
-                    ],
-                    "schema:name": "Olympus Model 5077 PR with 35 MHz ultrasonic bandwidth",
-                    "schema:identifier": "OM5077"
-                }
-            ],
-            "schema:location": {
-                "@type": [
-                    "schema:Place",
-                    "nxs:BaseClass/NXsource"
-                ],
-                "schema:identifier": "https://ror.org/03yjb2x39",
-                "schema:name": "University of Calgary",
-                "schema:alternateName": "UCa"
-            },
-            "schema:mainEntity": [
-                {
-                    "@type": [
-                        "schema:Thing",
-                        "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
-                    ],
-                    "schema:additionalType": [
-                        "MaterialSample"
-                    ],
-                    "schema:identifier": [
-                        "['OREX-800123-0']"
-                    ]
-                }
-            ]
-        }
-    ],
-    "schema:variableMeasured": [],
-    "schema:distribution": [
-        {
-            "@type": [
-                "schema:DataDownload"
-            ],
-            "schema:encodingFormat": [
-                "application/zip"
-            ],
-            "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
-            "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/withheld",
-            "schema:hasPart": [
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#1cce7a00141af4dc6e239292306476e8",
-                    "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_SVRUECTabular_1.csv",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "4180836253881c0795c5e7bd203110832e38af2eb05f0b09b891624695243d09"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 1491,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "text/csv"
-                    ],
-                    "componentType": {
-                        "@type": "ada:other"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#77b860ad9e073f2fafc0f5f47ad2ae3d",
-                    "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_SVRUECTabular_1.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "d6a1f9db3a2f137a94ece78d4a7e5e95080b5cc7c5cb7f77b8f3ec3079fccb25"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 1845,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#1cce7a00141af4dc6e239292306476e8"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#096365ef15087cf7dff1c3b7b39d40ea",
-                    "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_contextPhotography_1.png",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "4161d4f2fbb717b0a2a3333507c7ec5bd40cf754c01c433e1ed5b35655e4de77"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 22532405,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/png"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#0cf6c9e0744a1e9b8f4e66becadcf9ae",
-                    "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_contextPhotography_1.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "71eb4ebacfec2e2fc9e9c569eabfec190c7c5dcb7b2e29cf006cb84f5bb21e85"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 280,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#096365ef15087cf7dff1c3b7b39d40ea"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#5657b7ddb3374b21d9a09a7616713cc3",
-                    "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_contextPhotography_2.png",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "b4966d1ad7ca8deb06aa945e798ef553d8e982f95bb615f040949e4b2cba631f"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 26515420,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/png"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#edc02182e652ae25ef46dd87000dc6b1",
-                    "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_contextPhotography_2.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "088836202053d878bd78a236dbc488cc0154cf5351be00f23a54e332c4a9fdf3"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 280,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#5657b7ddb3374b21d9a09a7616713cc3"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#b971e5eb465a735dac6ec92a096cf939",
-                    "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_methodDescription_1.txt",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "c5dfc6469404d9818d00a800c8618e6c43cdda3bd59aacabf821b5fd9a9e09da"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 3167,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "text/plain"
-                    ],
-                    "componentType": {
-                        "@type": "ada:methodDescription"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#6461bcafaf191f27525a3b08396fb22d",
-                    "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_methodDescription_1.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5af6e2d8a2a6b5c73e4f747ed008ecdc6616e45d7f256202177aab59e1193c78"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 320,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#b971e5eb465a735dac6ec92a096cf939"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#04c0a4b7f7d119e07f0df951ff783180",
-                    "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_other_1.csv",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "493d0054a1660b2ba1335406bc8ef3af28a7eee1b831b4d99bb440d5f1f3a885"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 1877270,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "text/csv"
-                    ],
-                    "componentType": {
-                        "@type": "ada:other"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#fb4f77e46b0be1035e002efe6dbeac0f",
-                    "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_other_1.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "26b2c4d5fdfc2811d265857c0b4be4ab18c07d6a2274148a0c2f66e870c8fcc9"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 336,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#04c0a4b7f7d119e07f0df951ff783180"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#3019db945eafb7f9d26ca652b3f9268c",
-                    "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_other_2.csv",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "db1ce827c2d926e2f6a9a28d3167c73a68620a234fa8f1f679e693bbdad139c0"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 1574447,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "text/csv"
-                    ],
-                    "componentType": {
-                        "@type": "ada:other"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#89ea0e691c5d842935b39fe8e0df7f7f",
-                    "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_other_2.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "cca156d99d6d6c3c4b05bc6eda826293b5ff5ecf1d0c9246861afd37b496acff"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 332,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#3019db945eafb7f9d26ca652b3f9268c"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#c46669b3e0d793225fd96bea2080310c",
-                    "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_plot_1.jpg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "739d8d6f28a84592bc1b8ab029334cdf7185a42be86034ecb2c15315c2d24390"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 144150,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:plot"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#c8967090a79f05cb4ed355fbbb515455",
-                    "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_plot_1.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "89e8a0b4dd8ace8a74d0a30eb4e3b04aec338e5a623fbd0c06c28603504682e4"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 305,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#c46669b3e0d793225fd96bea2080310c"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#2d4deefac27b4ff5ee6aa09936debdaa",
-                    "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_plot_2.jpg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "de5ae5b42831338b6e6667bba0169bc7dd315e6e68bba8f40b5cb6e0e7f3176b"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 101081,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:plot"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#88195b30afdee29d24832370dce86c65",
-                    "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_plot_2.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "e727864ab31a336de99aac22ab5472a986d6406e6e80d5e90bfca285b8a98224"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 301,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#2d4deefac27b4ff5ee6aa09936debdaa"
-                        }
-                    ]
-                }
-            ]
-        }
-    ],
-    "schema:subjectOf": {
-        "@id": "ada:metadata_2077",
-        "@type": [
-            "schema:Dataset"
-        ],
-        "schema:additionalType": [
-            "dcat:CatalogRecord"
-        ],
-        "schema:sdDatePublished": "2025-01-30",
-        "schema:maintainer": {
-            "@id": "https://ada.org/person/3479",
-            "@type": "schema:Person",
-            "schema:name": "Richard, Stephen M.",
-            "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
-            "schema:email": "smrTucson@email.org"
-        },
-        "schema:about": {
-            "@id": "ada:record_2077"
-        },
-        "schema:description": "metadata about documentation for https://doi.org/10.60707/esk8-v556",
-        "dcterms:conformsTo": [
-            {
-                "@id": "https://w3id.org/cdif/profiles/discovery"
-            },
-            {
-                "@id": "ada:profile/adaSVRUEC"
-            }
-        ]
+    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:value": "10.60707/esk8-v556",
+    "schema:url": "https://doi.org/10.60707/esk8-v556"
+  },
+  "schema:additionalType": [
+    "Seismic Velocities and Rock Ultrasonic Elastic Constants"
+  ],
+  "schema:datePublished": "2025-12-31",
+  "schema:license": [
+    "missing"
+  ],
+  "schema:url": "",
+  "schema:dateModified": "2025-01-30",
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://orcid.org/0000-0001-9926-2059",
+        "@type": "schema:Person",
+        "schema:name": "Hildebrand, Alan",
+        "schema:identifier": "https://orcid.org/0000-0001-9926-2059",
+        "schema:email": "ahildebr@ucalgary.ca"
+      },
+      {
+        "@id": "https://orcid.org/0000-0001-5497-4554",
+        "@type": "schema:Person",
+        "schema:name": "Hanton, Lincoln",
+        "schema:identifier": "https://orcid.org/0000-0001-5497-4554",
+        "schema:email": "ltjhanto@ucalgary.ca"
+      }
+    ]
+  },
+  "schema:funding": [
+    {
+      "@type": "schema:MonetaryGrant",
+      "schema:description": "Grant 22EXPOSICA from Planetary Exploration, Space Exploration, Canadian Space Agency. This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program."
     }
+  ],
+  "schema:measurementTechnique": {
+    "@type": "schema:DefinedTerm",
+    "schema:name": "Seismic Velocities and Rock Ultrasonic Elastic Constants",
+    "schema:termCode": "SV-RUEC"
+  },
+  "prov:wasGeneratedBy": [
+    {
+      "@type": [
+        "schema:Event",
+        "xas:AnalysisEvent",
+        "prov:Activity",
+        "schema:Action"
+      ],
+      "schema:startDate": "2024-12-16T12:00:00Z",
+      "schema:identifier": "20241216_sv-ruec_uca_orex-800123-0_1",
+      "prov:used": [
+        {
+          "@type": [
+            "schema:Thing",
+            "prov:Entity",
+            "nxs:BaseClass/NXinstrument"
+          ],
+          "schema:name": "Olympus Model 5077 PR with 35 MHz ultrasonic bandwidth",
+          "schema:identifier": "OM5077"
+        }
+      ],
+      "schema:location": {
+        "@type": [
+          "schema:Place",
+          "nxs:BaseClass/NXsource"
+        ],
+        "schema:identifier": "https://ror.org/03yjb2x39",
+        "schema:name": "University of Calgary",
+        "schema:alternateName": "UCa"
+      },
+      "schema:mainEntity": [
+        {
+          "@type": [
+            "schema:Thing",
+            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+          ],
+          "schema:additionalType": [
+            "MaterialSample"
+          ],
+          "schema:identifier": [
+            "['OREX-800123-0']"
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:encodingFormat": [
+        "application/zip"
+      ],
+      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+      "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/withheld",
+      "schema:hasPart": [
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#1cce7a00141af4dc6e239292306476e8",
+          "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_SVRUECTabular_1.csv",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "4180836253881c0795c5e7bd203110832e38af2eb05f0b09b891624695243d09"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1491,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "text/csv"
+          ],
+          "componentType": {
+            "@type": "ada:other"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#77b860ad9e073f2fafc0f5f47ad2ae3d",
+          "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_SVRUECTabular_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "d6a1f9db3a2f137a94ece78d4a7e5e95080b5cc7c5cb7f77b8f3ec3079fccb25"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1845,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#1cce7a00141af4dc6e239292306476e8"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#096365ef15087cf7dff1c3b7b39d40ea",
+          "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_contextPhotography_1.png",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "4161d4f2fbb717b0a2a3333507c7ec5bd40cf754c01c433e1ed5b35655e4de77"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 22532405,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/png"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#0cf6c9e0744a1e9b8f4e66becadcf9ae",
+          "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_contextPhotography_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "71eb4ebacfec2e2fc9e9c569eabfec190c7c5dcb7b2e29cf006cb84f5bb21e85"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 280,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#096365ef15087cf7dff1c3b7b39d40ea"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#5657b7ddb3374b21d9a09a7616713cc3",
+          "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_contextPhotography_2.png",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "b4966d1ad7ca8deb06aa945e798ef553d8e982f95bb615f040949e4b2cba631f"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 26515420,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/png"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#edc02182e652ae25ef46dd87000dc6b1",
+          "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_contextPhotography_2.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "088836202053d878bd78a236dbc488cc0154cf5351be00f23a54e332c4a9fdf3"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 280,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#5657b7ddb3374b21d9a09a7616713cc3"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#b971e5eb465a735dac6ec92a096cf939",
+          "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_methodDescription_1.txt",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "c5dfc6469404d9818d00a800c8618e6c43cdda3bd59aacabf821b5fd9a9e09da"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 3167,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "text/plain"
+          ],
+          "componentType": {
+            "@type": "ada:methodDescription"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#6461bcafaf191f27525a3b08396fb22d",
+          "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_methodDescription_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5af6e2d8a2a6b5c73e4f747ed008ecdc6616e45d7f256202177aab59e1193c78"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 320,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#b971e5eb465a735dac6ec92a096cf939"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#04c0a4b7f7d119e07f0df951ff783180",
+          "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_other_1.csv",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "493d0054a1660b2ba1335406bc8ef3af28a7eee1b831b4d99bb440d5f1f3a885"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1877270,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "text/csv"
+          ],
+          "componentType": {
+            "@type": "ada:other"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#fb4f77e46b0be1035e002efe6dbeac0f",
+          "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_other_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "26b2c4d5fdfc2811d265857c0b4be4ab18c07d6a2274148a0c2f66e870c8fcc9"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 336,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#04c0a4b7f7d119e07f0df951ff783180"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#3019db945eafb7f9d26ca652b3f9268c",
+          "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_other_2.csv",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "db1ce827c2d926e2f6a9a28d3167c73a68620a234fa8f1f679e693bbdad139c0"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1574447,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "text/csv"
+          ],
+          "componentType": {
+            "@type": "ada:other"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#89ea0e691c5d842935b39fe8e0df7f7f",
+          "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_other_2.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "cca156d99d6d6c3c4b05bc6eda826293b5ff5ecf1d0c9246861afd37b496acff"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 332,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#3019db945eafb7f9d26ca652b3f9268c"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#c46669b3e0d793225fd96bea2080310c",
+          "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_plot_1.jpg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "739d8d6f28a84592bc1b8ab029334cdf7185a42be86034ecb2c15315c2d24390"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 144150,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:plot"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#c8967090a79f05cb4ed355fbbb515455",
+          "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_plot_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "89e8a0b4dd8ace8a74d0a30eb4e3b04aec338e5a623fbd0c06c28603504682e4"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 305,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#c46669b3e0d793225fd96bea2080310c"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#2d4deefac27b4ff5ee6aa09936debdaa",
+          "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_plot_2.jpg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "de5ae5b42831338b6e6667bba0169bc7dd315e6e68bba8f40b5cb6e0e7f3176b"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 101081,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:plot"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#88195b30afdee29d24832370dce86c65",
+          "schema:name": "20241216_SV-RUEC_UCa_OREX-800123-0_1_plot_2.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "e727864ab31a336de99aac22ab5472a986d6406e6e80d5e90bfca285b8a98224"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 301,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#2d4deefac27b4ff5ee6aa09936debdaa"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ada:metadata_2077",
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      "dcat:CatalogRecord"
+    ],
+    "schema:sdDatePublished": "2025-01-30",
+    "schema:maintainer": {
+      "@id": "https://ada.org/person/3479",
+      "@type": "schema:Person",
+      "schema:name": "Richard, Stephen M.",
+      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+      "schema:email": "smrTucson@email.org"
+    },
+    "schema:about": {
+      "@id": "ada:record_2077"
+    },
+    "schema:description": "metadata about documentation for https://doi.org/10.60707/esk8-v556",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/profiles/discovery"
+      },
+      {
+        "@id": "ada:profile/adaSVRUEC"
+      }
+    ]
+  }
 }

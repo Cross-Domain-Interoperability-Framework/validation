@@ -1,266 +1,270 @@
 {
-    "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
-    "@context": {
-        "schema": "http://schema.org/",
-        "dcterms": "http://purl.org/dc/terms/",
-        "geosparql": "http://www.opengis.net/ont/geosparql#",
-        "spdx": "http://spdx.org/rdf/terms#",
-        "ada": "https://ada.astromat.org/metadata/",
-        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-        "csvw": "http://www.w3.org/ns/csvw#",
-        "prov": "http://www.w3.org/ns/prov#",
-        "dcat": "http://www.w3.org/ns/dcat#",
-        "xas": "https://ada.astromat.org/metadata/xas/",
-        "nxs": "https://manual.nexusformat.org/classes/"
-    },
-    "@id": "ada:record_1339",
+  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "geosparql": "http://www.opengis.net/ont/geosparql#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "ada": "https://ada.astromat.org/metadata/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "xas": "https://ada.astromat.org/metadata/xas/",
+    "nxs": "https://manual.nexusformat.org/classes/"
+  },
+  "@id": "ada:record_1339",
+  "@type": [
+    "schema:Dataset",
+    "schema:Product"
+  ],
+  "schema:name": "Raman spectroscopy of a 250 µm particle of Bennu (OREX-803141-0)",
+  "schema:description": "Raman analysis of a 250 %C2%B5m particle of Bennu (OREX-803141-0). The bundle includes four raw data files from the amorphous carbon, calcite, magnetite and the aliphatic CH carbon.",
+  "schema:identifier": {
     "@type": [
-        "schema:Dataset",
-        "schema:Product"
+      "schema:PropertyValue",
+      "cdi:Identifier"
     ],
-    "schema:name": "Raman spectroscopy of a 250 µm particle of Bennu (OREX-803141-0)",
-    "schema:description": "Raman analysis of a 250 %C2%B5m particle of Bennu (OREX-803141-0). The bundle includes four raw data files from the amorphous carbon, calcite, magnetite and the aliphatic CH carbon.",
-    "schema:identifier": {
-        "@type": [
-            "schema:PropertyValue",
-            "cdi:Identifier"
-        ],
-        "schema:propertyID": "https://registry.identifiers.org/registry/doi",
-        "schema:value": "10.60707/mayf-0w17",
-        "schema:url": "https://doi.org/10.60707/mayf-0w17"
-    },
-    "schema:additionalType": [
-        "Raman vibrational spectroscopy"
-    ],
-    "schema:datePublished": "2025-12-31",
-    "schema:license": [
-        "missing"
-    ],
-    "schema:url": "",
-    "schema:dateModified": "2025-01-27",
-    "schema:creator": {
-        "@list": [
-            {
-                "@id": "https://orcid.org/0009-0005-5228-3908",
-                "@type": "schema:Person",
-                "schema:name": "Liss, Michael",
-                "schema:identifier": "https://orcid.org/0009-0005-5228-3908",
-                "schema:email": "michael.liss@helmholtz-munich.de"
-            }
-        ]
-    },
-    "schema:contributor": [
-        {
-            "@type": "schema:Role",
-            "schema:roleName": "Researcher",
-            "schema:contributor": {
-                "@type": "schema:Person",
-                "@id": "",
-                "schema:name": "",
-                "schema:identifier": "",
-                "schema:email": "philippe.schmitt-kopplin@helmholtz-munich.de"
-            }
-        }
-    ],
-    "schema:funding": [
-        {
-            "@type": "schema:MonetaryGrant",
-            "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program. Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) Project-ID 364653263%E2%80%94TRR 235 (CRC 235)."
-        }
-    ],
-    "schema:measurementTechnique": {
-        "@type": "schema:DefinedTerm",
-        "schema:name": "Raman vibrational spectroscopy",
-        "schema:termCode": "RAMAN"
-    },
-    "prov:wasGeneratedBy": [
-        {
-            "@type": [
-                "schema:Event",
-                "xas:AnalysisEvent",
-                "prov:Activity",
-                "schema:Action"
-            ],
-            "schema:startDate": "2024-08-23T12:28:57.182349Z",
-            "schema:identifier": "20240823_raman_hmgu_orex-803141-0_1",
-            "prov:used": [
-                {
-                    "@type": [
-                        "schema:Thing",
-                        "prov:Entity",
-                        "nxs:BaseClass/NXinstrument"
-                    ],
-                    "schema:name": "(HGMU) WITec alpha 300 R",
-                    "schema:identifier": "WITec-HGMU"
-                }
-            ],
-            "schema:location": {
-                "@type": [
-                    "schema:Place",
-                    "nxs:BaseClass/NXsource"
-                ],
-                "schema:identifier": "https://ror.org/034rhsb33",
-                "schema:name": "Helmholtz University (Helmholtz Zentrum Munchen)",
-                "schema:alternateName": "HMGU"
-            },
-            "schema:mainEntity": [
-                {
-                    "@type": [
-                        "schema:Thing",
-                        "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
-                    ],
-                    "schema:additionalType": [
-                        "MaterialSample"
-                    ],
-                    "schema:identifier": [
-                        "['OREX-803141-0']"
-                    ]
-                }
-            ]
-        }
-    ],
-    "schema:variableMeasured": [],
-    "schema:distribution": [
-        {
-            "@type": [
-                "schema:DataDownload"
-            ],
-            "schema:encodingFormat": [
-                "application/zip"
-            ],
-            "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
-            "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/withheld",
-            "schema:hasPart": [
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#ec43558b19524c2c2e2308a1b3aef819",
-                    "schema:name": "20240823_RAMAN_HMGU_OREX-803141-0_1_RAMANRawTabular_1.csv",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "7857294e18e47805de27df944c40da4bf7cef19da96f250979737a1ab3bbe342"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 47152,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "text/csv"
-                    ],
-                    "componentType": {
-                        "@type": "ada:other"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#9c9f01710980870bd2a49bca6b449d19",
-                    "schema:name": "20240823_RAMAN_HMGU_OREX-803141-0_1_RAMANRawTabular_1.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "396ffe912aeb5081b28f583d8d859d2708b735a916e761b0f68ec8074b8dbe14"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 585,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#ec43558b19524c2c2e2308a1b3aef819"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#d8fe3d12b17251577c2fea1184847975",
-                    "schema:name": "20240823_RAMAN_HMGU_OREX-803141-0_1_plot_1.png",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "367d5e6eb50a2188479332b2b27f46ab8dd4931ae1453e1bfd6d8ac1a6645888"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 82395,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/png"
-                    ],
-                    "componentType": {
-                        "@type": "ada:plot"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#5744bd9c52675d1b7b8a0a553d790fca",
-                    "schema:name": "20240823_RAMAN_HMGU_OREX-803141-0_1_plot_1.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "cc976fe591f717c777004a07d7d62d7a1d8079face352e6b4429ae35e5591ee8"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 286,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#d8fe3d12b17251577c2fea1184847975"
-                        }
-                    ]
-                }
-            ]
-        }
-    ],
-    "schema:subjectOf": {
-        "@id": "ada:metadata_1339",
-        "@type": [
-            "schema:Dataset"
-        ],
-        "schema:additionalType": [
-            "dcat:CatalogRecord"
-        ],
-        "schema:sdDatePublished": "2025-01-27",
-        "schema:maintainer": {
-            "@id": "https://ada.org/person/3479",
-            "@type": "schema:Person",
-            "schema:name": "Richard, Stephen M.",
-            "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
-            "schema:email": "smrTucson@email.org"
-        },
-        "schema:about": {
-            "@id": "ada:record_1339"
-        },
-        "schema:description": "metadata about documentation for https://doi.org/10.60707/mayf-0w17",
-        "dcterms:conformsTo": [
-            {
-                "@id": "https://w3id.org/cdif/profiles/discovery"
-            },
-            {
-                "@id": "ada:profile/adaRAMAN"
-            }
-        ]
+    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:value": "10.60707/mayf-0w17",
+    "schema:url": "https://doi.org/10.60707/mayf-0w17"
+  },
+  "schema:additionalType": [
+    "Raman vibrational spectroscopy"
+  ],
+  "schema:datePublished": "2025-12-31",
+  "schema:license": [
+    "missing"
+  ],
+  "schema:url": "",
+  "schema:dateModified": "2025-01-27",
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://orcid.org/0009-0005-5228-3908",
+        "@type": "schema:Person",
+        "schema:name": "Liss, Michael",
+        "schema:identifier": "https://orcid.org/0009-0005-5228-3908",
+        "schema:email": "michael.liss@helmholtz-munich.de"
+      }
+    ]
+  },
+  "schema:contributor": [
+    {
+      "@type": "schema:Role",
+      "schema:roleName": "Researcher",
+      "schema:contributor": {
+        "@type": "schema:Person",
+        "@id": "",
+        "schema:name": "",
+        "schema:identifier": "",
+        "schema:email": "philippe.schmitt-kopplin@helmholtz-munich.de"
+      }
     }
+  ],
+  "schema:funding": [
+    {
+      "@type": "schema:MonetaryGrant",
+      "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program. Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) Project-ID 364653263%E2%80%94TRR 235 (CRC 235)."
+    }
+  ],
+  "schema:measurementTechnique": {
+    "@type": "schema:DefinedTerm",
+    "schema:name": "Raman vibrational spectroscopy",
+    "schema:termCode": "RAMAN"
+  },
+  "prov:wasGeneratedBy": [
+    {
+      "@type": [
+        "schema:Event",
+        "xas:AnalysisEvent",
+        "prov:Activity",
+        "schema:Action"
+      ],
+      "schema:startDate": "2024-08-23T12:28:57.182349Z",
+      "schema:identifier": "20240823_raman_hmgu_orex-803141-0_1",
+      "prov:used": [
+        {
+          "@type": [
+            "schema:Thing",
+            "prov:Entity",
+            "nxs:BaseClass/NXinstrument"
+          ],
+          "schema:name": "(HGMU) WITec alpha 300 R",
+          "schema:identifier": "WITec-HGMU"
+        }
+      ],
+      "schema:location": {
+        "@type": [
+          "schema:Place",
+          "nxs:BaseClass/NXsource"
+        ],
+        "schema:identifier": "https://ror.org/034rhsb33",
+        "schema:name": "Helmholtz University (Helmholtz Zentrum Munchen)",
+        "schema:alternateName": "HMGU"
+      },
+      "schema:mainEntity": [
+        {
+          "@type": [
+            "schema:Thing",
+            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+          ],
+          "schema:additionalType": [
+            "MaterialSample"
+          ],
+          "schema:identifier": [
+            "['OREX-803141-0']"
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:encodingFormat": [
+        "application/zip"
+      ],
+      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+      "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/withheld",
+      "schema:hasPart": [
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#ec43558b19524c2c2e2308a1b3aef819",
+          "schema:name": "20240823_RAMAN_HMGU_OREX-803141-0_1_RAMANRawTabular_1.csv",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "7857294e18e47805de27df944c40da4bf7cef19da96f250979737a1ab3bbe342"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 47152,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "text/csv"
+          ],
+          "componentType": {
+            "@type": "ada:other"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#9c9f01710980870bd2a49bca6b449d19",
+          "schema:name": "20240823_RAMAN_HMGU_OREX-803141-0_1_RAMANRawTabular_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "396ffe912aeb5081b28f583d8d859d2708b735a916e761b0f68ec8074b8dbe14"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 585,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#ec43558b19524c2c2e2308a1b3aef819"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#d8fe3d12b17251577c2fea1184847975",
+          "schema:name": "20240823_RAMAN_HMGU_OREX-803141-0_1_plot_1.png",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "367d5e6eb50a2188479332b2b27f46ab8dd4931ae1453e1bfd6d8ac1a6645888"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 82395,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/png"
+          ],
+          "componentType": {
+            "@type": "ada:plot"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#5744bd9c52675d1b7b8a0a553d790fca",
+          "schema:name": "20240823_RAMAN_HMGU_OREX-803141-0_1_plot_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "cc976fe591f717c777004a07d7d62d7a1d8079face352e6b4429ae35e5591ee8"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 286,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#d8fe3d12b17251577c2fea1184847975"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ada:metadata_1339",
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      "dcat:CatalogRecord"
+    ],
+    "schema:sdDatePublished": "2025-01-27",
+    "schema:maintainer": {
+      "@id": "https://ada.org/person/3479",
+      "@type": "schema:Person",
+      "schema:name": "Richard, Stephen M.",
+      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+      "schema:email": "smrTucson@email.org"
+    },
+    "schema:about": {
+      "@id": "ada:record_1339"
+    },
+    "schema:description": "metadata about documentation for https://doi.org/10.60707/mayf-0w17",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/profiles/discovery"
+      },
+      {
+        "@id": "ada:profile/adaRAMAN"
+      }
+    ]
+  }
 }

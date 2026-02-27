@@ -1,1953 +1,2025 @@
 {
-    "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
-    "@context": {
-        "schema": "http://schema.org/",
-        "dcterms": "http://purl.org/dc/terms/",
-        "geosparql": "http://www.opengis.net/ont/geosparql#",
-        "spdx": "http://spdx.org/rdf/terms#",
-        "ada": "https://ada.astromat.org/metadata/",
-        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-        "csvw": "http://www.w3.org/ns/csvw#",
-        "prov": "http://www.w3.org/ns/prov#",
-        "dcat": "http://www.w3.org/ns/dcat#",
-        "xas": "https://ada.astromat.org/metadata/xas/",
-        "nxs": "https://manual.nexusformat.org/classes/"
-    },
-    "@id": "ada:record_303",
+  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "geosparql": "http://www.opengis.net/ont/geosparql#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "ada": "https://ada.astromat.org/metadata/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "xas": "https://ada.astromat.org/metadata/xas/",
+    "nxs": "https://manual.nexusformat.org/classes/"
+  },
+  "@id": "ada:record_303",
+  "@type": [
+    "schema:Dataset",
+    "schema:Product"
+  ],
+  "schema:name": "3d scan of large quick-look particle",
+  "schema:description": "Scanned the largest returned particle in the Orex cleanroom at JSC.",
+  "schema:identifier": {
     "@type": [
-        "schema:Dataset",
-        "schema:Product"
+      "schema:PropertyValue",
+      "cdi:Identifier"
     ],
-    "schema:name": "3d scan of large quick-look particle",
-    "schema:description": "Scanned the largest returned particle in the Orex cleanroom at JSC.",
-    "schema:identifier": {
-        "@type": [
-            "schema:PropertyValue",
-            "cdi:Identifier"
-        ],
-        "schema:propertyID": "https://registry.identifiers.org/registry/doi",
-        "schema:value": "10.60707/64vm-zd18",
-        "schema:url": "https://doi.org/10.60707/64vm-zd18"
-    },
-    "schema:additionalType": [
-        "Structured Light Scanning"
-    ],
-    "schema:datePublished": "2024-06-20",
-    "schema:license": [
-        "missing"
-    ],
-    "schema:url": "",
-    "schema:dateModified": "2024-06-20",
-    "schema:creator": {
-        "@list": [
-            {
-                "@id": "https://orcid.org/0000-0002-7535-8416",
-                "@type": "schema:Person",
-                "schema:name": "Ryan, Andy",
-                "schema:identifier": "https://orcid.org/0000-0002-7535-8416",
-                "schema:email": "ajryan@orex.lpl.arizona.edu"
-            }
-        ]
-    },
-    "schema:funding": [
-        {
-            "@type": "schema:MonetaryGrant",
-            "schema:description": "N/A"
-        }
-    ],
-    "schema:measurementTechnique": {
-        "@type": "schema:DefinedTerm",
-        "schema:name": "Structured Light Scanning",
-        "schema:termCode": "SLS"
-    },
-    "prov:wasGeneratedBy": [
-        {
-            "@type": [
-                "schema:Event",
-                "xas:AnalysisEvent",
-                "prov:Activity",
-                "schema:Action"
-            ],
-            "schema:startDate": "2024-03-22T19:04:30.252304Z",
-            "schema:identifier": "20240227_sls_uaz_orex-800014-0_1",
-            "prov:used": [
-                {
-                    "@type": [
-                        "schema:Thing",
-                        "prov:Entity",
-                        "nxs:BaseClass/NXinstrument"
-                    ],
-                    "schema:name": "(UAZ) Polyga Compact C506 structured light scanner",
-                    "schema:identifier": "PCC506-UAZ"
-                }
-            ],
-            "schema:location": {
-                "@type": [
-                    "schema:Place",
-                    "nxs:BaseClass/NXsource"
-                ],
-                "schema:identifier": "https://ror.org/03m2x1q45",
-                "schema:name": "University of Arizona",
-                "schema:alternateName": "UAZ"
-            },
-            "schema:mainEntity": [
-                {
-                    "@type": [
-                        "schema:Thing",
-                        "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
-                    ],
-                    "schema:additionalType": [
-                        "MaterialSample"
-                    ],
-                    "schema:identifier": [
-                        "['OREX-800014-0']"
-                    ]
-                }
-            ]
-        }
-    ],
-    "schema:variableMeasured": [],
-    "schema:distribution": [
-        {
-            "@type": [
-                "schema:DataDownload"
-            ],
-            "schema:encodingFormat": [
-                "application/zip"
-            ],
-            "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
-            "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/withheld",
-            "schema:hasPart": [
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#a86f4e7449fb37003ff9832032c68f0a",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_SLSShapeModel_3.obj",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "e87d9c28a4d0a4b1cce72047b70b1d601bd7144b13d459a61fad6cd87dc53b97"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 195062590,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "model/obj"
-                    ],
-                    "componentType": {
-                        "@type": "ada:other"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#c21cf7832fb9d3d878602c1835af886a",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_SLSShapeModel_3.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "287a59aaec784bb6787f64928f80fdb89c1b4de9986d13d9e9885ac5e4fb56bc"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 350,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#a86f4e7449fb37003ff9832032c68f0a"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#613f1621fa7bed0ccbee3439e7c3ef70",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_1.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "068ce62cddc03dcb109a8d8a7c479058ca09e60855b1cf3587acfe9ce67c14d5"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 1901742,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#78d587b941870094cdc831b3b8a39b52",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_1.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#613f1621fa7bed0ccbee3439e7c3ef70"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#6f252b4fd41d023ea42e4b891d794e4d",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_10.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "650694e320520fdb9dec8004691c1ba5e9f43423e700e73509d5626e77187c58"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 1736707,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#feb28098caa8e5c2fcea1839c1b389cd",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_10.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#6f252b4fd41d023ea42e4b891d794e4d"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#909bf35f17a6b9f9d116939f86f571cf",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_11.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "589d92d4251e6f7adf893193244d4c3b8a621f45b593611613060e85ce333af9"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 1265686,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#f1e18f6ab7593d39a31594e131be4b8d",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_11.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#909bf35f17a6b9f9d116939f86f571cf"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#c60202fea9195c86292e33259ae22ec1",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_12.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "005af5cab905e2daa8ebc52ab4f04918fc22323ed24d45337ca76871dc47097e"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 1437493,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#9d51cad5c68a901e17399f34c3b0c6ec",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_12.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#c60202fea9195c86292e33259ae22ec1"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#96a4da6e4cf6bda91a8798bfc5bff824",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_13.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "6fa1e8340edd2dfab23f9f2acb831df160bb7e8a64df2e4abb3fef7a59440a6d"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 2750099,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#a534d73814b7f525e1cb2a07843c67b6",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_13.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#96a4da6e4cf6bda91a8798bfc5bff824"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#6b8ef8412018e1ff8d401d2e53886677",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_14.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "6d647f46900043d2fa0da841a0591d2d36663288c2e3652e190e2f0d56c5acdc"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 1519614,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#6e3b4b7dfdf3e44ffeecf87547816b21",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_14.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#6b8ef8412018e1ff8d401d2e53886677"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#19b63c5ec2f81764c14be032ef048043",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_15.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "34a71602d9236132373fa286fd69598433dc1e8df92e752114a8c70cc1be6b76"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 1419091,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#7b0c3c3eadd71058d6a1de4ba5566ee3",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_15.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#19b63c5ec2f81764c14be032ef048043"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#c86301abf5737fcca1ccb96a6bb65b3b",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_16.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "c2bb8c07deca1ddb5aecbf22ff8b4d890dc19dcb7abb6e290129a663841c229d"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 1327449,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#e9c87c4cc0a586b6b1ae35654a0798bf",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_16.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#c86301abf5737fcca1ccb96a6bb65b3b"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#14f90bf936241f740692b012dcd4c52b",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_17.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "ee4d3472f7c5c1af5edac735ce4a1fb610134bbe563c1f6b51961e74cdaadffa"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 1105134,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#819f1723e10bc02ebaee2fd665df00ff",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_17.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#14f90bf936241f740692b012dcd4c52b"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#336d77afc2e48c8b3369c1aa207985e3",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_18.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "bbfaecf81d96b92cdc2ce7b9a01b384c9800eaf3dfe85b08904d3267cd220e81"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 1096591,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#efc29300966dddb08610c94105385a71",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_18.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#336d77afc2e48c8b3369c1aa207985e3"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#2b27bc796c4826f495c14173b26bb0de",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_19.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "c36fa0fd93cc4919ed2d7bbdc4b7f80b587dbc95fcedbdbef88969af24752e87"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 1625038,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#2e3e5f210b82242c28f42c40f0d31c64",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_19.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#2b27bc796c4826f495c14173b26bb0de"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#d20df082295f02eae76b2c66a0a0b5a4",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_2.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "3c756a7837a558b13e62bf9c05cefb919b5601f16b4ebcd9689bd2d07f38e6c9"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 1774281,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#b4bc52d3681381e1c192f362ed68db21",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_2.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#d20df082295f02eae76b2c66a0a0b5a4"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#d16efb57d31faf50e9f81ba8e5807b3b",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_20.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "02be9e4195ccf92b7bd1b28afba6a64633a6998f768de2cc4f01375c7afd01d9"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 1631911,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#0e745e2479f4cd9604df0b7b534a4550",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_20.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#d16efb57d31faf50e9f81ba8e5807b3b"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#d7656d6db1f020665e68bb1921397041",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_21.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "6a48145e1590c8298b28fd2d5d4e8211a110cc63f7fe8ff5e0fe799d85ec3e11"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 1612721,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#85d0ce0ee1e164f28c4a9884914707f7",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_21.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#d7656d6db1f020665e68bb1921397041"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#df02ed23518b0d16c44734e10c2c6b68",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_22.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "de261f3e6c6d3f65c681efc8176a3a9db8df15c0a44dffc8eb282d244a0ea0a5"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 1629098,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#8a5f477b1dfc1c0a8296b11ce5313870",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_22.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#df02ed23518b0d16c44734e10c2c6b68"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#fbf7344dc97381dfc755156de4d93b09",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_23.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "0dd6814770ae7abf175ddc8b0d898c967cc81a61ba08b9b3a64e18c6466b568b"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 1510995,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#631ab3dbcfbbb5b1f9f96b3f03b9168a",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_23.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#fbf7344dc97381dfc755156de4d93b09"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#2e2bd9fb6c22f9f8f21cdd88c066657a",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_24.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "c5c24934ddc5e16db88dd28208ef73ad80132bfc28fae8174a65d811360a15c4"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 1612987,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#771e051ce039aa67a0dd39fc221e630f",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_24.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#2e2bd9fb6c22f9f8f21cdd88c066657a"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#d3d5c2d7f0da4894cf7dbb9be7ee2539",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_25.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "f8c646633e17b56e7b8f9b85e9dda4518ed34867b106aa953200fb551447651e"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 3086881,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#c2e230b7de7888de44f58bf866cb465a",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_25.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#d3d5c2d7f0da4894cf7dbb9be7ee2539"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#c29a5bf9e54cd3391c094993143e14d9",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_26.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "02c207dd2127552f4346bff74aa07d75fab083c0c040b673f8138cfefd7b2488"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 2571378,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#76c8fa377744752a21fd07ec64a062c8",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_26.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#c29a5bf9e54cd3391c094993143e14d9"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#088b529c6636c73ee4dfbc8e990cb8ee",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_27.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5887b1973e81209d35970e92625886826b0c68948ceb0d04066bf8224984b244"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 1487934,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#971e32eb2ae9e36bb581e5fcc183c2ce",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_27.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#088b529c6636c73ee4dfbc8e990cb8ee"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#4fa9b46577d3ef589c4ba5199dac26b3",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_28.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "b1d78305cd6adbb4833fe5a90c5ad75aebd4e76fd4e7c722cf577e140c1b81f9"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 1100124,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#43f5c5cf2d31193afcd6578d6d55f08c",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_28.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#4fa9b46577d3ef589c4ba5199dac26b3"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#7aece733d59a5ac014394e139878673a",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_29.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "e844a30b505ebc8aeea402757e9d229b4e416e0590222569a699634d82dd408c"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 862655,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#1bad0d998070ec7a9f0c11e731c69e57",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_29.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#7aece733d59a5ac014394e139878673a"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#50d7e1207a2dd06f7947e607064e79be",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_3.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "f0cb5c05009689bbd36629c7bdb036b56d62862f71d9631a27d48001925724fc"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 1606963,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#721136c4de9537bf2d185e6672414131",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_3.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#50d7e1207a2dd06f7947e607064e79be"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#ef647b714306d6c2458f57781dac74ad",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_30.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "7761f1378be5925931c8629b58eeed573fcfe3c33eaaa20b5ecdbce987c30e9f"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 1133207,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#def05397e8778b05e6205a12f318e3f6",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_30.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#ef647b714306d6c2458f57781dac74ad"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#06f6ac7a3be03b135190969fa3910be5",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_31.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "21182bb8eb0faa0b740f0e2808679b1baca735f986db323062061ab7b5548f00"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 1082086,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#279a1d992b6b0b702cffd77a04ab3100",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_31.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#06f6ac7a3be03b135190969fa3910be5"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#e5b1de13be1a0683660e9244d249ba37",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_32.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "86768b9b21550667a9896706f77208c10272b00432a4dc8b7e4840914d496df0"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 2004160,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#24f73e0eba14d850e6a26319472a8c29",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_32.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#e5b1de13be1a0683660e9244d249ba37"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#4fecea3998cffdf52e7d528772539892",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_33.png",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "01097a272dce8a2da4f16e809114c6a65c9314dd03e3aad0dcbcec9f11d4143d"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 672203,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/png"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#976ff4c1c9e232cfb88ce1f783ca36ee",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_33.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "141af5f65bec044b8e80870e976b1081974a88049da018afa3f8db07c590d25f"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 255,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#4fecea3998cffdf52e7d528772539892"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#a1e672abf21c923448d2532fa367f026",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_4.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "94e8d813f806d885795a264b2bd9b305c56f5b375d0ed0bcf1e39ffce217d965"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 2014483,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#30712a29dd4c44df493b2c9ea4a6f947",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_4.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#a1e672abf21c923448d2532fa367f026"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#a4bf5220dc87115b9b13a7d08e93017b",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_5.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "1f5c6efd11da42273862cbe92c5870c2947a4b2ff066583ca2f01ca24cbc195f"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 2283584,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#baadb9e416b575050f3d86b9fcc5000b",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_5.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#a4bf5220dc87115b9b13a7d08e93017b"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#53eb62cce549ca8525b1c77e2db4eb33",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_6.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "3026b8c0d34a9e3033d837fcf549ef331b9be781083a93f52b2b8ad9b58e2474"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 3150928,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#fc4965b77769ff35ccf115b8c7fb3e4a",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_6.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#53eb62cce549ca8525b1c77e2db4eb33"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#511000bb5dca791ce324feb8e00073a9",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_7.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "f50e2eb837d90ed03779557b7ec753ee2761a023aa5d9fa410f81ed5ae18f7aa"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 2884236,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#a54e337d1a61e98220840b8db9a47f19",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_7.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#511000bb5dca791ce324feb8e00073a9"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#749a0d99a67d2481d6c15ccc82e9f727",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_8.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "e186ad8c970428d0ef69c4eb1bc793417741397a1a2a9bda165186313a99a93c"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 3151594,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#7eebe8c37f8032bd29ea3252208c56fa",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_8.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#749a0d99a67d2481d6c15ccc82e9f727"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#c35588ade850ca5b3c82043c8b586b9d",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_9.jpeg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "3c9ea2e64f17377f1c490075273c9eea91067c9538b4128ef793f390741215b9"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 3191379,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:contextPhotography"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#733ad5490ff9bcf2454a63d1a5d66171",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_9.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 245,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#c35588ade850ca5b3c82043c8b586b9d"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#2c617b807792530b03f7a2a1b261c02f",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_other_3.stl",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "f7558688018acbf62af0cacf1bc3d9207f5d0ce8f1a9a3b82289556290253f23"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 120647984,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "model/stl"
-                    ],
-                    "componentType": {
-                        "@type": "ada:other"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#5454fbbcc2b215f02ee3e631f7d1481f",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_other_3.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "59e17201c9ba3112c9c0c1d774fe9c7354c78f6aba81cba7e66d792c3e5a7434"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 144,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#2c617b807792530b03f7a2a1b261c02f"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#f08b41638d31b42eb7b245c635b43dde",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_quickLook_1.jpg",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "c94fcad5ba450cbae45b57547dc718d9d0e727da1a8b511d7102b6495f678cba"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 2042,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "image/jpeg"
-                    ],
-                    "componentType": {
-                        "@type": "ada:quickLook"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#30c8bd82f9ecf8a06ee8a0a56d0889dc",
-                    "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_quickLook_1.yml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "75e1aaeeac1ed2dfb6c2907ba5bce8a47ffe1b80efc7399ce24fda8cc7f27867"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 243,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#f08b41638d31b42eb7b245c635b43dde"
-                        }
-                    ]
-                }
-            ]
-        }
-    ],
-    "schema:subjectOf": {
-        "@id": "ada:metadata_303",
-        "@type": [
-            "schema:Dataset"
-        ],
-        "schema:additionalType": [
-            "dcat:CatalogRecord"
-        ],
-        "schema:sdDatePublished": "2024-06-20",
-        "schema:maintainer": {
-            "@id": "https://ada.org/person/3479",
-            "@type": "schema:Person",
-            "schema:name": "Richard, Stephen M.",
-            "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
-            "schema:email": "smrTucson@email.org"
-        },
-        "schema:about": {
-            "@id": "ada:record_303"
-        },
-        "schema:description": "metadata about documentation for https://doi.org/10.60707/64vm-zd18",
-        "dcterms:conformsTo": [
-            {
-                "@id": "https://w3id.org/cdif/profiles/discovery"
-            },
-            {
-                "@id": "ada:profile/adaSLS"
-            }
-        ]
+    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:value": "10.60707/64vm-zd18",
+    "schema:url": "https://doi.org/10.60707/64vm-zd18"
+  },
+  "schema:additionalType": [
+    "Structured Light Scanning"
+  ],
+  "schema:datePublished": "2024-06-20",
+  "schema:license": [
+    "missing"
+  ],
+  "schema:url": "",
+  "schema:dateModified": "2024-06-20",
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://orcid.org/0000-0002-7535-8416",
+        "@type": "schema:Person",
+        "schema:name": "Ryan, Andy",
+        "schema:identifier": "https://orcid.org/0000-0002-7535-8416",
+        "schema:email": "ajryan@orex.lpl.arizona.edu"
+      }
+    ]
+  },
+  "schema:funding": [
+    {
+      "@type": "schema:MonetaryGrant",
+      "schema:description": "N/A"
     }
+  ],
+  "schema:measurementTechnique": {
+    "@type": "schema:DefinedTerm",
+    "schema:name": "Structured Light Scanning",
+    "schema:termCode": "SLS"
+  },
+  "prov:wasGeneratedBy": [
+    {
+      "@type": [
+        "schema:Event",
+        "xas:AnalysisEvent",
+        "prov:Activity",
+        "schema:Action"
+      ],
+      "schema:startDate": "2024-03-22T19:04:30.252304Z",
+      "schema:identifier": "20240227_sls_uaz_orex-800014-0_1",
+      "prov:used": [
+        {
+          "@type": [
+            "schema:Thing",
+            "prov:Entity",
+            "nxs:BaseClass/NXinstrument"
+          ],
+          "schema:name": "(UAZ) Polyga Compact C506 structured light scanner",
+          "schema:identifier": "PCC506-UAZ"
+        }
+      ],
+      "schema:location": {
+        "@type": [
+          "schema:Place",
+          "nxs:BaseClass/NXsource"
+        ],
+        "schema:identifier": "https://ror.org/03m2x1q45",
+        "schema:name": "University of Arizona",
+        "schema:alternateName": "UAZ"
+      },
+      "schema:mainEntity": [
+        {
+          "@type": [
+            "schema:Thing",
+            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+          ],
+          "schema:additionalType": [
+            "MaterialSample"
+          ],
+          "schema:identifier": [
+            "['OREX-800014-0']"
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:encodingFormat": [
+        "application/zip"
+      ],
+      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+      "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/withheld",
+      "schema:hasPart": [
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#a86f4e7449fb37003ff9832032c68f0a",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_SLSShapeModel_3.obj",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "e87d9c28a4d0a4b1cce72047b70b1d601bd7144b13d459a61fad6cd87dc53b97"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 195062590,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "model/obj"
+          ],
+          "componentType": {
+            "@type": "ada:other"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#c21cf7832fb9d3d878602c1835af886a",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_SLSShapeModel_3.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "287a59aaec784bb6787f64928f80fdb89c1b4de9986d13d9e9885ac5e4fb56bc"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 350,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#a86f4e7449fb37003ff9832032c68f0a"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#613f1621fa7bed0ccbee3439e7c3ef70",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_1.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "068ce62cddc03dcb109a8d8a7c479058ca09e60855b1cf3587acfe9ce67c14d5"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1901742,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#78d587b941870094cdc831b3b8a39b52",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_1.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#613f1621fa7bed0ccbee3439e7c3ef70"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#6f252b4fd41d023ea42e4b891d794e4d",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_10.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "650694e320520fdb9dec8004691c1ba5e9f43423e700e73509d5626e77187c58"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1736707,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#feb28098caa8e5c2fcea1839c1b389cd",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_10.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#6f252b4fd41d023ea42e4b891d794e4d"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#909bf35f17a6b9f9d116939f86f571cf",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_11.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "589d92d4251e6f7adf893193244d4c3b8a621f45b593611613060e85ce333af9"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1265686,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#f1e18f6ab7593d39a31594e131be4b8d",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_11.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#909bf35f17a6b9f9d116939f86f571cf"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#c60202fea9195c86292e33259ae22ec1",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_12.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "005af5cab905e2daa8ebc52ab4f04918fc22323ed24d45337ca76871dc47097e"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1437493,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#9d51cad5c68a901e17399f34c3b0c6ec",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_12.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#c60202fea9195c86292e33259ae22ec1"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#96a4da6e4cf6bda91a8798bfc5bff824",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_13.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "6fa1e8340edd2dfab23f9f2acb831df160bb7e8a64df2e4abb3fef7a59440a6d"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 2750099,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#a534d73814b7f525e1cb2a07843c67b6",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_13.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#96a4da6e4cf6bda91a8798bfc5bff824"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#6b8ef8412018e1ff8d401d2e53886677",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_14.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "6d647f46900043d2fa0da841a0591d2d36663288c2e3652e190e2f0d56c5acdc"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1519614,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#6e3b4b7dfdf3e44ffeecf87547816b21",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_14.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#6b8ef8412018e1ff8d401d2e53886677"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#19b63c5ec2f81764c14be032ef048043",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_15.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "34a71602d9236132373fa286fd69598433dc1e8df92e752114a8c70cc1be6b76"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1419091,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#7b0c3c3eadd71058d6a1de4ba5566ee3",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_15.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#19b63c5ec2f81764c14be032ef048043"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#c86301abf5737fcca1ccb96a6bb65b3b",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_16.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "c2bb8c07deca1ddb5aecbf22ff8b4d890dc19dcb7abb6e290129a663841c229d"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1327449,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#e9c87c4cc0a586b6b1ae35654a0798bf",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_16.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#c86301abf5737fcca1ccb96a6bb65b3b"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#14f90bf936241f740692b012dcd4c52b",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_17.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "ee4d3472f7c5c1af5edac735ce4a1fb610134bbe563c1f6b51961e74cdaadffa"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1105134,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#819f1723e10bc02ebaee2fd665df00ff",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_17.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#14f90bf936241f740692b012dcd4c52b"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#336d77afc2e48c8b3369c1aa207985e3",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_18.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "bbfaecf81d96b92cdc2ce7b9a01b384c9800eaf3dfe85b08904d3267cd220e81"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1096591,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#efc29300966dddb08610c94105385a71",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_18.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#336d77afc2e48c8b3369c1aa207985e3"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#2b27bc796c4826f495c14173b26bb0de",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_19.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "c36fa0fd93cc4919ed2d7bbdc4b7f80b587dbc95fcedbdbef88969af24752e87"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1625038,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#2e3e5f210b82242c28f42c40f0d31c64",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_19.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#2b27bc796c4826f495c14173b26bb0de"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#d20df082295f02eae76b2c66a0a0b5a4",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_2.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "3c756a7837a558b13e62bf9c05cefb919b5601f16b4ebcd9689bd2d07f38e6c9"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1774281,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#b4bc52d3681381e1c192f362ed68db21",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_2.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#d20df082295f02eae76b2c66a0a0b5a4"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#d16efb57d31faf50e9f81ba8e5807b3b",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_20.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "02be9e4195ccf92b7bd1b28afba6a64633a6998f768de2cc4f01375c7afd01d9"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1631911,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#0e745e2479f4cd9604df0b7b534a4550",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_20.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#d16efb57d31faf50e9f81ba8e5807b3b"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#d7656d6db1f020665e68bb1921397041",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_21.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "6a48145e1590c8298b28fd2d5d4e8211a110cc63f7fe8ff5e0fe799d85ec3e11"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1612721,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#85d0ce0ee1e164f28c4a9884914707f7",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_21.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#d7656d6db1f020665e68bb1921397041"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#df02ed23518b0d16c44734e10c2c6b68",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_22.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "de261f3e6c6d3f65c681efc8176a3a9db8df15c0a44dffc8eb282d244a0ea0a5"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1629098,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#8a5f477b1dfc1c0a8296b11ce5313870",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_22.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#df02ed23518b0d16c44734e10c2c6b68"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#fbf7344dc97381dfc755156de4d93b09",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_23.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "0dd6814770ae7abf175ddc8b0d898c967cc81a61ba08b9b3a64e18c6466b568b"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1510995,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#631ab3dbcfbbb5b1f9f96b3f03b9168a",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_23.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#fbf7344dc97381dfc755156de4d93b09"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#2e2bd9fb6c22f9f8f21cdd88c066657a",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_24.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "c5c24934ddc5e16db88dd28208ef73ad80132bfc28fae8174a65d811360a15c4"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1612987,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#771e051ce039aa67a0dd39fc221e630f",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_24.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#2e2bd9fb6c22f9f8f21cdd88c066657a"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#d3d5c2d7f0da4894cf7dbb9be7ee2539",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_25.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "f8c646633e17b56e7b8f9b85e9dda4518ed34867b106aa953200fb551447651e"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 3086881,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#c2e230b7de7888de44f58bf866cb465a",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_25.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#d3d5c2d7f0da4894cf7dbb9be7ee2539"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#c29a5bf9e54cd3391c094993143e14d9",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_26.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "02c207dd2127552f4346bff74aa07d75fab083c0c040b673f8138cfefd7b2488"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 2571378,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#76c8fa377744752a21fd07ec64a062c8",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_26.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#c29a5bf9e54cd3391c094993143e14d9"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#088b529c6636c73ee4dfbc8e990cb8ee",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_27.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5887b1973e81209d35970e92625886826b0c68948ceb0d04066bf8224984b244"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1487934,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#971e32eb2ae9e36bb581e5fcc183c2ce",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_27.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#088b529c6636c73ee4dfbc8e990cb8ee"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#4fa9b46577d3ef589c4ba5199dac26b3",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_28.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "b1d78305cd6adbb4833fe5a90c5ad75aebd4e76fd4e7c722cf577e140c1b81f9"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1100124,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#43f5c5cf2d31193afcd6578d6d55f08c",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_28.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#4fa9b46577d3ef589c4ba5199dac26b3"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#7aece733d59a5ac014394e139878673a",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_29.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "e844a30b505ebc8aeea402757e9d229b4e416e0590222569a699634d82dd408c"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 862655,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#1bad0d998070ec7a9f0c11e731c69e57",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_29.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#7aece733d59a5ac014394e139878673a"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#50d7e1207a2dd06f7947e607064e79be",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_3.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "f0cb5c05009689bbd36629c7bdb036b56d62862f71d9631a27d48001925724fc"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1606963,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#721136c4de9537bf2d185e6672414131",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_3.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#50d7e1207a2dd06f7947e607064e79be"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#ef647b714306d6c2458f57781dac74ad",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_30.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "7761f1378be5925931c8629b58eeed573fcfe3c33eaaa20b5ecdbce987c30e9f"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1133207,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#def05397e8778b05e6205a12f318e3f6",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_30.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#ef647b714306d6c2458f57781dac74ad"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#06f6ac7a3be03b135190969fa3910be5",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_31.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "21182bb8eb0faa0b740f0e2808679b1baca735f986db323062061ab7b5548f00"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1082086,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#279a1d992b6b0b702cffd77a04ab3100",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_31.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#06f6ac7a3be03b135190969fa3910be5"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#e5b1de13be1a0683660e9244d249ba37",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_32.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "86768b9b21550667a9896706f77208c10272b00432a4dc8b7e4840914d496df0"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 2004160,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#24f73e0eba14d850e6a26319472a8c29",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_32.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#e5b1de13be1a0683660e9244d249ba37"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#4fecea3998cffdf52e7d528772539892",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_33.png",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "01097a272dce8a2da4f16e809114c6a65c9314dd03e3aad0dcbcec9f11d4143d"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 672203,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/png"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#976ff4c1c9e232cfb88ce1f783ca36ee",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_33.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "141af5f65bec044b8e80870e976b1081974a88049da018afa3f8db07c590d25f"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 255,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#4fecea3998cffdf52e7d528772539892"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#a1e672abf21c923448d2532fa367f026",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_4.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "94e8d813f806d885795a264b2bd9b305c56f5b375d0ed0bcf1e39ffce217d965"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 2014483,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#30712a29dd4c44df493b2c9ea4a6f947",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_4.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#a1e672abf21c923448d2532fa367f026"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#a4bf5220dc87115b9b13a7d08e93017b",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_5.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "1f5c6efd11da42273862cbe92c5870c2947a4b2ff066583ca2f01ca24cbc195f"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 2283584,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#baadb9e416b575050f3d86b9fcc5000b",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_5.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#a4bf5220dc87115b9b13a7d08e93017b"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#53eb62cce549ca8525b1c77e2db4eb33",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_6.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "3026b8c0d34a9e3033d837fcf549ef331b9be781083a93f52b2b8ad9b58e2474"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 3150928,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#fc4965b77769ff35ccf115b8c7fb3e4a",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_6.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#53eb62cce549ca8525b1c77e2db4eb33"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#511000bb5dca791ce324feb8e00073a9",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_7.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "f50e2eb837d90ed03779557b7ec753ee2761a023aa5d9fa410f81ed5ae18f7aa"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 2884236,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#a54e337d1a61e98220840b8db9a47f19",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_7.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#511000bb5dca791ce324feb8e00073a9"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#749a0d99a67d2481d6c15ccc82e9f727",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_8.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "e186ad8c970428d0ef69c4eb1bc793417741397a1a2a9bda165186313a99a93c"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 3151594,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#7eebe8c37f8032bd29ea3252208c56fa",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_8.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#749a0d99a67d2481d6c15ccc82e9f727"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#c35588ade850ca5b3c82043c8b586b9d",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_9.jpeg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "3c9ea2e64f17377f1c490075273c9eea91067c9538b4128ef793f390741215b9"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 3191379,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:contextPhotography"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#733ad5490ff9bcf2454a63d1a5d66171",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_contextPhotography_9.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "5505d5e4fa2a17147426cf8a16993c33507f7c6c6080d49d28982399222cf12a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 245,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#c35588ade850ca5b3c82043c8b586b9d"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#2c617b807792530b03f7a2a1b261c02f",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_other_3.stl",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "f7558688018acbf62af0cacf1bc3d9207f5d0ce8f1a9a3b82289556290253f23"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 120647984,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "model/stl"
+          ],
+          "componentType": {
+            "@type": "ada:other"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#5454fbbcc2b215f02ee3e631f7d1481f",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_other_3.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "59e17201c9ba3112c9c0c1d774fe9c7354c78f6aba81cba7e66d792c3e5a7434"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 144,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#2c617b807792530b03f7a2a1b261c02f"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#f08b41638d31b42eb7b245c635b43dde",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_quickLook_1.jpg",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "c94fcad5ba450cbae45b57547dc718d9d0e727da1a8b511d7102b6495f678cba"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 2042,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "image/jpeg"
+          ],
+          "componentType": {
+            "@type": "ada:quickLook"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#30c8bd82f9ecf8a06ee8a0a56d0889dc",
+          "schema:name": "20240227_SLS_UAZ_OREX-800014-0_1_quickLook_1.yml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "75e1aaeeac1ed2dfb6c2907ba5bce8a47ffe1b80efc7399ce24fda8cc7f27867"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 243,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#f08b41638d31b42eb7b245c635b43dde"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ada:metadata_303",
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      "dcat:CatalogRecord"
+    ],
+    "schema:sdDatePublished": "2024-06-20",
+    "schema:maintainer": {
+      "@id": "https://ada.org/person/3479",
+      "@type": "schema:Person",
+      "schema:name": "Richard, Stephen M.",
+      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+      "schema:email": "smrTucson@email.org"
+    },
+    "schema:about": {
+      "@id": "ada:record_303"
+    },
+    "schema:description": "metadata about documentation for https://doi.org/10.60707/64vm-zd18",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/profiles/discovery"
+      },
+      {
+        "@id": "ada:profile/adaSLS"
+      }
+    ]
+  }
 }

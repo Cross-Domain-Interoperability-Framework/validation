@@ -1,453 +1,465 @@
 {
-    "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
-    "@context": {
-        "schema": "http://schema.org/",
-        "dcterms": "http://purl.org/dc/terms/",
-        "geosparql": "http://www.opengis.net/ont/geosparql#",
-        "spdx": "http://spdx.org/rdf/terms#",
-        "ada": "https://ada.astromat.org/metadata/",
-        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-        "csvw": "http://www.w3.org/ns/csvw#",
-        "prov": "http://www.w3.org/ns/prov#",
-        "dcat": "http://www.w3.org/ns/dcat#",
-        "xas": "https://ada.astromat.org/metadata/xas/",
-        "nxs": "https://manual.nexusformat.org/classes/"
-    },
-    "@id": "ada:record_2432",
+  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "geosparql": "http://www.opengis.net/ont/geosparql#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "ada": "https://ada.astromat.org/metadata/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "xas": "https://ada.astromat.org/metadata/xas/",
+    "nxs": "https://manual.nexusformat.org/classes/"
+  },
+  "@id": "ada:record_2432",
+  "@type": [
+    "schema:Dataset",
+    "schema:Product"
+  ],
+  "schema:name": "Chemical composition of Bennu samples",
+  "schema:description": "This dataset shows the chemical composition of Bennu aggregate sample OREX-803047-0 and Orgueil CI chondrite that were dissolved for cosmogenic radionuclide analysis. A small aliquot (~5%) of each of the dissolved samples was taken for chemical analysis by ICP-OES.",
+  "schema:identifier": {
     "@type": [
-        "schema:Dataset",
-        "schema:Product"
+      "schema:PropertyValue",
+      "cdi:Identifier"
     ],
-    "schema:name": "Chemical composition of Bennu samples",
-    "schema:description": "This dataset shows the chemical composition of Bennu aggregate sample OREX-803047-0 and Orgueil CI chondrite that were dissolved for cosmogenic radionuclide analysis. A small aliquot (~5%) of each of the dissolved samples was taken for chemical analysis by ICP-OES.",
-    "schema:identifier": {
-        "@type": [
-            "schema:PropertyValue",
-            "cdi:Identifier"
-        ],
-        "schema:propertyID": "https://registry.identifiers.org/registry/doi",
-        "schema:value": "10.60707/rm08-bg04",
-        "schema:url": "https://doi.org/10.60707/rm08-bg04"
-    },
-    "schema:additionalType": [
-        "Inductively coupled plasma - optical emission spectrometry"
-    ],
-    "schema:datePublished": "2025-12-31",
-    "schema:license": [
-        "missing"
-    ],
-    "schema:url": "",
-    "schema:dateModified": "2025-03-16",
-    "schema:creator": {
-        "@list": [
-            {
-                "@id": "https://orcid.org/0000-0001-8577-6753",
-                "@type": "schema:Person",
-                "schema:name": "Welten, Kees",
-                "schema:identifier": "https://orcid.org/0000-0001-8577-6753",
-                "schema:email": "kcwelten@berkeley.edu"
-            }
-        ]
-    },
-    "schema:funding": [
-        {
-            "@type": "schema:MonetaryGrant",
-            "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program. This study is supported by NASA grant 80NSSC22K1693 through the OREX Participating Scientist Program."
-        }
-    ],
-    "schema:measurementTechnique": {
-        "@type": "schema:DefinedTerm",
-        "schema:name": "Inductively coupled plasma - optical emission spectrometry",
-        "schema:termCode": "ICP-OES"
-    },
-    "prov:wasGeneratedBy": [
-        {
-            "@type": [
-                "schema:Event",
-                "xas:AnalysisEvent",
-                "prov:Activity",
-                "schema:Action"
-            ],
-            "schema:startDate": "2024-01-25T12:00:00Z",
-            "schema:identifier": "20240125_icp-oes_ucb_multisample_1",
-            "prov:used": [
-                {
-                    "@type": [
-                        "schema:Thing",
-                        "prov:Entity",
-                        "nxs:BaseClass/NXinstrument"
-                    ],
-                    "schema:name": "Thermo Fisher Scientific iCAP 6300 duo",
-                    "schema:identifier": "ICAP6300"
-                }
-            ],
-            "schema:location": {
-                "@type": [
-                    "schema:Place",
-                    "nxs:BaseClass/NXsource"
-                ],
-                "schema:identifier": "https://ror.org/01an7q238",
-                "schema:name": "University of California, Berkeley",
-                "schema:alternateName": "UCB"
-            },
-            "schema:mainEntity": [
-                {
-                    "@type": [
-                        "schema:Thing",
-                        "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
-                    ],
-                    "schema:additionalType": [
-                        "MaterialSample"
-                    ],
-                    "schema:identifier": [
-                        "['OREX-803047-101']"
-                    ]
-                }
-            ]
-        }
-    ],
-    "schema:variableMeasured": [],
-    "schema:distribution": [
-        {
-            "@type": [
-                "schema:DataDownload"
-            ],
-            "schema:encodingFormat": [
-                "application/zip"
-            ],
-            "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
-            "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/withheld",
-            "schema:hasPart": [
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#a9ac307b0e9fb8237a31453eaed68724",
-                    "schema:name": "20240125_ICP-OES_UCB_multiSample_1_ICPOESProcessedTabular_1.csv",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "26d8da1697d2371a38c0b838a46b9da647e3b4b7b36a42bd8979e3c03f01817a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 1023,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "text/csv"
-                    ],
-                    "componentType": {
-                        "@type": "ada:other"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#055eaab3c020fb3c95c286ddcce94301",
-                    "schema:name": "20240125_ICP-OES_UCB_multiSample_1_ICPOESProcessedTabular_1.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "9c9c758c37a7d6ca05c9a78eb1b5cde7fa453a85d60e048817484a6dc45e0b69"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 6482,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#a9ac307b0e9fb8237a31453eaed68724"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#352745d8902d61a10252f8951ce1e4c9",
-                    "schema:name": "20240125_ICP-OES_UCB_multiSample_1_methodDescription_1.pdf",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "e79725d724db01f515e5067b93c8e682dc150b3bbc4eebdc84d078009eca99f2"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 90044,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/pdf"
-                    ],
-                    "componentType": {
-                        "@type": "ada:methodDescription"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#0b3520b92549d8504b3669f73fc2114c",
-                    "schema:name": "20240125_ICP-OES_UCB_multiSample_1_methodDescription_1.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "cefe6c2d0c06fc1896240deb995db69a0fae4d528ad9781ba328828d8c4a35bc"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 512,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#352745d8902d61a10252f8951ce1e4c9"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#16c7b6f4e3c0bc78e40482212d55b882",
-                    "schema:name": "20240125_ICP-OES_UCB_multiSample_1_methodDescription_2.pdf",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "f9cae41ccde51fe527a57b56a2f629f5ed59c61cc8a9eef917533a13bc8d1cab"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 74682,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/pdf"
-                    ],
-                    "componentType": {
-                        "@type": "ada:methodDescription"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#2ed45f7a97192930ff318a8a2599dbdb",
-                    "schema:name": "20240125_ICP-OES_UCB_multiSample_1_methodDescription_2.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "cebcf1a930903b817c9997be425988ab73c4c93edfd0a84c7f19a95cb4c80c9a"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 457,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#16c7b6f4e3c0bc78e40482212d55b882"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#0c38e3cb241154bc98bbd98a911b05d4",
-                    "schema:name": "20240125_ICP-OES_UCB_multiSample_1_methodDescription_3.pdf",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "a4d03daeec289914a857c2aad2158e29b0a8f356e5d41f250cff290c9e6d1ffc"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 86728,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/pdf"
-                    ],
-                    "componentType": {
-                        "@type": "ada:methodDescription"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#37e8f08c168a630d911da39ebd1779ef",
-                    "schema:name": "20240125_ICP-OES_UCB_multiSample_1_methodDescription_3.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "7adac5618802391bca2100911803fcd46ecf1be496e9bc5de3c5d3f07a629ba7"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 424,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#0c38e3cb241154bc98bbd98a911b05d4"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#63f47ba09ee5c4fcfb88dd91dbc54409",
-                    "schema:name": "20240125_ICP-OES_UCB_multiSample_1_methodDescription_4.pdf",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "ae0d706683ce9116039eeeff1dfe357e4a10e3b338d0f5dbc963d55515f2ba26"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 62958,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/pdf"
-                    ],
-                    "componentType": {
-                        "@type": "ada:methodDescription"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#935953fb47bf431bf100435360aefcc5",
-                    "schema:name": "20240125_ICP-OES_UCB_multiSample_1_methodDescription_4.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "9ce59b196f2b4d4af9f1e87ba34454dd3f5e4e38ed77d311d55c1afff3742e59"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 584,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#63f47ba09ee5c4fcfb88dd91dbc54409"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#45a4d83ee09328ca6555169cb55e37e5",
-                    "schema:name": "20240125_ICP-OES_UCB_multiSample_1_methodDescription_5.pdf",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "2175722cd84b55e4e83d220645a8085b2ddc8d12f6d06b5183ddc05f1898d4e5"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 60342,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/pdf"
-                    ],
-                    "componentType": {
-                        "@type": "ada:methodDescription"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#e2075144d97f6cec0f76d650d25d9e10",
-                    "schema:name": "20240125_ICP-OES_UCB_multiSample_1_methodDescription_5.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "63c54de2b808ef815ab8ade0e233ceb840782daeba3ab6503b6d47c54714200c"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 435,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#45a4d83ee09328ca6555169cb55e37e5"
-                        }
-                    ]
-                }
-            ]
-        }
-    ],
-    "schema:subjectOf": {
-        "@id": "ada:metadata_2432",
-        "@type": [
-            "schema:Dataset"
-        ],
-        "schema:additionalType": [
-            "dcat:CatalogRecord"
-        ],
-        "schema:sdDatePublished": "2025-03-16",
-        "schema:maintainer": {
-            "@id": "https://ada.org/person/3479",
-            "@type": "schema:Person",
-            "schema:name": "Richard, Stephen M.",
-            "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
-            "schema:email": "smrTucson@email.org"
-        },
-        "schema:about": {
-            "@id": "ada:record_2432"
-        },
-        "schema:description": "metadata about documentation for https://doi.org/10.60707/rm08-bg04",
-        "dcterms:conformsTo": [
-            {
-                "@id": "https://w3id.org/cdif/profiles/discovery"
-            },
-            {
-                "@id": "ada:profile/adaICPOES"
-            }
-        ]
+    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:value": "10.60707/rm08-bg04",
+    "schema:url": "https://doi.org/10.60707/rm08-bg04"
+  },
+  "schema:additionalType": [
+    "Inductively coupled plasma - optical emission spectrometry"
+  ],
+  "schema:datePublished": "2025-12-31",
+  "schema:license": [
+    "missing"
+  ],
+  "schema:url": "",
+  "schema:dateModified": "2025-03-16",
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://orcid.org/0000-0001-8577-6753",
+        "@type": "schema:Person",
+        "schema:name": "Welten, Kees",
+        "schema:identifier": "https://orcid.org/0000-0001-8577-6753",
+        "schema:email": "kcwelten@berkeley.edu"
+      }
+    ]
+  },
+  "schema:funding": [
+    {
+      "@type": "schema:MonetaryGrant",
+      "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program. This study is supported by NASA grant 80NSSC22K1693 through the OREX Participating Scientist Program."
     }
+  ],
+  "schema:measurementTechnique": {
+    "@type": "schema:DefinedTerm",
+    "schema:name": "Inductively coupled plasma - optical emission spectrometry",
+    "schema:termCode": "ICP-OES"
+  },
+  "prov:wasGeneratedBy": [
+    {
+      "@type": [
+        "schema:Event",
+        "xas:AnalysisEvent",
+        "prov:Activity",
+        "schema:Action"
+      ],
+      "schema:startDate": "2024-01-25T12:00:00Z",
+      "schema:identifier": "20240125_icp-oes_ucb_multisample_1",
+      "prov:used": [
+        {
+          "@type": [
+            "schema:Thing",
+            "prov:Entity",
+            "nxs:BaseClass/NXinstrument"
+          ],
+          "schema:name": "Thermo Fisher Scientific iCAP 6300 duo",
+          "schema:identifier": "ICAP6300"
+        }
+      ],
+      "schema:location": {
+        "@type": [
+          "schema:Place",
+          "nxs:BaseClass/NXsource"
+        ],
+        "schema:identifier": "https://ror.org/01an7q238",
+        "schema:name": "University of California, Berkeley",
+        "schema:alternateName": "UCB"
+      },
+      "schema:mainEntity": [
+        {
+          "@type": [
+            "schema:Thing",
+            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+          ],
+          "schema:additionalType": [
+            "MaterialSample"
+          ],
+          "schema:identifier": [
+            "['OREX-803047-101']"
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:encodingFormat": [
+        "application/zip"
+      ],
+      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+      "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/withheld",
+      "schema:hasPart": [
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#a9ac307b0e9fb8237a31453eaed68724",
+          "schema:name": "20240125_ICP-OES_UCB_multiSample_1_ICPOESProcessedTabular_1.csv",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "26d8da1697d2371a38c0b838a46b9da647e3b4b7b36a42bd8979e3c03f01817a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 1023,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "text/csv"
+          ],
+          "componentType": {
+            "@type": "ada:other"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#055eaab3c020fb3c95c286ddcce94301",
+          "schema:name": "20240125_ICP-OES_UCB_multiSample_1_ICPOESProcessedTabular_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "9c9c758c37a7d6ca05c9a78eb1b5cde7fa453a85d60e048817484a6dc45e0b69"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 6482,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#a9ac307b0e9fb8237a31453eaed68724"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#352745d8902d61a10252f8951ce1e4c9",
+          "schema:name": "20240125_ICP-OES_UCB_multiSample_1_methodDescription_1.pdf",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "e79725d724db01f515e5067b93c8e682dc150b3bbc4eebdc84d078009eca99f2"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 90044,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/pdf"
+          ],
+          "componentType": {
+            "@type": "ada:methodDescription"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#0b3520b92549d8504b3669f73fc2114c",
+          "schema:name": "20240125_ICP-OES_UCB_multiSample_1_methodDescription_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "cefe6c2d0c06fc1896240deb995db69a0fae4d528ad9781ba328828d8c4a35bc"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 512,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#352745d8902d61a10252f8951ce1e4c9"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#16c7b6f4e3c0bc78e40482212d55b882",
+          "schema:name": "20240125_ICP-OES_UCB_multiSample_1_methodDescription_2.pdf",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "f9cae41ccde51fe527a57b56a2f629f5ed59c61cc8a9eef917533a13bc8d1cab"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 74682,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/pdf"
+          ],
+          "componentType": {
+            "@type": "ada:methodDescription"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#2ed45f7a97192930ff318a8a2599dbdb",
+          "schema:name": "20240125_ICP-OES_UCB_multiSample_1_methodDescription_2.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "cebcf1a930903b817c9997be425988ab73c4c93edfd0a84c7f19a95cb4c80c9a"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 457,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#16c7b6f4e3c0bc78e40482212d55b882"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#0c38e3cb241154bc98bbd98a911b05d4",
+          "schema:name": "20240125_ICP-OES_UCB_multiSample_1_methodDescription_3.pdf",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "a4d03daeec289914a857c2aad2158e29b0a8f356e5d41f250cff290c9e6d1ffc"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 86728,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/pdf"
+          ],
+          "componentType": {
+            "@type": "ada:methodDescription"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#37e8f08c168a630d911da39ebd1779ef",
+          "schema:name": "20240125_ICP-OES_UCB_multiSample_1_methodDescription_3.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "7adac5618802391bca2100911803fcd46ecf1be496e9bc5de3c5d3f07a629ba7"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 424,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#0c38e3cb241154bc98bbd98a911b05d4"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#63f47ba09ee5c4fcfb88dd91dbc54409",
+          "schema:name": "20240125_ICP-OES_UCB_multiSample_1_methodDescription_4.pdf",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "ae0d706683ce9116039eeeff1dfe357e4a10e3b338d0f5dbc963d55515f2ba26"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 62958,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/pdf"
+          ],
+          "componentType": {
+            "@type": "ada:methodDescription"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#935953fb47bf431bf100435360aefcc5",
+          "schema:name": "20240125_ICP-OES_UCB_multiSample_1_methodDescription_4.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "9ce59b196f2b4d4af9f1e87ba34454dd3f5e4e38ed77d311d55c1afff3742e59"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 584,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#63f47ba09ee5c4fcfb88dd91dbc54409"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#45a4d83ee09328ca6555169cb55e37e5",
+          "schema:name": "20240125_ICP-OES_UCB_multiSample_1_methodDescription_5.pdf",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "2175722cd84b55e4e83d220645a8085b2ddc8d12f6d06b5183ddc05f1898d4e5"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 60342,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/pdf"
+          ],
+          "componentType": {
+            "@type": "ada:methodDescription"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#e2075144d97f6cec0f76d650d25d9e10",
+          "schema:name": "20240125_ICP-OES_UCB_multiSample_1_methodDescription_5.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "63c54de2b808ef815ab8ade0e233ceb840782daeba3ab6503b6d47c54714200c"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 435,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#45a4d83ee09328ca6555169cb55e37e5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ada:metadata_2432",
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      "dcat:CatalogRecord"
+    ],
+    "schema:sdDatePublished": "2025-03-16",
+    "schema:maintainer": {
+      "@id": "https://ada.org/person/3479",
+      "@type": "schema:Person",
+      "schema:name": "Richard, Stephen M.",
+      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+      "schema:email": "smrTucson@email.org"
+    },
+    "schema:about": {
+      "@id": "ada:record_2432"
+    },
+    "schema:description": "metadata about documentation for https://doi.org/10.60707/rm08-bg04",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/profiles/discovery"
+      },
+      {
+        "@id": "ada:profile/adaICPOES"
+      }
+    ]
+  }
 }

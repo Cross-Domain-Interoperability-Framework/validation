@@ -1,268 +1,272 @@
 {
-    "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
-    "@context": {
-        "schema": "http://schema.org/",
-        "dcterms": "http://purl.org/dc/terms/",
-        "geosparql": "http://www.opengis.net/ont/geosparql#",
-        "spdx": "http://spdx.org/rdf/terms#",
-        "ada": "https://ada.astromat.org/metadata/",
-        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-        "csvw": "http://www.w3.org/ns/csvw#",
-        "prov": "http://www.w3.org/ns/prov#",
-        "dcat": "http://www.w3.org/ns/dcat#",
-        "xas": "https://ada.astromat.org/metadata/xas/",
-        "nxs": "https://manual.nexusformat.org/classes/"
-    },
-    "@id": "ada:record_533",
+  "@schema": "https://w3id.org/adaJSONLD/schema/3.0",
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "geosparql": "http://www.opengis.net/ont/geosparql#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "ada": "https://ada.astromat.org/metadata/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "xas": "https://ada.astromat.org/metadata/xas/",
+    "nxs": "https://manual.nexusformat.org/classes/"
+  },
+  "@id": "ada:record_533",
+  "@type": [
+    "schema:Dataset",
+    "schema:Product"
+  ],
+  "schema:name": "Ti isotope data",
+  "schema:description": "Data for Ti isotopes on OREX-803015-101_1",
+  "schema:identifier": {
     "@type": [
-        "schema:Dataset",
-        "schema:Product"
+      "schema:PropertyValue",
+      "cdi:Identifier"
     ],
-    "schema:name": "Ti isotope data",
-    "schema:description": "Data for Ti isotopes on OREX-803015-101_1",
-    "schema:identifier": {
-        "@type": [
-            "schema:PropertyValue",
-            "cdi:Identifier"
-        ],
-        "schema:propertyID": "https://registry.identifiers.org/registry/doi",
-        "schema:value": "10.60707/g5n1-0d67",
-        "schema:url": "https://doi.org/10.60707/g5n1-0d67"
-    },
-    "schema:additionalType": [
-        "Multi-Collector Inductively Coupled Plasma Mass Spectrometry"
-    ],
-    "schema:datePublished": "2025-12-31",
-    "schema:license": [
-        "missing"
-    ],
-    "schema:url": "",
-    "schema:dateModified": "2024-07-02",
-    "schema:creator": {
-        "@list": [
-            {
-                "@id": "https://orcid.org/0000-0001-6435-2177",
-                "@type": "schema:Person",
-                "schema:name": "Shollenberger, Quinn",
-                "schema:identifier": "https://orcid.org/0000-0001-6435-2177",
-                "schema:email": "shollenberger@llnl.gov"
-            },
-            {
-                "@id": "https://orcid.org/0000-0002-0852-5595",
-                "@type": "schema:Person",
-                "schema:name": "Brennecka, Greg",
-                "schema:identifier": "https://orcid.org/0000-0002-0852-5595",
-                "schema:email": "brennecka2@llnl.gov"
-            },
-            {
-                "@id": "https://orcid.org/0000-0002-6534-9129",
-                "@type": "schema:Person",
-                "schema:name": "Render, Jan",
-                "schema:identifier": "https://orcid.org/0000-0002-6534-9129",
-                "schema:email": "render1@llnl.gov"
-            }
-        ]
-    },
-    "schema:funding": [
-        {
-            "@type": "schema:MonetaryGrant",
-            "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program."
-        }
-    ],
-    "schema:measurementTechnique": {
-        "@type": "schema:DefinedTerm",
-        "schema:name": "Multi-Collector Inductively Coupled Plasma Mass Spectrometry",
-        "schema:termCode": "MC-ICP-MS"
-    },
-    "prov:wasGeneratedBy": [
-        {
-            "@type": [
-                "schema:Event",
-                "xas:AnalysisEvent",
-                "prov:Activity",
-                "schema:Action"
-            ],
-            "schema:startDate": "2024-06-11T15:56:28.141287Z",
-            "schema:identifier": "20231214_mc-icp-ms_llnl_orex-803015-101_1",
-            "prov:used": [
-                {
-                    "@type": [
-                        "schema:Thing",
-                        "prov:Entity",
-                        "nxs:BaseClass/NXinstrument"
-                    ],
-                    "schema:name": "Neoma",
-                    "schema:identifier": "Neoma-LLNL"
-                }
-            ],
-            "schema:location": {
-                "@type": [
-                    "schema:Place",
-                    "nxs:BaseClass/NXsource"
-                ],
-                "schema:identifier": "https://ror.org/041nk4h53",
-                "schema:name": "Lawrence Livermore National Laboratory/Dept of Energy",
-                "schema:alternateName": "LLNL"
-            },
-            "schema:mainEntity": [
-                {
-                    "@type": [
-                        "schema:Thing",
-                        "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
-                    ],
-                    "schema:additionalType": [
-                        "MaterialSample"
-                    ],
-                    "schema:identifier": [
-                        "['OREX-803015-101']"
-                    ]
-                }
-            ]
-        }
-    ],
-    "schema:variableMeasured": [],
-    "schema:distribution": [
-        {
-            "@type": [
-                "schema:DataDownload"
-            ],
-            "schema:encodingFormat": [
-                "application/zip"
-            ],
-            "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
-            "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/withheld",
-            "schema:hasPart": [
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#51ff054ebb8a174ea8c0d9a63448a25e",
-                    "schema:name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSCollection_1.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "9d9c72862931db3280e6656c6fd2943e8659d504b1effa33e7550e02d67bea05"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 138,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#1ae7a60f8533bb446f0219fe796853d6"
-                        }
-                    ]
-                },
-                {
-                    "@type": [
-                        "ada:collection",
-                        "https://schema.org/Collection",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#1ae7a60f8533bb446f0219fe796853d6",
-                    "schema:name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSCollection_1.zip",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "96fd91437af637f2352461c2057713fdc8357be6ec58eddff7f2993f73ca5f2d"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 2451,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/zip"
-                    ],
-                    "componentType": {
-                        "@type": "ada:MCICPMSCollection"
-                    }
-                },
-                {
-                    "@type": [
-                        "ada:otherFileType",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#fbd5d56de3f51e60c407a617676382bb",
-                    "schema:name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_methodDescription_1.pdf",
-                    "schema:description": "default description",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "219164d008adc23fff1c97f12f446dc4d31ad956f73b24c63c2ac4017e2e4236"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 102163,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/pdf"
-                    ],
-                    "componentType": {
-                        "@type": "ada:methodDescription"
-                    }
-                },
-                {
-                    "@type": [
-                        "Metadata",
-                        "schema:MediaObject"
-                    ],
-                    "@id": "#321a9ad412661dee709aacdf9d8b9c5b",
-                    "schema:name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_methodDescription_1.yaml",
-                    "schema:description": "metadata file for ",
-                    "spdx:checksum": {
-                        "spdx:algorithm": "SHA-256",
-                        "spdx:checksumValue": "91048268f7d415f3a4b636342b1f15cfcc5a2fb94529a6191469f6d3f7bd8028"
-                    },
-                    "schema:size": {
-                        "@type": "schema:QuantitativeValue",
-                        "schema:value": 179,
-                        "schema:unitText": "byte"
-                    },
-                    "schema:encodingFormat": [
-                        "application/yaml"
-                    ],
-                    "schema:about": [
-                        {
-                            "@id": "#fbd5d56de3f51e60c407a617676382bb"
-                        }
-                    ]
-                }
-            ]
-        }
-    ],
-    "schema:subjectOf": {
-        "@id": "ada:metadata_533",
-        "@type": [
-            "schema:Dataset"
-        ],
-        "schema:additionalType": [
-            "dcat:CatalogRecord"
-        ],
-        "schema:sdDatePublished": "2024-07-02",
-        "schema:maintainer": {
-            "@id": "https://ada.org/person/3479",
-            "@type": "schema:Person",
-            "schema:name": "Richard, Stephen M.",
-            "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
-            "schema:email": "smrTucson@email.org"
-        },
-        "schema:about": {
-            "@id": "ada:record_533"
-        },
-        "schema:description": "metadata about documentation for https://doi.org/10.60707/g5n1-0d67",
-        "dcterms:conformsTo": [
-            {
-                "@id": "https://w3id.org/cdif/profiles/discovery"
-            },
-            {
-                "@id": "ada:profile/adaICPMS"
-            }
-        ]
+    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:value": "10.60707/g5n1-0d67",
+    "schema:url": "https://doi.org/10.60707/g5n1-0d67"
+  },
+  "schema:additionalType": [
+    "Multi-Collector Inductively Coupled Plasma Mass Spectrometry"
+  ],
+  "schema:datePublished": "2025-12-31",
+  "schema:license": [
+    "missing"
+  ],
+  "schema:url": "",
+  "schema:dateModified": "2024-07-02",
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://orcid.org/0000-0001-6435-2177",
+        "@type": "schema:Person",
+        "schema:name": "Shollenberger, Quinn",
+        "schema:identifier": "https://orcid.org/0000-0001-6435-2177",
+        "schema:email": "shollenberger@llnl.gov"
+      },
+      {
+        "@id": "https://orcid.org/0000-0002-0852-5595",
+        "@type": "schema:Person",
+        "schema:name": "Brennecka, Greg",
+        "schema:identifier": "https://orcid.org/0000-0002-0852-5595",
+        "schema:email": "brennecka2@llnl.gov"
+      },
+      {
+        "@id": "https://orcid.org/0000-0002-6534-9129",
+        "@type": "schema:Person",
+        "schema:name": "Render, Jan",
+        "schema:identifier": "https://orcid.org/0000-0002-6534-9129",
+        "schema:email": "render1@llnl.gov"
+      }
+    ]
+  },
+  "schema:funding": [
+    {
+      "@type": "schema:MonetaryGrant",
+      "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program."
     }
+  ],
+  "schema:measurementTechnique": {
+    "@type": "schema:DefinedTerm",
+    "schema:name": "Multi-Collector Inductively Coupled Plasma Mass Spectrometry",
+    "schema:termCode": "MC-ICP-MS"
+  },
+  "prov:wasGeneratedBy": [
+    {
+      "@type": [
+        "schema:Event",
+        "xas:AnalysisEvent",
+        "prov:Activity",
+        "schema:Action"
+      ],
+      "schema:startDate": "2024-06-11T15:56:28.141287Z",
+      "schema:identifier": "20231214_mc-icp-ms_llnl_orex-803015-101_1",
+      "prov:used": [
+        {
+          "@type": [
+            "schema:Thing",
+            "prov:Entity",
+            "nxs:BaseClass/NXinstrument"
+          ],
+          "schema:name": "Neoma",
+          "schema:identifier": "Neoma-LLNL"
+        }
+      ],
+      "schema:location": {
+        "@type": [
+          "schema:Place",
+          "nxs:BaseClass/NXsource"
+        ],
+        "schema:identifier": "https://ror.org/041nk4h53",
+        "schema:name": "Lawrence Livermore National Laboratory/Dept of Energy",
+        "schema:alternateName": "LLNL"
+      },
+      "schema:mainEntity": [
+        {
+          "@type": [
+            "schema:Thing",
+            "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+          ],
+          "schema:additionalType": [
+            "MaterialSample"
+          ],
+          "schema:identifier": [
+            "['OREX-803015-101']"
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:encodingFormat": [
+        "application/zip"
+      ],
+      "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
+      "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/withheld",
+      "schema:hasPart": [
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#51ff054ebb8a174ea8c0d9a63448a25e",
+          "schema:name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSCollection_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "9d9c72862931db3280e6656c6fd2943e8659d504b1effa33e7550e02d67bea05"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 138,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#1ae7a60f8533bb446f0219fe796853d6"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "ada:collection",
+            "https://schema.org/Collection",
+            "schema:MediaObject"
+          ],
+          "@id": "#1ae7a60f8533bb446f0219fe796853d6",
+          "schema:name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_MCICPMSCollection_1.zip",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "96fd91437af637f2352461c2057713fdc8357be6ec58eddff7f2993f73ca5f2d"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 2451,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/zip"
+          ],
+          "componentType": {
+            "@type": "ada:MCICPMSCollection"
+          }
+        },
+        {
+          "@type": [
+            "ada:otherFileType",
+            "schema:MediaObject"
+          ],
+          "@id": "#fbd5d56de3f51e60c407a617676382bb",
+          "schema:name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_methodDescription_1.pdf",
+          "schema:description": "default description",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "219164d008adc23fff1c97f12f446dc4d31ad956f73b24c63c2ac4017e2e4236"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 102163,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/pdf"
+          ],
+          "componentType": {
+            "@type": "ada:methodDescription"
+          }
+        },
+        {
+          "@type": [
+            "Metadata",
+            "schema:MediaObject"
+          ],
+          "@id": "#321a9ad412661dee709aacdf9d8b9c5b",
+          "schema:name": "20231214_MC-ICP-MS_LLNL_OREX-803015-101_1_methodDescription_1.yaml",
+          "schema:description": "metadata file for ",
+          "spdx:checksum": {
+            "@type": "spdx:Checksum",
+            "spdx:algorithm": "SHA-256",
+            "spdx:checksumValue": "91048268f7d415f3a4b636342b1f15cfcc5a2fb94529a6191469f6d3f7bd8028"
+          },
+          "schema:size": {
+            "@type": "schema:QuantitativeValue",
+            "schema:value": 179,
+            "schema:unitText": "byte"
+          },
+          "schema:encodingFormat": [
+            "application/yaml"
+          ],
+          "schema:about": [
+            {
+              "@id": "#fbd5d56de3f51e60c407a617676382bb"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ada:metadata_533",
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      "dcat:CatalogRecord"
+    ],
+    "schema:sdDatePublished": "2024-07-02",
+    "schema:maintainer": {
+      "@id": "https://ada.org/person/3479",
+      "@type": "schema:Person",
+      "schema:name": "Richard, Stephen M.",
+      "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+      "schema:email": "smrTucson@email.org"
+    },
+    "schema:about": {
+      "@id": "ada:record_533"
+    },
+    "schema:description": "metadata about documentation for https://doi.org/10.60707/g5n1-0d67",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/profiles/discovery"
+      },
+      {
+        "@id": "ada:profile/adaICPMS"
+      }
+    ]
+  }
 }
