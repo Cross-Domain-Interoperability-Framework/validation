@@ -81,10 +81,10 @@ CDIF_DISCOVERY_BLOCKS = [
 
 # ---------------------------------------------------------------------------
 # CDIFcomplete profile building blocks.
-# Includes everything from CDIFDiscovery plus data description, physical
-# mapping, and long data building blocks.  cdifProv is already in
-# CDIFDiscovery; cdifVariableMeasured adds the enhanced propertyID
-# validation beyond the base variableMeasured shapes.
+# Includes everything from CDIFDiscovery plus provenance activity shapes
+# (cdifProv and provActivity), data description, physical mapping, and
+# long data building blocks.  cdifVariableMeasured adds the enhanced
+# propertyID validation beyond the base variableMeasured shapes.
 # ---------------------------------------------------------------------------
 
 CDIF_COMPLETE_BLOCKS = [
@@ -104,6 +104,7 @@ CDIF_COMPLETE_BLOCKS = [
     "schemaorgProperties/labeledLink",
     "schemaorgProperties/action",
     "provProperties/generatedBy",
+    "provProperties/provActivity",
     "provProperties/derivedFrom",
     "qualityProperties/qualityMeasure",
     # --- CDIF composite building blocks ---
