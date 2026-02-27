@@ -40,6 +40,7 @@ PROV = Namespace("http://www.w3.org/ns/prov#")
 DQV = Namespace("http://www.w3.org/ns/dqv#")
 SPDX = Namespace("http://spdx.org/rdf/terms#")
 CDI = Namespace("http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/")
+SOSO = Namespace("http://science-on-schema.org/1.2.3/validation/shacl#")
 
 # ---------------------------------------------------------------------------
 # CDIFDiscovery profile building blocks, ordered by merge priority.
@@ -207,11 +208,14 @@ def extract_cbd(graph, subject):
 
 
 def short_name(uri):
-    """Abbreviate a CDIFD URI for display."""
+    """Abbreviate a CDIFD or SOSO URI for display."""
     s = str(uri)
     prefix = "https://cdif.org/validation/0.1/shacl#"
     if s.startswith(prefix):
         return "cdifd:" + s[len(prefix):]
+    soso_prefix = "http://science-on-schema.org/1.2.3/validation/shacl#"
+    if s.startswith(soso_prefix):
+        return "soso:" + s[len(soso_prefix):]
     return s
 
 
@@ -307,6 +311,7 @@ def bind_prefixes(graph):
     graph.bind("owl", OWL)
     graph.bind("spdx", SPDX)
     graph.bind("cdi", CDI)
+    graph.bind("soso", SOSO)
 
 
 def make_header(stats, bb_dir, profile_label="CDIF Discovery Profile",
