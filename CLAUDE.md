@@ -32,8 +32,10 @@ This repository contains validation tools for **CDIF (Cross-Domain Interoperabil
 | `ConvertToCroissant.py` | Converts CDIF JSON-LD to Croissant (mlcommons.org/croissant/1.0) format |
 | `CDIFtoCroissant.md` | Documents the CDIF-to-Croissant mapping, converter code, and gaps |
 | `generate_shacl_shapes.py` | Generates composite SHACL shapes from building block rules.shacl files |
+| `generate_shacl_report.py` | Generates markdown SHACL validation reports with severity grouping |
 | `CDIF-Discovery-Core-Shapes.ttl` | Composite SHACL shapes for CDIFDiscovery profile (generated) |
-| `CDIF-Discovery-Core-Shapes2.ttl` | Legacy hand-maintained SHACL shapes (superseded by CDIF-Discovery-Core-Shapes.ttl) |
+| `CDIF-Complete-Shapes.ttl` | Composite SHACL shapes for CDIFcomplete profile (generated) |
+| `CDIF-Discovery-Core-Shapes2.ttl` | Legacy hand-maintained SHACL shapes (superseded by generated versions) |
 | `ShaclValidation/ShaclJSONLDContext.py` | SHACL validation script |
 | `CDIF-Provenance-Building-Blocks-Comparison.md` | Comparison of three provenance activity building blocks (cdifProv, provActivity, ddicdiProv) |
 
@@ -58,8 +60,14 @@ python ConvertToCroissant.py path/to/metadata.jsonld -o output-croissant.json -v
 # Validate Croissant output (requires: pip install mlcroissant)
 mlcroissant validate --jsonld output-croissant.json
 
-# SHACL validation
+# SHACL validation (discovery profile)
 python ShaclValidation/ShaclJSONLDContext.py metadata.jsonld CDIF-Discovery-Core-Shapes.ttl
+
+# SHACL validation (complete profile)
+python ShaclValidation/ShaclJSONLDContext.py metadata.jsonld CDIF-Complete-Shapes.ttl
+
+# Generate a markdown SHACL validation report
+python generate_shacl_report.py metadata.jsonld CDIF-Complete-Shapes.ttl -o report.md
 
 # Batch validate all file groups (testJSONMetadata, cdifbook, cdifProfiles, adaProfiles)
 python batch_validate.py
@@ -72,8 +80,10 @@ python generate_graph_schema.py
 # Or with explicit paths:
 python generate_graph_schema.py --bb-dir /path/to/_sources --output CDIF-graph-schema-2026.json
 
-# Regenerate the composite SHACL shapes from building block sources
-python generate_shacl_shapes.py
+# Regenerate composite SHACL shapes (discovery profile, default)
+python generate_shacl_shapes.py --profile discovery
+# Regenerate composite SHACL shapes (complete profile)
+python generate_shacl_shapes.py --profile complete
 # Or with explicit paths:
 python generate_shacl_shapes.py --bb-dir /path/to/_sources --output CDIF-Discovery-Core-Shapes.ttl
 ```
@@ -115,15 +125,22 @@ pip install mlcroissant
 
 ## Composite SHACL shapes (generate_shacl_shapes.py)
 
-`generate_shacl_shapes.py` reads CDIF building block `rules.shacl` files and merges them into a single composite Turtle file (`CDIF-Discovery-Core-Shapes.ttl`) for the CDIFDiscovery profile. This is the SHACL counterpart to the graph schema generator.
+`generate_shacl_shapes.py` reads CDIF building block `rules.shacl` files and merges them into a single composite Turtle file. Supports two profiles via `--profile`:
+
+- **discovery** (default) → `CDIF-Discovery-Core-Shapes.ttl` — 64 shapes for the CDIFDiscovery profile
+- **complete** → `CDIF-Complete-Shapes.ttl` — 76 shapes for the CDIFcomplete profile (discovery + data description + provenance)
 
 **Building block source location**: Same auto-detection as `generate_graph_schema.py` — tries `BuildingBlockSubmodule/_sources/`, `../metadataBuildingBlocks/_sources/`, OneDrive paths. Override with `--bb-dir` or `CDIF_BB_DIR` env var.
 
-**Building blocks included** (22 rule sets, 21 unique after deduplication):
+**Discovery building blocks included** (22 rule sets, 21 unique after deduplication):
 - Sub-building blocks: identifier, person, organization, definedTerm, dataDownload, webAPI, spatialExtent, temporalExtent, variableMeasured, funder, agentInRole, additionalProperty, labeledLink, action, generatedBy, derivedFrom, qualityMeasure
-- CDIF composites: cdifCatalogRecord, cdifProv
+- CDIF composites: cdifCatalogRecord
 - CDIF aggregates: cdifMandatory, cdifOptional
 - Profile level: CDIFDiscovery
+
+**Complete profile additions**: cdifProv, provActivity, cdifVariableMeasured, cdifPhysicalMapping, cdifDataCube, cdifTabularData, cdifLongData, CDIFDataDescription, CDIFcomplete.
+
+**SOSO namespace-check shapes**: The cdifMandatory rules include 3 shapes from SOSO (Science on Schema.org) that detect incorrect schema.org namespace variants (`https://` instead of `http://`, missing trailing slash). These use the `soso:` prefix (`http://science-on-schema.org/1.2.3/validation/shacl#`).
 
 **Conflict resolution**: When the same named shape URI (e.g., `cdifd:CDIFDefinedTermShape`) appears in multiple files, the script uses priority ordering — sub-building blocks (most specific) win over composites, which win over aggregates, which win over profile-level copies. Conflicts are logged with `--verbose`.
 
@@ -133,7 +150,27 @@ pip install mlcroissant
 - `cdifd:CDIFCatalogRecordShape` — cdifCatalogRecord wins over cdifMandatory and CDIFDiscovery copies
 - `cdifd:CDIFDatasetMandatoryShape` — cdifMandatory wins over CDIFDiscovery profile copy
 
-**Adding new building blocks**: Add the building block path to `CDIF_DISCOVERY_BLOCKS` in `generate_shacl_shapes.py`, then rerun the script.
+**Adding new building blocks**: Add the building block path to `CDIF_DISCOVERY_BLOCKS` (or `CDIF_COMPLETE_BLOCKS` for complete profile) in `generate_shacl_shapes.py`, then rerun the script.
+
+## SHACL validation report (generate_shacl_report.py)
+
+`generate_shacl_report.py` runs pyshacl validation and produces a structured markdown report. Issues are grouped by severity (Violation → Warning → Info), then by message. Each issue shows the focus node with its `@type` and `schema:name` for context.
+
+```bash
+# Generate report to file
+python generate_shacl_report.py metadata.jsonld CDIF-Complete-Shapes.ttl -o report.md
+
+# Print report to stdout
+python generate_shacl_report.py metadata.jsonld CDIF-Discovery-Core-Shapes.ttl
+
+# Named arguments
+python generate_shacl_report.py -d metadata.jsonld -s CDIF-Complete-Shapes.ttl -o report.md -v
+```
+
+**Report structure**:
+- Header with date, file paths, triple counts, conformance status, total issues
+- Summary table by severity
+- Detail sections for each severity level, with issues grouped by message and each showing the focus node description and constraint path
 
 ## DDI-CDI resolved schema
 
