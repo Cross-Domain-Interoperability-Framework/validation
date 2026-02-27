@@ -8,6 +8,7 @@ Validation is performed at three levels:
 - **JSON Schema** (structural) -- `FrameAndValidate.py` frames JSON-LD into trees, then validates against `CDIF-JSONLD-schema-2026.json`
 - **SHACL** (semantic) -- `ShaclValidation/ShaclJSONLDContext.py` validates RDF graphs against SHACL shapes
 - **RO-Crate** (structural) -- `ValidateROCrate.py` converts to RO-Crate and checks structural requirements
+- **Batch** -- `batch_validate.py` runs both JSON Schema and SHACL validation across multiple file groups (testJSONMetadata, cdifbook examples, CDIF profiles, ADA profiles)
 
 ## Building block architecture
 
@@ -73,6 +74,9 @@ python ShaclValidation/ShaclJSONLDContext.py metadata.jsonld CDIF-Discovery-Core
 
 # RO-Crate validation
 python ValidateROCrate.py metadata.jsonld
+
+# Batch validate all file groups (JSON Schema + SHACL)
+python batch_validate.py
 ```
 
 ### Regenerate schemas after building block changes
@@ -107,6 +111,9 @@ Building block _sources/
 
 CDIF-frame-2026.jsonld + CDIF-JSONLD-schema-2026.json ──> FrameAndValidate.py
 CDIF-Discovery-Core-Shapes.ttl ──> ShaclValidation/ShaclJSONLDContext.py
+
+batch_validate.py ──> FrameAndValidate.py (JSON Schema)
+                  ──> ShaclValidation/ShaclJSONLDContext.py (SHACL)
 ```
 
 ## Dependencies

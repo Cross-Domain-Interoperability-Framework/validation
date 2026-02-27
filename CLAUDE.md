@@ -10,6 +10,7 @@ This repository contains validation tools for **CDIF (Cross-Domain Interoperabil
 - JSON-LD is a **graph format**; JSON Schema validates **trees**. The **framing** step (via `CDIF-frame-2026.jsonld`) reshapes graphs into trees for schema validation.
 - The 2026 schema (`CDIF-JSONLD-schema-2026.json`) is the current default for framed (tree) validation.
 - The graph schema (`CDIF-graph-schema-2026.json`) validates **flattened** JSON-LD with `@graph` arrays directly, without framing. Generated from building block source schemas by `generate_graph_schema.py`.
+- **`@type` flexibility**: The framed schema accepts `@type` as either a string or an array for most node types (DataDownload, PropertyValue, WebAPI, prov:Activity). JSON-LD framing may compact single-element arrays to strings; `FrameAndValidate.py` normalizes `@type` back to arrays at the root Dataset and `schema:subjectOf` levels after framing.
 
 ## Important files
 
@@ -19,6 +20,7 @@ This repository contains validation tools for **CDIF (Cross-Domain Interoperabil
 | `ConvertToROCrate.py` | Converts CDIF JSON-LD to RO-Crate format (library + CLI) |
 | `ValidateROCrate.py` | Validates RO-Crate documents (imports conversion from ConvertToROCrate) |
 | `validate-cdif.bat` | Windows batch wrapper for oXygen XML Editor integration |
+| `batch_validate.py` | Batch validation of CDIF metadata files across multiple file groups |
 | `CDIF-JSONLD-schema-2026.json` | Current JSON Schema for framed (tree) CDIF metadata |
 | `CDIF-graph-schema-2026.json` | JSON Schema for flattened JSON-LD graphs (generated) |
 | `generate_graph_schema.py` | Generates graph schema from building block source schemas |
@@ -58,6 +60,9 @@ mlcroissant validate --jsonld output-croissant.json
 
 # SHACL validation
 python ShaclValidation/ShaclJSONLDContext.py metadata.jsonld CDIF-Discovery-Core-Shapes.ttl
+
+# Batch validate all file groups (testJSONMetadata, cdifbook, cdifProfiles, adaProfiles)
+python batch_validate.py
 
 # Windows batch (for oXygen)
 validate-cdif.bat path/to/metadata.jsonld
@@ -218,6 +223,7 @@ Converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissa
 - `BuildingBlockSubmodule/_sources/cdifProperties/cdifProv/exampleCdifProv.json` -- Single-node building block example: soil chemistry analysis activity (`["schema:Action", "prov:Activity"]`) with agent (Person with ORCID), `prov:used` array containing instrument wrapper (`schema:instrument` sub-key with DefinedTerm ICP-MS, `schema:alternateName` for specific model, `schema:additionalProperty` detection limit), vocab URI, sample description string, and CreativeWork EPA Method 6200. Action chaining (`schema:object`/`schema:result`), `schema:actionProcess` HowTo with 2 steps, facility location (Nevada Bureau of Mines), and temporal bounds. Companion `rules.shacl` provides SHACL validation shapes.
 - `BuildingBlockSubmodule/_sources/ddiProperties/ddicdiProv/exampleDdicdiProv.json` -- Multi-node `@graph` document: same soil chemistry analysis scenario expressed in DDI-CDI vocabulary. Contains 8 graph nodes: `cdi:Activity` with `entityUsed`/`entityProduced` References and `has_Step` refs, 2 `cdi:Step` nodes with `script` (CommandCode/CommandFile) and `receives`/`produces` Parameter refs, 3 `cdi:Parameter` nodes with `entityBound` References, `cdi:ProcessingAgent` with ORCID identifier and `performs`/`operatesOn` links, `cdi:ProductionEnvironment` for the lab facility. Companion `rules.shacl` provides SHACL validation shapes.
 - `BuildingBlockSubmodule/_sources/provProperties/provActivity/exampleProvActivity.json` -- Single-node building block example: same soil chemistry analysis scenario expressed in PROV-O vocabulary. `@type: ["prov:Activity"]` (single-typed, no `schema:Action`), `prov:used` array containing instrument wrapper (`schema:instrument` sub-key with DefinedTerm ICP-MS), vocab URI, sample description string, and CreativeWork EPA Method 6200. `prov:generated` output reference, `prov:wasAssociatedWith` agent (Person with ORCID), `prov:wasInformedBy` activity chain, `prov:startedAtTime`/`prov:endedAtTime` temporal bounds, `prov:atLocation` facility (Nevada Bureau of Mines), `schema:actionStatus`, `schema:actionProcess` HowTo with 2 steps. Companion `rules.shacl` provides SHACL validation shapes.
+- `testJSONMetadata/` - 77 ADA metadata test files. The `schema:subjectOf` catalog record uses `@type: ["schema:Dataset"]` with `schema:additionalType: ["dcat:CatalogRecord"]` (updated from the previous `@type: "dcat:CatalogRecord"` pattern). Context includes `dcat`, `xas`, and `nxs` prefixes.
 - `../integrationPublic/exampleMetadata/CDIF2026/` - 2026 schema examples
 - `../integrationPublic/LongData/` - Long data CSV and older (pre-2026) long data metadata examples
 

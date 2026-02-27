@@ -63,6 +63,7 @@ This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule s
 | `CDIFtoCroissant.md` | Documentation for the CDIF-to-Croissant mapping and converter |
 | `RO-Crate-relationship.md` | ADA/CDIF profile mapping to RO-Crate, with ValidateROCrate.py design notes |
 | `validate-cdif.bat` | Windows batch script for oXygen XML Editor integration |
+| `batch_validate.py` | Batch validation of CDIF metadata files across multiple file groups (JSON Schema + SHACL) |
 
 ### DDI-CDI Resolved Schema
 
@@ -103,6 +104,22 @@ validate-cdif.bat my-metadata.jsonld
 ```bash
 python FrameAndValidate.py my-metadata.jsonld -o framed.json -v
 ```
+
+### Batch Validate Multiple Files
+
+`batch_validate.py` runs both JSON Schema and SHACL validation across multiple file groups:
+
+```bash
+python batch_validate.py
+```
+
+File groups validated:
+- **testJSONMetadata** -- 77 ADA metadata test files
+- **cdifbook** -- 10 cdifbook example documents
+- **cdifProfiles** -- 5 CDIF profile examples from building blocks
+- **adaProfiles** -- 36 ADA profile examples from building blocks
+
+Output shows per-file pass/fail for each validation type, group summaries, and an overall summary listing all failures.
 
 ## Validation Workflow
 
