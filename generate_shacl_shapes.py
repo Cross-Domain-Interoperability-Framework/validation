@@ -72,7 +72,6 @@ CDIF_DISCOVERY_BLOCKS = [
     "qualityProperties/qualityMeasure",
     # --- CDIF composite building blocks ---
     "cdifProperties/cdifCatalogRecord",
-    "cdifProperties/cdifProv",
     # --- CDIF aggregate building blocks ---
     "cdifProperties/cdifMandatory",
     "cdifProperties/cdifOptional",
