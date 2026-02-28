@@ -16,6 +16,9 @@ FRAME_VALIDATE = VALIDATION_DIR / "FrameAndValidate.py"
 SHACL_VALIDATE = VALIDATION_DIR / "ShaclValidation" / "ShaclJSONLDContext.py"
 SHACL_SHAPES = VALIDATION_DIR / "CDIF-Complete-Shapes.ttl"
 
+# File patterns to exclude from SHACL validation (generated output, not CDIF source)
+SHACL_EXCLUDE_SUFFIXES = ("-croissant.json", "-rocrate.json", "rocrate-jsonld-example.json", "ro-crate-metadata.json")
+
 # Repo roots
 CDIF_VALIDATION = VALIDATION_DIR
 USGIN_BB = Path(r"C:\Users\smrTu\OneDrive\Documents\GithubC\USGIN\metadataBuildingBlocks")
@@ -170,22 +173,27 @@ def main():
                 for e in errors:
                     print(f"    {e}")
 
-            # SHACL validation
-            sh_passed, sh_output = run_shacl_validation(filepath)
-            if sh_passed:
-                shacl_pass += 1
-                print(f"  SHACL:       PASS")
+            # SHACL validation (skip generated output files)
+            sh_passed = None
+            if any(fname.endswith(s) for s in SHACL_EXCLUDE_SUFFIXES):
+                print(f"  SHACL:       SKIP (generated output)")
             else:
-                shacl_fail += 1
-                errors = extract_errors(sh_output)
-                print(f"  SHACL:       FAIL")
-                for e in errors:
-                    print(f"    {e}")
+                sh_passed, sh_output = run_shacl_validation(filepath)
+                if sh_passed:
+                    shacl_pass += 1
+                    print(f"  SHACL:       PASS")
+                else:
+                    shacl_fail += 1
+                    errors = extract_errors(sh_output)
+                    print(f"  SHACL:       FAIL")
+                    for e in errors:
+                        print(f"    {e}")
 
+            shacl_skipped = any(fname.endswith(s) for s in SHACL_EXCLUDE_SUFFIXES)
             group_results.append({
                 "file": fname,
                 "schema_pass": js_passed,
-                "shacl_pass": sh_passed,
+                "shacl_pass": None if shacl_skipped else sh_passed,
             })
 
         all_results[group_name] = group_results
@@ -210,12 +218,14 @@ def main():
     any_failures = False
     for group_name, results in all_results.items():
         for r in results:
-            if not r["schema_pass"] or not r["shacl_pass"]:
+            schema_failed = not r["schema_pass"]
+            shacl_failed = r["shacl_pass"] is not None and not r["shacl_pass"]
+            if schema_failed or shacl_failed:
                 any_failures = True
                 status = []
-                if not r["schema_pass"]:
+                if schema_failed:
                     status.append("schema")
-                if not r["shacl_pass"]:
+                if shacl_failed:
                     status.append("shacl")
                 print(f"  [{group_name}] {r['file']}: {', '.join(status)}")
     if not any_failures:
