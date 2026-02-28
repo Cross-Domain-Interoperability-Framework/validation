@@ -9,6 +9,7 @@ import subprocess
 import sys
 import os
 import json
+import re
 from pathlib import Path
 
 VALIDATION_DIR = Path(__file__).parent
@@ -104,7 +105,10 @@ def run_json_schema_validation(filepath):
 
 
 def run_shacl_validation(filepath):
-    """Run SHACL validation and return (passed: bool, output: str)."""
+    """Run SHACL validation and return (violations, warnings, infos, output).
+
+    Returns a tuple of (violation_count, warning_count, info_count, raw_output).
+    """
     try:
         result = subprocess.run(
             [sys.executable, str(SHACL_VALIDATE), str(filepath), str(SHACL_SHAPES)],
@@ -112,12 +116,15 @@ def run_shacl_validation(filepath):
             cwd=str(VALIDATION_DIR)
         )
         output = result.stdout + result.stderr
-        passed = result.returncode == 0
-        return passed, output.strip()
+        # Count issues by severity from the pyshacl report
+        violations = len(re.findall(r'Severity: sh:Violation', output))
+        warnings = len(re.findall(r'Severity: sh:Warning', output))
+        infos = len(re.findall(r'Severity: sh:Info', output))
+        return violations, warnings, infos, output.strip()
     except subprocess.TimeoutExpired:
-        return False, "TIMEOUT"
+        return -1, 0, 0, "TIMEOUT"
     except Exception as e:
-        return False, str(e)
+        return -1, 0, 0, str(e)
 
 
 def extract_errors(output):
@@ -143,8 +150,10 @@ def main():
     all_results = {}
     overall_schema_pass = 0
     overall_schema_fail = 0
-    overall_shacl_pass = 0
-    overall_shacl_fail = 0
+    overall_shacl_clean = 0    # no violations, no warnings
+    overall_shacl_warn = 0     # warnings/info only (no violations)
+    overall_shacl_viol = 0     # has violations
+    overall_shacl_skip = 0
 
     for group_name, files in groups.items():
         print(f"\n{'='*60}")
@@ -154,8 +163,10 @@ def main():
         group_results = []
         schema_pass = 0
         schema_fail = 0
-        shacl_pass = 0
-        shacl_fail = 0
+        shacl_clean = 0
+        shacl_warn = 0
+        shacl_viol = 0
+        shacl_skip = 0
 
         for i, filepath in enumerate(files):
             fname = filepath.name
@@ -174,62 +185,90 @@ def main():
                     print(f"    {e}")
 
             # SHACL validation (skip generated output files)
-            sh_passed = None
+            sh_violations = None
+            sh_warnings = 0
+            sh_infos = 0
             if any(fname.endswith(s) for s in SHACL_EXCLUDE_SUFFIXES):
+                shacl_skip += 1
                 print(f"  SHACL:       SKIP (generated output)")
             else:
-                sh_passed, sh_output = run_shacl_validation(filepath)
-                if sh_passed:
-                    shacl_pass += 1
-                    print(f"  SHACL:       PASS")
-                else:
-                    shacl_fail += 1
+                sh_violations, sh_warnings, sh_infos, sh_output = run_shacl_validation(filepath)
+                if sh_violations < 0:
+                    # error running validation
+                    shacl_viol += 1
+                    print(f"  SHACL:       ERROR")
                     errors = extract_errors(sh_output)
-                    print(f"  SHACL:       FAIL")
                     for e in errors:
                         print(f"    {e}")
+                elif sh_violations > 0:
+                    shacl_viol += 1
+                    print(f"  SHACL:       FAIL ({sh_violations} violations, {sh_warnings} warnings, {sh_infos} info)")
+                    errors = extract_errors(sh_output)
+                    for e in errors:
+                        print(f"    {e}")
+                elif sh_warnings > 0 or sh_infos > 0:
+                    shacl_warn += 1
+                    print(f"  SHACL:       PASS ({sh_warnings} warnings, {sh_infos} info)")
+                else:
+                    shacl_clean += 1
+                    print(f"  SHACL:       PASS (clean)")
 
             shacl_skipped = any(fname.endswith(s) for s in SHACL_EXCLUDE_SUFFIXES)
             group_results.append({
                 "file": fname,
                 "schema_pass": js_passed,
-                "shacl_pass": None if shacl_skipped else sh_passed,
+                "shacl_violations": sh_violations,
+                "shacl_warnings": sh_warnings,
+                "shacl_infos": sh_infos,
+                "shacl_skipped": shacl_skipped,
             })
 
         all_results[group_name] = group_results
         overall_schema_pass += schema_pass
         overall_schema_fail += schema_fail
-        overall_shacl_pass += shacl_pass
-        overall_shacl_fail += shacl_fail
+        overall_shacl_clean += shacl_clean
+        overall_shacl_warn += shacl_warn
+        overall_shacl_viol += shacl_viol
+        overall_shacl_skip += shacl_skip
 
+        shacl_tested = len(files) - shacl_skip
         print(f"\n--- {group_name} Summary ---")
         print(f"  JSON Schema: {schema_pass} pass, {schema_fail} fail")
-        print(f"  SHACL:       {shacl_pass} pass, {shacl_fail} fail")
+        print(f"  SHACL ({shacl_tested} tested): {shacl_clean} clean, {shacl_warn} warnings-only, {shacl_viol} violations")
 
     # Overall summary
+    total_shacl_tested = total_files - overall_shacl_skip
     print(f"\n{'='*60}")
     print(f"OVERALL SUMMARY ({total_files} files)")
     print(f"{'='*60}")
     print(f"  JSON Schema: {overall_schema_pass} pass, {overall_schema_fail} fail")
-    print(f"  SHACL:       {overall_shacl_pass} pass, {overall_shacl_fail} fail")
+    print(f"  SHACL ({total_shacl_tested} tested, {overall_shacl_skip} skipped):")
+    print(f"    {overall_shacl_clean} clean (no issues)")
+    print(f"    {overall_shacl_warn} pass with warnings/info only")
+    print(f"    {overall_shacl_viol} violations")
 
-    # List all failures
-    print(f"\n--- Failed Files ---")
-    any_failures = False
+    # List files with violations
+    print(f"\n--- Files with SHACL Violations ---")
+    any_violations = False
     for group_name, results in all_results.items():
         for r in results:
-            schema_failed = not r["schema_pass"]
-            shacl_failed = r["shacl_pass"] is not None and not r["shacl_pass"]
-            if schema_failed or shacl_failed:
-                any_failures = True
-                status = []
-                if schema_failed:
-                    status.append("schema")
-                if shacl_failed:
-                    status.append("shacl")
-                print(f"  [{group_name}] {r['file']}: {', '.join(status)}")
-    if not any_failures:
-        print("  None! All files passed both validations.")
+            if r["shacl_violations"] is not None and r["shacl_violations"] > 0:
+                any_violations = True
+                print(f"  [{group_name}] {r['file']}: {r['shacl_violations']} violations, {r['shacl_warnings']} warnings")
+    if not any_violations:
+        print("  None! No SHACL violations across any files.")
+
+    # List JSON Schema failures
+    any_schema_fail = False
+    for group_name, results in all_results.items():
+        for r in results:
+            if not r["schema_pass"]:
+                if not any_schema_fail:
+                    print(f"\n--- Files with JSON Schema Failures ---")
+                any_schema_fail = True
+                print(f"  [{group_name}] {r['file']}")
+    if not any_schema_fail:
+        print(f"\n--- JSON Schema: All {overall_schema_pass} files passed ---")
 
 
 if __name__ == "__main__":
