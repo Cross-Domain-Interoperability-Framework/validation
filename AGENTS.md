@@ -8,7 +8,7 @@ Validation is performed at three levels:
 - **JSON Schema** (structural) -- `FrameAndValidate.py` frames JSON-LD into trees, then validates against `CDIFCompleteSchema.json` (or `CDIFDiscoverySchema.json`)
 - **SHACL** (semantic) -- `ShaclValidation/ShaclJSONLDContext.py` validates RDF graphs against SHACL shapes
 - **RO-Crate** (structural) -- `ValidateROCrate.py` converts to RO-Crate and checks structural requirements
-- **Batch** -- `batch_validate.py` runs both JSON Schema and SHACL validation across multiple file groups (testJSONMetadata, cdifbook examples, CDIF profiles, ADA profiles)
+- **Batch** -- `batch_validate.py` runs both JSON Schema and SHACL validation across multiple file groups (testJSONMetadata, cdifbook examples, CDIF profiles, ADA profiles), with severity-aware reporting (violations vs warnings vs info)
 
 ## Building block architecture
 
@@ -59,7 +59,7 @@ Key operations: resolve cross-building-block `$ref`s, transform `@type` for disp
 
 Reads building block SHACL rules (`rules.shacl`) and merges them into a single composite Turtle file (`CDIF-Discovery-Core-Shapes.ttl`) for the CDIFDiscovery profile.
 
-Key operations: parse each Turtle file with rdflib, detect named shape URIs, resolve conflicts via priority ordering (sub-building blocks win over composites, which win over profile-level copies), serialize merged graph. Supports `--profile discovery` (63 shapes) and `--profile complete` (75 shapes).
+Key operations: parse each Turtle file with rdflib, detect named shape URIs, resolve conflicts via priority ordering (sub-building blocks win over composites, which win over profile-level copies), serialize merged graph. Supports `--profile discovery` (64 shapes) and `--profile complete` (76 shapes).
 
 ## Common workflows
 
@@ -128,6 +128,9 @@ batch_validate.py ──> FrameAndValidate.py (JSON Schema)
 - **`spdx:Checksum` typing**: All `spdx:checksum` objects require `"@type": "spdx:Checksum"` (JSON Schema `required` + SHACL `sh:class`).
 - **SHACL severity alignment**: Properties optional in JSON Schema use `sh:Warning` (not `sh:Violation`) in SHACL. Only structurally required properties use `sh:Violation`.
 - **Activity name authority**: `provActivity/rules.shacl` is the sole source for `schema:name` checks on Activity nodes. Duplicates removed from `cdifProv/rules.shacl` and `action/rules.shacl`.
+- **Action subtypes**: The `action` building block `@type` accepts an enum of 11 schema.org Action subtypes (Action, AssessAction, ConsumeAction, ControlAction, CreateAction, FindAction, InteractAction, PlayAction, SearchAction, TransferAction, UpdateAction). SHACL uses a SPARQL target with `FILTER IN` for the same set. The `webAPI` shape uses `sh:or` with all subtypes for `potentialAction`.
+- **cdifOptional shape authority**: `cdifOptional/rules.shacl` is the authoritative source for `keywordsNoCommaTest` (accepts string, DefinedTerm, or IRI) and `relatedResourceProperty` (`schema:linkRelationship` accepts string, DefinedTerm, or IRI). These propagate via conflict resolution (cdifOptional wins over CDIFDiscovery).
+- **additionalProperty value flexibility**: `additionalProperty/rules.shacl` allows any datatype for `schema:value` (not just `xsd:string`), since JSON-LD serializes numbers as `xsd:integer`/`xsd:decimal`.
 
 ## Dependencies
 

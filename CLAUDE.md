@@ -129,8 +129,8 @@ pip install mlcroissant
 
 `generate_shacl_shapes.py` reads CDIF building block `rules.shacl` files and merges them into a single composite Turtle file. Supports two profiles via `--profile`:
 
-- **discovery** (default) → `CDIF-Discovery-Core-Shapes.ttl` — 63 shapes for the CDIFDiscovery profile
-- **complete** → `CDIF-Complete-Shapes.ttl` — 75 shapes for the CDIFcomplete profile (discovery + data description + provenance)
+- **discovery** (default) → `CDIF-Discovery-Core-Shapes.ttl` — 64 shapes for the CDIFDiscovery profile
+- **complete** → `CDIF-Complete-Shapes.ttl` — 76 shapes for the CDIFcomplete profile (discovery + data description + provenance)
 
 **Building block source location**: Same auto-detection as `generate_graph_schema.py` — tries `BuildingBlockSubmodule/_sources/`, `../metadataBuildingBlocks/_sources/`, OneDrive paths. Override with `--bb-dir` or `CDIF_BB_DIR` env var.
 
@@ -268,12 +268,15 @@ Converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissa
 
 ## Current validation status
 
-`batch_validate.py` runs both JSON Schema and SHACL validation across 128 files (77 testJSONMetadata + 10 cdifbook + 5 cdifProfiles + 36 adaProfiles).
+`batch_validate.py` runs both JSON Schema and SHACL validation across 128 files (77 testJSONMetadata + 10 cdifbook + 5 cdifProfiles + 36 adaProfiles). Output distinguishes SHACL severity levels: violations (structural failures), warnings (recommended properties), and info (suggestions).
 
 - **JSON Schema**: 128/128 pass
-- **SHACL**: 0 violations in testJSONMetadata; remaining violations are source data quality issues in building block examples (wrong namespace, short names, missing dates). Warnings are dominated by missing activity names (123), keyword formatting (181), missing contactPoint (81), and missing physicalDataType (81).
+- **SHACL Violations**: 0 across all 128 files
+- **SHACL Warnings/Info**: All 128 files pass with warnings/info only — missing activity descriptions, contact points, physical data types, etc.
 
 **SHACL severity rationale**: Properties that are optional in JSON Schema (`schema:name` on activities, `cdi:physicalDataType` on InstanceVariable) are set to `sh:Warning` in SHACL for consistency. Only structurally required properties (e.g., `prov:used` on activities) use `sh:Violation`.
+
+**SHACL shape authority**: `cdifOptional/rules.shacl` is the authoritative source for `keywordsNoCommaTest` (accepts string, DefinedTerm, or IRI) and `relatedResourceProperty` (accepts string, DefinedTerm, or IRI for `schema:linkRelationship`). These shapes propagate via conflict resolution in `generate_shacl_shapes.py` (cdifOptional wins over CDIFDiscovery profile copies). `additionalProperty/rules.shacl` allows any datatype for `schema:value` (not just `xsd:string`).
 
 ## Known issues
 

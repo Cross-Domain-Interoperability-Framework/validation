@@ -124,16 +124,19 @@ File groups validated:
 - **cdifProfiles** -- 5 CDIF profile examples from building blocks
 - **adaProfiles** -- 36 ADA profile examples from building blocks
 
-Output shows per-file pass/fail for each validation type, group summaries, and an overall summary listing all failures.
+Output shows per-file results for each validation type with severity-aware reporting:
+- **JSON Schema**: PASS or FAIL
+- **SHACL**: PASS (clean), PASS (N warnings, M info), FAIL (N violations, M warnings), or SKIP (for generated output files like `-croissant.json`, `-rocrate.json`)
+
+Group summaries and an overall summary list all violations and schema failures.
 
 ### Current Validation Status
 
 As of February 2026, batch validation across all 128 files shows:
 
 - **JSON Schema**: 128/128 pass
-- **SHACL Violations**: 0 in testJSONMetadata files; a small number remain in building block example files due to source data quality issues (wrong namespace variants, short property names, missing dates)
-- **SHACL Warnings**: Dominated by missing activity names, keyword formatting issues, missing contact points, and missing physical data types — these reflect optional-but-recommended properties
-- **SHACL Info**: Contact point suggestions and publication date recommendations
+- **SHACL Violations**: 0 across all 128 files
+- **SHACL Warnings/Info**: All 128 files pass with warnings/info only — these reflect optional-but-recommended properties (missing activity descriptions, contact points, physical data types, etc.)
 
 SHACL severity levels are aligned with JSON Schema: properties that are optional in the JSON Schema are `sh:Warning` (not `sh:Violation`) in SHACL.
 
@@ -712,8 +715,8 @@ print(json.dumps(framed, indent=2))
 
 The `generate_shacl_shapes.py` script merges building block `rules.shacl` files into composite Turtle files. It supports two profiles:
 
-- **discovery** (default) → `CDIF-Discovery-Core-Shapes.ttl` — 63 shapes for the CDIFDiscovery profile
-- **complete** → `CDIF-Complete-Shapes.ttl` — 75 shapes for the CDIFcomplete profile (discovery + data description + provenance)
+- **discovery** (default) → `CDIF-Discovery-Core-Shapes.ttl` — 64 shapes for the CDIFDiscovery profile
+- **complete** → `CDIF-Complete-Shapes.ttl` — 76 shapes for the CDIFcomplete profile (discovery + data description + provenance)
 
 ```bash
 # Regenerate discovery profile shapes (default)
@@ -745,8 +748,8 @@ In addition to JSON Schema validation, CDIF metadata can be validated using SHAC
 
 | File | Description |
 |------|-------------|
-| `CDIF-Discovery-Core-Shapes.ttl` | Composite SHACL shapes for CDIFDiscovery profile (63 shapes, generated) |
-| `CDIF-Complete-Shapes.ttl` | Composite SHACL shapes for CDIFcomplete profile (75 shapes, generated) |
+| `CDIF-Discovery-Core-Shapes.ttl` | Composite SHACL shapes for CDIFDiscovery profile (64 shapes, generated) |
+| `CDIF-Complete-Shapes.ttl` | Composite SHACL shapes for CDIFcomplete profile (76 shapes, generated) |
 | `CDIF-Discovery-Core-Shapes2.ttl` | Legacy hand-maintained SHACL shapes (superseded by generated versions) |
 | `generate_shacl_shapes.py` | Generates composite SHACL shapes files from building block sources |
 | `generate_shacl_report.py` | Generates markdown validation reports from SHACL validation results |
