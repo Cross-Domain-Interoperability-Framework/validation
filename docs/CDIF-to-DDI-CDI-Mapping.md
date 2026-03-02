@@ -1,14 +1,15 @@
 # CDIF to DDI-CDI Formal Property Mapping
 
-**Date:** 2026-02-20
+**Date:** 2026-03-02
 **Source schemas:**
 - CDIF: `CDIFCompleteSchema.json` and building blocks in `BuildingBlockSubmodule/_sources/cdifProperties/`
 - DDI-CDI: `ddi-cdi.schema_normative.json` (v1.0)
 - DDI-CDI specification: https://docs.ddialliance.org/DDI-CDI/1.0/model/FieldLevelDocumentation/DDICDILibrary/index.html
+- DDI-CDI native provenance: `ddicdiProv` building block in `BuildingBlockSubmodule/_sources/ddiProperties/ddicdiProv/`
 
 ## Overview
 
-CDIF implements a flattened subset of the DDI-CDI model for data description. The DDI-CDI model defines 158 classes in a multi-level UML hierarchy; CDIF uses ~37 `cdi:`-prefixed properties and ~12 `csvw:`-prefixed properties drawn from approximately 5 core DDI-CDI classes:
+CDIF implements a flattened subset of the DDI-CDI model for data description and provenance. The DDI-CDI model defines 158 classes in a multi-level UML hierarchy; CDIF uses ~37 `cdi:`-prefixed properties and ~12 `csvw:`-prefixed properties drawn from approximately 5 core DDI-CDI data description classes, plus provenance concepts mapped through `cdifProv`:
 
 | DDI-CDI Class | CDIF Usage Context |
 |---|---|
@@ -17,8 +18,12 @@ CDIF implements a flattened subset of the DDI-CDI model for data description. Th
 | `ValueMapping` | `physicalMapping_type` / `cdi:hasPhysicalMapping` items |
 | `DataStore` | `distributionBase_type` (distribution-level) |
 | `DataStructureComponent` subclasses | `cdi:role` enum values on variableMeasured |
+| `Activity` | `cdifProv` activity (via `prov:wasGeneratedBy`) |
+| `Step` | `schema:actionProcess` → HowTo/HowToStep |
+| `ProcessingAgent` | `schema:agent` on activity |
+| `ProductionEnvironment` | `schema:location` on activity |
 
-CDIF flattens the DDI-CDI multi-class hierarchy into JSON-LD objects at three levels: distribution, dataset mapping (tabular or structured), and per-variable physical mapping. Where DDI-CDI uses separate objects linked by relationships, CDIF inlines properties directly.
+CDIF flattens the DDI-CDI multi-class hierarchy into JSON-LD objects at three levels: distribution, dataset mapping (tabular, structured, or long), and per-variable physical mapping. Where DDI-CDI uses separate objects linked by relationships, CDIF inlines properties directly. For provenance, CDIF uses a dual-typed `["schema:Action", "prov:Activity"]` node that maps to DDI-CDI `Activity`, `Step`, and `ProcessingAgent` concepts using schema.org and PROV-O vocabularies.
 
 ---
 
@@ -41,29 +46,18 @@ CDIF flattens the DDI-CDI multi-class hierarchy into JSON-LD objects at three le
 | `schema:maxValue` | number | --[cdi:SubstantiveValueDomain] | -- | -- | Link through valueDomain/valueAndConceptDescription |
 | `schema:url` | uri string | `externalDefinition` | Concept | dt-Reference | Approximate match |
 | `cdi:intendedDataType` | string | `hasIntendedDataType` | RepresentedVariable | ControlledVocabularyEntry | CDIF simplifies to plain string; DDI-CDI uses ControlledVocabularyEntry |
-| `cdi:role` | string enum {MeasureComponent, AttributeComponent, DimensionComponent} | -- | DataStructureComponent subclasses | -- | DDI-CDI models this as separate subclasses of DataStructureComponent; CDIF flattens to a string enum |
+| `cdi:role` | string enum (5 values) | -- | DataStructureComponent subclasses | -- | DDI-CDI models this as separate subclasses of DataStructureComponent; CDIF flattens to a string enum |
 | `cdi:describedUnitOfMeasure` | DefinedTerm | `describedUnitOfMeasure` | RepresentedVariable | ControlledVocabularyEntry | Direct mapping |
-| `cdi:simpleUnitOfMeasure` | string | `simpleUnitOfMeasure` | RepresentedVariable | xsd:string | Direct mapping |
+| `cdi:simpleUnitOfMeasure` | string/object/DefinedTerm | `simpleUnitOfMeasure` | RepresentedVariable | xsd:string | Direct mapping; CDIF also accepts DefinedTerm or @id reference |
 | `cdi:uses` | array of string/object/DefinedTerm | -- | -- | -- | CDIF description says "same as schema:propertyID"; no direct DDI-CDI match |
+| `cdi:identifier` | string | `identifier` | Concept | dt-Identifier | DDI-CDI uses composite Identifier type; CDIF simplifies to string |
+| `cdi:name` | string | `name` | Concept | dt-ObjectName | Redundant with `schema:name`; available for DDI-CDI-native naming |
+| `cdi:displayLabel` | string | `displayLabel` | Concept | dt-LabelForDisplay | DDI-CDI uses multilingual LabelForDisplay type; CDIF simplifies to string |
+| `cdi:physicalDataType` | array of string/object/DefinedTerm | `physicalDataType` | InstanceVariable | ControlledVocabularyEntry | Required in building block; maps to InstanceVariable.physicalDataType |
 
-### Building block divergence (cdifVariableMeasured/schema.yaml)
+### Building block alignment
 
-The building block has additional properties not in CDIFCompleteSchema.json:
-
-| Building Block Property | DDI-CDI Property | DDI-CDI Class Origin | Status |
-|---|---|---|---|
-| `cdi:identifier` | `identifier` | Concept | In building block only; should be added to CDIFCompleteSchema.json or removed |
-| `cdi:name` | `name` | Concept | In building block only; redundant with `schema:name` |
-| `cdi:displayLabel` | `displayLabel` | Concept | In building block only; should be added to CDIFCompleteSchema.json or removed |
-| `cdi:physicalDataType` (as array) | `physicalDataType` | InstanceVariable | In building block only; physically maps to InstanceVariable.physicalDataType |
-
-Properties in CDIFCompleteSchema.json missing from building block:
-
-| Complete Schema Property | DDI-CDI Property | Status |
-|---|---|---|
-| `cdi:intendedDataType` | `hasIntendedDataType` (RepresentedVariable) | Missing from building block; should be added |
-| `cdi:role` | DataStructureComponent subclass type | Missing from building block; should be added |
-| `cdi:describedUnitOfMeasure` | `describedUnitOfMeasure` (RepresentedVariable) | Missing from building block; should be added |
+The `cdifVariableMeasured/schema.yaml` building block and `CDIFCompleteSchema.json` are aligned as of 2026-03. The building block requires `@type` and `cdi:physicalDataType` and includes all CDI properties (`cdi:intendedDataType`, `cdi:role`, `cdi:describedUnitOfMeasure`, `cdi:identifier`, `cdi:name`, `cdi:displayLabel`).
 
 ---
 
@@ -121,9 +115,9 @@ CDIF types this as `cdi:TabularTextDataSet` rather than `cdi:PhysicalSegmentLayo
 | `cdi:arrayBase` | integer | `arrayBase` | PhysicalSegmentLayout | Direct mapping |
 | `csvw:commentPrefix` | string | `commentPrefix` | PhysicalSegmentLayout | CSVW alias for DDI-CDI property |
 | `csvw:delimiter` | string | `delimiter` | PhysicalSegmentLayout | CSVW alias for DDI-CDI property |
-| `cdi:escapeCharacter` | string | `escapeCharacter` | PhysicalSegmentLayout | Direct mapping (Complete schema only) |
+| `cdi:escapeCharacter` | string | `escapeCharacter` | PhysicalSegmentLayout | Direct mapping |
 | `csvw:header` | boolean | `hasHeader` | PhysicalSegmentLayout | CSVW name differs from DDI-CDI |
-| `cdi:headerIsCaseSensitive` | boolean | `headerIsCaseSensitive` | PhysicalSegmentLayout | Direct mapping (Complete schema only) |
+| `cdi:headerIsCaseSensitive` | boolean (default false) | `headerIsCaseSensitive` | PhysicalSegmentLayout | Direct mapping |
 | `csvw:headerRowCount` | integer (min 0) | `headerRowCount` | PhysicalSegmentLayout | CSVW alias for DDI-CDI property |
 | `cdi:isDelimited` | boolean | `isDelimited` | PhysicalSegmentLayout | Direct mapping; DDI-CDI makes required (1..1) |
 | `cdi:isFixedWidth` | boolean | `isFixedWidth` | PhysicalSegmentLayout | Direct mapping; DDI-CDI makes required (1..1) |
@@ -135,24 +129,15 @@ CDIF types this as `cdi:TabularTextDataSet` rather than `cdi:PhysicalSegmentLayo
 | `csvw:skipRows` | integer (default 0) | `skipRows` | PhysicalSegmentLayout | CSVW alias for DDI-CDI property |
 | `csvw:tableDirection` | enum {Ltr, Rtl} | `tableDirection` | PhysicalSegmentLayout | DDI-CDI type: enum-TableDirectionValues |
 | `csvw:textDirection` | enum {Auto, Inherit, Ltr, Rtl} | `textDirection` | PhysicalSegmentLayout | DDI-CDI type: enum-TextDirectionValues |
-| `cdi:treatConsecutiveDelimitersAsOne` | boolean (default false) | `treatConsecutiveDelimitersAsOne` | PhysicalSegmentLayout | Direct mapping (Complete schema only) |
+| `cdi:treatConsecutiveDelimitersAsOne` | boolean (default false) | `treatConsecutiveDelimitersAsOne` | PhysicalSegmentLayout | Direct mapping |
 | `csvw:trim` | enum {true, end, false, start} | `trim` | PhysicalSegmentLayout | DDI-CDI type: enum-TrimValues |
 | `cdi:hasPhysicalMapping` | array of physicalMapping_type | -- | -- | CDIF design; links to ValueMapping items inline |
 | `countRows` | integer | `recordCount` | DataStore | Cross-class mapping |
 | `countColumns` | integer | -- | -- | No direct DDI-CDI equivalent |
 
-### Building block divergence (cdifTabularData/schema.yaml)
+### Building block alignment
 
-Properties in CDIFCompleteSchema.json missing from building block:
-
-| Complete Schema Property | DDI-CDI Property | Status |
-|---|---|---|
-| `cdi:escapeCharacter` | `escapeCharacter` | Missing from building block; should be added |
-| `cdi:headerIsCaseSensitive` | `headerIsCaseSensitive` | Missing from building block; should be added |
-| `cdi:treatConsecutiveDelimitersAsOne` | `treatConsecutiveDelimitersAsOne` | Missing from building block; should be added |
-| `csvw:tableDirection` | `tableDirection` | Missing from building block; should be added |
-| `csvw:textDirection` | `textDirection` | Missing from building block; should be added |
-| `csvw:trim` | `trim` | Missing from building block; should be added |
+The `cdifTabularData/schema.yaml` building block and `CDIFCompleteSchema.json` are aligned as of 2026-03. All PhysicalSegmentLayout properties are present in both, including `cdi:escapeCharacter`, `cdi:headerIsCaseSensitive`, `cdi:treatConsecutiveDelimitersAsOne`, `csvw:tableDirection`, `csvw:textDirection`, and `csvw:trim`. The building block also enforces a `oneOf` constraint requiring exactly one of `cdi:isDelimited` or `cdi:isFixedWidth` to be true.
 
 ### DDI-CDI PhysicalSegmentLayout properties NOT in CDIF
 
@@ -180,7 +165,26 @@ Properties in CDIFCompleteSchema.json missing from building block:
 
 ---
 
-## 5. Distribution-Level Properties (DataStore / PhysicalDataSet)
+## 5. Long Data Structure Mapping
+
+**CDIF location:** `cdifLongData/schema.yaml` building block
+**DDI-CDI classes:** No single class -- a CDIF design combining dataset and layout concepts
+
+CDIF types long-format data as `cdi:LongStructureDataSet`. Long (narrow) format has each row representing a single observation, with descriptor columns identifying the variable and reference columns holding the value. The long-data building block shares most PhysicalSegmentLayout properties with the tabular data building block.
+
+| CDIF Property | Type in CDIF | DDI-CDI Property | DDI-CDI Class | Notes |
+|---|---|---|---|---|
+| `@type` (contains `cdi:LongStructureDataSet`) | array | -- | -- | CDIF-specific composite type |
+| `cdi:hasPhysicalMapping` | array | -- | -- | Same as tabular mapping |
+| `cdi:arrayBase` | integer | `arrayBase` | PhysicalSegmentLayout | Direct mapping |
+| `csvw:delimiter`, `csvw:header`, etc. | various | (same as tabular) | PhysicalSegmentLayout | Shared subset of tabular properties |
+| `cdi:escapeCharacter` | string | `escapeCharacter` | PhysicalSegmentLayout | Direct mapping |
+
+Long data uses `cdi:role` values `DescriptorComponent` and `ReferenceValueComponent` on InstanceVariable to distinguish descriptor columns (which variable is being observed) from reference columns (the observation value).
+
+---
+
+## 6. Distribution-Level Properties (DataStore / PhysicalDataSet)
 
 **CDIF location:** `distributionBase_type` in CDIFCompleteSchema.json
 **DDI-CDI classes:** `cls-DataStore`, `cls-PhysicalDataSet`
@@ -191,12 +195,12 @@ Properties in CDIFCompleteSchema.json missing from building block:
 | `cdi:characterSet` | string | `characterSet` | DataStore | Direct mapping |
 | `cdi:fileSize` | number | -- | -- | No direct DDI-CDI equivalent; closest is schema.org contentSize |
 | `cdi:fileSizeUofM` | string | -- | -- | No direct DDI-CDI equivalent |
-| `spdx:checksum` | object (algorithm + value) | -- | -- | No DDI-CDI equivalent; SPDX vocabulary |
+| `spdx:checksum` | object (algorithm + value) | -- | -- | No DDI-CDI equivalent; SPDX vocabulary. Requires `@type: spdx:Checksum` |
 | `schema:encodingFormat` | array of strings | `encoding` | PhysicalSegmentLayout | Approximate; DDI-CDI uses ControlledVocabularyEntry |
 
 ---
 
-## 6. Role Mapping (DataStructureComponent Subclasses)
+## 7. Role Mapping (DataStructureComponent Subclasses)
 
 **CDIF property:** `cdi:role` on variableMeasured items
 **DDI-CDI:** Separate subclasses of `DataStructureComponent`
@@ -208,10 +212,80 @@ DDI-CDI models the role of a variable in a data structure as distinct classes. C
 | `MeasureComponent` | `cls-MeasureComponent` | The observed/measured quantity |
 | `DimensionComponent` | `cls-DimensionComponent` | An independent axis (has `categoricalAdditivity` property) |
 | `AttributeComponent` | `cls-AttributeComponent` | A qualifier/attribute (has `qualifies` relationship) |
+| `DescriptorComponent` | `cls-DescriptorComponent` | Identifies which variable is observed in long data format |
+| `ReferenceValueComponent` | `cls-ReferenceValueComponent` | Holds the observation value in long data format |
 
 ---
 
-## 7. CSVW to DDI-CDI Property Name Crosswalk
+## 8. Provenance Mapping (Activity / Step / ProcessingAgent)
+
+**CDIF location:** `cdifProv/schema.yaml` building block (value of `prov:wasGeneratedBy`)
+**DDI-CDI classes:** `cls-Activity`, `cls-Step`, `cls-ProcessingAgent`, `cls-Parameter`, `cls-ProductionEnvironment`
+**DDI-CDI native building block:** `ddicdiProv/schema.yaml` (see `docs/CDIF-Provenance-Building-Blocks-Comparison.md` for detailed comparison)
+
+CDIF uses dual-typed `["schema:Action", "prov:Activity"]` nodes that implement the same provenance concepts as DDI-CDI but with schema.org and PROV-O vocabulary. The `ddicdiProv` building block provides the DDI-CDI native alternative for communities using that standard directly.
+
+### Activity mapping
+
+| CDIF Property (cdifProv) | Type in CDIF | DDI-CDI Property | DDI-CDI Class | Notes |
+|---|---|---|---|---|
+| `@type` (`["schema:Action", "prov:Activity"]`) | array | `@type` (`cdi:Activity`) | Activity | CDIF dual-typed; DDI-CDI single-typed |
+| `schema:name` | string | `cdi:name` | Activity (Concept) | DDI-CDI uses ObjectName wrapper type |
+| `schema:description` | string | `cdi:description` | Activity | Direct semantic match |
+| `schema:identifier` | string/PropertyValue | `cdi:identifier` | Activity (Concept) | DDI-CDI uses composite Identifier type |
+| `prov:used` | array (strings, objects, CreativeWork) | `cdi:entityUsed` | Activity | CDIF accepts mixed types; DDI-CDI uses Reference objects |
+| `schema:result` | string/object | `cdi:entityProduced` | Activity | CDIF uses schema.org Action property; DDI-CDI uses Reference objects |
+| `schema:agent` | Person/Organization/AgentInRole | -- | -- | DDI-CDI inverts: `cdi:ProcessingAgent --cdi:performs--> cdi:Activity` |
+| `schema:startTime` | ISO 8601 string | -- | -- | DDI-CDI Activity has no temporal bounds (gap in spec) |
+| `schema:endTime` | ISO 8601 string | -- | -- | DDI-CDI Activity has no temporal bounds (gap in spec) |
+| `schema:location` | Place/string | -- | -- | DDI-CDI has `cdi:ProductionEnvironment` as separate class |
+| `schema:actionStatus` | enum (4 values) | -- | -- | No DDI-CDI equivalent |
+| `schema:object` | string/object | -- | -- | Action chaining input; DDI-CDI uses `cdi:hasSubActivity` |
+| `schema:error` | string | -- | -- | No DDI-CDI equivalent |
+
+### Methodology / Step mapping
+
+| CDIF Property (cdifProv) | Type in CDIF | DDI-CDI Property | DDI-CDI Class | Notes |
+|---|---|---|---|---|
+| `schema:actionProcess` | HowTo object | `cdi:has_Step` | Activity → Step | CDIF uses schema.org HowTo; DDI-CDI uses Step objects |
+| `schema:actionProcess.schema:name` | string | `cdi:name` (on Step) | Step (Concept) | Methodology name |
+| `schema:actionProcess.schema:step` | array of HowToStep | `cdi:has_Step` | Step (nested) | CDIF uses ordered HowToStep; DDI-CDI uses Step with `cdi:hasSubStep` |
+| `schema:HowToStep.schema:name` | string | `cdi:name` (on Step) | Step | Step name |
+| `schema:HowToStep.schema:position` | integer | -- | -- | CDIF uses schema.org ordering; DDI-CDI relies on array order |
+| `schema:HowToStep.schema:description` | string | `cdi:description` | Step | Step description |
+| `schema:HowToStep.schema:url` | uri | -- | -- | No DDI-CDI equivalent on Step |
+| -- | -- | `cdi:script` | Step | DDI-CDI has executable code (CommandCode); CDIF has no equivalent |
+| -- | -- | `cdi:receives` / `cdi:produces` | Step → Parameter | DDI-CDI has explicit data flow; CDIF does not model parameters |
+
+### Agent mapping
+
+| CDIF Property (cdifProv) | Type in CDIF | DDI-CDI Property | DDI-CDI Class | Notes |
+|---|---|---|---|---|
+| `schema:agent` | Person/Organization | -- | ProcessingAgent | DDI-CDI inverts the relationship: `ProcessingAgent --cdi:performs--> Activity` |
+| `schema:agent.schema:name` | string | `cdi:name` (implied) | ProcessingAgent | DDI-CDI ProcessingAgent has no name; linked via identifier |
+| `schema:agent.schema:identifier` | string/PropertyValue | `cdi:identifier` | ProcessingAgent | Direct mapping for agent identification |
+| `schema:participant` | array of Person/Organization | -- | -- | No DDI-CDI equivalent; DDI-CDI has single ProcessingAgent |
+
+### Location / Environment mapping
+
+| CDIF Property (cdifProv) | Type in CDIF | DDI-CDI Property | DDI-CDI Class | Notes |
+|---|---|---|---|---|
+| `schema:location` | Place/string | -- | ProductionEnvironment | DDI-CDI uses separate ProductionEnvironment class with `cdi:name`, `cdi:description` |
+| -- | -- | `cdi:operatesOn` | ProcessingAgent → ProductionEnvironment | DDI-CDI links agent to environment; CDIF puts location on activity |
+
+### DDI-CDI provenance concepts NOT in cdifProv
+
+| DDI-CDI Concept | Type | Notes |
+|---|---|---|
+| `cdi:Parameter` | cls-Parameter | Data flow parameters between steps; CDIF does not model |
+| `cdi:script` / `cdi:CommandCode` | dt-CommandCode | Executable code on steps; CDIF uses `schema:url` on HowToStep for documentation links |
+| `cdi:standardModelMapping` | Reference | Link to standard process model (e.g., GSBPM); CDIF has no equivalent |
+| `cdi:hasSubActivity` | Activity → Activity | DDI-CDI nested activities; CDIF uses `schema:object`/`schema:result` for action chaining |
+| Temporal bounds on Activity | -- | DDI-CDI Activity has no `startedAtTime`/`endedAtTime`; this is a DDI-CDI gap |
+
+---
+
+## 9. CSVW to DDI-CDI Property Name Crosswalk
 
 CDIF uses CSVW vocabulary names for properties that have DDI-CDI equivalents. This table shows the naming differences:
 
@@ -233,7 +307,7 @@ CDIF uses CSVW vocabulary names for properties that have DDI-CDI equivalents. Th
 
 ---
 
-## 8. Coverage Summary
+## 10. Coverage Summary
 
 ### DDI-CDI classes fully or substantially covered by CDIF
 
@@ -243,7 +317,10 @@ CDIF uses CSVW vocabulary names for properties that have DDI-CDI equivalents. Th
 | `ValueMapping` | decimalPositions, defaultDecimalSeparator, defaultDigitGroupSeparator, defaultValue, format, isRequired, length, maximumLength, minimumLength, nullSequence, physicalDataType, scale | identifier, numberPattern | ~86% |
 | `PhysicalSegmentLayout` | arrayBase, commentPrefix, delimiter, escapeCharacter, hasHeader, headerIsCaseSensitive, headerRowCount, isDelimited, isFixedWidth, lineTerminator, quoteCharacter, skipBlankRows, skipDataColumns, skipInitialSpace, skipRows, tableDirection, textDirection, treatConsecutiveDelimitersAsOne, trim | allowsDuplicates, encoding, name, identifier, nullSequence, overview, purpose | ~73% |
 | `DataStore` | characterSet | aboutMissing, allowsDuplicates, catalogDetails, dataStoreType, identifier, name, purpose, recordCount | ~12% |
-| `DataStructureComponent` subclasses | MeasureComponent, DimensionComponent, AttributeComponent (via `cdi:role` enum) | identifier, semantic, specialization, categoricalAdditivity, qualifies | type coverage only |
+| `DataStructureComponent` subclasses | MeasureComponent, DimensionComponent, AttributeComponent, DescriptorComponent, ReferenceValueComponent (via `cdi:role` enum) | identifier, semantic, specialization, categoricalAdditivity, qualifies | type coverage only |
+| `Activity` | name, description, identifier, entityUsed, entityProduced (via schema.org/PROV-O) | standardModelMapping, hasSubActivity (native form) | ~50% (conceptual) |
+| `Step` | name, description (via HowTo/HowToStep) | script, receives, produces, hasSubStep | ~33% (conceptual) |
+| `ProcessingAgent` | identifier (via schema:agent) | purpose, performs, operatesOn | ~25% (conceptual) |
 
 ### CDIF properties with no DDI-CDI equivalent
 
@@ -257,6 +334,9 @@ CDIF uses CSVW vocabulary names for properties that have DDI-CDI equivalents. Th
 | `cdi:role` | variableMeasured_type | Flattened from class hierarchy |
 | `countRows` | tabularTextDatasetMapping_type | DDI-CDI has `recordCount` on DataStore |
 | `countColumns` | tabularTextDatasetMapping_type | No equivalent |
+| `schema:actionStatus` | cdifProv activity | No DDI-CDI equivalent |
+| `schema:error` | cdifProv activity | No DDI-CDI equivalent |
+| `schema:participant` | cdifProv activity | DDI-CDI has single ProcessingAgent, not multiple participants |
 
 ### DDI-CDI classes NOT represented in CDIF
 
@@ -265,6 +345,5 @@ The following major DDI-CDI classes have no CDIF representation:
 - `Population`, `Universe`, `UnitType`
 - `SentinelValueDomain`, `SubstantiveValueDomain`
 - `CodeList`, `Category`, `StatisticalClassification`
-- `ProcessingAgent`, `ProcessingStep`
-- All provenance classes (CDIF uses PROV-O instead)
-- All cataloging classes (CDIF uses schema.org and Dublin Core instead)
+
+Note: DDI-CDI provenance classes (`Activity`, `Step`, `ProcessingAgent`, `Parameter`, `ProductionEnvironment`) are conceptually covered by the `cdifProv` building block using schema.org and PROV-O vocabulary. The `ddicdiProv` building block provides the DDI-CDI native alternative. See `docs/CDIF-Provenance-Building-Blocks-Comparison.md` for the detailed three-way comparison (cdifProv, provActivity, ddicdiProv).
