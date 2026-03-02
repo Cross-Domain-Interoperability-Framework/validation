@@ -32,28 +32,28 @@ CDIF flattens the DDI-CDI multi-class hierarchy into JSON-LD objects at three le
 **CDIF location:** `variableMeasured_type` in CDIFCompleteSchema.json; `cdifVariableMeasured/schema.yaml` building block
 **DDI-CDI class:** `cls-InstanceVariable` (inherits from RepresentedVariable > ConceptualVariable > Concept)
 
-| CDIF Property | Type in CDIF | DDI-CDI Property | DDI-CDI Class Origin | DDI-CDI Type | Notes |
-|---|---|---|---|---|---|
-| `@type` (contains `cdi:InstanceVariable`) | array | `@type` | InstanceVariable | const | CDIF requires both `schema:PropertyValue` and `cdi:InstanceVariable` |
-| `@id` | string | `@id` | (JSON-LD) | iri-reference | Used for cross-references from `cdi:formats_InstanceVariable` |
-| `schema:name` | string (minLength 5) | `name` | Concept | dt-ObjectName | CDIF uses schema.org property; DDI-CDI uses complex ObjectName type |
-| `schema:description` | string (minLength 10) | `descriptiveText` | ConceptualVariable | dt-InternationalString | CDIF uses schema.org; DDI-CDI uses internationalized string |
-| `schema:propertyID` | array of string/object/DefinedTerm | --[cdi:Concept.identifier] | --(Concept) | -- | DDI-CDI UML indicates inheritance from Concept class |
-| `schema:measurementTechnique` | string/object/DefinedTerm | -- | -- | -- | No direct DDI-CDI equivalent; schema.org property |
-| `schema:unitText` | string | `simpleUnitOfMeasure` | RepresentedVariable | xsd:string | Parallel property; CDIF also has `cdi:simpleUnitOfMeasure` |
-| `schema:unitCode` | string/object/DefinedTerm | `describedUnitOfMeasure` | RepresentedVariable | ControlledVocabularyEntry | Parallel property; CDIF also has `cdi:describedUnitOfMeasure` |
-| `schema:minValue` | number | --[cdi:SubstantiveValueDomain] | --cdi:ValueAndConceptDescription | -- | Link through valueDomain/valueAndConceptDescription |
-| `schema:maxValue` | number | --[cdi:SubstantiveValueDomain] | -- | -- | Link through valueDomain/valueAndConceptDescription |
-| `schema:url` | uri string | `externalDefinition` | Concept | dt-Reference | Approximate match |
-| `cdi:intendedDataType` | string | `hasIntendedDataType` | RepresentedVariable | ControlledVocabularyEntry | CDIF simplifies to plain string; DDI-CDI uses ControlledVocabularyEntry |
-| `cdi:role` | string enum (5 values) | -- | DataStructureComponent subclasses | -- | DDI-CDI models this as separate subclasses of DataStructureComponent; CDIF flattens to a string enum |
-| `cdi:describedUnitOfMeasure` | DefinedTerm | `describedUnitOfMeasure` | RepresentedVariable | ControlledVocabularyEntry | Direct mapping |
-| `cdi:simpleUnitOfMeasure` | string/object/DefinedTerm | `simpleUnitOfMeasure` | RepresentedVariable | xsd:string | Direct mapping; CDIF also accepts DefinedTerm or @id reference |
-| `cdi:uses` | array of string/object/DefinedTerm | -- | -- | -- | CDIF description says "same as schema:propertyID"; no direct DDI-CDI match |
-| `cdi:identifier` | string | `identifier` | Concept | dt-Identifier | DDI-CDI uses composite Identifier type; CDIF simplifies to string |
-| `cdi:name` | string | `name` | Concept | dt-ObjectName | Redundant with `schema:name`; available for DDI-CDI-native naming |
-| `cdi:displayLabel` | string | `displayLabel` | Concept | dt-LabelForDisplay | DDI-CDI uses multilingual LabelForDisplay type; CDIF simplifies to string |
-| `cdi:physicalDataType` | array of string/object/DefinedTerm | `physicalDataType` | InstanceVariable | ControlledVocabularyEntry | Required in building block; maps to InstanceVariable.physicalDataType |
+| CDIF Property | Type | DDI-CDI Property | Notes |
+|---|---|---|---|
+| `@type` (contains `cdi:InstanceVariable`) | array | `@type` | Requires both `schema:PropertyValue` and `cdi:InstanceVariable` |
+| `@id` | string | `@id` | For cross-references from `cdi:formats_InstanceVariable` |
+| `schema:name` | string | `name` (Concept) | DDI-CDI uses ObjectName type |
+| `schema:description` | string | `descriptiveText` (ConceptualVariable) | DDI-CDI uses InternationalString |
+| `schema:propertyID` | array | Concept.`identifier` | Inherited from Concept class |
+| `schema:measurementTechnique` | string/DefinedTerm | -- | No DDI-CDI equivalent |
+| `schema:unitText` | string | `simpleUnitOfMeasure` (RepresentedVariable) | Parallel to `cdi:simpleUnitOfMeasure` |
+| `schema:unitCode` | string/DefinedTerm | `describedUnitOfMeasure` (RepresentedVariable) | Parallel to `cdi:describedUnitOfMeasure` |
+| `schema:minValue` | number | SubstantiveValueDomain | Via valueDomain chain |
+| `schema:maxValue` | number | SubstantiveValueDomain | Via valueDomain chain |
+| `schema:url` | uri | `externalDefinition` (Concept) | Approximate match |
+| `cdi:intendedDataType` | string | `hasIntendedDataType` (RepresentedVariable) | DDI-CDI uses ControlledVocabularyEntry |
+| `cdi:role` | enum (5 values) | -- | DDI-CDI uses DataStructureComponent subclasses |
+| `cdi:describedUnitOfMeasure` | DefinedTerm | `describedUnitOfMeasure` (RepresentedVariable) | Direct mapping |
+| `cdi:simpleUnitOfMeasure` | string/DefinedTerm | `simpleUnitOfMeasure` (RepresentedVariable) | Also accepts @id reference |
+| `cdi:uses` | array | -- | Same as `schema:propertyID`; no DDI-CDI match |
+| `cdi:identifier` | string | `identifier` (Concept) | DDI-CDI uses composite Identifier type |
+| `cdi:name` | string | `name` (Concept) | DDI-CDI-native naming; redundant with `schema:name` |
+| `cdi:displayLabel` | string | `displayLabel` (Concept) | DDI-CDI uses multilingual LabelForDisplay type |
+| `cdi:physicalDataType` | array | `physicalDataType` (InstanceVariable) | Required; DDI-CDI uses ControlledVocabularyEntry |
 
 ### Building block alignment
 
@@ -66,20 +66,20 @@ The `cdifVariableMeasured/schema.yaml` building block and `CDIFCompleteSchema.js
 **CDIF location:** `physicalMapping_type` in CDIFCompleteSchema.json; `cdifPhysicalMapping/schema.yaml` building block
 **DDI-CDI class:** `cls-ValueMapping`
 
-| CDIF Property | Type in CDIF | DDI-CDI Property | DDI-CDI Type | Notes |
-|---|---|---|---|---|
-| `cdi:index` | integer (min 0) | -- | -- | CDIF-specific; orders fields. DDI-CDI uses `ValueMappingPosition` for ordering |
-| `cdi:format` | string | `format` | ControlledVocabularyEntry | CDIF simplifies to string |
-| `cdi:physicalDataType` | string | `physicalDataType` | ControlledVocabularyEntry | CDIF simplifies to string |
-| `cdi:length` | integer | `length` | xsd:integer | Direct mapping |
-| `cdi:nullSequence` | string | `nullSequence` | xsd:string | Direct mapping |
-| `cdi:defaultValue` | string | `defaultValue` | xsd:string | Direct mapping; DDI-CDI requires it (1..1), CDIF makes it optional |
-| `cdi:scale` | integer | `scale` | xsd:integer | Direct mapping |
-| `cdi:decimalPositions` | integer | `decimalPositions` | xsd:integer | Direct mapping |
-| `cdi:minimumLength` | integer | `minimumLength` | xsd:integer | Direct mapping |
-| `cdi:maximumLength` | integer | `maximumLength` | xsd:integer | Direct mapping |
-| `cdi:isRequired` | boolean (default false) | `isRequired` | xsd:boolean | Direct mapping |
-| `cdi:formats_InstanceVariable` | object with @id | `has_ValueMapping_OF_InstanceVariable` | relationship | CDIF uses forward link from mapping to variable; DDI-CDI models as inverse relationship on InstanceVariable |
+| CDIF Property | Type | DDI-CDI Property | Notes |
+|---|---|---|---|
+| `cdi:index` | integer | -- | CDIF-specific ordering; DDI-CDI uses ValueMappingPosition |
+| `cdi:format` | string | `format` | DDI-CDI uses ControlledVocabularyEntry |
+| `cdi:physicalDataType` | string | `physicalDataType` | DDI-CDI uses ControlledVocabularyEntry |
+| `cdi:length` | integer | `length` | Direct mapping |
+| `cdi:nullSequence` | string | `nullSequence` | Direct mapping |
+| `cdi:defaultValue` | string | `defaultValue` | DDI-CDI requires (1..1); CDIF optional |
+| `cdi:scale` | integer | `scale` | Direct mapping |
+| `cdi:decimalPositions` | integer | `decimalPositions` | Direct mapping |
+| `cdi:minimumLength` | integer | `minimumLength` | Direct mapping |
+| `cdi:maximumLength` | integer | `maximumLength` | Direct mapping |
+| `cdi:isRequired` | boolean | `isRequired` | Direct mapping |
+| `cdi:formats_InstanceVariable` | object (@id) | inverse of InstanceVariable relationship | Forward link; DDI-CDI uses inverse on InstanceVariable |
 
 ### Additional properties in tabular physical mapping only
 
@@ -109,31 +109,33 @@ These appear in CDIFCompleteSchema.json `tabularTextDatasetMapping_type` > `cdi:
 
 CDIF types this as `cdi:TabularTextDataSet` rather than `cdi:PhysicalSegmentLayout` -- this is a CDIF design choice that merges the DDI-CDI DataSet and PhysicalSegmentLayout concepts.
 
-| CDIF Property | Type in CDIF | DDI-CDI Property | DDI-CDI Class | Notes |
-|---|---|---|---|---|
-| `@type` (contains `cdi:TabularTextDataSet`) | array | -- | -- | CDIF-specific composite type |
-| `cdi:arrayBase` | integer | `arrayBase` | PhysicalSegmentLayout | Direct mapping |
-| `csvw:commentPrefix` | string | `commentPrefix` | PhysicalSegmentLayout | CSVW alias for DDI-CDI property |
-| `csvw:delimiter` | string | `delimiter` | PhysicalSegmentLayout | CSVW alias for DDI-CDI property |
-| `cdi:escapeCharacter` | string | `escapeCharacter` | PhysicalSegmentLayout | Direct mapping |
-| `csvw:header` | boolean | `hasHeader` | PhysicalSegmentLayout | CSVW name differs from DDI-CDI |
-| `cdi:headerIsCaseSensitive` | boolean (default false) | `headerIsCaseSensitive` | PhysicalSegmentLayout | Direct mapping |
-| `csvw:headerRowCount` | integer (min 0) | `headerRowCount` | PhysicalSegmentLayout | CSVW alias for DDI-CDI property |
-| `cdi:isDelimited` | boolean | `isDelimited` | PhysicalSegmentLayout | Direct mapping; DDI-CDI makes required (1..1) |
-| `cdi:isFixedWidth` | boolean | `isFixedWidth` | PhysicalSegmentLayout | Direct mapping; DDI-CDI makes required (1..1) |
-| `csvw:lineTerminators` | string enum {CRLF, LF, \r\n, \n} | `lineTerminator` | PhysicalSegmentLayout | CSVW alias; DDI-CDI allows 0..* strings |
-| `csvw:quoteChar` | string (default `"`) | `quoteCharacter` | PhysicalSegmentLayout | CSVW name differs from DDI-CDI |
-| `csvw:skipBlankRows` | boolean (default false) | `skipBlankRows` | PhysicalSegmentLayout | CSVW alias for DDI-CDI property |
-| `csvw:skipColumns` | integer (default 0) | `skipDataColumns` | PhysicalSegmentLayout | CSVW name differs from DDI-CDI |
-| `csvw:skipInitialSpace` | boolean (default true) | `skipInitialSpace` | PhysicalSegmentLayout | CSVW alias for DDI-CDI property |
-| `csvw:skipRows` | integer (default 0) | `skipRows` | PhysicalSegmentLayout | CSVW alias for DDI-CDI property |
-| `csvw:tableDirection` | enum {Ltr, Rtl} | `tableDirection` | PhysicalSegmentLayout | DDI-CDI type: enum-TableDirectionValues |
-| `csvw:textDirection` | enum {Auto, Inherit, Ltr, Rtl} | `textDirection` | PhysicalSegmentLayout | DDI-CDI type: enum-TextDirectionValues |
-| `cdi:treatConsecutiveDelimitersAsOne` | boolean (default false) | `treatConsecutiveDelimitersAsOne` | PhysicalSegmentLayout | Direct mapping |
-| `csvw:trim` | enum {true, end, false, start} | `trim` | PhysicalSegmentLayout | DDI-CDI type: enum-TrimValues |
-| `cdi:hasPhysicalMapping` | array of physicalMapping_type | -- | -- | CDIF design; links to ValueMapping items inline |
-| `countRows` | integer | `recordCount` | DataStore | Cross-class mapping |
-| `countColumns` | integer | -- | -- | No direct DDI-CDI equivalent |
+All DDI-CDI properties below are from `PhysicalSegmentLayout` unless noted.
+
+| CDIF Property | Type | DDI-CDI Property | Notes |
+|---|---|---|---|
+| `@type` (contains `cdi:TabularTextDataSet`) | array | -- | CDIF-specific composite type |
+| `cdi:arrayBase` | integer | `arrayBase` | Direct mapping |
+| `csvw:commentPrefix` | string | `commentPrefix` | CSVW alias |
+| `csvw:delimiter` | string | `delimiter` | CSVW alias |
+| `cdi:escapeCharacter` | string | `escapeCharacter` | Direct mapping |
+| `csvw:header` | boolean | `hasHeader` | CSVW name differs |
+| `cdi:headerIsCaseSensitive` | boolean | `headerIsCaseSensitive` | Direct mapping |
+| `csvw:headerRowCount` | integer | `headerRowCount` | CSVW alias |
+| `cdi:isDelimited` | boolean | `isDelimited` | DDI-CDI requires (1..1) |
+| `cdi:isFixedWidth` | boolean | `isFixedWidth` | DDI-CDI requires (1..1) |
+| `csvw:lineTerminators` | string enum | `lineTerminator` | CSVW alias; DDI-CDI allows 0..* |
+| `csvw:quoteChar` | string | `quoteCharacter` | CSVW name differs |
+| `csvw:skipBlankRows` | boolean | `skipBlankRows` | CSVW alias |
+| `csvw:skipColumns` | integer | `skipDataColumns` | CSVW name differs |
+| `csvw:skipInitialSpace` | boolean | `skipInitialSpace` | CSVW alias |
+| `csvw:skipRows` | integer | `skipRows` | CSVW alias |
+| `csvw:tableDirection` | enum | `tableDirection` | DDI-CDI: TableDirectionValues |
+| `csvw:textDirection` | enum | `textDirection` | DDI-CDI: TextDirectionValues |
+| `cdi:treatConsecutiveDelimitersAsOne` | boolean | `treatConsecutiveDelimitersAsOne` | Direct mapping |
+| `csvw:trim` | enum | `trim` | DDI-CDI: TrimValues |
+| `cdi:hasPhysicalMapping` | array | -- | CDIF design; inline ValueMapping items |
+| `countRows` | integer | `recordCount` (DataStore) | Cross-class mapping |
+| `countColumns` | integer | -- | No DDI-CDI equivalent |
 
 ### Building block alignment
 
