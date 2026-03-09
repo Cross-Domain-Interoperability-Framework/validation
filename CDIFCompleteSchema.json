@@ -383,8 +383,33 @@
           },
           "schema:funder": {
             "$ref": "#/$defs/funder_type"
+          },
+          "@id": {
+            "type": "string",
+            "description": "URI identifier for this funding record"
+          },
+          "schema:description": {
+            "type": "string",
+            "description": "description of the funding or grant"
           }
-        }
+        },
+        "anyOf": [
+          {
+            "required": [
+              "schema:funder"
+            ]
+          },
+          {
+            "required": [
+              "schema:identifier"
+            ]
+          },
+          {
+            "required": [
+              "schema:name"
+            ]
+          }
+        ]
       }
     },
     "schema:temporalCoverage": {
@@ -2301,7 +2326,8 @@
           "description": "Description of access privileges required to use the API, e.g. registration, licensing, payments.",
           "oneOf": [
             {
-              "type": "string"
+              "type": "string",
+              "default": "not specified"
             },
             {
               "$ref": "#/$defs/labeledLink_type"
@@ -2325,173 +2351,241 @@
             "$ref": "#/$defs/action_type"
           }
         }
-      }
+      },
+      "required": [
+        "schema:serviceType",
+        "schema:potentialAction",
+        "schema:termsOfService"
+      ]
     },
     "variableMeasured_type": {
-      "description": "Schema for variableMeasured property value. For CDIF, the values of variableMeasure must include DDI-CDI InstanceVariable type. In the schema here, schema.org properties are first, then DDI-CDI CDIF properties.",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
+      "description": "Schema for variableMeasured. Supports PropertyValue (with optional CDI InstanceVariable dual-typing) or StatisticalVariable.",
+      "oneOf": [
+        {
+          "description": "Schema for variableMeasured property value. For CDIF, the values of variableMeasure must include DDI-CDI InstanceVariable type. In the schema here, schema.org properties are first, then DDI-CDI CDIF properties.",
+          "type": "object",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "allOf": [
+                {
+                  "contains": {
+                    "const": "schema:PropertyValue"
+                  }
+                },
+                {
+                  "contains": {
+                    "const": "cdi:InstanceVariable"
+                  }
+                }
+              ],
+              "minItems": 2
+            },
+            "@id": {
+              "type": "string"
+            },
+            "schema:name": {
+              "type": "string",
+              "minLength": 5,
+              "description": "this is the string label that is expected to be associated with the variable in the dataset serialization"
+            },
+            "schema:description": {
+              "type": "string",
+              "minLength": 10,
+              "default": "missing"
+            },
+            "schema:propertyID": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "type": "string",
+                        "description": "reference to a skos concept for the property"
+                      }
+                    }
+                  },
+                  {
+                    "$ref": "#/$defs/definedTerm_type"
+                  }
+                ]
+              },
+              "description": "identifier or name for the property concept quantified by the values in this variable slot."
+            },
+            "schema:measurementTechnique": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "@id": {
+                      "type": "string",
+                      "description": "reference to a skos concept for the property"
+                    }
+                  }
+                },
+                {
+                  "$ref": "#/$defs/definedTerm_type"
+                }
+              ],
+              "description": "A text description of the measurement method used to determine values for this variable."
+            },
+            "schema:unitText": {
+              "type": "string",
+              "description": "A string that identifies a unit of measurement that applies to all values for this variable."
+            },
+            "schema:unitCode": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "@id": {
+                      "type": "string",
+                      "description": "reference to a skos concept for the property"
+                    }
+                  }
+                },
+                {
+                  "$ref": "#/$defs/definedTerm_type"
+                }
+              ],
+              "description": "Value is expected to be TEXT or URL. We recommend providing an HTTP URI that identifies a unit of measure from a vocabulary accessible on the web."
+            },
+            "schema:minValue": {
+              "type": "number",
+              "description": " If the value for the variable is numeric, this is the minimum value that occurs in the dataset."
+            },
+            "schema:maxValue": {
+              "type": "number",
+              "description": " If the value for the variable is numeric, this is the maximum value that occurs in the dataset."
+            },
+            "schema:url": {
+              "format": "uri",
+              "type": "string",
+              "description": "The recommendation is that schema:url should link to a web page that would be useful for a person to interpret the variable."
+            },
+            "cdi:intendedDataType": {
+              "type": "string"
+            },
+            "cdi:role": {
+              "type": "string",
+              "description": "the value here specifies relation of the variable to the data, like the values from DDI-CDI dataStructureComponent type. could be enumeration {MeasureComponent, AttributeComponent, DimensionComponent} "
+            },
+            "cdi:describedUnitOfMeasure": {
+              "$ref": "#/$defs/definedTerm_type"
+            },
+            "cdi:simpleUnitOfMeasure": {
+              "type": "string"
+            },
+            "cdi:uses": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "type": "string",
+                        "description": "reference to a skos concept for the property"
+                      }
+                    }
+                  },
+                  {
+                    "$ref": "#/$defs/definedTerm_type"
+                  }
+                ]
+              },
+              "description": "essentially the same as schema:propertyID."
+            }
           },
           "allOf": [
             {
-              "contains": {
-                "const": "schema:PropertyValue"
-              }
-            },
-            {
-              "contains": {
-                "const": "cdi:InstanceVariable"
-              }
+              "required": [
+                "@type",
+                "schema:name",
+                "schema:description"
+              ]
             }
-          ],
-          "minItems": 2
+          ]
         },
-        "@id": {
-          "type": "string"
-        },
-        "schema:name": {
-          "type": "string",
-          "minLength": 5,
-          "description": "this is the string label that is expected to be associated with the variable in the dataset serialization"
-        },
-        "schema:description": {
-          "type": "string",
-          "minLength": 10,
-          "default": "missing"
-        },
-        "schema:propertyID": {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "reference to a skos concept for the property"
-                  }
-                }
-              },
-              {
-                "$ref": "#/$defs/definedTerm_type"
-              }
-            ]
-          },
-          "description": "identifier or name for the property concept quantified by the values in this variable slot."
-        },
-        "schema:measurementTechnique": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string",
-                  "description": "reference to a skos concept for the property"
-                }
-              }
-            },
-            {
-              "$ref": "#/$defs/definedTerm_type"
-            }
-          ],
-          "description": "A text description of the measurement method used to determine values for this variable."
-        },
-        "schema:unitText": {
-          "type": "string",
-          "description": "A string that identifies a unit of measurement that applies to all values for this variable."
-        },
-        "schema:unitCode": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string",
-                  "description": "reference to a skos concept for the property"
-                }
-              }
-            },
-            {
-              "$ref": "#/$defs/definedTerm_type"
-            }
-          ],
-          "description": "Value is expected to be TEXT or URL. We recommend providing an HTTP URI that identifies a unit of measure from a vocabulary accessible on the web."
-        },
-        "schema:minValue": {
-          "type": "number",
-          "description": " If the value for the variable is numeric, this is the minimum value that occurs in the dataset."
-        },
-        "schema:maxValue": {
-          "type": "number",
-          "description": " If the value for the variable is numeric, this is the maximum value that occurs in the dataset."
-        },
-        "schema:url": {
-          "format": "uri",
-          "type": "string",
-          "description": "The recommendation is that schema:url should link to a web page that would be useful for a person to interpret the variable."
-        },
-        "cdi:intendedDataType": {
-          "type": "string"
-        },
-        "cdi:role": {
-          "type": "string",
-          "description": "the value here specifies relation of the variable to the data, like the values from DDI-CDI dataStructureComponent type. could be enumeration {MeasureComponent, AttributeComponent, DimensionComponent} "
-        },
-        "cdi:describedUnitOfMeasure": {
-          "$ref": "#/$defs/definedTerm_type"
-        },
-        "cdi:simpleUnitOfMeasure": {
-          "type": "string"
-        },
-        "cdi:uses": {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "reference to a skos concept for the property"
-                  }
-                }
-              },
-              {
-                "$ref": "#/$defs/definedTerm_type"
-              }
-            ]
-          },
-          "description": "essentially the same as schema:propertyID."
-        }
-      },
-      "allOf": [
         {
+          "type": "object",
+          "description": "A statistical variable description using schema:StatisticalVariable",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "schema:StatisticalVariable"
+              }
+            },
+            "schema:name": {
+              "type": "string"
+            },
+            "schema:description": {
+              "type": "string"
+            },
+            "schema:statType": {
+              "description": "The type of statistic (e.g., median, mean)",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/$defs/definedTerm_type"
+                }
+              ]
+            },
+            "schema:measuredProperty": {
+              "description": "The property being measured",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/$defs/definedTerm_type"
+                }
+              ]
+            },
+            "schema:measurementTechnique": {
+              "description": "Technique used to measure this variable",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/$defs/definedTerm_type"
+                }
+              ]
+            }
+          },
           "required": [
-            "@type",
-            "schema:name",
-            "schema:description"
+            "@type"
           ]
         }
       ]
     },
     "generatedBy_type": {
-      "title": "very simple links or names of software or instruments used to generate a resource.",
+      "title": "CDIF Provenance Activity",
+      "description": "Extended provenance activity combining prov:Activity with schema.org Action properties for comprehensive provenance documentation.",
       "type": "object",
       "properties": {
         "@type": {
@@ -2499,10 +2593,20 @@
           "items": {
             "type": "string"
           },
-          "minItems": 1,
-          "contains": {
-            "const": "prov:Activity"
-          }
+          "minItems": 2,
+          "allOf": [
+            {
+              "contains": {
+                "const": "prov:Activity"
+              }
+            },
+            {
+              "contains": {
+                "const": "schema:Action"
+              }
+            }
+          ],
+          "description": "Must include both prov:Activity and schema:Action"
         },
         "prov:used": {
           "type": "array",
@@ -2519,8 +2623,252 @@
                     "description": "a resolvable reference to a representation of the software or instrument used"
                   }
                 }
+              },
+              {
+                "type": "object",
+                "description": "an item used by the activity that includes a schema:instrument sub-key",
+                "properties": {
+                  "schema:instrument": {
+                    "type": "object",
+                    "description": "Instrument used in this activity",
+                    "properties": {
+                      "@type": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        ]
+                      },
+                      "@id": {
+                        "type": "string"
+                      },
+                      "schema:name": {
+                        "type": "string"
+                      },
+                      "schema:description": {
+                        "type": "string"
+                      },
+                      "schema:identifier": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/$defs/identifier_type"
+                          },
+                          {
+                            "type": "string"
+                          }
+                        ]
+                      },
+                      "schema:url": {
+                        "type": "string",
+                        "format": "uri"
+                      },
+                      "schema:hasPart": {
+                        "type": "array",
+                        "description": "Sub-components of an instrument system",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "@type": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                }
+                              ]
+                            },
+                            "schema:name": {
+                              "type": "string"
+                            },
+                            "schema:description": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "schema:instrument"
+                ]
               }
             ]
+          }
+        },
+        "schema:name": {
+          "type": "string",
+          "description": "Human-readable name for the activity"
+        },
+        "schema:description": {
+          "type": "string",
+          "description": "Text description of what this activity did"
+        },
+        "schema:identifier": {
+          "description": "Formal identifier for this activity",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/identifier_type"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "schema:agent": {
+          "description": "Primary responsible agent for this activity (maps to PROV wasAssociatedWith)",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/person_type"
+            },
+            {
+              "$ref": "#/$defs/organization_type"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string",
+                  "description": "reference to an agent defined elsewhere"
+                }
+              }
+            }
+          ]
+        },
+        "schema:participant": {
+          "description": "Other participants in this activity",
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/person_type"
+              },
+              {
+                "$ref": "#/$defs/organization_type"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string",
+                    "description": "reference to a participant defined elsewhere"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "schema:object": {
+          "description": "Input entity for this activity (for action chaining, references the result of a prior activity)",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string",
+                  "description": "reference to an input entity"
+                }
+              }
+            }
+          ]
+        },
+        "schema:result": {
+          "description": "Output entity produced by this activity (for action chaining, can be referenced as object of a subsequent activity)",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string",
+                  "description": "reference to an output entity"
+                }
+              }
+            }
+          ]
+        },
+        "schema:actionStatus": {
+          "type": "string",
+          "description": "Status of this activity",
+          "enum": [
+            "schema:CompletedActionStatus",
+            "schema:ActiveActionStatus",
+            "schema:PotentialActionStatus",
+            "schema:FailedActionStatus"
+          ]
+        },
+        "schema:startTime": {
+          "type": "string",
+          "description": "ISO8601 date-time when the activity started (maps to PROV startedAtTime)"
+        },
+        "schema:endTime": {
+          "type": "string",
+          "description": "ISO8601 date-time when the activity ended (maps to PROV endedAtTime)"
+        },
+        "schema:location": {
+          "description": "Where the activity occurred",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/spatialCoverage_type"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string",
+                  "description": "reference to a place defined elsewhere"
+                }
+              }
+            }
+          ]
+        },
+        "schema:actionProcess": {
+          "description": "Methodology or protocol for this activity",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/howTo_type"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string",
+                  "description": "reference to a methodology defined elsewhere"
+                }
+              }
+            }
+          ]
+        },
+        "schema:error": {
+          "type": "string",
+          "description": "Error description for failed activities"
+        },
+        "schema:additionalProperty": {
+          "description": "Domain-specific extension properties",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/additionalProperty_type"
           }
         }
       }
@@ -2639,6 +2987,122 @@
         "@type",
         "schema:url"
       ]
+    },
+    "howTo_type": {
+      "type": "object",
+      "description": "A methodology or protocol described as a HowTo with optional steps",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "const": "schema:HowTo"
+        },
+        "@id": {
+          "type": "string"
+        },
+        "schema:name": {
+          "type": "string",
+          "description": "Name of the methodology or protocol"
+        },
+        "schema:description": {
+          "type": "string",
+          "description": "Description of the methodology"
+        },
+        "schema:url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to a published methodology or protocol document"
+        },
+        "schema:step": {
+          "type": "array",
+          "description": "Ordered steps in this methodology",
+          "items": {
+            "type": "object",
+            "properties": {
+              "@type": {
+                "type": "string",
+                "const": "schema:HowToStep"
+              },
+              "schema:name": {
+                "type": "string"
+              },
+              "schema:description": {
+                "type": "string"
+              },
+              "schema:url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "schema:position": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "@type",
+              "schema:name"
+            ]
+          }
+        }
+      },
+      "required": [
+        "@type"
+      ],
+      "anyOf": [
+        {
+          "required": [
+            "schema:name"
+          ]
+        },
+        {
+          "required": [
+            "schema:url"
+          ]
+        }
+      ]
+    },
+    "additionalProperty_type": {
+      "type": "object",
+      "description": "A property-value pair for domain-specific extensions",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "const": "schema:PropertyValue"
+        },
+        "schema:propertyID": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/definedTerm_type"
+            }
+          ]
+        },
+        "schema:name": {
+          "type": "string"
+        },
+        "schema:value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "object"
+            }
+          ]
+        },
+        "schema:unitText": {
+          "type": "string"
+        },
+        "schema:unitCode": {
+          "type": "string"
+        }
+      }
     }
   }
 }
