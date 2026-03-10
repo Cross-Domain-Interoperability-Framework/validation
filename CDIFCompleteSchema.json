@@ -69,7 +69,6 @@
     },
     "schema:name": {
       "type": "string",
-      "minLength": 5,
       "description": "A descriptive name of a dataset (e.g., 'Snow depth in Northern Hemisphere'). The name should uniquely identify the described resource for human use, in the scope of the metadata catalog containing this metadata record."
     },
     "schema:additionalType": {
@@ -109,10 +108,19 @@
       "items": {
         "anyOf": [
           {
-            "$ref": "#/$defs/identifier_type"
+            "type": "string"
           },
           {
-            "type": "string"
+            "type": "object",
+            "properties": {
+              "@id": {
+                "type": "string",
+                "description": "IRI for an equivalent resource or alternate identifier"
+              }
+            }
+          },
+          {
+            "$ref": "#/$defs/identifier_type"
           }
         ]
       }
@@ -140,7 +148,8 @@
     },
     "schema:url": {
       "type": "string",
-      "description": "Web Location of a page describing the dataset (landing page), typically providing links or instructions to get the actual resource content; analogous to dcat:accessURL. If a direct link is available to get the data, put in distribution/contentUrl"
+      "description": "Web Location of a page describing the dataset (landing page), typically providing links or instructions to get the actual resource content; analogous to dcat:accessURL. If a direct link is available to get the data, put in distribution/contentUrl",
+      "format": "uri"
     },
     "schema:inLanguage": {
       "type": "string",
@@ -238,16 +247,16 @@
       "items": {
         "anyOf": [
           {
-            "type": "string"
-          },
-          {
             "type": "object",
             "properties": {
               "@id": {
                 "type": "string",
                 "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable"
               }
-            }
+            },
+            "required": [
+              "@id"
+            ]
           },
           {
             "$ref": "#/$defs/person_type"
@@ -277,13 +286,17 @@
                 ]
               },
               "schema:roleName": {
-                "type": "string"
-              },
-              "schema:contributor": {
-                "oneOf": [
+                "anyOf": [
                   {
                     "type": "string"
                   },
+                  {
+                    "$ref": "#/$defs/definedTerm_type"
+                  }
+                ]
+              },
+              "schema:contributor": {
+                "anyOf": [
                   {
                     "type": "object",
                     "properties": {
@@ -291,7 +304,10 @@
                         "type": "string",
                         "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable"
                       }
-                    }
+                    },
+                    "required": [
+                      "@id"
+                    ]
                   },
                   {
                     "$ref": "#/$defs/person_type"
@@ -301,7 +317,11 @@
                   }
                 ]
               }
-            }
+            },
+            "required": [
+              "schema:roleName",
+              "schema:contributor"
+            ]
           }
         ]
       }
@@ -316,7 +336,10 @@
               "type": "string",
               "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable"
             }
-          }
+          },
+          "required": [
+            "@id"
+          ]
         },
         {
           "$ref": "#/$defs/person_type"
@@ -570,7 +593,8 @@
                 "type": "string"
               },
               "schema:url": {
-                "type": "string"
+                "type": "string",
+                "format": "uri"
               }
             }
           }
@@ -585,6 +609,15 @@
         "anyOf": [
           {
             "type": "string"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "@id": {
+                "type": "string",
+                "description": "a reference to a publishing principles statement"
+              }
+            }
           },
           {
             "$ref": "#/$defs/labeledLink_type"
@@ -667,7 +700,7 @@
         },
         "schema:maintainer": {
           "description": "Responsible party for creation and/or maintenance of metadata. Should include person name and affiliation, or position name and affiliation, or just organization name. e-mail address is preferred contact information.",
-          "oneOf": [
+          "anyOf": [
             {
               "$ref": "#/$defs/person_type"
             },
@@ -711,7 +744,8 @@
             },
             "schema:url": {
               "type": "string",
-              "description": "locator to access a landing page for the collection or catalog"
+              "description": "locator to access a landing page for the collection or catalog",
+              "format": "uri"
             },
             "schema:identifier": {
               "$ref": "#/$defs/identifier_type",
@@ -784,7 +818,14 @@
                 "schema:SearchAction",
                 "schema:CreateAction",
                 "schema:MoveAction",
-                "schema:UpdateAction"
+                "schema:UpdateAction",
+                "schema:DeleteAction",
+                "schema:AssessAction",
+                "schema:ConsumeAction",
+                "schema:ControlAction",
+                "schema:FindAction",
+                "schema:InteractAction",
+                "schema:TransferAction"
               ],
               "default": "schema:Action"
             },
@@ -1040,7 +1081,6 @@
         },
         "schema:name": {
           "type": "string",
-          "minLength": 5,
           "description": "text label for the keyword that is useful to human user"
         },
         "schema:identifier": {
@@ -1113,7 +1153,8 @@
         },
         "schema:contentUrl": {
           "type": "string",
-          "description": "maps to cdi:PhysicalDataSet/cdi:overview property"
+          "description": "maps to cdi:PhysicalDataSet/cdi:overview property",
+          "format": "uri"
         },
         "schema:description": {
           "type": "string"
@@ -1674,7 +1715,8 @@
         },
         "schema:url": {
           "type": "string",
-          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ ",
+          "format": "uri"
         }
       },
       "allOf": [
@@ -2094,7 +2136,6 @@
         },
         "schema:name": {
           "type": "string",
-          "minLength": 5,
           "description": "string label for person that is meaningful for human users"
         },
         "schema:affiliation": {
@@ -2148,7 +2189,23 @@
           "type": "array",
           "description": "other identifiers for the person",
           "items": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string",
+                    "description": "IRI for an equivalent resource or alternate identifier"
+                  }
+                }
+              },
+              {
+                "$ref": "#/$defs/identifier_type"
+              }
+            ]
           }
         }
       },
@@ -2226,7 +2283,6 @@
         },
         "schema:name": {
           "type": "string",
-          "minLength": 5,
           "description": "string label for organization that is meaningful for human users"
         },
         "schema:alternateName": {
@@ -2251,7 +2307,23 @@
           "type": "array",
           "description": "other identifiers for the organization",
           "items": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string",
+                    "description": "IRI for an equivalent resource or alternate identifier"
+                  }
+                }
+              },
+              {
+                "$ref": "#/$defs/identifier_type"
+              }
+            ]
           }
         }
       },
@@ -2389,12 +2461,10 @@
             },
             "schema:name": {
               "type": "string",
-              "minLength": 5,
               "description": "this is the string label that is expected to be associated with the variable in the dataset serialization"
             },
             "schema:description": {
               "type": "string",
-              "minLength": 10,
               "default": "missing"
             },
             "schema:propertyID": {
@@ -2633,17 +2703,14 @@
                     "description": "Instrument used in this activity",
                     "properties": {
                       "@type": {
-                        "anyOf": [
-                          {
-                            "type": "string"
-                          },
-                          {
-                            "type": "array",
-                            "items": {
-                              "type": "string"
-                            }
-                          }
-                        ]
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "minItems": 1,
+                        "contains": {
+                          "const": "schema:Thing"
+                        }
                       },
                       "@id": {
                         "type": "string"
@@ -2675,17 +2742,14 @@
                           "type": "object",
                           "properties": {
                             "@type": {
-                              "anyOf": [
-                                {
-                                  "type": "string"
-                                },
-                                {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "string"
-                                  }
-                                }
-                              ]
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              },
+                              "minItems": 1,
+                              "contains": {
+                                "const": "schema:Thing"
+                              }
                             },
                             "schema:name": {
                               "type": "string"
@@ -2695,8 +2759,33 @@
                             }
                           }
                         }
+                      },
+                      "schema:alternateName": {
+                        "type": "string"
+                      },
+                      "schema:additionalType": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        ]
+                      },
+                      "schema:additionalProperty": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/$defs/additionalProperty_type"
+                        }
                       }
-                    }
+                    },
+                    "required": [
+                      "schema:name"
+                    ]
                   }
                 },
                 "required": [
@@ -2736,6 +2825,66 @@
             },
             {
               "type": "object",
+              "description": "For more granularity on how a person contributed, use schema:Role.",
+              "properties": {
+                "@type": {
+                  "default": "schema:Role",
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "const": "schema:Role"
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "schema:Role"
+                      }
+                    }
+                  ]
+                },
+                "schema:roleName": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "$ref": "#/$defs/definedTerm_type"
+                    }
+                  ]
+                },
+                "schema:contributor": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "@id": {
+                          "type": "string",
+                          "description": "IRI reference to a Person or Organization defined elsewhere"
+                        }
+                      },
+                      "required": [
+                        "@id"
+                      ]
+                    },
+                    {
+                      "$ref": "#/$defs/person_type"
+                    },
+                    {
+                      "$ref": "#/$defs/organization_type"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "schema:roleName",
+                "schema:contributor"
+              ]
+            },
+            {
+              "type": "object",
               "properties": {
                 "@id": {
                   "type": "string",
@@ -2755,6 +2904,66 @@
               },
               {
                 "$ref": "#/$defs/organization_type"
+              },
+              {
+                "type": "object",
+                "description": "For more granularity on how a person contributed, use schema:Role.",
+                "properties": {
+                  "@type": {
+                    "default": "schema:Role",
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "const": "schema:Role"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "contains": {
+                          "const": "schema:Role"
+                        }
+                      }
+                    ]
+                  },
+                  "schema:roleName": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/definedTerm_type"
+                      }
+                    ]
+                  },
+                  "schema:contributor": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "@id": {
+                            "type": "string",
+                            "description": "IRI reference to a Person or Organization defined elsewhere"
+                          }
+                        },
+                        "required": [
+                          "@id"
+                        ]
+                      },
+                      {
+                        "$ref": "#/$defs/person_type"
+                      },
+                      {
+                        "$ref": "#/$defs/organization_type"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "schema:roleName",
+                  "schema:contributor"
+                ]
               },
               {
                 "type": "object",
@@ -2993,8 +3202,21 @@
       "description": "A methodology or protocol described as a HowTo with optional steps",
       "properties": {
         "@type": {
-          "type": "string",
-          "const": "schema:HowTo"
+          "anyOf": [
+            {
+              "type": "string",
+              "const": "schema:HowTo"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "schema:HowTo"
+              }
+            }
+          ]
         },
         "@id": {
           "type": "string"
@@ -3019,8 +3241,21 @@
             "type": "object",
             "properties": {
               "@type": {
-                "type": "string",
-                "const": "schema:HowToStep"
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "const": "schema:HowToStep"
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "schema:HowToStep"
+                    }
+                  }
+                ]
               },
               "schema:name": {
                 "type": "string"
