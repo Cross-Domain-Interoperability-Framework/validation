@@ -68,6 +68,8 @@ CDIF_DISCOVERY_BLOCKS = [
     "schemaorgProperties/additionalProperty",
     "schemaorgProperties/labeledLink",
     "schemaorgProperties/action",
+    "schemaorgProperties/instrument",
+    "schemaorgProperties/statisticalVariable",
     "provProperties/generatedBy",
     "provProperties/derivedFrom",
     "qualityProperties/qualityMeasure",
@@ -104,6 +106,8 @@ CDIF_COMPLETE_BLOCKS = [
     "schemaorgProperties/additionalProperty",
     "schemaorgProperties/labeledLink",
     "schemaorgProperties/action",
+    "schemaorgProperties/instrument",
+    "schemaorgProperties/statisticalVariable",
     "provProperties/generatedBy",
     "provProperties/provActivity",
     "provProperties/derivedFrom",
@@ -117,6 +121,8 @@ CDIF_COMPLETE_BLOCKS = [
     "cdifProperties/cdifDataCube",
     "cdifProperties/cdifTabularData",
     "cdifProperties/cdifLongData",
+    "cdifProperties/cdifArchiveDistribution",
+    "cdifProperties/cdifDataDescription",
     # --- CDIF aggregate building blocks ---
     "cdifProperties/cdifMandatory",
     "cdifProperties/cdifOptional",
@@ -130,7 +136,7 @@ PROFILES = {
     "discovery": {
         "blocks": CDIF_DISCOVERY_BLOCKS,
         "label": "CDIF Discovery Profile",
-        "default_output": "CDIF-Discovery-Core-Shapes.ttl",
+        "default_output": "CDIF-Discovery-Shapes.ttl",
     },
     "complete": {
         "blocks": CDIF_COMPLETE_BLOCKS,
