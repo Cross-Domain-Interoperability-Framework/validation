@@ -1,7 +1,7 @@
 # CDIF Provenance Building Blocks: Comparison of Three Approaches
 
 **Date:** 2026-02-25
-**Status:** Draft for review
+**Status:** Superseded by [ProvenanceOptions.md](https://github.com/Cross-Domain-Interoperability-Framework/prov-context-quality/blob/main/ProvenanceOptions.md)
 **Repository:** [usgin/metadataBuildingBlocks](https://github.com/usgin/metadataBuildingBlocks)
 
 ## 1. Overview
