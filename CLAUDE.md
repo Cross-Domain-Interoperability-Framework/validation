@@ -31,8 +31,8 @@ This repository contains validation tools for **CDIF (Cross-Domain Interoperabil
 | `ddi-cdi/ddi-cdi.schema_normative.json` | Full DDI-CDI normative JSON Schema (395 definitions) |
 | `ddi-cdi/cls-InstanceVariable-resolved.json` | Resolved standalone schema for DDI-CDI InstanceVariable |
 | `ddi-cdi/cls-InstanceVariable-resolved-README.md` | Documentation for the resolved schema generation |
-| `ConvertToCroissant.py` | Converts CDIF JSON-LD to Croissant (mlcommons.org/croissant/1.0) format |
-| `docs/CDIFtoCroissant.md` | Documents the CDIF-to-Croissant mapping, converter code, and gaps |
+| `croissant/ConvertToCroissant.py` | Converts CDIF JSON-LD to Croissant (mlcommons.org/croissant/1.0) format |
+| `croissant/CDIFtoCroissant.md` | Documents the CDIF-to-Croissant mapping, converter code, and gaps |
 | `ShaclValidation/generate_shacl_shapes.py` | Generates composite SHACL shapes from building block rules.shacl files |
 | `ShaclValidation/generate_shacl_report.py` | Generates markdown SHACL validation reports with severity grouping |
 | `ShaclValidation/CDIF-Discovery-Shapes.ttl` | Composite SHACL shapes for CDIFDiscovery profile (generated) |
@@ -56,7 +56,7 @@ python ConvertToROCrate.py path/to/metadata.jsonld -o output-rocrate.jsonld
 python ValidateROCrate.py path/to/metadata.jsonld
 
 # Convert CDIF to Croissant (ML dataset format)
-python ConvertToCroissant.py path/to/metadata.jsonld -o output-croissant.json -v
+python croissant/ConvertToCroissant.py path/to/metadata.jsonld -o output-croissant.json -v
 
 # Validate Croissant output (requires: pip install mlcroissant)
 mlcroissant validate --jsonld output-croissant.json
@@ -242,7 +242,7 @@ The `rocrate-validator` library provides thorough SHACL-based RO-Crate validatio
 
 ## ConvertToCroissant.py (CDIF to Croissant)
 
-Converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissant/docs/croissant-spec.html) (mlcommons.org/croissant/1.0) JSON-LD for ML dataset discovery and loading. See `docs/CDIFtoCroissant.md` for the full mapping documentation.
+Converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissant/docs/croissant-spec.html) (mlcommons.org/croissant/1.0) JSON-LD for ML dataset discovery and loading. See `croissant/CDIFtoCroissant.md` for the full mapping documentation.
 
 **Key mappings:**
 - `schema:DataDownload` → `cr:FileObject`; archive `hasPart` items become FileObjects with `containedIn`

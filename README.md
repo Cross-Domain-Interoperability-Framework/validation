@@ -59,9 +59,8 @@ This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule s
 | `CDIF-frame-2026.jsonld` | JSON-LD frame for 2026 schema |
 | `CDIF-context-2026.jsonld` | JSON-LD context for authoring without namespace prefixes |
 | `FrameAndValidate.py` | Python script for framing and validation |
-| `ConvertToCroissant.py` | Python script for converting CDIF JSON-LD to Croissant (mlcommons.org/croissant/1.0) format |
+| `croissant/ConvertToCroissant.py` | Converts CDIF JSON-LD to Croissant (mlcommons.org/croissant/1.0) format |
 | `validate_building_blocks.py` | Validates building block schemas, SHACL shapes, and examples across the BB source tree |
-| `docs/CDIFtoCroissant.md` | Documentation for the CDIF-to-Croissant mapping and converter |
 | `validate-cdif.bat` | Windows batch script for oXygen XML Editor integration |
 | `batch_validate.py` | Batch validation of CDIF metadata files across multiple file groups (JSON Schema + SHACL) |
 
@@ -163,58 +162,17 @@ See the [packaging repository documentation](https://github.com/Cross-Domain-Int
 
 ## Croissant Conversion
 
-`ConvertToCroissant.py` converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissant/docs/croissant-spec.html) (mlcommons.org/croissant/1.0) JSON-LD, an ML-oriented dataset metadata format developed by [MLCommons](https://mlcommons.org/working-groups/data/croissant/). Both formats build on schema.org and JSON-LD, so discovery-level metadata maps directly. See `docs/CDIFtoCroissant.md` for the full mapping documentation.
-
-### How the Croissant Conversion Works
-
-The converter maps CDIF concepts to their Croissant equivalents:
-
-- **Dataset metadata** (name, description, url, license, creator, keywords, funding) maps directly via shared schema.org properties
-- **`schema:DataDownload`** becomes `cr:FileObject` with contentUrl, encodingFormat, contentSize, sha256
-- **Archive distributions** (`schema:hasPart`) are inverted: CDIF says "archive hasPart [files]"; Croissant uses flat `cr:FileObject` entries with `containedIn` back-references. Component files use OGC `nil:inapplicable` for `contentUrl` (not independently downloadable). Archives without a source checksum get a nil `sha256` placeholder (64 zeros)
-- **`schema:identifier`** (structured PropertyValue with DOI) maps to `citeAs` and fallback `url`
-- **`cdi:TabularTextDataSet`** + `cdi:hasPhysicalMapping` generates `cr:RecordSet` with `cr:Field` entries, each with `source.extract.column` pointing to the originating CSV column
-- **Data types** are mapped: `xsd:decimal` → `sc:Float`, `xsd:string` → `sc:Text`, `xsd:dateTime` → `sc:Date`, etc.
-- **`schema:propertyID`** and `cdi:uses` Concept map to `cr:Field.equivalentProperty`
-
-CDIF properties with no native Croissant equivalent (`prov:wasGeneratedBy`, `dqv:hasQualityMeasurement`, `schema:spatialCoverage`, `schema:temporalCoverage`, `schema:measurementTechnique`, `schema:contributor`, `schema:subjectOf`) are **passed through verbatim** with their namespace prefixes added to the `@context`. These do not break Croissant validation -- consumers simply ignore unknown properties.
-
-When `schema:license` is absent, the converter uses the OGC nil:missing URI (`http://www.opengis.net/def/nil/OGC/0/missing`) as a placeholder. When `schema:version` is absent, the converter uses `"not assigned"` as a default (Croissant recommends this property).
-
-### Croissant Usage
+`croissant/ConvertToCroissant.py` converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissant/docs/croissant-spec.html) (mlcommons.org/croissant/1.0) JSON-LD, an ML-oriented dataset metadata format developed by [MLCommons](https://mlcommons.org/working-groups/data/croissant/). Both formats build on schema.org and JSON-LD, so discovery-level metadata maps directly.
 
 ```bash
 # Convert a CDIF document to Croissant
-python ConvertToCroissant.py input.jsonld -o output-croissant.json
+python croissant/ConvertToCroissant.py input.jsonld -o output-croissant.json
 
-# Verbose mode (shows conversion progress)
-python ConvertToCroissant.py input.jsonld -o output-croissant.json -v
-
-# Validate the Croissant output (requires: pip install mlcroissant)
+# Validate the output (requires: pip install mlcroissant)
 mlcroissant validate --jsonld output-croissant.json
 ```
 
-**Options:**
-- `-o, --output FILE` - Write the Croissant JSON-LD to a file (default: stdout)
-- `-v, --verbose` - Show detailed conversion progress
-
-**Dependencies:**
-```bash
-pip install PyLD jsonschema          # core (also used by FrameAndValidate.py)
-pip install mlcroissant              # optional, for validating Croissant output
-```
-
-**Example Croissant output files** are in `MetadataExamples/`:
-
-| CDIF source | Croissant output | Features |
-|---|---|---|
-| `cdif_10.60707-0y88-ps96.json` | `cdif_0y88-ps96-croissant.json` | RecordSet with 10 Fields, physicalMapping, archive distribution |
-| `xanes-2arx-b516.json` | `xanes-2arx-b516-croissant.json` | Archive with 2 component files, provenance pass-through |
-| `tof-htk9-f770.json` | `tof-htk9-f770-croissant.json` | 10 mixed-type files (TIFF, BMP, CSV, PDF, YAML, ZIP), contributor roles |
-| `xrd-2j0t-gq80.json` | `xrd-2j0t-gq80-croissant.json` | Archive with 2 files, hand-added variableMeasured |
-| `yv1f-jb20.json` | `yv1f-jb20-croissant.json` | Archive with 3 files, hand-added variableMeasured |
-
-All examples pass `mlcroissant validate` with zero errors.
+See [`croissant/README.md`](croissant/README.md) for detailed documentation on the conversion process, property mappings, example output files, and usage options. The full property-by-property mapping is in [`croissant/CDIFtoCroissant.md`](croissant/CDIFtoCroissant.md).
 
 ## Usage Examples
 
@@ -380,7 +338,7 @@ Domain-specific metadata may also use extension namespace prefixes. For example,
 | `xas` | `http://cdi4exas.org/` | XAS-specific types and properties (beamline, detector, edge energy, etc.) |
 | `cdifq` | `http://crossdomaininteroperability.org/cdifq/` | Placeholder namespace for data structure properties (`nColumns`, `nRows`) not yet assigned to a formal vocabulary |
 
-The `cdifq` namespace is a temporary placeholder. Properties using it (such as row/column counts on data structures) may migrate to DDI-CDI, CSVW, or another standard vocabulary in the future. `ConvertToCroissant.py` includes `cdifq` in its output context so that these terms resolve correctly during JSON-LD processing.
+The `cdifq` namespace is a temporary placeholder. Properties using it (such as row/column counts on data structures) may migrate to DDI-CDI, CSVW, or another standard vocabulary in the future. `croissant/ConvertToCroissant.py` includes `cdifq` in its output context so that these terms resolve correctly during JSON-LD processing.
 
 ### Legacy Schema Requirements
 
@@ -628,7 +586,7 @@ The `MetadataExamples/` directory contains sample CDIF JSON-LD documents for tes
 | `nwis-water-quality-longdata.json` | Water Quality | NWIS groundwater nutrient analysis (464 rows, 20 columns) in `cdi:LongStructureDataSet` long (narrow) format with `DescriptorComponent`/`ReferenceValueComponent` roles, `cdi:hasPhysicalMapping`, and 5 MeasureComponent domain variables. Validates against graph schema (`CDIF-graph-schema-2026.json`) |
 | `prov-ocean-temp-example.json` | Ocean Temperature | Extended provenance example demonstrating `cdifProv` building block: action chaining (`schema:object`/`schema:result`), multi-typed `["schema:Action", "prov:Activity"]` activities, agents with Role wrappers, inline `schema:HowTo` methodology via `schema:actionProcess` with 3 steps, diverse instruments, facility location, and backward-compatible `prov:used`. Validates against graph schema |
 
-Corresponding `*-croissant.json` files contain the Croissant output produced by `ConvertToCroissant.py`.
+Corresponding Croissant output files are in the [`croissant/`](croissant/) directory.
 
 ## DDI-CDI Resolved Schema
 
