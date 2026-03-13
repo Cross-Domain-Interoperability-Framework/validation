@@ -178,13 +178,14 @@ def remove_nulls_and_normalize(obj):
             result[new_key] = new_value
 
         # Context-aware wrapping for schema:propertyID:
-        # Only wrap in array when inside a variableMeasured_type (cdi:InstanceVariable)
+        # Wrap in array when inside cdi:InstanceVariable or schema:PropertyValue
+        # (framing compacts single-element arrays to bare objects)
         obj_type = result.get('@type', '')
         if isinstance(obj_type, list):
             type_list = obj_type
         else:
             type_list = [obj_type] if obj_type else []
-        if 'cdi:InstanceVariable' in type_list:
+        if 'cdi:InstanceVariable' in type_list or 'schema:PropertyValue' in type_list:
             pid = result.get('schema:propertyID')
             if pid is not None and not isinstance(pid, list):
                 result['schema:propertyID'] = [pid]
