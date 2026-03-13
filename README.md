@@ -582,7 +582,7 @@ The `MetadataExamples/` directory contains sample CDIF JSON-LD documents for tes
 | `xrd-2j0t-gq80.json` | XRD | X-ray diffraction |
 | `xanes-2arx-b516.json` | XANES | X-ray absorption near-edge structure |
 | `yv1f-jb20.json` | -- | General dataset |
-| `test_se_na2so4-testschemaorg-cdiv3.jsonLD` | XAS | X-ray absorption spectroscopy with DDI-CDI data structure (WideDataStructure, InstanceVariable, ValueMapping). Uses `xas:` and `cdifq:` extension namespaces |
+| `test_se_na2so4-testschemaorg-cdiv3.json` | XAS | X-ray absorption spectroscopy with DDI-CDI data structure (WideDataStructure, InstanceVariable, ValueMapping). Uses `xas:` and `cdifq:` extension namespaces |
 | `nwis-water-quality-longdata.json` | Water Quality | NWIS groundwater nutrient analysis (464 rows, 20 columns) in `cdi:LongStructureDataSet` long (narrow) format with `DescriptorComponent`/`ReferenceValueComponent` roles, `cdi:hasPhysicalMapping`, and 5 MeasureComponent domain variables. Validates against graph schema (`CDIF-graph-schema-2026.json`) |
 | `prov-ocean-temp-example.json` | Ocean Temperature | Extended provenance example demonstrating `cdifProv` building block: action chaining (`schema:object`/`schema:result`), multi-typed `["schema:Action", "prov:Activity"]` activities, agents with Role wrappers, inline `schema:HowTo` methodology via `schema:actionProcess` with 3 steps, diverse instruments, facility location, and backward-compatible `prov:used`. Validates against graph schema |
 
