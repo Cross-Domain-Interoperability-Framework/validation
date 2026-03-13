@@ -7,7 +7,7 @@ This repository provides validation tools for **CDIF (Cross-Domain Interoperabil
 Validation is performed at three levels:
 - **JSON Schema** (structural) -- `FrameAndValidate.py` frames JSON-LD into trees, then validates against `CDIFCompleteSchema.json` (or `CDIFDiscoverySchema.json`)
 - **SHACL** (semantic) -- `ShaclValidation/ShaclJSONLDContext.py` validates RDF graphs against SHACL shapes
-- **RO-Crate** (structural) -- `ValidateROCrate.py` converts to RO-Crate and checks structural requirements
+- **RO-Crate** (structural) -- RO-Crate conversion/validation tools have moved to the [packaging repo](https://github.com/Cross-Domain-Interoperability-Framework/packaging)
 - **Batch** -- `batch_validate.py` runs both JSON Schema and SHACL validation across multiple file groups (testJSONMetadata, cdifbook examples, CDIF profiles, ADA profiles), with severity-aware reporting (violations vs warnings vs info)
 
 ## Building block architecture
@@ -32,24 +32,56 @@ _sources/
       examples.yaml        # Example reference metadata
       tests.yaml           # Test reference metadata
     identifier/
+    variableMeasured/      # PropertyValue-based variableMeasured
+    statisticalVariable/   # StatisticalVariable (separate BB)
       ...
   cdifProperties/
-    cdifMandatory/
+    cdifMandatory/         # Core required properties + @context (schema, dcterms, spdx, dcat)
+    cdifOptional/          # Optional properties + @context (geosparql, prov, dqv, cdi)
+    cdifVariableMeasured/  # Extends variableMeasured with DDI-CDI InstanceVariable properties
+    cdifDataDescription/   # Data description level: cdi:physicalDataType requirement + distribution cdi file properties
       ...
   provProperties/
     generatedBy/
       ...
   profiles/
     cdifProfiles/
-      CDIFDiscovery/       # Profile = composition of building blocks
+      CDIFDiscovery/       # Profile = cdifMandatory + cdifOptional + @type enum constraint
+      CDIFDataDescription/ # CDIFDiscovery + cdifDataDescription + distribution data description + csvw @context
+      CDIFcomplete/        # CDIFDiscovery + cdifDataDescription + cdifProv + distribution data description
         ...
 ```
 
-**Profiles** compose building blocks via `allOf` in their schema. For example, CDIFDiscovery = cdifMandatory + cdifOptional, where cdifMandatory itself references person, organization, identifier, etc.
+**Profiles** compose building blocks via `allOf` in their schema. For example, CDIFDiscovery = cdifMandatory + cdifOptional + @type enum. CDIFDataDescription adds cdifDataDescription BB for data description constraints. CDIFcomplete extends CDIFDiscovery with cdifProv and cdifDataDescription.
+
+**@context** is defined across building blocks: cdifMandatory declares schema + dcterms (required) plus spdx + dcat; cdifOptional adds geosparql, prov, dqv, cdi; CDIFDataDescription adds csvw. These merge via allOf composition.
+
+**variableMeasured** has a layered architecture: base `variableMeasured` (schemaorgProperties) defines PropertyValue-based variables; `statisticalVariable` (schemaorgProperties) defines StatisticalVariable; `cdifVariableMeasured` (cdifProperties) extends variableMeasured with DDI-CDI properties. In cdifOptional, items are anyOf[cdifVariableMeasured, StatisticalVariable]. The `cdifDataDescription` BB adds cdi:physicalDataType requirement at the data description level.
 
 ## Schema generators
 
-### generate_graph_schema.py (JSON Schema)
+### generate_validation_schema.py (framed-tree JSON Schema)
+
+Generates self-contained framed-tree validation schemas (`CDIFDiscoverySchema.json`, `CDIFCompleteSchema.json`) from building block profile resolved schemas. Takes a resolved profile schema (e.g., `CDIFDiscovery/resolvedSchema.json`) and produces a compact JSON Schema with `$defs` for repeated sub-schemas.
+
+Key operations:
+1. Deep-merge all `allOf` entries into a flat schema (merge properties, union required, preserve conditional anyOf constraints)
+2. Structural fingerprinting: group repeated sub-schemas by structure (ignoring description/title/examples), extract to `$defs`
+3. Nested dedup: process `$defs` smallest-first so inner types get replaced in outer types
+4. Prune single-use `$defs` (inline them back), resolving chains where pruned defs reference other pruned defs
+5. Semantic post-processing: consolidate equivalent defs (e.g., `measurementTechnique_type` + `serviceType_type` + `linkRelationship_type` → `nameOrDefinedTerm_type`), rename defs for clarity
+
+Design rules:
+- **No external `$ref`s** -- output is fully self-contained
+- **No array-wrapper `$defs`** -- arrays stay inline to preserve per-property descriptions; only item types are deduplicated
+- **No bare-scalar `$defs`** -- simple `{type: string}` or `{type: number}` properties stay inline regardless of description length
+- Canonical reusable types: `nameOrDefinedTerm_type` (string | DefinedTerm), `nameOrReference_type` (string | @id-object | CreativeWork), `identifier_type` (string | PropertyValue)
+
+```bash
+python generate_validation_schema.py path/to/resolvedSchema.json -o CDIFDiscoverySchema.json -t "CDIF Discovery metadata schema" -d "description text" -v
+```
+
+### generate_graph_schema.py (flattened-graph JSON Schema)
 
 Reads building block JSON Schemas (`*Schema.json`) and produces a single self-contained JSON Schema (`CDIF-graph-schema-2026.json`) for validating flattened JSON-LD `@graph` documents.
 
@@ -57,7 +89,7 @@ Key operations: resolve cross-building-block `$ref`s, transform `@type` for disp
 
 ### generate_shacl_shapes.py (SHACL shapes)
 
-Reads building block SHACL rules (`rules.shacl`) and merges them into a single composite Turtle file (`CDIF-Discovery-Core-Shapes.ttl`) for the CDIFDiscovery profile.
+Reads building block SHACL rules (`rules.shacl`) and merges them into a single composite Turtle file (`CDIF-Discovery-Shapes.ttl`) for the CDIFDiscovery profile.
 
 Key operations: parse each Turtle file with rdflib, detect named shape URIs, resolve conflicts via priority ordering (sub-building blocks win over composites, which win over profile-level copies), serialize merged graph. Supports `--profile discovery` (64 shapes) and `--profile complete` (76 shapes).
 
@@ -75,9 +107,6 @@ python ShaclValidation/ShaclJSONLDContext.py metadata.jsonld CDIF-Complete-Shape
 # SHACL validation report (markdown)
 python generate_shacl_report.py metadata.jsonld CDIF-Complete-Shapes.ttl -o report.md
 
-# RO-Crate validation
-python ValidateROCrate.py metadata.jsonld
-
 # Batch validate all file groups (JSON Schema + SHACL)
 python batch_validate.py
 ```
@@ -85,6 +114,17 @@ python batch_validate.py
 ### Regenerate schemas after building block changes
 
 ```bash
+# Regenerate framed-tree validation schemas (requires resolved schemas from BB repo)
+python generate_validation_schema.py path/to/CDIFDiscovery/resolvedSchema.json \
+  -o CDIFDiscoverySchema.json \
+  -t "CDIF Discovery metadata schema" \
+  -d "JSON schema for validating framed JSON-LD documents... Generated from CDIFDiscovery building block profile resolvedSchema.json (https://usgin.github.io/metadataBuildingBlocks/_sources/profiles/cdifProfiles/CDIFDiscovery/resolvedSchema.json)." -v
+
+python generate_validation_schema.py path/to/CDIFcomplete/resolvedSchema.json \
+  -o CDIFCompleteSchema.json \
+  -t "CDIF Complete metadata schema" \
+  -d "JSON schema for validating framed JSON-LD documents... Generated from CDIFcomplete building block profile resolvedSchema.json (https://usgin.github.io/metadataBuildingBlocks/_sources/profiles/cdifProfiles/CDIFcomplete/resolvedSchema.json)." -v
+
 # Regenerate graph schema (JSON Schema for @graph documents)
 python generate_graph_schema.py
 
@@ -110,12 +150,14 @@ python generate_shacl_shapes.py --profile complete
 
 ```
 Building block _sources/
-  *.Schema.json ──> generate_graph_schema.py ──> CDIF-graph-schema-2026.json
-  rules.shacl   ──> generate_shacl_shapes.py ──> CDIF-Discovery-Core-Shapes.ttl
-                                              ──> CDIF-Complete-Shapes.ttl
+  resolvedSchema.json ──> generate_validation_schema.py ──> CDIFDiscoverySchema.json
+                                                        ──> CDIFCompleteSchema.json
+  *.Schema.json       ──> generate_graph_schema.py      ──> CDIF-graph-schema-2026.json
+  rules.shacl         ──> generate_shacl_shapes.py      ──> CDIF-Discovery-Shapes.ttl
+                                                        ──> CDIF-Complete-Shapes.ttl
 
 CDIF-frame-2026.jsonld + CDIFCompleteSchema.json ──> FrameAndValidate.py
-CDIF-Discovery-Core-Shapes.ttl   ──> ShaclValidation/ShaclJSONLDContext.py
+CDIF-Discovery-Shapes.ttl   ──> ShaclValidation/ShaclJSONLDContext.py
 CDIF-Complete-Shapes.ttl         ──> generate_shacl_report.py
 
 batch_validate.py ──> FrameAndValidate.py (JSON Schema)
@@ -128,9 +170,13 @@ batch_validate.py ──> FrameAndValidate.py (JSON Schema)
 - **`spdx:Checksum` typing**: All `spdx:checksum` objects require `"@type": "spdx:Checksum"` (JSON Schema `required` + SHACL `sh:class`).
 - **SHACL severity alignment**: Properties optional in JSON Schema use `sh:Warning` (not `sh:Violation`) in SHACL. Only structurally required properties use `sh:Violation`.
 - **Activity name authority**: `provActivity/rules.shacl` is the sole source for `schema:name` checks on Activity nodes. Duplicates removed from `cdifProv/rules.shacl` and `action/rules.shacl`.
-- **Action subtypes**: The `action` building block `@type` accepts an enum of 11 schema.org Action subtypes (Action, AssessAction, ConsumeAction, ControlAction, CreateAction, FindAction, InteractAction, PlayAction, SearchAction, TransferAction, UpdateAction). SHACL uses a SPARQL target with `FILTER IN` for the same set. The `webAPI` shape uses `sh:or` with all subtypes for `potentialAction`.
+- **Action subtypes**: The `action` building block `@type` accepts an enum of 12 schema.org Action subtypes (Action, AssessAction, ConsumeAction, ControlAction, CreateAction, FindAction, InteractAction, MoveAction, PlayAction, SearchAction, TransferAction, UpdateAction). SHACL uses a SPARQL target with `FILTER IN` for the same set. The `webAPI` shape uses `sh:or` with all subtypes for `potentialAction`.
 - **cdifOptional shape authority**: `cdifOptional/rules.shacl` is the authoritative source for `keywordsNoCommaTest` (accepts string, DefinedTerm, or IRI) and `relatedResourceProperty` (`schema:linkRelationship` accepts string, DefinedTerm, or IRI). These propagate via conflict resolution (cdifOptional wins over CDIFDiscovery).
-- **additionalProperty value flexibility**: `additionalProperty/rules.shacl` allows any datatype for `schema:value` (not just `xsd:string`), since JSON-LD serializes numbers as `xsd:integer`/`xsd:decimal`.
+- **additionalProperty value flexibility**: `additionalProperty/rules.shacl` allows any datatype for `schema:value` (not just `xsd:string`), since JSON-LD serializes numbers as `xsd:integer`/`xsd:decimal`. The JSON Schema also accepts `anyOf: [string, number, boolean, object]` for `schema:value`, plus `schema:unitCode` and `schema:unitText` properties.
+- **`@context` layering**: `@context` is defined as a layered property across building blocks: `cdifMandatory` declares `schema` + `dcterms` (required) plus `spdx` + `dcat`; `cdifOptional` adds `geosparql`, `prov`, `dqv`, `cdi`; `CDIFDataDescription` profile adds `csvw`. These merge via allOf composition in profiles.
+- **variableMeasured architecture**: `variableMeasured` items use `anyOf` in `cdifOptional` to accept either `cdifVariableMeasured` (PropertyValue with DDI-CDI extensions) or `StatisticalVariable` (separate BB). The `cdifDataDescription` BB adds `cdi:physicalDataType` requirement at the data description level (not discovery). `StatisticalVariable` is defined in its own `schemaorgProperties/statisticalVariable` building block.
+- **`@type` array pattern in building blocks**: Building block `@type` definitions use `type: array` with `contains: {const: X}` and `minItems: 1` (array-only). Validation schemas use `anyOf` accepting both string and array for framing compatibility.
+- **Root `@type` enum**: `cdifMandatory` constrains root `@type` items to an enum of 12 types (CreativeWork, SoftwareApplication, SoftwareSourceCode, Product, WebAPI, Dataset, DigitalDocument, Collection, ImageObject, DataCatalog, DefinedTermSet, MediaObject) with `contains: {const: schema:Dataset}` and `default: schema:Dataset`.
 
 ## Dependencies
 
