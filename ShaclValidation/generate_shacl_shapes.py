@@ -136,12 +136,12 @@ PROFILES = {
     "discovery": {
         "blocks": CDIF_DISCOVERY_BLOCKS,
         "label": "CDIF Discovery Profile",
-        "default_output": "CDIF-Discovery-Shapes.ttl",
+        "default_output": "ShaclValidation/CDIF-Discovery-Shapes.ttl",
     },
     "complete": {
         "blocks": CDIF_COMPLETE_BLOCKS,
         "label": "CDIF Complete Profile",
-        "default_output": "CDIF-Complete-Shapes.ttl",
+        "default_output": "ShaclValidation/CDIF-Complete-Shapes.ttl",
     },
 }
 

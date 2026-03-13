@@ -89,7 +89,7 @@ Key operations: resolve cross-building-block `$ref`s, transform `@type` for disp
 
 ### generate_shacl_shapes.py (SHACL shapes)
 
-Reads building block SHACL rules (`rules.shacl`) and merges them into a single composite Turtle file (`CDIF-Discovery-Shapes.ttl`) for the CDIFDiscovery profile.
+Reads building block SHACL rules (`rules.shacl`) and merges them into a single composite Turtle file (`ShaclValidation/CDIF-Discovery-Shapes.ttl`) for the CDIFDiscovery profile.
 
 Key operations: parse each Turtle file with rdflib, detect named shape URIs, resolve conflicts via priority ordering (sub-building blocks win over composites, which win over profile-level copies), serialize merged graph. Supports `--profile discovery` (64 shapes) and `--profile complete` (76 shapes).
 
@@ -102,10 +102,10 @@ Key operations: parse each Turtle file with rdflib, detect named shape URIs, res
 python FrameAndValidate.py metadata.jsonld -v
 
 # SHACL validation (complete profile)
-python ShaclValidation/ShaclJSONLDContext.py metadata.jsonld CDIF-Complete-Shapes.ttl
+python ShaclValidation/ShaclJSONLDContext.py metadata.jsonld ShaclValidation/CDIF-Complete-Shapes.ttl
 
 # SHACL validation report (markdown)
-python generate_shacl_report.py metadata.jsonld CDIF-Complete-Shapes.ttl -o report.md
+python ShaclValidation/generate_shacl_report.py metadata.jsonld ShaclValidation/CDIF-Complete-Shapes.ttl -o report.md
 
 # Batch validate all file groups (JSON Schema + SHACL)
 python batch_validate.py
@@ -129,20 +129,20 @@ python generate_validation_schema.py path/to/CDIFcomplete/resolvedSchema.json \
 python generate_graph_schema.py
 
 # Regenerate composite SHACL shapes (both profiles)
-python generate_shacl_shapes.py --profile discovery
-python generate_shacl_shapes.py --profile complete
+python ShaclValidation/generate_shacl_shapes.py --profile discovery
+python ShaclValidation/generate_shacl_shapes.py --profile complete
 ```
 
 ### Add or modify a building block
 
 1. Edit source files in `_sources/` (schema.yaml, rules.shacl, etc.)
 2. If adding a new building block to CDIFDiscovery:
-   - Add its path to `CDIF_DISCOVERY_BLOCKS` in `generate_shacl_shapes.py`
+   - Add its path to `CDIF_DISCOVERY_BLOCKS` in `ShaclValidation/generate_shacl_shapes.py`
    - Add mapping entries in `generate_graph_schema.py` if it defines a new type
 3. Regenerate both schemas:
    ```bash
    python generate_graph_schema.py
-   python generate_shacl_shapes.py
+   python ShaclValidation/generate_shacl_shapes.py
    ```
 4. Validate example documents to verify
 
@@ -153,12 +153,12 @@ Building block _sources/
   resolvedSchema.json ──> generate_validation_schema.py ──> CDIFDiscoverySchema.json
                                                         ──> CDIFCompleteSchema.json
   *.Schema.json       ──> generate_graph_schema.py      ──> CDIF-graph-schema-2026.json
-  rules.shacl         ──> generate_shacl_shapes.py      ──> CDIF-Discovery-Shapes.ttl
-                                                        ──> CDIF-Complete-Shapes.ttl
+  rules.shacl         ──> ShaclValidation/generate_shacl_shapes.py ──> ShaclValidation/CDIF-Discovery-Shapes.ttl
+                                                        ──> ShaclValidation/CDIF-Complete-Shapes.ttl
 
 CDIF-frame-2026.jsonld + CDIFCompleteSchema.json ──> FrameAndValidate.py
-CDIF-Discovery-Shapes.ttl   ──> ShaclValidation/ShaclJSONLDContext.py
-CDIF-Complete-Shapes.ttl         ──> generate_shacl_report.py
+ShaclValidation/CDIF-Discovery-Shapes.ttl   ──> ShaclValidation/ShaclJSONLDContext.py
+ShaclValidation/CDIF-Complete-Shapes.ttl    ──> ShaclValidation/generate_shacl_report.py
 
 batch_validate.py ──> FrameAndValidate.py (JSON Schema)
                   ──> ShaclValidation/ShaclJSONLDContext.py (SHACL)

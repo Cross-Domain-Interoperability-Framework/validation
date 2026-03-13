@@ -18,8 +18,8 @@ This repository contains validation tools for **CDIF (Cross-Domain Interoperabil
 | File | Role |
 |------|------|
 | `FrameAndValidate.py` | Main validation script: frames JSON-LD then validates against schema |
-| `ConvertToROCrate.py` | Converts CDIF JSON-LD to RO-Crate format (library + CLI) |
-| `ValidateROCrate.py` | Validates RO-Crate documents (imports conversion from ConvertToROCrate) |
+| `ConvertToROCrate.py` | Converts CDIF JSON-LD to RO-Crate format -- **moved to [packaging repo](https://github.com/Cross-Domain-Interoperability-Framework/packaging)** |
+| `ValidateROCrate.py` | Validates RO-Crate documents -- **moved to [packaging repo](https://github.com/Cross-Domain-Interoperability-Framework/packaging)** |
 | `validate-cdif.bat` | Windows batch wrapper for oXygen XML Editor integration |
 | `batch_validate.py` | Batch validation of CDIF metadata files across multiple file groups |
 | `CDIFDiscoverySchema.json` | JSON Schema for framed (tree) CDIF discovery profile metadata |
@@ -33,11 +33,10 @@ This repository contains validation tools for **CDIF (Cross-Domain Interoperabil
 | `ddi-cdi/cls-InstanceVariable-resolved-README.md` | Documentation for the resolved schema generation |
 | `ConvertToCroissant.py` | Converts CDIF JSON-LD to Croissant (mlcommons.org/croissant/1.0) format |
 | `docs/CDIFtoCroissant.md` | Documents the CDIF-to-Croissant mapping, converter code, and gaps |
-| `generate_shacl_shapes.py` | Generates composite SHACL shapes from building block rules.shacl files |
-| `generate_shacl_report.py` | Generates markdown SHACL validation reports with severity grouping |
-| `CDIF-Discovery-Core-Shapes.ttl` | Composite SHACL shapes for CDIFDiscovery profile (generated) |
-| `CDIF-Complete-Shapes.ttl` | Composite SHACL shapes for CDIFcomplete profile (generated) |
-| `CDIF-Discovery-Core-Shapes2.ttl` | Legacy hand-maintained SHACL shapes (superseded by generated versions) |
+| `ShaclValidation/generate_shacl_shapes.py` | Generates composite SHACL shapes from building block rules.shacl files |
+| `ShaclValidation/generate_shacl_report.py` | Generates markdown SHACL validation reports with severity grouping |
+| `ShaclValidation/CDIF-Discovery-Shapes.ttl` | Composite SHACL shapes for CDIFDiscovery profile (generated) |
+| `ShaclValidation/CDIF-Complete-Shapes.ttl` | Composite SHACL shapes for CDIFcomplete profile (generated) |
 | `ShaclValidation/ShaclJSONLDContext.py` | SHACL validation script |
 | `docs/CDIF-Provenance-Building-Blocks-Comparison.md` | Comparison of three provenance activity building blocks (cdifProv, provActivity, ddicdiProv) |
 
@@ -63,13 +62,13 @@ python ConvertToCroissant.py path/to/metadata.jsonld -o output-croissant.json -v
 mlcroissant validate --jsonld output-croissant.json
 
 # SHACL validation (discovery profile)
-python ShaclValidation/ShaclJSONLDContext.py metadata.jsonld CDIF-Discovery-Core-Shapes.ttl
+python ShaclValidation/ShaclJSONLDContext.py metadata.jsonld ShaclValidation/CDIF-Discovery-Shapes.ttl
 
 # SHACL validation (complete profile)
-python ShaclValidation/ShaclJSONLDContext.py metadata.jsonld CDIF-Complete-Shapes.ttl
+python ShaclValidation/ShaclJSONLDContext.py metadata.jsonld ShaclValidation/CDIF-Complete-Shapes.ttl
 
 # Generate a markdown SHACL validation report
-python generate_shacl_report.py metadata.jsonld CDIF-Complete-Shapes.ttl -o report.md
+python ShaclValidation/generate_shacl_report.py metadata.jsonld ShaclValidation/CDIF-Complete-Shapes.ttl -o report.md
 
 # Batch validate all file groups (testJSONMetadata, cdifbook, cdifProfiles, adaProfiles)
 python batch_validate.py
@@ -83,11 +82,11 @@ python generate_graph_schema.py
 python generate_graph_schema.py --bb-dir /path/to/_sources --output CDIF-graph-schema-2026.json
 
 # Regenerate composite SHACL shapes (discovery profile, default)
-python generate_shacl_shapes.py --profile discovery
+python ShaclValidation/generate_shacl_shapes.py --profile discovery
 # Regenerate composite SHACL shapes (complete profile)
-python generate_shacl_shapes.py --profile complete
+python ShaclValidation/generate_shacl_shapes.py --profile complete
 # Or with explicit paths:
-python generate_shacl_shapes.py --bb-dir /path/to/_sources --output CDIF-Discovery-Core-Shapes.ttl
+python ShaclValidation/generate_shacl_shapes.py --bb-dir /path/to/_sources --output ShaclValidation/CDIF-Discovery-Shapes.ttl
 ```
 
 ## Dependencies
@@ -125,12 +124,12 @@ pip install mlcroissant
 
 **Type dispatch order** (most specific first): `cdi:StructuredDataSet`, `cdi:TabularTextDataSet`, `cdi:LongStructureDataSet`, `cdi:InstanceVariable`, `cdi:Identifier`, `dcat:CatalogRecord`, `schema:Dataset`, `schema:Person`, `schema:Organization`, `schema:PropertyValue`, `schema:DefinedTerm`, `schema:CreativeWork`, `schema:DataDownload`, `schema:MediaObject`, `schema:WebAPI`, `schema:Action`, `schema:HowTo`, `schema:Place`, `time:ProperInterval`, `schema:MonetaryGrant`, `schema:Role`, `prov:Activity`, `dqv:QualityMeasurement`, `schema:Claim`.
 
-## Composite SHACL shapes (generate_shacl_shapes.py)
+## Composite SHACL shapes (ShaclValidation/generate_shacl_shapes.py)
 
-`generate_shacl_shapes.py` reads CDIF building block `rules.shacl` files and merges them into a single composite Turtle file. Supports two profiles via `--profile`:
+`ShaclValidation/generate_shacl_shapes.py` reads CDIF building block `rules.shacl` files and merges them into a single composite Turtle file. Supports two profiles via `--profile`:
 
-- **discovery** (default) → `CDIF-Discovery-Core-Shapes.ttl` — 64 shapes for the CDIFDiscovery profile
-- **complete** → `CDIF-Complete-Shapes.ttl` — 76 shapes for the CDIFcomplete profile (discovery + data description + provenance)
+- **discovery** (default) → `ShaclValidation/CDIF-Discovery-Shapes.ttl` — 64 shapes for the CDIFDiscovery profile
+- **complete** → `ShaclValidation/CDIF-Complete-Shapes.ttl` — 76 shapes for the CDIFcomplete profile (discovery + data description + provenance)
 
 **Building block source location**: Same auto-detection as `generate_graph_schema.py` — tries `BuildingBlockSubmodule/_sources/`, `../metadataBuildingBlocks/_sources/`, OneDrive paths. Override with `--bb-dir` or `CDIF_BB_DIR` env var.
 
@@ -152,21 +151,21 @@ pip install mlcroissant
 - `cdifd:CDIFCatalogRecordShape` — cdifCatalogRecord wins over cdifMandatory and CDIFDiscovery copies
 - `cdifd:CDIFDatasetMandatoryShape` — cdifMandatory wins over CDIFDiscovery profile copy
 
-**Adding new building blocks**: Add the building block path to `CDIF_DISCOVERY_BLOCKS` (or `CDIF_COMPLETE_BLOCKS` for complete profile) in `generate_shacl_shapes.py`, then rerun the script.
+**Adding new building blocks**: Add the building block path to `CDIF_DISCOVERY_BLOCKS` (or `CDIF_COMPLETE_BLOCKS` for complete profile) in `ShaclValidation/generate_shacl_shapes.py`, then rerun the script.
 
-## SHACL validation report (generate_shacl_report.py)
+## SHACL validation report (ShaclValidation/generate_shacl_report.py)
 
-`generate_shacl_report.py` runs pyshacl validation and produces a structured markdown report. Issues are grouped by severity (Violation → Warning → Info), then by message. Each issue shows the focus node with its `@type` and `schema:name` for context.
+`ShaclValidation/generate_shacl_report.py` runs pyshacl validation and produces a structured markdown report. Issues are grouped by severity (Violation → Warning → Info), then by message. Each issue shows the focus node with its `@type` and `schema:name` for context.
 
 ```bash
 # Generate report to file
-python generate_shacl_report.py metadata.jsonld CDIF-Complete-Shapes.ttl -o report.md
+python ShaclValidation/generate_shacl_report.py metadata.jsonld ShaclValidation/CDIF-Complete-Shapes.ttl -o report.md
 
 # Print report to stdout
-python generate_shacl_report.py metadata.jsonld CDIF-Discovery-Core-Shapes.ttl
+python ShaclValidation/generate_shacl_report.py metadata.jsonld ShaclValidation/CDIF-Discovery-Shapes.ttl
 
 # Named arguments
-python generate_shacl_report.py -d metadata.jsonld -s CDIF-Complete-Shapes.ttl -o report.md -v
+python ShaclValidation/generate_shacl_report.py -d metadata.jsonld -s ShaclValidation/CDIF-Complete-Shapes.ttl -o report.md -v
 ```
 
 **Report structure**:
@@ -276,7 +275,7 @@ Converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissa
 
 **SHACL severity rationale**: Properties that are optional in JSON Schema (`schema:name` on activities, `cdi:physicalDataType` on InstanceVariable) are set to `sh:Warning` in SHACL for consistency. Only structurally required properties (e.g., `prov:used` on activities) use `sh:Violation`.
 
-**SHACL shape authority**: `cdifOptional/rules.shacl` is the authoritative source for `keywordsNoCommaTest` (accepts string, DefinedTerm, or IRI) and `relatedResourceProperty` (accepts string, DefinedTerm, or IRI for `schema:linkRelationship`). These shapes propagate via conflict resolution in `generate_shacl_shapes.py` (cdifOptional wins over CDIFDiscovery profile copies). `additionalProperty/rules.shacl` allows any datatype for `schema:value` (not just `xsd:string`).
+**SHACL shape authority**: `cdifOptional/rules.shacl` is the authoritative source for `keywordsNoCommaTest` (accepts string, DefinedTerm, or IRI) and `relatedResourceProperty` (accepts string, DefinedTerm, or IRI for `schema:linkRelationship`). These shapes propagate via conflict resolution in `ShaclValidation/generate_shacl_shapes.py` (cdifOptional wins over CDIFDiscovery profile copies). `additionalProperty/rules.shacl` allows any datatype for `schema:value` (not just `xsd:string`).
 
 ## Known issues
 

@@ -159,7 +159,7 @@ Both are needed because JSON-LD is simultaneously JSON and RDF. JSON Schema catc
         tree errors              graph errors
 ```
 
-In CDIF, the JSON Schema path uses `FrameAndValidate.py`, and the SHACL path uses `ShaclValidation/ShaclJSONLDContext.py` with composite shapes files (`CDIF-Discovery-Core-Shapes.ttl` or `CDIF-Complete-Shapes.ttl`).
+In CDIF, the JSON Schema path uses `FrameAndValidate.py`, and the SHACL path uses `ShaclValidation/ShaclJSONLDContext.py` with composite shapes files (`ShaclValidation/CDIF-Discovery-Shapes.ttl` or `ShaclValidation/CDIF-Complete-Shapes.ttl`).
 
 ## 5. JSON Schema vs SHACL -- Comparison
 
@@ -464,9 +464,9 @@ While framing is essential for JSON Schema validation, the flattened (`@graph`) 
 | `CDIFCompleteSchema.json` | JSON Schema for complete profile (framed tree) |
 | `CDIF-graph-schema-2026.json` | JSON Schema for flattened `@graph` documents |
 | `ShaclValidation/ShaclJSONLDContext.py` | SHACL validation script |
-| `CDIF-Discovery-Core-Shapes.ttl` | SHACL shapes for discovery profile |
-| `CDIF-Complete-Shapes.ttl` | SHACL shapes for complete profile |
-| `generate_shacl_report.py` | Generates structured SHACL validation reports |
+| `ShaclValidation/CDIF-Discovery-Shapes.ttl` | SHACL shapes for discovery profile |
+| `ShaclValidation/CDIF-Complete-Shapes.ttl` | SHACL shapes for complete profile |
+| `ShaclValidation/generate_shacl_report.py` | Generates structured SHACL validation reports |
 | `batch_validate.py` | Runs both JSON Schema and SHACL validation across file groups |
 
 ## Further Reading

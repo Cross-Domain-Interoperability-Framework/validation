@@ -15,7 +15,7 @@ from pathlib import Path
 VALIDATION_DIR = Path(__file__).parent
 FRAME_VALIDATE = VALIDATION_DIR / "FrameAndValidate.py"
 SHACL_VALIDATE = VALIDATION_DIR / "ShaclValidation" / "ShaclJSONLDContext.py"
-SHACL_SHAPES = VALIDATION_DIR / "CDIF-Complete-Shapes.ttl"
+SHACL_SHAPES = VALIDATION_DIR / "ShaclValidation" / "CDIF-Complete-Shapes.ttl"
 
 # File patterns to exclude from SHACL validation (generated output, not CDIF source)
 SHACL_EXCLUDE_SUFFIXES = ("-croissant.json", "-rocrate.json", "rocrate-jsonld-example.json", "ro-crate-metadata.json")

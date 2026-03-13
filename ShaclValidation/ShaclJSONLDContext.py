@@ -15,7 +15,7 @@ def parse_args():
         epilog='''
 Examples:
   python ShaclJSONLDContext.py data.jsonld shapes.ttl
-  python ShaclJSONLDContext.py --data my-metadata.jsonld --shapes CDIF-Discovery-Core-Shapes2.ttl
+  python ShaclJSONLDContext.py --data my-metadata.jsonld --shapes CDIF-Discovery-Shapes.ttl
   python ShaclJSONLDContext.py -d data.jsonld -s shapes.ttl --verbose
         '''
     )

@@ -94,8 +94,8 @@ def parse_args():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  python generate_shacl_report.py data.jsonld CDIF-Complete-Shapes.ttl
-  python generate_shacl_report.py data.jsonld CDIF-Discovery-Core-Shapes.ttl -o report.md
+  python generate_shacl_report.py data.jsonld ShaclValidation/CDIF-Complete-Shapes.ttl
+  python generate_shacl_report.py data.jsonld ShaclValidation/CDIF-Discovery-Shapes.ttl -o report.md
   python generate_shacl_report.py -d data.jsonld -s shapes.ttl -o report.md -v
         """,
     )
