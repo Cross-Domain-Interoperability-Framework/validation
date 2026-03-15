@@ -1,25 +1,13 @@
 {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
     "title": "CDIF Discovery metadata schema",
     "description": "JSON schema for validating framed JSON-LD documents that describe science datasets for the CDIF discovery profile. Combines cdifMandatory and cdifOptional building blocks with @type enum constraint. Generated from CDIFDiscovery building block profile resolvedSchema.json (https://usgin.github.io/metadataBuildingBlocks/_sources/profiles/cdifProfiles/CDIFDiscovery/resolvedSchema.json).",
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "properties": {
         "@context": {
             "type": "object",
             "description": "Additional JSON-LD namespace prefixes used by optional CDIF properties.",
             "properties": {
-                "schema": {
-                    "const": "http://schema.org/"
-                },
-                "dcterms": {
-                    "const": "http://purl.org/dc/terms/"
-                },
-                "spdx": {
-                    "const": "http://spdx.org/rdf/terms#"
-                },
-                "dcat": {
-                    "const": "http://www.w3.org/ns/dcat#"
-                },
                 "geosparql": {
                     "const": "http://www.opengis.net/ont/geosparql#"
                 },
@@ -32,18 +20,14 @@
                 "cdi": {
                     "const": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
                 }
-            },
-            "required": [
-                "schema",
-                "dcterms"
-            ]
+            }
         },
         "@id": {
             "type": "string",
             "description": "The URI for the resource should be the @id value for the root of the JSON instance document tree. Must be an IRI (e.g. https://doi.org/..., urn:..., or a relative URI like #localid). Note that this identifier can be interpreted to identify the resource that is the subject of this metadata record, or the JSON-LD object that is the digital object containing the metadata information."
         },
         "@type": {
-            "description": "For CDIF Discovery, the @type array should include a value from the known set of schema.org types used for dataset-like resources.",
+            "description": "a schema.org Class that specifies the expected information content for the metadata record. The array must include at least one schema.org type value. Default is schema:Dataset.",
             "type": "array",
             "items": {
                 "type": "string",
@@ -65,21 +49,7 @@
             "default": "schema:Dataset",
             "minItems": 1,
             "contains": {
-                "const": "schema:Dataset",
-                "enum": [
-                    "schema:CreativeWork",
-                    "schema:SoftwareApplication",
-                    "schema:SoftwareSourceCode",
-                    "schema:Product",
-                    "schema:WebAPI",
-                    "schema:Dataset",
-                    "schema:DigitalDocument",
-                    "schema:Collection",
-                    "schema:ImageObject",
-                    "schema:DataCatalog",
-                    "schema:DefinedTermSet",
-                    "schema:MediaObject"
-                ]
+                "const": "schema:Dataset"
             }
         },
         "schema:name": {
@@ -275,6 +245,7 @@
                                                         "schema:ConsumeAction",
                                                         "schema:ControlAction",
                                                         "schema:CreateAction",
+                                                        "schema:DeleteAction",
                                                         "schema:FindAction",
                                                         "schema:InteractAction",
                                                         "schema:MoveAction",
@@ -296,6 +267,7 @@
                                                             "schema:ConsumeAction",
                                                             "schema:ControlAction",
                                                             "schema:CreateAction",
+                                                            "schema:DeleteAction",
                                                             "schema:FindAction",
                                                             "schema:InteractAction",
                                                             "schema:MoveAction",
@@ -424,10 +396,82 @@
                                                 "schema:description": {
                                                     "type": "string"
                                                 },
+                                                "schema:encodingFormat-input": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    },
+                                                    "description": "MIME types accepted as input encoding formats for the action."
+                                                },
                                                 "schema:variableMeasured": {
                                                     "type": "array",
                                                     "items": {
-                                                        "$ref": "#/$defs/object_variableMeasured_type"
+                                                        "description": "Schema.org PropertyValue-based variableMeasured. Defines properties for a measured variable in a dataset, typed as schema:PropertyValue.",
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "@type": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "type": "string"
+                                                                },
+                                                                "contains": {
+                                                                    "const": "schema:PropertyValue"
+                                                                },
+                                                                "minItems": 1
+                                                            },
+                                                            "@id": {
+                                                                "type": "string"
+                                                            },
+                                                            "schema:name": {
+                                                                "type": "string",
+                                                                "description": "string label associated with the variable in the dataset serialization"
+                                                            },
+                                                            "schema:description": {
+                                                                "type": "string",
+                                                                "default": "missing"
+                                                            },
+                                                            "schema:alternateName": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "type": "string",
+                                                                    "description": "human intelligible name for variable that conveys semantics"
+                                                                }
+                                                            },
+                                                            "schema:measurementTechnique": {
+                                                                "$ref": "#/$defs/nameOrDefinedTerm_type"
+                                                            },
+                                                            "schema:propertyID": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "$ref": "#/$defs/nameOrDefinedTerm_type"
+                                                                },
+                                                                "description": "identifier or name for the property concept"
+                                                            },
+                                                            "schema:unitText": {
+                                                                "type": "string",
+                                                                "description": "unit of measurement as text"
+                                                            },
+                                                            "schema:unitCode": {
+                                                                "$ref": "#/$defs/nameOrDefinedTerm_type"
+                                                            },
+                                                            "schema:minValue": {
+                                                                "type": "number",
+                                                                "description": "minimum numeric value in the dataset"
+                                                            },
+                                                            "schema:maxValue": {
+                                                                "type": "number",
+                                                                "description": "maximum numeric value in the dataset"
+                                                            },
+                                                            "schema:url": {
+                                                                "type": "string",
+                                                                "format": "uri",
+                                                                "description": "link to a web page useful for interpreting the variable"
+                                                            }
+                                                        },
+                                                        "required": [
+                                                            "@type",
+                                                            "schema:name"
+                                                        ]
                                                     }
                                                 }
                                             }
@@ -892,28 +936,18 @@
             "items": {
                 "anyOf": [
                     {
-                        "description": "Extends cdif variableMeasured with properties for DDI-CDI InstanceVariable",
+                        "description": "Schema.org PropertyValue-based variableMeasured. Defines properties for a measured variable in a dataset, typed as schema:PropertyValue.",
                         "type": "object",
                         "properties": {
                             "@type": {
                                 "type": "array",
-                                "description": "Must include both schema:PropertyValue and cdi:InstanceVariable. Additional types may be included.",
                                 "items": {
                                     "type": "string"
                                 },
-                                "minItems": 2,
-                                "allOf": [
-                                    {
-                                        "contains": {
-                                            "const": "schema:PropertyValue"
-                                        }
-                                    },
-                                    {
-                                        "contains": {
-                                            "const": "cdi:InstanceVariable"
-                                        }
-                                    }
-                                ]
+                                "contains": {
+                                    "const": "schema:PropertyValue"
+                                },
+                                "minItems": 1
                             },
                             "cdi:identifier": {
                                 "type": "string"
@@ -960,17 +994,59 @@
                             "cdi:displayLabel": {
                                 "type": "string",
                                 "description": "DDI-CDI Concept.displayLabel. A human-readable label for display purposes."
+                            },
+                            "@id": {
+                                "type": "string"
+                            },
+                            "schema:name": {
+                                "type": "string",
+                                "description": "string label associated with the variable in the dataset serialization"
+                            },
+                            "schema:description": {
+                                "type": "string",
+                                "default": "missing"
+                            },
+                            "schema:alternateName": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "description": "human intelligible name for variable that conveys semantics"
+                                }
+                            },
+                            "schema:measurementTechnique": {
+                                "$ref": "#/$defs/nameOrDefinedTerm_type"
+                            },
+                            "schema:propertyID": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/$defs/nameOrDefinedTerm_type"
+                                },
+                                "description": "identifier or name for the property concept"
+                            },
+                            "schema:unitText": {
+                                "type": "string",
+                                "description": "unit of measurement as text"
+                            },
+                            "schema:unitCode": {
+                                "$ref": "#/$defs/nameOrDefinedTerm_type"
+                            },
+                            "schema:minValue": {
+                                "type": "number",
+                                "description": "minimum numeric value in the dataset"
+                            },
+                            "schema:maxValue": {
+                                "type": "number",
+                                "description": "maximum numeric value in the dataset"
+                            },
+                            "schema:url": {
+                                "type": "string",
+                                "format": "uri",
+                                "description": "link to a web page useful for interpreting the variable"
                             }
                         },
-                        "allOf": [
-                            {
-                                "required": [
-                                    "@type"
-                                ]
-                            },
-                            {
-                                "$ref": "#/$defs/object_variableMeasured_type"
-                            }
+                        "required": [
+                            "@type",
+                            "schema:name"
                         ]
                     },
                     {
@@ -1107,10 +1183,14 @@
                                         ]
                                     },
                                     "schema:latitude": {
-                                        "type": "number"
+                                        "type": "number",
+                                        "minimum": -90,
+                                        "maximum": 90
                                     },
                                     "schema:longitude": {
-                                        "type": "number"
+                                        "type": "number",
+                                        "minimum": -180,
+                                        "maximum": 180
                                     }
                                 },
                                 "required": [
@@ -1431,44 +1511,24 @@
             }
         }
     },
-    "allOf": [
+    "required": [
+        "@id",
+        "@type",
+        "@context",
+        "schema:name",
+        "schema:identifier",
+        "schema:dateModified",
+        "schema:subjectOf"
+    ],
+    "anyOf": [
         {
             "required": [
-                "@id",
-                "@type",
-                "@context",
-                "schema:name",
-                "schema:identifier",
-                "schema:dateModified",
-                "schema:subjectOf"
+                "schema:url"
             ]
         },
         {
-            "anyOf": [
-                {
-                    "required": [
-                        "schema:license"
-                    ]
-                },
-                {
-                    "required": [
-                        "schema:conditionsOfAccess"
-                    ]
-                }
-            ]
-        },
-        {
-            "anyOf": [
-                {
-                    "required": [
-                        "schema:url"
-                    ]
-                },
-                {
-                    "required": [
-                        "schema:distribution"
-                    ]
-                }
+            "required": [
+                "schema:distribution"
             ]
         }
     ],
@@ -1555,29 +1615,23 @@
                     "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
                 }
             },
-            "allOf": [
+            "required": [
+                "@type"
+            ],
+            "anyOf": [
                 {
                     "required": [
-                        "@type"
+                        "schema:name"
                     ]
                 },
                 {
-                    "anyOf": [
-                        {
-                            "required": [
-                                "schema:name"
-                            ]
-                        },
-                        {
-                            "required": [
-                                "schema:identifier"
-                            ]
-                        },
-                        {
-                            "required": [
-                                "schema:termCode"
-                            ]
-                        }
+                    "required": [
+                        "schema:identifier"
+                    ]
+                },
+                {
+                    "required": [
+                        "schema:termCode"
                     ]
                 }
             ]
@@ -1674,74 +1728,6 @@
                 }
             ]
         },
-        "object_variableMeasured_type": {
-            "description": "Schema.org PropertyValue-based variableMeasured. Defines properties for a measured variable in a dataset, typed as schema:PropertyValue.",
-            "type": "object",
-            "properties": {
-                "@type": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "contains": {
-                        "const": "schema:PropertyValue"
-                    },
-                    "minItems": 1
-                },
-                "@id": {
-                    "type": "string"
-                },
-                "schema:name": {
-                    "type": "string",
-                    "description": "string label associated with the variable in the dataset serialization"
-                },
-                "schema:description": {
-                    "type": "string",
-                    "default": "missing"
-                },
-                "schema:alternateName": {
-                    "type": "array",
-                    "items": {
-                        "type": "string",
-                        "description": "human intelligible name for variable that conveys semantics"
-                    }
-                },
-                "schema:measurementTechnique": {
-                    "$ref": "#/$defs/nameOrDefinedTerm_type"
-                },
-                "schema:propertyID": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/$defs/nameOrDefinedTerm_type"
-                    },
-                    "description": "identifier or name for the property concept"
-                },
-                "schema:unitText": {
-                    "type": "string",
-                    "description": "unit of measurement as text"
-                },
-                "schema:unitCode": {
-                    "$ref": "#/$defs/nameOrDefinedTerm_type"
-                },
-                "schema:minValue": {
-                    "type": "number",
-                    "description": "minimum numeric value in the dataset"
-                },
-                "schema:maxValue": {
-                    "type": "number",
-                    "description": "maximum numeric value in the dataset"
-                },
-                "schema:url": {
-                    "type": "string",
-                    "format": "uri",
-                    "description": "link to a web page useful for interpreting the variable"
-                }
-            },
-            "required": [
-                "@type",
-                "schema:name"
-            ]
-        },
         "organization_type": {
             "type": "object",
             "properties": {
@@ -1815,28 +1801,22 @@
                     }
                 }
             },
-            "allOf": [
+            "description": "if affiliation is present, value must be a schema:Organization.",
+            "required": [
+                "@type"
+            ],
+            "anyOf": [
                 {
                     "required": [
-                        "@type"
+                        "schema:name"
                     ]
                 },
                 {
-                    "anyOf": [
-                        {
-                            "required": [
-                                "schema:name"
-                            ]
-                        },
-                        {
-                            "required": [
-                                "schema:identifier"
-                            ]
-                        }
+                    "required": [
+                        "schema:identifier"
                     ]
                 }
-            ],
-            "description": "if affiliation is present, value must be a schema:Organization."
+            ]
         },
         "person_type": {
             "description": "schema for cdif profile of schema.org/Person",
@@ -1914,24 +1894,18 @@
                     }
                 }
             },
-            "allOf": [
+            "required": [
+                "@type"
+            ],
+            "anyOf": [
                 {
                     "required": [
-                        "@type"
+                        "schema:name"
                     ]
                 },
                 {
-                    "anyOf": [
-                        {
-                            "required": [
-                                "schema:name"
-                            ]
-                        },
-                        {
-                            "required": [
-                                "schema:identifier"
-                            ]
-                        }
+                    "required": [
+                        "schema:identifier"
                     ]
                 }
             ]
@@ -1971,24 +1945,18 @@
                     "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
                 }
             },
-            "allOf": [
+            "required": [
+                "@type"
+            ],
+            "anyOf": [
                 {
                     "required": [
-                        "@type"
+                        "schema:value"
                     ]
                 },
                 {
-                    "anyOf": [
-                        {
-                            "required": [
-                                "schema:value"
-                            ]
-                        },
-                        {
-                            "required": [
-                                "schema:url"
-                            ]
-                        }
+                    "required": [
+                        "schema:url"
                     ]
                 }
             ]
