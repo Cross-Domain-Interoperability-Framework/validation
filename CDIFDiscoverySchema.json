@@ -1,7 +1,7 @@
 {
     "type": "object",
     "title": "CDIF Discovery metadata schema",
-    "description": "JSON schema for validating framed JSON-LD documents that describe science datasets for the CDIF discovery profile. Combines cdifMandatory and cdifOptional building blocks with @type enum constraint. Generated from CDIFDiscovery building block profile resolvedSchema.json (https://usgin.github.io/metadataBuildingBlocks/_sources/profiles/cdifProfiles/CDIFDiscovery/resolvedSchema.json).",
+    "description": "JSON schema for validating framed JSON-LD documents that describe science datasets for the CDIF discovery profile. Combines cdifCore and cdifOptional building blocks with @type enum constraint. Generated from CDIFDiscovery building block profile resolvedSchema.json (https://usgin.github.io/metadataBuildingBlocks/_sources/profiles/cdifProfiles/CDIFDiscovery/resolvedSchema.json).",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "properties": {
         "@context": {
@@ -35,7 +35,8 @@
             },
             "required": [
                 "schema",
-                "dcterms"
+                "dcterms",
+                "dcat"
             ]
         },
         "@id": {
@@ -104,6 +105,70 @@
             "description": "Distribution options for the dataset.",
             "type": "array",
             "items": {
+                "description": "schema to document file-based access to a resoruce via URL, based on schema.org/DataDownload",
+                "type": "object",
+                "properties": {
+                    "@id": {
+                        "type": "string"
+                    },
+                    "@type": {
+                        "type": "array",
+                        "description": "implement as array because extensions might need to add additional types",
+                        "items": {
+                            "type": "string"
+                        },
+                        "contains": {
+                            "const": "schema:DataDownload"
+                        },
+                        "minItems": 1
+                    },
+                    "schema:name": {
+                        "type": "string"
+                    },
+                    "schema:description": {
+                        "type": "string",
+                        "description": "Description of this distribution, e.g. what format, access constraints, etc."
+                    },
+                    "schema:contentUrl": {
+                        "type": "string",
+                        "format": "uri"
+                    },
+                    "schema:encodingFormat": {
+                        "type": "array",
+                        "description": "MIME type with extension; should indicate the serialization scheme in sufficient detail that machine can know how to parse.",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "spdx:checksum": {
+                        "$ref": "#/$defs/checksum_type"
+                    },
+                    "dcterms:conformsTo": {
+                        "description": "An identifier for a standard or specification that the distribution conforms to. Recommended to enable machine-actionable data access.",
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "@id": {
+                                    "type": "string",
+                                    "description": "uri for specification that this distribution conforms to"
+                                }
+                            }
+                        }
+                    },
+                    "schema:provider": {
+                        "type": "array",
+                        "description": "Party who maintains this particular distribution option for the dataset. Use this property if there are multiple distributions from different providers",
+                        "items": {
+                            "$ref": "#/$defs/provider_type"
+                        }
+                    }
+                },
+                "required": [
+                    "schema:contentUrl",
+                    "@type"
+                ],
                 "anyOf": [
                     {
                         "description": "schema to document file-based access to a resoruce via URL, based on schema.org/DataDownload",
@@ -142,36 +207,7 @@
                                 }
                             },
                             "spdx:checksum": {
-                                "type": "object",
-                                "description": "A string value calculated from the content of the resource representation, used to test if content has been modified. The checksum is a property of a particular distribution/DataDownload.",
-                                "properties": {
-                                    "@type": {
-                                        "anyOf": [
-                                            {
-                                                "type": "string",
-                                                "const": "spdx:Checksum"
-                                            },
-                                            {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "string"
-                                                },
-                                                "contains": {
-                                                    "const": "spdx:Checksum"
-                                                }
-                                            }
-                                        ]
-                                    },
-                                    "spdx:algorithm": {
-                                        "type": "string"
-                                    },
-                                    "spdx:checksumValue": {
-                                        "type": "string"
-                                    }
-                                },
-                                "required": [
-                                    "@type"
-                                ]
+                                "$ref": "#/$defs/checksum_type"
                             },
                             "dcterms:conformsTo": {
                                 "description": "An identifier for a standard or specification that the distribution conforms to. Recommended to enable machine-actionable data access.",
@@ -544,7 +580,7 @@
                                 }
                             },
                             "minItems": 1,
-                            "description": "uri for specifications that this metadata record conforms to. Minimimally should specify uri for CDIF discovery profile.  Implement as $def to facilitate extension for profiles that need to add conformance statements"
+                            "description": "uri for specifications that this metadata record conforms to. Minimimally should specify uri for CDIF discovery profile."
                         },
                         "schema:maintainer": {
                             "description": "iSamples Registrant. identification of the agent that registered the sample, with contact information. Should include person name and affiliation, or position name and affiliation, or just organization name. e-mail address is preferred contact information.",
@@ -1524,6 +1560,38 @@
         }
     ],
     "$defs": {
+        "checksum_type": {
+            "type": "object",
+            "description": "A string value calculated from the content of the resource representation, used to test if content has been modified. The checksum is a property of a particular distribution/DataDownload.",
+            "properties": {
+                "@type": {
+                    "anyOf": [
+                        {
+                            "type": "string",
+                            "const": "spdx:Checksum"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "contains": {
+                                "const": "spdx:Checksum"
+                            }
+                        }
+                    ]
+                },
+                "spdx:algorithm": {
+                    "type": "string"
+                },
+                "spdx:checksumValue": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "@type"
+            ]
+        },
         "creativeWork_type": {
             "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
             "type": "object",
