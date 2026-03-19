@@ -47,6 +47,7 @@ cdifd:CDIFActionShape a sh:NodeShape ;
     sh:target [ a sh:SPARQLTarget ;
             sh:select """
             PREFIX schema: <http://schema.org/>
+            PREFIX prov: <http://www.w3.org/ns/prov#>
             SELECT ?this WHERE {
                 ?this a ?type .
                 FILTER (?type IN (
@@ -55,6 +56,7 @@ cdifd:CDIFActionShape a sh:NodeShape ;
                     schema:InteractAction, schema:MoveAction, schema:PlayAction, schema:SearchAction,
                     schema:DeleteAction, schema:TransferAction, schema:UpdateAction
                 ))
+                FILTER NOT EXISTS { ?this a prov:Activity }
             }
         """ ] .
 
