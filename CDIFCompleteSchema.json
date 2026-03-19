@@ -108,6 +108,20 @@
             "description": "Distribution options for the dataset.",
             "type": "array",
             "items": {
+                "if": {
+                    "properties": {
+                        "@type": {
+                            "contains": {
+                                "const": "schema:DataDownload"
+                            }
+                        }
+                    }
+                },
+                "then": {
+                    "required": [
+                        "schema:contentUrl"
+                    ]
+                },
                 "anyOf": [
                     {
                         "$ref": "#/$defs/dataDownload_type"

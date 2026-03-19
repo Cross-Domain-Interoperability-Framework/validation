@@ -105,6 +105,20 @@
             "description": "Distribution options for the dataset.",
             "type": "array",
             "items": {
+                "if": {
+                    "properties": {
+                        "@type": {
+                            "contains": {
+                                "const": "schema:DataDownload"
+                            }
+                        }
+                    }
+                },
+                "then": {
+                    "required": [
+                        "schema:contentUrl"
+                    ]
+                },
                 "anyOf": [
                     {
                         "description": "schema to document file-based access to a resoruce via URL, based on schema.org/DataDownload",
