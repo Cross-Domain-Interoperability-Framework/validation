@@ -4,9 +4,126 @@
     "description": "JSON schema for validating framed JSON-LD documents that describe science datasets for the CDIF discovery profile. Combines cdifCore and cdifOptional building blocks with @type enum constraint. Generated from CDIFDiscovery building block profile resolvedSchema.json (https://usgin.github.io/metadataBuildingBlocks/_sources/profiles/cdifProfiles/CDIFDiscovery/resolvedSchema.json).",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "properties": {
+        "schema:subjectOf": {
+            "properties": {
+                "dcterms:conformsTo": {
+                    "contains": {
+                        "type": "object",
+                        "properties": {
+                            "@id": {
+                                "const": "https://w3id.org/cdif/discovery/1.0/"
+                            }
+                        }
+                    },
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "@id": {
+                                "type": "string",
+                                "description": "uri for specifications that this metadata record conforms to"
+                            }
+                        }
+                    },
+                    "minItems": 1,
+                    "description": "uri for specifications that this metadata record conforms to. Minimimally should specify uri for CDIF discovery profile."
+                },
+                "@type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "schema:Dataset"
+                    },
+                    "minItems": 1
+                },
+                "schema:additionalType": {
+                    "type": "array",
+                    "description": "additional type assertions for the catalog record node. dcat:CatalogRecord is required.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "dcat:CatalogRecord"
+                    },
+                    "minItems": 1
+                },
+                "@id": {
+                    "type": "string",
+                    "description": "identifier for the metadata record"
+                },
+                "schema:about": {
+                    "type": "object",
+                    "properties": {
+                        "@id": {
+                            "type": "string",
+                            "description": "this must be the @id value of the node containing the resource description metadata"
+                        }
+                    }
+                },
+                "schema:maintainer": {
+                    "description": "iSamples Registrant. identification of the agent that registered the sample, with contact information. Should include person name and affiliation, or position name and affiliation, or just organization name. e-mail address is preferred contact information.",
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/person_type"
+                        },
+                        {
+                            "$ref": "#/$defs/organization_type"
+                        }
+                    ]
+                },
+                "schema:sdDatePublished": {
+                    "description": "date of most recent update to the metadata content, extends iSamples schema",
+                    "type": "string",
+                    "format": "date"
+                },
+                "schema:includedInDataCatalog": {
+                    "type": "object",
+                    "description": "identify the data collection or repository that contains the described dataset. The value is expected to be a schema:DataCatalog",
+                    "properties": {
+                        "@id": {
+                            "type": "string",
+                            "description": "identifier for the containing catalog or repository; example data at https://github.com/ESIPFed/science-on-schema.org/blob/develop/guides/Dataset.md#catalog puts identifier here"
+                        },
+                        "@type": {
+                            "default": "schema:DataCatalog",
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "contains": {
+                                "const": "schema:DataCatalog"
+                            },
+                            "minItems": 1
+                        },
+                        "schema:name": {
+                            "type": "string"
+                        },
+                        "schema:url": {
+                            "type": "string",
+                            "format": "uri",
+                            "description": "locator to access a landing page for the collection or catalog"
+                        },
+                        "schema:identifier": {
+                            "$ref": "#/$defs/propertyValue_type"
+                        }
+                    }
+                }
+            },
+            "type": "object",
+            "description": "see https://github.com/Cross-Domain-Interoperability-Framework/Discovery/issues/13 for discussion on how to make assertion about the sample registration and metadata distinct from statements about the physical object",
+            "required": [
+                "schema:about",
+                "dcterms:conformsTo",
+                "schema:additionalType",
+                "@type",
+                "@id"
+            ]
+        },
         "@context": {
             "type": "object",
-            "description": "Additional JSON-LD namespace prefixes used by optional CDIF properties.",
+            "description": "Additional JSON-LD namespace prefixes for discovery properties.",
             "properties": {
                 "schema": {
                     "const": "http://schema.org/"
@@ -20,11 +137,11 @@
                 "dcat": {
                     "const": "http://www.w3.org/ns/dcat#"
                 },
-                "geosparql": {
-                    "const": "http://www.opengis.net/ont/geosparql#"
-                },
                 "prov": {
                     "const": "http://www.w3.org/ns/prov#"
+                },
+                "geosparql": {
+                    "const": "http://www.opengis.net/ont/geosparql#"
                 },
                 "dqv": {
                     "const": "http://www.w3.org/ns/dqv#"
@@ -36,7 +153,8 @@
             "required": [
                 "schema",
                 "dcterms",
-                "dcat"
+                "dcat",
+                "prov"
             ]
         },
         "@id": {
@@ -73,12 +191,47 @@
             "type": "string",
             "description": "A descriptive name of a dataset (e.g., 'Snow depth in Northern Hemisphere'). The name should uniquely identify the described resource for human use, in the scope of the metadata catalog containing this metadata record."
         },
+        "schema:description": {
+            "type": "string",
+            "description": "A short summary describing a dataset. This text will be indexed by search applications, so the more information here, the better."
+        },
         "schema:identifier": {
-            "$ref": "#/$defs/identifier_type"
+            "$ref": "#/$defs/maintainer_identifier_type"
+        },
+        "schema:additionalType": {
+            "description": "identifiers for datatypes from other vocabularies (not schema.org) that apply to this metadata.",
+            "type": "array",
+            "minItems": 0,
+            "items": {
+                "$ref": "#/$defs/additionalType_type_2"
+            }
+        },
+        "schema:sameAs": {
+            "description": "Other identifiers for the dataset, as IRI references, literal strings, or structured identifiers using schema:PropertyValue.",
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "$ref": "#/$defs/sameAs_type"
+            }
+        },
+        "schema:version": {
+            "type": [
+                "string",
+                "number"
+            ],
+            "description": "The version number or identifier for this dataset (text or numeric). The values should sort from oldest to newest using an alphanumeric sort on version strings"
+        },
+        "schema:inLanguage": {
+            "type": "string",
+            "description": "the language of the dataset content"
         },
         "schema:dateModified": {
             "type": "string",
             "description": "ISO8601 formatted date (and optional time if relevant) when Dataset was last updated"
+        },
+        "schema:datePublished": {
+            "type": "string",
+            "description": "ISO8601 formatted date (and optional time if relevant) when Dataset was made public."
         },
         "schema:conditionsOfAccess": {
             "description": "text statement of conditions for use and access; if an online resource documents the restrictions or a URI is used to identify the conditions, recommend using schema:CreativeWork to provide a label (name) and an identifier (URI or URL). ",
@@ -102,23 +255,9 @@
             "description": "Web Location of a page describing the dataset (landing page), typically providing links or instructions to get the actual resource content; analogous to dcat:accessURL. If a direct link is available to get the data, put in distribution/contentUrl"
         },
         "schema:distribution": {
-            "description": "Distribution options for the dataset.",
+            "description": "specifies how to download the data in a specific format or access via a web API. This property describes where to get the data and in what format by using the schema:DataDownload type. If user must access data through a landing page, provide link to landing page in the 'url' property for the dataset",
             "type": "array",
             "items": {
-                "if": {
-                    "properties": {
-                        "@type": {
-                            "contains": {
-                                "const": "schema:DataDownload"
-                            }
-                        }
-                    }
-                },
-                "then": {
-                    "required": [
-                        "schema:contentUrl"
-                    ]
-                },
                 "anyOf": [
                     {
                         "description": "schema to document file-based access to a resoruce via URL, based on schema.org/DataDownload",
@@ -161,21 +300,14 @@
                                 "description": "A string value calculated from the content of the resource representation, used to test if content has been modified. The checksum is a property of a particular distribution/DataDownload.",
                                 "properties": {
                                     "@type": {
-                                        "anyOf": [
-                                            {
-                                                "type": "string",
-                                                "const": "spdx:Checksum"
-                                            },
-                                            {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "string"
-                                                },
-                                                "contains": {
-                                                    "const": "spdx:Checksum"
-                                                }
-                                            }
-                                        ]
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "contains": {
+                                            "const": "spdx:Checksum"
+                                        },
+                                        "minItems": 1
                                     },
                                     "spdx:algorithm": {
                                         "type": "string"
@@ -231,7 +363,7 @@
                                 "minItems": 1
                             },
                             "schema:serviceType": {
-                                "$ref": "#/$defs/nameOrDefinedTerm_type"
+                                "$ref": "#/$defs/additionalType_type_2"
                             },
                             "schema:termsOfService": {
                                 "description": "Description of access privileges required to use the API, e.g. registration, licensing, payments. Note that access constraints applying to all distributions of the resource should be specified in the access constraints for the resource description as a whole.",
@@ -267,49 +399,28 @@
                                         "@type": {
                                             "description": "The type of action. Must be schema:Action or one of its subtypes.",
                                             "default": "schema:Action",
-                                            "anyOf": [
-                                                {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "schema:Action",
-                                                        "schema:AssessAction",
-                                                        "schema:ConsumeAction",
-                                                        "schema:ControlAction",
-                                                        "schema:CreateAction",
-                                                        "schema:DeleteAction",
-                                                        "schema:FindAction",
-                                                        "schema:InteractAction",
-                                                        "schema:MoveAction",
-                                                        "schema:PlayAction",
-                                                        "schema:SearchAction",
-                                                        "schema:TransferAction",
-                                                        "schema:UpdateAction"
-                                                    ]
-                                                },
-                                                {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    },
-                                                    "contains": {
-                                                        "enum": [
-                                                            "schema:Action",
-                                                            "schema:AssessAction",
-                                                            "schema:ConsumeAction",
-                                                            "schema:ControlAction",
-                                                            "schema:CreateAction",
-                                                            "schema:DeleteAction",
-                                                            "schema:FindAction",
-                                                            "schema:InteractAction",
-                                                            "schema:MoveAction",
-                                                            "schema:PlayAction",
-                                                            "schema:SearchAction",
-                                                            "schema:TransferAction",
-                                                            "schema:UpdateAction"
-                                                        ]
-                                                    }
-                                                }
-                                            ]
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "contains": {
+                                                "enum": [
+                                                    "schema:Action",
+                                                    "schema:AssessAction",
+                                                    "schema:ConsumeAction",
+                                                    "schema:ControlAction",
+                                                    "schema:CreateAction",
+                                                    "schema:DeleteAction",
+                                                    "schema:FindAction",
+                                                    "schema:InteractAction",
+                                                    "schema:MoveAction",
+                                                    "schema:PlayAction",
+                                                    "schema:SearchAction",
+                                                    "schema:TransferAction",
+                                                    "schema:UpdateAction"
+                                                ]
+                                            },
+                                            "minItems": 1
                                         },
                                         "schema:name": {
                                             "type": "string",
@@ -321,21 +432,14 @@
                                             "properties": {
                                                 "@type": {
                                                     "default": "schema:EntryPoint",
-                                                    "anyOf": [
-                                                        {
-                                                            "type": "string",
-                                                            "const": "schema:EntryPoint"
-                                                        },
-                                                        {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "type": "string"
-                                                            },
-                                                            "contains": {
-                                                                "const": "schema:EntryPoint"
-                                                            }
-                                                        }
-                                                    ]
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    },
+                                                    "contains": {
+                                                        "const": "schema:EntryPoint"
+                                                    },
+                                                    "minItems": 1
                                                 },
                                                 "schema:description": {
                                                     "type": "string"
@@ -408,21 +512,14 @@
                                             "properties": {
                                                 "@type": {
                                                     "default": "schema:DataFeed",
-                                                    "anyOf": [
-                                                        {
-                                                            "type": "string",
-                                                            "const": "schema:DataFeed"
-                                                        },
-                                                        {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "type": "string"
-                                                            },
-                                                            "contains": {
-                                                                "const": "schema:DataFeed"
-                                                            }
-                                                        }
-                                                    ]
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    },
+                                                    "contains": {
+                                                        "const": "schema:DataFeed"
+                                                    },
+                                                    "minItems": 1
                                                 },
                                                 "schema:description": {
                                                     "type": "string"
@@ -454,21 +551,14 @@
                                                     },
                                                     "@type": {
                                                         "default": "schema:PropertyValueSpecification",
-                                                        "anyOf": [
-                                                            {
-                                                                "type": "string",
-                                                                "const": "schema:PropertyValueSpecification"
-                                                            },
-                                                            {
-                                                                "type": "array",
-                                                                "items": {
-                                                                    "type": "string"
-                                                                },
-                                                                "contains": {
-                                                                    "const": "schema:PropertyValueSpecification"
-                                                                }
-                                                            }
-                                                        ]
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        },
+                                                        "contains": {
+                                                            "const": "schema:PropertyValueSpecification"
+                                                        },
+                                                        "minItems": 1
                                                     },
                                                     "schema:valueName": {
                                                         "type": "string"
@@ -507,209 +597,6 @@
                 ]
             }
         },
-        "schema:subjectOf": {
-            "allOf": [
-                {
-                    "type": "object",
-                    "description": "see https://github.com/Cross-Domain-Interoperability-Framework/Discovery/issues/13 for discussion on how to make assertion about the sample registration and metadata distinct from statements about the physical object",
-                    "properties": {
-                        "@type": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
-                            "contains": {
-                                "const": "schema:Dataset"
-                            },
-                            "minItems": 1
-                        },
-                        "schema:additionalType": {
-                            "type": "array",
-                            "description": "additional type assertions for the catalog record node. dcat:CatalogRecord is required.",
-                            "items": {
-                                "type": "string"
-                            },
-                            "contains": {
-                                "const": "dcat:CatalogRecord"
-                            },
-                            "minItems": 1
-                        },
-                        "@id": {
-                            "type": "string",
-                            "description": "identifier for the metadata record"
-                        },
-                        "schema:about": {
-                            "type": "object",
-                            "properties": {
-                                "@id": {
-                                    "type": "string",
-                                    "description": "this must be the @id value of the node containing the resource description metadata"
-                                }
-                            }
-                        },
-                        "dcterms:conformsTo": {
-                            "type": "array",
-                            "items": {
-                                "type": "object",
-                                "properties": {
-                                    "@id": {
-                                        "type": "string",
-                                        "description": "uri for specifications that this metadata record conforms to"
-                                    }
-                                }
-                            },
-                            "minItems": 1,
-                            "description": "uri for specifications that this metadata record conforms to. Minimimally should specify uri for CDIF discovery profile."
-                        },
-                        "schema:maintainer": {
-                            "description": "iSamples Registrant. identification of the agent that registered the sample, with contact information. Should include person name and affiliation, or position name and affiliation, or just organization name. e-mail address is preferred contact information.",
-                            "anyOf": [
-                                {
-                                    "$ref": "#/$defs/person_type"
-                                },
-                                {
-                                    "$ref": "#/$defs/organization_type"
-                                }
-                            ]
-                        },
-                        "schema:sdDatePublished": {
-                            "description": "date of most recent update to the metadata content, extends iSamples schema",
-                            "type": "string",
-                            "format": "date"
-                        },
-                        "schema:includedInDataCatalog": {
-                            "type": "object",
-                            "description": "identify the data collection or repository that contains the described dataset. The value is expected to be a schema:DataCatalog",
-                            "properties": {
-                                "@id": {
-                                    "type": "string",
-                                    "description": "identifier for the containing catalog or repository; example data at https://github.com/ESIPFed/science-on-schema.org/blob/develop/guides/Dataset.md#catalog puts identifier here"
-                                },
-                                "@type": {
-                                    "default": "schema:DataCatalog",
-                                    "anyOf": [
-                                        {
-                                            "type": "string",
-                                            "const": "schema:DataCatalog"
-                                        },
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            },
-                                            "contains": {
-                                                "const": "schema:DataCatalog"
-                                            }
-                                        }
-                                    ]
-                                },
-                                "schema:name": {
-                                    "type": "string"
-                                },
-                                "schema:url": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "description": "locator to access a landing page for the collection or catalog"
-                                },
-                                "schema:identifier": {
-                                    "$ref": "#/$defs/propertyValue_type"
-                                }
-                            }
-                        }
-                    },
-                    "required": [
-                        "schema:about",
-                        "dcterms:conformsTo",
-                        "schema:additionalType",
-                        "@type",
-                        "@id"
-                    ]
-                },
-                {
-                    "properties": {
-                        "dcterms:conformsTo": {
-                            "type": "array",
-                            "items": {
-                                "type": "object",
-                                "properties": {
-                                    "@id": {
-                                        "type": "string",
-                                        "description": "uri for specifications that this metadata record conforms to"
-                                    }
-                                }
-                            },
-                            "minItems": 1,
-                            "contains": {
-                                "type": "object",
-                                "properties": {
-                                    "@id": {
-                                        "const": "https://w3id.org/cdif/core/1.0/"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            ],
-            "properties": {
-                "dcterms:conformsTo": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "@id": {
-                                "type": "string",
-                                "description": "uri for specifications that this metadata record conforms to"
-                            }
-                        }
-                    },
-                    "minItems": 1,
-                    "contains": {
-                        "type": "object",
-                        "properties": {
-                            "@id": {
-                                "const": "https://w3id.org/cdif/discovery/1.0/"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "schema:description": {
-            "type": "string",
-            "description": "A short summary describing a dataset. This text will be indexed by search applications, so the more information here, the better."
-        },
-        "schema:additionalType": {
-            "description": "identifiers for datatypes from other vocabularies (not schema.org) that apply to this metadata.",
-            "type": "array",
-            "minItems": 0,
-            "items": {
-                "$ref": "#/$defs/nameOrDefinedTerm_type"
-            }
-        },
-        "schema:sameAs": {
-            "description": "Other identifiers for the dataset, as IRI references, literal strings, or structured identifiers using schema:PropertyValue.",
-            "type": "array",
-            "minItems": 1,
-            "items": {
-                "$ref": "#/$defs/sameAs_type"
-            }
-        },
-        "schema:version": {
-            "type": [
-                "string",
-                "number"
-            ],
-            "description": "The version number or identifier for this dataset (text or numeric). The values should sort from oldest to newest using an alphanumeric sort on version strings"
-        },
-        "schema:inLanguage": {
-            "type": "string",
-            "description": "the language of the dataset content"
-        },
-        "schema:datePublished": {
-            "type": "string",
-            "description": "ISO8601 formatted date (and optional time if relevant) when Dataset was made public."
-        },
         "schema:relatedLink": {
             "type": "array",
             "description": "links to related resources; linkRelationship specifies how the resource is related.",
@@ -717,21 +604,14 @@
                 "type": "object",
                 "properties": {
                     "@type": {
-                        "anyOf": [
-                            {
-                                "type": "string",
-                                "const": "schema:LinkRole"
-                            },
-                            {
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                },
-                                "contains": {
-                                    "const": "schema:LinkRole"
-                                }
-                            }
-                        ]
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "contains": {
+                            "const": "schema:LinkRole"
+                        },
+                        "minItems": 1
                     },
                     "schema:linkRelationship": {
                         "$ref": "#/$defs/nameOrDefinedTerm_type"
@@ -740,21 +620,14 @@
                         "type": "object",
                         "properties": {
                             "@type": {
-                                "anyOf": [
-                                    {
-                                        "type": "string",
-                                        "const": "schema:EntryPoint"
-                                    },
-                                    {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "string"
-                                        },
-                                        "contains": {
-                                            "const": "schema:EntryPoint"
-                                        }
-                                    }
-                                ]
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "contains": {
+                                    "const": "schema:EntryPoint"
+                                },
+                                "minItems": 1
                             },
                             "schema:encodingFormat": {
                                 "type": "string",
@@ -779,23 +652,6 @@
             "items": {
                 "$ref": "#/$defs/nameOrReference_type"
             }
-        },
-        "schema:measurementTechnique": {
-            "description": "The technique, technology, or methodology used for measurement or determination of the dataset values. Can be a string, a URI reference, a DefinedTerm, or an array combining these.",
-            "anyOf": [
-                {
-                    "type": "string"
-                },
-                {
-                    "$ref": "#/$defs/definedTerm_type"
-                },
-                {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/$defs/nameOrDefinedTerm_type"
-                    }
-                }
-            ]
         },
         "schema:keywords": {
             "description": "Keywords are an array of strings, an array of schema:DefinedTerms, or some combination of these. If you have information about a controlled vocabulary from which keywords come from, use schema:DefinedTerm to descibe that keyword. This allowed variability makes parsing metadata hard; recommend using DefinedTerm for all keywords if any of them are from a known vocabulary, otherwise an array of strings.",
@@ -845,24 +701,17 @@
                         "properties": {
                             "@type": {
                                 "default": "schema:Role",
-                                "anyOf": [
-                                    {
-                                        "type": "string",
-                                        "const": "schema:Role"
-                                    },
-                                    {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "string"
-                                        },
-                                        "contains": {
-                                            "const": "schema:Role"
-                                        }
-                                    }
-                                ]
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "contains": {
+                                    "const": "schema:Role"
+                                },
+                                "minItems": 1
                             },
                             "schema:roleName": {
-                                "$ref": "#/$defs/nameOrDefinedTerm_type"
+                                "$ref": "#/$defs/additionalType_type_2"
                             },
                             "schema:contributor": {
                                 "$ref": "#/$defs/provider_type"
@@ -898,21 +747,14 @@
                     },
                     "@type": {
                         "default": "schema:MonetaryGrant",
-                        "anyOf": [
-                            {
-                                "type": "string",
-                                "const": "schema:MonetaryGrant"
-                            },
-                            {
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                },
-                                "contains": {
-                                    "const": "schema:MonetaryGrant"
-                                }
-                            }
-                        ]
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "contains": {
+                            "const": "schema:MonetaryGrant"
+                        },
+                        "minItems": 1
                     },
                     "schema:identifier": {
                         "$ref": "#/$defs/propertyValue_type"
@@ -947,6 +789,69 @@
                     }
                 ]
             }
+        },
+        "prov:wasGeneratedBy": {
+            "description": "Brief information about instruments, software or experimental protocols used",
+            "type": "array",
+            "items": {
+                "title": "very simple links or names of software or instruments used to generate a resource.",
+                "type": "object",
+                "properties": {
+                    "@type": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "minItems": 1,
+                        "contains": {
+                            "const": "prov:Activity"
+                        }
+                    },
+                    "prov:used": {
+                        "type": "array",
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "@id": {
+                                            "type": "string",
+                                            "description": "a resolvable reference to a representation of the software or instrument used"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "prov:wasDerivedFrom": {
+            "description": "Brief information about sources of data used in aggregate datasets",
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/nameOrReference_type"
+            }
+        },
+        "schema:measurementTechnique": {
+            "description": "The technique, technology, or methodology used for measurement or determination of the dataset values.",
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "$ref": "#/$defs/definedTerm_type"
+                },
+                {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/additionalType_type_2"
+                    }
+                }
+            ]
         },
         "schema:variableMeasured": {
             "description": "What does the dataset measure? (e.g., temperature, pressure)",
@@ -1001,21 +906,14 @@
                                         "description": "reference to a skos concept for the property"
                                     },
                                     "@type": {
-                                        "anyOf": [
-                                            {
-                                                "type": "string",
-                                                "const": "schema:Property"
-                                            },
-                                            {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "string"
-                                                },
-                                                "contains": {
-                                                    "const": "schema:Property"
-                                                }
-                                            }
-                                        ]
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "contains": {
+                                            "const": "schema:Property"
+                                        },
+                                        "minItems": 1
                                     },
                                     "schema:name": {
                                         "$ref": "#/$defs/nameOrDefinedTerm_type"
@@ -1033,7 +931,7 @@
             }
         },
         "schema:spatialCoverage": {
-            "description": "To specify location that is the subject of resource content; use schema.org place names, bounding box, point or optional OGC WKT gemetry.",
+            "description": "Geographic extent of resource content.",
             "type": "array",
             "items": {
                 "description": "Spatial Extent description for CDIF discovery profile.  Note required prefix declaration for geoSparql ( http://www.opengis.net/ont/geosparql#) and OGC simple features (sf: http://www.opengis.net/ont/sf#)",
@@ -1041,27 +939,20 @@
                 "properties": {
                     "@type": {
                         "default": "schema:Place",
-                        "anyOf": [
-                            {
-                                "type": "string",
-                                "const": "schema:Place"
-                            },
-                            {
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                },
-                                "contains": {
-                                    "const": "schema:Place"
-                                }
-                            }
-                        ]
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "contains": {
+                            "const": "schema:Place"
+                        },
+                        "minItems": 1
                     },
                     "schema:name": {
                         "description": "multiple place names or DefinedTerms that have a place name and URI for the location",
                         "type": "array",
                         "items": {
-                            "$ref": "#/$defs/nameOrDefinedTerm_type"
+                            "$ref": "#/$defs/additionalType_type_2"
                         }
                     },
                     "schema:geo": {
@@ -1073,21 +964,14 @@
                                 "properties": {
                                     "@type": {
                                         "default": "schema:GeoCoordinates",
-                                        "anyOf": [
-                                            {
-                                                "type": "string",
-                                                "const": "schema:GeoCoordinates"
-                                            },
-                                            {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "string"
-                                                },
-                                                "contains": {
-                                                    "const": "schema:GeoCoordinates"
-                                                }
-                                            }
-                                        ]
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "contains": {
+                                            "const": "schema:GeoCoordinates"
+                                        },
+                                        "minItems": 1
                                     },
                                     "schema:latitude": {
                                         "type": "number",
@@ -1112,21 +996,14 @@
                                 "properties": {
                                     "@type": {
                                         "default": "schema:GeoShape",
-                                        "anyOf": [
-                                            {
-                                                "type": "string",
-                                                "const": "schema:GeoShape"
-                                            },
-                                            {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "string"
-                                                },
-                                                "contains": {
-                                                    "const": "schema:GeoShape"
-                                                }
-                                            }
-                                        ]
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "contains": {
+                                            "const": "schema:GeoShape"
+                                        },
+                                        "minItems": 1
                                     },
                                     "schema:box": {
                                         "type": "string",
@@ -1144,21 +1021,14 @@
                                 "properties": {
                                     "@type": {
                                         "default": "schema:GeoShape",
-                                        "anyOf": [
-                                            {
-                                                "type": "string",
-                                                "const": "schema:GeoShape"
-                                            },
-                                            {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "string"
-                                                },
-                                                "contains": {
-                                                    "const": "schema:GeoShape"
-                                                }
-                                            }
-                                        ]
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "contains": {
+                                            "const": "schema:GeoShape"
+                                        },
+                                        "minItems": 1
                                     },
                                     "schema:line": {
                                         "type": "string",
@@ -1177,38 +1047,25 @@
                         "description": "Optional geographic extent using wkt geometry, see Ocean InfoHub (https://book.oceaninfohub.org/thematics/spatial/README.html#simple-geosparql-wkt). Other geometry schemes might be specified in a specific domain profile, e.g. for atmospheric, subsurface data, or local coordinate systems. NOTE that the location specified here should be the same as the schema.org point or contained within the specified bounding box.",
                         "properties": {
                             "@type": {
-                                "anyOf": [
-                                    {
-                                        "type": "string"
-                                    },
-                                    {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "string"
-                                        }
-                                    }
-                                ],
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "minItems": 1,
                                 "description": "MUST be sf: (<http://www.opengis.net/ont/sf#>) SimpleFeature geometry type. See https://opengeospatial.github.io/ogc-geosparql/geosparql11/sf_geometries.ttl"
                             },
                             "geosparql:asWKT": {
                                 "type": "object",
                                 "properties": {
                                     "@type": {
-                                        "anyOf": [
-                                            {
-                                                "type": "string",
-                                                "const": "geosparql:wktLiteral"
-                                            },
-                                            {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "string"
-                                                },
-                                                "contains": {
-                                                    "const": "geosparql:wktLiteral"
-                                                }
-                                            }
-                                        ]
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "contains": {
+                                            "const": "geosparql:wktLiteral"
+                                        },
+                                        "minItems": 1
                                     },
                                     "@value": {
                                         "type": "string",
@@ -1231,7 +1088,7 @@
             }
         },
         "schema:temporalCoverage": {
-            "description": "The time interval during which data was collected or observations were made; or a time period that an activity or collection is linked to intellectually or thematically (for example, 1997 to 1998; the 18th century) (see https://documentation.ardc.edu.au/display/DOC/Temporal+coverage). For documentation of Earth Science, Paleobiology or Paleontology datasets, we are interested in the second case-- the time period that data are linked to thematically.",
+            "description": "Temporal extent of resource content.",
             "type": "array",
             "items": {
                 "description": "The time interval during which data was collected or observations were made; or a time period that an activity or collection is linked to intellectually or thematically (for example, 1997 to 1998; the 18th century) (see https://documentation.ardc.edu.au/display/DOC/Temporal+coverage). For documentation of Earth Science, Paleobiology or Paleontology datasets, we are interested in the second case-- the time period that data are linked to thematically. NOTE-- context must include \"time\": \"http://www.w3.org/2006/time#\"}",
@@ -1242,21 +1099,14 @@
                         "properties": {
                             "@type": {
                                 "default": "time:ProperInterval",
-                                "anyOf": [
-                                    {
-                                        "type": "string",
-                                        "const": "time:ProperInterval"
-                                    },
-                                    {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "string"
-                                        },
-                                        "contains": {
-                                            "const": "time:ProperInterval"
-                                        }
-                                    }
-                                ]
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "contains": {
+                                    "const": "time:ProperInterval"
+                                },
+                                "minItems": 1
                             },
                             "schema:description": {
                                 "type": "string",
@@ -1299,21 +1149,14 @@
                             },
                             "@type": {
                                 "default": "time:ProperInterval",
-                                "anyOf": [
-                                    {
-                                        "type": "string",
-                                        "const": "time:ProperInterval"
-                                    },
-                                    {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "string"
-                                        },
-                                        "contains": {
-                                            "const": "time:ProperInterval"
-                                        }
-                                    }
-                                ]
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "contains": {
+                                    "const": "time:ProperInterval"
+                                },
+                                "minItems": 1
                             },
                             "schema:description": {
                                 "type": "string",
@@ -1334,11 +1177,11 @@
                 ]
             }
         },
-        "prov:wasGeneratedBy": {
-            "description": "Brief information about instruments, software or experimental protocols used",
+        "dqv:hasQualityMeasurement": {
+            "description": "Quality measurements reported to assess the resource.",
             "type": "array",
             "items": {
-                "title": "very simple links or names of software or instruments used to generate a resource.",
+                "title": "definitions for simple quality measure property",
                 "type": "object",
                 "properties": {
                     "@type": {
@@ -1346,69 +1189,16 @@
                         "items": {
                             "type": "string"
                         },
-                        "minItems": 1,
                         "contains": {
-                            "const": "prov:Activity"
-                        }
-                    },
-                    "prov:used": {
-                        "type": "array",
-                        "items": {
-                            "anyOf": [
-                                {
-                                    "type": "string"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "@id": {
-                                            "type": "string",
-                                            "description": "a resolvable reference to a representation of the software or instrument used"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "prov:wasDerivedFrom": {
-            "description": "Brief information about sources of data used in aggregate datasets",
-            "type": "array",
-            "items": {
-                "$ref": "#/$defs/nameOrReference_type"
-            }
-        },
-        "dqv:hasQualityMeasurement": {
-            "description": "Brief information quality measurements reported to assess the resource",
-            "type": "array",
-            "items": {
-                "title": "definitions for simple quality measure property",
-                "type": "object",
-                "properties": {
-                    "@type": {
-                        "anyOf": [
-                            {
-                                "type": "string",
-                                "const": "dqv:QualityMeasurement"
-                            },
-                            {
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                },
-                                "contains": {
-                                    "const": "dqv:QualityMeasurement"
-                                }
-                            }
-                        ]
+                            "const": "dqv:QualityMeasurement"
+                        },
+                        "minItems": 1
                     },
                     "dqv:isMeasurementOf": {
                         "$ref": "#/$defs/nameOrDefinedTerm_type"
                     },
                     "dqv:value": {
-                        "$ref": "#/$defs/nameOrDefinedTerm_type"
+                        "$ref": "#/$defs/additionalType_type_2"
                     }
                 },
                 "required": [
@@ -1460,27 +1250,30 @@
         }
     ],
     "$defs": {
+        "additionalType_type_2": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "$ref": "#/$defs/definedTerm_type"
+                }
+            ]
+        },
         "creativeWork_type": {
             "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
             "type": "object",
             "properties": {
                 "@type": {
                     "default": "schema:CreativeWork",
-                    "anyOf": [
-                        {
-                            "type": "string",
-                            "const": "schema:CreativeWork"
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
-                            "contains": {
-                                "const": "schema:CreativeWork"
-                            }
-                        }
-                    ]
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "schema:CreativeWork"
+                    },
+                    "minItems": 1
                 },
                 "schema:name": {
                     "type": "string"
@@ -1503,21 +1296,14 @@
             "type": "object",
             "properties": {
                 "@type": {
-                    "anyOf": [
-                        {
-                            "type": "string",
-                            "const": "schema:DefinedTerm"
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
-                            "contains": {
-                                "const": "schema:DefinedTerm"
-                            }
-                        }
-                    ]
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "schema:DefinedTerm"
+                    },
+                    "minItems": 1
                 },
                 "schema:name": {
                     "type": "string",
@@ -1569,56 +1355,32 @@
                 }
             ]
         },
-        "identifier_type": {
-            "anyOf": [
-                {
-                    "type": "string"
-                },
-                {
-                    "$ref": "#/$defs/propertyValue_type"
-                }
-            ]
-        },
         "instant_type": {
             "type": "object",
             "properties": {
                 "@type": {
-                    "anyOf": [
-                        {
-                            "type": "string",
-                            "const": "time:Instant"
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
-                            "contains": {
-                                "const": "time:Instant"
-                            }
-                        }
-                    ]
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "time:Instant"
+                    },
+                    "minItems": 1
                 },
                 "time:inTimePosition": {
                     "type": "object",
                     "properties": {
                         "@type": {
                             "default": "time:TimePosition",
-                            "anyOf": [
-                                {
-                                    "type": "string",
-                                    "const": "time:TimePosition"
-                                },
-                                {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string"
-                                    },
-                                    "contains": {
-                                        "const": "time:TimePosition"
-                                    }
-                                }
-                            ]
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "contains": {
+                                "const": "time:TimePosition"
+                            },
+                            "minItems": 1
                         },
                         "time:hasTRS": {
                             "type": "string",
@@ -1631,6 +1393,17 @@
                     }
                 }
             }
+        },
+        "maintainer_identifier_type": {
+            "description": "identifier for person, recommend ORCID",
+            "anyOf": [
+                {
+                    "$ref": "#/$defs/propertyValue_type"
+                },
+                {
+                    "type": "string"
+                }
+            ]
         },
         "nameOrDefinedTerm_type": {
             "anyOf": [
@@ -1737,21 +1510,14 @@
                 },
                 "@type": {
                     "default": "schema:Organization",
-                    "anyOf": [
-                        {
-                            "type": "string",
-                            "const": "schema:Organization"
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
-                            "contains": {
-                                "const": "schema:Organization"
-                            }
-                        }
-                    ]
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "schema:Organization"
+                    },
+                    "minItems": 1
                 },
                 "schema:additionalType": {
                     "type": "array",
@@ -1792,7 +1558,7 @@
                     "type": "string"
                 },
                 "schema:identifier": {
-                    "$ref": "#/$defs/identifier_type"
+                    "$ref": "#/$defs/maintainer_identifier_type"
                 },
                 "schema:sameAs": {
                     "type": "array",
@@ -1833,21 +1599,14 @@
                     "type": "string"
                 },
                 "@type": {
-                    "anyOf": [
-                        {
-                            "type": "string",
-                            "const": "schema:Person"
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
-                            "contains": {
-                                "const": "schema:Person"
-                            }
-                        }
-                    ]
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "schema:Person"
+                    },
+                    "minItems": 1
                 },
                 "schema:name": {
                     "type": "string",
@@ -1857,7 +1616,7 @@
                     "type": "string"
                 },
                 "schema:identifier": {
-                    "$ref": "#/$defs/identifier_type"
+                    "$ref": "#/$defs/maintainer_identifier_type"
                 },
                 "schema:alternateName": {
                     "type": "string",
@@ -1871,21 +1630,14 @@
                     "properties": {
                         "@type": {
                             "default": "schema:ContactPoint",
-                            "anyOf": [
-                                {
-                                    "type": "string",
-                                    "const": "schema:ContactPoint"
-                                },
-                                {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string"
-                                    },
-                                    "contains": {
-                                        "const": "schema:ContactPoint"
-                                    }
-                                }
-                            ]
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "contains": {
+                                "const": "schema:ContactPoint"
+                            },
+                            "minItems": 1
                         },
                         "schema:email": {
                             "type": "string"
@@ -1928,21 +1680,14 @@
             "type": "object",
             "properties": {
                 "@type": {
-                    "anyOf": [
-                        {
-                            "type": "string",
-                            "const": "schema:PropertyValue"
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
-                            "contains": {
-                                "const": "schema:PropertyValue"
-                            }
-                        }
-                    ]
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "schema:PropertyValue"
+                    },
+                    "minItems": 1
                 },
                 "schema:propertyID": {
                     "type": "string",
