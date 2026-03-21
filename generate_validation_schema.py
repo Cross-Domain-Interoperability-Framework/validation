@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """Generate framed-tree validation schema from a building block profile resolved schema.
 
-Takes a resolved profile schema (e.g., CDIFDiscovery/resolvedSchema.json) and produces
+Takes a resolved profile schema (e.g., CDIFDiscoveryProfile/resolvedSchema.json) and produces
 a compact, self-contained JSON Schema with $defs for repeated sub-schemas.
 
 Usage:
     python generate_validation_schema.py <resolved_schema> [-o output.json] [-v]
 
 Example:
-    python generate_validation_schema.py path/to/CDIFDiscovery/resolvedSchema.json -o CDIFDiscoverySchema.json
-    python generate_validation_schema.py path/to/CDIFcomplete/resolvedSchema.json -o CDIFCompleteSchema.json
+    python generate_validation_schema.py path/to/CDIFDiscoveryProfile/resolvedSchema.json -o CDIFDiscoverySchema.json
+    python generate_validation_schema.py path/to/CDIFcompleteProfile/resolvedSchema.json -o CDIFCompleteSchema.json
 """
 
 import argparse
@@ -718,7 +718,7 @@ def main():
     )
     parser.add_argument(
         "resolved_schema", type=Path,
-        help="Path to resolved profile schema (e.g., CDIFDiscovery/resolvedSchema.json)",
+        help="Path to resolved profile schema (e.g., CDIFDiscoveryProfile/resolvedSchema.json)",
     )
     parser.add_argument("-o", "--output", type=Path, help="Output file (default: stdout)")
     parser.add_argument("-t", "--title", help="Schema title (overrides source title)")

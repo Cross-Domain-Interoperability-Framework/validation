@@ -8,8 +8,8 @@ and produces a single merged Turtle file with unified prefixes and
 priority-based conflict resolution.
 
 Supports two profiles:
-  - discovery (default): CDIFDiscovery profile shapes
-  - complete: CDIFcomplete profile (discovery + data description + provenance)
+  - discovery (default): CDIFDiscoveryProfile shapes
+  - complete: CDIFcompleteProfile (discovery + data description + provenance)
 
 Usage:
     python generate_shacl_shapes.py [--profile PROFILE] [--bb-dir PATH] [--output PATH] [-v]
@@ -43,7 +43,7 @@ CDI = Namespace("http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/")
 SOSO = Namespace("http://science-on-schema.org/1.2.3/validation/shacl#")
 
 # ---------------------------------------------------------------------------
-# CDIFDiscovery profile building blocks, ordered by merge priority.
+# CDIFDiscoveryProfile building blocks, ordered by merge priority.
 # Highest priority first: sub-building blocks define authoritative shapes;
 # composites and profile-level copies are lower priority.
 #
@@ -76,15 +76,14 @@ CDIF_DISCOVERY_BLOCKS = [
     # --- CDIF composite building blocks ---
     "cdifProperties/cdifCatalogRecord",
     # --- CDIF aggregate building blocks ---
-    "cdifProperties/cdifMandatory",
-    "cdifProperties/cdifOptional",
+    "cdifProperties/cdifCore",
     # --- Profile level (lowest priority -- shapes here are copies) ---
-    "profiles/cdifProfiles/CDIFDiscovery",
+    "profiles/cdifProfiles/CDIFDiscoveryProfile",
 ]
 
 # ---------------------------------------------------------------------------
-# CDIFcomplete profile building blocks.
-# Includes everything from CDIFDiscovery plus provenance activity shapes
+# CDIFcompleteProfile building blocks.
+# Includes everything from CDIFDiscoveryProfile plus provenance activity shapes
 # (cdifProv and provActivity), data description, physical mapping, and
 # long data building blocks.  cdifVariableMeasured adds the enhanced
 # propertyID validation beyond the base variableMeasured shapes.
@@ -115,7 +114,7 @@ CDIF_COMPLETE_BLOCKS = [
     # --- CDIF composite building blocks ---
     "cdifProperties/cdifCatalogRecord",
     "cdifProperties/cdifProv",
-    # --- Data description building blocks (CDIFcomplete additions) ---
+    # --- Data description building blocks (CDIFcompleteProfile additions) ---
     "cdifProperties/cdifVariableMeasured",
     "cdifProperties/cdifPhysicalMapping",
     "cdifProperties/cdifDataCube",
@@ -124,12 +123,11 @@ CDIF_COMPLETE_BLOCKS = [
     "cdifProperties/cdifArchiveDistribution",
     "cdifProperties/cdifDataDescription",
     # --- CDIF aggregate building blocks ---
-    "cdifProperties/cdifMandatory",
-    "cdifProperties/cdifOptional",
+    "cdifProperties/cdifCore",
     # --- Profile level (lowest priority -- shapes here are copies) ---
-    "profiles/cdifProfiles/CDIFDiscovery",
-    "profiles/cdifProfiles/CDIFDataDescription",
-    "profiles/cdifProfiles/CDIFcomplete",
+    "profiles/cdifProfiles/CDIFDiscoveryProfile",
+    "profiles/cdifProfiles/CDIFDataDescriptionProfile",
+    "profiles/cdifProfiles/CDIFcompleteProfile",
 ]
 
 PROFILES = {
