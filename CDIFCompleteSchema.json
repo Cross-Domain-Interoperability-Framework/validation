@@ -11,7 +11,7 @@
                         "type": "object",
                         "properties": {
                             "@id": {
-                                "const": "https://w3id.org/cdif/discovery/1.0/"
+                                "const": "https://w3id.org/cdif/provenance/1.0/"
                             }
                         }
                     },
@@ -26,7 +26,49 @@
                         }
                     },
                     "minItems": 1,
-                    "description": "uri for specifications that this metadata record conforms to. Minimimally should specify uri for CDIF discovery profile."
+                    "description": "uri for specifications that this metadata record conforms to. Minimimally should specify uri for CDIF discovery profile.",
+                    "allOf": [
+                        {
+                            "contains": {
+                                "type": "object",
+                                "properties": {
+                                    "@id": {
+                                        "const": "https://w3id.org/cdif/discovery/1.0/"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "contains": {
+                                "type": "object",
+                                "properties": {
+                                    "@id": {
+                                        "const": "https://w3id.org/cdif/dataDescription/1.0/"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "contains": {
+                                "type": "object",
+                                "properties": {
+                                    "@id": {
+                                        "const": "https://w3id.org/cdif/manifest/1.0/"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "contains": {
+                                "type": "object",
+                                "properties": {
+                                    "@id": {
+                                        "const": "https://w3id.org/cdif/provenance/1.0/"
+                                    }
+                                }
+                            }
+                        }
+                    ]
                 },
                 "@type": {
                     "type": "array",
@@ -140,6 +182,9 @@
                 "prov": {
                     "const": "http://www.w3.org/ns/prov#"
                 },
+                "csvw": {
+                    "const": "http://www.w3.org/ns/csvw#"
+                },
                 "geosparql": {
                     "const": "http://www.opengis.net/ont/geosparql#"
                 },
@@ -148,9 +193,6 @@
                 },
                 "cdi": {
                     "const": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
-                },
-                "csvw": {
-                    "const": "http://www.w3.org/ns/csvw#"
                 }
             },
             "required": [
@@ -452,72 +494,7 @@
                                                 "schema:variableMeasured": {
                                                     "type": "array",
                                                     "items": {
-                                                        "description": "Schema.org PropertyValue-based variableMeasured. Defines properties for a measured variable in a dataset, typed as schema:PropertyValue.",
-                                                        "type": "object",
-                                                        "properties": {
-                                                            "@type": {
-                                                                "type": "array",
-                                                                "items": {
-                                                                    "type": "string"
-                                                                },
-                                                                "contains": {
-                                                                    "const": "schema:PropertyValue"
-                                                                },
-                                                                "minItems": 1
-                                                            },
-                                                            "@id": {
-                                                                "type": "string"
-                                                            },
-                                                            "schema:name": {
-                                                                "type": "string",
-                                                                "description": "string label associated with the variable in the dataset serialization"
-                                                            },
-                                                            "schema:description": {
-                                                                "type": "string",
-                                                                "default": "missing"
-                                                            },
-                                                            "schema:alternateName": {
-                                                                "type": "array",
-                                                                "items": {
-                                                                    "type": "string",
-                                                                    "description": "human intelligible name for variable that conveys semantics"
-                                                                }
-                                                            },
-                                                            "schema:measurementTechnique": {
-                                                                "$ref": "#/$defs/nameOrDefinedTerm_type"
-                                                            },
-                                                            "schema:propertyID": {
-                                                                "type": "array",
-                                                                "items": {
-                                                                    "$ref": "#/$defs/nameOrDefinedTerm_type"
-                                                                },
-                                                                "description": "identifier or name for the property concept"
-                                                            },
-                                                            "schema:unitText": {
-                                                                "type": "string",
-                                                                "description": "unit of measurement as text"
-                                                            },
-                                                            "schema:unitCode": {
-                                                                "$ref": "#/$defs/nameOrDefinedTerm_type"
-                                                            },
-                                                            "schema:minValue": {
-                                                                "type": "number",
-                                                                "description": "minimum numeric value in the dataset"
-                                                            },
-                                                            "schema:maxValue": {
-                                                                "type": "number",
-                                                                "description": "maximum numeric value in the dataset"
-                                                            },
-                                                            "schema:url": {
-                                                                "type": "string",
-                                                                "format": "uri",
-                                                                "description": "link to a web page useful for interpreting the variable"
-                                                            }
-                                                        },
-                                                        "required": [
-                                                            "@type",
-                                                            "schema:name"
-                                                        ]
+                                                        "$ref": "#/$defs/object_variableMeasured_type"
                                                     }
                                                 }
                                             }
@@ -701,218 +678,7 @@
                                                     ]
                                                 },
                                                 {
-                                                    "anyOf": [
-                                                        {
-                                                            "title": "Data Cube Type",
-                                                            "description": "Multi-dimensional data cube structure using DDI-CDI. Typed as ada:dataCube and cdi:StructuredDataSet per CDIF 2026 alignment.",
-                                                            "type": "object",
-                                                            "properties": {
-                                                                "@type": {
-                                                                    "type": "array",
-                                                                    "items": {
-                                                                        "type": "string"
-                                                                    },
-                                                                    "allOf": [
-                                                                        {
-                                                                            "contains": {
-                                                                                "const": "cdi:StructuredDataSet"
-                                                                            }
-                                                                        }
-                                                                    ]
-                                                                },
-                                                                "cdi:hasPhysicalMapping": {
-                                                                    "type": "array",
-                                                                    "description": "Links variables to their physical representation in this dataset.",
-                                                                    "items": {
-                                                                        "allOf": [
-                                                                            {
-                                                                                "$ref": "#/$defs/hasPhysicalMapping_type"
-                                                                            },
-                                                                            {
-                                                                                "type": "object",
-                                                                                "properties": {
-                                                                                    "cdi:locator": {
-                                                                                        "type": "string",
-                                                                                        "description": "String that can be used by software to locate values of the variable in this physical dataset."
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                        ]
-                                                                    }
-                                                                }
-                                                            }
-                                                        },
-                                                        {
-                                                            "type": "object",
-                                                            "title": "Tabular Data Type",
-                                                            "description": "Tabular data type aligned with CDIF 2026 schema using DDI-CDI and CSVW properties. Typed as cdi:TabularTextDataSet and ada:tabularData.",
-                                                            "properties": {
-                                                                "@type": {
-                                                                    "type": "array",
-                                                                    "items": {
-                                                                        "type": "string"
-                                                                    },
-                                                                    "minItems": 2,
-                                                                    "allOf": [
-                                                                        {
-                                                                            "contains": {
-                                                                                "const": "cdi:TabularTextDataSet"
-                                                                            }
-                                                                        }
-                                                                    ]
-                                                                },
-                                                                "cdi:arrayBase": {
-                                                                    "type": "integer"
-                                                                },
-                                                                "csvw:commentPrefix": {
-                                                                    "type": "string",
-                                                                    "description": "An atomic property that sets the comment prefix flag to the single provided value, which MUST be a string. The default is '#'."
-                                                                },
-                                                                "csvw:delimiter": {
-                                                                    "type": "string",
-                                                                    "description": "Sets the delimiter flag to the single provided value, which MUST be a string. The default is ','."
-                                                                },
-                                                                "csvw:header": {
-                                                                    "type": "boolean",
-                                                                    "description": "If true, sets the header row count flag to 1, and if false to 0, unless headerRowCount is provided, in which case the value provided for the header property is ignored. The default is true."
-                                                                },
-                                                                "csvw:headerRowCount": {
-                                                                    "type": "integer",
-                                                                    "minimum": 0,
-                                                                    "default": 1,
-                                                                    "description": "A numeric atomic property that sets the header row count flag to the single provided value, which MUST be a non-negative integer."
-                                                                },
-                                                                "cdi:isDelimited": {
-                                                                    "type": "boolean",
-                                                                    "description": "Schema constraint is that one of {'isDelimited','isFixedWidth'} must be present with a True value; the other one may be present or omitted, but if present must have a false value."
-                                                                },
-                                                                "cdi:isFixedWidth": {
-                                                                    "type": "boolean"
-                                                                },
-                                                                "csvw:lineTerminators": {
-                                                                    "type": "string",
-                                                                    "enum": [
-                                                                        "CRLF",
-                                                                        "LF",
-                                                                        "\r\n",
-                                                                        "\n"
-                                                                    ]
-                                                                },
-                                                                "csvw:quoteChar": {
-                                                                    "type": "string",
-                                                                    "default": "\"",
-                                                                    "description": "Same as DDI-CDI quoteCharacter. The string that is used around escaped cells."
-                                                                },
-                                                                "csvw:skipBlankRows": {
-                                                                    "type": "boolean",
-                                                                    "default": false
-                                                                },
-                                                                "csvw:skipColumns": {
-                                                                    "type": "integer",
-                                                                    "default": 0,
-                                                                    "description": "The number of columns to skip at the beginning of each row."
-                                                                },
-                                                                "csvw:skipInitialSpace": {
-                                                                    "type": "boolean",
-                                                                    "default": true
-                                                                },
-                                                                "csvw:skipRows": {
-                                                                    "type": "integer",
-                                                                    "description": "The number of rows to skip at the beginning of the file, before a header row or tabular data.",
-                                                                    "default": 0
-                                                                },
-                                                                "cdi:escapeCharacter": {
-                                                                    "type": "string",
-                                                                    "description": "The character used to escape special characters in the data. From DDI-CDI PhysicalSegmentLayout.escapeCharacter."
-                                                                },
-                                                                "cdi:headerIsCaseSensitive": {
-                                                                    "type": "boolean",
-                                                                    "default": false,
-                                                                    "description": "Whether column header names are case-sensitive. From DDI-CDI PhysicalSegmentLayout.headerIsCaseSensitive."
-                                                                },
-                                                                "cdi:treatConsecutiveDelimitersAsOne": {
-                                                                    "type": "boolean",
-                                                                    "default": false,
-                                                                    "description": "Whether consecutive delimiters should be treated as a single delimiter. From DDI-CDI PhysicalSegmentLayout.treatConsecutiveDelimitersAsOne."
-                                                                },
-                                                                "csvw:tableDirection": {
-                                                                    "type": "string",
-                                                                    "enum": [
-                                                                        "Ltr",
-                                                                        "Rtl"
-                                                                    ],
-                                                                    "default": "Ltr",
-                                                                    "description": "Indicates the direction of the table layout (left-to-right or right-to-left). From DDI-CDI PhysicalSegmentLayout.tableDirection."
-                                                                },
-                                                                "csvw:textDirection": {
-                                                                    "type": "string",
-                                                                    "enum": [
-                                                                        "Auto",
-                                                                        "Inherit",
-                                                                        "Ltr",
-                                                                        "Rtl"
-                                                                    ],
-                                                                    "default": "Auto",
-                                                                    "description": "Indicates whether the text within cells should be displayed as left-to-right, right-to-left, according to content, or inherited from the table direction. From DDI-CDI PhysicalSegmentLayout.textDirection."
-                                                                },
-                                                                "csvw:trim": {
-                                                                    "type": "string",
-                                                                    "enum": [
-                                                                        "true",
-                                                                        "end",
-                                                                        "false",
-                                                                        "start"
-                                                                    ],
-                                                                    "description": "Indicates whether to trim whitespace around cells. 'true' corresponds to DDI-CDI 'both' value, 'false' corresponds to DDI-CDI 'neither' value."
-                                                                },
-                                                                "cdi:hasPhysicalMapping": {
-                                                                    "type": "array",
-                                                                    "description": "Links variables to their physical representation in this dataset.",
-                                                                    "items": {
-                                                                        "$ref": "#/$defs/hasPhysicalMapping_type"
-                                                                    }
-                                                                },
-                                                                "countRows": {
-                                                                    "type": "integer"
-                                                                },
-                                                                "countColumns": {
-                                                                    "type": "integer"
-                                                                }
-                                                            },
-                                                            "oneOf": [
-                                                                {
-                                                                    "properties": {
-                                                                        "cdi:isDelimited": {
-                                                                            "const": true
-                                                                        },
-                                                                        "cdi:isFixedWidth": {
-                                                                            "const": false
-                                                                        }
-                                                                    },
-                                                                    "required": [
-                                                                        "cdi:isDelimited"
-                                                                    ]
-                                                                },
-                                                                {
-                                                                    "properties": {
-                                                                        "cdi:isDelimited": {
-                                                                            "const": false
-                                                                        },
-                                                                        "cdi:isFixedWidth": {
-                                                                            "const": true
-                                                                        }
-                                                                    },
-                                                                    "required": [
-                                                                        "cdi:isFixedWidth"
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "required": [
-                                                                "@type"
-                                                            ]
-                                                        },
-                                                        {}
-                                                    ]
+                                                    "$ref": "#/$defs/hasPart_type"
                                                 }
                                             ]
                                         }
@@ -921,21 +687,29 @@
                             }
                         ]
                     },
+                    {}
+                ],
+                "allOf": [
                     {
                         "type": "object",
                         "properties": {
                             "cdi:characterSet": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "The character set used in the distribution (e.g., UTF-8, ASCII)."
                             },
                             "cdi:fileSize": {
-                                "type": "number"
+                                "type": "number",
+                                "description": "The size of the distribution file."
                             },
                             "cdi:fileSizeUofM": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "Unit of measure for the file size (e.g., bytes, KB, MB, GB)."
                             }
                         }
                     },
-                    {}
+                    {
+                        "$ref": "#/$defs/hasPart_type"
+                    }
                 ]
             }
         },
@@ -1109,7 +883,7 @@
             }
         },
         "prov:wasGeneratedBy": {
-            "description": "Provenance activities describing how the resource was generated.",
+            "description": "Provenance activities describing how the resource was generated, including agents, instruments, methodology, temporal bounds, and action chaining.",
             "type": "array",
             "items": {
                 "title": "CDIF Provenance Activity",
@@ -1773,6 +1547,168 @@
                 "$ref": "#/$defs/nameOrReference_type"
             }
         },
+        "schema:variableMeasured": {
+            "type": "array",
+            "items": {
+                "allOf": [
+                    {
+                        "type": "object",
+                        "description": "All variableMeasured items at data description level must have an @id and cdi:physicalDataType so physical mappings can reference them.",
+                        "properties": {
+                            "@id": {
+                                "type": "string",
+                                "description": "URI identifier for this variable, used as the target of cdi:formats_InstanceVariable references in physical mappings."
+                            }
+                        },
+                        "required": [
+                            "@id"
+                        ]
+                    },
+                    {
+                        "description": "Extends cdif variableMeasured with properties for DDI-CDI InstanceVariable",
+                        "type": "object",
+                        "properties": {
+                            "@type": {
+                                "type": "array",
+                                "description": "Must include both schema:PropertyValue and cdi:InstanceVariable. Additional types may be included.",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "contains": {
+                                    "const": "cdi:InstanceVariable"
+                                }
+                            },
+                            "cdi:identifier": {
+                                "type": "string"
+                            },
+                            "cdi:physicalDataType": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/$defs/nameOrDefinedTerm_type"
+                                },
+                                "description": "identifier or name for the data type concept."
+                            },
+                            "cdi:intendedDataType": {
+                                "type": "string",
+                                "description": "The intended data type for values of this variable, from DDI-CDI RepresentedVariable.hasIntendedDataType. Recommended values are XML Schema datatypes (e.g. https://www.w3.org/TR/xmlschema-2/#decimal)."
+                            },
+                            "cdi:role": {
+                                "type": "string",
+                                "enum": [
+                                    "MeasureComponent",
+                                    "AttributeComponent",
+                                    "DimensionComponent",
+                                    "DescriptorComponent",
+                                    "ReferenceValueComponent"
+                                ],
+                                "description": "Specifies the relation of the variable to the data structure, corresponding to DDI-CDI DataStructureComponent subtypes."
+                            },
+                            "cdi:describedUnitOfMeasure": {
+                                "$ref": "#/$defs/definedTerm_type"
+                            },
+                            "cdi:simpleUnitOfMeasure": {
+                                "$ref": "#/$defs/nameOrDefinedTerm_type"
+                            },
+                            "cdi:uses": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/$defs/nameOrDefinedTerm_type"
+                                },
+                                "description": "Essentially the same as schema:propertyID. References to concepts that this variable measures or represents."
+                            },
+                            "cdi:name": {
+                                "type": "string",
+                                "description": "DDI-CDI Concept.name. The name of this variable in the DDI-CDI model."
+                            },
+                            "cdi:displayLabel": {
+                                "type": "string",
+                                "description": "DDI-CDI Concept.displayLabel. A human-readable label for display purposes."
+                            }
+                        },
+                        "allOf": [
+                            {
+                                "required": [
+                                    "@type"
+                                ]
+                            },
+                            {
+                                "anyOf": [
+                                    {
+                                        "$ref": "#/$defs/object_variableMeasured_type"
+                                    },
+                                    {
+                                        "description": "A statistical variable description using schema.org/StatisticalVariable. Defines a variable that represents a statistical measure, such as median income or unemployment rate.",
+                                        "type": "object",
+                                        "properties": {
+                                            "@type": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                },
+                                                "contains": {
+                                                    "const": "schema:StatisticalVariable"
+                                                },
+                                                "minItems": 1
+                                            },
+                                            "@id": {
+                                                "type": "string"
+                                            },
+                                            "schema:name": {
+                                                "type": "string",
+                                                "description": "string label for the statistical variable"
+                                            },
+                                            "schema:description": {
+                                                "type": "string"
+                                            },
+                                            "schema:alternateName": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string",
+                                                    "description": "human intelligible name for variable that conveys semantics"
+                                                }
+                                            },
+                                            "schema:measurementTechnique": {
+                                                "$ref": "#/$defs/nameOrDefinedTerm_type"
+                                            },
+                                            "schema:statType": {
+                                                "$ref": "#/$defs/nameOrDefinedTerm_type"
+                                            },
+                                            "schema:measuredProperty": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "@id": {
+                                                        "type": "string",
+                                                        "description": "reference to a skos concept for the property"
+                                                    },
+                                                    "@type": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        },
+                                                        "contains": {
+                                                            "const": "schema:Property"
+                                                        },
+                                                        "minItems": 1
+                                                    },
+                                                    "schema:name": {
+                                                        "$ref": "#/$defs/nameOrDefinedTerm_type"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "required": [
+                                            "@type",
+                                            "schema:name",
+                                            "schema:measuredProperty"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
         "schema:measurementTechnique": {
             "description": "The technique, technology, or methodology used for measurement or determination of the dataset values.",
             "anyOf": [
@@ -1789,98 +1725,6 @@
                     }
                 }
             ]
-        },
-        "schema:variableMeasured": {
-            "description": "Variables in the dataset. At data description level, PropertyValue variables must include cdi:InstanceVariable typing and cdi:physicalDataType.",
-            "type": "array",
-            "items": {
-                "anyOf": [
-                    {
-                        "type": "object",
-                        "properties": {
-                            "@type": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                },
-                                "contains": {
-                                    "const": "cdi:InstanceVariable"
-                                },
-                                "minItems": 2
-                            }
-                        },
-                        "required": [
-                            "cdi:physicalDataType"
-                        ]
-                    },
-                    {
-                        "description": "A statistical variable description using schema.org/StatisticalVariable. Defines a variable that represents a statistical measure, such as median income or unemployment rate.",
-                        "type": "object",
-                        "properties": {
-                            "@type": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                },
-                                "contains": {
-                                    "const": "schema:StatisticalVariable"
-                                },
-                                "minItems": 1
-                            },
-                            "@id": {
-                                "type": "string"
-                            },
-                            "schema:name": {
-                                "type": "string",
-                                "description": "string label for the statistical variable"
-                            },
-                            "schema:description": {
-                                "type": "string"
-                            },
-                            "schema:alternateName": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string",
-                                    "description": "human intelligible name for variable that conveys semantics"
-                                }
-                            },
-                            "schema:measurementTechnique": {
-                                "$ref": "#/$defs/nameOrDefinedTerm_type"
-                            },
-                            "schema:statType": {
-                                "$ref": "#/$defs/nameOrDefinedTerm_type"
-                            },
-                            "schema:measuredProperty": {
-                                "type": "object",
-                                "properties": {
-                                    "@id": {
-                                        "type": "string",
-                                        "description": "reference to a skos concept for the property"
-                                    },
-                                    "@type": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "string"
-                                        },
-                                        "contains": {
-                                            "const": "schema:Property"
-                                        },
-                                        "minItems": 1
-                                    },
-                                    "schema:name": {
-                                        "$ref": "#/$defs/nameOrDefinedTerm_type"
-                                    }
-                                }
-                            }
-                        },
-                        "required": [
-                            "@type",
-                            "schema:name",
-                            "schema:measuredProperty"
-                        ]
-                    }
-                ]
-            }
         },
         "schema:spatialCoverage": {
             "description": "Geographic extent of resource content.",
@@ -2264,6 +2108,220 @@
                 }
             ]
         },
+        "hasPart_type": {
+            "anyOf": [
+                {
+                    "title": "Data Cube Type",
+                    "description": "Multi-dimensional data cube structure using DDI-CDI. Typed as ada:dataCube and cdi:StructuredDataSet per CDIF 2026 alignment.",
+                    "type": "object",
+                    "properties": {
+                        "@type": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "allOf": [
+                                {
+                                    "contains": {
+                                        "const": "cdi:StructuredDataSet"
+                                    }
+                                }
+                            ]
+                        },
+                        "cdi:hasPhysicalMapping": {
+                            "type": "array",
+                            "description": "Links variables to their physical representation in this dataset.",
+                            "items": {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/$defs/hasPhysicalMapping_type"
+                                    },
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "cdi:locator": {
+                                                "type": "string",
+                                                "description": "String that can be used by software to locate values of the variable in this physical dataset."
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                {
+                    "type": "object",
+                    "title": "Tabular Data Type",
+                    "description": "Tabular data type aligned with CDIF 2026 schema using DDI-CDI and CSVW properties. Typed as cdi:TabularTextDataSet and ada:tabularData.",
+                    "properties": {
+                        "@type": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "minItems": 2,
+                            "allOf": [
+                                {
+                                    "contains": {
+                                        "const": "cdi:TabularTextDataSet"
+                                    }
+                                }
+                            ]
+                        },
+                        "cdi:arrayBase": {
+                            "type": "integer"
+                        },
+                        "csvw:commentPrefix": {
+                            "type": "string",
+                            "description": "An atomic property that sets the comment prefix flag to the single provided value, which MUST be a string. The default is '#'."
+                        },
+                        "csvw:delimiter": {
+                            "type": "string",
+                            "description": "Sets the delimiter flag to the single provided value, which MUST be a string. The default is ','."
+                        },
+                        "csvw:header": {
+                            "type": "boolean",
+                            "description": "If true, sets the header row count flag to 1, and if false to 0, unless headerRowCount is provided, in which case the value provided for the header property is ignored. The default is true."
+                        },
+                        "csvw:headerRowCount": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "default": 1,
+                            "description": "A numeric atomic property that sets the header row count flag to the single provided value, which MUST be a non-negative integer."
+                        },
+                        "cdi:isDelimited": {
+                            "type": "boolean",
+                            "description": "Schema constraint is that one of {'isDelimited','isFixedWidth'} must be present with a True value; the other one may be present or omitted, but if present must have a false value."
+                        },
+                        "cdi:isFixedWidth": {
+                            "type": "boolean"
+                        },
+                        "csvw:lineTerminators": {
+                            "type": "string",
+                            "enum": [
+                                "CRLF",
+                                "LF",
+                                "\r\n",
+                                "\n"
+                            ]
+                        },
+                        "csvw:quoteChar": {
+                            "type": "string",
+                            "default": "\"",
+                            "description": "Same as DDI-CDI quoteCharacter. The string that is used around escaped cells."
+                        },
+                        "csvw:skipBlankRows": {
+                            "type": "boolean",
+                            "default": false
+                        },
+                        "csvw:skipColumns": {
+                            "type": "integer",
+                            "default": 0,
+                            "description": "The number of columns to skip at the beginning of each row."
+                        },
+                        "csvw:skipInitialSpace": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "csvw:skipRows": {
+                            "type": "integer",
+                            "description": "The number of rows to skip at the beginning of the file, before a header row or tabular data.",
+                            "default": 0
+                        },
+                        "cdi:escapeCharacter": {
+                            "type": "string",
+                            "description": "The character used to escape special characters in the data. From DDI-CDI PhysicalSegmentLayout.escapeCharacter."
+                        },
+                        "cdi:headerIsCaseSensitive": {
+                            "type": "boolean",
+                            "default": false,
+                            "description": "Whether column header names are case-sensitive. From DDI-CDI PhysicalSegmentLayout.headerIsCaseSensitive."
+                        },
+                        "cdi:treatConsecutiveDelimitersAsOne": {
+                            "type": "boolean",
+                            "default": false,
+                            "description": "Whether consecutive delimiters should be treated as a single delimiter. From DDI-CDI PhysicalSegmentLayout.treatConsecutiveDelimitersAsOne."
+                        },
+                        "csvw:tableDirection": {
+                            "type": "string",
+                            "enum": [
+                                "Ltr",
+                                "Rtl"
+                            ],
+                            "default": "Ltr",
+                            "description": "Indicates the direction of the table layout (left-to-right or right-to-left). From DDI-CDI PhysicalSegmentLayout.tableDirection."
+                        },
+                        "csvw:textDirection": {
+                            "type": "string",
+                            "enum": [
+                                "Auto",
+                                "Inherit",
+                                "Ltr",
+                                "Rtl"
+                            ],
+                            "default": "Auto",
+                            "description": "Indicates whether the text within cells should be displayed as left-to-right, right-to-left, according to content, or inherited from the table direction. From DDI-CDI PhysicalSegmentLayout.textDirection."
+                        },
+                        "csvw:trim": {
+                            "type": "string",
+                            "enum": [
+                                "true",
+                                "end",
+                                "false",
+                                "start"
+                            ],
+                            "description": "Indicates whether to trim whitespace around cells. 'true' corresponds to DDI-CDI 'both' value, 'false' corresponds to DDI-CDI 'neither' value."
+                        },
+                        "cdi:hasPhysicalMapping": {
+                            "type": "array",
+                            "description": "Links variables to their physical representation in this dataset.",
+                            "items": {
+                                "$ref": "#/$defs/hasPhysicalMapping_type"
+                            }
+                        },
+                        "countRows": {
+                            "type": "integer"
+                        },
+                        "countColumns": {
+                            "type": "integer"
+                        }
+                    },
+                    "oneOf": [
+                        {
+                            "properties": {
+                                "cdi:isDelimited": {
+                                    "const": true
+                                },
+                                "cdi:isFixedWidth": {
+                                    "const": false
+                                }
+                            },
+                            "required": [
+                                "cdi:isDelimited"
+                            ]
+                        },
+                        {
+                            "properties": {
+                                "cdi:isDelimited": {
+                                    "const": false
+                                },
+                                "cdi:isFixedWidth": {
+                                    "const": true
+                                }
+                            },
+                            "required": [
+                                "cdi:isFixedWidth"
+                            ]
+                        }
+                    ],
+                    "required": [
+                        "@type"
+                    ]
+                },
+                {}
+            ]
+        },
         "hasPhysicalMapping_type": {
             "title": "Physical Mapping Type",
             "description": "Defines implementation-specific properties for the representation of a variable in a dataset. Aligned with CDIF 2026 schema using DDI-CDI flat per-column mapping structure.",
@@ -2464,6 +2522,74 @@
                 }
             ]
         },
+        "object_variableMeasured_type": {
+            "description": "Schema.org PropertyValue-based variableMeasured. Defines properties for a measured variable in a dataset, typed as schema:PropertyValue.",
+            "type": "object",
+            "properties": {
+                "@type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "schema:PropertyValue"
+                    },
+                    "minItems": 1
+                },
+                "@id": {
+                    "type": "string"
+                },
+                "schema:name": {
+                    "type": "string",
+                    "description": "string label associated with the variable in the dataset serialization"
+                },
+                "schema:description": {
+                    "type": "string",
+                    "default": "missing"
+                },
+                "schema:alternateName": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "description": "human intelligible name for variable that conveys semantics"
+                    }
+                },
+                "schema:measurementTechnique": {
+                    "$ref": "#/$defs/nameOrDefinedTerm_type"
+                },
+                "schema:propertyID": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/nameOrDefinedTerm_type"
+                    },
+                    "description": "identifier or name for the property concept"
+                },
+                "schema:unitText": {
+                    "type": "string",
+                    "description": "unit of measurement as text"
+                },
+                "schema:unitCode": {
+                    "$ref": "#/$defs/nameOrDefinedTerm_type"
+                },
+                "schema:minValue": {
+                    "type": "number",
+                    "description": "minimum numeric value in the dataset"
+                },
+                "schema:maxValue": {
+                    "type": "number",
+                    "description": "maximum numeric value in the dataset"
+                },
+                "schema:url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "link to a web page useful for interpreting the variable"
+                }
+            },
+            "required": [
+                "@type",
+                "schema:name"
+            ]
+        },
         "organization_type": {
             "type": "object",
             "properties": {
@@ -2652,12 +2778,47 @@
                     },
                     "minItems": 1
                 },
+                "schema:additionalType": {
+                    "description": "Domain-specific type classifications for this place (e.g. facility type, laboratory classification).",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
                 "schema:name": {
                     "description": "multiple place names or DefinedTerms that have a place name and URI for the location",
                     "type": "array",
                     "items": {
                         "$ref": "#/$defs/additionalType_type_2"
                     }
+                },
+                "schema:identifier": {
+                    "description": "Formal identifier for this place (e.g. ROR identifier for a facility).",
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    ]
+                },
+                "schema:alternateName": {
+                    "description": "Alternate or abbreviated name(s) for this place.",
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    ]
                 },
                 "schema:geo": {
                     "description": "Either a bounding box or a point location.",
