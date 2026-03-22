@@ -9,9 +9,8 @@
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "csvw": "http://www.w3.org/ns/csvw#",
     "prov": "http://www.w3.org/ns/prov#",
-    "dcat": "http://www.w3.org/ns/dcat#",
-    "xas": "https://ada.astromat.org/metadata/xas/",
-    "nxs": "https://manual.nexusformat.org/classes/"
+    "nxs": "http://purl.org/nexusformat/definitions/",
+    "dcat": "http://www.w3.org/ns/dcat#"
   },
   "@id": "ada:record_2712",
   "@type": [
@@ -22,8 +21,7 @@
   "schema:description": "WDS analyses were made of andreyivanovite, eskolaite, Cr-Zn sulfide, chromite and the serpentine matrix.   An x-ray map was also made of a zoned eskcolaite grain with Mn-rich and Mn-poor areas.",
   "schema:identifier": {
     "@type": [
-      "schema:PropertyValue",
-      "cdi:Identifier"
+      "schema:PropertyValue"
     ],
     "schema:propertyID": "https://registry.identifiers.org/registry/doi",
     "schema:value": "10.60707/v87p-2k76",
@@ -42,7 +40,9 @@
     "@list": [
       {
         "@id": "https://orcid.org/0009-0002-0184-1816",
-        "@type": "schema:Person",
+        "@type": [
+          "schema:Person"
+        ],
         "schema:name": "Domanik, Kenneth",
         "schema:identifier": "https://orcid.org/0009-0002-0184-1816",
         "schema:email": "domanik@lpl.arizona.edu"
@@ -51,22 +51,25 @@
   },
   "schema:funding": [
     {
-      "@type": "schema:MonetaryGrant",
+      "@type": [
+        "schema:MonetaryGrant"
+      ],
+      "schema:name": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program.",
       "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program."
     }
   ],
   "schema:measurementTechnique": {
-    "@type": "schema:DefinedTerm",
+    "@type": [
+      "schema:DefinedTerm"
+    ],
     "schema:name": "Electron microprobe analysis",
     "schema:termCode": "EMPA"
   },
   "prov:wasGeneratedBy": [
     {
       "@type": [
-        "schema:Event",
-        "xas:AnalysisEvent",
-        "prov:Activity",
-        "schema:Action"
+        "schema:Action",
+        "prov:Activity"
       ],
       "schema:startDate": "2025-03-11T12:00:00Z",
       "schema:identifier": "20250311_empa_uaz_orex-800055-18_1",
@@ -74,7 +77,9 @@
         {
           "@type": [
             "schema:Thing",
-            "prov:Entity",
+            "schema:Product"
+          ],
+          "schema:additionalType": [
             "nxs:BaseClass/NXinstrument"
           ],
           "schema:name": "(UAZ)Cameca SX100",
@@ -83,11 +88,15 @@
       ],
       "schema:location": {
         "@type": [
-          "schema:Place",
+          "schema:Place"
+        ],
+        "schema:additionalType": [
           "nxs:BaseClass/NXsource"
         ],
         "schema:identifier": "https://ror.org/03m2x1q45",
-        "schema:name": "University of Arizona",
+        "schema:name": [
+          "University of Arizona"
+        ],
         "schema:alternateName": "UAZ"
       },
       "schema:mainEntity": [
@@ -116,7 +125,7 @@
         "application/zip"
       ],
       "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
-      "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/withheld",
+      "schema:contentUrl": "",
       "schema:hasPart": [
         {
           "@type": [
@@ -127,21 +136,20 @@
           "schema:name": "20250311_EMPA_UAZ_OREX-800055-18_1_EMPAImage_2.tfw",
           "schema:description": "default description",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "6631f1126fbce30472ba8fc758005c5fa24007c189919517a7888085d143955d"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 122,
             "schema:unitText": "byte"
           },
           "schema:encodingFormat": [
             "text/plain"
           ],
-          "componentType": {
-            "@type": "ada:other"
-          }
+          "ada:componentType": "ada:other"
         },
         {
           "@type": [
@@ -152,21 +160,20 @@
           "schema:name": "20250311_EMPA_UAZ_OREX-800055-18_1_EMPAImage_2.tiff",
           "schema:description": "default description",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "e8d3c6699a4fb301e0ea619896cf0d4f5e5a1fc79976437910f1b3c513021e6b"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 879637,
             "schema:unitText": "byte"
           },
           "schema:encodingFormat": [
             "image/tiff"
           ],
-          "componentType": {
-            "@type": "ada:other"
-          }
+          "ada:componentType": "ada:other"
         },
         {
           "@type": [
@@ -177,12 +184,13 @@
           "schema:name": "20250311_EMPA_UAZ_OREX-800055-18_1_EMPAImage_2.yaml",
           "schema:description": "metadata file for ",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "07f1ee09799f6e9ab017d202b49fa314ec79cbad2b214c37f3716e887793a7c3"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 311,
             "schema:unitText": "byte"
           },
@@ -204,21 +212,20 @@
           "schema:name": "20250311_EMPA_UAZ_OREX-800055-18_1_annotatedProduct_2.tiff",
           "schema:description": "default description",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "f53ac3f9d84e956fbf1355a6cf11f12a8ab95e1ac0243e28d2cddc2514a32aba"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 1211764,
             "schema:unitText": "byte"
           },
           "schema:encodingFormat": [
             "image/tiff"
           ],
-          "componentType": {
-            "@type": "ada:other"
-          }
+          "ada:componentType": "ada:other"
         },
         {
           "@type": [
@@ -229,12 +236,13 @@
           "schema:name": "20250311_EMPA_UAZ_OREX-800055-18_1_annotatedProduct_2.yaml",
           "schema:description": "metadata file for ",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "3eec93b5e93d312c60ae1fe56c13959977aeec790ce528ae84d1ef94ab667617"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 218,
             "schema:unitText": "byte"
           },
@@ -256,21 +264,20 @@
           "schema:name": "20250311_EMPA_UAZ_OREX-800055-18_1_instrumentMetadata_2452.txt",
           "schema:description": "default description",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "ff93b6a0a2498c5ffe664cb115d4c57ee356d05f8b0e0a1f37310b57f70fa03a"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 2570409,
             "schema:unitText": "byte"
           },
           "schema:encodingFormat": [
             "text/plain"
           ],
-          "componentType": {
-            "@type": "ada:instrumentMetadata"
-          }
+          "ada:componentType": "ada:instrumentMetadata"
         },
         {
           "@type": [
@@ -281,12 +288,13 @@
           "schema:name": "20250311_EMPA_UAZ_OREX-800055-18_1_instrumentMetadata_2452.yaml",
           "schema:description": "metadata file for ",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "2145171ef61a85c7fbbe8e0b7156f569daa696cd6e8fc891b64f0839ae066c6a"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 247,
             "schema:unitText": "byte"
           },
@@ -313,7 +321,9 @@
     "schema:sdDatePublished": "2025-04-04",
     "schema:maintainer": {
       "@id": "https://ada.org/person/3479",
-      "@type": "schema:Person",
+      "@type": [
+        "schema:Person"
+      ],
       "schema:name": "Richard, Stephen M.",
       "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
       "schema:email": "smrTucson@email.org"
@@ -328,6 +338,15 @@
       },
       {
         "@id": "https://w3id.org/cdif/discovery/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/dataDescription/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/manifest/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/provenance/1.0/"
       },
       {
         "@id": "ada:profile/adaEMPA"

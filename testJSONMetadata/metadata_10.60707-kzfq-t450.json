@@ -9,9 +9,8 @@
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "csvw": "http://www.w3.org/ns/csvw#",
     "prov": "http://www.w3.org/ns/prov#",
-    "dcat": "http://www.w3.org/ns/dcat#",
-    "xas": "https://ada.astromat.org/metadata/xas/",
-    "nxs": "https://manual.nexusformat.org/classes/"
+    "nxs": "http://purl.org/nexusformat/definitions/",
+    "dcat": "http://www.w3.org/ns/dcat#"
   },
   "@id": "ada:record_2072",
   "@type": [
@@ -22,8 +21,7 @@
   "schema:description": "Helium gas pycnometry performed at UCa after approximately three hours of atmospheric exposure for grain density measurement of Bennu angular lithology particle OREX-800123-0. The bundled data contains instrument calibration and verification results, grain density measurement results for sample OREX-800123-0, and methods description. These data apparently constrain a valid grain density.",
   "schema:identifier": {
     "@type": [
-      "schema:PropertyValue",
-      "cdi:Identifier"
+      "schema:PropertyValue"
     ],
     "schema:propertyID": "https://registry.identifiers.org/registry/doi",
     "schema:value": "10.60707/kzfq-t450",
@@ -42,14 +40,18 @@
     "@list": [
       {
         "@id": "https://orcid.org/0000-0001-5497-4554",
-        "@type": "schema:Person",
+        "@type": [
+          "schema:Person"
+        ],
         "schema:name": "Hanton, Lincoln",
         "schema:identifier": "https://orcid.org/0000-0001-5497-4554",
         "schema:email": "ltjhanto@ucalgary.ca"
       },
       {
         "@id": "https://orcid.org/0000-0001-9926-2059",
-        "@type": "schema:Person",
+        "@type": [
+          "schema:Person"
+        ],
         "schema:name": "Hildebrand, Alan",
         "schema:identifier": "https://orcid.org/0000-0001-9926-2059",
         "schema:email": "ahildebr@ucalgary.ca"
@@ -58,22 +60,25 @@
   },
   "schema:funding": [
     {
-      "@type": "schema:MonetaryGrant",
+      "@type": [
+        "schema:MonetaryGrant"
+      ],
+      "schema:name": "Grant 22EXPOSICA from Planetary Exploration, Space Exploration, Canadian Space Agency. This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program.",
       "schema:description": "Grant 22EXPOSICA from Planetary Exploration, Space Exploration, Canadian Space Agency. This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program."
     }
   ],
   "schema:measurementTechnique": {
-    "@type": "schema:DefinedTerm",
+    "@type": [
+      "schema:DefinedTerm"
+    ],
     "schema:name": "Gas pycnometry",
     "schema:termCode": "GPYC"
   },
   "prov:wasGeneratedBy": [
     {
       "@type": [
-        "schema:Event",
-        "xas:AnalysisEvent",
-        "prov:Activity",
-        "schema:Action"
+        "schema:Action",
+        "prov:Activity"
       ],
       "schema:startDate": "2024-11-25T12:00:00Z",
       "schema:identifier": "20241125_gpyc_uca_orex-800123-0_1",
@@ -81,7 +86,9 @@
         {
           "@type": [
             "schema:Thing",
-            "prov:Entity",
+            "schema:Product"
+          ],
+          "schema:additionalType": [
             "nxs:BaseClass/NXinstrument"
           ],
           "schema:name": "Anton Paar Ultrapyc 5000 Micro Pycnometer",
@@ -90,11 +97,15 @@
       ],
       "schema:location": {
         "@type": [
-          "schema:Place",
+          "schema:Place"
+        ],
+        "schema:additionalType": [
           "nxs:BaseClass/NXsource"
         ],
         "schema:identifier": "https://ror.org/03yjb2x39",
-        "schema:name": "University of Calgary",
+        "schema:name": [
+          "University of Calgary"
+        ],
         "schema:alternateName": "UCa"
       },
       "schema:mainEntity": [
@@ -123,7 +134,7 @@
         "application/zip"
       ],
       "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
-      "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/withheld",
+      "schema:contentUrl": "",
       "schema:hasPart": [
         {
           "@type": [
@@ -134,21 +145,20 @@
           "schema:name": "20241125_GPYC_UCa_OREX-800123-0_1_GPYCRawTabular_1.csv",
           "schema:description": "default description",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "28ee730e773cd67226e2c297b82f5ca2620ee9255e8a7543686426514303c4d0"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 3114,
             "schema:unitText": "byte"
           },
           "schema:encodingFormat": [
             "text/csv"
           ],
-          "componentType": {
-            "@type": "ada:other"
-          }
+          "ada:componentType": "ada:other"
         },
         {
           "@type": [
@@ -159,12 +169,13 @@
           "schema:name": "20241125_GPYC_UCa_OREX-800123-0_1_GPYCRawTabular_1.yaml",
           "schema:description": "metadata file for ",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "e6a940261b836860e298abed832eb40540db6a6dc5b009841165c1026c7a6873"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 2288,
             "schema:unitText": "byte"
           },
@@ -186,21 +197,20 @@
           "schema:name": "20241125_GPYC_UCa_OREX-800123-0_1_calibrationFile_1.csv",
           "schema:description": "default description",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "afe64dfb0ed1399397d3f7bc2c30afaceed8007ba95755818bed680a2967611f"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 2274,
             "schema:unitText": "byte"
           },
           "schema:encodingFormat": [
             "text/csv"
           ],
-          "componentType": {
-            "@type": "ada:calibrationFile"
-          }
+          "ada:componentType": "ada:calibrationFile"
         },
         {
           "@type": [
@@ -211,12 +221,13 @@
           "schema:name": "20241125_GPYC_UCa_OREX-800123-0_1_calibrationFile_1.yaml",
           "schema:description": "metadata file for ",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "60eb152fa305c33f6605a03b11ea4361de47681d5b07fd15263fba8067a7ad01"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 324,
             "schema:unitText": "byte"
           },
@@ -238,21 +249,20 @@
           "schema:name": "20241125_GPYC_UCa_OREX-800123-0_1_calibrationFile_2.csv",
           "schema:description": "default description",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "6146279ea763343e9bc4b081eba4393d8a834c4fcdd2e9bf50ca8497ae22c60f"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 2571,
             "schema:unitText": "byte"
           },
           "schema:encodingFormat": [
             "text/csv"
           ],
-          "componentType": {
-            "@type": "ada:calibrationFile"
-          }
+          "ada:componentType": "ada:calibrationFile"
         },
         {
           "@type": [
@@ -263,12 +273,13 @@
           "schema:name": "20241125_GPYC_UCa_OREX-800123-0_1_calibrationFile_2.yaml",
           "schema:description": "metadata file for ",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "13b5c97d3d3ef801369fc7b2a7e844f922851cac17a2eb389e12577e632dd141"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 390,
             "schema:unitText": "byte"
           },
@@ -290,21 +301,20 @@
           "schema:name": "20241125_GPYC_UCa_OREX-800123-0_1_calibrationFile_3.csv",
           "schema:description": "default description",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "17f96c230577955506017ea2df346008e9f998840a2785cae52af905292d270a"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 2466,
             "schema:unitText": "byte"
           },
           "schema:encodingFormat": [
             "text/csv"
           ],
-          "componentType": {
-            "@type": "ada:calibrationFile"
-          }
+          "ada:componentType": "ada:calibrationFile"
         },
         {
           "@type": [
@@ -315,12 +325,13 @@
           "schema:name": "20241125_GPYC_UCa_OREX-800123-0_1_calibrationFile_3.yaml",
           "schema:description": "metadata file for ",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "bb3d7a284897303ac2bdd8b56b378685455c51c8d4b782499fcc3fae255fcd1f"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 390,
             "schema:unitText": "byte"
           },
@@ -342,21 +353,20 @@
           "schema:name": "20241125_GPYC_UCa_OREX-800123-0_1_methodDescription_1.txt",
           "schema:description": "default description",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "85a10ea90adcb85ca433add8852845cc5f3e95a958662e345d08e4b3326b1aa4"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 4354,
             "schema:unitText": "byte"
           },
           "schema:encodingFormat": [
             "text/plain"
           ],
-          "componentType": {
-            "@type": "ada:methodDescription"
-          }
+          "ada:componentType": "ada:methodDescription"
         },
         {
           "@type": [
@@ -367,12 +377,13 @@
           "schema:name": "20241125_GPYC_UCa_OREX-800123-0_1_methodDescription_1.yaml",
           "schema:description": "metadata file for ",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "a582ee99119ffdbfe18667de99590f523e78f0834c3f5a73cbb5cc496bd18c87"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 513,
             "schema:unitText": "byte"
           },
@@ -399,7 +410,9 @@
     "schema:sdDatePublished": "2025-01-27",
     "schema:maintainer": {
       "@id": "https://ada.org/person/3479",
-      "@type": "schema:Person",
+      "@type": [
+        "schema:Person"
+      ],
       "schema:name": "Richard, Stephen M.",
       "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
       "schema:email": "smrTucson@email.org"
@@ -414,6 +427,15 @@
       },
       {
         "@id": "https://w3id.org/cdif/discovery/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/dataDescription/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/manifest/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/provenance/1.0/"
       },
       {
         "@id": "ada:profile/adaGPYC"

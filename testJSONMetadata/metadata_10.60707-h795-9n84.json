@@ -9,9 +9,8 @@
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "csvw": "http://www.w3.org/ns/csvw#",
     "prov": "http://www.w3.org/ns/prov#",
-    "dcat": "http://www.w3.org/ns/dcat#",
-    "xas": "https://ada.astromat.org/metadata/xas/",
-    "nxs": "https://manual.nexusformat.org/classes/"
+    "nxs": "http://purl.org/nexusformat/definitions/",
+    "dcat": "http://www.w3.org/ns/dcat#"
   },
   "@id": "ada:record_408",
   "@type": [
@@ -22,8 +21,7 @@
   "schema:description": "3D SLS scan of sample OREX-800089-0, one of the largest stone in the Bennu sample collection and a first-round team Stone of Interest (SOI) in the hummocky morphology category. Sample scan conducted in JSC clean room environment under pristine conditions.",
   "schema:identifier": {
     "@type": [
-      "schema:PropertyValue",
-      "cdi:Identifier"
+      "schema:PropertyValue"
     ],
     "schema:propertyID": "https://registry.identifiers.org/registry/doi",
     "schema:value": "10.60707/h795-9n84",
@@ -42,7 +40,9 @@
     "@list": [
       {
         "@id": "https://orcid.org/0000-0002-7535-8416",
-        "@type": "schema:Person",
+        "@type": [
+          "schema:Person"
+        ],
         "schema:name": "Ryan, Andy",
         "schema:identifier": "https://orcid.org/0000-0002-7535-8416",
         "schema:email": "ajryan@orex.lpl.arizona.edu"
@@ -51,22 +51,25 @@
   },
   "schema:funding": [
     {
-      "@type": "schema:MonetaryGrant",
+      "@type": [
+        "schema:MonetaryGrant"
+      ],
+      "schema:name": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program.",
       "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program."
     }
   ],
   "schema:measurementTechnique": {
-    "@type": "schema:DefinedTerm",
+    "@type": [
+      "schema:DefinedTerm"
+    ],
     "schema:name": "Structured Light Scanning",
     "schema:termCode": "SLS"
   },
   "prov:wasGeneratedBy": [
     {
       "@type": [
-        "schema:Event",
-        "xas:AnalysisEvent",
-        "prov:Activity",
-        "schema:Action"
+        "schema:Action",
+        "prov:Activity"
       ],
       "schema:startDate": "2024-03-22T19:20:05.209934Z",
       "schema:identifier": "20240228_sls_uaz_orex-800089-0_1",
@@ -74,7 +77,9 @@
         {
           "@type": [
             "schema:Thing",
-            "prov:Entity",
+            "schema:Product"
+          ],
+          "schema:additionalType": [
             "nxs:BaseClass/NXinstrument"
           ],
           "schema:name": "(UAZ) Polyga Compact C506 structured light scanner",
@@ -83,11 +88,15 @@
       ],
       "schema:location": {
         "@type": [
-          "schema:Place",
+          "schema:Place"
+        ],
+        "schema:additionalType": [
           "nxs:BaseClass/NXsource"
         ],
         "schema:identifier": "https://ror.org/03m2x1q45",
-        "schema:name": "University of Arizona",
+        "schema:name": [
+          "University of Arizona"
+        ],
         "schema:alternateName": "UAZ"
       },
       "schema:mainEntity": [
@@ -116,7 +125,7 @@
         "application/zip"
       ],
       "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
-      "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/withheld",
+      "schema:contentUrl": "",
       "schema:hasPart": [
         {
           "@type": [
@@ -127,12 +136,13 @@
           "schema:name": "20240228_SLS_UAZ_OREX-800089-0_1_SLSPartialScan_1.yml",
           "schema:description": "metadata file for ",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "88262b09cfd1dd13f1a69e67a3099a63fc1001e39069ba7a7268426be738dc2c"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 158,
             "schema:unitText": "byte"
           },
@@ -155,21 +165,20 @@
           "schema:name": "20240228_SLS_UAZ_OREX-800089-0_1_SLSPartialScan_1.zip",
           "schema:description": "default description",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "501e1e7135005a670965158dfa03aaedfe8508b55ca3c5c7bf58c81172877cc7"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 63097339,
             "schema:unitText": "byte"
           },
           "schema:encodingFormat": [
             "application/zip"
           ],
-          "componentType": {
-            "@type": "ada:other"
-          }
+          "ada:componentType": "ada:other"
         }
       ]
     }
@@ -185,7 +194,9 @@
     "schema:sdDatePublished": "2024-06-20",
     "schema:maintainer": {
       "@id": "https://ada.org/person/3479",
-      "@type": "schema:Person",
+      "@type": [
+        "schema:Person"
+      ],
       "schema:name": "Richard, Stephen M.",
       "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
       "schema:email": "smrTucson@email.org"
@@ -200,6 +211,15 @@
       },
       {
         "@id": "https://w3id.org/cdif/discovery/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/dataDescription/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/manifest/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/provenance/1.0/"
       },
       {
         "@id": "ada:profile/adaSLS"

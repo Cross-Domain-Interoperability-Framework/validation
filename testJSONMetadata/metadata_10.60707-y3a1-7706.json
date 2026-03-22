@@ -9,9 +9,8 @@
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "csvw": "http://www.w3.org/ns/csvw#",
     "prov": "http://www.w3.org/ns/prov#",
-    "dcat": "http://www.w3.org/ns/dcat#",
-    "xas": "https://ada.astromat.org/metadata/xas/",
-    "nxs": "https://manual.nexusformat.org/classes/"
+    "nxs": "http://purl.org/nexusformat/definitions/",
+    "dcat": "http://www.w3.org/ns/dcat#"
   },
   "@id": "ada:record_1086",
   "@type": [
@@ -22,8 +21,7 @@
   "schema:description": "We report the all noble gas (He, Ne, Ar, Kr, Xe) analysis of single grain OREX-800032-105 by static mass spectrometry done in the noble gas laboratory of CRPG-CNRS, Nancy France. The grain was sequentially heated under static vacuum using a CO2 laser and evolved noble gases were analyzed with our Helix MC (Thermo) static mass spectrometer. For each incremental heating step, gases are purified over Ti sponge getter, cryogenically separated and sequentially analyzed for abundances and isotopic ratios. Results show carbonaceous chondrite type noble gases of the CI type. Computed cosmogenic ages are a few Ma.",
   "schema:identifier": {
     "@type": [
-      "schema:PropertyValue",
-      "cdi:Identifier"
+      "schema:PropertyValue"
     ],
     "schema:propertyID": "https://registry.identifiers.org/registry/doi",
     "schema:value": "10.60707/y3a1-7706",
@@ -42,7 +40,9 @@
     "@list": [
       {
         "@id": "https://orcid.org/0000-0001-7936-1519",
-        "@type": "schema:Person",
+        "@type": [
+          "schema:Person"
+        ],
         "schema:name": "Marty, Bernard",
         "schema:identifier": "https://orcid.org/0000-0001-7936-1519",
         "schema:email": "bernard.marty@univ-lorraine.fr"
@@ -51,10 +51,14 @@
   },
   "schema:contributor": [
     {
-      "@type": "schema:Role",
+      "@type": [
+        "schema:Role"
+      ],
       "schema:roleName": "Researcher",
       "schema:contributor": {
-        "@type": "schema:Person",
+        "@type": [
+          "schema:Person"
+        ],
         "@id": "",
         "schema:name": "Zimmermann, Laurent",
         "schema:identifier": "",
@@ -64,22 +68,25 @@
   ],
   "schema:funding": [
     {
-      "@type": "schema:MonetaryGrant",
+      "@type": [
+        "schema:MonetaryGrant"
+      ],
+      "schema:name": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program and by the Centre National d'Etudes Spatiales (CNES)",
       "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program and by the Centre National d'Etudes Spatiales (CNES)"
     }
   ],
   "schema:measurementTechnique": {
-    "@type": "schema:DefinedTerm",
+    "@type": [
+      "schema:DefinedTerm"
+    ],
     "schema:name": "Noble gas and Nitrogen Static Mass Spectrometry",
     "schema:termCode": "NG-NS-MS"
   },
   "prov:wasGeneratedBy": [
     {
       "@type": [
-        "schema:Event",
-        "xas:AnalysisEvent",
-        "prov:Activity",
-        "schema:Action"
+        "schema:Action",
+        "prov:Activity"
       ],
       "schema:startDate": "2024-06-07T09:51:43.162587Z",
       "schema:identifier": "20240607_ng-ns-ms_cnrs-crpg_orex-800032-105_1",
@@ -87,7 +94,9 @@
         {
           "@type": [
             "schema:Thing",
-            "prov:Entity",
+            "schema:Product"
+          ],
+          "schema:additionalType": [
             "nxs:BaseClass/NXinstrument"
           ],
           "schema:name": "Thermo Fisher Helix MC+",
@@ -96,11 +105,15 @@
       ],
       "schema:location": {
         "@type": [
-          "schema:Place",
+          "schema:Place"
+        ],
+        "schema:additionalType": [
           "nxs:BaseClass/NXsource"
         ],
         "schema:identifier": "https://ror.org/011nqat45",
-        "schema:name": "Centre de Recherches Petrographiques et Geochimiques (Nancy, France)",
+        "schema:name": [
+          "Centre de Recherches Petrographiques et Geochimiques (Nancy, France)"
+        ],
         "schema:alternateName": "CNRS-CRPG"
       },
       "schema:mainEntity": [
@@ -129,7 +142,7 @@
         "application/zip"
       ],
       "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
-      "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/withheld",
+      "schema:contentUrl": "",
       "schema:hasPart": [
         {
           "@type": [
@@ -140,21 +153,20 @@
           "schema:name": "20240607_NG-NS-MS_CNRS-CRPG_OREX-800032-105_1_NGNSMSProcessed_1.csv",
           "schema:description": "default description",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "bba43cdffaa70191ef0822b3761c26deae2d96bb2630327cd1b7b1ec588eebd2"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 8669,
             "schema:unitText": "byte"
           },
           "schema:encodingFormat": [
             "text/csv"
           ],
-          "componentType": {
-            "@type": "ada:other"
-          }
+          "ada:componentType": "ada:other"
         },
         {
           "@type": [
@@ -165,12 +177,13 @@
           "schema:name": "20240607_NG-NS-MS_CNRS-CRPG_OREX-800032-105_1_NGNSMSProcessed_1.yaml",
           "schema:description": "metadata file for ",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "7bfbe7b06e6fa9e664b8d87cb458399874a1bc0425d63df2f6b5570f5c9b1920"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 1966,
             "schema:unitText": "byte"
           },
@@ -192,21 +205,20 @@
           "schema:name": "20240607_NG-NS-MS_CNRS-CRPG_OREX-800032-105_1_methodDescription_1.pdf",
           "schema:description": "default description",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "bcbd6bf89a086a76e97b0ac422d6b22d4e652f1fba4f9c94d97090b8958bb542"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 48902,
             "schema:unitText": "byte"
           },
           "schema:encodingFormat": [
             "application/pdf"
           ],
-          "componentType": {
-            "@type": "ada:methodDescription"
-          }
+          "ada:componentType": "ada:methodDescription"
         },
         {
           "@type": [
@@ -217,12 +229,13 @@
           "schema:name": "20240607_NG-NS-MS_CNRS-CRPG_OREX-800032-105_1_methodDescription_1.yaml",
           "schema:description": "metadata file for ",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "7cc7da1c9dadf40c1cd9b7daa9490e997e300cc48877cd9700110c5ba122ed7f"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 235,
             "schema:unitText": "byte"
           },
@@ -249,7 +262,9 @@
     "schema:sdDatePublished": "2025-01-27",
     "schema:maintainer": {
       "@id": "https://ada.org/person/3479",
-      "@type": "schema:Person",
+      "@type": [
+        "schema:Person"
+      ],
       "schema:name": "Richard, Stephen M.",
       "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
       "schema:email": "smrTucson@email.org"
@@ -264,6 +279,15 @@
       },
       {
         "@id": "https://w3id.org/cdif/discovery/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/dataDescription/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/manifest/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/provenance/1.0/"
       },
       {
         "@id": "ada:profile/adaNGNSMS"

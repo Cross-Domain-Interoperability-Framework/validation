@@ -9,9 +9,8 @@
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "csvw": "http://www.w3.org/ns/csvw#",
     "prov": "http://www.w3.org/ns/prov#",
-    "dcat": "http://www.w3.org/ns/dcat#",
-    "xas": "https://ada.astromat.org/metadata/xas/",
-    "nxs": "https://manual.nexusformat.org/classes/"
+    "nxs": "http://purl.org/nexusformat/definitions/",
+    "dcat": "http://www.w3.org/ns/dcat#"
   },
   "@id": "ada:record_2065",
   "@type": [
@@ -22,8 +21,7 @@
   "schema:description": "Backscattered electron images, secondary electron images, panchromatic cathodoluminescence images, electron backscatter diffraction and energy dispersive spectroscopy mapping and data from particles in OREX-803077-0.",
   "schema:identifier": {
     "@type": [
-      "schema:PropertyValue",
-      "cdi:Identifier"
+      "schema:PropertyValue"
     ],
     "schema:propertyID": "https://registry.identifiers.org/registry/doi",
     "schema:value": "10.60707/pjmn-ap50",
@@ -42,7 +40,9 @@
     "@list": [
       {
         "@id": "https://orcid.org/0000-0003-2997-4303",
-        "@type": "schema:Person",
+        "@type": [
+          "schema:Person"
+        ],
         "schema:name": "Timms, Nicholas",
         "schema:identifier": "https://orcid.org/0000-0003-2997-4303",
         "schema:email": "N.Timms@curtin.edu.au"
@@ -51,22 +51,25 @@
   },
   "schema:funding": [
     {
-      "@type": "schema:MonetaryGrant",
+      "@type": [
+        "schema:MonetaryGrant"
+      ],
+      "schema:name": "Instrument funded by Australian Research Council LIEF program (ARC LE130100053); Analyses funded by Space Science and Technology Centre at Curtin University.",
       "schema:description": "Instrument funded by Australian Research Council LIEF program (ARC LE130100053); Analyses funded by Space Science and Technology Centre at Curtin University."
     }
   ],
   "schema:measurementTechnique": {
-    "@type": "schema:DefinedTerm",
+    "@type": [
+      "schema:DefinedTerm"
+    ],
     "schema:name": "Scanning electron microscopy",
     "schema:termCode": "SEM"
   },
   "prov:wasGeneratedBy": [
     {
       "@type": [
-        "schema:Event",
-        "xas:AnalysisEvent",
-        "prov:Activity",
-        "schema:Action"
+        "schema:Action",
+        "prov:Activity"
       ],
       "schema:startDate": "2024-11-15T12:00:00Z",
       "schema:identifier": "20241115_sem_cuwa_orex-803077-0_1",
@@ -74,7 +77,9 @@
         {
           "@type": [
             "schema:Thing",
-            "prov:Entity",
+            "schema:Product"
+          ],
+          "schema:additionalType": [
             "nxs:BaseClass/NXinstrument"
           ],
           "schema:name": "TESCAN MIRA3",
@@ -83,11 +88,15 @@
       ],
       "schema:location": {
         "@type": [
-          "schema:Place",
+          "schema:Place"
+        ],
+        "schema:additionalType": [
           "nxs:BaseClass/NXsource"
         ],
         "schema:identifier": "https://ror.org/02n415q13",
-        "schema:name": "Curtin University",
+        "schema:name": [
+          "Curtin University"
+        ],
         "schema:alternateName": "CUWA"
       },
       "schema:mainEntity": [
@@ -116,7 +125,7 @@
         "application/zip"
       ],
       "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
-      "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/withheld",
+      "schema:contentUrl": "",
       "schema:hasPart": [
         {
           "@type": [
@@ -127,21 +136,20 @@
           "schema:name": "20241115_SEM_CUWA_OREX-803077-0_1_SEMEBSDGrainImageMap_10.tif",
           "schema:description": "default description",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "d590ab67a51ce35c870cb43ae1b08a6ab331628935326b08726386f8f0a7e460"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 2359240,
             "schema:unitText": "byte"
           },
           "schema:encodingFormat": [
             "image/tiff"
           ],
-          "componentType": {
-            "@type": "ada:other"
-          }
+          "ada:componentType": "ada:other"
         },
         {
           "@type": [
@@ -152,12 +160,13 @@
           "schema:name": "20241115_SEM_CUWA_OREX-803077-0_1_SEMEBSDGrainImageMap_10.yaml",
           "schema:description": "metadata file for ",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "41671f8fd13445dae68c0b7f72219899524e12710caedc5f6fcb81ebd0126bd6"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 2083,
             "schema:unitText": "byte"
           },
@@ -179,21 +188,20 @@
           "schema:name": "20241115_SEM_CUWA_OREX-803077-0_1_methodDescription_1.pdf",
           "schema:description": "default description",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "c6a593e965928f53ee979af67dcec4d163d62f0961ddbf2dadc574b9e31e2d91"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 5598810,
             "schema:unitText": "byte"
           },
           "schema:encodingFormat": [
             "application/pdf"
           ],
-          "componentType": {
-            "@type": "ada:methodDescription"
-          }
+          "ada:componentType": "ada:methodDescription"
         },
         {
           "@type": [
@@ -204,12 +212,13 @@
           "schema:name": "20241115_SEM_CUWA_OREX-803077-0_1_methodDescription_1.yaml",
           "schema:description": "metadata file for ",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "7db299918eaa97c83bb64ac0d93642c2d8fda75057117fe8631abc958eae0ae5"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 3720,
             "schema:unitText": "byte"
           },
@@ -231,21 +240,20 @@
           "schema:name": "20241115_SEM_CUWA_OREX-803077-0_1_plot_22.tif",
           "schema:description": "default description",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "1f639c08517493137768afad8d6af4078da00f3ab6c8f50d7ff2fe6e9fa501c6"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 192634,
             "schema:unitText": "byte"
           },
           "schema:encodingFormat": [
             "image/tiff"
           ],
-          "componentType": {
-            "@type": "ada:plot"
-          }
+          "ada:componentType": "ada:plot"
         },
         {
           "@type": [
@@ -256,12 +264,13 @@
           "schema:name": "20241115_SEM_CUWA_OREX-803077-0_1_plot_22.yaml",
           "schema:description": "metadata file for ",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "cd9d5b69b8ac3b7c36771107378c20509f5efc27157db60ccef183a303b99c97"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 567,
             "schema:unitText": "byte"
           },
@@ -283,21 +292,20 @@
           "schema:name": "20241115_SEM_CUWA_OREX-803077-0_1_plot_23.tif",
           "schema:description": "default description",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "181f6017b7e64506b7ba291b21fecfe4739794f882b1aaa00dbe9b8f0ebfd1c5"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 194224,
             "schema:unitText": "byte"
           },
           "schema:encodingFormat": [
             "image/tiff"
           ],
-          "componentType": {
-            "@type": "ada:plot"
-          }
+          "ada:componentType": "ada:plot"
         },
         {
           "@type": [
@@ -308,12 +316,13 @@
           "schema:name": "20241115_SEM_CUWA_OREX-803077-0_1_plot_23.yaml",
           "schema:description": "metadata file for ",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "d31980c4ed37812dc45f77e8bd3dd5a7c904c6ec145dbe1331d62bbef0620922"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 562,
             "schema:unitText": "byte"
           },
@@ -335,21 +344,20 @@
           "schema:name": "20241115_SEM_CUWA_OREX-803077-0_1_plot_24.tif",
           "schema:description": "default description",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "d9239b3dfd051129d38be2da49ae54ec21bc5618b359e8504f6f3a3d61749a9b"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 204918,
             "schema:unitText": "byte"
           },
           "schema:encodingFormat": [
             "image/tiff"
           ],
-          "componentType": {
-            "@type": "ada:plot"
-          }
+          "ada:componentType": "ada:plot"
         },
         {
           "@type": [
@@ -360,12 +368,13 @@
           "schema:name": "20241115_SEM_CUWA_OREX-803077-0_1_plot_24.yaml",
           "schema:description": "metadata file for ",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "642b6317e98bf39c20e83a640f2688f7078dab4499407afc745cea39e90351f4"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 565,
             "schema:unitText": "byte"
           },
@@ -387,21 +396,20 @@
           "schema:name": "20241115_SEM_CUWA_OREX-803077-0_1_plot_25.tif",
           "schema:description": "default description",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "75ca3bc3caf6af3111558631df38686997b46730a41f64049c8bad1f3792fd67"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 128000,
             "schema:unitText": "byte"
           },
           "schema:encodingFormat": [
             "image/tiff"
           ],
-          "componentType": {
-            "@type": "ada:plot"
-          }
+          "ada:componentType": "ada:plot"
         },
         {
           "@type": [
@@ -412,12 +420,13 @@
           "schema:name": "20241115_SEM_CUWA_OREX-803077-0_1_plot_25.yaml",
           "schema:description": "metadata file for ",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "7ceb18e7c88722d3917c56b0a5705d1832c8523ebb8f20b2e0aa49ed8dc4a454"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 511,
             "schema:unitText": "byte"
           },
@@ -444,7 +453,9 @@
     "schema:sdDatePublished": "2025-01-27",
     "schema:maintainer": {
       "@id": "https://ada.org/person/3479",
-      "@type": "schema:Person",
+      "@type": [
+        "schema:Person"
+      ],
       "schema:name": "Richard, Stephen M.",
       "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
       "schema:email": "smrTucson@email.org"
@@ -459,6 +470,15 @@
       },
       {
         "@id": "https://w3id.org/cdif/discovery/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/dataDescription/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/manifest/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/provenance/1.0/"
       },
       {
         "@id": "ada:profile/adaSEM"

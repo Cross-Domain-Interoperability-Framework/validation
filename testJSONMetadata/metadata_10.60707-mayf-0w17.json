@@ -9,21 +9,19 @@
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "csvw": "http://www.w3.org/ns/csvw#",
     "prov": "http://www.w3.org/ns/prov#",
-    "dcat": "http://www.w3.org/ns/dcat#",
-    "xas": "https://ada.astromat.org/metadata/xas/",
-    "nxs": "https://manual.nexusformat.org/classes/"
+    "nxs": "http://purl.org/nexusformat/definitions/",
+    "dcat": "http://www.w3.org/ns/dcat#"
   },
   "@id": "ada:record_1339",
   "@type": [
     "schema:Dataset",
     "schema:Product"
   ],
-  "schema:name": "Raman spectroscopy of a 250 µm particle of Bennu (OREX-803141-0)",
+  "schema:name": "Raman spectroscopy of a 250 \u00b5m particle of Bennu (OREX-803141-0)",
   "schema:description": "Raman analysis of a 250 %C2%B5m particle of Bennu (OREX-803141-0). The bundle includes four raw data files from the amorphous carbon, calcite, magnetite and the aliphatic CH carbon.",
   "schema:identifier": {
     "@type": [
-      "schema:PropertyValue",
-      "cdi:Identifier"
+      "schema:PropertyValue"
     ],
     "schema:propertyID": "https://registry.identifiers.org/registry/doi",
     "schema:value": "10.60707/mayf-0w17",
@@ -42,7 +40,9 @@
     "@list": [
       {
         "@id": "https://orcid.org/0009-0005-5228-3908",
-        "@type": "schema:Person",
+        "@type": [
+          "schema:Person"
+        ],
         "schema:name": "Liss, Michael",
         "schema:identifier": "https://orcid.org/0009-0005-5228-3908",
         "schema:email": "michael.liss@helmholtz-munich.de"
@@ -51,10 +51,14 @@
   },
   "schema:contributor": [
     {
-      "@type": "schema:Role",
+      "@type": [
+        "schema:Role"
+      ],
       "schema:roleName": "Researcher",
       "schema:contributor": {
-        "@type": "schema:Person",
+        "@type": [
+          "schema:Person"
+        ],
         "@id": "",
         "schema:name": "",
         "schema:identifier": "",
@@ -64,22 +68,25 @@
   ],
   "schema:funding": [
     {
-      "@type": "schema:MonetaryGrant",
+      "@type": [
+        "schema:MonetaryGrant"
+      ],
+      "schema:name": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program. Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) Project-ID 364653263%E2%80%94TRR 235 (CRC 235).",
       "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program. Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) Project-ID 364653263%E2%80%94TRR 235 (CRC 235)."
     }
   ],
   "schema:measurementTechnique": {
-    "@type": "schema:DefinedTerm",
+    "@type": [
+      "schema:DefinedTerm"
+    ],
     "schema:name": "Raman vibrational spectroscopy",
     "schema:termCode": "RAMAN"
   },
   "prov:wasGeneratedBy": [
     {
       "@type": [
-        "schema:Event",
-        "xas:AnalysisEvent",
-        "prov:Activity",
-        "schema:Action"
+        "schema:Action",
+        "prov:Activity"
       ],
       "schema:startDate": "2024-08-23T12:28:57.182349Z",
       "schema:identifier": "20240823_raman_hmgu_orex-803141-0_1",
@@ -87,7 +94,9 @@
         {
           "@type": [
             "schema:Thing",
-            "prov:Entity",
+            "schema:Product"
+          ],
+          "schema:additionalType": [
             "nxs:BaseClass/NXinstrument"
           ],
           "schema:name": "(HGMU) WITec alpha 300 R",
@@ -96,11 +105,15 @@
       ],
       "schema:location": {
         "@type": [
-          "schema:Place",
+          "schema:Place"
+        ],
+        "schema:additionalType": [
           "nxs:BaseClass/NXsource"
         ],
         "schema:identifier": "https://ror.org/034rhsb33",
-        "schema:name": "Helmholtz University (Helmholtz Zentrum Munchen)",
+        "schema:name": [
+          "Helmholtz University (Helmholtz Zentrum Munchen)"
+        ],
         "schema:alternateName": "HMGU"
       },
       "schema:mainEntity": [
@@ -129,7 +142,7 @@
         "application/zip"
       ],
       "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
-      "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/withheld",
+      "schema:contentUrl": "",
       "schema:hasPart": [
         {
           "@type": [
@@ -140,21 +153,20 @@
           "schema:name": "20240823_RAMAN_HMGU_OREX-803141-0_1_RAMANRawTabular_1.csv",
           "schema:description": "default description",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "7857294e18e47805de27df944c40da4bf7cef19da96f250979737a1ab3bbe342"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 47152,
             "schema:unitText": "byte"
           },
           "schema:encodingFormat": [
             "text/csv"
           ],
-          "componentType": {
-            "@type": "ada:other"
-          }
+          "ada:componentType": "ada:other"
         },
         {
           "@type": [
@@ -165,12 +177,13 @@
           "schema:name": "20240823_RAMAN_HMGU_OREX-803141-0_1_RAMANRawTabular_1.yaml",
           "schema:description": "metadata file for ",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "396ffe912aeb5081b28f583d8d859d2708b735a916e761b0f68ec8074b8dbe14"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 585,
             "schema:unitText": "byte"
           },
@@ -192,21 +205,20 @@
           "schema:name": "20240823_RAMAN_HMGU_OREX-803141-0_1_plot_1.png",
           "schema:description": "default description",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "367d5e6eb50a2188479332b2b27f46ab8dd4931ae1453e1bfd6d8ac1a6645888"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 82395,
             "schema:unitText": "byte"
           },
           "schema:encodingFormat": [
             "image/png"
           ],
-          "componentType": {
-            "@type": "ada:plot"
-          }
+          "ada:componentType": "ada:plot"
         },
         {
           "@type": [
@@ -217,12 +229,13 @@
           "schema:name": "20240823_RAMAN_HMGU_OREX-803141-0_1_plot_1.yaml",
           "schema:description": "metadata file for ",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "cc976fe591f717c777004a07d7d62d7a1d8079face352e6b4429ae35e5591ee8"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 286,
             "schema:unitText": "byte"
           },
@@ -249,7 +262,9 @@
     "schema:sdDatePublished": "2025-01-27",
     "schema:maintainer": {
       "@id": "https://ada.org/person/3479",
-      "@type": "schema:Person",
+      "@type": [
+        "schema:Person"
+      ],
       "schema:name": "Richard, Stephen M.",
       "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
       "schema:email": "smrTucson@email.org"
@@ -264,6 +279,15 @@
       },
       {
         "@id": "https://w3id.org/cdif/discovery/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/dataDescription/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/manifest/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/provenance/1.0/"
       },
       {
         "@id": "ada:profile/adaRAMAN"

@@ -9,9 +9,8 @@
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "csvw": "http://www.w3.org/ns/csvw#",
     "prov": "http://www.w3.org/ns/prov#",
-    "dcat": "http://www.w3.org/ns/dcat#",
-    "xas": "https://ada.astromat.org/metadata/xas/",
-    "nxs": "https://manual.nexusformat.org/classes/"
+    "nxs": "http://purl.org/nexusformat/definitions/",
+    "dcat": "http://www.w3.org/ns/dcat#"
   },
   "@id": "ada:record_897",
   "@type": [
@@ -22,8 +21,7 @@
   "schema:description": "The dataset contains ion chromatography measurements of phosphate in acid hydrolyzed washes from Bennu, Murchison, fused silica samples, and procedural blank.",
   "schema:identifier": {
     "@type": [
-      "schema:PropertyValue",
-      "cdi:Identifier"
+      "schema:PropertyValue"
     ],
     "schema:propertyID": "https://registry.identifiers.org/registry/doi",
     "schema:value": "10.60707/1k0j-p360",
@@ -42,7 +40,9 @@
     "@list": [
       {
         "@id": "https://orcid.org/0000-0001-5533-6490",
-        "@type": "schema:Person",
+        "@type": [
+          "schema:Person"
+        ],
         "schema:name": "Peretyazhko, Tanya",
         "schema:identifier": "https://orcid.org/0000-0001-5533-6490",
         "schema:email": "tanya.peretyazhko@nasa.gov"
@@ -51,22 +51,25 @@
   },
   "schema:funding": [
     {
-      "@type": "schema:MonetaryGrant",
+      "@type": [
+        "schema:MonetaryGrant"
+      ],
+      "schema:name": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program.",
       "schema:description": "This material is supported by NASA under contract NNM10AA11C issued through the New Frontiers program."
     }
   ],
   "schema:measurementTechnique": {
-    "@type": "schema:DefinedTerm",
+    "@type": [
+      "schema:DefinedTerm"
+    ],
     "schema:name": "Ion Chromatography",
     "schema:termCode": "IC"
   },
   "prov:wasGeneratedBy": [
     {
       "@type": [
-        "schema:Event",
-        "xas:AnalysisEvent",
-        "prov:Activity",
-        "schema:Action"
+        "schema:Action",
+        "prov:Activity"
       ],
       "schema:startDate": "2024-03-19T15:54:41.210236Z",
       "schema:identifier": "20240215_ic_jsc-ares_orex-803001-111_1",
@@ -74,7 +77,9 @@
         {
           "@type": [
             "schema:Thing",
-            "prov:Entity",
+            "schema:Product"
+          ],
+          "schema:additionalType": [
             "nxs:BaseClass/NXinstrument"
           ],
           "schema:name": "DIONEX Integrion IC",
@@ -83,11 +88,15 @@
       ],
       "schema:location": {
         "@type": [
-          "schema:Place",
+          "schema:Place"
+        ],
+        "schema:additionalType": [
           "nxs:BaseClass/NXsource"
         ],
         "schema:identifier": "https://ror.org/04xx4z452",
-        "schema:name": "NASA Johnson Space Center",
+        "schema:name": [
+          "NASA Johnson Space Center"
+        ],
         "schema:alternateName": "JSC-ARES"
       },
       "schema:mainEntity": [
@@ -116,7 +125,7 @@
         "application/zip"
       ],
       "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
-      "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/withheld",
+      "schema:contentUrl": "",
       "schema:hasPart": [
         {
           "@type": [
@@ -127,21 +136,20 @@
           "schema:name": "20240215_IC_JSC-ARES_OREX-803001-111_1_ICTabular_93.csv",
           "schema:description": "default description",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "19e6212ec68a717db4eb07bc1b290fc744f84066d54910914b23528c84037e2c"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 1177,
             "schema:unitText": "byte"
           },
           "schema:encodingFormat": [
             "text/csv"
           ],
-          "componentType": {
-            "@type": "ada:other"
-          }
+          "ada:componentType": "ada:other"
         },
         {
           "@type": [
@@ -152,12 +160,13 @@
           "schema:name": "20240215_IC_JSC-ARES_OREX-803001-111_1_ICTabular_93.yaml",
           "schema:description": "metadata file for ",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "f1d6e1a8494b134608df0fddd898d1e47a11b90ef142ce86b6304e9c143ab51d"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 763,
             "schema:unitText": "byte"
           },
@@ -179,21 +188,20 @@
           "schema:name": "20240215_IC_JSC-ARES_OREX-803001-111_1_methodDescription_410.txt",
           "schema:description": "default description",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "bae55502b3df4694f9dc2408ef5285a5fbbb9a275efeec7ed8fc403fa3274796"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 1190,
             "schema:unitText": "byte"
           },
           "schema:encodingFormat": [
             "text/plain"
           ],
-          "componentType": {
-            "@type": "ada:methodDescription"
-          }
+          "ada:componentType": "ada:methodDescription"
         },
         {
           "@type": [
@@ -204,12 +212,13 @@
           "schema:name": "20240215_IC_JSC-ARES_OREX-803001-111_1_methodDescription_410.yaml",
           "schema:description": "metadata file for ",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "8268ac200222ca96cc4319cce29a90ee4860029f4882b0cc963a1a266d20573c"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 234,
             "schema:unitText": "byte"
           },
@@ -231,21 +240,20 @@
           "schema:name": "20240215_IC_JSC-ARES_OREX-803001-111_1_report_409.pdf",
           "schema:description": "default description",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "fd832ee3c24c4e5d5a763b48c97cdd181109e0c4356733d35845c515468aea58"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 69148,
             "schema:unitText": "byte"
           },
           "schema:encodingFormat": [
             "application/pdf"
           ],
-          "componentType": {
-            "@type": "ada:report"
-          }
+          "ada:componentType": "ada:report"
         },
         {
           "@type": [
@@ -256,12 +264,13 @@
           "schema:name": "20240215_IC_JSC-ARES_OREX-803001-111_1_report_409.yaml",
           "schema:description": "metadata file for ",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "e46727073e97abbe243181a1f3a630a25a782306769bb3010f391eac7ce96456"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 392,
             "schema:unitText": "byte"
           },
@@ -288,7 +297,9 @@
     "schema:sdDatePublished": "2024-07-04",
     "schema:maintainer": {
       "@id": "https://ada.org/person/3479",
-      "@type": "schema:Person",
+      "@type": [
+        "schema:Person"
+      ],
       "schema:name": "Richard, Stephen M.",
       "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
       "schema:email": "smrTucson@email.org"
@@ -303,6 +314,15 @@
       },
       {
         "@id": "https://w3id.org/cdif/discovery/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/dataDescription/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/manifest/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/provenance/1.0/"
       },
       {
         "@id": "ada:profile/adaIC"

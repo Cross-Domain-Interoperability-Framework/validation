@@ -9,9 +9,8 @@
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "csvw": "http://www.w3.org/ns/csvw#",
     "prov": "http://www.w3.org/ns/prov#",
-    "dcat": "http://www.w3.org/ns/dcat#",
-    "xas": "https://ada.astromat.org/metadata/xas/",
-    "nxs": "https://manual.nexusformat.org/classes/"
+    "nxs": "http://purl.org/nexusformat/definitions/",
+    "dcat": "http://www.w3.org/ns/dcat#"
   },
   "@id": "ada:record_2696",
   "@type": [
@@ -22,8 +21,7 @@
   "schema:description": "Finding that ever-elusive zone axis and taking SAED patterns of a pyrrhotite grain in orex-501044-104camera constant is 578 A*px",
   "schema:identifier": {
     "@type": [
-      "schema:PropertyValue",
-      "cdi:Identifier"
+      "schema:PropertyValue"
     ],
     "schema:propertyID": "https://registry.identifiers.org/registry/doi",
     "schema:value": "10.60707/fgat-bv38",
@@ -42,7 +40,9 @@
     "@list": [
       {
         "@id": "https://orcid.org/0000-0001-6217-4290",
-        "@type": "schema:Person",
+        "@type": [
+          "schema:Person"
+        ],
         "schema:name": "Prince, Beau",
         "schema:identifier": "https://orcid.org/0000-0001-6217-4290",
         "schema:email": "beauprince@arizona.edu"
@@ -51,22 +51,25 @@
   },
   "schema:funding": [
     {
-      "@type": "schema:MonetaryGrant",
+      "@type": [
+        "schema:MonetaryGrant"
+      ],
+      "schema:name": "NASA contract NNM10AA11C ",
       "schema:description": "NASA contract NNM10AA11C "
     }
   ],
   "schema:measurementTechnique": {
-    "@type": "schema:DefinedTerm",
+    "@type": [
+      "schema:DefinedTerm"
+    ],
     "schema:name": "Transmission Electron Microscopy",
     "schema:termCode": "TEM"
   },
   "prov:wasGeneratedBy": [
     {
       "@type": [
-        "schema:Event",
-        "xas:AnalysisEvent",
-        "prov:Activity",
-        "schema:Action"
+        "schema:Action",
+        "prov:Activity"
       ],
       "schema:startDate": "2024-11-14T12:00:00Z",
       "schema:identifier": "20241114_tem_uaz_orex-501044-104_1",
@@ -74,7 +77,9 @@
         {
           "@type": [
             "schema:Thing",
-            "prov:Entity",
+            "schema:Product"
+          ],
+          "schema:additionalType": [
             "nxs:BaseClass/NXinstrument"
           ],
           "schema:name": "Hitachi HF5000",
@@ -83,11 +88,15 @@
       ],
       "schema:location": {
         "@type": [
-          "schema:Place",
+          "schema:Place"
+        ],
+        "schema:additionalType": [
           "nxs:BaseClass/NXsource"
         ],
         "schema:identifier": "https://ror.org/03m2x1q45",
-        "schema:name": "University of Arizona",
+        "schema:name": [
+          "University of Arizona"
+        ],
         "schema:alternateName": "UAZ"
       },
       "schema:mainEntity": [
@@ -116,7 +125,7 @@
         "application/zip"
       ],
       "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
-      "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/withheld",
+      "schema:contentUrl": "",
       "schema:hasPart": [
         {
           "@type": [
@@ -127,21 +136,20 @@
           "schema:name": "20241114_TEM_UAZ_OREX-501044-104_1_TEMPatternsImage_926.tif",
           "schema:description": "default description",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "5bb61852e3aebb6f505aaee15f8618ca50c7b66df1759f64684446f1c8fa7fa2"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 16778198,
             "schema:unitText": "byte"
           },
           "schema:encodingFormat": [
             "image/tiff"
           ],
-          "componentType": {
-            "@type": "ada:other"
-          }
+          "ada:componentType": "ada:other"
         },
         {
           "@type": [
@@ -152,12 +160,13 @@
           "schema:name": "20241114_TEM_UAZ_OREX-501044-104_1_TEMPatternsImage_926.yaml",
           "schema:description": "metadata file for ",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "d369dc2e5e91fed8061877cf36c234164b06f9c7d92c7fcbb09eb42361647224"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 177,
             "schema:unitText": "byte"
           },
@@ -179,21 +188,20 @@
           "schema:name": "20241114_TEM_UAZ_OREX-501044-104_1_instrumentMetadata_2431.txt",
           "schema:description": "default description",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "18d1d2e3e7cbb9dfb2a555bea421ac3f3a6bd605d79349f35031e9aa232b19aa"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 1185,
             "schema:unitText": "byte"
           },
           "schema:encodingFormat": [
             "text/plain"
           ],
-          "componentType": {
-            "@type": "ada:instrumentMetadata"
-          }
+          "ada:componentType": "ada:instrumentMetadata"
         },
         {
           "@type": [
@@ -204,12 +212,13 @@
           "schema:name": "20241114_TEM_UAZ_OREX-501044-104_1_instrumentMetadata_2431.yaml",
           "schema:description": "metadata file for ",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "972a44d4ce9cd1a72c5714f0f355e3393ef699904e0be140d397d6199ff09d31"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 271,
             "schema:unitText": "byte"
           },
@@ -236,7 +245,9 @@
     "schema:sdDatePublished": "2025-04-02",
     "schema:maintainer": {
       "@id": "https://ada.org/person/3479",
-      "@type": "schema:Person",
+      "@type": [
+        "schema:Person"
+      ],
       "schema:name": "Richard, Stephen M.",
       "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
       "schema:email": "smrTucson@email.org"
@@ -251,6 +262,15 @@
       },
       {
         "@id": "https://w3id.org/cdif/discovery/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/dataDescription/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/manifest/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/provenance/1.0/"
       },
       {
         "@id": "ada:profile/adaTEM"

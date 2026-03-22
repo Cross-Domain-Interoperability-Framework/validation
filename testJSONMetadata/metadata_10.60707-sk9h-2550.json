@@ -9,9 +9,8 @@
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "csvw": "http://www.w3.org/ns/csvw#",
     "prov": "http://www.w3.org/ns/prov#",
-    "dcat": "http://www.w3.org/ns/dcat#",
-    "xas": "https://ada.astromat.org/metadata/xas/",
-    "nxs": "https://manual.nexusformat.org/classes/"
+    "nxs": "http://purl.org/nexusformat/definitions/",
+    "dcat": "http://www.w3.org/ns/dcat#"
   },
   "@id": "ada:record_454",
   "@type": [
@@ -22,8 +21,7 @@
   "schema:description": "This bundle includes raw images taken by the Quantitative Reflectance Imaging System (QRIS) of the sample moved from the TAGSAM into Tray A1.",
   "schema:identifier": {
     "@type": [
-      "schema:PropertyValue",
-      "cdi:Identifier"
+      "schema:PropertyValue"
     ],
     "schema:propertyID": "https://registry.identifiers.org/registry/doi",
     "schema:value": "10.60707/sk9h-2550",
@@ -42,14 +40,18 @@
     "@list": [
       {
         "@id": "https://orcid.org/0000-0002-6159-539X",
-        "@type": "schema:Person",
+        "@type": [
+          "schema:Person"
+        ],
         "schema:name": "Golish, Dathon",
         "schema:identifier": "https://orcid.org/0000-0002-6159-539X",
         "schema:email": "dgolish@orex.lpl.arizona.edu"
       },
       {
         "@id": "",
-        "@type": "schema:Person",
+        "@type": [
+          "schema:Person"
+        ],
         "schema:name": "Fulford, Ruby",
         "schema:identifier": "",
         "schema:email": "ref1@arizona.edu"
@@ -58,22 +60,25 @@
   },
   "schema:funding": [
     {
-      "@type": "schema:MonetaryGrant",
+      "@type": [
+        "schema:MonetaryGrant"
+      ],
+      "schema:name": "None, besides OSIRIS-REx grant",
       "schema:description": "None, besides OSIRIS-REx grant"
     }
   ],
   "schema:measurementTechnique": {
-    "@type": "schema:DefinedTerm",
+    "@type": [
+      "schema:DefinedTerm"
+    ],
     "schema:name": "Quantitative Reflectance Imaging System",
     "schema:termCode": "QRIS"
   },
   "prov:wasGeneratedBy": [
     {
       "@type": [
-        "schema:Event",
-        "xas:AnalysisEvent",
-        "prov:Activity",
-        "schema:Action"
+        "schema:Action",
+        "prov:Activity"
       ],
       "schema:startDate": "2024-05-14T20:23:24.500865Z",
       "schema:identifier": "20231024_qris_jsc-ares_orex-800010-0_1",
@@ -81,7 +86,9 @@
         {
           "@type": [
             "schema:Thing",
-            "prov:Entity",
+            "schema:Product"
+          ],
+          "schema:additionalType": [
             "nxs:BaseClass/NXinstrument"
           ],
           "schema:name": "Quantitative Reflectance Imaging System",
@@ -90,11 +97,15 @@
       ],
       "schema:location": {
         "@type": [
-          "schema:Place",
+          "schema:Place"
+        ],
+        "schema:additionalType": [
           "nxs:BaseClass/NXsource"
         ],
         "schema:identifier": "https://ror.org/04xx4z452",
-        "schema:name": "NASA Johnson Space Center",
+        "schema:name": [
+          "NASA Johnson Space Center"
+        ],
         "schema:alternateName": "JSC-ARES"
       },
       "schema:mainEntity": [
@@ -123,7 +134,7 @@
         "application/zip"
       ],
       "schema:description": "this data product is distributed in zip archive; contents of the archive are listed as parts. The component files are not individually accessible",
-      "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/withheld",
+      "schema:contentUrl": "",
       "schema:hasPart": [
         {
           "@type": [
@@ -134,12 +145,13 @@
           "schema:name": "20231024_QRIS_JSC-ARES_OREX-800010-0_1_QRISRawCollection_1.yaml",
           "schema:description": "metadata file for ",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "ac75805f6171d5071838cc43a486148e9b7596177d5fb6c044a878ab46901cf2"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 491,
             "schema:unitText": "byte"
           },
@@ -162,21 +174,20 @@
           "schema:name": "20231024_QRIS_JSC-ARES_OREX-800010-0_1_QRISRawCollection_1.zip",
           "schema:description": "default description",
           "spdx:checksum": {
-            "@type": "spdx:Checksum",
             "spdx:algorithm": "SHA-256",
             "spdx:checksumValue": "26fddbee61f2f12e38b2b18d29b3e491ae29e718b058a6b17f741a813123b785"
           },
           "schema:size": {
-            "@type": "schema:QuantitativeValue",
+            "@type": [
+              "schema:QuantitativeValue"
+            ],
             "schema:value": 1462929033,
             "schema:unitText": "byte"
           },
           "schema:encodingFormat": [
             "application/zip"
           ],
-          "componentType": {
-            "@type": "ada:QRISRawCollection"
-          }
+          "ada:componentType": "ada:QRISRawCollection"
         }
       ]
     }
@@ -192,7 +203,9 @@
     "schema:sdDatePublished": "2024-06-06",
     "schema:maintainer": {
       "@id": "https://ada.org/person/3479",
-      "@type": "schema:Person",
+      "@type": [
+        "schema:Person"
+      ],
       "schema:name": "Richard, Stephen M.",
       "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
       "schema:email": "smrTucson@email.org"
@@ -207,6 +220,15 @@
       },
       {
         "@id": "https://w3id.org/cdif/discovery/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/dataDescription/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/manifest/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/provenance/1.0/"
       },
       {
         "@id": "ada:profile/adaQRIS"
