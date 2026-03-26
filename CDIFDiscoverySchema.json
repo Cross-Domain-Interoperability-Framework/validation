@@ -1,145 +1,13 @@
 {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
     "title": "CDIF Discovery metadata schema",
     "description": "JSON schema for validating framed JSON-LD documents that describe science datasets for the CDIF discovery profile. Combines cdifCore building block with discovery properties and @type enum constraint. Generated from CDIFDiscoveryProfile building block profile resolvedSchema.json (https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/profiles/cdifProfiles/CDIFDiscoveryProfile/resolvedSchema.json).",
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "properties": {
-        "schema:subjectOf": {
-            "properties": {
-                "dcterms:conformsTo": {
-                    "contains": {
-                        "type": "object",
-                        "properties": {
-                            "@id": {
-                                "const": "https://w3id.org/cdif/discovery/1.0/"
-                            }
-                        }
-                    },
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "@id": {
-                                "type": "string",
-                                "description": "uri for specifications that this metadata record conforms to"
-                            }
-                        }
-                    },
-                    "minItems": 1,
-                    "description": "uri for specifications that this metadata record conforms to. Minimimally should specify uri for CDIF discovery profile."
-                },
-                "@type": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "contains": {
-                        "const": "schema:Dataset"
-                    },
-                    "minItems": 1
-                },
-                "schema:additionalType": {
-                    "type": "array",
-                    "description": "additional type assertions for the catalog record node. dcat:CatalogRecord is required.",
-                    "items": {
-                        "type": "string"
-                    },
-                    "contains": {
-                        "const": "dcat:CatalogRecord"
-                    },
-                    "minItems": 1
-                },
-                "@id": {
-                    "type": "string",
-                    "description": "identifier for the metadata record"
-                },
-                "schema:about": {
-                    "type": "object",
-                    "properties": {
-                        "@id": {
-                            "type": "string",
-                            "description": "this must be the @id value of the node containing the resource description metadata"
-                        }
-                    }
-                },
-                "schema:maintainer": {
-                    "description": "iSamples Registrant. identification of the agent that registered the sample, with contact information. Should include person name and affiliation, or position name and affiliation, or just organization name. e-mail address is preferred contact information.",
-                    "anyOf": [
-                        {
-                            "$ref": "#/$defs/person_type"
-                        },
-                        {
-                            "$ref": "#/$defs/organization_type"
-                        }
-                    ]
-                },
-                "schema:sdDatePublished": {
-                    "description": "date of most recent update to the metadata content, extends iSamples schema",
-                    "type": "string",
-                    "format": "date"
-                },
-                "schema:includedInDataCatalog": {
-                    "type": "object",
-                    "description": "identify the data collection or repository that contains the described dataset. The value is expected to be a schema:DataCatalog",
-                    "properties": {
-                        "@id": {
-                            "type": "string",
-                            "description": "identifier for the containing catalog or repository; example data at https://github.com/ESIPFed/science-on-schema.org/blob/develop/guides/Dataset.md#catalog puts identifier here"
-                        },
-                        "@type": {
-                            "default": "schema:DataCatalog",
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
-                            "contains": {
-                                "const": "schema:DataCatalog"
-                            },
-                            "minItems": 1
-                        },
-                        "schema:name": {
-                            "type": "string"
-                        },
-                        "schema:url": {
-                            "type": "string",
-                            "format": "uri",
-                            "description": "locator to access a landing page for the collection or catalog"
-                        },
-                        "schema:identifier": {
-                            "$ref": "#/$defs/propertyValue_type"
-                        }
-                    }
-                }
-            },
-            "type": "object",
-            "description": "see https://github.com/Cross-Domain-Interoperability-Framework/Discovery/issues/13 for discussion on how to make assertion about the sample registration and metadata distinct from statements about the physical object",
-            "required": [
-                "schema:about",
-                "dcterms:conformsTo",
-                "schema:additionalType",
-                "@type",
-                "@id"
-            ]
-        },
         "@context": {
             "type": "object",
             "description": "Additional JSON-LD namespace prefixes for discovery properties.",
             "properties": {
-                "schema": {
-                    "const": "http://schema.org/"
-                },
-                "dcterms": {
-                    "const": "http://purl.org/dc/terms/"
-                },
-                "spdx": {
-                    "const": "http://spdx.org/rdf/terms#"
-                },
-                "dcat": {
-                    "const": "http://www.w3.org/ns/dcat#"
-                },
-                "prov": {
-                    "const": "http://www.w3.org/ns/prov#"
-                },
                 "geosparql": {
                     "const": "http://www.opengis.net/ont/geosparql#"
                 },
@@ -149,13 +17,7 @@
                 "cdi": {
                     "const": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
                 }
-            },
-            "required": [
-                "schema",
-                "dcterms",
-                "dcat",
-                "prov"
-            ]
+            }
         },
         "@id": {
             "type": "string",
@@ -196,7 +58,7 @@
             "description": "A short summary describing a dataset. This text will be indexed by search applications, so the more information here, the better."
         },
         "schema:identifier": {
-            "$ref": "#/$defs/maintainer_identifier_type"
+            "$ref": "#/$defs/identifier_type"
         },
         "schema:additionalType": {
             "description": "identifiers for datatypes from other vocabularies (not schema.org) that apply to this metadata.",
@@ -211,7 +73,20 @@
             "type": "array",
             "minItems": 1,
             "items": {
-                "$ref": "#/$defs/sameAs_type"
+                "anyOf": [
+                    {
+                        "type": "string"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "@id": {
+                                "type": "string",
+                                "description": "IRI for an equivalent resource or alternate identifier"
+                            }
+                        }
+                    }
+                ]
             }
         },
         "schema:version": {
@@ -836,6 +711,137 @@
                 "$ref": "#/$defs/nameOrReference_type"
             }
         },
+        "schema:subjectOf": {
+            "type": "object",
+            "description": "see https://github.com/Cross-Domain-Interoperability-Framework/Discovery/issues/13 for discussion on how to make assertion about the sample registration and metadata distinct from statements about the physical object",
+            "properties": {
+                "@type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "schema:Dataset"
+                    },
+                    "minItems": 1
+                },
+                "schema:additionalType": {
+                    "type": "array",
+                    "description": "additional type assertions for the catalog record node. dcat:CatalogRecord is required.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "dcat:CatalogRecord"
+                    },
+                    "minItems": 1
+                },
+                "@id": {
+                    "type": "string",
+                    "description": "identifier for the metadata record"
+                },
+                "schema:about": {
+                    "type": "object",
+                    "properties": {
+                        "@id": {
+                            "type": "string",
+                            "description": "this must be the @id value of the node containing the resource description metadata"
+                        }
+                    }
+                },
+                "dcterms:conformsTo": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "@id": {
+                                "type": "string",
+                                "description": "uri for specifications that this metadata record conforms to"
+                            }
+                        }
+                    },
+                    "minItems": 1,
+                    "description": "uri for specifications that this metadata record conforms to. Minimimally should specify uri for CDIF discovery profile.",
+                    "allOf": [
+                        {
+                            "contains": {
+                                "type": "object",
+                                "properties": {
+                                    "@id": {
+                                        "const": "https://w3id.org/cdif/core/1.0/"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "contains": {
+                                "type": "object",
+                                "properties": {
+                                    "@id": {
+                                        "const": "https://w3id.org/cdif/discovery/1.0/"
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                "schema:maintainer": {
+                    "description": "iSamples Registrant. identification of the agent that registered the sample, with contact information. Should include person name and affiliation, or position name and affiliation, or just organization name. e-mail address is preferred contact information.",
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/person_type"
+                        },
+                        {
+                            "$ref": "#/$defs/organization_type"
+                        }
+                    ]
+                },
+                "schema:sdDatePublished": {
+                    "description": "date of most recent update to the metadata content, extends iSamples schema",
+                    "type": "string",
+                    "format": "date"
+                },
+                "schema:includedInDataCatalog": {
+                    "type": "object",
+                    "description": "identify the data collection or repository that contains the described dataset. The value is expected to be a schema:DataCatalog",
+                    "properties": {
+                        "@id": {
+                            "type": "string",
+                            "description": "identifier for the containing catalog or repository; example data at https://github.com/ESIPFed/science-on-schema.org/blob/develop/guides/Dataset.md#catalog puts identifier here"
+                        },
+                        "@type": {
+                            "default": "schema:DataCatalog",
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "contains": {
+                                "const": "schema:DataCatalog"
+                            },
+                            "minItems": 1
+                        },
+                        "schema:name": {
+                            "type": "string"
+                        },
+                        "schema:url": {
+                            "type": "string",
+                            "format": "uri",
+                            "description": "locator to access a landing page for the collection or catalog"
+                        },
+                        "schema:identifier": {
+                            "$ref": "#/$defs/propertyValue_type"
+                        }
+                    }
+                }
+            },
+            "required": [
+                "schema:about",
+                "dcterms:conformsTo",
+                "schema:additionalType",
+                "@type",
+                "@id"
+            ]
+        },
         "schema:measurementTechnique": {
             "description": "The technique, technology, or methodology used for measurement or determination of the dataset values.",
             "anyOf": [
@@ -1243,44 +1249,24 @@
             }
         }
     },
-    "allOf": [
+    "required": [
+        "@id",
+        "@type",
+        "@context",
+        "schema:name",
+        "schema:identifier",
+        "schema:dateModified",
+        "schema:subjectOf"
+    ],
+    "anyOf": [
         {
             "required": [
-                "@id",
-                "@type",
-                "@context",
-                "schema:name",
-                "schema:identifier",
-                "schema:dateModified",
-                "schema:subjectOf"
+                "schema:url"
             ]
         },
         {
-            "anyOf": [
-                {
-                    "required": [
-                        "schema:license"
-                    ]
-                },
-                {
-                    "required": [
-                        "schema:conditionsOfAccess"
-                    ]
-                }
-            ]
-        },
-        {
-            "anyOf": [
-                {
-                    "required": [
-                        "schema:url"
-                    ]
-                },
-                {
-                    "required": [
-                        "schema:distribution"
-                    ]
-                }
+            "required": [
+                "schema:distribution"
             ]
         }
     ],
@@ -1363,30 +1349,34 @@
                     "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
                 }
             },
-            "allOf": [
+            "required": [
+                "@type"
+            ],
+            "anyOf": [
                 {
                     "required": [
-                        "@type"
+                        "schema:name"
                     ]
                 },
                 {
-                    "anyOf": [
-                        {
-                            "required": [
-                                "schema:name"
-                            ]
-                        },
-                        {
-                            "required": [
-                                "schema:identifier"
-                            ]
-                        },
-                        {
-                            "required": [
-                                "schema:termCode"
-                            ]
-                        }
+                    "required": [
+                        "schema:identifier"
                     ]
+                },
+                {
+                    "required": [
+                        "schema:termCode"
+                    ]
+                }
+            ]
+        },
+        "identifier_type": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "$ref": "#/$defs/propertyValue_type"
                 }
             ]
         },
@@ -1428,17 +1418,6 @@
                     }
                 }
             }
-        },
-        "maintainer_identifier_type": {
-            "description": "identifier for person, recommend ORCID",
-            "anyOf": [
-                {
-                    "$ref": "#/$defs/propertyValue_type"
-                },
-                {
-                    "type": "string"
-                }
-            ]
         },
         "nameOrDefinedTerm_type": {
             "anyOf": [
@@ -1593,38 +1572,44 @@
                     "type": "string"
                 },
                 "schema:identifier": {
-                    "$ref": "#/$defs/maintainer_identifier_type"
+                    "$ref": "#/$defs/identifier_type"
                 },
                 "schema:sameAs": {
                     "type": "array",
                     "description": "other identifiers for the organization",
                     "items": {
-                        "$ref": "#/$defs/sameAs_type"
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "@id": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        ]
                     }
                 }
             },
-            "allOf": [
+            "description": "if affiliation is present, value must be a schema:Organization.",
+            "required": [
+                "@type"
+            ],
+            "anyOf": [
                 {
                     "required": [
-                        "@type"
+                        "schema:name"
                     ]
                 },
                 {
-                    "anyOf": [
-                        {
-                            "required": [
-                                "schema:name"
-                            ]
-                        },
-                        {
-                            "required": [
-                                "schema:identifier"
-                            ]
-                        }
+                    "required": [
+                        "schema:identifier"
                     ]
                 }
-            ],
-            "description": "if affiliation is present, value must be a schema:Organization."
+            ]
         },
         "person_type": {
             "description": "schema for cdif profile of schema.org/Person",
@@ -1651,7 +1636,7 @@
                     "type": "string"
                 },
                 "schema:identifier": {
-                    "$ref": "#/$defs/maintainer_identifier_type"
+                    "$ref": "#/$defs/identifier_type"
                 },
                 "schema:alternateName": {
                     "type": "string",
@@ -1684,28 +1669,34 @@
                     "type": "array",
                     "description": "other identifiers for the person",
                     "items": {
-                        "$ref": "#/$defs/sameAs_type"
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "@id": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        ]
                     }
                 }
             },
-            "allOf": [
+            "required": [
+                "@type"
+            ],
+            "anyOf": [
                 {
                     "required": [
-                        "@type"
+                        "schema:name"
                     ]
                 },
                 {
-                    "anyOf": [
-                        {
-                            "required": [
-                                "schema:name"
-                            ]
-                        },
-                        {
-                            "required": [
-                                "schema:identifier"
-                            ]
-                        }
+                    "required": [
+                        "schema:identifier"
                     ]
                 }
             ]
@@ -1738,24 +1729,18 @@
                     "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
                 }
             },
-            "allOf": [
+            "required": [
+                "@type"
+            ],
+            "anyOf": [
                 {
                     "required": [
-                        "@type"
+                        "schema:value"
                     ]
                 },
                 {
-                    "anyOf": [
-                        {
-                            "required": [
-                                "schema:value"
-                            ]
-                        },
-                        {
-                            "required": [
-                                "schema:url"
-                            ]
-                        }
+                    "required": [
+                        "schema:url"
                     ]
                 }
             ]
@@ -1779,24 +1764,6 @@
                 },
                 {
                     "$ref": "#/$defs/organization_type"
-                }
-            ]
-        },
-        "sameAs_type": {
-            "anyOf": [
-                {
-                    "type": "string"
-                },
-                {
-                    "type": "object",
-                    "properties": {
-                        "@id": {
-                            "type": "string"
-                        }
-                    }
-                },
-                {
-                    "$ref": "#/$defs/propertyValue_type"
                 }
             ]
         }
