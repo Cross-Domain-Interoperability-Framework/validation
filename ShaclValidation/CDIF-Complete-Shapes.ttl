@@ -212,8 +212,8 @@ cdifd:CDIFContactPointShape a sh:NodeShape ;
 
 cdifd:CDIFDataDescriptionConformsToShape a sh:NodeShape ;
     sh:property [ a sh:PropertyShape ;
-            sh:hasValue <https://w3id.org/cdif/dataDescription/1.0/> ;
-            sh:message "Metadata record must declare conformance to the CDIF data description profile (https://w3id.org/cdif/dataDescription/1.0/)" ;
+            sh:hasValue <https://w3id.org/cdif/data_description/1.0> ;
+            sh:message "Metadata record must declare conformance to the CDIF data description profile (https://w3id.org/cdif/data_description/1.0)" ;
             sh:path dcterms:conformsTo ] ;
     sh:target [ a sh:SPARQLTarget ;
             sh:select """
@@ -374,8 +374,8 @@ cdifd:CDIFLabeledLinkShape a sh:NodeShape ;
 
 cdifd:CDIFManifestConformsToShape a sh:NodeShape ;
     sh:property [ a sh:PropertyShape ;
-            sh:hasValue <https://w3id.org/cdif/manifest/1.0/> ;
-            sh:message "Metadata record must declare conformance to the CDIF manifest profile (https://w3id.org/cdif/manifest/1.0/)" ;
+            sh:hasValue <https://w3id.org/cdif/manifest/1.0> ;
+            sh:message "Metadata record must declare conformance to the CDIF manifest profile (https://w3id.org/cdif/manifest/1.0)" ;
             sh:path dcterms:conformsTo ] ;
     sh:target [ a sh:SPARQLTarget ;
             sh:select """
@@ -1159,7 +1159,7 @@ cdifd:metadataIdentifierProperty a sh:PropertyShape ;
     sh:severity sh:Warning .
 
 cdifd:metadataProfileProperty a sh:PropertyShape ;
-    sh:hasValue <https://w3id.org/cdif/core/1.0/> ;
+    sh:hasValue <https://w3id.org/cdif/core/1.0> ;
     sh:message "provide identifiers for specifications used in this record to provide guidance for machine agents processing the metadata record" ;
     sh:minCount 1 ;
     sh:nodeKind sh:IRI ;
