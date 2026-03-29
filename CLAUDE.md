@@ -24,6 +24,7 @@ This repository contains validation tools for **CDIF (Cross-Domain Interoperabil
 | `batch_validate.py` | Batch validation of CDIF metadata files across multiple file groups |
 | `CDIFDiscoverySchema.json` | JSON Schema for framed (tree) CDIF discovery profile metadata |
 | `CDIFCompleteSchema.json` | JSON Schema for framed (tree) CDIF complete profile metadata |
+| `CDIFDataDescriptionSchema.json` | JSON Schema for framed (tree) CDIF data description profile metadata |
 | `CDIF-graph-schema-2026.json` | JSON Schema for flattened JSON-LD graphs (generated) |
 | `generate_graph_schema.py` | Generates graph schema from building block source schemas |
 | `CDIF-frame-2026.jsonld` | JSON-LD frame for 2026 schema |
