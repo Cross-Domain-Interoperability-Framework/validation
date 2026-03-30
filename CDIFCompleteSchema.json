@@ -1560,209 +1560,74 @@
                     "@id": {
                         "type": "string",
                         "description": "URI identifier for this variable, used as the target of cdi:formats_InstanceVariable references in physical mappings."
-                    },
-                    "@type": {
-                        "type": "array",
-                        "description": "Must include both schema:PropertyValue and cdi:InstanceVariable. Additional types may be included.",
-                        "items": {
-                            "type": "string"
-                        },
-                        "contains": {
-                            "const": "cdi:InstanceVariable"
-                        }
-                    },
-                    "cdi:identifier": {
-                        "type": "string"
-                    },
-                    "cdi:physicalDataType": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/$defs/propertyID_type"
-                        },
-                        "description": "identifier or name for the data type concept."
-                    },
-                    "cdi:intendedDataType": {
-                        "type": "string",
-                        "description": "The intended data type for values of this variable, from DDI-CDI RepresentedVariable.hasIntendedDataType. Recommended values are XML Schema datatypes (e.g. https://www.w3.org/TR/xmlschema-2/#decimal)."
-                    },
-                    "cdi:role": {
-                        "type": "string",
-                        "enum": [
-                            "MeasureComponent",
-                            "AttributeComponent",
-                            "DimensionComponent",
-                            "DescriptorComponent",
-                            "ReferenceValueComponent"
-                        ],
-                        "description": "Specifies the relation of the variable to the data structure, corresponding to DDI-CDI DataStructureComponent subtypes."
-                    },
-                    "cdi:describedUnitOfMeasure": {
-                        "$ref": "#/$defs/definedTerm_type"
-                    },
-                    "cdi:simpleUnitOfMeasure": {
-                        "$ref": "#/$defs/propertyID_type"
-                    },
-                    "cdi:uses": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/$defs/propertyID_type"
-                        },
-                        "description": "Essentially the same as schema:propertyID. References to concepts that this variable measures or represents."
-                    },
-                    "cdi:name": {
-                        "type": "string",
-                        "description": "DDI-CDI Concept.name. The name of this variable in the DDI-CDI model."
-                    },
-                    "cdi:displayLabel": {
-                        "type": "string",
-                        "description": "DDI-CDI Concept.displayLabel. A human-readable label for display purposes."
-                    },
-                    "cdi:qualifies": {
-                        "type": "object",
-                        "properties": {
-                            "@id": {
-                                "type": "string"
-                            }
-                        },
-                        "description": "reference to an instance variable defined for this dataset"
                     }
                 },
                 "required": [
-                    "@type"
+                    "@id"
                 ],
                 "anyOf": [
                     {
-                        "description": "Schema.org PropertyValue-based variableMeasured. Defines properties for a measured variable in a dataset, typed as schema:PropertyValue.",
-                        "type": "object",
-                        "properties": {
-                            "@type": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                },
-                                "contains": {
-                                    "const": "schema:PropertyValue"
-                                },
-                                "minItems": 1
-                            },
-                            "@id": {
-                                "type": "string"
-                            },
-                            "schema:name": {
-                                "type": "string",
-                                "description": "string label associated with the variable in the dataset serialization"
-                            },
-                            "schema:description": {
-                                "type": "string",
-                                "default": "missing"
-                            },
-                            "schema:alternateName": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string",
-                                    "description": "human intelligible name for variable that conveys semantics"
-                                }
-                            },
-                            "schema:measurementTechnique": {
-                                "$ref": "#/$defs/propertyID_type"
-                            },
-                            "schema:propertyID": {
-                                "type": "array",
-                                "items": {
-                                    "$ref": "#/$defs/propertyID_type"
-                                },
-                                "description": "identifier or name for the property concept"
-                            },
-                            "schema:unitText": {
-                                "type": "string",
-                                "description": "unit of measurement as text"
-                            },
-                            "schema:unitCode": {
-                                "$ref": "#/$defs/propertyID_type"
-                            },
-                            "schema:minValue": {
-                                "type": "number",
-                                "description": "minimum numeric value in the dataset"
-                            },
-                            "schema:maxValue": {
-                                "type": "number",
-                                "description": "maximum numeric value in the dataset"
-                            },
-                            "schema:url": {
-                                "type": "string",
-                                "format": "uri",
-                                "description": "link to a web page useful for interpreting the variable"
-                            }
-                        },
-                        "required": [
-                            "@type",
-                            "schema:name"
-                        ]
+                        "$ref": "#/$defs/instanceVariable_type"
                     },
                     {
-                        "description": "A statistical variable description using schema.org/StatisticalVariable. Defines a variable that represents a statistical measure, such as median income or unemployment rate.",
-                        "type": "object",
-                        "properties": {
-                            "@type": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                },
-                                "contains": {
-                                    "const": "schema:StatisticalVariable"
-                                },
-                                "minItems": 1
-                            },
-                            "@id": {
-                                "type": "string"
-                            },
-                            "schema:name": {
-                                "type": "string",
-                                "description": "string label for the statistical variable"
-                            },
-                            "schema:description": {
-                                "type": "string"
-                            },
-                            "schema:alternateName": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string",
-                                    "description": "human intelligible name for variable that conveys semantics"
-                                }
-                            },
-                            "schema:measurementTechnique": {
-                                "$ref": "#/$defs/propertyID_type"
-                            },
-                            "schema:statType": {
-                                "$ref": "#/$defs/propertyID_type"
-                            },
-                            "schema:measuredProperty": {
+                        "description": "Unwrapped @graph array of nodes (OGC pipeline)",
+                        "type": "array",
+                        "contains": {
+                            "$ref": "#/$defs/instanceVariable_type"
+                        },
+                        "items": {
+                            "if": {
                                 "type": "object",
                                 "properties": {
-                                    "@id": {
-                                        "type": "string",
-                                        "description": "reference to a skos concept for the property"
-                                    },
                                     "@type": {
                                         "type": "array",
-                                        "items": {
-                                            "type": "string"
-                                        },
                                         "contains": {
-                                            "const": "schema:Property"
+                                            "const": "cdi:InstanceVariable"
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "@type"
+                                ]
+                            },
+                            "then": {
+                                "$ref": "#/$defs/instanceVariable_type"
+                            }
+                        }
+                    },
+                    {
+                        "description": "JSON-LD document with @context and @graph",
+                        "type": "object",
+                        "properties": {
+                            "@context": {},
+                            "@graph": {
+                                "type": "array",
+                                "contains": {
+                                    "$ref": "#/$defs/instanceVariable_type"
+                                },
+                                "items": {
+                                    "if": {
+                                        "type": "object",
+                                        "properties": {
+                                            "@type": {
+                                                "type": "array",
+                                                "contains": {
+                                                    "const": "cdi:InstanceVariable"
+                                                }
+                                            }
                                         },
-                                        "minItems": 1
+                                        "required": [
+                                            "@type"
+                                        ]
                                     },
-                                    "schema:name": {
-                                        "$ref": "#/$defs/propertyID_type"
+                                    "then": {
+                                        "$ref": "#/$defs/instanceVariable_type"
                                     }
                                 }
                             }
                         },
                         "required": [
-                            "@type",
-                            "schema:name",
-                            "schema:measuredProperty"
+                            "@graph"
                         ]
                     }
                 ]
@@ -2060,6 +1925,224 @@
                 },
                 {
                     "$ref": "#/$defs/propertyValue_type"
+                }
+            ]
+        },
+        "instanceVariable_type": {
+            "type": "object",
+            "properties": {
+                "@type": {
+                    "type": "array",
+                    "description": "Must include both schema:PropertyValue and cdi:InstanceVariable. Additional types may be included.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "cdi:InstanceVariable"
+                    }
+                },
+                "cdi:identifier": {
+                    "type": "string"
+                },
+                "cdi:physicalDataType": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/propertyID_type"
+                    },
+                    "description": "identifier or name for the data type concept."
+                },
+                "cdi:intendedDataType": {
+                    "type": "string",
+                    "description": "The intended data type for values of this variable, from DDI-CDI RepresentedVariable.hasIntendedDataType. Recommended values are XML Schema datatypes (e.g. https://www.w3.org/TR/xmlschema-2/#decimal)."
+                },
+                "cdi:role": {
+                    "type": "string",
+                    "enum": [
+                        "MeasureComponent",
+                        "AttributeComponent",
+                        "DimensionComponent",
+                        "DescriptorComponent",
+                        "ReferenceValueComponent"
+                    ],
+                    "description": "Specifies the relation of the variable to the data structure, corresponding to DDI-CDI DataStructureComponent subtypes."
+                },
+                "cdi:describedUnitOfMeasure": {
+                    "$comment": "unresolved fragment ref: #/$defs/DefinedTerm",
+                    "description": "A structured unit of measure from a controlled vocabulary, from DDI-CDI RepresentedVariable.describedUnitOfMeasure."
+                },
+                "cdi:simpleUnitOfMeasure": {
+                    "$ref": "#/$defs/propertyID_type"
+                },
+                "cdi:uses": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/propertyID_type"
+                    },
+                    "description": "Essentially the same as schema:propertyID. References to concepts that this variable measures or represents."
+                },
+                "cdi:name": {
+                    "type": "string",
+                    "description": "DDI-CDI Concept.name. The name of this variable in the DDI-CDI model."
+                },
+                "cdi:displayLabel": {
+                    "type": "string",
+                    "description": "DDI-CDI Concept.displayLabel. A human-readable label for display purposes."
+                },
+                "cdi:qualifies": {
+                    "type": "object",
+                    "properties": {
+                        "@id": {
+                            "type": "string"
+                        }
+                    },
+                    "description": "reference to an instance variable defined for this dataset"
+                }
+            },
+            "description": "Single InstanceVariable node",
+            "required": [
+                "@type"
+            ],
+            "anyOf": [
+                {
+                    "description": "Schema.org PropertyValue-based variableMeasured. Defines properties for a measured variable in a dataset, typed as schema:PropertyValue.",
+                    "type": "object",
+                    "properties": {
+                        "@type": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "contains": {
+                                "const": "schema:PropertyValue"
+                            },
+                            "minItems": 1
+                        },
+                        "@id": {
+                            "type": "string"
+                        },
+                        "schema:name": {
+                            "type": "string",
+                            "description": "string label associated with the variable in the dataset serialization"
+                        },
+                        "schema:description": {
+                            "type": "string",
+                            "default": "missing"
+                        },
+                        "schema:alternateName": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "description": "human intelligible name for variable that conveys semantics"
+                            }
+                        },
+                        "schema:measurementTechnique": {
+                            "$ref": "#/$defs/propertyID_type"
+                        },
+                        "schema:propertyID": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/$defs/propertyID_type"
+                            },
+                            "description": "identifier or name for the property concept"
+                        },
+                        "schema:unitText": {
+                            "type": "string",
+                            "description": "unit of measurement as text"
+                        },
+                        "schema:unitCode": {
+                            "$ref": "#/$defs/propertyID_type"
+                        },
+                        "schema:minValue": {
+                            "type": "number",
+                            "description": "minimum numeric value in the dataset"
+                        },
+                        "schema:maxValue": {
+                            "type": "number",
+                            "description": "maximum numeric value in the dataset"
+                        },
+                        "schema:url": {
+                            "anyOf": [
+                                {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "description": "link to a web page useful for interpreting the variable"
+                                },
+                                {
+                                    "$ref": "#/$defs/creativeWork_type"
+                                }
+                            ]
+                        }
+                    },
+                    "required": [
+                        "@type",
+                        "schema:name"
+                    ]
+                },
+                {
+                    "description": "A statistical variable description using schema.org/StatisticalVariable. Defines a variable that represents a statistical measure, such as median income or unemployment rate.",
+                    "type": "object",
+                    "properties": {
+                        "@type": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "contains": {
+                                "const": "schema:StatisticalVariable"
+                            },
+                            "minItems": 1
+                        },
+                        "@id": {
+                            "type": "string"
+                        },
+                        "schema:name": {
+                            "type": "string",
+                            "description": "string label for the statistical variable"
+                        },
+                        "schema:description": {
+                            "type": "string"
+                        },
+                        "schema:alternateName": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "description": "human intelligible name for variable that conveys semantics"
+                            }
+                        },
+                        "schema:measurementTechnique": {
+                            "$ref": "#/$defs/propertyID_type"
+                        },
+                        "schema:statType": {
+                            "$ref": "#/$defs/propertyID_type"
+                        },
+                        "schema:measuredProperty": {
+                            "type": "object",
+                            "properties": {
+                                "@id": {
+                                    "type": "string",
+                                    "description": "reference to a skos concept for the property"
+                                },
+                                "@type": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "contains": {
+                                        "const": "schema:Property"
+                                    },
+                                    "minItems": 1
+                                },
+                                "schema:name": {
+                                    "$ref": "#/$defs/propertyID_type"
+                                }
+                            }
+                        }
+                    },
+                    "required": [
+                        "@type",
+                        "schema:name",
+                        "schema:measuredProperty"
+                    ]
                 }
             ]
         },
