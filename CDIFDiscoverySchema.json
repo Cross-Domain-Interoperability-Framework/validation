@@ -1128,7 +1128,29 @@
                             }
                         }
                     }
-                }
+                },
+                "anyOf": [
+                    {
+                        "required": [
+                            "schema:name"
+                        ]
+                    },
+                    {
+                        "required": [
+                            "schema:identifier"
+                        ]
+                    },
+                    {
+                        "required": [
+                            "schema:geo"
+                        ]
+                    },
+                    {
+                        "required": [
+                            "geosparql:hasGeometry"
+                        ]
+                    }
+                ]
             }
         },
         "schema:temporalCoverage": {
@@ -1166,7 +1188,19 @@
                                 "format": "uri",
                                 "description": "identifier for a named time ordinal era that is younger bound of time interval, e.g. 'isc:LowerDevonian' "
                             }
-                        }
+                        },
+                        "anyOf": [
+                            {
+                                "required": [
+                                    "time:intervalStartedBy"
+                                ]
+                            },
+                            {
+                                "required": [
+                                    "time:intervalFinishedBy"
+                                ]
+                            }
+                        ]
                     },
                     {
                         "type": "object",
@@ -1212,7 +1246,19 @@
                             "time:hasEnd": {
                                 "$ref": "#/$defs/instant_type"
                             }
-                        }
+                        },
+                        "anyOf": [
+                            {
+                                "required": [
+                                    "time:hasBeginning"
+                                ]
+                            },
+                            {
+                                "required": [
+                                    "time:hasEnd"
+                                ]
+                            }
+                        ]
                     },
                     {
                         "type": "string",
@@ -1434,7 +1480,12 @@
                         "time:numericPosition": {
                             "type": "number"
                         }
-                    }
+                    },
+                    "required": [
+                        "@type",
+                        "time:hasTRS",
+                        "time:numericPosition"
+                    ]
                 }
             }
         },
