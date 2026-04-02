@@ -864,148 +864,78 @@
             "description": "What does the dataset measure? (e.g., temperature, pressure)",
             "type": "array",
             "items": {
-                "anyOf": [
-                    {
-                        "description": "Schema.org PropertyValue-based variableMeasured. Defines properties for a measured variable in a dataset, typed as schema:PropertyValue.",
-                        "type": "object",
-                        "properties": {
-                            "@type": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                },
-                                "contains": {
-                                    "const": "schema:PropertyValue"
-                                },
-                                "minItems": 1
-                            },
-                            "@id": {
-                                "type": "string"
-                            },
-                            "schema:name": {
-                                "type": "string",
-                                "description": "string label associated with the variable in the dataset serialization"
-                            },
-                            "schema:description": {
-                                "type": "string",
-                                "default": "missing"
-                            },
-                            "schema:alternateName": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string",
-                                    "description": "human intelligible name for variable that conveys semantics"
-                                }
-                            },
-                            "schema:measurementTechnique": {
-                                "$ref": "#/$defs/nameOrDefinedTerm_type"
-                            },
-                            "schema:propertyID": {
-                                "type": "array",
-                                "items": {
-                                    "$ref": "#/$defs/nameOrDefinedTerm_type"
-                                },
-                                "description": "identifier or name for the property concept"
-                            },
-                            "schema:unitText": {
-                                "type": "string",
-                                "description": "unit of measurement as text"
-                            },
-                            "schema:unitCode": {
-                                "$ref": "#/$defs/nameOrDefinedTerm_type"
-                            },
-                            "schema:minValue": {
-                                "type": "number",
-                                "description": "minimum numeric value in the dataset"
-                            },
-                            "schema:maxValue": {
-                                "type": "number",
-                                "description": "maximum numeric value in the dataset"
-                            },
-                            "schema:url": {
-                                "anyOf": [
-                                    {
-                                        "type": "string",
-                                        "format": "uri",
-                                        "description": "link to a web page useful for interpreting the variable"
-                                    },
-                                    {
-                                        "$ref": "#/$defs/creativeWork_type"
-                                    }
-                                ]
-                            }
+                "description": "Schema.org PropertyValue-based variableMeasured. Defines properties for a measured variable in a dataset, typed as schema:PropertyValue.",
+                "type": "object",
+                "properties": {
+                    "@type": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
                         },
-                        "required": [
-                            "@type",
-                            "schema:name"
-                        ]
+                        "contains": {
+                            "const": "schema:PropertyValue"
+                        },
+                        "minItems": 1
                     },
-                    {
-                        "description": "A statistical variable description using schema.org/StatisticalVariable. Defines a variable that represents a statistical measure, such as median income or unemployment rate.",
-                        "type": "object",
-                        "properties": {
-                            "@type": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                },
-                                "contains": {
-                                    "const": "schema:StatisticalVariable"
-                                },
-                                "minItems": 1
-                            },
-                            "@id": {
-                                "type": "string"
-                            },
-                            "schema:name": {
-                                "type": "string",
-                                "description": "string label for the statistical variable"
-                            },
-                            "schema:description": {
-                                "type": "string"
-                            },
-                            "schema:alternateName": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string",
-                                    "description": "human intelligible name for variable that conveys semantics"
-                                }
-                            },
-                            "schema:measurementTechnique": {
-                                "$ref": "#/$defs/nameOrDefinedTerm_type"
-                            },
-                            "schema:statType": {
-                                "$ref": "#/$defs/nameOrDefinedTerm_type"
-                            },
-                            "schema:measuredProperty": {
-                                "type": "object",
-                                "properties": {
-                                    "@id": {
-                                        "type": "string",
-                                        "description": "reference to a skos concept for the property"
-                                    },
-                                    "@type": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "string"
-                                        },
-                                        "contains": {
-                                            "const": "schema:Property"
-                                        },
-                                        "minItems": 1
-                                    },
-                                    "schema:name": {
-                                        "$ref": "#/$defs/nameOrDefinedTerm_type"
-                                    }
-                                }
-                            }
+                    "@id": {
+                        "type": "string"
+                    },
+                    "schema:name": {
+                        "type": "string",
+                        "description": "string label associated with the variable in the dataset serialization"
+                    },
+                    "schema:description": {
+                        "type": "string",
+                        "default": "missing"
+                    },
+                    "schema:alternateName": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "description": "human intelligible name for variable that conveys semantics"
+                        }
+                    },
+                    "schema:measurementTechnique": {
+                        "$ref": "#/$defs/nameOrDefinedTerm_type"
+                    },
+                    "schema:propertyID": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/$defs/nameOrDefinedTerm_type"
                         },
-                        "required": [
-                            "@type",
-                            "schema:name",
-                            "schema:measuredProperty"
+                        "description": "identifier or name for the property concept"
+                    },
+                    "schema:unitText": {
+                        "type": "string",
+                        "description": "unit of measurement as text"
+                    },
+                    "schema:unitCode": {
+                        "$ref": "#/$defs/nameOrDefinedTerm_type"
+                    },
+                    "schema:minValue": {
+                        "type": "number",
+                        "description": "minimum numeric value in the dataset"
+                    },
+                    "schema:maxValue": {
+                        "type": "number",
+                        "description": "maximum numeric value in the dataset"
+                    },
+                    "schema:url": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "uri",
+                                "description": "link to a web page useful for interpreting the variable"
+                            },
+                            {
+                                "$ref": "#/$defs/creativeWork_type"
+                            }
                         ]
                     }
+                },
+                "required": [
+                    "@type",
+                    "schema:name"
                 ]
             }
         },
