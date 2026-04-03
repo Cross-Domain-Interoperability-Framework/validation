@@ -1,0 +1,533 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#DDI-CDI-Activity",
+  "title": "DDI-CDI Activity Schema",
+  "description": "JSON-LD schema for the DDI-CDI Activity class and its Step subclass (DDICDILibrary/Classes/Process), with outbound associations and all structured data types resolved to base types. Generated from Enterprise Architect model ddi-cdi_ea15.2026.March.eapx. Activity is a task described at a conceptual level, invoked by control logic. Step is a reusable, parameterized subtype of Activity.",
+  "type": "object",
+  "anyOf": [
+    {"$ref": "#/$defs/Activity"},
+    {"$ref": "#/$defs/Step"}
+  ],
+
+  "$defs": {
+
+    "Activity": {
+      "type": "object",
+      "description": "Task described at a conceptual level. Invoked by control logic; may use and/or produce information objects via entityUsed and entityProduced.",
+      "properties": {
+        "@type": {
+          "anyOf": [
+            {"const": "cdi:Activity"},
+            {"type": "array", "contains": {"const": "cdi:Activity"}}
+          ]
+        },
+        "@id": {"type": "string"},
+        "cdi:name": {
+          "$ref": "#/$defs/ObjectName",
+          "description": "Human-understandable name."
+        },
+        "cdi:description": {
+          "type": "string",
+          "description": "A description of the Activity in human-readable language."
+        },
+        "cdi:definition": {
+          "$ref": "#/$defs/InternationalString",
+          "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts."
+        },
+        "cdi:displayLabel": {
+          "anyOf": [
+            {"$ref": "#/$defs/LabelForDisplay"},
+            {"type": "array", "items": {"$ref": "#/$defs/LabelForDisplay"}}
+          ],
+          "description": "A human-readable display label. Supports multiple languages."
+        },
+        "cdi:identifier": {"$ref": "#/$defs/Identifier"},
+        "cdi:entityUsed": {
+          "anyOf": [
+            {"$ref": "#/$defs/Reference"},
+            {"type": "array", "items": {"$ref": "#/$defs/Reference"}}
+          ],
+          "description": "A thing employed in the activity."
+        },
+        "cdi:entityProduced": {
+          "anyOf": [
+            {"$ref": "#/$defs/Reference"},
+            {"type": "array", "items": {"$ref": "#/$defs/Reference"}}
+          ],
+          "description": "The thing resulting from the activity."
+        },
+        "cdi:standardModelMapping": {
+          "anyOf": [
+            {"$ref": "#/$defs/Reference"},
+            {"type": "array", "items": {"$ref": "#/$defs/Reference"}}
+          ],
+          "description": "Reference to a standard process model (GSBPM, GLBPM, OAIS, etc.) from which the Activity is taken."
+        },
+        "cdi:start": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Start time of the activity (Timestamp)."
+        },
+        "cdi:end": {
+          "type": "string",
+          "format": "date-time",
+          "description": "End time of the activity (Timestamp)."
+        },
+        "cdi:hasSubActivity": {
+          "anyOf": [
+            {"$ref": "#/$defs/id-reference"},
+            {"type": "array", "items": {"$ref": "#/$defs/id-reference"}}
+          ],
+          "description": "An Activity is a container for sub-activities. Target: Activity. (0..*)"
+        },
+        "cdi:has_Step": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {"$ref": "#/$defs/Step"},
+                {"$ref": "#/$defs/id-reference"}
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/Step"},
+                  {"$ref": "#/$defs/id-reference"}
+                ]
+              }
+            }
+          ],
+          "description": "Activities may be broken out into Steps. (0..*)"
+        },
+        "cdi:hasInternal": {
+          "anyOf": [
+            {"$ref": "#/$defs/id-reference"},
+            {"type": "array", "items": {"$ref": "#/$defs/id-reference"}}
+          ],
+          "description": "An activity is embedded in the control construct which launches it. Target: ControlLogic. (0..*)"
+        }
+      },
+      "required": ["@type"]
+    },
+
+    "Step": {
+      "type": "object",
+      "description": "Reusable, parameterized activity associated to information flows. One or more steps perform an activity. Steps can be broken into sub-steps ad infinitum. Inherits from Activity.",
+      "properties": {
+        "@type": {
+          "anyOf": [
+            {"const": "cdi:Step"},
+            {"type": "array", "contains": {"const": "cdi:Step"}}
+          ]
+        },
+        "@id": {"type": "string"},
+
+        "cdi:script": {
+          "$ref": "#/$defs/CommandCode",
+          "description": "The executable code for performing a process step, expressed in a formal language."
+        },
+        "cdi:scriptingLanguage": {
+          "$ref": "#/$defs/ControlledVocabularyEntry",
+          "description": "The formal language used by the script associated with the process step."
+        },
+        "cdi:receives": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {"$ref": "#/$defs/Parameter"},
+                {"$ref": "#/$defs/id-reference"}
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/Parameter"},
+                  {"$ref": "#/$defs/id-reference"}
+                ]
+              }
+            }
+          ],
+          "description": "The Step uses Parameter as an input. (0..*)"
+        },
+        "cdi:produces": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {"$ref": "#/$defs/Parameter"},
+                {"$ref": "#/$defs/id-reference"}
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/Parameter"},
+                  {"$ref": "#/$defs/id-reference"}
+                ]
+              }
+            }
+          ],
+          "description": "The Step creates Parameter as an output. (0..*)"
+        },
+        "cdi:hasSubStep": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {"$ref": "#/$defs/Step"},
+                {"$ref": "#/$defs/id-reference"}
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/Step"},
+                  {"$ref": "#/$defs/id-reference"}
+                ]
+              }
+            }
+          ],
+          "description": "A step can be broken out into sub-steps ad infinitum. (0..*)"
+        },
+
+        "cdi:name": {"$ref": "#/$defs/ObjectName"},
+        "cdi:description": {"type": "string"},
+        "cdi:definition": {"$ref": "#/$defs/InternationalString"},
+        "cdi:displayLabel": {
+          "anyOf": [
+            {"$ref": "#/$defs/LabelForDisplay"},
+            {"type": "array", "items": {"$ref": "#/$defs/LabelForDisplay"}}
+          ]
+        },
+        "cdi:identifier": {"$ref": "#/$defs/Identifier"},
+        "cdi:entityUsed": {
+          "anyOf": [
+            {"$ref": "#/$defs/Reference"},
+            {"type": "array", "items": {"$ref": "#/$defs/Reference"}}
+          ]
+        },
+        "cdi:entityProduced": {
+          "anyOf": [
+            {"$ref": "#/$defs/Reference"},
+            {"type": "array", "items": {"$ref": "#/$defs/Reference"}}
+          ]
+        },
+        "cdi:standardModelMapping": {
+          "anyOf": [
+            {"$ref": "#/$defs/Reference"},
+            {"type": "array", "items": {"$ref": "#/$defs/Reference"}}
+          ]
+        },
+        "cdi:start": {"type": "string", "format": "date-time"},
+        "cdi:end": {"type": "string", "format": "date-time"},
+        "cdi:hasSubActivity": {
+          "anyOf": [
+            {"$ref": "#/$defs/id-reference"},
+            {"type": "array", "items": {"$ref": "#/$defs/id-reference"}}
+          ]
+        },
+        "cdi:has_Step": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {"$ref": "#/$defs/Step"},
+                {"$ref": "#/$defs/id-reference"}
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/Step"},
+                  {"$ref": "#/$defs/id-reference"}
+                ]
+              }
+            }
+          ]
+        },
+        "cdi:hasInternal": {
+          "anyOf": [
+            {"$ref": "#/$defs/id-reference"},
+            {"type": "array", "items": {"$ref": "#/$defs/id-reference"}}
+          ]
+        }
+      },
+      "required": ["@type"]
+    },
+
+    "Parameter": {
+      "type": "object",
+      "description": "Input or output to control logic and the step/sub-step it invokes. Parameters may take the form of any information object.",
+      "properties": {
+        "@type": {
+          "anyOf": [
+            {"const": "cdi:Parameter"},
+            {"type": "array", "contains": {"const": "cdi:Parameter"}}
+          ]
+        },
+        "@id": {"type": "string"},
+        "cdi:name": {"$ref": "#/$defs/ObjectName"},
+        "cdi:identifier": {"$ref": "#/$defs/Identifier"},
+        "cdi:entityBound": {
+          "$ref": "#/$defs/Reference",
+          "description": "Specification of the object being used as a parameter, typically a reference to a DDI-CDI class or instance."
+        }
+      }
+    },
+
+    "CommandCode": {
+      "type": "object",
+      "description": "Information on the command used for processing data: description, inline command, and/or reference to external script.",
+      "properties": {
+        "@type": {"type": "string", "const": "cdi:CommandCode"},
+        "cdi:command": {
+          "type": "object",
+          "description": "Command — inline provision of the command itself.",
+          "properties": {
+            "@type": {"type": "string", "const": "cdi:Command"},
+            "cdi:commandContent": {
+              "$ref": "#/$defs/TypedString",
+              "description": "Content of the command expressed in the designated programming language."
+            },
+            "cdi:programLanguage": {
+              "$ref": "#/$defs/ControlledVocabularyEntry",
+              "description": "The programming language used for the command."
+            }
+          }
+        },
+        "cdi:commandFile": {
+          "type": "object",
+          "description": "CommandFile — link to an external copy of the command (e.g., a SAS script).",
+          "properties": {
+            "@type": {"type": "string", "const": "cdi:CommandFile"},
+            "cdi:location": {
+              "$ref": "#/$defs/InternationalString",
+              "description": "A description of the location of the file."
+            },
+            "cdi:uri": {"type": "string", "format": "uri"}
+          }
+        },
+        "cdi:description": {
+          "$ref": "#/$defs/InternationalString",
+          "description": "A description of the purpose and use of the command code."
+        }
+      }
+    },
+
+    "id-reference": {
+      "type": "object",
+      "description": "A JSON-LD reference to another node by @id.",
+      "properties": {
+        "@id": {"type": "string"}
+      },
+      "required": ["@id"]
+    },
+
+    "Identifier": {
+      "type": "object",
+      "description": "Identifier for objects requiring short- or long-lasting referencing and management.",
+      "properties": {
+        "@type": {"type": "string", "const": "cdi:Identifier"},
+        "cdi:ddiIdentifier": {
+          "type": "object",
+          "description": "InternationalRegistrationDataIdentifier (IRDI) — globally unique, ISO/IEC 11179-6 aligned.",
+          "properties": {
+            "@type": {"type": "string", "const": "cdi:InternationalRegistrationDataIdentifier"},
+            "cdi:dataIdentifier": {"type": "string"},
+            "cdi:registrationAuthorityIdentifier": {"type": "string"},
+            "cdi:versionIdentifier": {"type": "string"}
+          }
+        },
+        "cdi:isDdiIdentifierPersistent": {"type": "boolean", "default": false},
+        "cdi:isDdiIdentifierUniversallyUnique": {"type": "boolean", "default": false},
+        "cdi:nonDdiIdentifier": {
+          "type": "object",
+          "description": "NonDdiIdentifier — a unique identifier not conforming to DDI structure.",
+          "properties": {
+            "@type": {"type": "string", "const": "cdi:NonDdiIdentifier"},
+            "cdi:managingAgency": {"type": "string"},
+            "cdi:type": {"type": "string"},
+            "cdi:value": {"type": "string"},
+            "cdi:version": {"type": "string"}
+          }
+        },
+        "cdi:uri": {"type": "string", "format": "uri"},
+        "cdi:versionDate": {"type": "string", "format": "date"},
+        "cdi:versionRationale": {
+          "type": "object",
+          "description": "RationaleDefinition — rationale/purpose for a version change.",
+          "properties": {
+            "@type": {"type": "string", "const": "cdi:RationaleDefinition"},
+            "cdi:rationaleCode": {"$ref": "#/$defs/ControlledVocabularyEntry"},
+            "cdi:rationaleDescription": {"$ref": "#/$defs/InternationalString"}
+          }
+        },
+        "cdi:versionResponsibility": {
+          "type": "object",
+          "description": "AgentInRole — agent with role context for version responsibility.",
+          "properties": {
+            "@type": {"type": "string", "const": "cdi:AgentInRole"},
+            "cdi:agentName": {"$ref": "#/$defs/InternationalString"},
+            "cdi:reference": {"$ref": "#/$defs/Reference"},
+            "cdi:role": {
+              "type": "object",
+              "description": "PairedControlledVocabularyEntry.",
+              "properties": {
+                "@type": {"type": "string", "const": "cdi:PairedControlledVocabularyEntry"},
+                "cdi:entryValue": {"type": "string"},
+                "cdi:vocabulary": {"$ref": "#/$defs/Reference"}
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "LabelForDisplay": {
+      "type": "object",
+      "description": "A structured display label. Extends InternationalString with location variant, max length, and validity dates.",
+      "properties": {
+        "@type": {"type": "string", "const": "cdi:LabelForDisplay"},
+        "cdi:languageSpecificString": {
+          "anyOf": [
+            {"$ref": "#/$defs/LanguageString"},
+            {"type": "array", "items": {"$ref": "#/$defs/LanguageString"}}
+          ]
+        },
+        "cdi:locationVariant": {"$ref": "#/$defs/ControlledVocabularyEntry"},
+        "cdi:maxLength": {"type": "integer", "minimum": 1},
+        "cdi:validDates": {"$ref": "#/$defs/DateRange"}
+      }
+    },
+
+    "ObjectName": {
+      "type": "object",
+      "description": "Human-understandable name. May follow ISO/IEC 11179-5 naming principles.",
+      "properties": {
+        "@type": {"type": "string", "const": "cdi:ObjectName"},
+        "cdi:name": {"type": "string"},
+        "cdi:context": {"$ref": "#/$defs/ControlledVocabularyEntry"}
+      }
+    },
+
+    "InternationalString": {
+      "type": "object",
+      "description": "Packaging structure for multilingual versions of the same string content.",
+      "properties": {
+        "@type": {"type": "string", "const": "cdi:InternationalString"},
+        "cdi:languageSpecificString": {
+          "anyOf": [
+            {"$ref": "#/$defs/LanguageString"},
+            {"type": "array", "items": {"$ref": "#/$defs/LanguageString"}}
+          ]
+        }
+      }
+    },
+
+    "LanguageString": {
+      "type": "object",
+      "description": "A string specific to a language/scope combination.",
+      "properties": {
+        "@type": {"type": "string", "const": "cdi:LanguageString"},
+        "cdi:content": {"type": "string"},
+        "cdi:language": {"type": "string", "description": "xs:language (RFC 4646)"},
+        "cdi:isTranslatable": {"type": "boolean", "default": true},
+        "cdi:isTranslated": {"type": "boolean", "default": false},
+        "cdi:scope": {"type": "string"},
+        "cdi:structureUsed": {"$ref": "#/$defs/ControlledVocabularyEntry"},
+        "cdi:translationDate": {"type": "string", "format": "date"},
+        "cdi:translationSourceLanguage": {
+          "anyOf": [
+            {"type": "string"},
+            {"type": "array", "items": {"type": "string"}}
+          ]
+        }
+      }
+    },
+
+    "ControlledVocabularyEntry": {
+      "type": "object",
+      "description": "An entry from an externally maintained controlled vocabulary, or unstructured content.",
+      "properties": {
+        "@type": {"type": "string", "const": "cdi:ControlledVocabularyEntry"},
+        "cdi:entryReference": {"$ref": "#/$defs/Reference"},
+        "cdi:entryValue": {"type": "string"},
+        "cdi:name": {"type": "string", "description": "Name of the code list."},
+        "cdi:valueForOther": {"type": "string"},
+        "cdi:vocabulary": {"$ref": "#/$defs/Reference"}
+      }
+    },
+
+    "TypedString": {
+      "type": "object",
+      "description": "Combines a type with content defined as a simple string.",
+      "properties": {
+        "@type": {"type": "string", "const": "cdi:TypedString"},
+        "cdi:content": {"type": "string"},
+        "cdi:typeOfContent": {"$ref": "#/$defs/ControlledVocabularyEntry"}
+      }
+    },
+
+    "DateRange": {
+      "type": "object",
+      "description": "A date/time range with start and end dates.",
+      "properties": {
+        "@type": {"type": "string", "const": "cdi:DateRange"},
+        "cdi:startDate": {
+          "type": "object",
+          "description": "CombinedDate.",
+          "properties": {
+            "@type": {"type": "string", "const": "cdi:CombinedDate"},
+            "cdi:isoDate": {"type": "string", "format": "date-time"},
+            "cdi:historicDate": {"type": "string"}
+          }
+        },
+        "cdi:endDate": {
+          "type": "object",
+          "description": "CombinedDate.",
+          "properties": {
+            "@type": {"type": "string", "const": "cdi:CombinedDate"},
+            "cdi:isoDate": {"type": "string", "format": "date-time"},
+            "cdi:historicDate": {"type": "string"}
+          }
+        }
+      }
+    },
+
+    "Reference": {
+      "type": "object",
+      "description": "A way of pointing to resources outside of the DDI-CDI metadata set.",
+      "properties": {
+        "@type": {"type": "string", "const": "cdi:Reference"},
+        "cdi:ddiReference": {
+          "type": "object",
+          "description": "InternationalRegistrationDataIdentifier (IRDI).",
+          "properties": {
+            "@type": {"type": "string", "const": "cdi:InternationalRegistrationDataIdentifier"},
+            "cdi:dataIdentifier": {"type": "string"},
+            "cdi:registrationAuthorityIdentifier": {"type": "string"},
+            "cdi:versionIdentifier": {"type": "string"}
+          }
+        },
+        "cdi:description": {"type": "string"},
+        "cdi:location": {"$ref": "#/$defs/InternationalString"},
+        "cdi:nonDdiReference": {
+          "type": "object",
+          "description": "NonDdiIdentifier.",
+          "properties": {
+            "@type": {"type": "string", "const": "cdi:NonDdiIdentifier"},
+            "cdi:managingAgency": {"type": "string"},
+            "cdi:type": {"type": "string"},
+            "cdi:value": {"type": "string"},
+            "cdi:version": {"type": "string"}
+          }
+        },
+        "cdi:semantic": {"$ref": "#/$defs/ControlledVocabularyEntry"},
+        "cdi:uri": {"type": "string", "format": "uri"},
+        "cdi:validType": {"type": "string"}
+      }
+    }
+  }
+}

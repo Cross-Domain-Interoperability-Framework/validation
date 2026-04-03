@@ -1,0 +1,661 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#DDI-CDI-Agent-Hierarchy",
+  "title": "DDI-CDI Agent Class Hierarchy Schema",
+  "description": "JSON-LD schema for the DDI-CDI Agent class and its subclasses (Individual, Machine, Organization, ProcessingAgent, Curator, Service), with all structured data types fully resolved. Generated from Enterprise Architect model ddi-cdi_ea15.2026.March.eapx.",
+  "type": "object",
+  "anyOf": [
+    { "$ref": "#/$defs/Agent" },
+    { "$ref": "#/$defs/Individual" },
+    { "$ref": "#/$defs/Machine" },
+    { "$ref": "#/$defs/Organization" },
+    { "$ref": "#/$defs/ProcessingAgent" },
+    { "$ref": "#/$defs/Curator" },
+    { "$ref": "#/$defs/Service" }
+  ],
+
+  "$defs": {
+
+    "Agent": {
+      "type": "object",
+      "description": "Something that bears some form of responsibility for an activity taking place, for the existence of an entity, or for another agent's activity. (W3C PROV-O)",
+      "properties": {
+        "@type": {
+          "anyOf": [
+            { "const": "cdi:Agent" },
+            { "type": "array", "contains": { "const": "cdi:Agent" } }
+          ]
+        },
+        "@id": { "type": "string" },
+        "cdi:catalogDetails": { "$ref": "#/$defs/CatalogDetails" },
+        "cdi:identifier": { "$ref": "#/$defs/Identifier" },
+        "cdi:image": { "$ref": "#/$defs/PrivateImage" },
+        "cdi:purpose": { "$ref": "#/$defs/InternationalString" }
+      },
+      "required": ["@type"]
+    },
+
+    "Individual": {
+      "type": "object",
+      "description": "A person. (cf. W3C FOAF foaf:Person, Schema.org Person)",
+      "allOf": [
+        {
+          "properties": {
+            "@type": {
+              "anyOf": [
+                { "const": "cdi:Individual" },
+                { "type": "array", "contains": { "const": "cdi:Individual" } }
+              ]
+            },
+            "@id": { "type": "string" },
+            "cdi:contactInformation": {
+              "anyOf": [
+                { "$ref": "#/$defs/ContactInformation" },
+                { "type": "array", "items": { "$ref": "#/$defs/ContactInformation" } }
+              ]
+            },
+            "cdi:individualName": {
+              "anyOf": [
+                { "$ref": "#/$defs/IndividualName" },
+                { "type": "array", "items": { "$ref": "#/$defs/IndividualName" } }
+              ]
+            },
+            "cdi:catalogDetails": { "$ref": "#/$defs/CatalogDetails" },
+            "cdi:identifier": { "$ref": "#/$defs/Identifier" },
+            "cdi:image": { "$ref": "#/$defs/PrivateImage" },
+            "cdi:purpose": { "$ref": "#/$defs/InternationalString" }
+          },
+          "required": ["@type"]
+        }
+      ]
+    },
+
+    "Machine": {
+      "type": "object",
+      "description": "Mechanism or computer program used to perform an act.",
+      "allOf": [
+        {
+          "properties": {
+            "@type": {
+              "anyOf": [
+                { "const": "cdi:Machine" },
+                { "type": "array", "contains": { "const": "cdi:Machine" } }
+              ]
+            },
+            "@id": { "type": "string" },
+            "cdi:accessLocation": { "$ref": "#/$defs/AccessLocation" },
+            "cdi:function": { "$ref": "#/$defs/ControlledVocabularyEntry" },
+            "cdi:machineInterface": { "$ref": "#/$defs/ControlledVocabularyEntry" },
+            "cdi:name": { "$ref": "#/$defs/ObjectName" },
+            "cdi:ownerOperatorContact": { "$ref": "#/$defs/ContactInformation" },
+            "cdi:typeOfMachine": { "$ref": "#/$defs/ControlledVocabularyEntry" },
+            "cdi:catalogDetails": { "$ref": "#/$defs/CatalogDetails" },
+            "cdi:identifier": { "$ref": "#/$defs/Identifier" },
+            "cdi:image": { "$ref": "#/$defs/PrivateImage" },
+            "cdi:purpose": { "$ref": "#/$defs/InternationalString" }
+          },
+          "required": ["@type"]
+        }
+      ]
+    },
+
+    "Organization": {
+      "type": "object",
+      "description": "Collection of people organized within a framework of authority that can perform an act or be associated with another agent.",
+      "allOf": [
+        {
+          "properties": {
+            "@type": {
+              "anyOf": [
+                { "const": "cdi:Organization" },
+                { "type": "array", "contains": { "const": "cdi:Organization" } }
+              ]
+            },
+            "@id": { "type": "string" },
+            "cdi:contactInformation": {
+              "anyOf": [
+                { "$ref": "#/$defs/ContactInformation" },
+                { "type": "array", "items": { "$ref": "#/$defs/ContactInformation" } }
+              ]
+            },
+            "cdi:organizationName": {
+              "anyOf": [
+                { "$ref": "#/$defs/OrganizationName" },
+                { "type": "array", "items": { "$ref": "#/$defs/OrganizationName" } }
+              ]
+            },
+            "cdi:catalogDetails": { "$ref": "#/$defs/CatalogDetails" },
+            "cdi:identifier": { "$ref": "#/$defs/Identifier" },
+            "cdi:image": { "$ref": "#/$defs/PrivateImage" },
+            "cdi:purpose": { "$ref": "#/$defs/InternationalString" }
+          },
+          "required": ["@type"]
+        }
+      ]
+    },
+
+    "ProcessingAgent": {
+      "type": "object",
+      "description": "A processing agent orchestrates the production of information objects in a production environment, performing activities based on control logic.",
+      "allOf": [
+        {
+          "properties": {
+            "@type": {
+              "anyOf": [
+                { "const": "cdi:ProcessingAgent" },
+                { "type": "array", "contains": { "const": "cdi:ProcessingAgent" } }
+              ]
+            },
+            "@id": { "type": "string" },
+            "cdi:performs": {
+              "anyOf": [
+                { "$ref": "#/$defs/id-reference" },
+                { "type": "array", "items": { "$ref": "#/$defs/id-reference" } }
+              ],
+              "description": "A processing agent performs an activity at the direction of control logic. Target: cdi:Activity"
+            },
+            "cdi:operatesOn": {
+              "anyOf": [
+                { "$ref": "#/$defs/id-reference" },
+                { "type": "array", "items": { "$ref": "#/$defs/id-reference" } }
+              ],
+              "description": "Target: cdi:ProductionEnvironment"
+            },
+            "cdi:catalogDetails": { "$ref": "#/$defs/CatalogDetails" },
+            "cdi:identifier": { "$ref": "#/$defs/Identifier" },
+            "cdi:image": { "$ref": "#/$defs/PrivateImage" },
+            "cdi:purpose": { "$ref": "#/$defs/InternationalString" }
+          },
+          "required": ["@type"]
+        }
+      ]
+    },
+
+    "Curator": {
+      "type": "object",
+      "description": "A software agent that uses techniques such as NLP to map facts in the research data store to the condition part of a rule.",
+      "allOf": [
+        {
+          "properties": {
+            "@type": {
+              "anyOf": [
+                { "const": "cdi:Curator" },
+                { "type": "array", "contains": { "const": "cdi:Curator" } }
+              ]
+            },
+            "@id": { "type": "string" },
+            "cdi:performs": {
+              "anyOf": [
+                { "$ref": "#/$defs/id-reference" },
+                { "type": "array", "items": { "$ref": "#/$defs/id-reference" } }
+              ]
+            },
+            "cdi:operatesOn": {
+              "anyOf": [
+                { "$ref": "#/$defs/id-reference" },
+                { "type": "array", "items": { "$ref": "#/$defs/id-reference" } }
+              ]
+            },
+            "cdi:catalogDetails": { "$ref": "#/$defs/CatalogDetails" },
+            "cdi:identifier": { "$ref": "#/$defs/Identifier" },
+            "cdi:image": { "$ref": "#/$defs/PrivateImage" },
+            "cdi:purpose": { "$ref": "#/$defs/InternationalString" }
+          },
+          "required": ["@type"]
+        }
+      ]
+    },
+
+    "Service": {
+      "type": "object",
+      "description": "An atomic processing agent that executes acts with input and output parameters.",
+      "allOf": [
+        {
+          "properties": {
+            "@type": {
+              "anyOf": [
+                { "const": "cdi:Service" },
+                { "type": "array", "contains": { "const": "cdi:Service" } }
+              ]
+            },
+            "@id": { "type": "string" },
+            "cdi:performs": {
+              "anyOf": [
+                { "$ref": "#/$defs/id-reference" },
+                { "type": "array", "items": { "$ref": "#/$defs/id-reference" } }
+              ]
+            },
+            "cdi:operatesOn": {
+              "anyOf": [
+                { "$ref": "#/$defs/id-reference" },
+                { "type": "array", "items": { "$ref": "#/$defs/id-reference" } }
+              ]
+            },
+            "cdi:catalogDetails": { "$ref": "#/$defs/CatalogDetails" },
+            "cdi:identifier": { "$ref": "#/$defs/Identifier" },
+            "cdi:image": { "$ref": "#/$defs/PrivateImage" },
+            "cdi:purpose": { "$ref": "#/$defs/InternationalString" }
+          },
+          "required": ["@type"]
+        }
+      ]
+    },
+
+    "id-reference": {
+      "type": "object",
+      "description": "A JSON-LD reference to another node by @id.",
+      "properties": {
+        "@id": { "type": "string" }
+      },
+      "required": ["@id"]
+    },
+
+    "CatalogDetails": {
+      "type": "object",
+      "description": "A set of information useful for attribution, data discovery, and access (creator, contributor, title, copyright, license).",
+      "properties": {
+        "cdi:access": { "$ref": "#/$defs/AccessInformation" },
+        "cdi:alternativeTitle": { "$ref": "#/$defs/InternationalString" },
+        "cdi:contributor": {
+          "anyOf": [
+            { "$ref": "#/$defs/AgentInRole" },
+            { "type": "array", "items": { "$ref": "#/$defs/AgentInRole" } }
+          ]
+        },
+        "cdi:creator": {
+          "anyOf": [
+            { "$ref": "#/$defs/AgentInRole" },
+            { "type": "array", "items": { "$ref": "#/$defs/AgentInRole" } }
+          ]
+        },
+        "cdi:date": {
+          "anyOf": [
+            { "$ref": "#/$defs/CombinedDate" },
+            { "type": "array", "items": { "$ref": "#/$defs/CombinedDate" } }
+          ]
+        },
+        "cdi:identifier": { "$ref": "#/$defs/InternationalIdentifier" },
+        "cdi:informationSource": { "$ref": "#/$defs/InternationalString" },
+        "cdi:languageOfObject": {
+          "anyOf": [
+            { "type": "string", "description": "xs:language code (RFC 4646)" },
+            { "type": "array", "items": { "type": "string" } }
+          ]
+        },
+        "cdi:provenance": { "$ref": "#/$defs/ProvenanceInformation" },
+        "cdi:publisher": { "$ref": "#/$defs/AgentInRole" },
+        "cdi:relatedResource": {
+          "anyOf": [
+            { "$ref": "#/$defs/Reference" },
+            { "type": "array", "items": { "$ref": "#/$defs/Reference" } }
+          ]
+        },
+        "cdi:subTitle": { "$ref": "#/$defs/InternationalString" },
+        "cdi:summary": { "$ref": "#/$defs/InternationalString" },
+        "cdi:title": { "$ref": "#/$defs/InternationalString" },
+        "cdi:typeOfResource": { "$ref": "#/$defs/ControlledVocabularyEntry" }
+      }
+    },
+
+    "Identifier": {
+      "type": "object",
+      "description": "Identifier for objects requiring short- or long-lasting referencing and management.",
+      "properties": {
+        "cdi:ddiIdentifier": { "$ref": "#/$defs/InternationalRegistrationDataIdentifier" },
+        "cdi:isDdiIdentifierPersistent": { "type": "boolean", "default": false },
+        "cdi:isDdiIdentifierUniversallyUnique": { "type": "boolean", "default": false },
+        "cdi:nonDdiIdentifier": { "$ref": "#/$defs/NonDdiIdentifier" },
+        "cdi:uri": { "type": "string", "format": "uri" },
+        "cdi:versionDate": { "type": "string", "format": "date" },
+        "cdi:versionRationale": { "$ref": "#/$defs/RationaleDefinition" },
+        "cdi:versionResponsibility": { "$ref": "#/$defs/AgentInRole" }
+      }
+    },
+
+    "PrivateImage": {
+      "type": "object",
+      "description": "References an image with effective dates and a privacy ranking.",
+      "properties": {
+        "cdi:effectiveDates": { "$ref": "#/$defs/DateRange" },
+        "cdi:privacy": { "$ref": "#/$defs/ControlledVocabularyEntry" }
+      }
+    },
+
+    "InternationalString": {
+      "type": "object",
+      "description": "Packaging structure for multilingual versions of the same string content.",
+      "properties": {
+        "cdi:languageSpecificString": {
+          "anyOf": [
+            { "$ref": "#/$defs/LanguageString" },
+            { "type": "array", "items": { "$ref": "#/$defs/LanguageString" } }
+          ]
+        }
+      }
+    },
+
+    "LanguageString": {
+      "type": "object",
+      "description": "A string specific to a language/scope combination.",
+      "properties": {
+        "cdi:content": { "type": "string" },
+        "cdi:language": { "type": "string", "description": "xs:language (RFC 4646)" },
+        "cdi:isTranslatable": { "type": "boolean", "default": true },
+        "cdi:isTranslated": { "type": "boolean", "default": false },
+        "cdi:scope": { "type": "string" },
+        "cdi:structureUsed": { "$ref": "#/$defs/ControlledVocabularyEntry" },
+        "cdi:translationDate": { "type": "string", "format": "date" },
+        "cdi:translationSourceLanguage": {
+          "anyOf": [
+            { "type": "string" },
+            { "type": "array", "items": { "type": "string" } }
+          ]
+        }
+      }
+    },
+
+    "ContactInformation": {
+      "type": "object",
+      "description": "Contact information including location, address, web site, phone numbers, and other means of communication.",
+      "properties": {
+        "cdi:address": {
+          "anyOf": [
+            { "$ref": "#/$defs/Address" },
+            { "type": "array", "items": { "$ref": "#/$defs/Address" } }
+          ]
+        },
+        "cdi:email": {
+          "anyOf": [
+            { "$ref": "#/$defs/Email" },
+            { "type": "array", "items": { "$ref": "#/$defs/Email" } }
+          ]
+        },
+        "cdi:emessaging": {
+          "anyOf": [
+            { "$ref": "#/$defs/ElectronicMessageSystem" },
+            { "type": "array", "items": { "$ref": "#/$defs/ElectronicMessageSystem" } }
+          ]
+        },
+        "cdi:telephone": {
+          "anyOf": [
+            { "$ref": "#/$defs/Telephone" },
+            { "type": "array", "items": { "$ref": "#/$defs/Telephone" } }
+          ]
+        },
+        "cdi:website": {
+          "anyOf": [
+            { "$ref": "#/$defs/WebLink" },
+            { "type": "array", "items": { "$ref": "#/$defs/WebLink" } }
+          ]
+        }
+      }
+    },
+
+    "IndividualName": {
+      "type": "object",
+      "description": "Name of an individual broken into component parts (prefix, first/given, middle, last/family, suffix).",
+      "properties": {
+        "cdi:abbreviation": { "$ref": "#/$defs/InternationalString" },
+        "cdi:context": { "$ref": "#/$defs/ControlledVocabularyEntry" },
+        "cdi:effectiveDates": { "$ref": "#/$defs/DateRange" },
+        "cdi:firstGiven": { "type": "string" },
+        "cdi:fullName": { "$ref": "#/$defs/InternationalString" },
+        "cdi:isFormal": { "type": "boolean", "default": true },
+        "cdi:isPreferred": { "type": "boolean", "default": false },
+        "cdi:lastFamily": { "type": "string" },
+        "cdi:middle": { "type": "string" },
+        "cdi:prefix": { "type": "string" },
+        "cdi:sex": {
+          "type": "object",
+          "description": "SexSpecification — male, female, or neutral for pronoun usage.",
+          "properties": {
+            "cdi:sexCode": { "type": "string" }
+          }
+        },
+        "cdi:suffix": { "type": "string" },
+        "cdi:typeOfIndividualName": { "$ref": "#/$defs/ControlledVocabularyEntry" }
+      }
+    },
+
+    "OrganizationName": {
+      "type": "object",
+      "description": "Names by which the organization is known. Extends ObjectName.",
+      "properties": {
+        "cdi:name": { "type": "string", "description": "The expressed name of the object (inherited from ObjectName)." },
+        "cdi:context": { "$ref": "#/$defs/ControlledVocabularyEntry" },
+        "cdi:abbreviation": { "$ref": "#/$defs/InternationalString" },
+        "cdi:effectiveDates": { "$ref": "#/$defs/DateRange" },
+        "cdi:isFormal": { "type": "boolean", "default": true },
+        "cdi:typeOfOrganizationName": { "$ref": "#/$defs/ControlledVocabularyEntry" }
+      }
+    },
+
+    "ObjectName": {
+      "type": "object",
+      "description": "Human-understandable name (linguistic signifier). May follow ISO/IEC 11179-5 naming principles.",
+      "properties": {
+        "cdi:name": { "type": "string" },
+        "cdi:context": { "$ref": "#/$defs/ControlledVocabularyEntry" }
+      }
+    },
+
+    "AccessLocation": {
+      "type": "object",
+      "description": "Access information for a machine including URI, MIME type, and physical location.",
+      "properties": {
+        "cdi:mimeType": { "$ref": "#/$defs/ControlledVocabularyEntry" },
+        "cdi:physicalLocation": { "$ref": "#/$defs/InternationalString" },
+        "cdi:uri": { "type": "string", "format": "uri" }
+      }
+    },
+
+    "ControlledVocabularyEntry": {
+      "type": "object",
+      "description": "An entry from an externally maintained controlled vocabulary, or unstructured content if no vocabulary is used.",
+      "properties": {
+        "cdi:entryReference": { "$ref": "#/$defs/Reference" },
+        "cdi:entryValue": { "type": "string" },
+        "cdi:name": { "type": "string", "description": "Name of the code list (controlled vocabulary)." },
+        "cdi:valueForOther": { "type": "string" },
+        "cdi:vocabulary": { "$ref": "#/$defs/Reference" }
+      }
+    },
+
+    "DateRange": {
+      "type": "object",
+      "description": "A date/time range with start and end dates.",
+      "properties": {
+        "cdi:startDate": { "$ref": "#/$defs/CombinedDate" },
+        "cdi:endDate": { "$ref": "#/$defs/CombinedDate" }
+      }
+    },
+
+    "CombinedDate": {
+      "type": "object",
+      "description": "A date supporting both ISO and non-ISO date structures.",
+      "properties": {
+        "cdi:isoDate": { "type": "string", "format": "date-time" },
+        "cdi:historicDate": { "type": "string" }
+      }
+    },
+
+    "Address": {
+      "type": "object",
+      "description": "Location address with component parts, type, privacy level, and preferred flag.",
+      "properties": {
+        "cdi:cityPlaceLocal": { "type": "string" },
+        "cdi:countryCode": { "$ref": "#/$defs/ControlledVocabularyEntry" },
+        "cdi:effectiveDates": { "$ref": "#/$defs/DateRange" },
+        "cdi:geographicPoint": {
+          "type": "object",
+          "description": "SpatialPoint — geographic coordinates.",
+          "properties": {
+            "cdi:latitude": { "type": "number" },
+            "cdi:longitude": { "type": "number" }
+          }
+        },
+        "cdi:isPreferred": { "type": "boolean", "default": false },
+        "cdi:line": {
+          "anyOf": [
+            { "type": "string" },
+            { "type": "array", "items": { "type": "string" } }
+          ]
+        },
+        "cdi:locationName": { "$ref": "#/$defs/ObjectName" },
+        "cdi:postalCode": { "type": "string" },
+        "cdi:privacy": { "$ref": "#/$defs/ControlledVocabularyEntry" },
+        "cdi:regionalCoverage": { "$ref": "#/$defs/ControlledVocabularyEntry" },
+        "cdi:stateProvince": { "type": "string" },
+        "cdi:timeZone": { "$ref": "#/$defs/ControlledVocabularyEntry" },
+        "cdi:typeOfAddress": { "$ref": "#/$defs/ControlledVocabularyEntry" },
+        "cdi:typeOfLocation": { "$ref": "#/$defs/ControlledVocabularyEntry" }
+      }
+    },
+
+    "Email": {
+      "type": "object",
+      "description": "An e-mail address conforming to internet format (RFC 5322).",
+      "properties": {
+        "cdi:effectiveDates": { "$ref": "#/$defs/DateRange" },
+        "cdi:internetEmail": { "type": "string", "format": "email" },
+        "cdi:isPreferred": { "type": "boolean", "default": false },
+        "cdi:privacy": { "$ref": "#/$defs/ControlledVocabularyEntry" },
+        "cdi:typeOfEmail": { "$ref": "#/$defs/ControlledVocabularyEntry" }
+      }
+    },
+
+    "ElectronicMessageSystem": {
+      "type": "object",
+      "description": "Non-email electronic messaging (text, Skype, etc.).",
+      "properties": {
+        "cdi:contactAddress": { "type": "string" },
+        "cdi:effectiveDates": { "$ref": "#/$defs/DateRange" },
+        "cdi:isPreferred": { "type": "boolean", "default": false },
+        "cdi:privacy": { "$ref": "#/$defs/ControlledVocabularyEntry" },
+        "cdi:typeOfService": { "$ref": "#/$defs/ControlledVocabularyEntry" }
+      }
+    },
+
+    "Telephone": {
+      "type": "object",
+      "description": "Telephone number with type, privacy, and preferred flag.",
+      "properties": {
+        "cdi:effectiveDates": { "$ref": "#/$defs/DateRange" },
+        "cdi:isPreferred": { "type": "boolean", "default": false },
+        "cdi:privacy": { "$ref": "#/$defs/ControlledVocabularyEntry" },
+        "cdi:telephoneNumber": { "type": "string" },
+        "cdi:typeOfTelephone": { "$ref": "#/$defs/ControlledVocabularyEntry" }
+      }
+    },
+
+    "WebLink": {
+      "type": "object",
+      "description": "A web site URL with type, privacy, and effective dates.",
+      "properties": {
+        "cdi:effectiveDates": { "$ref": "#/$defs/DateRange" },
+        "cdi:isPreferred": { "type": "boolean", "default": false },
+        "cdi:privacy": { "$ref": "#/$defs/ControlledVocabularyEntry" },
+        "cdi:typeOfWebsite": { "$ref": "#/$defs/ControlledVocabularyEntry" },
+        "cdi:uri": { "type": "string", "format": "uri" }
+      }
+    },
+
+    "InternationalRegistrationDataIdentifier": {
+      "type": "object",
+      "description": "Persistent, globally unique object identifier aligned with ISO/IEC 11179-6:2015 (IRDI).",
+      "properties": {
+        "cdi:dataIdentifier": { "type": "string" },
+        "cdi:registrationAuthorityIdentifier": { "type": "string" },
+        "cdi:versionIdentifier": { "type": "string" }
+      }
+    },
+
+    "NonDdiIdentifier": {
+      "type": "object",
+      "description": "A unique identifier not conforming to DDI structure nor structured as a URI.",
+      "properties": {
+        "cdi:managingAgency": { "type": "string" },
+        "cdi:type": { "type": "string" },
+        "cdi:value": { "type": "string" },
+        "cdi:version": { "type": "string" }
+      }
+    },
+
+    "RationaleDefinition": {
+      "type": "object",
+      "description": "Textual description and coded value for the rationale/purpose of a version change.",
+      "properties": {
+        "cdi:rationaleCode": { "$ref": "#/$defs/ControlledVocabularyEntry" },
+        "cdi:rationaleDescription": { "$ref": "#/$defs/InternationalString" }
+      }
+    },
+
+    "AgentInRole": {
+      "type": "object",
+      "description": "A reference to an agent (organization, individual, or machine) including a role in the context of this specific reference.",
+      "properties": {
+        "cdi:agentName": { "$ref": "#/$defs/InternationalString" },
+        "cdi:reference": { "$ref": "#/$defs/Reference" },
+        "cdi:role": {
+          "type": "object",
+          "description": "PairedControlledVocabularyEntry — role of the agent within the context of the parent property.",
+          "properties": {
+            "cdi:entryValue": { "type": "string" },
+            "cdi:vocabulary": { "$ref": "#/$defs/Reference" }
+          }
+        }
+      }
+    },
+
+    "Reference": {
+      "type": "object",
+      "description": "A way of pointing to resources outside of the DDI-CDI metadata set.",
+      "properties": {
+        "cdi:ddiReference": { "$ref": "#/$defs/InternationalRegistrationDataIdentifier" },
+        "cdi:description": { "type": "string" },
+        "cdi:location": { "$ref": "#/$defs/InternationalString" },
+        "cdi:nonDdiReference": { "$ref": "#/$defs/NonDdiIdentifier" },
+        "cdi:semantic": { "$ref": "#/$defs/ControlledVocabularyEntry" },
+        "cdi:uri": { "type": "string", "format": "uri" },
+        "cdi:validType": { "type": "string" }
+      }
+    },
+
+    "AccessInformation": {
+      "type": "object",
+      "description": "Information important for understanding access conditions.",
+      "properties": {
+        "cdi:accessPermission": { "$ref": "#/$defs/InternationalString" },
+        "cdi:confidentialityStatement": { "$ref": "#/$defs/InternationalString" },
+        "cdi:disclaimer": { "$ref": "#/$defs/InternationalString" },
+        "cdi:license": {
+          "type": "object",
+          "description": "LicenseInformation",
+          "properties": {
+            "cdi:licenseType": { "$ref": "#/$defs/ControlledVocabularyEntry" },
+            "cdi:licenseUri": { "type": "string", "format": "uri" }
+          }
+        }
+      }
+    },
+
+    "InternationalIdentifier": {
+      "type": "object",
+      "description": "An identifier or locator with managing agency information.",
+      "properties": {
+        "cdi:identifierContent": { "type": "string" },
+        "cdi:isUri": { "type": "boolean" },
+        "cdi:managingAgency": { "$ref": "#/$defs/Reference" }
+      }
+    },
+
+    "ProvenanceInformation": {
+      "type": "object",
+      "description": "Information about the origins of the object.",
+      "properties": {
+        "cdi:provenanceStatement": { "$ref": "#/$defs/InternationalString" },
+        "cdi:origin": { "$ref": "#/$defs/Reference" }
+      }
+    }
+  }
+}

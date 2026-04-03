@@ -1,0 +1,533 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#DDI-CDI-SubstantiveValueDomain",
+  "title": "DDI-CDI SubstantiveValueDomain Schema",
+  "description": "JSON-LD schema for SubstantiveValueDomain (inherits ValueDomain), with outbound associations (ValueAndConceptDescription, EnumerationDomain, SubstantiveConceptualDomain) and all structured data types resolved to base types. Generated from Enterprise Architect model ddi-cdi_ea15.2026.March.eapx. Value domain for a substantive conceptual domain. Typically a description and/or enumeration of allowed values of interest. Inherits from ValueDomain.",
+  "type": "object",
+  "properties": {
+    "@type": {
+      "anyOf": [
+        {"const": "cdi:SubstantiveValueDomain"},
+        {
+          "type": "array",
+          "contains": {"const": "cdi:SubstantiveValueDomain"}
+        }
+      ]
+    },
+    "@id": {"type": "string"},
+    "cdi:isDescribedBy": {
+      "anyOf": [
+        {"$ref": "#/$defs/ValueAndConceptDescription"},
+        {"$ref": "#/$defs/id-reference"}
+      ],
+      "description": "A formal description of the set of valid values — for described value domains. (0..1)"
+    },
+    "cdi:takesValuesFrom": {
+      "anyOf": [
+        {"$ref": "#/$defs/EnumerationDomain"},
+        {"$ref": "#/$defs/id-reference"}
+      ],
+      "description": "Any subtype of an enumeration domain enumerating the set of valid values. (0..1)"
+    },
+    "cdi:takesConceptsFrom": {
+      "anyOf": [
+        {"$ref": "#/$defs/SubstantiveConceptualDomain"},
+        {"$ref": "#/$defs/id-reference"}
+      ],
+      "description": "Corresponding conceptual definition given by a substantive conceptual domain. (0..1)"
+    },
+    "cdi:catalogDetails": {
+      "$ref": "#/$defs/CatalogDetails",
+      "description": "Inherited from ValueDomain."
+    },
+    "cdi:displayLabel": {
+      "anyOf": [
+        {"$ref": "#/$defs/LabelForDisplay"},
+        {
+          "type": "array",
+          "items": {"$ref": "#/$defs/LabelForDisplay"}
+        }
+      ],
+      "description": "Inherited from ValueDomain. A human-readable display label."
+    },
+    "cdi:identifier": {
+      "$ref": "#/$defs/Identifier",
+      "description": "Inherited from ValueDomain."
+    },
+    "cdi:recommendedDataType": {
+      "$ref": "#/$defs/ControlledVocabularyEntry",
+      "description": "Inherited from ValueDomain. The data types recommended for use with this domain."
+    }
+  },
+  "required": ["@type"],
+  "$defs": {
+    "ValueAndConceptDescription": {
+      "type": "object",
+      "description": "Formal description of a set of values. May use text, logical expressions, regular expressions, format patterns, or min/max bounds.",
+      "properties": {
+        "@type": {
+          "anyOf": [
+            {"const": "cdi:ValueAndConceptDescription"},
+            {
+              "type": "array",
+              "contains": {"const": "cdi:ValueAndConceptDescription"}
+            }
+          ]
+        },
+        "@id": {"type": "string"},
+        "cdi:classificationLevel": {
+          "type": "string",
+          "enum": [
+            "Continuous",
+            "Interval",
+            "Nominal",
+            "Ordinal",
+            "Ratio"
+          ],
+          "description": "CategoryRelationCode — indicates the type of relationship: nominal, ordinal, interval, ratio, or continuous."
+        },
+        "cdi:description": {
+          "$ref": "#/$defs/InternationalString",
+          "description": "A formal description of the set of values in human-readable language."
+        },
+        "cdi:formatPattern": {
+          "$ref": "#/$defs/ControlledVocabularyEntry",
+          "description": "A pattern as described in Unicode LDML (e.g., #,##0.### for decimals, yyyy.MM.dd for dates)."
+        },
+        "cdi:identifier": {"$ref": "#/$defs/Identifier"},
+        "cdi:logicalExpression": {
+          "$ref": "#/$defs/ControlledVocabularyEntry",
+          "description": "A logical expression where values of 'x' making it true are the valid values (e.g., 'all reals x such that x > 0')."
+        },
+        "cdi:maximumValueExclusive": {"type": "string"},
+        "cdi:maximumValueInclusive": {"type": "string"},
+        "cdi:minimumValueExclusive": {"type": "string"},
+        "cdi:minimumValueInclusive": {"type": "string"},
+        "cdi:regularExpression": {
+          "$ref": "#/$defs/TypedString",
+          "description": "A regular expression where matching strings belong to the valid values."
+        }
+      }
+    },
+    "EnumerationDomain": {
+      "type": "object",
+      "description": "Base class for all codifications (codelist, statistical classification, etc.) understood as enumerated value domains.",
+      "properties": {
+        "@type": {
+          "anyOf": [
+            {"const": "cdi:EnumerationDomain"},
+            {
+              "type": "array",
+              "contains": {"const": "cdi:EnumerationDomain"}
+            }
+          ]
+        },
+        "@id": {"type": "string"},
+        "cdi:identifier": {"$ref": "#/$defs/Identifier"},
+        "cdi:name": {"$ref": "#/$defs/ObjectName"},
+        "cdi:purpose": {"$ref": "#/$defs/InternationalString"},
+        "cdi:uses": {
+          "anyOf": [
+            {"$ref": "#/$defs/id-reference"},
+            {
+              "type": "array",
+              "items": {"$ref": "#/$defs/id-reference"}
+            }
+          ],
+          "description": "Has meaningful level to which members belong. Target: LevelStructure. (0..1)"
+        },
+        "cdi:isDefinedBy": {
+          "anyOf": [
+            {"$ref": "#/$defs/id-reference"},
+            {
+              "type": "array",
+              "items": {"$ref": "#/$defs/id-reference"}
+            }
+          ],
+          "description": "The conceptual basis for the collection of members. Target: Concept. (0..*)"
+        },
+        "cdi:references": {
+          "anyOf": [
+            {"$ref": "#/$defs/id-reference"}
+          ],
+          "description": "Category set associated with the enumeration. Target: CategorySet. (0..1)"
+        }
+      }
+    },
+    "SubstantiveConceptualDomain": {
+      "type": "object",
+      "description": "Conceptual domain of substantive concepts. Inherits from ConceptualDomain.",
+      "properties": {
+        "@type": {
+          "anyOf": [
+            {"const": "cdi:SubstantiveConceptualDomain"},
+            {
+              "type": "array",
+              "contains": {"const": "cdi:SubstantiveConceptualDomain"}
+            }
+          ]
+        },
+        "@id": {"type": "string"},
+        "cdi:catalogDetails": {
+          "$ref": "#/$defs/CatalogDetails",
+          "description": "Inherited from ConceptualDomain."
+        },
+        "cdi:displayLabel": {
+          "anyOf": [
+            {"$ref": "#/$defs/LabelForDisplay"},
+            {
+              "type": "array",
+              "items": {"$ref": "#/$defs/LabelForDisplay"}
+            }
+          ],
+          "description": "Inherited from ConceptualDomain."
+        },
+        "cdi:identifier": {
+          "$ref": "#/$defs/Identifier",
+          "description": "Inherited from ConceptualDomain."
+        },
+        "cdi:isDescribedBy": {
+          "anyOf": [
+            {"$ref": "#/$defs/id-reference"}
+          ],
+          "description": "Inherited from ConceptualDomain. Target: ValueAndConceptDescription. (0..1)"
+        },
+        "cdi:takesConceptsFrom": {
+          "anyOf": [
+            {"$ref": "#/$defs/id-reference"}
+          ],
+          "description": "Inherited from ConceptualDomain. Target: ConceptSystem. (0..1)"
+        }
+      }
+    },
+    "id-reference": {
+      "type": "object",
+      "description": "A JSON-LD reference to another node by @id.",
+      "properties": {
+        "@id": {"type": "string"}
+      },
+      "required": ["@id"]
+    },
+    "CatalogDetails": {
+      "type": "object",
+      "description": "A set of information useful for attribution, data discovery, and access.",
+      "properties": {
+        "cdi:access": {
+          "type": "object",
+          "description": "AccessInformation — access conditions.",
+          "properties": {
+            "cdi:accessPermission": {"$ref": "#/$defs/InternationalString"},
+            "cdi:confidentialityStatement": {"$ref": "#/$defs/InternationalString"},
+            "cdi:disclaimer": {"$ref": "#/$defs/InternationalString"},
+            "cdi:license": {
+              "type": "object",
+              "description": "LicenseInformation.",
+              "properties": {
+                "cdi:licenseType": {"$ref": "#/$defs/ControlledVocabularyEntry"},
+                "cdi:licenseUri": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          }
+        },
+        "cdi:alternativeTitle": {"$ref": "#/$defs/InternationalString"},
+        "cdi:contributor": {
+          "anyOf": [
+            {"$ref": "#/$defs/AgentInRole"},
+            {
+              "type": "array",
+              "items": {"$ref": "#/$defs/AgentInRole"}
+            }
+          ]
+        },
+        "cdi:creator": {
+          "anyOf": [
+            {"$ref": "#/$defs/AgentInRole"},
+            {
+              "type": "array",
+              "items": {"$ref": "#/$defs/AgentInRole"}
+            }
+          ]
+        },
+        "cdi:date": {
+          "anyOf": [
+            {"$ref": "#/$defs/CombinedDate"},
+            {
+              "type": "array",
+              "items": {"$ref": "#/$defs/CombinedDate"}
+            }
+          ]
+        },
+        "cdi:identifier": {
+          "type": "object",
+          "description": "InternationalIdentifier — an identifier or locator with managing agency.",
+          "properties": {
+            "cdi:identifierContent": {"type": "string"},
+            "cdi:isUri": {"type": "boolean"},
+            "cdi:managingAgency": {"$ref": "#/$defs/Reference"}
+          }
+        },
+        "cdi:informationSource": {"$ref": "#/$defs/InternationalString"},
+        "cdi:languageOfObject": {
+          "anyOf": [
+            {
+              "type": "string",
+              "description": "xs:language (RFC 4646)"
+            },
+            {
+              "type": "array",
+              "items": {"type": "string"}
+            }
+          ]
+        },
+        "cdi:provenance": {
+          "type": "object",
+          "description": "ProvenanceInformation — information about the origins of the object.",
+          "properties": {
+            "cdi:provenanceStatement": {"$ref": "#/$defs/InternationalString"},
+            "cdi:origin": {"$ref": "#/$defs/Reference"}
+          }
+        },
+        "cdi:publisher": {"$ref": "#/$defs/AgentInRole"},
+        "cdi:relatedResource": {
+          "anyOf": [
+            {"$ref": "#/$defs/Reference"},
+            {
+              "type": "array",
+              "items": {"$ref": "#/$defs/Reference"}
+            }
+          ]
+        },
+        "cdi:subTitle": {"$ref": "#/$defs/InternationalString"},
+        "cdi:summary": {"$ref": "#/$defs/InternationalString"},
+        "cdi:title": {"$ref": "#/$defs/InternationalString"},
+        "cdi:typeOfResource": {"$ref": "#/$defs/ControlledVocabularyEntry"}
+      }
+    },
+    "Identifier": {
+      "type": "object",
+      "description": "Identifier for objects requiring short- or long-lasting referencing and management.",
+      "properties": {
+        "cdi:ddiIdentifier": {
+          "type": "object",
+          "description": "InternationalRegistrationDataIdentifier (IRDI) — globally unique, ISO/IEC 11179-6 aligned.",
+          "properties": {
+            "cdi:dataIdentifier": {"type": "string"},
+            "cdi:registrationAuthorityIdentifier": {"type": "string"},
+            "cdi:versionIdentifier": {"type": "string"}
+          }
+        },
+        "cdi:isDdiIdentifierPersistent": {
+          "type": "boolean",
+          "default": false
+        },
+        "cdi:isDdiIdentifierUniversallyUnique": {
+          "type": "boolean",
+          "default": false
+        },
+        "cdi:nonDdiIdentifier": {
+          "type": "object",
+          "description": "NonDdiIdentifier — a unique identifier not conforming to DDI structure.",
+          "properties": {
+            "cdi:managingAgency": {"type": "string"},
+            "cdi:type": {"type": "string"},
+            "cdi:value": {"type": "string"},
+            "cdi:version": {"type": "string"}
+          }
+        },
+        "cdi:uri": {
+          "type": "string",
+          "format": "uri"
+        },
+        "cdi:versionDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "cdi:versionRationale": {
+          "type": "object",
+          "description": "RationaleDefinition — rationale/purpose for a version change.",
+          "properties": {
+            "cdi:rationaleCode": {"$ref": "#/$defs/ControlledVocabularyEntry"},
+            "cdi:rationaleDescription": {"$ref": "#/$defs/InternationalString"}
+          }
+        },
+        "cdi:versionResponsibility": {"$ref": "#/$defs/AgentInRole"}
+      }
+    },
+    "LabelForDisplay": {
+      "type": "object",
+      "description": "A structured display label. Extends InternationalString with location variant, max length, and validity dates.",
+      "properties": {
+        "cdi:languageSpecificString": {
+          "anyOf": [
+            {"$ref": "#/$defs/LanguageString"},
+            {
+              "type": "array",
+              "items": {"$ref": "#/$defs/LanguageString"}
+            }
+          ],
+          "description": "Inherited from InternationalString."
+        },
+        "cdi:locationVariant": {
+          "$ref": "#/$defs/ControlledVocabularyEntry",
+          "description": "Locality specification for content specific to a geographic area."
+        },
+        "cdi:maxLength": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Maximum number of characters in the label."
+        },
+        "cdi:validDates": {"$ref": "#/$defs/DateRange"}
+      }
+    },
+    "InternationalString": {
+      "type": "object",
+      "description": "Packaging structure for multilingual versions of the same string content.",
+      "properties": {
+        "cdi:languageSpecificString": {
+          "anyOf": [
+            {"$ref": "#/$defs/LanguageString"},
+            {
+              "type": "array",
+              "items": {"$ref": "#/$defs/LanguageString"}
+            }
+          ]
+        }
+      }
+    },
+    "LanguageString": {
+      "type": "object",
+      "description": "A string specific to a language/scope combination.",
+      "properties": {
+        "cdi:content": {"type": "string"},
+        "cdi:language": {
+          "type": "string",
+          "description": "xs:language (RFC 4646)"
+        },
+        "cdi:isTranslatable": {
+          "type": "boolean",
+          "default": true
+        },
+        "cdi:isTranslated": {
+          "type": "boolean",
+          "default": false
+        },
+        "cdi:scope": {"type": "string"},
+        "cdi:structureUsed": {"$ref": "#/$defs/ControlledVocabularyEntry"},
+        "cdi:translationDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "cdi:translationSourceLanguage": {
+          "anyOf": [
+            {"type": "string"},
+            {
+              "type": "array",
+              "items": {"type": "string"}
+            }
+          ]
+        }
+      }
+    },
+    "ControlledVocabularyEntry": {
+      "type": "object",
+      "description": "An entry from an externally maintained controlled vocabulary, or unstructured content.",
+      "properties": {
+        "cdi:entryReference": {"$ref": "#/$defs/Reference"},
+        "cdi:entryValue": {"type": "string"},
+        "cdi:name": {
+          "type": "string",
+          "description": "Name of the code list."
+        },
+        "cdi:valueForOther": {"type": "string"},
+        "cdi:vocabulary": {"$ref": "#/$defs/Reference"}
+      }
+    },
+    "ObjectName": {
+      "type": "object",
+      "description": "Human-understandable name. May follow ISO/IEC 11179-5 naming principles.",
+      "properties": {
+        "cdi:name": {"type": "string"},
+        "cdi:context": {"$ref": "#/$defs/ControlledVocabularyEntry"}
+      }
+    },
+    "TypedString": {
+      "type": "object",
+      "description": "Combines a type with content defined as a simple string.",
+      "properties": {
+        "cdi:content": {"type": "string"},
+        "cdi:typeOfContent": {"$ref": "#/$defs/ControlledVocabularyEntry"}
+      }
+    },
+    "DateRange": {
+      "type": "object",
+      "description": "A date/time range with start and end dates.",
+      "properties": {
+        "cdi:startDate": {"$ref": "#/$defs/CombinedDate"},
+        "cdi:endDate": {"$ref": "#/$defs/CombinedDate"}
+      }
+    },
+    "CombinedDate": {
+      "type": "object",
+      "description": "A date supporting both ISO and non-ISO date structures.",
+      "properties": {
+        "cdi:isoDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "cdi:historicDate": {"type": "string"}
+      }
+    },
+    "AgentInRole": {
+      "type": "object",
+      "description": "A reference to an agent including a role in the context of this specific reference.",
+      "properties": {
+        "cdi:agentName": {"$ref": "#/$defs/InternationalString"},
+        "cdi:reference": {"$ref": "#/$defs/Reference"},
+        "cdi:role": {
+          "type": "object",
+          "description": "PairedControlledVocabularyEntry — role of the agent.",
+          "properties": {
+            "cdi:entryValue": {"type": "string"},
+            "cdi:vocabulary": {"$ref": "#/$defs/Reference"}
+          }
+        }
+      }
+    },
+    "Reference": {
+      "type": "object",
+      "description": "A way of pointing to resources outside of the DDI-CDI metadata set.",
+      "properties": {
+        "cdi:ddiReference": {
+          "type": "object",
+          "description": "InternationalRegistrationDataIdentifier (IRDI).",
+          "properties": {
+            "cdi:dataIdentifier": {"type": "string"},
+            "cdi:registrationAuthorityIdentifier": {"type": "string"},
+            "cdi:versionIdentifier": {"type": "string"}
+          }
+        },
+        "cdi:description": {"type": "string"},
+        "cdi:location": {"$ref": "#/$defs/InternationalString"},
+        "cdi:nonDdiReference": {
+          "type": "object",
+          "description": "NonDdiIdentifier.",
+          "properties": {
+            "cdi:managingAgency": {"type": "string"},
+            "cdi:type": {"type": "string"},
+            "cdi:value": {"type": "string"},
+            "cdi:version": {"type": "string"}
+          }
+        },
+        "cdi:semantic": {"$ref": "#/$defs/ControlledVocabularyEntry"},
+        "cdi:uri": {
+          "type": "string",
+          "format": "uri"
+        },
+        "cdi:validType": {"type": "string"}
+      }
+    }
+  }
+}
