@@ -74,6 +74,13 @@ SCHEMA_PROPS = {
     "conditionsOfAccess", "comment", "roleName", "contributor",
     "locationCreated", "fileFormat", "usageinfo", "potentialAction",
     "sdDatePublished", "maintainer",
+    # Properties found in NCEI, Copernicus, Kaggle records
+    "addressCountry", "addressLocality", "addressRegion", "availableLanguage",
+    "caption", "commentCount", "dayOfWeek", "disambiguatingDescription",
+    "discussionUrl", "faxNumber", "hoursAvailable", "image",
+    "inDefinedTermSet", "interactionStatistic", "interactionType",
+    "parentOrganization", "postalCode", "requiresSubscription",
+    "streetAddress", "userInteractionCount",
 }
 
 # schema.org type names
@@ -85,6 +92,7 @@ SCHEMA_TYPES = {
     "PostalAddress", "ImageObject", "WebAPI", "SearchAction", "EntryPoint",
     "Action", "Collection", "MediaObject", "SoftwareApplication",
     "SoftwareSourceCode", "Product", "DefinedTermSet",
+    "InteractionCounter", "OpeningHoursSpecification",
 }
 
 
@@ -308,21 +316,46 @@ def harvest_record(dataset_info, verbose=False):
 # CDIF conversion
 # ---------------------------------------------------------------------------
 
-def _prefix_keys(obj, depth=0):
-    """Recursively prefix unprefixed schema.org property names."""
+UNKNOWN_NS = "https://ex.org/unknown/"
+UNKNOWN_PREFIX = "unk"
+
+
+def _prefix_keys(obj, depth=0, assumed_schema_keys=None, unknown_keys=None):
+    """Recursively prefix unprefixed property names.
+
+    Known schema.org properties get ``schema:``.  Unprefixed keys that match
+    schema.org class or property names (in SCHEMA_PROPS or SCHEMA_TYPES) are
+    assumed to be schema.org and prefixed with ``schema:``, tracked in
+    *assumed_schema_keys*.  Any remaining unprefixed key is assigned to the
+    ``unk:`` (https://ex.org/unknown/) namespace.  *unknown_keys* collects
+    these truly unknown names.
+    """
     if depth > 20:
         return obj
     if isinstance(obj, list):
-        return [_prefix_keys(item, depth + 1) for item in obj]
+        return [_prefix_keys(item, depth + 1, assumed_schema_keys, unknown_keys)
+                for item in obj]
     if not isinstance(obj, dict):
         return obj
+    if assumed_schema_keys is None:
+        assumed_schema_keys = set()
+    if unknown_keys is None:
+        unknown_keys = set()
     result = {}
     for key, value in obj.items():
         new_key = key
         if not key.startswith("@") and ":" not in key and not key.startswith("http"):
             if key in SCHEMA_PROPS:
                 new_key = "schema:" + key
-        result[new_key] = _prefix_keys(value, depth + 1)
+            elif key in SCHEMA_TYPES:
+                # Type name used as property — unusual but assume schema.org
+                new_key = "schema:" + key
+                assumed_schema_keys.add(key)
+            else:
+                new_key = UNKNOWN_PREFIX + ":" + key
+                unknown_keys.add(key)
+        result[new_key] = _prefix_keys(value, depth + 1,
+                                       assumed_schema_keys, unknown_keys)
     return result
 
 
@@ -348,6 +381,9 @@ def _fix_types(obj):
                 normalized.append(_TYPE_MAP[t])
             elif t in SCHEMA_TYPES:
                 normalized.append("schema:" + t)
+            elif ":" not in t and not t.startswith("http"):
+                # Unprefixed type not in schema.org — assign to unk:
+                normalized.append(UNKNOWN_PREFIX + ":" + t)
             else:
                 normalized.append(t)
         types = normalized
@@ -395,9 +431,25 @@ def convert_to_cdif(doc, publisher_label, profile="core"):
     """
     changes = []
 
-    # 1. Prefix property names
-    doc = _prefix_keys(doc)
+    # 1. Prefix property names — known schema.org props get schema:,
+    #    unknown unprefixed props get unk: (https://ex.org/unknown/)
+    assumed_schema_keys = set()
+    unknown_keys = set()
+    doc = _prefix_keys(doc, assumed_schema_keys=assumed_schema_keys,
+                       unknown_keys=unknown_keys)
     changes.append("Property names prefixed with schema: namespace")
+    if assumed_schema_keys:
+        changes.append(
+            f"Unprefixed properties assumed to be schema.org based on "
+            f"matching schema.org class/property names and prefixed with "
+            f"schema: ({', '.join(sorted(assumed_schema_keys))})"
+        )
+    if unknown_keys:
+        changes.append(
+            f"Unprefixed properties with no matching schema.org name "
+            f"assigned to unk: namespace ({UNKNOWN_NS}): "
+            f"{', '.join(sorted(unknown_keys))}"
+        )
 
     # 2. Fix @context — set CDIF required prefixes, preserve any extras
     orig_ctx = doc.get("@context", {})
@@ -414,7 +466,10 @@ def convert_to_cdif(doc, publisher_label, profile="core"):
                     if k not in ("@vocab", "@language", "schema", "dcterms", "dcat", "prov") \
                        and isinstance(v, str):
                         extra[k] = v
-    doc["@context"] = {**CDIF_CONTEXT, **extra}
+    ctx = {**CDIF_CONTEXT, **extra}
+    if unknown_keys:
+        ctx[UNKNOWN_PREFIX] = UNKNOWN_NS
+    doc["@context"] = ctx
     changes.append("@context set to CDIF prefix declarations (extra prefixes preserved)")
 
     # 3. Normalize types
@@ -467,6 +522,9 @@ def convert_to_cdif(doc, publisher_label, profile="core"):
                 dist["schema:encodingFormat"] = [enc]
             if "@type" not in dist:
                 dist["@type"] = ["schema:DataDownload"]
+            # schema:url on a DataDownload → schema:contentUrl
+            if "schema:contentUrl" not in dist and "schema:url" in dist:
+                dist["schema:contentUrl"] = dist["schema:url"]
         changes.append("Distributions normalized")
 
     # 9. Fix creator
