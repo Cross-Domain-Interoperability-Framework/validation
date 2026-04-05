@@ -9,6 +9,8 @@ Validation is performed at three levels:
 - **SHACL** (semantic) -- `ShaclValidation/ShaclJSONLDContext.py` validates RDF graphs against SHACL shapes
 - **RO-Crate** (structural) -- RO-Crate conversion/validation tools have moved to the [packaging repo](https://github.com/Cross-Domain-Interoperability-Framework/packaging)
 - **Batch** -- `batch_validate.py` runs both JSON Schema and SHACL validation across multiple file groups (testJSONMetadata, cdifbook examples, CDIF profiles, ADA profiles), with severity-aware reporting (violations vs warnings vs info)
+- **Conformance** -- `validate_conformance.py` reads `schema:subjectOf/dcterms:conformsTo` claims from JSON-LD files and validates each file against the profile schemas it claims. Maps conformsTo URIs to building-block/profile resolved schemas. Ignores `ada:` prefixed URIs.
+- **Harvesting** -- `geocodes_harvester.py` queries the EarthCube GeoCodes SPARQL endpoint for dataset records, fetches original JSON-LD from source landing pages, and optionally converts to CDIF core or discovery profile format (prefixing, @context, @type arrays, subjectOf with conformsTo, type mappings, Person name synthesis). Preserves extra properties (open-world).
 
 ## Building block architecture
 

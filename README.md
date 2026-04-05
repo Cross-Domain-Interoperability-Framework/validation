@@ -64,6 +64,8 @@ This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule s
 | `validate_building_blocks.py` | Validates building block schemas, SHACL shapes, and examples across the BB source tree |
 | `validate-cdif.bat` | Windows batch script for oXygen XML Editor integration |
 | `batch_validate.py` | Batch validation of CDIF metadata files across multiple file groups (JSON Schema + SHACL) |
+| `validate_conformance.py` | Validates JSON-LD instances against the CDIF profiles they claim conformance to via `schema:subjectOf/dcterms:conformsTo`. Maps conformsTo URIs to profile/building-block schemas and reports per-file, per-profile results |
+| `geocodes_harvester.py` | Harvests dataset metadata from the [EarthCube GeoCodes](https://geocodes.earthcube.org/) SPARQL endpoint, extracts original JSON-LD from landing pages, and optionally converts to CDIF core or discovery profile format |
 
 ### DDI-CDI Resolved Schema
 
@@ -572,6 +574,43 @@ python ShaclValidation/generate_shacl_shapes.py --profile complete
 See [`ShaclValidation/README.md`](ShaclValidation/README.md) for detailed documentation on the SHACL tools, shapes architecture, report format, and how to add new building block shapes.
 
 **Recommendation**: Use both JSON Schema and SHACL validation for comprehensive coverage. `batch_validate.py` runs both automatically across multiple file groups.
+
+## Conformance Validation
+
+`validate_conformance.py` inspects JSON-LD files for `schema:subjectOf/dcterms:conformsTo` claims and validates each file against the profile schemas it claims to conform to. Supports cdifCore, CDIFDiscovery, CDIFDataDescription, CDIFcomplete, and building block schemas (provenance, manifest/archive distribution).
+
+```bash
+# Validate a directory of JSON-LD files against their claimed profiles
+python validate_conformance.py testJSONMetadata/
+
+# Summary only
+python validate_conformance.py testJSONMetadata/ --summary
+
+# Verbose per-file error details
+python validate_conformance.py testJSONMetadata/ --verbose
+```
+
+Conformance URIs with `ada:` prefix are ignored. URIs are normalized (trailing slashes stripped, `dataDescription` mapped to `data_description`).
+
+## GeoCodes Harvester
+
+`geocodes_harvester.py` harvests dataset metadata from the [EarthCube GeoCodes](https://geocodes.earthcube.org/) catalog (~170K indexed datasets). It queries the Blazegraph SPARQL endpoint, fetches original JSON-LD from source landing pages when available, and optionally converts records to CDIF profile format.
+
+```bash
+# List publishers and dataset counts
+python geocodes_harvester.py --list-publishers
+
+# Harvest 5 records from diverse publishers, convert to CDIF Discovery
+python geocodes_harvester.py --count 5 --output ./examples --cdif discovery
+
+# Harvest from a specific publisher
+python geocodes_harvester.py --publisher "PANGAEA" --count 3 --output ./examples
+
+# Harvest without CDIF conversion (raw schema.org JSON-LD)
+python geocodes_harvester.py --count 5 --output ./raw-examples
+```
+
+The CDIF conversion handles: property prefixing (`schema:`), `@context`/`@type` normalization, `@list` wrapping for creators, distribution fixes, `subjectOf` with `conformsTo`, type mappings (FundingAgency to Organization, Grant to MonetaryGrant, Croissant sc:Dataset to Dataset), Person name synthesis, and sameAs array normalization. All conversions are documented in each record's `subjectOf` description. Extra properties from the source are preserved (open-world assumption).
 
 ## MetadataExamples
 
