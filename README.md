@@ -66,6 +66,7 @@ This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule s
 | `batch_validate.py` | Batch validation of CDIF metadata files across multiple file groups (JSON Schema + SHACL) |
 | `validate_conformance.py` | Validates JSON-LD instances against the CDIF profiles they claim conformance to via `schema:subjectOf/dcterms:conformsTo`. Maps conformsTo URIs to profile/building-block schemas and reports per-file, per-profile results |
 | `geocodes_harvester.py` | Harvests dataset metadata from the [EarthCube GeoCodes](https://geocodes.earthcube.org/) SPARQL endpoint, extracts original JSON-LD from landing pages, and optionally converts to CDIF core or discovery profile format |
+| `DCAT/dcat_to_cdif.py` | Converts DCAT JSON-LD catalogs to CDIF schema.org format. Maps DCAT/Dublin Core properties to schema.org equivalents per the [CDIF DCAT implementation guide](https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/dcat.html). See [DCAT/README.md](DCAT/README.md) |
 
 ### DDI-CDI Resolved Schema
 
@@ -611,6 +612,24 @@ python geocodes_harvester.py --count 5 --output ./raw-examples
 ```
 
 The CDIF conversion handles: property prefixing (`schema:`), `@context`/`@type` normalization, `@list` wrapping for creators, distribution fixes, `subjectOf` with `conformsTo`, type mappings (FundingAgency to Organization, Grant to MonetaryGrant, Croissant sc:Dataset to Dataset), Person name synthesis, and sameAs array normalization. All conversions are documented in each record's `subjectOf` description. Extra properties from the source are preserved (open-world assumption).
+
+## DCAT Conversion
+
+`DCAT/dcat_to_cdif.py` converts DCAT JSON-LD catalogs or individual dataset records to CDIF-conformant schema.org JSON-LD. Maps DCAT/Dublin Core properties to schema.org equivalents per the [CDIF DCAT implementation guide](https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/dcat.html).
+
+```bash
+# List datasets in a DCAT catalog
+python DCAT/dcat_to_cdif.py catalog.jsonld --list
+
+# Convert selected records, validate output
+python DCAT/dcat_to_cdif.py catalog.jsonld --output ./examples \
+  --select 0,3,5 --catalog-name "My Catalog" --catalog-url "https://example.org/" \
+  --validate
+```
+
+Key mappings: `dcterms:title` → `schema:name`, `dcterms:description` → `schema:description`, `dcterms:modified` → `schema:dateModified`, `dcterms:license` �� `schema:license`, `dcterms:accessRights` → `schema:conditionsOfAccess`, `dcat:keyword` → `schema:keywords`, `dcat:Distribution` → `schema:DataDownload`, `dcterms:spatial` → `schema:spatialCoverage`, `dcterms:temporal` → `schema:temporalCoverage`. Unmapped properties preserved (open world). Auto-detects Discovery vs Core profile based on spatial/temporal content.
+
+See [DCAT/README.md](DCAT/README.md) for the full property mapping table, PSDI catalog example, and known limitations.
 
 ## MetadataExamples
 
