@@ -669,19 +669,18 @@ def convert_to_cdif(doc, publisher_label, profile="core"):
         "schema:additionalType": ["dcat:CatalogRecord"],
         "@id": (dataset_id + "#metadata") if dataset_id else "#metadata",
         "schema:name": (
-            f"GeoCodes metadata record for: "
+            f"Metadata record for: "
             f"{(doc.get('schema:name') or 'dataset')[:120]}"
         ),
         "schema:about": {"@id": dataset_id},
         "dcterms:conformsTo": conformsTo,
         "schema:includedInDataCatalog": {
             "@type": ["schema:DataCatalog"],
-            "schema:name": "GeoCodes - EarthCube Discovery",
-            "schema:url": GEOCODES_URL,
+            "schema:name": publisher_label,
+            "schema:url": doc.get("schema:url") or dataset_id or "",
         },
         "schema:description": (
-            f"Metadata harvested from {publisher_label} by the EarthCube "
-            f"GeoCodes catalog using Gleaner. "
+            f"Metadata harvested from {publisher_label} by Claude Code. "
             f"Converted to CDIF {profile} profile: {'; '.join(changes)}."
         ),
     }
