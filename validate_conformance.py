@@ -21,7 +21,7 @@ from jsonschema import Draft202012Validator
 # --- Configuration ---
 
 BB_DIR = os.path.normpath(
-    "C:/Users/smrTu/OneDrive/Documents/GithubC/CDIF/metadataBuildingBlocksFork/_sources"
+    "C:/Users/smrTu/OneDrive/Documents/GithubC/CDIF/metadataBuildingBlocks/_sources"
 )
 
 # Map conformsTo URIs to resolved schema paths.
