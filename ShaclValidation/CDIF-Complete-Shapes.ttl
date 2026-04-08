@@ -8,7 +8,6 @@
 
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
-@prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix dqv: <http://www.w3.org/ns/dqv#> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
@@ -1046,7 +1045,7 @@ cdifd:affiliationProperty a sh:PropertyShape ;
     sh:severity sh:Warning .
 
 cdifd:catalogRecordTypeProperty a sh:PropertyShape ;
-    sh:hasValue dcat:CatalogRecord ;
+    sh:hasValue "dcat:CatalogRecord" ;
     sh:message "The CatalogRecord node must have schema:additionalType including dcat:CatalogRecord" ;
     sh:minCount 1 ;
     sh:path schema1:additionalType .
