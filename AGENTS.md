@@ -65,10 +65,10 @@ _sources/
 
 ### generate_validation_schema.py (framed-tree JSON Schema)
 
-Generates self-contained framed-tree validation schemas (`CDIFDiscoverySchema.json`, `CDIFCompleteSchema.json`) from building block profile resolved schemas. Takes a resolved profile schema (e.g., `CDIFDiscovery/resolvedSchema.json`) and produces a compact JSON Schema with `$defs` for repeated sub-schemas.
+Generates self-contained framed-tree validation schemas (`CDIFDiscoverySchema.json`, `CDIFDataDescriptionSchema.json`, `CDIFCompleteSchema.json`) from building block profile resolved schemas. Takes a resolved profile schema (e.g., `CDIFDiscovery/resolvedSchema.json`) and produces a compact JSON Schema with `$defs` for repeated sub-schemas.
 
 Key operations:
-1. Deep-merge all `allOf` entries into a flat schema (merge properties, union required, preserve conditional anyOf constraints)
+1. Deep-merge all `allOf` entries into a flat schema (merge properties, union required, preserve conditional anyOf constraints, **preserve source `$defs`** from resolved schemas)
 2. Structural fingerprinting: group repeated sub-schemas by structure (ignoring description/title/examples), extract to `$defs`
 3. Nested dedup: process `$defs` smallest-first so inner types get replaced in outer types
 4. Prune single-use `$defs` (inline them back), resolving chains where pruned defs reference other pruned defs
@@ -180,6 +180,13 @@ batch_validate.py ──> FrameAndValidate.py (JSON Schema)
 - **variableMeasured architecture**: `variableMeasured` items use `anyOf` in `cdifOptional` to accept either `cdifVariableMeasured` (PropertyValue with DDI-CDI extensions) or `StatisticalVariable` (separate BB). The `cdifDataDescription` BB adds `cdi:physicalDataType` requirement at the data description level (not discovery). `StatisticalVariable` is defined in its own `schemaorgProperties/statisticalVariable` building block.
 - **`@type` array pattern in building blocks**: Building block `@type` definitions use `type: array` with `contains: {const: X}` and `minItems: 1` (array-only). Validation schemas use `anyOf` accepting both string and array for framing compatibility.
 - **Root `@type` enum**: `cdifMandatory` constrains root `@type` items to an enum of 12 types (CreativeWork, SoftwareApplication, SoftwareSourceCode, Product, WebAPI, Dataset, DigitalDocument, Collection, ImageObject, DataCatalog, DefinedTermSet, MediaObject) with `contains: {const: schema:Dataset}` and `default: schema:Dataset`.
+- **Context-aware array normalization**: `FrameAndValidate.py` wraps properties in arrays based on the enclosing `@type` context, not globally. Key context-dependent properties:
+  - `schema:propertyID`: array inside `schema:variableMeasured` and `schema:additionalProperty` items; string on plain Identifiers
+  - `schema:measurementTechnique`: array on `schema:Dataset` (root); scalar `anyOf[string, DefinedTerm]` inside `variableMeasured` items
+  - `schema:encodingFormat`: array on `schema:DataDownload`; string on `schema:EntryPoint` (inside relatedLink/target)
+  - `schema:alternateName`: array on variableMeasured and Place items; string on Person/Organization
+  - `schema:contributor` inside `schema:Role`: unwrapped from single-element array to bare value (root contributor is an array of Role/Person/Org)
+- **Action building block inlined `$defs`**: The `action` building block schema (`actionSchema.json`) has all sub-schemas (target_type, result_type, object_type, query-input_type) inlined directly into properties rather than using `$defs` with `$ref`. This prevents broken references when the OGC BB resolver flattens the action schema into parent schemas (e.g., webAPI potentialAction).
 
 ## Dependencies
 

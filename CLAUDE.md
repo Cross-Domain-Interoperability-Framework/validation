@@ -8,7 +8,7 @@ This repository contains validation tools for **CDIF (Cross-Domain Interoperabil
 
 - **CDIF** metadata is JSON-LD built on schema.org, DDI-CDI, CSVW, PROV, and DQV vocabularies.
 - JSON-LD is a **graph format**; JSON Schema validates **trees**. The **framing** step (via `CDIF-frame-2026.jsonld`) reshapes graphs into trees for schema validation.
-- The framed (tree) schemas are split by profile: `CDIFDiscoverySchema.json` (discovery only) and `CDIFCompleteSchema.json` (discovery + data description). The original all-in-one `CDIF-JSONLD-schema-2026.json` is in `archive/`.
+- The framed (tree) schemas are split by profile: `CDIFDiscoverySchema.json` (discovery only), `CDIFDataDescriptionSchema.json` (discovery + data description), and `CDIFCompleteSchema.json` (discovery + data description + archive + provenance). The original all-in-one `CDIF-JSONLD-schema-2026.json` is in `archive/`.
 - The graph schema (`CDIF-graph-schema-2026.json`) validates **flattened** JSON-LD with `@graph` arrays directly, without framing. Generated from building block source schemas by `generate_graph_schema.py`.
 - **`@type` flexibility**: All framed schema `@type` definitions use `anyOf` to accept either a string or an array. JSON-LD framing compacts single-element arrays to strings; `FrameAndValidate.py` recursively normalizes all `@type` values back to arrays throughout the entire document tree (in `remove_nulls_and_normalize()`).
 - **`spdx:Checksum` typing**: All `spdx:checksum` objects must include `"@type": "spdx:Checksum"` (required by both JSON Schema and SHACL `sh:class spdx:Checksum`). The `@type` uses the same `anyOf` pattern (string or array) as other typed nodes.
@@ -270,9 +270,9 @@ Converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissa
 
 `batch_validate.py` runs both JSON Schema and SHACL validation across 128 files (77 testJSONMetadata + 10 cdifbook + 5 cdifProfiles + 36 adaProfiles). Output distinguishes SHACL severity levels: violations (structural failures), warnings (recommended properties), and info (suggestions).
 
-- **JSON Schema**: 128/128 pass
-- **SHACL Violations**: 0 across all 128 files
-- **SHACL Warnings/Info**: All 128 files pass with warnings/info only — missing activity descriptions, contact points, physical data types, etc.
+- **JSON Schema**: 77/77 testJSONMetadata pass against all three schemas (Discovery, DataDescription, Complete); 5/5 profile examples pass
+- **SHACL Violations**: 0 across all files
+- **SHACL Warnings/Info**: All files pass with warnings/info only — missing activity descriptions, contact points, physical data types, etc.
 
 **SHACL severity rationale**: Properties that are optional in JSON Schema (`schema:name` on activities, `cdi:physicalDataType` on InstanceVariable) are set to `sh:Warning` in SHACL for consistency. Only structurally required properties (e.g., `prov:used` on activities) use `sh:Violation`.
 

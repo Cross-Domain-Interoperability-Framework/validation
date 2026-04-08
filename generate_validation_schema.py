@@ -52,7 +52,8 @@ def merge_allof(schema):
     """Flatten top-level allOf into a single merged schema.
 
     Collects properties (deep-merged), required arrays (unioned),
-    and conditional anyOf constraints (preserved in allOf).
+    conditional anyOf constraints (preserved in allOf), and $defs
+    (merged from root and all allOf entries).
     """
     if "allOf" not in schema:
         return copy.deepcopy(schema)
@@ -61,6 +62,7 @@ def merge_allof(schema):
     all_properties = {}
     all_required = []
     top_constraints = []
+    all_defs = {}
 
     def _collect(obj):
         if not isinstance(obj, dict):
@@ -82,6 +84,12 @@ def merge_allof(schema):
                 if r not in all_required:
                     all_required.append(r)
 
+        # Collect $defs from allOf entries and root
+        if "$defs" in obj:
+            for name, defn in obj["$defs"].items():
+                if name not in all_defs:
+                    all_defs[name] = copy.deepcopy(defn)
+
         # Capture standalone anyOf blocks (conditional required patterns)
         if "anyOf" in obj and "properties" not in obj and "type" not in obj:
             top_constraints.append({"anyOf": copy.deepcopy(obj["anyOf"])})
@@ -89,6 +97,12 @@ def merge_allof(schema):
         for key in ("$schema", "type", "title", "description"):
             if key in obj and key not in merged:
                 merged[key] = obj[key]
+
+    # Collect $defs from root level (outside allOf)
+    if "$defs" in schema:
+        for name, defn in schema["$defs"].items():
+            if name not in all_defs:
+                all_defs[name] = copy.deepcopy(defn)
 
     for entry in schema["allOf"]:
         _collect(entry)
@@ -107,6 +121,9 @@ def merge_allof(schema):
 
     if result_allof:
         merged["allOf"] = result_allof
+
+    if all_defs:
+        merged["$defs"] = all_defs
 
     return merged
 
@@ -679,9 +696,14 @@ def generate_validation_schema(resolved_path, verbose=False, title=None,
     # Step 4: Replace inline schemas with $refs
     compacted = replace_with_refs(merged, sfp_to_name)
 
-    # Step 5: Attach $defs
-    if processed_defs:
-        compacted["$defs"] = dict(sorted(processed_defs.items()))
+    # Step 5: Attach $defs (merge source $defs preserved from merge_allof
+    # with any newly extracted $defs from dedup)
+    source_defs = compacted.get("$defs", {})
+    all_defs = {}
+    all_defs.update(source_defs)
+    all_defs.update(processed_defs)  # extracted defs take precedence
+    if all_defs:
+        compacted["$defs"] = dict(sorted(all_defs.items()))
 
     # Step 6: Prune single-use $defs (inline them back)
     compacted = prune_single_use_defs(compacted)

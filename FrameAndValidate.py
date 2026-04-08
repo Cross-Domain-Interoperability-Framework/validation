@@ -24,7 +24,7 @@ SCRIPT_DIR = Path(__file__).parent
 # Properties that should always be arrays per the CDIF schema
 # Includes both original properties and 2026 DDI-CDI/CSVW additions
 ARRAY_PROPERTIES = [
-    # schema.org properties
+    # schema.org properties -- always wrapped to array at any nesting level
     'schema:contributor',
     'schema:distribution',
     'schema:license',
@@ -39,11 +39,12 @@ ARRAY_PROPERTIES = [
     'schema:temporalCoverage',
     'schema:relatedLink',
     'schema:publishingPrinciples',
-    'schema:encodingFormat',
     'schema:potentialAction',
     'schema:httpMethod',
     'schema:contentType',
     'schema:query-input',
+    'schema:participant',
+    'schema:additionalProperty',
     # PROV properties
     'prov:wasGeneratedBy',
     'prov:wasDerivedFrom',
@@ -55,7 +56,13 @@ ARRAY_PROPERTIES = [
     # DDI-CDI properties (2026)
     'cdi:hasPhysicalMapping',
     'cdi:uses',
+    'cdi:physicalDataType',
 ]
+
+# Properties that are arrays only in specific contexts (not globally).
+# Handled via context-aware logic in remove_nulls_and_normalize().
+# - schema:measurementTechnique: array at root, anyOf[string,DefinedTerm] inside variableMeasured
+# - schema:encodingFormat: array on DataDownload, string on EntryPoint
 
 # Term mappings: unprefixed -> prefixed (to match schema expectations)
 TERM_MAPPINGS = {
@@ -127,7 +134,7 @@ def is_bare_id_reference(obj):
     return len(keys) == 1 and keys[0] == '@id'
 
 
-def remove_nulls_and_normalize(obj):
+def remove_nulls_and_normalize(obj, parent_key=None):
     """
     Post-process the framed output to match schema expectations:
     1. Remove null values (framing adds null for missing optional properties)
@@ -137,7 +144,7 @@ def remove_nulls_and_normalize(obj):
     """
     if isinstance(obj, list):
         # Filter out None values and process remaining items
-        return [remove_nulls_and_normalize(item) for item in obj if item is not None]
+        return [remove_nulls_and_normalize(item, parent_key) for item in obj if item is not None]
 
     if isinstance(obj, dict):
         result = {}
@@ -156,7 +163,7 @@ def remove_nulls_and_normalize(obj):
             new_key = TERM_MAPPINGS.get(key, key)
 
             # Process value recursively
-            new_value = remove_nulls_and_normalize(value)
+            new_value = remove_nulls_and_normalize(value, parent_key=new_key)
 
             # Skip if value became None or empty after processing
             if new_value is None:
@@ -177,18 +184,51 @@ def remove_nulls_and_normalize(obj):
 
             result[new_key] = new_value
 
-        # Context-aware wrapping for schema:propertyID:
-        # Wrap in array when inside cdi:InstanceVariable or schema:PropertyValue
-        # (framing compacts single-element arrays to bare objects)
+        # Context-aware wrapping based on @type of current node
         obj_type = result.get('@type', '')
-        if isinstance(obj_type, list):
-            type_list = obj_type
-        else:
-            type_list = [obj_type] if obj_type else []
-        if 'cdi:InstanceVariable' in type_list or 'schema:PropertyValue' in type_list:
+        type_list = obj_type if isinstance(obj_type, list) else ([obj_type] if obj_type else [])
+
+        # schema:propertyID: array inside variableMeasured and additionalProperty items,
+        # string on plain Identifier PropertyValues (e.g. inside schema:identifier)
+        pid_array_context = (parent_key in ('schema:variableMeasured', 'schema:additionalProperty') or
+                             'cdi:InstanceVariable' in type_list)
+        if pid_array_context:
             pid = result.get('schema:propertyID')
             if pid is not None and not isinstance(pid, list):
                 result['schema:propertyID'] = [pid]
+
+        # schema:measurementTechnique: array on Dataset (root), scalar inside variableMeasured
+        if 'schema:Dataset' in type_list:
+            mt = result.get('schema:measurementTechnique')
+            if mt is not None and not isinstance(mt, list):
+                result['schema:measurementTechnique'] = [mt]
+
+        # schema:encodingFormat: array on DataDownload, string on EntryPoint
+        if 'schema:DataDownload' in type_list:
+            ef = result.get('schema:encodingFormat')
+            if ef is not None and not isinstance(ef, list):
+                result['schema:encodingFormat'] = [ef]
+        elif 'schema:EntryPoint' in type_list:
+            ef = result.get('schema:encodingFormat')
+            if isinstance(ef, list) and len(ef) == 1:
+                result['schema:encodingFormat'] = ef[0]
+
+        # schema:contributor inside Role: unwrap single-element array to bare value
+        # (at root level it's an array of contributors, but inside Role it's a single agent)
+        if 'schema:Role' in type_list:
+            inner = result.get('schema:contributor')
+            if isinstance(inner, list) and len(inner) == 1:
+                result['schema:contributor'] = inner[0]
+
+        # schema:alternateName: array on variableMeasured and spatialCoverage items,
+        # string on Person/Organization
+        is_var_or_place = ('cdi:InstanceVariable' in type_list or
+                           'schema:PropertyValue' in type_list and parent_key == 'schema:variableMeasured' or
+                           'schema:Place' in type_list)
+        alt = result.get('schema:alternateName')
+        if alt is not None:
+            if is_var_or_place and not isinstance(alt, list):
+                result['schema:alternateName'] = [alt]
 
         return result
 

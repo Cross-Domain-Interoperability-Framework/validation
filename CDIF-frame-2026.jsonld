@@ -2,6 +2,7 @@
     "@context": {
         "schema": "http://schema.org/",
         "dcterms": "http://purl.org/dc/terms/",
+        "dcat": "http://www.w3.org/ns/dcat#",
         "prov": "http://www.w3.org/ns/prov#",
         "dqv": "http://www.w3.org/ns/dqv#",
         "geosparql": "http://www.opengis.net/ont/geosparql#",
@@ -61,11 +62,17 @@
 
     "schema:contributor": {
         "@embed": "@always",
+        "schema:name": {},
+        "schema:description": {},
+        "schema:alternateName": {},
+        "schema:additionalType": {"@embed": "@always"},
+        "schema:sameAs": {"@embed": "@always"},
         "schema:affiliation": {
             "@embed": "@always",
             "schema:identifier": {"@embed": "@always"}
         },
         "schema:identifier": {"@embed": "@always"},
+        "schema:contactPoint": {"@embed": "@always"},
         "schema:roleName": {"@embed": "@always"},
         "schema:contributor": {"@embed": "@always"}
     },
@@ -83,6 +90,7 @@
     "schema:funding": {
         "@embed": "@always",
         "schema:name": {},
+        "schema:description": {},
         "schema:funder": {
             "@embed": "@always",
             "schema:identifier": {"@embed": "@always"}
@@ -187,6 +195,7 @@
         "@embed": "@always",
         "schema:name": {},
         "schema:description": {},
+        "schema:alternateName": {},
         "schema:propertyID": {"@embed": "@always"},
         "schema:measurementTechnique": {"@embed": "@always"},
         "schema:unitText": {},
@@ -194,8 +203,13 @@
         "schema:minValue": {},
         "schema:maxValue": {},
         "schema:url": {},
+        "cdi:identifier": {},
+        "cdi:name": {},
+        "cdi:displayLabel": {},
         "cdi:intendedDataType": {},
+        "cdi:physicalDataType": {},
         "cdi:role": {},
+        "cdi:qualifies": {"@embed": "@always"},
         "cdi:describedUnitOfMeasure": {"@embed": "@always"},
         "cdi:simpleUnitOfMeasure": {},
         "cdi:uses": {"@embed": "@always"}
@@ -204,6 +218,9 @@
     "schema:spatialCoverage": {
         "@embed": "@always",
         "schema:name": {"@embed": "@always"},
+        "schema:identifier": {"@embed": "@always"},
+        "schema:alternateName": {"@embed": "@always"},
+        "schema:additionalType": {"@embed": "@always"},
         "schema:geo": {"@embed": "@always"},
         "geosparql:hasGeometry": {
             "@embed": "@always",
@@ -214,15 +231,18 @@
 
     "schema:temporalCoverage": {
         "@embed": "@always",
+        "schema:description": {},
         "time:intervalStartedBy": {},
         "time:intervalFinishedBy": {},
         "time:hasBeginning": {
             "@embed": "@always",
-            "time:inTimePosition": {"@embed": "@always"}
+            "time:inTimePosition": {"@embed": "@always"},
+            "time:inXSDDate": {}
         },
         "time:hasEnd": {
             "@embed": "@always",
-            "time:inTimePosition": {"@embed": "@always"}
+            "time:inTimePosition": {"@embed": "@always"},
+            "time:inXSDDate": {}
         }
     },
 
@@ -238,6 +258,12 @@
 
     "prov:wasGeneratedBy": {
         "@embed": "@always",
+        "schema:name": {},
+        "schema:description": {},
+        "schema:startTime": {},
+        "schema:endTime": {},
+        "schema:actionStatus": {},
+        "schema:error": {},
         "prov:used": {
             "@embed": "@always",
             "schema:instrument": {
@@ -284,7 +310,10 @@
     },
 
     "prov:wasDerivedFrom": {
-        "@embed": "@always"
+        "@embed": "@always",
+        "schema:name": {},
+        "schema:description": {},
+        "schema:url": {}
     },
 
     "dqv:hasQualityMeasurement": {

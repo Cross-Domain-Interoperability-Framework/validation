@@ -201,7 +201,7 @@
             "description": "The primary identifier for the dataset; other identifiers should be listed in the sameAs field. Schema.org has three ways of encoding identifiers-- a text description, a URL, or by using the schema:PropertyValue field. The Science on Schema.org guidance strongly recommends using the PropertyValue approach. see https://github.com/ESIPFed/science-on-schema.org   .... Dataset.md#identifier.  Ideally, for any given data provided they would provide identifiers either all as strings or all as identifier_type.",
             "anyOf": [
                 {
-                    "$ref": "#/$defs/Identifier"
+                    "$ref": "#/$defs/Identifier_5"
                 },
                 {
                     "type": "string"
@@ -218,7 +218,7 @@
                         "type": "string"
                     },
                     {
-                        "$ref": "#/$defs/DefinedTerm"
+                        "$ref": "#/$defs/DefinedTerm_6"
                     }
                 ]
             }
@@ -242,7 +242,7 @@
                         }
                     },
                     {
-                        "$ref": "#/$defs/Identifier"
+                        "$ref": "#/$defs/Identifier_5"
                     }
                 ]
             }
@@ -285,7 +285,7 @@
                         }
                     },
                     {
-                        "$ref": "#/$defs/LabeledLink"
+                        "$ref": "#/$defs/LabeledLink_4"
                     }
                 ]
             }
@@ -309,7 +309,7 @@
                         }
                     },
                     {
-                        "$ref": "#/$defs/LabeledLink"
+                        "$ref": "#/$defs/LabeledLink_4"
                     }
                 ]
             }
@@ -467,7 +467,7 @@
                                         "default": "not specified"
                                     },
                                     {
-                                        "$ref": "#/$defs/LabeledLink"
+                                        "$ref": "#/$defs/LabeledLink_3"
                                     }
                                 ]
                             },
@@ -478,7 +478,7 @@
                                         "type": "string"
                                     },
                                     {
-                                        "$ref": "#/$defs/LabeledLink"
+                                        "$ref": "#/$defs/LabeledLink_3"
                                     }
                                 ]
                             },
@@ -522,22 +522,107 @@
                                             "description": "text label for the action"
                                         },
                                         "schema:target": {
-                                            "$ref": "#/$defs/target_type",
-                                            "description": "specifies the request target location and request syntax"
+                                            "type": "object",
+                                            "description": "specifies the request target location and request syntax. Documentation of the URL end point and syntax to invoke the service. This schema doesn't handle post requests.",
+                                            "properties": {
+                                                "@type": {
+                                                    "default": "schema:EntryPoint",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    },
+                                                    "contains": {
+                                                        "const": "schema:EntryPoint"
+                                                    },
+                                                    "minItems": 1
+                                                },
+                                                "schema:description": {
+                                                    "type": "string"
+                                                },
+                                                "schema:urlTemplate": {
+                                                    "type": "string",
+                                                    "description": "a templated URL; parameters are enclosed in curly braces ({..}); parameters are not required. If included, parameters MUST be documented in the query-input element. Template should be consitent with URI Template (https://datatracker.ietf.org/doc/html/rfc6570) examples: - http://portal.chordsrt.com/api/v1/data.{encoding}; single parameter - http://portal.chordsrt.com/api/v1/data.{encoding}?instruments={instruments}&start={start}&end={end} ; multiple parameters - {endpoint}{encoding}; endpoint URL path is a parameter,should only appear in potential actions for API specification descriptions, which are generic-not specific to a particular endpoint."
+                                                },
+                                                "schema:httpMethod": {
+                                                    "title": "HTTP Method",
+                                                    "description": "only applicable if protocol is http or a protocol that tunnels on http",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "default": "GET",
+                                                        "enum": [
+                                                            "GET",
+                                                            "PUT",
+                                                            "POST",
+                                                            "PATCH",
+                                                            "DELETE",
+                                                            "COPY",
+                                                            "HEAD",
+                                                            "OPTIONS",
+                                                            "PROPFIND"
+                                                        ]
+                                                    }
+                                                },
+                                                "schema:contentType": {
+                                                    "type": "array",
+                                                    "description": "The supported content type(s) for an EntryPoint response. a MIME type (https://www.iana.org/assignments/media-types/media-types.xhtml) that specifies the content type for messages in resonses from the service endpoint. This is a schema.org property, and is redundant with encodingFormat in the result property for the Action.",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "required": [
+                                                "schema:urlTemplate"
+                                            ]
                                         },
                                         "schema:result": {
-                                            "$ref": "#/$defs/result_type",
-                                            "description": "specifies the serialization scheme (encoding format, information model) for expected representation of the data"
+                                            "type": "object",
+                                            "description": "specifies the serialization scheme (encoding format, information model) for expected representation of the data. Documentation of the serialization format for the API response.",
+                                            "properties": {
+                                                "@type": {
+                                                    "type": "array",
+                                                    "description": "Type of result object. Typically schema:DataDownload, but may include additional types.",
+                                                    "items": {
+                                                        "type": "string"
+                                                    },
+                                                    "contains": {
+                                                        "const": "schema:DataDownload"
+                                                    },
+                                                    "minItems": 1
+                                                },
+                                                "schema:encodingFormat": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "schema:description": {
+                                                    "type": "string"
+                                                }
+                                            }
                                         },
                                         "schema:object": {
-                                            "$ref": "#/$defs/object_type",
-                                            "description": "The entity upon which the action is carried out, whose state is kept intact or changed."
+                                            "type": "object",
+                                            "description": "The entity upon which the action is carried out, whose state is kept intact or changed. This is an open ended class for general description of Actions. When schema:Action (or a subclass) is used to describe operations for a WebAPI distribution, the object is implicitly the resource that is the subject of the containing metadata record, so this property would be superfluous.",
+                                            "properties": {
+                                                "@type": {
+                                                    "default": "schema:Thing",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    },
+                                                    "minItems": 1
+                                                },
+                                                "schema:description": {
+                                                    "type": "string"
+                                                }
+                                            }
                                         },
                                         "schema:query-input": {
                                             "type": "array",
                                             "items": {
-                                                "description": null,
                                                 "type": "object",
+                                                "description": "Query input parameter for a web API action, typed as schema:PropertyValueSpecification.",
                                                 "properties": {
                                                     "@id": {
                                                         "type": "string"
@@ -610,7 +695,7 @@
                     "schema:linkRelationship": {
                         "anyOf": [
                             {
-                                "$ref": "#/$defs/DefinedTerm"
+                                "$ref": "#/$defs/DefinedTerm_6"
                             },
                             {
                                 "type": "string"
@@ -665,7 +750,7 @@
                         }
                     },
                     {
-                        "$ref": "#/$defs/LabeledLink"
+                        "$ref": "#/$defs/LabeledLink_4"
                     }
                 ]
             }
@@ -676,7 +761,7 @@
             "items": {
                 "anyOf": [
                     {
-                        "$ref": "#/$defs/DefinedTerm"
+                        "$ref": "#/$defs/DefinedTerm_6"
                     },
                     {
                         "type": "string"
@@ -705,10 +790,10 @@
                                 ]
                             },
                             {
-                                "$ref": "#/$defs/Person"
+                                "$ref": "#/$defs/Person_4"
                             },
                             {
-                                "$ref": "#/$defs/Organization"
+                                "$ref": "#/$defs/Organization_4"
                             }
                         ]
                     }
@@ -733,10 +818,10 @@
                         ]
                     },
                     {
-                        "$ref": "#/$defs/Person"
+                        "$ref": "#/$defs/Person_4"
                     },
                     {
-                        "$ref": "#/$defs/Organization"
+                        "$ref": "#/$defs/Organization_4"
                     },
                     {
                         "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -812,10 +897,10 @@
                     ]
                 },
                 {
-                    "$ref": "#/$defs/Person"
+                    "$ref": "#/$defs/Person_4"
                 },
                 {
-                    "$ref": "#/$defs/Organization"
+                    "$ref": "#/$defs/Organization_4"
                 }
             ]
         },
@@ -837,10 +922,10 @@
                         ]
                     },
                     {
-                        "$ref": "#/$defs/Person"
+                        "$ref": "#/$defs/Person_4"
                     },
                     {
-                        "$ref": "#/$defs/Organization"
+                        "$ref": "#/$defs/Organization_4"
                     }
                 ]
             }
@@ -1051,7 +1136,7 @@
                                 }
                             },
                             {
-                                "$ref": "#/$defs/DefinedTerm"
+                                "$ref": "#/$defs/DefinedTerm_2"
                             }
                         ],
                         "description": "Text description or URI specifying how values for the variable were obtained."
@@ -1072,7 +1157,7 @@
                                     }
                                 },
                                 {
-                                    "$ref": "#/$defs/DefinedTerm"
+                                    "$ref": "#/$defs/DefinedTerm_2"
                                 }
                             ]
                         },
@@ -1096,7 +1181,7 @@
                                 }
                             },
                             {
-                                "$ref": "#/$defs/DefinedTerm"
+                                "$ref": "#/$defs/DefinedTerm_2"
                             }
                         ],
                         "description": "URI or code identifying the unit of measure"
@@ -1156,7 +1241,7 @@
                                     "type": "string"
                                 },
                                 {
-                                    "$ref": "#/$defs/DefinedTerm"
+                                    "$ref": "#/$defs/DefinedTerm_3"
                                 }
                             ]
                         }
@@ -1168,7 +1253,7 @@
                                 "type": "string"
                             },
                             {
-                                "$ref": "#/$defs/DefinedTerm"
+                                "$ref": "#/$defs/DefinedTerm_3"
                             }
                         ]
                     },
@@ -1192,7 +1277,7 @@
                                     "type": "string"
                                 },
                                 {
-                                    "$ref": "#/$defs/DefinedTerm"
+                                    "$ref": "#/$defs/DefinedTerm_3"
                                 }
                             ]
                         }
@@ -1453,7 +1538,12 @@
                                         "minItems": 1
                                     },
                                     "time:inTimePosition": {
-                                        "$ref": "#/$defs/timePosition_type"
+                                        "$ref": "#/$defs/timePosition_type_2"
+                                    },
+                                    "time:inXSDDate": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Calendar date position of a time:Instant, as an xsd:date value (e.g. 2025-06-01)"
                                     }
                                 }
                             },
@@ -1471,7 +1561,12 @@
                                         "minItems": 1
                                     },
                                     "time:inTimePosition": {
-                                        "$ref": "#/$defs/timePosition_type"
+                                        "$ref": "#/$defs/timePosition_type_2"
+                                    },
+                                    "time:inXSDDate": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Calendar date position of a time:Instant, as an xsd:date value (e.g. 2025-09-30)"
                                     }
                                 }
                             }
@@ -1530,7 +1625,7 @@
                                 }
                             },
                             {
-                                "$ref": "#/$defs/DefinedTerm"
+                                "$ref": "#/$defs/DefinedTerm_4"
                             }
                         ]
                     },
@@ -1541,7 +1636,7 @@
                                 "type": "string"
                             },
                             {
-                                "$ref": "#/$defs/DefinedTerm"
+                                "$ref": "#/$defs/DefinedTerm_4"
                             }
                         ]
                     }
@@ -1593,5 +1688,431 @@
                 }
             ]
         }
-    ]
+    ],
+    "$defs": {
+        "DefinedTerm": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "description": "schema.org Defined Term schema",
+            "type": "object",
+            "properties": {
+                "@type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "schema:DefinedTerm"
+                    },
+                    "minItems": 1
+                },
+                "schema:name": {
+                    "type": "string",
+                    "description": "text label for the term that is useful to human user"
+                },
+                "schema:identifier": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "$ref": "#/$defs/Identifier"
+                        }
+                    ]
+                },
+                "schema:inDefinedTermSet": {
+                    "type": "string",
+                    "description": "Name for the controlled vocabulary responsible for this keyword."
+                },
+                "schema:termCode": {
+                    "type": "string",
+                    "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+                }
+            },
+            "allOf": [
+                {
+                    "required": [
+                        "@type"
+                    ]
+                },
+                {
+                    "anyOf": [
+                        {
+                            "required": [
+                                "schema:name"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "schema:identifier"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "schema:termCode"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "DefinedTerm_2": {
+            "$ref": "#/$defs/DefinedTerm"
+        },
+        "DefinedTerm_3": {
+            "$ref": "#/$defs/DefinedTerm"
+        },
+        "DefinedTerm_4": {
+            "$ref": "#/$defs/DefinedTerm"
+        },
+        "DefinedTerm_6": {
+            "$ref": "#/$defs/DefinedTerm"
+        },
+        "Identifier": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "description": "Properties for a schema.org identifier",
+            "type": "object",
+            "properties": {
+                "@type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "schema:PropertyValue"
+                    },
+                    "minItems": 1
+                },
+                "schema:propertyID": {
+                    "type": "string",
+                    "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+                },
+                "schema:value": {
+                    "type": "string",
+                    "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+                },
+                "schema:url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+                }
+            },
+            "allOf": [
+                {
+                    "required": [
+                        "@type"
+                    ]
+                },
+                {
+                    "anyOf": [
+                        {
+                            "required": [
+                                "schema:value"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "schema:url"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "Identifier_5": {
+            "$ref": "#/$defs/Identifier"
+        },
+        "LabeledLink": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
+            "type": "object",
+            "properties": {
+                "@type": {
+                    "default": "schema:CreativeWork",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "schema:CreativeWork"
+                    },
+                    "minItems": 1
+                },
+                "schema:name": {
+                    "type": "string"
+                },
+                "schema:description": {
+                    "type": "string"
+                },
+                "schema:url": {
+                    "type": "string",
+                    "format": "uri"
+                }
+            },
+            "required": [
+                "@type",
+                "schema:url"
+            ]
+        },
+        "LabeledLink_3": {
+            "$ref": "#/$defs/LabeledLink"
+        },
+        "LabeledLink_4": {
+            "$ref": "#/$defs/LabeledLink"
+        },
+        "Organization": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {
+                "@id": {
+                    "type": "string"
+                },
+                "@type": {
+                    "default": "schema:Organization",
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "enum": [
+                                    "schema:Organization",
+                                    "schema:FundingAgency",
+                                    "schema:Consortium",
+                                    "schema:Corporation",
+                                    "schema:EducationalOrganization",
+                                    "schema:FundingScheme",
+                                    "schema:GovernmentOrganization",
+                                    "schema:NGO",
+                                    "schema:Project",
+                                    "schema:ResearchOrganization"
+                                ]
+                            }
+                        ]
+                    },
+                    "contains": {
+                        "const": "schema:Organization"
+                    },
+                    "minItems": 1
+                },
+                "schema:additionalType": {
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/$defs/DefinedTerm"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
+                    }
+                },
+                "schema:name": {
+                    "type": "string",
+                    "description": "string label for organization that is meaningful for human users"
+                },
+                "schema:alternateName": {
+                    "type": "string",
+                    "description": "other labels by which the organization might be known"
+                },
+                "schema:description": {
+                    "type": "string"
+                },
+                "schema:identifier": {
+                    "description": "identifier for organization",
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Identifier"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "schema:sameAs": {
+                    "type": "array",
+                    "description": "other identifiers for the organization",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "@id": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            "allOf": [
+                {
+                    "required": [
+                        "@type"
+                    ]
+                },
+                {
+                    "anyOf": [
+                        {
+                            "required": [
+                                "schema:name"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "schema:identifier"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "Organization_4": {
+            "$ref": "#/$defs/Organization"
+        },
+        "Person": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "description": "schema for cdif profile of schema.org/Person",
+            "type": "object",
+            "properties": {
+                "@id": {
+                    "type": "string"
+                },
+                "@type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "schema:Person"
+                    },
+                    "minItems": 1
+                },
+                "schema:name": {
+                    "type": "string",
+                    "description": "string label for person that is meaningful for human users, should format consistently. Recommend 'Family Name, Given name' format."
+                },
+                "schema:description": {
+                    "type": "string"
+                },
+                "schema:identifier": {
+                    "description": "identifier for person, recommend ORCID",
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Identifier"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "schema:alternateName": {
+                    "type": "string",
+                    "description": "other labels by which the person might be known"
+                },
+                "schema:affiliation": {
+                    "description": "if affiliation is present, value must be a schema:Organization.",
+                    "$ref": "#/$defs/Organization"
+                },
+                "schema:contactPoint": {
+                    "type": "object",
+                    "description": "restrict to email only. Schema.org allows telephone and postal contacts as well",
+                    "properties": {
+                        "@type": {
+                            "default": "schema:ContactPoint",
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "contains": {
+                                "const": "schema:ContactPoint"
+                            },
+                            "minItems": 1
+                        },
+                        "schema:email": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "schema:email"
+                    ]
+                },
+                "schema:sameAs": {
+                    "type": "array",
+                    "description": "other identifiers for the person",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "@id": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            "allOf": [
+                {
+                    "required": [
+                        "@type"
+                    ]
+                },
+                {
+                    "anyOf": [
+                        {
+                            "required": [
+                                "schema:name"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "schema:identifier"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "Person_4": {
+            "$ref": "#/$defs/Person"
+        },
+        "timePosition_type_2": {
+            "type": "object",
+            "properties": {
+                "@type": {
+                    "default": "time:TimePosition",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "time:TimePosition"
+                    },
+                    "minItems": 1
+                },
+                "time:hasTRS": {
+                    "type": "string",
+                    "description": "identifier for a temporal reference system; default is million years before prsent as a decimal number",
+                    "default": "http://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime"
+                },
+                "time:numericPosition": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "@type",
+                "time:hasTRS",
+                "time:numericPosition"
+            ]
+        }
+    }
 }

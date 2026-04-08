@@ -133,11 +133,12 @@ Group summaries and an overall summary list all violations and schema failures.
 
 ### Current Validation Status
 
-As of March 2026, batch validation across all 128 files shows:
+As of April 2026, validation across testJSONMetadata (77 files) and all 5 CDIF profile examples shows:
 
-- **JSON Schema**: 128/128 pass
-- **SHACL Violations**: 0 across all 128 files
-- **SHACL Warnings/Info**: All 128 files pass with warnings/info only — these reflect optional-but-recommended properties (missing activity descriptions, contact points, physical data types, etc.)
+- **JSON Schema**: 77/77 testJSONMetadata pass against all three schemas (Discovery, DataDescription, Complete)
+- **Profile examples**: 5/5 pass (Discovery, DiscoveryMinimal, DiscoveryComplete, DataDescription, Complete)
+- **SHACL Violations**: 0 across all files
+- **SHACL Warnings/Info**: All files pass with warnings/info only — these reflect optional-but-recommended properties (missing activity descriptions, contact points, physical data types, etc.)
 
 SHACL severity levels are aligned with JSON Schema: properties that are optional in the JSON Schema are `sh:Warning` (not `sh:Violation`) in SHACL.
 
@@ -156,7 +157,10 @@ Use a JSON-LD processor to apply `CDIF-frame-2026.jsonld` to your metadata docum
 
 ### Step 2: Validate Against Schema
 
-Validate the framed output against `CDIFCompleteSchema.json` (or `CDIFDiscoverySchema.json` for discovery-only).
+Validate the framed output against the appropriate schema:
+- `CDIFDiscoverySchema.json` -- discovery profile only
+- `CDIFDataDescriptionSchema.json` -- discovery + data description
+- `CDIFCompleteSchema.json` -- discovery + data description + archive + provenance (default)
 
 ## RO-Crate Conversion and Validation
 
