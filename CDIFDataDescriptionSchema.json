@@ -1,148 +1,11 @@
 {
     "type": "object",
-    "title": "CDIF Data Description metadata schema",
-    "description": "JSON schema for validating framed JSON-LD documents conforming to the CDIF Data Description profile (discovery + data description). Generated from CDIFDataDescriptionProfile building block profile resolvedSchema.json (https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/profiles/cdifProfiles/CDIFDataDescriptionProfile/resolvedSchema.json).",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "properties": {
-        "schema:subjectOf": {
-            "properties": {
-                "dcterms:conformsTo": {
-                    "contains": {
-                        "type": "object",
-                        "properties": {
-                            "@id": {
-                                "const": "https://w3id.org/cdif/data_description/1.0"
-                            }
-                        }
-                    },
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "@id": {
-                                "type": "string",
-                                "description": "uri for specifications that this metadata record conforms to"
-                            }
-                        }
-                    },
-                    "minItems": 1,
-                    "description": "uri for specifications that this metadata record conforms to. Minimimally should specify uri for CDIF discovery profile."
-                },
-                "@type": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "contains": {
-                        "const": "schema:Dataset"
-                    },
-                    "minItems": 1
-                },
-                "schema:additionalType": {
-                    "type": "array",
-                    "description": "additional type assertions for the catalog record node. dcat:CatalogRecord is required.",
-                    "items": {
-                        "type": "string"
-                    },
-                    "contains": {
-                        "const": "dcat:CatalogRecord"
-                    },
-                    "minItems": 1
-                },
-                "@id": {
-                    "type": "string",
-                    "description": "identifier for the metadata record"
-                },
-                "schema:about": {
-                    "type": "object",
-                    "properties": {
-                        "@id": {
-                            "type": "string",
-                            "description": "this must be the @id value of the node containing the resource description metadata"
-                        }
-                    }
-                },
-                "schema:maintainer": {
-                    "description": "Identification of the agent that maintains the metadata, with contact information. Should include person name and affiliation, or position name and affiliation, or just organization name. e-mail address is preferred contact information.",
-                    "anyOf": [
-                        {
-                            "$ref": "#/$defs/person_type"
-                        },
-                        {
-                            "$ref": "#/$defs/organization_type"
-                        }
-                    ]
-                },
-                "schema:sdDatePublished": {
-                    "description": "date of most recent update to the metadata content",
-                    "type": "string",
-                    "format": "date"
-                },
-                "schema:includedInDataCatalog": {
-                    "type": "object",
-                    "description": "identify the source for the origin the metadata record.",
-                    "properties": {
-                        "@id": {
-                            "type": "string",
-                            "description": "identifier for the graph node."
-                        },
-                        "@type": {
-                            "default": "schema:DataCatalog",
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
-                            "contains": {
-                                "const": "schema:DataCatalog"
-                            },
-                            "minItems": 1
-                        },
-                        "schema:name": {
-                            "type": "string"
-                        },
-                        "schema:url": {
-                            "type": "string",
-                            "format": "uri",
-                            "description": "locator to access a landing page for the collection or catalog"
-                        },
-                        "schema:identifier": {
-                            "$ref": "#/$defs/propertyValue_type"
-                        }
-                    }
-                }
-            },
-            "type": "object",
-            "description": "see https://github.com/Cross-Domain-Interoperability-Framework/Discovery/issues/13 for discussion on how to make assertion about the sample registration and metadata distinct from statements about the physical object",
-            "required": [
-                "schema:about",
-                "dcterms:conformsTo",
-                "schema:additionalType",
-                "@type",
-                "@id"
-            ]
-        },
         "@context": {
             "type": "object",
             "description": "Additional JSON-LD namespace prefixes for discovery and data description.",
             "properties": {
-                "schema": {
-                    "const": "http://schema.org/"
-                },
-                "dcterms": {
-                    "const": "http://purl.org/dc/terms/"
-                },
-                "spdx": {
-                    "const": "http://spdx.org/rdf/terms#"
-                },
-                "dcat": {
-                    "const": "http://www.w3.org/ns/dcat#"
-                },
-                "prov": {
-                    "const": "http://www.w3.org/ns/prov#"
-                },
-                "csvw": {
-                    "const": "http://www.w3.org/ns/csvw#"
-                },
                 "geosparql": {
                     "const": "http://www.opengis.net/ont/geosparql#"
                 },
@@ -152,802 +15,20 @@
                 "cdi": {
                     "const": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
                 }
-            },
-            "required": [
-                "schema",
-                "dcterms",
-                "dcat",
-                "prov"
-            ]
-        },
-        "@id": {
-            "type": "string",
-            "description": "The URI for the resource should be the @id value for the root of the JSON instance document tree. Must be an IRI (e.g. https://doi.org/..., urn:..., or a relative URI like #localid). Note that this identifier can be interpreted to identify the resource that is the subject of this metadata record, or the JSON-LD object that is the digital object containing the metadata information."
-        },
-        "@type": {
-            "description": "a schema.org Class that specifies the expected information content for the metadata record. The array must include at least one schema.org type value. Default is schema:Dataset.",
-            "type": "array",
-            "items": {
-                "type": "string",
-                "enum": [
-                    "schema:CreativeWork",
-                    "schema:SoftwareApplication",
-                    "schema:SoftwareSourceCode",
-                    "schema:Product",
-                    "schema:WebAPI",
-                    "schema:Dataset",
-                    "schema:DigitalDocument",
-                    "schema:Collection",
-                    "schema:ImageObject",
-                    "schema:DataCatalog",
-                    "schema:DefinedTermSet",
-                    "schema:MediaObject"
-                ]
-            },
-            "default": "schema:Dataset",
-            "minItems": 1,
-            "contains": {
-                "const": "schema:Dataset"
-            }
-        },
-        "schema:name": {
-            "type": "string",
-            "description": "A descriptive name of a dataset (e.g., 'Snow depth in Northern Hemisphere'). The name should uniquely identify the described resource for human use, in the scope of the metadata catalog containing this metadata record."
-        },
-        "schema:description": {
-            "type": "string",
-            "description": "A short summary describing a dataset. This text will be indexed by search applications, so the more information here, the better."
-        },
-        "schema:identifier": {
-            "$ref": "#/$defs/maintainer_identifier_type"
-        },
-        "schema:additionalType": {
-            "description": "identifiers for datatypes from other vocabularies (not schema.org) that apply to this metadata.",
-            "type": "array",
-            "minItems": 0,
-            "items": {
-                "$ref": "#/$defs/additionalType_type_2"
-            }
-        },
-        "schema:sameAs": {
-            "description": "Other identifiers for the dataset, as IRI references, literal strings, or structured identifiers using schema:PropertyValue.",
-            "type": "array",
-            "minItems": 1,
-            "items": {
-                "anyOf": [
-                    {
-                        "type": "string"
-                    },
-                    {
-                        "type": "object",
-                        "properties": {
-                            "@id": {
-                                "type": "string",
-                                "description": "IRI for an equivalent resource or alternate identifier"
-                            }
-                        }
-                    },
-                    {
-                        "$ref": "#/$defs/propertyValue_type"
-                    }
-                ]
-            }
-        },
-        "schema:version": {
-            "type": [
-                "string",
-                "number"
-            ],
-            "description": "The version number or identifier for this dataset (text or numeric). The values should sort from oldest to newest using an alphanumeric sort on version strings"
-        },
-        "schema:inLanguage": {
-            "type": "string",
-            "description": "the language of the dataset content"
-        },
-        "schema:dateModified": {
-            "type": "string",
-            "description": "ISO8601 formatted date (and optional time if relevant) when Dataset was last updated"
-        },
-        "schema:datePublished": {
-            "type": "string",
-            "description": "ISO8601 formatted date (and optional time if relevant) when Dataset was made public."
-        },
-        "schema:conditionsOfAccess": {
-            "description": "text statement of conditions for use and access; if an online resource documents the restrictions or a URI is used to identify the conditions, recommend using schema:CreativeWork to provide a label (name) and an identifier (URI or URL). ",
-            "type": "array",
-            "minItems": 0,
-            "items": {
-                "$ref": "#/$defs/nameOrReference_type"
-            }
-        },
-        "schema:license": {
-            "description": "legal statement of conditions for use and access; recommend using schema:CreativeWork to provide a label (name) for the license, and an identifier. Sources of license identifiers: https://opensource.org/licenses/, https://creativecommons.org/about/cclicenses/, https://spdx.org/licenses/, http://cor.esipfed.org/ont/earthcube/swl. If only a string is provided, it should be an identifier for the license, ideally a resolvable URI",
-            "type": "array",
-            "minItems": 0,
-            "items": {
-                "$ref": "#/$defs/nameOrReference_type"
-            }
-        },
-        "schema:url": {
-            "type": "string",
-            "format": "uri",
-            "description": "Web Location of a page describing the dataset (landing page), typically providing links or instructions to get the actual resource content; analogous to dcat:accessURL. If a direct link is available to get the data, put in distribution/contentUrl"
-        },
-        "schema:distribution": {
-            "description": "specifies how to download the data in a specific format or access via a web API. This property describes where to get the data and in what format by using the schema:DataDownload type. If user must access data through a landing page, provide link to landing page in the 'url' property for the dataset",
-            "type": "array",
-            "items": {
-                "anyOf": [
-                    {
-                        "description": "schema to document file-based access to a resoruce via URL, based on schema.org/DataDownload",
-                        "type": "object",
-                        "properties": {
-                            "@id": {
-                                "type": "string"
-                            },
-                            "@type": {
-                                "type": "array",
-                                "description": "implement as array because extensions might need to add additional types",
-                                "items": {
-                                    "type": "string"
-                                },
-                                "contains": {
-                                    "const": "schema:DataDownload"
-                                },
-                                "minItems": 1
-                            },
-                            "schema:name": {
-                                "type": "string"
-                            },
-                            "schema:description": {
-                                "type": "string",
-                                "description": "Description of this distribution, e.g. what format, access constraints, etc."
-                            },
-                            "schema:contentUrl": {
-                                "type": "string",
-                                "format": "uri"
-                            },
-                            "schema:encodingFormat": {
-                                "type": "array",
-                                "description": "MIME type with extension; should indicate the serialization scheme in sufficient detail that machine can know how to parse.",
-                                "items": {
-                                    "type": "string"
-                                }
-                            },
-                            "spdx:checksum": {
-                                "type": "object",
-                                "description": "A string value calculated from the content of the resource representation, used to test if content has been modified. The checksum is a property of a particular distribution/DataDownload.",
-                                "properties": {
-                                    "@type": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "string"
-                                        },
-                                        "contains": {
-                                            "const": "spdx:Checksum"
-                                        },
-                                        "minItems": 1
-                                    },
-                                    "spdx:algorithm": {
-                                        "type": "string"
-                                    },
-                                    "spdx:checksumValue": {
-                                        "type": "string"
-                                    }
-                                },
-                                "required": [
-                                    "@type"
-                                ]
-                            },
-                            "dcterms:conformsTo": {
-                                "description": "An identifier for a standard or specification that the distribution conforms to. Recommended to enable machine-actionable data access.",
-                                "type": "array",
-                                "minItems": 1,
-                                "items": {
-                                    "type": "object",
-                                    "properties": {
-                                        "@id": {
-                                            "type": "string",
-                                            "description": "uri for specification that this distribution conforms to"
-                                        }
-                                    }
-                                }
-                            },
-                            "schema:provider": {
-                                "type": "array",
-                                "description": "Party who maintains this particular distribution option for the dataset. Use this property if there are multiple distributions from different providers",
-                                "items": {
-                                    "$ref": "#/$defs/provider_type"
-                                }
-                            }
-                        },
-                        "required": [
-                            "schema:contentUrl",
-                            "@type"
-                        ]
-                    },
-                    {
-                        "title": "Direct data access to a resource via web servcie",
-                        "description": "use schema.org Action to document url or url template and parameters to request data through a web accessible location. At this point, schema is set up for one action-- an HTTP Get that requests data. The url template parameters (in curly brackets '{}') specify query paramters to filter the source data, request particular output formats or other aspects of data.",
-                        "type": "object",
-                        "properties": {
-                            "@type": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                },
-                                "contains": {
-                                    "const": "schema:WebAPI"
-                                },
-                                "minItems": 1
-                            },
-                            "schema:serviceType": {
-                                "$ref": "#/$defs/additionalType_type_2"
-                            },
-                            "schema:termsOfService": {
-                                "description": "Description of access privileges required to use the API, e.g. registration, licensing, payments. Note that access constraints applying to all distributions of the resource should be specified in the access constraints for the resource description as a whole.",
-                                "oneOf": [
-                                    {
-                                        "type": "string",
-                                        "default": "not specified"
-                                    },
-                                    {
-                                        "$ref": "#/$defs/creativeWork_type"
-                                    }
-                                ]
-                            },
-                            "schema:documentation": {
-                                "description": "a document that provides a machine-actionable description of a service instance. Examples include OpenAPI documents, OGC Capabilities documents. Software designed to utilise a particular service type will typically include functionality to parse such a description document and engage with the service endpoint. If such a document is available for the service instance providing the resource distribution, it should be included in the distribution metadata.",
-                                "oneOf": [
-                                    {
-                                        "type": "string"
-                                    },
-                                    {
-                                        "$ref": "#/$defs/creativeWork_type"
-                                    }
-                                ]
-                            },
-                            "schema:potentialAction": {
-                                "type": "array",
-                                "description": "actions that can be invoked via the API",
-                                "items": {
-                                    "title": "Action ",
-                                    "type": "object",
-                                    "description": "this element defines an action (operation) that can be invoked via messages using the protocol defined. In most cases this will be an http request via TCP/IP, but in desktop or LAN environments, other protocols might be used. The target property defines the endpoint and syntax for invoking the action. Result specifies the encoding format for the (possible) response(s) when the action is invoked. Object specifies the information model for the resource that is the object of the action. This approach is an adoptation of the Action Blog Post from schema.org (see https://schema.org/docs/actions.html, and https://github.com/schemaorg/suggestions-questions-brainstorming/issues/62) ",
-                                    "properties": {
-                                        "@type": {
-                                            "description": "The type of action. Must be schema:Action or one of its subtypes.",
-                                            "default": "schema:Action",
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            },
-                                            "contains": {
-                                                "enum": [
-                                                    "schema:Action",
-                                                    "schema:AssessAction",
-                                                    "schema:ConsumeAction",
-                                                    "schema:ControlAction",
-                                                    "schema:CreateAction",
-                                                    "schema:DeleteAction",
-                                                    "schema:FindAction",
-                                                    "schema:InteractAction",
-                                                    "schema:MoveAction",
-                                                    "schema:PlayAction",
-                                                    "schema:SearchAction",
-                                                    "schema:TransferAction",
-                                                    "schema:UpdateAction"
-                                                ]
-                                            },
-                                            "minItems": 1
-                                        },
-                                        "schema:name": {
-                                            "type": "string",
-                                            "description": "text label for the action"
-                                        },
-                                        "schema:target": {
-                                            "type": "object",
-                                            "description": "specifies the request target location and request syntax. Documentation of the URL end point and syntax to invoke the service. This schema doesn't handle post requests.",
-                                            "properties": {
-                                                "@type": {
-                                                    "default": "schema:EntryPoint",
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    },
-                                                    "contains": {
-                                                        "const": "schema:EntryPoint"
-                                                    },
-                                                    "minItems": 1
-                                                },
-                                                "schema:description": {
-                                                    "type": "string"
-                                                },
-                                                "schema:urlTemplate": {
-                                                    "type": "string",
-                                                    "description": "a templated URL; parameters are enclosed in curly braces ({..}); parameters are not required. If included, parameters MUST be documented in the query-input element. Template should be consitent with URI Template (https://datatracker.ietf.org/doc/html/rfc6570) examples: - http://portal.chordsrt.com/api/v1/data.{encoding}; single parameter - http://portal.chordsrt.com/api/v1/data.{encoding}?instruments={instruments}&start={start}&end={end} ; multiple parameters - {endpoint}{encoding}; endpoint URL path is a parameter,should only appear in potential actions for API specification descriptions, which are generic-not specific to a particular endpoint."
-                                                },
-                                                "schema:httpMethod": {
-                                                    "title": "HTTP Method",
-                                                    "description": "only applicable if protocol is http or a protocol that tunnels on http",
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string",
-                                                        "default": "GET",
-                                                        "enum": [
-                                                            "GET",
-                                                            "PUT",
-                                                            "POST",
-                                                            "PATCH",
-                                                            "DELETE",
-                                                            "COPY",
-                                                            "HEAD",
-                                                            "OPTIONS",
-                                                            "PROPFIND"
-                                                        ]
-                                                    }
-                                                },
-                                                "schema:contentType": {
-                                                    "type": "array",
-                                                    "description": "The supported content type(s) for an EntryPoint response. a MIME type (https://www.iana.org/assignments/media-types/media-types.xhtml) that specifies the content type for messages in resonses from the service endpoint. This is a schema.org property, and is redundant with encodingFormat in the result property for the Action.",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                }
-                                            },
-                                            "required": [
-                                                "schema:urlTemplate"
-                                            ]
-                                        },
-                                        "schema:result": {
-                                            "type": "object",
-                                            "description": "specifies the serialization scheme (encoding format, information model) for expected representation of the data. Documentation of the serialization format for the API response.",
-                                            "properties": {
-                                                "@type": {
-                                                    "type": "array",
-                                                    "description": "Type of result object. Typically schema:DataDownload, but may include additional types.",
-                                                    "items": {
-                                                        "type": "string"
-                                                    },
-                                                    "contains": {
-                                                        "const": "schema:DataDownload"
-                                                    },
-                                                    "minItems": 1
-                                                },
-                                                "schema:encodingFormat": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "schema:description": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        },
-                                        "schema:object": {
-                                            "type": "object",
-                                            "description": "The entity upon which the action is carried out, whose state is kept intact or changed. This is an open ended class for general description of Actions. When schema:Action (or a subclass) is used to describe operations for a WebAPI distribution, the object is implicitly the resource that is the subject of the containing metadata record, so this property would be superfluous.",
-                                            "properties": {
-                                                "@type": {
-                                                    "default": "schema:Thing",
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    },
-                                                    "minItems": 1
-                                                },
-                                                "schema:description": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        },
-                                        "schema:query-input": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object",
-                                                "description": "Query input parameter for a web API action, typed as schema:PropertyValueSpecification.",
-                                                "properties": {
-                                                    "@id": {
-                                                        "type": "string"
-                                                    },
-                                                    "@type": {
-                                                        "default": "schema:PropertyValueSpecification",
-                                                        "type": "array",
-                                                        "items": {
-                                                            "type": "string"
-                                                        },
-                                                        "contains": {
-                                                            "const": "schema:PropertyValueSpecification"
-                                                        },
-                                                        "minItems": 1
-                                                    },
-                                                    "schema:valueName": {
-                                                        "type": "string"
-                                                    },
-                                                    "schema:description": {
-                                                        "type": "string"
-                                                    },
-                                                    "schema:valueRequired": {
-                                                        "type": "boolean",
-                                                        "default": true
-                                                    },
-                                                    "schema:valuePattern": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "required": [
-                                                    "schema:valueName",
-                                                    "schema:description"
-                                                ]
-                                            },
-                                            "description": "set of explanations of the parameters in the URL template for the target."
-                                        }
-                                    },
-                                    "required": [
-                                        "schema:name",
-                                        "schema:target"
-                                    ]
-                                }
-                            }
-                        },
-                        "required": [
-                            "schema:serviceType",
-                            "schema:potentialAction",
-                            "schema:termsOfService"
-                        ]
-                    }
-                ],
-                "properties": {
-                    "cdi:characterSet": {
-                        "type": "string",
-                        "description": "The character set used in the distribution (e.g., UTF-8, ASCII)."
-                    },
-                    "cdi:fileSize": {
-                        "type": "number",
-                        "description": "The size of the distribution file."
-                    },
-                    "cdi:fileSizeUofM": {
-                        "type": "string",
-                        "description": "Unit of measure for the file size (e.g., bytes, KB, MB, GB)."
-                    }
-                }
-            }
-        },
-        "schema:relatedLink": {
-            "type": "array",
-            "description": "links to related resources; linkRelationship specifies how the resource is related.",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "@type": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "contains": {
-                            "const": "schema:LinkRole"
-                        },
-                        "minItems": 1
-                    },
-                    "schema:linkRelationship": {
-                        "$ref": "#/$defs/additionalType_type"
-                    },
-                    "schema:target": {
-                        "type": "object",
-                        "properties": {
-                            "@type": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                },
-                                "contains": {
-                                    "const": "schema:EntryPoint"
-                                },
-                                "minItems": 1
-                            },
-                            "schema:encodingFormat": {
-                                "type": "string",
-                                "description": "registered MIME types are expected"
-                            },
-                            "schema:name": {
-                                "type": "string"
-                            },
-                            "schema:url": {
-                                "type": "string",
-                                "format": "uri"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "schema:publishingPrinciples": {
-            "description": "FDOF digitalObjectMutability, RDA digitalObjectPolicy, FDOF PersistencyPolicy. Policies related to maintenance, update, expected time to live. If an online resource documents the policies or a URI is used to identify the conditions, recommend using schema:CreativeWork to provide a label (name) and an identifier (URI or URL).",
-            "type": "array",
-            "minItems": 0,
-            "items": {
-                "$ref": "#/$defs/nameOrReference_type"
-            }
-        },
-        "schema:keywords": {
-            "description": "Keywords are an array of strings, an array of schema:DefinedTerms, or some combination of these. If you have information about a controlled vocabulary from which keywords come from, use schema:DefinedTerm to descibe that keyword. This allowed variability makes parsing metadata hard; recommend using DefinedTerm for all keywords if any of them are from a known vocabulary, otherwise an array of strings.",
-            "type": "array",
-            "items": {
-                "$ref": "#/$defs/additionalType_type"
-            }
-        },
-        "schema:creator": {
-            "description": "author or orginator of intellectual content of dataset. Uset the JSON-LD @list construct to preserve author order. Use contributor with the Role property to specify other roles related to creation or stewardship of the resource.",
-            "type": "object",
-            "properties": {
-                "@list": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/$defs/provider_type"
-                    }
-                }
-            }
-        },
-        "schema:contributor": {
-            "description": "other parties who played a role in production of dataset",
-            "type": "array",
-            "items": {
-                "anyOf": [
-                    {
-                        "type": "object",
-                        "properties": {
-                            "@id": {
-                                "type": "string",
-                                "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable"
-                            }
-                        },
-                        "required": [
-                            "@id"
-                        ]
-                    },
-                    {
-                        "$ref": "#/$defs/person_type"
-                    },
-                    {
-                        "$ref": "#/$defs/organization_type"
-                    },
-                    {
-                        "description": "For more granularity on how a person contributed to a Dataset, use schema:Role. The schema.org documentation does not state that the Role type is an expected data type of author, creator and contributor, but that is addressed in this blog post (http://blog.schema.org/2014/06/introducing-role.html). see https://github.com/ESIPFed/science-on-schema.org/blob/develop/guides/Dataset.md#roles-of-people",
-                        "type": "object",
-                        "properties": {
-                            "@type": {
-                                "default": "schema:Role",
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                },
-                                "contains": {
-                                    "const": "schema:Role"
-                                },
-                                "minItems": 1
-                            },
-                            "schema:roleName": {
-                                "$ref": "#/$defs/additionalType_type_2"
-                            },
-                            "schema:contributor": {
-                                "$ref": "#/$defs/provider_type"
-                            }
-                        },
-                        "required": [
-                            "@type",
-                            "schema:roleName",
-                            "schema:contributor"
-                        ]
-                    }
-                ]
-            }
-        },
-        "schema:publisher": {
-            "$ref": "#/$defs/provider_type"
-        },
-        "schema:provider": {
-            "description": "Party who maintains the distribution options for the dataset. If there are multiple distributions from different providers, use the provider property on distribution/DataDownload",
-            "type": "array",
-            "items": {
-                "$ref": "#/$defs/provider_type"
-            }
-        },
-        "schema:funding": {
-            "type": "array",
-            "items": {
-                "description": "Funding acknowledgement properties, profile of schema.org/MonetaryGrant",
-                "type": "object",
-                "properties": {
-                    "@id": {
-                        "type": "string",
-                        "description": "URI identifier for this funding record"
-                    },
-                    "@type": {
-                        "default": "schema:MonetaryGrant",
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "contains": {
-                            "const": "schema:MonetaryGrant"
-                        },
-                        "minItems": 1
-                    },
-                    "schema:identifier": {
-                        "$ref": "#/$defs/propertyValue_type"
-                    },
-                    "schema:description": {
-                        "type": "string",
-                        "description": "description of the funding or grant"
-                    },
-                    "schema:name": {
-                        "type": "string",
-                        "description": "title of the grant"
-                    },
-                    "schema:funder": {
-                        "$ref": "#/$defs/provider_type"
-                    }
-                },
-                "anyOf": [
-                    {
-                        "required": [
-                            "schema:funder"
-                        ]
-                    },
-                    {
-                        "required": [
-                            "schema:identifier"
-                        ]
-                    },
-                    {
-                        "required": [
-                            "schema:name"
-                        ]
-                    }
-                ]
-            }
-        },
-        "prov:wasGeneratedBy": {
-            "description": "Brief information about instruments, software or experimental protocols used",
-            "type": "array",
-            "items": {
-                "title": "very simple links or names of software or instruments used to generate a resource.",
-                "type": "object",
-                "properties": {
-                    "@type": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "minItems": 1,
-                        "contains": {
-                            "const": "prov:Activity"
-                        }
-                    },
-                    "prov:used": {
-                        "type": "array",
-                        "items": {
-                            "anyOf": [
-                                {
-                                    "type": "string"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "@id": {
-                                            "type": "string",
-                                            "description": "a resolvable reference to a representation of the software or instrument used"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "prov:wasDerivedFrom": {
-            "description": "Brief information about sources of data used in aggregate datasets",
-            "type": "array",
-            "items": {
-                "$ref": "#/$defs/nameOrReference_type"
-            }
-        },
-        "schema:variableMeasured": {
-            "type": "array",
-            "items": {
-                "allOf": [
-                    {
-                        "type": "object",
-                        "description": "All variableMeasured items at data description level must have an @id and cdi:physicalDataType so physical mappings can reference them.",
-                        "properties": {
-                            "@id": {
-                                "type": "string",
-                                "description": "URI identifier for this variable, used as the target of cdi:formats_InstanceVariable references in physical mappings."
-                            }
-                        },
-                        "required": [
-                            "@id"
-                        ]
-                    },
-                    {
-                        "description": "Extends cdif variableMeasured with properties for DDI-CDI InstanceVariable",
-                        "anyOf": [
-                            {
-                                "$ref": "#/$defs/instanceVariable_type"
-                            },
-                            {
-                                "description": "Unwrapped @graph array of nodes (OGC pipeline)",
-                                "type": "array",
-                                "contains": {
-                                    "$ref": "#/$defs/instanceVariable_type"
-                                },
-                                "items": {
-                                    "if": {
-                                        "type": "object",
-                                        "properties": {
-                                            "@type": {
-                                                "type": "array",
-                                                "contains": {
-                                                    "const": "cdi:InstanceVariable"
-                                                }
-                                            }
-                                        },
-                                        "required": [
-                                            "@type"
-                                        ]
-                                    },
-                                    "then": {
-                                        "$ref": "#/$defs/instanceVariable_type"
-                                    }
-                                }
-                            },
-                            {
-                                "description": "JSON-LD document with @context and @graph",
-                                "type": "object",
-                                "properties": {
-                                    "@context": {},
-                                    "@graph": {
-                                        "type": "array",
-                                        "contains": {
-                                            "$ref": "#/$defs/instanceVariable_type"
-                                        },
-                                        "items": {
-                                            "if": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "@type": {
-                                                        "type": "array",
-                                                        "contains": {
-                                                            "const": "cdi:InstanceVariable"
-                                                        }
-                                                    }
-                                                },
-                                                "required": [
-                                                    "@type"
-                                                ]
-                                            },
-                                            "then": {
-                                                "$ref": "#/$defs/instanceVariable_type"
-                                            }
-                                        }
-                                    }
-                                },
-                                "required": [
-                                    "@graph"
-                                ]
-                            }
-                        ]
-                    }
-                ]
             }
         },
         "schema:measurementTechnique": {
             "description": "The technique, technology, or methodology used for measurement or determination of the dataset values.",
             "type": "array",
             "items": {
-                "$ref": "#/$defs/additionalType_type_2"
+                "anyOf": [
+                    {
+                        "type": "string"
+                    },
+                    {
+                        "$ref": "#/$defs/DefinedTerm"
+                    }
+                ]
             }
         },
         "schema:spatialCoverage": {
@@ -972,20 +53,50 @@
                         "description": "Domain-specific type classifications for this place (e.g. facility type,laboratory classification, feature type).",
                         "type": "array",
                         "items": {
-                            "$ref": "#/$defs/additionalType_type_2"
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "$ref": "#/$defs/DefinedTerm"
+                                }
+                            ]
                         }
                     },
                     "schema:name": {
-                        "$ref": "#/$defs/additionalType_type_2"
+                        "description": "A place name for the location, either as a string or a DefinedTerm from a gazetteer.",
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/$defs/DefinedTerm"
+                            }
+                        ]
                     },
                     "schema:identifier": {
-                        "$ref": "#/$defs/identifier_type"
+                        "description": "Formal identifier for this place (e.g. ROR identifier for a facility).",
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/$defs/Identifier"
+                            }
+                        ]
                     },
                     "schema:alternateName": {
                         "description": "Alternate or abbreviated name(s) for this place.",
                         "type": "array",
                         "items": {
-                            "$ref": "#/$defs/additionalType_type_2"
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "$ref": "#/$defs/DefinedTerm"
+                                }
+                            ]
                         }
                     },
                     "schema:geo": {
@@ -1274,16 +385,55 @@
                         "minItems": 1
                     },
                     "dqv:isMeasurementOf": {
-                        "$ref": "#/$defs/physicalDataType_type"
+                        "description": "specify the quality measure that is reported, by name, with an ID ref, or as a Defined Term",
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "@id": {
+                                        "type": "string",
+                                        "description": "a resolvable reference to a representation of a quality measure"
+                                    }
+                                }
+                            },
+                            {
+                                "$ref": "#/$defs/DefinedTerm"
+                            }
+                        ]
                     },
                     "dqv:value": {
-                        "$ref": "#/$defs/additionalType_type_2"
+                        "description": "the reported result of the quality measure, either as a string or a defined term from a vocabulary",
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/$defs/DefinedTerm"
+                            }
+                        ]
                     }
                 },
                 "required": [
                     "dqv:isMeasurementOf",
                     "dqv:value"
                 ]
+            }
+        },
+        "schema:subjectOf": {
+            "properties": {
+                "dcterms:conformsTo": {
+                    "contains": {
+                        "type": "object",
+                        "properties": {
+                            "@id": {
+                                "const": "https://w3id.org/cdif/data_description/1.0"
+                            }
+                        }
+                    }
+                }
             }
         }
     },
@@ -1329,125 +479,7 @@
         }
     ],
     "$defs": {
-        "additionalType_type": {
-            "anyOf": [
-                {
-                    "$ref": "#/$defs/definedTerm_type"
-                },
-                {
-                    "type": "string"
-                }
-            ]
-        },
-        "additionalType_type_2": {
-            "anyOf": [
-                {
-                    "type": "string"
-                },
-                {
-                    "$ref": "#/$defs/definedTerm_type"
-                }
-            ]
-        },
-        "creativeWork_type": {
-            "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
-            "type": "object",
-            "properties": {
-                "@type": {
-                    "default": "schema:CreativeWork",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "contains": {
-                        "const": "schema:CreativeWork"
-                    },
-                    "minItems": 1
-                },
-                "schema:name": {
-                    "type": "string"
-                },
-                "schema:description": {
-                    "type": "string"
-                },
-                "schema:url": {
-                    "type": "string",
-                    "format": "uri"
-                }
-            },
-            "required": [
-                "@type",
-                "schema:url"
-            ]
-        },
-        "definedTerm_type": {
-            "description": "schema.org Defined Term schema",
-            "type": "object",
-            "properties": {
-                "@type": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "contains": {
-                        "const": "schema:DefinedTerm"
-                    },
-                    "minItems": 1
-                },
-                "schema:name": {
-                    "type": "string",
-                    "description": "text label for the term that is useful to human user"
-                },
-                "schema:identifier": {
-                    "$ref": "#/$defs/identifier_type"
-                },
-                "schema:inDefinedTermSet": {
-                    "type": "string",
-                    "description": "Name for the controlled vocabulary responsible for this keyword."
-                },
-                "schema:termCode": {
-                    "type": "string",
-                    "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
-                }
-            },
-            "allOf": [
-                {
-                    "required": [
-                        "@type"
-                    ]
-                },
-                {
-                    "anyOf": [
-                        {
-                            "required": [
-                                "schema:name"
-                            ]
-                        },
-                        {
-                            "required": [
-                                "schema:identifier"
-                            ]
-                        },
-                        {
-                            "required": [
-                                "schema:termCode"
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        "identifier_type": {
-            "anyOf": [
-                {
-                    "type": "string"
-                },
-                {
-                    "$ref": "#/$defs/propertyValue_type"
-                }
-            ]
-        },
-        "instanceVariable_type": {
+        "CdifVariableMeasuredNode": {
             "type": "object",
             "properties": {
                 "@type": {
@@ -1466,7 +498,23 @@
                 "cdi:physicalDataType": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/$defs/physicalDataType_type"
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "@id": {
+                                        "type": "string",
+                                        "description": "reference to a skos concept for the data type"
+                                    }
+                                }
+                            },
+                            {
+                                "$ref": "#/$defs/DefinedTerm"
+                            }
+                        ]
                     },
                     "description": "identifier or name for the data type concept."
                 },
@@ -1486,15 +534,48 @@
                     "description": "Specifies the relation of the variable to the data structure, corresponding to DDI-CDI DataStructureComponent subtypes."
                 },
                 "cdi:describedUnitOfMeasure": {
-                    "$ref": "#/$defs/definedTerm_type"
+                    "$ref": "#/$defs/DefinedTerm",
+                    "description": "A structured unit of measure from a controlled vocabulary, from DDI-CDI RepresentedVariable.describedUnitOfMeasure."
                 },
                 "cdi:simpleUnitOfMeasure": {
-                    "$ref": "#/$defs/physicalDataType_type"
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "object",
+                            "properties": {
+                                "@id": {
+                                    "type": "string",
+                                    "description": "reference to a skos concept for the data type"
+                                }
+                            }
+                        },
+                        {
+                            "$ref": "#/$defs/DefinedTerm"
+                        }
+                    ]
                 },
                 "cdi:uses": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/$defs/physicalDataType_type"
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "@id": {
+                                        "type": "string",
+                                        "description": "reference to a skos concept for the property"
+                                    }
+                                }
+                            },
+                            {
+                                "$ref": "#/$defs/DefinedTerm"
+                            }
+                        ]
                     },
                     "description": "Essentially the same as schema:propertyID. References to concepts that this variable measures or represents."
                 },
@@ -1555,12 +636,44 @@
                             }
                         },
                         "schema:measurementTechnique": {
-                            "$ref": "#/$defs/physicalDataType_type"
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "@id": {
+                                            "type": "string",
+                                            "description": "reference to a skos concept"
+                                        }
+                                    }
+                                },
+                                {
+                                    "$ref": "#/$defs/DefinedTerm"
+                                }
+                            ],
+                            "description": "Text description or URI specifying how values for the variable were obtained."
                         },
                         "schema:propertyID": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/$defs/physicalDataType_type"
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "@id": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "$ref": "#/$defs/DefinedTerm"
+                                    }
+                                ]
                             },
                             "description": "identifier or name for the property concept"
                         },
@@ -1569,7 +682,23 @@
                             "description": "unit of measurement as text"
                         },
                         "schema:unitCode": {
-                            "$ref": "#/$defs/physicalDataType_type"
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "@id": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                {
+                                    "$ref": "#/$defs/DefinedTerm"
+                                }
+                            ],
+                            "description": "URI or code identifying the unit of measure"
                         },
                         "schema:minValue": {
                             "type": "number",
@@ -1587,7 +716,35 @@
                                     "description": "link to a web page useful for interpreting the variable"
                                 },
                                 {
-                                    "$ref": "#/$defs/creativeWork_type"
+                                    "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
+                                    "type": "object",
+                                    "properties": {
+                                        "@type": {
+                                            "default": "schema:CreativeWork",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "contains": {
+                                                "const": "schema:CreativeWork"
+                                            },
+                                            "minItems": 1
+                                        },
+                                        "schema:name": {
+                                            "type": "string"
+                                        },
+                                        "schema:description": {
+                                            "type": "string"
+                                        },
+                                        "schema:url": {
+                                            "type": "string",
+                                            "format": "uri"
+                                        }
+                                    },
+                                    "required": [
+                                        "@type",
+                                        "schema:url"
+                                    ]
                                 }
                             ]
                         }
@@ -1597,10 +754,10 @@
                         "schema:name"
                     ]
                 }
-            ],
-            "description": "Single InstanceVariable node"
+            ]
         },
-        "instant_type": {
+        "DefinedTerm": {
+            "description": "schema.org Defined Term schema",
             "type": "object",
             "properties": {
                 "@type": {
@@ -1609,142 +766,31 @@
                         "type": "string"
                     },
                     "contains": {
-                        "const": "time:Instant"
+                        "const": "schema:DefinedTerm"
                     },
                     "minItems": 1
-                },
-                "time:inTimePosition": {
-                    "type": "object",
-                    "properties": {
-                        "@type": {
-                            "default": "time:TimePosition",
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
-                            "contains": {
-                                "const": "time:TimePosition"
-                            },
-                            "minItems": 1
-                        },
-                        "time:hasTRS": {
-                            "type": "string",
-                            "description": "identifier for a temporal reference system; default is million years before prsent as a decimal number",
-                            "default": "http://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime"
-                        },
-                        "time:numericPosition": {
-                            "type": "number"
-                        }
-                    },
-                    "required": [
-                        "@type",
-                        "time:hasTRS",
-                        "time:numericPosition"
-                    ]
-                }
-            }
-        },
-        "maintainer_identifier_type": {
-            "description": "identifier for person, recommend ORCID",
-            "anyOf": [
-                {
-                    "$ref": "#/$defs/propertyValue_type"
-                },
-                {
-                    "type": "string"
-                }
-            ]
-        },
-        "nameOrReference_type": {
-            "anyOf": [
-                {
-                    "type": "string"
-                },
-                {
-                    "type": "object",
-                    "properties": {
-                        "@id": {
-                            "type": "string",
-                            "description": "a reference to a resource defining conditions of Access"
-                        }
-                    }
-                },
-                {
-                    "$ref": "#/$defs/creativeWork_type"
-                }
-            ]
-        },
-        "organization_type": {
-            "type": "object",
-            "properties": {
-                "@id": {
-                    "type": "string"
-                },
-                "@type": {
-                    "default": "schema:Organization",
-                    "type": "array",
-                    "items": {
-                        "anyOf": [
-                            {
-                                "type": "string",
-                                "enum": [
-                                    "schema:Organization",
-                                    "schema:FundingAgency",
-                                    "schema:Consortium",
-                                    "schema:Corporation",
-                                    "schema:EducationalOrganization",
-                                    "schema:FundingScheme",
-                                    "schema:GovernmentOrganization",
-                                    "schema:NGO",
-                                    "schema:Project",
-                                    "schema:ResearchOrganization"
-                                ]
-                            }
-                        ]
-                    },
-                    "contains": {
-                        "const": "schema:Organization"
-                    },
-                    "minItems": 1
-                },
-                "schema:additionalType": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/$defs/additionalType_type"
-                    }
                 },
                 "schema:name": {
                     "type": "string",
-                    "description": "string label for organization that is meaningful for human users"
-                },
-                "schema:alternateName": {
-                    "type": "string",
-                    "description": "other labels by which the organization might be known"
-                },
-                "schema:description": {
-                    "type": "string"
+                    "description": "text label for the term that is useful to human user"
                 },
                 "schema:identifier": {
-                    "$ref": "#/$defs/maintainer_identifier_type"
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "$ref": "#/$defs/Identifier"
+                        }
+                    ]
                 },
-                "schema:sameAs": {
-                    "type": "array",
-                    "description": "other identifiers for the organization",
-                    "items": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "object",
-                                "properties": {
-                                    "@id": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        ]
-                    }
+                "schema:inDefinedTermSet": {
+                    "type": "string",
+                    "description": "Name for the controlled vocabulary responsible for this keyword."
+                },
+                "schema:termCode": {
+                    "type": "string",
+                    "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                 }
             },
             "allOf": [
@@ -1764,13 +810,67 @@
                             "required": [
                                 "schema:identifier"
                             ]
+                        },
+                        {
+                            "required": [
+                                "schema:termCode"
+                            ]
                         }
                     ]
                 }
-            ],
-            "description": "if affiliation is present, value must be a schema:Organization."
+            ]
         },
-        "person_type": {
+        "Identifier": {
+            "description": "Properties for a schema.org identifier",
+            "type": "object",
+            "properties": {
+                "@type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "schema:PropertyValue"
+                    },
+                    "minItems": 1
+                },
+                "schema:propertyID": {
+                    "type": "string",
+                    "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+                },
+                "schema:value": {
+                    "type": "string",
+                    "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+                },
+                "schema:url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+                }
+            },
+            "allOf": [
+                {
+                    "required": [
+                        "@type"
+                    ]
+                },
+                {
+                    "anyOf": [
+                        {
+                            "required": [
+                                "schema:value"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "schema:url"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "Person": {
             "description": "schema for cdif profile of schema.org/Person",
             "type": "object",
             "properties": {
@@ -1795,14 +895,129 @@
                     "type": "string"
                 },
                 "schema:identifier": {
-                    "$ref": "#/$defs/maintainer_identifier_type"
+                    "description": "identifier for person, recommend ORCID",
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Identifier"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
                 },
                 "schema:alternateName": {
                     "type": "string",
                     "description": "other labels by which the person might be known"
                 },
                 "schema:affiliation": {
-                    "$ref": "#/$defs/organization_type"
+                    "type": "object",
+                    "properties": {
+                        "@id": {
+                            "type": "string"
+                        },
+                        "@type": {
+                            "default": "schema:Organization",
+                            "type": "array",
+                            "items": {
+                                "anyOf": [
+                                    {
+                                        "type": "string",
+                                        "enum": [
+                                            "schema:Organization",
+                                            "schema:FundingAgency",
+                                            "schema:Consortium",
+                                            "schema:Corporation",
+                                            "schema:EducationalOrganization",
+                                            "schema:FundingScheme",
+                                            "schema:GovernmentOrganization",
+                                            "schema:NGO",
+                                            "schema:Project",
+                                            "schema:ResearchOrganization"
+                                        ]
+                                    }
+                                ]
+                            },
+                            "contains": {
+                                "const": "schema:Organization"
+                            },
+                            "minItems": 1
+                        },
+                        "schema:additionalType": {
+                            "type": "array",
+                            "items": {
+                                "anyOf": [
+                                    {
+                                        "$ref": "#/$defs/DefinedTerm"
+                                    },
+                                    {
+                                        "type": "string"
+                                    }
+                                ]
+                            }
+                        },
+                        "schema:name": {
+                            "type": "string",
+                            "description": "string label for organization that is meaningful for human users"
+                        },
+                        "schema:alternateName": {
+                            "type": "string",
+                            "description": "other labels by which the organization might be known"
+                        },
+                        "schema:description": {
+                            "type": "string"
+                        },
+                        "schema:identifier": {
+                            "description": "identifier for organization",
+                            "anyOf": [
+                                {
+                                    "$ref": "#/$defs/Identifier"
+                                },
+                                {
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "schema:sameAs": {
+                            "type": "array",
+                            "description": "other identifiers for the organization",
+                            "items": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "@id": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "allOf": [
+                        {
+                            "required": [
+                                "@type"
+                            ]
+                        },
+                        {
+                            "anyOf": [
+                                {
+                                    "required": [
+                                        "schema:name"
+                                    ]
+                                },
+                                {
+                                    "required": [
+                                        "schema:identifier"
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
                 },
                 "schema:contactPoint": {
                     "type": "object",
@@ -1869,27 +1084,7 @@
                 }
             ]
         },
-        "physicalDataType_type": {
-            "anyOf": [
-                {
-                    "type": "string"
-                },
-                {
-                    "type": "object",
-                    "properties": {
-                        "@id": {
-                            "type": "string",
-                            "description": "reference to a skos concept for the data type"
-                        }
-                    }
-                },
-                {
-                    "$ref": "#/$defs/definedTerm_type"
-                }
-            ]
-        },
-        "propertyValue_type": {
-            "description": "Properties for a schema.org identifier",
+        "instant_type": {
             "type": "object",
             "properties": {
                 "@type": {
@@ -1898,67 +1093,42 @@
                         "type": "string"
                     },
                     "contains": {
-                        "const": "schema:PropertyValue"
+                        "const": "time:Instant"
                     },
                     "minItems": 1
                 },
-                "schema:propertyID": {
-                    "type": "string",
-                    "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
-                },
-                "schema:value": {
-                    "type": "string",
-                    "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
-                },
-                "schema:url": {
-                    "type": "string",
-                    "format": "uri",
-                    "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
-                }
-            },
-            "allOf": [
-                {
-                    "required": [
-                        "@type"
-                    ]
-                },
-                {
-                    "anyOf": [
-                        {
-                            "required": [
-                                "schema:value"
-                            ]
-                        },
-                        {
-                            "required": [
-                                "schema:url"
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        "provider_type": {
-            "anyOf": [
-                {
+                "time:inTimePosition": {
                     "type": "object",
                     "properties": {
-                        "@id": {
+                        "@type": {
+                            "default": "time:TimePosition",
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "contains": {
+                                "const": "time:TimePosition"
+                            },
+                            "minItems": 1
+                        },
+                        "time:hasTRS": {
                             "type": "string",
-                            "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable"
+                            "description": "identifier for a temporal reference system; default is million years before prsent as a decimal number",
+                            "default": "http://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime"
+                        },
+                        "time:numericPosition": {
+                            "type": "number"
                         }
                     },
                     "required": [
-                        "@id"
+                        "@type",
+                        "time:hasTRS",
+                        "time:numericPosition"
                     ]
-                },
-                {
-                    "$ref": "#/$defs/person_type"
-                },
-                {
-                    "$ref": "#/$defs/organization_type"
                 }
-            ]
+            }
         }
-    }
+    },
+    "title": "CDIF Data Description metadata schema",
+    "description": "JSON schema for validating framed JSON-LD documents conforming to the CDIF Data Description profile (discovery + data description). Generated from CDIFDataDescriptionProfile building block profile resolvedSchema.json (https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/profiles/cdifProfiles/CDIFDataDescriptionProfile/resolvedSchema.json)."
 }
