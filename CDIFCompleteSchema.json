@@ -1434,19 +1434,6 @@
                 }
             }
         },
-        "ConceptRef": {
-            "type": "object",
-            "description": "A reference to a SKOS Concept by URI.",
-            "properties": {
-                "@id": {
-                    "type": "string",
-                    "description": "URI of the referenced concept."
-                }
-            },
-            "required": [
-                "@id"
-            ]
-        },
         "Contributor": {
             "description": "For more granularity on how a person contributed to a Dataset, use schema:Role. The schema.org documentation does not state that the Role type is an expected data type of author, creator and contributor, but that is addressed in this blog post (http://blog.schema.org/2014/06/introducing-role.html). see https://github.com/ESIPFed/science-on-schema.org/blob/develop/guides/Dataset.md#roles-of-people",
             "type": "object",
@@ -1924,54 +1911,6 @@
                         }
                     ]
                 },
-                "skos:altLabel": {
-                    "description": "Alternative lexical labels (acronyms, abbreviations, variants).",
-                    "anyOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "$ref": "#/$defs/LanguageTaggedValue"
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "anyOf": [
-                                    {
-                                        "type": "string"
-                                    },
-                                    {
-                                        "$ref": "#/$defs/LanguageTaggedValue"
-                                    }
-                                ]
-                            }
-                        }
-                    ]
-                },
-                "skos:hiddenLabel": {
-                    "description": "Labels accessible to free-text search but not displayed.",
-                    "anyOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "$ref": "#/$defs/LanguageTaggedValue"
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "anyOf": [
-                                    {
-                                        "type": "string"
-                                    },
-                                    {
-                                        "$ref": "#/$defs/LanguageTaggedValue"
-                                    }
-                                ]
-                            }
-                        }
-                    ]
-                },
                 "skos:notation": {
                     "description": "Classification code for this concept within a scheme.",
                     "type": "array",
@@ -2123,30 +2062,6 @@
                         }
                     ]
                 },
-                "skos:example": {
-                    "description": "Example of use of this concept.",
-                    "anyOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "$ref": "#/$defs/LanguageTaggedValue"
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "anyOf": [
-                                    {
-                                        "type": "string"
-                                    },
-                                    {
-                                        "$ref": "#/$defs/LanguageTaggedValue"
-                                    }
-                                ]
-                            }
-                        }
-                    ]
-                },
                 "skos:inScheme": {
                     "description": "Concept scheme(s) this concept belongs to.",
                     "anyOf": [
@@ -2213,7 +2128,17 @@
                     "items": {
                         "anyOf": [
                             {
-                                "$ref": "#/$defs/ConceptRef"
+                                "type": "object",
+                                "description": "A reference to a SKOS Concept by URI.",
+                                "properties": {
+                                    "@id": {
+                                        "type": "string",
+                                        "description": "URI of the referenced concept."
+                                    }
+                                },
+                                "required": [
+                                    "@id"
+                                ]
                             },
                             {
                                 "$comment": "circular-ref"
@@ -2227,67 +2152,30 @@
                     "items": {
                         "anyOf": [
                             {
-                                "$ref": "#/$defs/ConceptRef"
+                                "type": "object",
+                                "description": "A reference to a SKOS Concept by URI.",
+                                "properties": {
+                                    "@id": {
+                                        "type": "string",
+                                        "description": "URI of the referenced concept."
+                                    }
+                                },
+                                "required": [
+                                    "@id"
+                                ]
                             },
                             {
                                 "$comment": "circular-ref"
                             }
                         ]
-                    }
-                },
-                "skos:related": {
-                    "description": "Associatively related concepts.",
-                    "type": "array",
-                    "items": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/$defs/ConceptRef"
-                            },
-                            {
-                                "$comment": "circular-ref"
-                            }
-                        ]
-                    }
-                },
-                "skos:exactMatch": {
-                    "description": "Concepts in other schemes with equivalent meaning.",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/$defs/ConceptRef"
-                    }
-                },
-                "skos:closeMatch": {
-                    "description": "Concepts in other schemes with similar meaning.",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/$defs/ConceptRef"
-                    }
-                },
-                "skos:broadMatch": {
-                    "description": "Broader concepts in other schemes.",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/$defs/ConceptRef"
-                    }
-                },
-                "skos:narrowMatch": {
-                    "description": "Narrower concepts in other schemes.",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/$defs/ConceptRef"
-                    }
-                },
-                "skos:relatedMatch": {
-                    "description": "Related concepts in other schemes.",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/$defs/ConceptRef"
                     }
                 }
             },
             "required": [
                 "@type",
-                "skos:prefLabel"
+                "skos:prefLabel",
+                "skos:definition",
+                "skos:inScheme"
             ]
         },
         "instant_type": {
