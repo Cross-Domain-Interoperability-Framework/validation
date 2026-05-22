@@ -468,6 +468,45 @@ def _inline_ref(schema, defs):
     return schema
 
 
+def _collect_def_refs(obj, out):
+    """Collect all '#/$defs/<name>' targets referenced anywhere in obj."""
+    if isinstance(obj, dict):
+        ref = obj.get("$ref")
+        if isinstance(ref, str) and ref.startswith("#/$defs/"):
+            out.add(ref[len("#/$defs/"):])
+        for v in obj.values():
+            _collect_def_refs(v, out)
+    elif isinstance(obj, list):
+        for item in obj:
+            _collect_def_refs(item, out)
+    return out
+
+
+def _recursive_def_names(defs):
+    """Names of $defs that reference themselves directly or transitively.
+
+    Such defs encode recursive types (e.g. a SKOS concept whose skos:narrower
+    items are concepts) and MUST NOT be inlined — expanding them never
+    terminates.  They are kept as named $refs.
+    """
+    direct = {name: _collect_def_refs(schema, set())
+              for name, schema in defs.items()}
+    recursive = set()
+    for start in defs:
+        seen = set()
+        stack = list(direct.get(start, ()))
+        while stack:
+            n = stack.pop()
+            if n == start:
+                recursive.add(start)
+                break
+            if n in seen:
+                continue
+            seen.add(n)
+            stack.extend(direct.get(n, ()))
+    return recursive
+
+
 def prune_single_use_defs(schema):
     """Inline $defs that are only referenced once (not worth the indirection).
 
@@ -483,7 +522,11 @@ def prune_single_use_defs(schema):
             break
 
         counts = _count_refs(result)
-        single_use = {name for name, count in counts.items() if count <= 1}
+        # Recursive $defs cannot be inlined (expansion never terminates); keep
+        # them as named $refs.
+        recursive = _recursive_def_names(defs)
+        single_use = {name for name, count in counts.items()
+                      if count <= 1 and name not in recursive}
         if not single_use:
             break
 
