@@ -1144,6 +1144,63 @@
                 }
             ]
         },
+        "CdifPhysicalMapping": {
+            "title": "Physical Mapping Type",
+            "description": "Defines implementation-specific properties for the representation of a variable in a dataset. Aligned with CDIF 2026 schema using DDI-CDI flat per-column mapping structure.",
+            "type": "object",
+            "properties": {
+                "cdif:index": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Non-negative integer that orders the fields in the data structure (column number)."
+                },
+                "cdif:format": {
+                    "type": "string",
+                    "description": "A format for number expressed as a string, or date format like YYYY/MM or MM-DD-YY."
+                },
+                "cdif:physicalDataType": {
+                    "type": "string"
+                },
+                "cdi:numberPattern": {
+                    "type": "string",
+                    "description": "Number format pattern for the field (PhysicalMapping.numberPattern). Text-format properties (column width, decimal/digit-group separators, display label) live on cdifTextMapping."
+                },
+                "cdi:nullSequence": {
+                    "type": "string",
+                    "description": "The value of this property becomes the null annotation for the described column."
+                },
+                "cdi:defaultValue": {
+                    "type": "string",
+                    "description": "A default string indicating the value to substitute for an empty string."
+                },
+                "cdi:scale": {
+                    "type": "integer"
+                },
+                "cdi:decimalPositions": {
+                    "type": "integer"
+                },
+                "cdi:minimumLength": {
+                    "type": "integer"
+                },
+                "cdi:maximumLength": {
+                    "type": "integer"
+                },
+                "cdi:isRequired": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "cdif:formats_InstanceVariable": {
+                    "type": "object",
+                    "description": "Reference to a variable defined in schema:variableMeasured.",
+                    "properties": {
+                        "@id": {
+                            "type": "string",
+                            "description": "This should be a reference to a variable defined in the schema:variableMeasured section."
+                        }
+                    }
+                }
+            }
+        },
         "DefinedTerm": {
             "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) — plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
             "type": "object",
