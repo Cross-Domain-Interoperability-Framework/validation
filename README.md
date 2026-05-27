@@ -61,6 +61,7 @@ This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule s
 | `CDIF-context-2026.jsonld` | JSON-LD context for authoring without namespace prefixes |
 | `FrameAndValidate.py` | Python script for framing and validation |
 | `croissant/ConvertToCroissant.py` | Converts CDIF JSON-LD to Croissant (mlcommons.org/croissant/1.0) format |
+| `croissant/ConvertFromCroissant.py` | Converts Croissant JSON-LD to CDIF DataDescription (lossy inverse) — see [`croissant/CroissantToCDIF.md`](croissant/CroissantToCDIF.md) |
 | `validate_building_blocks.py` | Validates building block schemas, SHACL shapes, and examples across the BB source tree |
 | `validate-cdif.bat` | Windows batch script for oXygen XML Editor integration |
 | `batch_validate.py` | Batch validation of CDIF metadata files across multiple file groups (JSON Schema + SHACL) |
@@ -170,17 +171,33 @@ See the [packaging repository documentation](https://github.com/Cross-Domain-Int
 
 ## Croissant Conversion
 
-`croissant/ConvertToCroissant.py` converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissant/docs/croissant-spec.html) (mlcommons.org/croissant/1.0) JSON-LD, an ML-oriented dataset metadata format developed by [MLCommons](https://mlcommons.org/working-groups/data/croissant/). Both formats build on schema.org and JSON-LD, so discovery-level metadata maps directly.
+Two converters live in `croissant/`. Forward (CDIF → Croissant) and inverse
+(Croissant → CDIF DataDescription / Discovery).
 
 ```bash
-# Convert a CDIF document to Croissant
+# Forward: CDIF -> Croissant 1.0
 python croissant/ConvertToCroissant.py input.jsonld -o output-croissant.json
+mlcroissant validate --jsonld output-croissant.json   # optional, needs `pip install mlcroissant`
 
-# Validate the output (requires: pip install mlcroissant)
-mlcroissant validate --jsonld output-croissant.json
+# Inverse: Croissant -> CDIF DataDescription
+python croissant/ConvertFromCroissant.py input-croissant.json -o output.jsonld
+python FrameAndValidate.py output.jsonld --frame CDIF-frame-2026.jsonld \
+    -v --schema CDIFDataDescriptionSchema.json
 ```
 
-See [`croissant/README.md`](croissant/README.md) for detailed documentation on the conversion process, property mappings, example output files, and usage options. The full property-by-property mapping is in [`croissant/CDIFtoCroissant.md`](croissant/CDIFtoCroissant.md).
+The inverse is **lossy** — Croissant carries no equivalents for
+`prov:wasGeneratedBy`, `dqv:hasQualityMeasurement`, `schema:measurementTechnique`,
+`schema:spatialCoverage`/`temporalCoverage`, the CSVW table block, or `cdi:role`.
+The script preserves anything that the forward converter passed through verbatim
+and reconstructs `schema:identifier` from a DOI in `citeAs`/`url`. If the source
+Croissant has no `recordSet`, the output validates against `CDIFDiscoverySchema.json`
+rather than `CDIFDataDescriptionSchema.json` (the appropriate profile in that case).
+
+See [`croissant/README.md`](croissant/README.md) for detailed documentation on
+both converters, property mappings, and example output. The full
+property-by-property mappings are in [`croissant/CDIFtoCroissant.md`](croissant/CDIFtoCroissant.md)
+(forward) and [`croissant/CroissantToCDIF.md`](croissant/CroissantToCDIF.md)
+(inverse).
 
 ## Usage Examples
 

@@ -1,6 +1,9 @@
-# CDIF to Croissant Conversion
+# CDIF ↔ Croissant Conversion
 
-This directory contains the converter and example output for transforming CDIF JSON-LD metadata into [Croissant](https://docs.mlcommons.org/croissant/docs/croissant-spec.html) (mlcommons.org/croissant/1.0) JSON-LD, an ML-oriented dataset metadata format developed by [MLCommons](https://mlcommons.org/working-groups/data/croissant/).
+This directory contains converters and example output for transforming between
+CDIF JSON-LD metadata and [Croissant](https://docs.mlcommons.org/croissant/docs/croissant-spec.html)
+(mlcommons.org/croissant/1.0) JSON-LD, an ML-oriented dataset metadata format
+developed by [MLCommons](https://mlcommons.org/working-groups/data/croissant/).
 
 Both CDIF and Croissant build on schema.org and JSON-LD, so discovery-level metadata (name, description, creator, license, keywords, etc.) maps directly. They diverge in how they describe data structure: CDIF uses DDI-CDI `InstanceVariable` with physical mappings and CSVW table metadata; Croissant uses `RecordSet`/`Field` with extract/transform pipelines.
 
@@ -8,8 +11,10 @@ Both CDIF and Croissant build on schema.org and JSON-LD, so discovery-level meta
 
 | File | Description |
 |------|-------------|
-| `ConvertToCroissant.py` | Converter script: reads CDIF JSON-LD, produces Croissant 1.0 JSON-LD |
-| `CDIFtoCroissant.md` | Detailed property-by-property mapping documentation |
+| `ConvertToCroissant.py` | **CDIF → Croissant** converter: reads CDIF JSON-LD, produces Croissant 1.0 JSON-LD |
+| `ConvertFromCroissant.py` | **Croissant → CDIF** converter (lossy inverse): reads Croissant 1.0 JSON-LD, produces CDIF DataDescription JSON-LD that validates against `CDIFDataDescriptionSchema.json` (or `CDIFDiscoverySchema.json` when the source has no `recordSet`) |
+| `CDIFtoCroissant.md` | Detailed property-by-property mapping documentation (forward direction) |
+| `CroissantToCDIF.md` | Detailed property-by-property mapping documentation (inverse direction) |
 | `cdif_0y88-ps96-croissant.json` | Example output: 10 InstanceVariables, physicalMapping, RecordSet with 10 Fields, archive distribution |
 | `tof-htk9-f770-croissant.json` | Example output: 10 mixed-type files (TIFF, BMP, CSV, PDF, YAML, ZIP), contributor roles |
 | `xanes-2arx-b516-croissant.json` | Example output: archive with 2 component files, provenance pass-through |
@@ -17,6 +22,8 @@ Both CDIF and Croissant build on schema.org and JSON-LD, so discovery-level meta
 | `yv1f-jb20-croissant.json` | Example output: archive with 3 files, hand-added variableMeasured |
 
 ## Usage
+
+### CDIF → Croissant
 
 ```bash
 # Convert a CDIF document to Croissant
@@ -28,6 +35,39 @@ python croissant/ConvertToCroissant.py input.jsonld -o output-croissant.json -v
 # Validate the Croissant output (requires: pip install mlcroissant)
 mlcroissant validate --jsonld output-croissant.json
 ```
+
+### Croissant → CDIF
+
+```bash
+# Convert a Croissant document to CDIF DataDescription
+python croissant/ConvertFromCroissant.py input-croissant.json -o output.jsonld
+
+# Validate the CDIF output (uses the existing FrameAndValidate.py)
+python FrameAndValidate.py output.jsonld --frame CDIF-frame-2026.jsonld \
+    -v --schema CDIFDataDescriptionSchema.json
+```
+
+The inverse converter is **lossy** by design — Croissant carries no equivalents
+for `prov:wasGeneratedBy`, `dqv:hasQualityMeasurement`, `schema:spatialCoverage`,
+`schema:temporalCoverage`, `schema:measurementTechnique`, the CSVW table block,
+or `cdi:role`. See `CroissantToCDIF.md` for the full list of features dropped
+vs. preserved. The converter:
+
+- Reconstructs `schema:identifier` (`PropertyValue`) from a DOI found in
+  Croissant's `citeAs` / `url` / `@id`
+- Pivots Croissant's `cr:FileObject` + `containedIn` archive pattern into CDIF's
+  `schema:DataDownload` + `schema:hasPart` pattern
+- Generates `schema:variableMeasured` (`cdi:InstanceVariable`) + per-file
+  `cdi:hasPhysicalMapping` entries from `cr:RecordSet` / `cr:Field`
+- Emits a `schema:subjectOf` stub with the CDIF Discovery + DataDescription
+  conformance URIs so the output validates against either profile
+- Preserves any pass-through properties (`prov:*`, `dqv:*`, `schema:subjectOf`,
+  etc.) the forward converter left in the Croissant doc verbatim, merging any
+  custom prefixes from the source `@context` so framing succeeds
+
+When the source Croissant has no `recordSet`, the output has no
+`schema:variableMeasured` and only validates against the Discovery schema —
+which is the appropriate profile in that case.
 
 **Options:**
 - `-o, --output FILE` — Write the Croissant JSON-LD to a file (default: stdout)
