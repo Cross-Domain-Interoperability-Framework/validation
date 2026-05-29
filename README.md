@@ -60,7 +60,7 @@ This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule s
 | `CDIF-frame-2026.jsonld` | JSON-LD frame for 2026 schema |
 | `CDIF-context-2026.jsonld` | JSON-LD context for authoring without namespace prefixes |
 | `FrameAndValidate.py` | Python script for framing and validation |
-| `croissant/ConvertToCroissant.py` | Converts CDIF JSON-LD to Croissant (mlcommons.org/croissant/1.0) format |
+| `croissant/ConvertToCroissant.py` | Converts current-`cdif:` CDIF JSON-LD to Croissant 1.1 (mlcommons.org/croissant/1.1) format |
 | `croissant/ConvertFromCroissant.py` | Converts Croissant JSON-LD to CDIF DataDescription (lossy inverse) — see [`croissant/CroissantToCDIF.md`](croissant/CroissantToCDIF.md) |
 | `validate_building_blocks.py` | Validates building block schemas, SHACL shapes, and examples across the BB source tree |
 | `validate-cdif.bat` | Windows batch script for oXygen XML Editor integration |
@@ -174,24 +174,27 @@ See the [packaging repository documentation](https://github.com/Cross-Domain-Int
 Two converters live in `croissant/`. Forward (CDIF → Croissant) and inverse
 (Croissant → CDIF DataDescription / Discovery).
 
-```bash
-# Forward: CDIF -> Croissant 1.0
-python croissant/ConvertToCroissant.py input.jsonld -o output-croissant.json
-mlcroissant validate --jsonld output-croissant.json   # optional, needs `pip install mlcroissant`
+The converters target **Croissant 1.1** (`http://mlcommons.org/croissant/1.1`)
+and the current **`cdif:` CDIF schema**; the inverse accepts Croissant 1.0 or 1.1.
 
-# Inverse: Croissant -> CDIF DataDescription
+```bash
+# Forward: CDIF -> Croissant 1.1
+python croissant/ConvertToCroissant.py input.jsonld -o output-croissant.json
+python -c "import mlcroissant as mlc; mlc.Dataset(jsonld='output-croissant.json')"  # optional
+
+# Inverse: Croissant -> CDIF DataDescription / Discovery
 python croissant/ConvertFromCroissant.py input-croissant.json -o output.jsonld
-python FrameAndValidate.py output.jsonld --frame CDIF-frame-2026.jsonld \
-    -v --schema CDIFDataDescriptionSchema.json
+# then validate against the current Discovery / DataDescription profile schema
 ```
 
 The inverse is **lossy** — Croissant carries no equivalents for
 `prov:wasGeneratedBy`, `dqv:hasQualityMeasurement`, `schema:measurementTechnique`,
-`schema:spatialCoverage`/`temporalCoverage`, the CSVW table block, or `cdi:role`.
-The script preserves anything that the forward converter passed through verbatim
-and reconstructs `schema:identifier` from a DOI in `citeAs`/`url`. If the source
-Croissant has no `recordSet`, the output validates against `CDIFDiscoverySchema.json`
-rather than `CDIFDataDescriptionSchema.json` (the appropriate profile in that case).
+`schema:spatialCoverage`/`temporalCoverage`, the CSVW table block, or the Data
+Structure component roles. The script preserves anything the forward converter
+passed through verbatim, reconstructs `schema:identifier` from a DOI in
+`citeAs`/`url`, and maps `cr:RecordSet.key` → `cdif:hasPrimaryKey`. If the source
+Croissant has no `recordSet`, the output validates against the Discovery schema
+rather than the DataDescription schema (the appropriate profile in that case).
 
 See [`croissant/README.md`](croissant/README.md) for detailed documentation on
 both converters, property mappings, and example output. The full
@@ -450,8 +453,8 @@ The 2026 schema adds support for:
 
 **Variables (`schema:variableMeasured`):**
 - Items are `anyOf` PropertyValue-based (`cdifVariableMeasured`) or `schema:StatisticalVariable`
-- **PropertyValue variables**: typed as `schema:PropertyValue` with DDI-CDI extensions (`cdi:intendedDataType`, `cdi:simpleUnitOfMeasure`, `cdi:describedUnitOfMeasure`, `cdi:uses`, `cdi:role`)
-- `cdi:role` -- enum: `MeasureComponent`, `AttributeComponent`, `DimensionComponent`, `DescriptorComponent`, `ReferenceValueComponent`
+- **PropertyValue variables**: typed as `schema:PropertyValue` with DDI-CDI extensions (`cdi:intendedDataType`, `cdif:simpleUnitOfMeasure`, `cdi:describedUnitOfMeasure`, `cdif:uses`, `cdif:role`)
+- `cdif:role` -- enum: `MeasureComponent`, `AttributeComponent`, `DimensionComponent`, `DescriptorComponent`, `ReferenceValueComponent`
 - **StatisticalVariable**: typed as `schema:StatisticalVariable` with `schema:statType`, `schema:measuredProperty` (required)
 - `cdi:physicalDataType` is required at the **data description level** (CDIFDataDescription/CDIFcomplete profiles), not at discovery level
 
@@ -460,12 +463,12 @@ The 2026 schema adds support for:
 - `cdi:TabularTextDataSet` - For tabular text (wide format) with CSVW properties:
   - `csvw:delimiter`, `csvw:header`, `csvw:headerRowCount`
   - `cdi:isDelimited` OR `cdi:isFixedWidth`
-  - `cdi:hasPhysicalMapping` - Links variables to physical representation
+  - `cdif:hasPhysicalMapping` - Links variables to physical representation
 - `cdi:LongStructureDataSet` - For long/narrow data format where each row is a single observation:
-  - A descriptor column identifies which variable each row measures (`cdi:role: DescriptorComponent`)
-  - A reference column holds the actual value (`cdi:role: ReferenceValueComponent`)
+  - A descriptor column identifies which variable each row measures (`cdif:role: DescriptorComponent`)
+  - A reference column holds the actual value (`cdif:role: ReferenceValueComponent`)
   - Optional CSVW properties (delimiter, header, etc.) and DDI-CDI physical properties
-  - `cdi:hasPhysicalMapping` - Links variables to physical representation
+  - `cdif:hasPhysicalMapping` - Links variables to physical representation
   - SHACL rules enforce exactly one `DescriptorComponent` and at least one `ReferenceValueComponent`
 
 ## Flattened Graph Schema
@@ -663,7 +666,7 @@ The `MetadataExamples/` directory contains sample CDIF JSON-LD documents for tes
 | `xanes-2arx-b516.json` | XANES | X-ray absorption near-edge structure |
 | `yv1f-jb20.json` | -- | General dataset |
 | `test_se_na2so4-testschemaorg-cdiv3.json` | XAS | X-ray absorption spectroscopy with DDI-CDI data structure (WideDataStructure, InstanceVariable, ValueMapping). Uses `xas:` and `cdifq:` extension namespaces |
-| `nwis-water-quality-longdata.json` | Water Quality | NWIS groundwater nutrient analysis (464 rows, 20 columns) in `cdi:LongStructureDataSet` long (narrow) format with `DescriptorComponent`/`ReferenceValueComponent` roles, `cdi:hasPhysicalMapping`, and 5 MeasureComponent domain variables. Validates against graph schema (`CDIF-graph-schema-2026.json`) |
+| `nwis-water-quality-longdata.json` | Water Quality | NWIS groundwater nutrient analysis (464 rows, 20 columns) in `cdi:LongStructureDataSet` long (narrow) format with `DescriptorComponent`/`ReferenceValueComponent` roles, `cdif:hasPhysicalMapping`, and 5 MeasureComponent domain variables. Validates against graph schema (`CDIF-graph-schema-2026.json`) |
 | `prov-ocean-temp-example.json` | Ocean Temperature | Extended provenance example demonstrating `cdifProv` building block: action chaining (`schema:object`/`schema:result`), multi-typed `["schema:Action", "prov:Activity"]` activities, agents with Role wrappers, inline `schema:HowTo` methodology via `schema:actionProcess` with 3 steps, diverse instruments, facility location, and backward-compatible `prov:used`. Validates against graph schema |
 
 Corresponding Croissant output files are in the [`croissant/`](croissant/) directory.
