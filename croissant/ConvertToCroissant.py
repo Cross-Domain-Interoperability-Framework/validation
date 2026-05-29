@@ -2,16 +2,21 @@
 """
 ConvertToCroissant.py - Convert CDIF JSON-LD metadata to Croissant format.
 
-Reads a CDIF metadata document and produces a Croissant (mlcommons.org/croissant/1.0)
+Reads a CDIF metadata document and produces a Croissant (mlcommons.org/croissant/1.1)
 JSON-LD document suitable for ML dataset discovery and loading.
 
-Mapping summary:
-  CDIF schema:DataDownload        → cr:FileObject
-  CDIF archive DataDownload       → cr:FileSet with cr:includes of cr:FileObject per component
-  CDIF schema:variableMeasured    → cr:RecordSet + cr:Field (when physicalMapping present)
-  CDIF cdi:hasPhysicalMapping     → cr:Field.source.extract.column
-  CDIF schema:propertyID / uses   → cr:Field.equivalentProperty
-  CDIF cdi:role (Attribute)       → cr:Field.references (qualifies → FK analogy)
+Mapping summary (current CDIF DataDescription / DataStructure schema, cdif: namespace):
+  CDIF schema:DataDownload         → cr:FileObject
+  CDIF archive DataDownload        → cr:FileObject (archive) + cr:FileObject per
+                                     component with containedIn
+  CDIF schema:variableMeasured     → cr:RecordSet + cr:Field (when physicalMapping present)
+  CDIF cdif:hasPhysicalMapping     → cr:Field.source.extract.column (via cdif:index +
+                                     cdif:formats_InstanceVariable)
+  CDIF cdif:physicalDataType /     → cr:Field.dataType
+       cdi:hasIntendedDataType
+  CDIF schema:propertyID / cdif:uses → cr:Field.equivalentProperty
+  CDIF cdif:hasPrimaryKey          → cr:RecordSet.key
+  CDIF cdi:qualifies / ForeignKey  → cr:Field.references (FK analogy)
 
 Usage:
     python ConvertToCroissant.py input.jsonld [-o output.json] [-v]
@@ -67,7 +72,7 @@ CROISSANT_CONTEXT = {
     "transform": "cr:transform",
 }
 
-CROISSANT_CONFORMS_TO = "http://mlcommons.org/croissant/1.0"
+CROISSANT_CONFORMS_TO = "http://mlcommons.org/croissant/1.1"
 
 # Map CDIF / XSD data types → Croissant sc: types
 DATATYPE_MAP = {
@@ -82,9 +87,20 @@ DATATYPE_MAP = {
     "xsd:date": "sc:Date",
     "xsd:boolean": "sc:Boolean",
     "xsd:string": "sc:Text",
+    "xsd:anyURI": "sc:URL",
     "String": "sc:Text",
     "string": "sc:Text",
     "Text": "sc:Text",
+    # Physical-mapping storage tokens (cdif:physicalDataType on a mapping)
+    "Numeric": "sc:Float",
+    "Decimal": "sc:Float",
+    "Float": "sc:Float",
+    "Double": "sc:Float",
+    "Integer": "sc:Integer",
+    "Int": "sc:Integer",
+    "Boolean": "sc:Boolean",
+    "Date": "sc:Date",
+    "DateTime": "sc:Date",
 }
 
 
@@ -296,8 +312,15 @@ def _convert_distribution(cdif, verbose=False):
             cr_dist, tabular_files = _convert_archive_distribution(
                 dist, di, cr_dist, tabular_files, content_url, verbose)
         else:
-            cr_dist = _convert_simple_distribution(
+            cr_dist, dist_id = _convert_simple_distribution(
                 dist, di, cr_dist, content_url, enc)
+            # A non-archive DataDownload that carries physical mappings (a
+            # cdi:TabularTextDataSet) feeds RecordSet generation too.
+            if _get(dist, "cdif:hasPhysicalMapping"):
+                tabular_files.append((dist_id, dist))
+                if verbose:
+                    print(f"  Tabular file with physical mapping: "
+                          f"{_get(dist, 'schema:name') or dist_id}")
 
     return cr_dist, tabular_files
 
@@ -325,7 +348,8 @@ def _convert_archive_distribution(dist, di, cr_dist, tabular_files,
         "@id": archive_id,
         "name": archive_name,
         "encodingFormat": "application/zip",
-        "contentUrl": content_url if not nil_url else archive_name,
+        "contentUrl": (content_url if not nil_url
+                       else "http://www.opengis.net/def/nil/ogc/0/inapplicable"),
     }
     desc = _get(dist, "schema:description")
     if desc:
@@ -376,7 +400,7 @@ def _convert_archive_distribution(dist, di, cr_dist, tabular_files,
         cr_dist.append(fobj)
 
         # Track tabular files with physical mapping for RecordSet generation
-        if _get(part, "cdi:hasPhysicalMapping"):
+        if _get(part, "cdif:hasPhysicalMapping"):
             tabular_files.append((part_id, part))
             if verbose:
                 print(f"  Tabular file with physical mapping: {part_name}")
@@ -392,22 +416,33 @@ def _convert_simple_distribution(dist, di, cr_dist, content_url, enc):
     if not dist_name:
         dist_name = f"file-{di}"
 
+    dist_id = _sanitize_id(dist_name)
     fobj = {
         "@type": "cr:FileObject",
-        "@id": _sanitize_id(dist_name),
+        "@id": dist_id,
         "name": dist_name,
+        # Croissant requires a contentUrl on every FileObject. Use the real URL
+        # when present, otherwise the OGC nil:inapplicable URI as a valid-URL
+        # placeholder (the resource is described but not directly downloadable).
+        "contentUrl": (content_url if content_url and not _is_nil_url(content_url)
+                       else "http://www.opengis.net/def/nil/ogc/0/inapplicable"),
+        # encodingFormat is mandatory on a Croissant FileObject. Fall back to a
+        # generic media type when CDIF doesn't supply one (e.g. a WebAPI/EntryPoint
+        # distribution that carries no encodingFormat).
+        "encodingFormat": enc or "application/octet-stream",
     }
-    if content_url and not _is_nil_url(content_url):
-        fobj["contentUrl"] = content_url
-    if enc:
-        fobj["encodingFormat"] = enc
 
     desc = _get(dist, "schema:description")
     if desc:
         fobj["description"] = desc
 
+    # Croissant requires sha256 or md5 on every FileObject. Use the real
+    # checksum when present, otherwise a nil placeholder (the inverse strips it).
+    sha = _extract_sha256(dist)
+    fobj["sha256"] = sha if sha else "0" * 64
+
     cr_dist.append(fobj)
-    return cr_dist
+    return cr_dist, dist_id
 
 
 # ---------------------------------------------------------------------------
@@ -422,7 +457,7 @@ def _build_variable_index(cdif):
 
 
 def _extract_equivalent_property(var_obj):
-    """Pull an equivalentProperty URL from propertyID or cdi:uses."""
+    """Pull an equivalentProperty URL from schema:propertyID or cdif:uses."""
     # schema:propertyID
     for pid in _as_list(_get(var_obj, "schema:propertyID", default=[])):
         if isinstance(pid, dict):
@@ -432,50 +467,112 @@ def _extract_equivalent_property(var_obj):
         elif isinstance(pid, str) and pid != "missing" and pid.startswith("http"):
             return pid
 
-    # cdi:uses (Concept reference)
-    uses = _get(var_obj, "cdi:uses")
-    if isinstance(uses, dict):
-        uid = uses.get("@id")
-        if uid and not uid.startswith("#"):
-            return uid
+    # cdif:uses (concept reference) -- may be a URI string, a {@id} object, or
+    # a DefinedTerm; take the first resolvable IRI.
+    for use in _as_list(_get(var_obj, "cdif:uses", default=[])):
+        if isinstance(use, dict):
+            uid = _get(use, "@id", "schema:identifier")
+            if uid and isinstance(uid, str) and uid.startswith("http"):
+                return uid
+        elif isinstance(use, str) and use.startswith("http"):
+            return use
     return None
 
 
-def _convert_record_sets(tabular_files, var_index, verbose=False):
-    """Build Croissant RecordSets from tabular files + physicalMappings."""
+def _datatype_token(val):
+    """Normalize a cdif:physicalDataType / cdi:hasIntendedDataType value (string,
+    {@id} reference, or DefinedTerm) to a token for DATATYPE_MAP lookup."""
+    ref = None
+    if isinstance(val, str):
+        ref = val
+    elif isinstance(val, dict):
+        # @id reference (e.g. https://www.w3.org/TR/xmlschema-2/#decimal) or
+        # DefinedTerm with schema:identifier/name
+        ref = _get(val, "@id", "schema:identifier", "schema:name")
+    if not isinstance(ref, str):
+        return None
+    # Already a usable token (xsd:..., a storage word like "Numeric", etc.)
+    if ref in DATATYPE_MAP or ":" not in ref:
+        return ref
+    if ref.startswith("xsd:"):
+        return ref
+    # A datatype IRI (XMLSchema #fragment or last path segment) -> xsd: token
+    frag = re.split(r"[#/]", ref.rstrip("/"))[-1]
+    return f"xsd:{frag}" if frag else ref
+
+
+def _var_name(var_obj, default=""):
+    """Best human/column name of an InstanceVariable (cdif:name, then schema:name)."""
+    nm = _get(var_obj, "cdif:name", "schema:name")
+    if isinstance(nm, list):
+        nm = nm[0] if nm else None
+    return nm or default
+
+
+def _convert_record_sets(tabular_files, var_index, cdif, verbose=False):
+    """Build Croissant RecordSets from tabular files + physical mappings.
+
+    Reads the current CDIF DataDescription shape:
+      cdif:hasPhysicalMapping[] with cdif:index, cdif:formats_InstanceVariable,
+      cdif:physicalDataType; InstanceVariable carries cdi:hasIntendedDataType.
+    Emits cr:RecordSet.key from the dataset-level cdif:hasPrimaryKey and
+    cr:Field.references from a variable's cdi:qualifies (FK analogy).
+    """
     record_sets = []
 
+    # Dataset-level primary key: cdif:hasPrimaryKey -> cdif:Key -> cdif:isComposedOf
+    pk = _get(cdif, "cdif:hasPrimaryKey")
+    pk_var_ids = []
+    if isinstance(pk, dict):
+        for c in _as_list(_get(pk, "cdif:isComposedOf", default=[])):
+            cid = c.get("@id") if isinstance(c, dict) else c
+            if cid:
+                pk_var_ids.append(cid)
+
     for file_id, part_obj in tabular_files:
-        mappings = _as_list(_get(part_obj, "cdi:hasPhysicalMapping", default=[]))
+        mappings = _as_list(_get(part_obj, "cdif:hasPhysicalMapping", default=[]))
         part_name = _get(part_obj, "schema:name", default=file_id)
         rs_name = re.sub(r"\.[^.]+$", "", part_name)   # strip extension
         rs_id = _sanitize_id(rs_name)
+        # The RecordSet @id must differ from the source FileObject @id, or
+        # JSON-LD merges the two same-@id nodes (a FileObject that also carries
+        # cr:field), which breaks Croissant processing. This collides when the
+        # file name has no extension to strip.
+        if rs_id == file_id:
+            rs_id = f"{rs_id}_records"
 
-        # Sort mappings by cdi:index so fields come out in column order
+        # Sort mappings by cdif:index so fields come out in column order
         mappings = sorted(mappings,
-                          key=lambda m: m.get("cdi:index", 0)
+                          key=lambda m: m.get("cdif:index", 0)
                           if isinstance(m, dict) else 0)
 
         fields = []
+        var_id_to_field_id = {}   # for key/references resolution
         for mapping in mappings:
             if not isinstance(mapping, dict):
                 continue
 
             # Resolve the linked InstanceVariable
-            var_ref = _get(mapping, "cdi:formats_InstanceVariable")
+            var_ref = _get(mapping, "cdif:formats_InstanceVariable")
             var_id = var_ref.get("@id") if isinstance(var_ref, dict) else var_ref
             var_obj = var_index.get(var_id, {}) if var_id else {}
 
-            # Column name from mapping (= physical column header)
-            col_name = _get(mapping, "schema:name", default="")
-            var_name = _get(var_obj, "schema:name", default=col_name)
-            field_label = col_name or var_name or f"col_{mapping.get('cdi:index', 0)}"
+            # Column header = the variable's name (current schema has no per-
+            # mapping column label; the variable name is the column identity).
+            var_name = _var_name(var_obj)
+            field_label = var_name or f"col_{mapping.get('cdif:index', 0)}"
             field_id = f"{rs_id}/{_sanitize_id(field_label)}"
+            if var_id:
+                var_id_to_field_id[var_id] = field_id
 
-            # Data type
-            phys_type = _get(mapping, "cdi:physicalDataType")
-            intended = _get(var_obj, "cdi:intendedDataType")
-            cr_dtype = _map_datatype(intended or phys_type)
+            # Data type. Prefer the variable's logical type (intended, then its
+            # own cdif:physicalDataType) over the mapping's physical storage
+            # token. All are single-valued in the current schema.
+            intended = _datatype_token(
+                _get(var_obj, "cdi:hasIntendedDataType", "cdi:intendedDataType"))
+            var_phys = _datatype_token(_get(var_obj, "cdif:physicalDataType"))
+            map_phys = _datatype_token(_get(mapping, "cdif:physicalDataType"))
+            cr_dtype = _map_datatype(intended or var_phys or map_phys)
 
             field = {
                 "@type": "cr:Field",
@@ -484,11 +581,13 @@ def _convert_record_sets(tabular_files, var_index, verbose=False):
                 "dataType": cr_dtype,
                 "source": {
                     "fileObject": {"@id": file_id},
-                    "extract": {"column": col_name or field_label},
+                    "extract": {"column": field_label},
                 },
             }
 
-            desc = _get(var_obj, "schema:description")
+            desc = _get(var_obj, "schema:description", "cdif:definition")
+            if isinstance(desc, list):
+                desc = desc[0] if desc else None
             if desc:
                 field["description"] = desc
 
@@ -508,6 +607,13 @@ def _convert_record_sets(tabular_files, var_index, verbose=False):
             "field": fields,
         }
 
+        # Primary key -> cr:RecordSet.key (only keys whose variables are in this file)
+        key_field_ids = [var_id_to_field_id[v] for v in pk_var_ids
+                         if v in var_id_to_field_id]
+        if key_field_ids:
+            rs["key"] = ([{"@id": fid} for fid in key_field_ids]
+                         if len(key_field_ids) > 1 else {"@id": key_field_ids[0]})
+
         desc = _get(part_obj, "schema:description")
         if desc and desc not in ("", "default description"):
             cleaned = re.sub(r"sha256:\w+\s*;\s*", "", desc).strip()
@@ -516,7 +622,8 @@ def _convert_record_sets(tabular_files, var_index, verbose=False):
 
         record_sets.append(rs)
         if verbose:
-            print(f"  RecordSet '{rs_name}' with {len(fields)} fields")
+            print(f"  RecordSet '{rs_name}' with {len(fields)} fields"
+                  + (f", key={key_field_ids}" if key_field_ids else ""))
 
     return record_sets
 
@@ -601,9 +708,20 @@ def convert_cdif_to_croissant(cdif, verbose=False):
     if lang:
         cr["inLanguage"] = lang
 
+    # schema:sameAs: Croissant expects URL(s). CDIF may carry a PropertyValue or
+    # object; extract a URL string from each.
     same = _get(cdif, "schema:sameAs")
     if same:
-        cr["sameAs"] = same
+        same_urls = []
+        for s in _as_list(same):
+            if isinstance(s, str):
+                same_urls.append(s)
+            elif isinstance(s, dict):
+                u = _get(s, "schema:url", "@id", "schema:value")
+                if u:
+                    same_urls.append(u)
+        if same_urls:
+            cr["sameAs"] = same_urls if len(same_urls) > 1 else same_urls[0]
 
     # publisher
     pub = _get(cdif, "schema:publisher")
@@ -651,12 +769,12 @@ def convert_cdif_to_croissant(cdif, verbose=False):
     if tabular_files and var_index:
         if verbose:
             print("Building RecordSets from physical mappings...")
-        rsets = _convert_record_sets(tabular_files, var_index, verbose=verbose)
+        rsets = _convert_record_sets(tabular_files, var_index, cdif, verbose=verbose)
         if rsets:
             cr["recordSet"] = rsets
     elif var_index and not tabular_files:
         warnings.append("variableMeasured present but no distribution has "
-                        "cdi:hasPhysicalMapping; cannot generate RecordSets")
+                        "cdif:hasPhysicalMapping; cannot generate RecordSets")
 
     # -- pass through CDIF properties with no native Croissant mapping ---
     # These are preserved verbatim so the Croissant document retains the
@@ -679,6 +797,7 @@ def convert_cdif_to_croissant(cdif, verbose=False):
         "dcterms": "http://purl.org/dc/terms/",
         "spdx":   "http://spdx.org/rdf/terms#",
         "cdi":    "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "cdif":   "https://w3id.org/cdif/",
         "csvw":   "http://www.w3.org/ns/csvw#",
     }
 
@@ -698,6 +817,7 @@ def convert_cdif_to_croissant(cdif, verbose=False):
         "schema:keywords", "schema:inLanguage", "schema:sameAs",
         "schema:publisher", "schema:funding", "schema:distribution",
         "schema:variableMeasured", "schema:additionalType",
+        "cdif:hasPrimaryKey",
     }
     _HANDLED_PREFIXES.update(_PASSTHROUGH_PROPS)
     _HANDLED_PREFIXES.update({"@schema", "@context", "@id", "@type"})

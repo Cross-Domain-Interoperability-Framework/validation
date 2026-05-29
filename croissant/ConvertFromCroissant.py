@@ -2,20 +2,24 @@
 """
 ConvertFromCroissant.py - Convert Croissant JSON-LD metadata to CDIF DataDescription.
 
-Reads a Croissant (mlcommons.org/croissant/1.0) JSON-LD document and produces
-a CDIF DataDescription JSON-LD document. Handles the lossless subset:
+Reads a Croissant (mlcommons.org/croissant 1.1 or 1.0) JSON-LD document and
+produces a CDIF DataDescription JSON-LD document in the current cdif: schema.
+Handles the lossless subset:
   - Discovery-level metadata (name, description, creators, license, ...)
   - Distribution / FileObject inventory (flat + archive with containedIn)
-  - Tabular RecordSet / Field -> cdi:InstanceVariable + cdi:hasPhysicalMapping
+  - Tabular RecordSet / Field -> cdi:InstanceVariable + cdif:hasPhysicalMapping
+  - RecordSet key -> cdif:hasPrimaryKey
 
 See CroissantToCDIF.md for the full mapping and limitations.
 
-Mapping summary:
+Mapping summary (current CDIF cdif: schema):
   Croissant cr:FileObject              -> CDIF schema:DataDownload
   Croissant cr:FileObject (containedIn)-> CDIF schema:hasPart item of archive DataDownload
-  Croissant cr:RecordSet               -> attaches cdi:hasPhysicalMapping to the source file
+  Croissant cr:RecordSet               -> attaches cdif:hasPhysicalMapping to the source file
   Croissant cr:Field                   -> CDIF schema:variableMeasured InstanceVariable
+  Croissant cr:Field.dataType          -> cdif:physicalDataType (+ cdi:hasIntendedDataType)
   Croissant equivalentProperty         -> CDIF schema:propertyID
+  Croissant cr:RecordSet.key           -> CDIF cdif:hasPrimaryKey (cdif:Key/cdif:isComposedOf)
   Croissant citeAs (DOI)               -> CDIF schema:identifier PropertyValue
 
 Usage:
@@ -44,15 +48,22 @@ CDIF_CONTEXT = {
     "dqv": "http://www.w3.org/ns/dqv#",
 }
 
+# Current CDIF conformance URIs (subjectOf.dcterms:conformsTo). A Croissant
+# RecordSet maps to the DataDescription level; core + discovery are always
+# implied by the discovery foundation.
 CDIF_PROFILE_CONFORMS_TO = [
-    "https://w3id.org/cdif/profiles/discovery",
-    "https://w3id.org/cdif/profiles/datadescription",
-    # Schema-version URIs required by the JSON schemas' subjectOf.dcterms:conformsTo.contains
+    "https://w3id.org/cdif/core/1.0",
     "https://w3id.org/cdif/discovery/1.0",
     "https://w3id.org/cdif/data_description/1.0",
 ]
 
-CROISSANT_SOURCE_URI = "http://mlcommons.org/croissant/1.0"
+# Accept either Croissant version on input; the converter is version-agnostic
+# for the lossless subset it handles.
+CROISSANT_SOURCE_URIS = (
+    "http://mlcommons.org/croissant/1.1",
+    "http://mlcommons.org/croissant/1.0",
+)
+CROISSANT_SOURCE_URI = CROISSANT_SOURCE_URIS[0]  # default/preferred (1.1)
 
 # Inverse of ConvertToCroissant.py DATATYPE_MAP
 DATATYPE_INVERSE = {
@@ -62,6 +73,16 @@ DATATYPE_INVERSE = {
     "sc:Boolean": "xsd:boolean",
     "sc:Text": "xsd:string",
     "sc:URL": "xsd:anyURI",
+}
+
+# xsd token -> XMLSchema datatype IRI (for cdi:hasIntendedDataType)
+_XSD_IRI = {
+    "xsd:decimal": "https://www.w3.org/TR/xmlschema-2/#decimal",
+    "xsd:integer": "https://www.w3.org/TR/xmlschema-2/#integer",
+    "xsd:dateTime": "https://www.w3.org/TR/xmlschema-2/#dateTime",
+    "xsd:boolean": "https://www.w3.org/TR/xmlschema-2/#boolean",
+    "xsd:string": "https://www.w3.org/TR/xmlschema-2/#string",
+    "xsd:anyURI": "https://www.w3.org/TR/xmlschema-2/#anyURI",
 }
 
 OGC_NIL_INAPPLICABLE = "http://www.opengis.net/def/nil/ogc/0/inapplicable"
@@ -463,6 +484,7 @@ def _convert_fields_to_cdif(record_sets_by_file, node_for_file_id, verbose=False
     variables = []
     seen_var_ids = set()
     mappings_by_file_id = {}
+    field_ref_to_var_id = {}   # Croissant field @id/name -> CDIF variable @id
 
     for fid, rs_groups in record_sets_by_file.items():
         if fid is None:
@@ -486,6 +508,11 @@ def _convert_fields_to_cdif(record_sets_by_file, node_for_file_id, verbose=False
             if var_id in seen_var_ids:
                 var_id = f"{var_id}_{ordinal}"
             seen_var_ids.add(var_id)
+            # Record both the field name and its @id so a RecordSet.key that
+            # references either can be resolved back to this variable.
+            field_ref_to_var_id[fname] = var_id
+            if fld.get("@id"):
+                field_ref_to_var_id[fld["@id"]] = var_id
 
             var_node = {
                 "@id": var_id,
@@ -500,35 +527,60 @@ def _convert_fields_to_cdif(record_sets_by_file, node_for_file_id, verbose=False
             if eq:
                 var_node["schema:propertyID"] = eq
 
+            # Croissant dataType -> current cdif: shape: a single-valued
+            # cdif:physicalDataType (xsd token) on the variable, plus the
+            # intended-type IRI. No cdi:ValueDomain wrapper.
             dtype = fld.get("dataType")
             if dtype:
                 if isinstance(dtype, list):
                     dtype = dtype[0] if dtype else None
                 xsd_type = DATATYPE_INVERSE.get(dtype, "xsd:string")
-                var_node["cdi:hasValueDomain"] = {
-                    "@type": ["cdi:ValueDomain", "cdif:SubstantiveValueDomain"],
-                    "cdi:physicalDataType": xsd_type,
+                var_node["cdif:physicalDataType"] = xsd_type
+                var_node["cdi:hasIntendedDataType"] = {
+                    "@id": _XSD_IRI.get(xsd_type, "https://www.w3.org/TR/xmlschema-2/#string")
                 }
 
             variables.append(var_node)
 
+            # Current physical-mapping shape: cdif:index (column ordinal),
+            # cdif:physicalDataType (storage token), cdif:formats_InstanceVariable
+            # (link to the variable). No cdi:locator / cdi:ValueMapping type.
             mapping = {
-                "@type": ["cdi:PhysicalMapping", "cdi:ValueMapping"],
-                "cdi:hasIndex": ordinal,
-                "cdi:isDefinedBy_InstanceVariable": {"@id": var_id},
+                "cdif:index": ordinal,
+                "cdif:formats_InstanceVariable": {"@id": var_id},
             }
-            col = _field_extract_column(fld)
-            if col:
-                mapping["cdi:locator"] = col
-            else:
-                # Fall back to the field name as the column header
-                mapping["cdi:locator"] = fname
+            if dtype:
+                mapping["cdif:physicalDataType"] = DATATYPE_INVERSE.get(dtype, "xsd:string")
             mappings.append(mapping)
 
         if mappings:
             mappings_by_file_id[fid] = mappings
 
-    return variables, mappings_by_file_id
+    return variables, mappings_by_file_id, field_ref_to_var_id
+
+
+def _convert_primary_key(croissant, field_ref_to_var_id):
+    """Croissant cr:RecordSet.key -> CDIF cdif:hasPrimaryKey.
+
+    Emits a cdif:Key whose cdif:isComposedOf is the ordered list of the key
+    fields' InstanceVariable @ids. Returns None if no resolvable key."""
+    refs = []
+    for rs in _as_list(croissant.get("recordSet", [])):
+        if not isinstance(rs, dict):
+            continue
+        for k in _as_list(rs.get("key")):
+            ref = k.get("@id") if isinstance(k, dict) else k
+            if not ref:
+                continue
+            var_id = field_ref_to_var_id.get(ref)
+            if not var_id:
+                # key may reference "recordset/field"; try the trailing segment
+                var_id = field_ref_to_var_id.get(str(ref).split("/")[-1])
+            if var_id:
+                refs.append({"@id": var_id})
+    if not refs:
+        return None
+    return {"@type": ["cdif:Key"], "cdif:isComposedOf": refs}
 
 
 # ---------------------------------------------------------------------------
@@ -538,10 +590,11 @@ def _convert_fields_to_cdif(record_sets_by_file, node_for_file_id, verbose=False
 def convert(croissant, verbose=False):
     """Convert a Croissant JSON-LD dict to a CDIF DataDescription JSON-LD dict."""
 
-    # Sanity check
-    if croissant.get("conformsTo") != CROISSANT_SOURCE_URI and verbose:
-        print(f"  NOTE: input conformsTo is {croissant.get('conformsTo')!r}; "
-              f"expected {CROISSANT_SOURCE_URI!r}")
+    # Sanity check — accept Croissant 1.0 or 1.1
+    src_conforms = croissant.get("conformsTo")
+    if src_conforms not in CROISSANT_SOURCE_URIS and verbose:
+        print(f"  NOTE: input conformsTo is {src_conforms!r}; "
+              f"expected one of {CROISSANT_SOURCE_URIS!r}")
 
     # Merge any prefix declarations from the source Croissant @context that
     # CDIF_CONTEXT doesn't already cover (needed when pass-through properties
@@ -626,19 +679,24 @@ def convert(croissant, verbose=False):
     cdif_distribution, node_for_file_id = _convert_distribution(
         croissant, record_sets_by_file, verbose=verbose)
 
-    variables, mappings_by_file = _convert_fields_to_cdif(
+    variables, mappings_by_file, field_ref_to_var_id = _convert_fields_to_cdif(
         record_sets_by_file, node_for_file_id, verbose=verbose)
 
-    # Attach hasPhysicalMapping arrays to the right nodes
+    # Attach hasPhysicalMapping arrays to the right nodes (current cdif: name)
     for fid, mappings in mappings_by_file.items():
         node = node_for_file_id.get(fid)
         if node is not None:
-            node["cdi:hasPhysicalMapping"] = mappings
+            node["cdif:hasPhysicalMapping"] = mappings
 
     if cdif_distribution:
         out["schema:distribution"] = cdif_distribution
     if variables:
         out["schema:variableMeasured"] = variables
+
+    # RecordSet primary key -> cdif:hasPrimaryKey
+    primary_key = _convert_primary_key(croissant, field_ref_to_var_id)
+    if primary_key:
+        out["cdif:hasPrimaryKey"] = primary_key
 
     # ---- Pass-through properties (preserved by the forward converter) ----
     PASS_THROUGH = [
@@ -659,8 +717,13 @@ def convert(croissant, verbose=False):
     # @type includes schema:Dataset so the CDIF frame keeps the block
     # (CDIF-frame-2026.jsonld filters subjectOf on @type: schema:Dataset).
     if "schema:subjectOf" not in out:
+        # Current CDIF catalog-record shape: a schema:Dataset bearing
+        # schema:additionalType "dcat:CatalogRecord", schema:about pointing at
+        # the described dataset, and dcterms:conformsTo profile URIs.
         subject_of = {
-            "@type": ["schema:Dataset", "dcat:CatalogRecord"],
+            "@type": ["schema:Dataset"],
+            "schema:additionalType": ["dcat:CatalogRecord"],
+            "schema:about": {"@id": out["@id"]},
             "dcterms:conformsTo": [{"@id": uri}
                                    for uri in CDIF_PROFILE_CONFORMS_TO],
         }
@@ -678,8 +741,8 @@ def convert(croissant, verbose=False):
         print(f"  distribution: {len(cdif_distribution)} entr(ies)")
         print(f"  variableMeasured: {len(variables)} InstanceVariable(s)")
         attached_files = sum(1 for n in node_for_file_id.values()
-                             if "cdi:hasPhysicalMapping" in n)
-        print(f"  cdi:hasPhysicalMapping attached to {attached_files} file(s)")
+                             if "cdif:hasPhysicalMapping" in n)
+        print(f"  cdif:hasPhysicalMapping attached to {attached_files} file(s)")
 
     return out
 
