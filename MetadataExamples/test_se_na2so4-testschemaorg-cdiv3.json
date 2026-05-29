@@ -1,337 +1,439 @@
 {
-    "@context": [
-        "https://docs.ddialliance.org/DDI-CDI/1.0/model/encoding/json-ld/ddi-cdi.jsonld",
-        {
-            "schema": "http://schema.org/",
-            "dcterms": "http://purl.org/dc/terms/",
-            "geosparql": "http://www.opengis.net/ont/geosparql#",
-            "spdx": "http://spdx.org/rdf/terms#",
-            "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-            "time": "http://www.w3.org/2006/time#",
-            "skos": "http://www.w3.org/2004/02/skos/core#",
-            "xas": "http://cdi4exas.org/",
-            "csvw": "http://www.w3.org/ns/csvw#",
-            "prov": "http://www.w3.org/ns/prov#",
-            "dcat": "http://www.w3.org/ns/dcat#",
-            "cdifq": "http://crossdomaininteroperability.org/cdifq/"
-        }
-    ],
-    "@id": "xas:485749",
-    "@type": [
-        "schema:Dataset",
-        "schema:Product"
-    ],
-    "schema:name": "X-ray absorption spectra for K edge, selenium in sodium selenate",
-    "schema:description": "comment from xdi file: room temperature; measured at beamline 13-BM-D.  need a better description of what's in this datasset-- maybe the DCAT metadata has what we need?",
-    "schema:identifier": "should have a DOI",
-    "schema:url": "https://github.com/XraySpectroscopy/XASDataLibrary/blob/master/data/Se/Se_Na2SeO4_rt_01.xdi",
-    "schema:dateModified": "2026-02-28",
-    "schema:contributor": [
-        {
-            "@type": "schema:Role",
-            "schema:roleName": "Facility",
-            "schema:contributor": {
-                "@type": "schema:Organization",
-                "@id": "#aps",
-                "schema:name": "Advanced Photon Source (APS)"
-            }
-        }
-    ],
-    "schema:license": ["https://creativecommons.org/publicdomain/zero/1.0/"],
-    "schema:distribution": [
-        {
-            "@type": [
-                "schema:DataDownload",
-                "cdi:PhysicalDataSet"
-            ],
-            "schema:contentUrl": "https://github.com/XraySpectroscopy/XASDataLibrary/blob/master/data/Se/Se_Na2SeO4_rt_01.xdi",
-            "schema:description": "Distribution = PhysicalDataSet text file conformant with XDI specification",
-            "schema:contentSize": "30 kb",
-            "schema:encodingFormat": ["text/plain"],
-            "dcterms:conformsTo": ["https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/spec.md"],
-            "cdi:allowsDuplicates": false,
-            "cdi:isStructuredBy": {
-                "@type": "cdi:WideDataStructure",
-                "cdi:has_DataStructureComponent": [
-                    {
-                        "@type": "cdi:IdentifierComponent",
-                        "cdi:isDefinedBy_InstanceVariable": {"@id": "xas:monochromatorEnergyVariable"},
-                        "cdi:has": {
-                            "@type": "cdi:ValueMapping",
-                            "cdi:hasIndex": 1,
-                            "cdi:length": 12
-                        }
-                    },
-                    {
-                        "@type": "cdi:MeasureComponent",
-                        "cdi:isDefinedBy_InstanceVariable": {"@id": "xas:incidentIntensityVariable"},
-                        "cdi:has": {
-                            "@type": "cdi:ValueMapping",
-                            "cdi:hasIndex": 3,
-                            "cdi:length": 13
-                        }
-                    },
-                    {
-                        "@type": "cdi:MeasureComponent",
-                        "cdi:isDefinedBy_InstanceVariable": {"@id": "xas:transmittedIntensityVariable"},
-                        "cdi:has": {
-                            "@type": "cdi:ValueMapping",
-                            "cdi:hasIndex": 2,
-                            "cdi:length": 12
-                        }
-                    }
-                ],
-                "cdi:allowsDuplicates": false,
-                "cdi:arrayBase": 1,
-                "csvw:commentPrefix": "#",
-                "csvw:header": true,
-                "csvw:headerRowCount": 27,
-                "csvw:skipInitialSpace": true,
-                "cdi:isDelimited": false,
-                "cdi:isFixedWidth": true,
-                "cdifq:nColumns": 3,
-                "cdifq:nRows": 469
-            }
-        }
-    ],
-    "schema:measurementTechnique": {
-        "@type": "schema:DefinedTerm",
-        "schema:name": "X-Ray Absorption Spectroscopy",
-        "schema:termCode": "XAS",
-        "schema:identifier": "http://purl.org/pan-science/PaNET/PaNET01196",
-        "schema:inDefinedTermSet": "http://purl.org/pan-science/PaNET/PaNET.owl"
-    },
-    "schema:keywords": [
-        {
-            "@type": "schema:DefinedTerm",
-            "schema:name": "Selenium",
-            "schema:termCode": "Se",
-            "schema:identifier": [{"@type":"schema:PropertyValue","schema:propertyID": [{"@id": "http://www.opengis.net/def/nil/OGC/0/missing"}],"schema:url":"http://sweetontology.net/matrElement/Selenium"}],
-            "schema:inDefinedTermSet": "http://sweetontology.net/matrElement"
-        },
-        {
-            "@type": "schema:DefinedTerm",
-            "schema:name": "K-edge",
-            "schema:termCode": "K",
-            "schema:inDefinedTermSet": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md"
-        }
-    ],
-    "prov:wasGeneratedBy": {
-        "@type": [
-            "schema:Action",
-            "prov:Activity"
-        ],
-        "schema:identifier": "20241111_DSC_NU_OREX-803224-0_1",
-        "schema:startDate": "2008-04-10T21:58:50",
-        "prov:used": [
-            {
-                "@type": [
-                    "schema:Thing",
-                    "prov:Entity",
-                    "xas:Beamline"
-                ],
-                "schema:name": "13-BM-D",
-                "schema:identifier": "should have a registry with URIs",
-                "schema:additionalProperty": [
-                    {
-                        "@type": "schema:PropertyValue",
-                        "schema:propertyID": [{"@id": "xas:collimation"}],
-                        "schema:name": "collimation",
-                        "schema:value": "none"
-                    },
-                    {
-                        "@type": "schema:PropertyValue",
-                        "schema:propertyID": [{"@id": "xas:focusing"}],
-                        "schema:name": "focusing",
-                        "schema:value": "???"
-                    },
-                    {
-                        "@type": "schema:PropertyValue",
-                        "schema:propertyID": [{"@id": "xas:harmonic_rejection"}],
-                        "schema:name": "harmonic_rejection",
-                        "schema:value": "Rh-coated mirror, detuned"
-                    }
-                ]
-            },
-            {
-                "@type": [
-                    "schema:Thing",
-                    "xas:Monochromator"
-                ],
-                "schema:name": "Si 111",
-                "schema:additionalProperty": [
-                    {
-                        "@type": "schema:PropertyValue",
-                        "schema:propertyID": [{"@id": "xas:d_spacing"}],
-                        "schema:name": "d-spacing",
-                        "schema:value": "3.13550",
-                        "schema:unitText": "Angstrom"
-                    }
-                ]
-            },
-            {
-                "@id": "xas:Detector10cmN2",
-                "@type": "schema:Thing",
-                "schema:additionalType": "xas:Detector",
-                "schema:additionalProperty": [
-                    {
-                        "@type": "schema:PropertyValue",
-                        "schema:propertyID": [{"@id": "xas:flux_measure_method"}],
-                        "schema:name": "flux measurement method",
-                        "schema:alternateName": "detector mode",
-                        "schema:value": "10cm  N2"
-                    }
-                ]
-            }
-        ],
-        "schema:additionalProperty": [
-            {
-                "@type": "schema:PropertyValue",
-                "schema:propertyID": [{"@id": "xas:pressure"}],
-                "schema:name": "pressure",
-                "schema:description": "extrinsic properties of measurement environment--temperature, pressure, e-field, mag-field.  have to check magnetic_moment, electrochemical_potential",
-                "schema:value": 3567,
-                "schema:unitText": "KPa"
-            },
-            {
-                "@type": "schema:PropertyValue",
-                "schema:propertyID": [{"@id": "xas:edge_energy"}],
-                "schema:name": "edge energy",
-                "schema:value": "12658.0",
-                "schema:unitText": "eV"
-            }
-        ],
-        "schema:location": {
-            "@type": [
-                "schema:Place",
-                "xas:Facility"
-            ],
-            "schema:identifier": "https://ror.org/aps",
-            "schema:name": "Advanced Photon Source (APS)",
-            "schema:additionalProperty": [
-                {
-                    "@type": "schema:PropertyValue",
-                    "schema:propertyID": [{"@id": "xas:facility_energy"}],
-                    "schema:name": "facility energy",
-                    "schema:value": "7.00",
-                    "schema:unitText": "GeV"
-                },
-                {
-                    "@type": "schema:PropertyValue",
-                    "schema:propertyID": [{"@id": "xas:xray_source_type"}],
-                    "schema:name": "X-ray source type",
-                    "schema:value": "APS bending magnet"
-                }
-            ]
-        },
-        "schema:object": {
-            "@type": "schema:Thing",
-            "schema:additionalType": [
-                "MaterialSample",
-                "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
-            ],
-            "schema:name": "Na2SeO4",
-            "schema:description": "physical properties of sample: ph, eh, volume, porosity, density, concentration, resistivity, viscosity, crystal structure, opacity from xdi list...",
-            "schema:additionalProperty": [
-                {
-                    "@type": "schema:PropertyValue",
-                    "schema:propertyID": [{"@id": "xas:porosity"}],
-                    "schema:name": "porosity",
-                    "schema:value": 27,
-                    "schema:unitText": "percent"
-                },
-                {
-                    "@type": "schema:PropertyValue",
-                    "schema:propertyID": [{"@id": "xas:chemical_composition"}],
-                    "schema:name": "chemical composition",
-                    "schema:value": "Na2SeO4"
-                },
-                {
-                    "@type": "schema:PropertyValue",
-                    "schema:propertyID": [{"@id": "xas:sample_preparation"}],
-                    "schema:name": "sample preparation",
-                    "schema:value": "powder on tape, 6 layers"
-                }
-            ]
-        }
-    },
-    "schema:variableMeasured": [
-        {
-            "@id": "xas:monochromatorEnergyVariable",
-            "@type": [
-                "cdi:InstanceVariable",
-                "schema:PropertyValue"
-            ],
-            "schema:name": "energy",
-            "schema:alternateName": "Monochromator energy",
-            "schema:description": "The energy selected by the X-ray monochromator and delivered to the sample during an absorption scan.",
-            "schema:propertyID": [{"@id": "xas:Monochromator_Energy"}],
-            "schema:unitText": "eV",
-            "cdi:identifier": "should be URI from nexusFormat organization",
-            "cdi:physicalDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
-            "cdi:simpleUnitOfMeasure": "eV",
-            "cdi:uses": "xas:Monochromator_Energy",
-            "cdi:name": "energy",
-            "cdi:displayLabel": "monochromator energy"
-        },
-        {
-            "@id": "xas:incidentIntensityVariable",
-            "@type": [
-                "cdi:InstanceVariable",
-                "schema:PropertyValue"
-            ],
-            "schema:name": "i0",
-            "schema:alternateName": "Monitor intensity",
-            "schema:description": "The measured X-ray intensity before it interacts with the sample. ",
-            "schema:propertyID": [{"@id": "xas:Incident_Intensity"}],
-            "schema:unitText": "counts",
-            "schema:measurementTechnique": {"@id": "xas:Detector10cmN2"},
-            "cdi:identifier": "should be URI from nexusFormat organization",
-            "cdi:physicalDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
-            "cdi:uses": "xas:Incident_Intensity",
-            "cdi:name": "i0",
-            "cdi:displayLabel": "monitor intensity"
-        },
-        {
-            "@id": "xas:transmittedIntensityVariable",
-            "@type": [
-                "cdi:InstanceVariable",
-                "schema:PropertyValue"
-            ],
-            "schema:description": "missing, definition of what this variable is about (maybe even an iAdopt description",
-            "schema:propertyID": [{"@id": "xas:Transmitted_Intensity"}],
-            "schema:unitText": "counts",
-            "schema:name": "itrans",
-            "schema:alternateName": "transmission intensity",
-            "schema:measurementTechnique": {"@id": "xas:Detector10cmN2"},
-            "cdi:physicalDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
-            "cdi:identifier": "should be URI from nexusFormat organization",
-            "cdi:uses": "xas:Transmitted_Intensity",
-            "cdi:name": "itrans",
-            "cdi:displayLabel": "transmission intensity"
-        }
-    ],
-    "schema:subjectOf": {
-        "@id": "xas:ja51-pz63",
-        "@type": "schema:Dataset",
-        "schema:additionalType": ["dcat:CatalogRecord"],
-        "schema:dateModified": "2025-08-26",
-        "schema:creator": [
-            {
-                "@id": "https://ada.org/person/3479",
-                "@type": "schema:Person",
-                "schema:name": "Richard, Stephen M.",
-                "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
-                "schema:email": "smrTucson@email.org"
-            }
-        ],
-        "schema:about": {"@id": "xas:485749"},
-        "schema:description": "metadata about documentation for se_na2so4",
-        "dcterms:conformsTo": [
-            {"@id": "https://w3id.org/cdif/core/1.0/"},
-            {"@id": "https://w3id.org/cdif/discovery/1.0/"},
-            {"@id": "https://w3id.org/cdif/xasDiscovery/1.0/"},
-            {"@id": "https://w3id.org/cdif/xasCore/1.0/"}
-        ]
+  "@context": [
+    "https://docs.ddialliance.org/DDI-CDI/1.0/model/encoding/json-ld/ddi-cdi.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "geosparql": "http://www.opengis.net/ont/geosparql#",
+      "spdx": "http://spdx.org/rdf/terms#",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "time": "http://www.w3.org/2006/time#",
+      "skos": "http://www.w3.org/2004/02/skos/core#",
+      "xas": "http://cdi4exas.org/",
+      "csvw": "http://www.w3.org/ns/csvw#",
+      "prov": "http://www.w3.org/ns/prov#",
+      "dcat": "http://www.w3.org/ns/dcat#",
+      "cdifq": "http://crossdomaininteroperability.org/cdifq/",
+      "cdif": "https://w3id.org/cdif/"
     }
+  ],
+  "@id": "xas:485749",
+  "@type": [
+    "schema:Dataset",
+    "schema:Product"
+  ],
+  "schema:name": "X-ray absorption spectra for K edge, selenium in sodium selenate",
+  "schema:description": "comment from xdi file: room temperature; measured at beamline 13-BM-D.  need a better description of what's in this datasset-- maybe the DCAT metadata has what we need?",
+  "schema:identifier": "should have a DOI",
+  "schema:url": "https://github.com/XraySpectroscopy/XASDataLibrary/blob/master/data/Se/Se_Na2SeO4_rt_01.xdi",
+  "schema:dateModified": "2026-02-28",
+  "schema:contributor": [
+    {
+      "@type": "schema:Role",
+      "schema:roleName": "Facility",
+      "schema:contributor": {
+        "@type": "schema:Organization",
+        "@id": "#aps",
+        "schema:name": "Advanced Photon Source (APS)"
+      }
+    }
+  ],
+  "schema:license": [
+    "https://creativecommons.org/publicdomain/zero/1.0/"
+  ],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload",
+        "cdi:PhysicalDataSet"
+      ],
+      "schema:contentUrl": "https://github.com/XraySpectroscopy/XASDataLibrary/blob/master/data/Se/Se_Na2SeO4_rt_01.xdi",
+      "schema:description": "Distribution = PhysicalDataSet text file conformant with XDI specification",
+      "schema:contentSize": "30 kb",
+      "schema:encodingFormat": [
+        "text/plain"
+      ],
+      "dcterms:conformsTo": [
+        "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/spec.md"
+      ],
+      "cdi:allowsDuplicates": false,
+      "cdi:isStructuredBy": {
+        "@type": "cdi:WideDataStructure",
+        "cdi:has_DataStructureComponent": [
+          {
+            "@type": "cdi:IdentifierComponent",
+            "cdif:formats_InstanceVariable": {
+              "@id": "xas:monochromatorEnergyVariable"
+            },
+            "cdi:has": {
+              "@type": "cdi:ValueMapping",
+              "cdif:index": 1,
+              "cdi:length": 12
+            }
+          },
+          {
+            "@type": "cdi:MeasureComponent",
+            "cdif:formats_InstanceVariable": {
+              "@id": "xas:incidentIntensityVariable"
+            },
+            "cdi:has": {
+              "@type": "cdi:ValueMapping",
+              "cdif:index": 3,
+              "cdi:length": 13
+            }
+          },
+          {
+            "@type": "cdi:MeasureComponent",
+            "cdif:formats_InstanceVariable": {
+              "@id": "xas:transmittedIntensityVariable"
+            },
+            "cdi:has": {
+              "@type": "cdi:ValueMapping",
+              "cdif:index": 2,
+              "cdi:length": 12
+            }
+          }
+        ],
+        "cdi:allowsDuplicates": false,
+        "cdi:arrayBase": 1,
+        "csvw:commentPrefix": "#",
+        "csvw:header": true,
+        "csvw:headerRowCount": 27,
+        "csvw:skipInitialSpace": true,
+        "cdi:isDelimited": false,
+        "cdi:isFixedWidth": true,
+        "cdifq:nColumns": 3,
+        "cdifq:nRows": 469
+      }
+    }
+  ],
+  "schema:measurementTechnique": {
+    "@type": "schema:DefinedTerm",
+    "schema:name": "X-Ray Absorption Spectroscopy",
+    "schema:termCode": "XAS",
+    "schema:identifier": "http://purl.org/pan-science/PaNET/PaNET01196",
+    "schema:inDefinedTermSet": "http://purl.org/pan-science/PaNET/PaNET.owl"
+  },
+  "schema:keywords": [
+    {
+      "@type": "schema:DefinedTerm",
+      "schema:name": "Selenium",
+      "schema:termCode": "Se",
+      "schema:identifier": [
+        {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": [
+            {
+              "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+            }
+          ],
+          "schema:url": "http://sweetontology.net/matrElement/Selenium"
+        }
+      ],
+      "schema:inDefinedTermSet": "http://sweetontology.net/matrElement"
+    },
+    {
+      "@type": "schema:DefinedTerm",
+      "schema:name": "K-edge",
+      "schema:termCode": "K",
+      "schema:inDefinedTermSet": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md"
+    }
+  ],
+  "prov:wasGeneratedBy": {
+    "@type": [
+      "schema:Action",
+      "prov:Activity"
+    ],
+    "schema:identifier": "20241111_DSC_NU_OREX-803224-0_1",
+    "schema:startDate": "2008-04-10T21:58:50",
+    "prov:used": [
+      {
+        "@type": [
+          "schema:Thing",
+          "prov:Entity",
+          "xas:Beamline"
+        ],
+        "schema:name": "13-BM-D",
+        "schema:identifier": "should have a registry with URIs",
+        "schema:additionalProperty": [
+          {
+            "@type": "schema:PropertyValue",
+            "schema:propertyID": [
+              {
+                "@id": "xas:collimation"
+              }
+            ],
+            "schema:name": "collimation",
+            "schema:value": "none"
+          },
+          {
+            "@type": "schema:PropertyValue",
+            "schema:propertyID": [
+              {
+                "@id": "xas:focusing"
+              }
+            ],
+            "schema:name": "focusing",
+            "schema:value": "???"
+          },
+          {
+            "@type": "schema:PropertyValue",
+            "schema:propertyID": [
+              {
+                "@id": "xas:harmonic_rejection"
+              }
+            ],
+            "schema:name": "harmonic_rejection",
+            "schema:value": "Rh-coated mirror, detuned"
+          }
+        ]
+      },
+      {
+        "@type": [
+          "schema:Thing",
+          "xas:Monochromator"
+        ],
+        "schema:name": "Si 111",
+        "schema:additionalProperty": [
+          {
+            "@type": "schema:PropertyValue",
+            "schema:propertyID": [
+              {
+                "@id": "xas:d_spacing"
+              }
+            ],
+            "schema:name": "d-spacing",
+            "schema:value": "3.13550",
+            "schema:unitText": "Angstrom"
+          }
+        ]
+      },
+      {
+        "@id": "xas:Detector10cmN2",
+        "@type": "schema:Thing",
+        "schema:additionalType": "xas:Detector",
+        "schema:additionalProperty": [
+          {
+            "@type": "schema:PropertyValue",
+            "schema:propertyID": [
+              {
+                "@id": "xas:flux_measure_method"
+              }
+            ],
+            "schema:name": "flux measurement method",
+            "schema:alternateName": "detector mode",
+            "schema:value": "10cm  N2"
+          }
+        ]
+      }
+    ],
+    "schema:additionalProperty": [
+      {
+        "@type": "schema:PropertyValue",
+        "schema:propertyID": [
+          {
+            "@id": "xas:pressure"
+          }
+        ],
+        "schema:name": "pressure",
+        "schema:description": "extrinsic properties of measurement environment--temperature, pressure, e-field, mag-field.  have to check magnetic_moment, electrochemical_potential",
+        "schema:value": 3567,
+        "schema:unitText": "KPa"
+      },
+      {
+        "@type": "schema:PropertyValue",
+        "schema:propertyID": [
+          {
+            "@id": "xas:edge_energy"
+          }
+        ],
+        "schema:name": "edge energy",
+        "schema:value": "12658.0",
+        "schema:unitText": "eV"
+      }
+    ],
+    "schema:location": {
+      "@type": [
+        "schema:Place",
+        "xas:Facility"
+      ],
+      "schema:identifier": "https://ror.org/aps",
+      "schema:name": "Advanced Photon Source (APS)",
+      "schema:additionalProperty": [
+        {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": [
+            {
+              "@id": "xas:facility_energy"
+            }
+          ],
+          "schema:name": "facility energy",
+          "schema:value": "7.00",
+          "schema:unitText": "GeV"
+        },
+        {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": [
+            {
+              "@id": "xas:xray_source_type"
+            }
+          ],
+          "schema:name": "X-ray source type",
+          "schema:value": "APS bending magnet"
+        }
+      ]
+    },
+    "schema:object": {
+      "@type": "schema:Thing",
+      "schema:additionalType": [
+        "MaterialSample",
+        "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+      ],
+      "schema:name": "Na2SeO4",
+      "schema:description": "physical properties of sample: ph, eh, volume, porosity, density, concentration, resistivity, viscosity, crystal structure, opacity from xdi list...",
+      "schema:additionalProperty": [
+        {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": [
+            {
+              "@id": "xas:porosity"
+            }
+          ],
+          "schema:name": "porosity",
+          "schema:value": 27,
+          "schema:unitText": "percent"
+        },
+        {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": [
+            {
+              "@id": "xas:chemical_composition"
+            }
+          ],
+          "schema:name": "chemical composition",
+          "schema:value": "Na2SeO4"
+        },
+        {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": [
+            {
+              "@id": "xas:sample_preparation"
+            }
+          ],
+          "schema:name": "sample preparation",
+          "schema:value": "powder on tape, 6 layers"
+        }
+      ]
+    }
+  },
+  "schema:variableMeasured": [
+    {
+      "@id": "xas:monochromatorEnergyVariable",
+      "@type": [
+        "cdi:InstanceVariable",
+        "schema:PropertyValue"
+      ],
+      "schema:name": "energy",
+      "schema:alternateName": "Monochromator energy",
+      "schema:description": "The energy selected by the X-ray monochromator and delivered to the sample during an absorption scan.",
+      "schema:propertyID": [
+        {
+          "@id": "xas:Monochromator_Energy"
+        }
+      ],
+      "schema:unitText": "eV",
+      "cdi:identifier": "should be URI from nexusFormat organization",
+      "cdif:physicalDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdif:simpleUnitOfMeasure": "eV",
+      "cdif:uses": "xas:Monochromator_Energy",
+      "cdif:name": "energy",
+      "cdif:displayLabel": "monochromator energy"
+    },
+    {
+      "@id": "xas:incidentIntensityVariable",
+      "@type": [
+        "cdi:InstanceVariable",
+        "schema:PropertyValue"
+      ],
+      "schema:name": "i0",
+      "schema:alternateName": "Monitor intensity",
+      "schema:description": "The measured X-ray intensity before it interacts with the sample. ",
+      "schema:propertyID": [
+        {
+          "@id": "xas:Incident_Intensity"
+        }
+      ],
+      "schema:unitText": "counts",
+      "schema:measurementTechnique": {
+        "@id": "xas:Detector10cmN2"
+      },
+      "cdi:identifier": "should be URI from nexusFormat organization",
+      "cdif:physicalDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdif:uses": "xas:Incident_Intensity",
+      "cdif:name": "i0",
+      "cdif:displayLabel": "monitor intensity"
+    },
+    {
+      "@id": "xas:transmittedIntensityVariable",
+      "@type": [
+        "cdi:InstanceVariable",
+        "schema:PropertyValue"
+      ],
+      "schema:description": "missing, definition of what this variable is about (maybe even an iAdopt description",
+      "schema:propertyID": [
+        {
+          "@id": "xas:Transmitted_Intensity"
+        }
+      ],
+      "schema:unitText": "counts",
+      "schema:name": "itrans",
+      "schema:alternateName": "transmission intensity",
+      "schema:measurementTechnique": {
+        "@id": "xas:Detector10cmN2"
+      },
+      "cdif:physicalDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdi:identifier": "should be URI from nexusFormat organization",
+      "cdif:uses": "xas:Transmitted_Intensity",
+      "cdif:name": "itrans",
+      "cdif:displayLabel": "transmission intensity"
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "xas:ja51-pz63",
+    "@type": "schema:Dataset",
+    "schema:additionalType": [
+      "dcat:CatalogRecord"
+    ],
+    "schema:dateModified": "2025-08-26",
+    "schema:creator": [
+      {
+        "@id": "https://ada.org/person/3479",
+        "@type": "schema:Person",
+        "schema:name": "Richard, Stephen M.",
+        "schema:identifier": "https://orcid.org/0000-0002-7933-2154",
+        "schema:email": "smrTucson@email.org"
+      }
+    ],
+    "schema:about": {
+      "@id": "xas:485749"
+    },
+    "schema:description": "metadata about documentation for se_na2so4",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.0"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.0"
+      },
+      {
+        "@id": "https://w3id.org/cdif/xasDiscovery/1.0"
+      },
+      {
+        "@id": "https://w3id.org/cdif/xasCore/1.0"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.0"
+      }
+    ]
+  }
 }
