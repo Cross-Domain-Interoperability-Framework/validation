@@ -1,0 +1,434 @@
+{
+    "@context": {
+        "@language": "en",
+        "@vocab": "https://schema.org/",
+        "citeAs": "cr:citeAs",
+        "column": "cr:column",
+        "conformsTo": "dct:conformsTo",
+        "cr": "http://mlcommons.org/croissant/",
+        "rai": "http://mlcommons.org/croissant/RAI/",
+        "data": {
+            "@id": "cr:data",
+            "@type": "@json"
+        },
+        "dataType": {
+            "@id": "cr:dataType",
+            "@type": "@vocab"
+        },
+        "dct": "http://purl.org/dc/terms/",
+        "examples": {
+            "@id": "cr:examples",
+            "@type": "@json"
+        },
+        "extract": "cr:extract",
+        "field": "cr:field",
+        "fileProperty": "cr:fileProperty",
+        "fileObject": "cr:fileObject",
+        "fileSet": "cr:fileSet",
+        "format": "cr:format",
+        "includes": "cr:includes",
+        "isLiveDataset": "cr:isLiveDataset",
+        "jsonPath": "cr:jsonPath",
+        "key": "cr:key",
+        "md5": "cr:md5",
+        "parentField": "cr:parentField",
+        "path": "cr:path",
+        "recordSet": "cr:recordSet",
+        "references": "cr:references",
+        "regex": "cr:regex",
+        "repeated": "cr:repeated",
+        "replace": "cr:replace",
+        "sc": "https://schema.org/",
+        "separator": "cr:separator",
+        "source": "cr:source",
+        "subField": "cr:subField",
+        "transform": "cr:transform",
+        "wd": "https://www.wikidata.org/wiki/"
+    },
+    "@type": "sc:Dataset",
+    "conformsTo": "http://mlcommons.org/croissant/1.0",
+    "name": "Malawi ISC Emergencies",
+    "url": "https://doi.org/10.5072/FK2/SPJJDT",
+    "creator": [
+        {
+            "@type": "Person",
+            "givenName": "Dataverse",
+            "familyName": "Admin",
+            "affiliation": {
+                "@type": "Organization",
+                "name": "Dataverse.org"
+            },
+            "name": "Admin, Dataverse"
+        }
+    ],
+    "description": "Malawi test dataset",
+    "keywords": ["Engineering"],
+    "license": "http://creativecommons.org/publicdomain/zero/1.0",
+    "datePublished": "2025-11-14",
+    "dateModified": "2025-11-14",
+    "includedInDataCatalog": {
+        "@type": "DataCatalog",
+        "name": "Root",
+        "url": "https://dataverse.dev.codata.org"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Root"
+    },
+    "version": "1.0",
+    "citeAs": "@data{FK2/SPJJDT_2025,author = {Admin, Dataverse},publisher = {Root},title = {Malawi ISC Emergencies},year = {2025},url = {https://doi.org/10.5072/FK2/SPJJDT}}",
+    "distribution": [
+        {
+            "@type": "cr:FileObject",
+            "@id": "All round Targets for OCV_20240603.xlsx",
+            "name": "All round Targets for OCV_20240603.xlsx",
+            "encodingFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "md5": "ba47c0c41158a049b0486c377a683de2",
+            "contentSize": "35454",
+            "description": "",
+            "contentUrl": "https://dataverse.dev.codata.org/api/access/datafile/16?format=original"
+        },
+        {
+            "@type": "cr:FileObject",
+            "@id": "cholera_synthetic.csv",
+            "name": "cholera_synthetic.csv",
+            "encodingFormat": "text/csv",
+            "md5": "50a8504d52ebd82cb110bd9098917f24",
+            "contentSize": "5827",
+            "description": "",
+            "contentUrl": "https://dataverse.dev.codata.org/api/access/datafile/15?format=original"
+        },
+        {
+            "@type": "cr:FileObject",
+            "@id": "Daily_Cholera_Case and deaths_Data_2022 to 2025.xlsx",
+            "name": "Daily_Cholera_Case and deaths_Data_2022 to 2025.xlsx",
+            "encodingFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "md5": "0c640062306f85082c022fd805328969",
+            "contentSize": "1672029",
+            "description": "",
+            "contentUrl": "https://dataverse.dev.codata.org/api/access/datafile/17"
+        }
+    ],
+    "recordSet": [
+        {
+            "@type": "cr:RecordSet",
+            "field": [
+                {
+                    "@type": "cr:Field",
+                    "name": "Date",
+                    "description": "Date",
+                    "dataType": "sc:Float",
+                    "source": {
+                        "@id": "111",
+                        "fileObject": {"@id": "All round Targets for OCV_20240603.xlsx"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "HealthZone",
+                    "description": "HealthZone",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "@id": "109",
+                        "fileObject": {"@id": "All round Targets for OCV_20240603.xlsx"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "district",
+                    "description": "district",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "@id": "107",
+                        "fileObject": {"@id": "All round Targets for OCV_20240603.xlsx"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "healthfacility",
+                    "description": "healthfacility",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "@id": "110",
+                        "fileObject": {"@id": "All round Targets for OCV_20240603.xlsx"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "population",
+                    "description": "population",
+                    "dataType": "sc:Float",
+                    "source": {
+                        "@id": "106",
+                        "fileObject": {"@id": "All round Targets for OCV_20240603.xlsx"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "Totalvaccinated",
+                    "description": "Totalvaccinated",
+                    "dataType": "sc:Float",
+                    "source": {
+                        "@id": "108",
+                        "fileObject": {"@id": "All round Targets for OCV_20240603.xlsx"}
+                    }
+                }
+            ]
+        },
+        {
+            "@type": "cr:RecordSet",
+            "field": [
+                {
+                    "@type": "cr:Field",
+                    "name": "district",
+                    "description": "district",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "@id": "88",
+                        "fileObject": {"@id": "cholera_synthetic.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "ta",
+                    "description": "ta",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "@id": "92",
+                        "fileObject": {"@id": "cholera_synthetic.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "village",
+                    "description": "village",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "@id": "101",
+                        "fileObject": {"@id": "cholera_synthetic.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "facility",
+                    "description": "facility",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "@id": "96",
+                        "fileObject": {"@id": "cholera_synthetic.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "sex",
+                    "description": "sex",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "@id": "91",
+                        "fileObject": {"@id": "cholera_synthetic.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "age",
+                    "description": "age",
+                    "dataType": "sc:Float",
+                    "source": {
+                        "@id": "97",
+                        "fileObject": {"@id": "cholera_synthetic.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "age_group",
+                    "description": "age_group",
+                    "dataType": "sc:Float",
+                    "source": {
+                        "@id": "85",
+                        "fileObject": {"@id": "cholera_synthetic.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "occupation",
+                    "description": "occupation",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "@id": "103",
+                        "fileObject": {"@id": "cholera_synthetic.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "country_district_of_origin",
+                    "description": "country_district_of_origin",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "@id": "100",
+                        "fileObject": {"@id": "cholera_synthetic.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "risk_factors",
+                    "description": "risk_factors",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "@id": "86",
+                        "fileObject": {"@id": "cholera_synthetic.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "rdt_negative_positive",
+                    "description": "rdt_negative_positive",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "@id": "104",
+                        "fileObject": {"@id": "cholera_synthetic.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "culture_negative_positive",
+                    "description": "culture_negative_positive",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "@id": "87",
+                        "fileObject": {"@id": "cholera_synthetic.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "epi_link_yes_no",
+                    "description": "epi_link_yes_no",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "@id": "95",
+                        "fileObject": {"@id": "cholera_synthetic.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "status_suspect_confirmed",
+                    "description": "status_suspect_confirmed",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "@id": "81",
+                        "fileObject": {"@id": "cholera_synthetic.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "treatment",
+                    "description": "treatment",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "@id": "105",
+                        "fileObject": {"@id": "cholera_synthetic.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "outcome_dead_alive",
+                    "description": "outcome_dead_alive",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "@id": "84",
+                        "fileObject": {"@id": "cholera_synthetic.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "place_of_death",
+                    "description": "place_of_death",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "@id": "99",
+                        "fileObject": {"@id": "cholera_synthetic.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "vaccination_status",
+                    "description": "vaccination_status",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "@id": "82",
+                        "fileObject": {"@id": "cholera_synthetic.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "number_of_doses_of_vaccine",
+                    "description": "number_of_doses_of_vaccine",
+                    "dataType": "sc:Float",
+                    "source": {
+                        "@id": "98",
+                        "fileObject": {"@id": "cholera_synthetic.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "in_patient_outpatient",
+                    "description": "in_patient_outpatient",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "@id": "93",
+                        "fileObject": {"@id": "cholera_synthetic.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "date_of_onset",
+                    "description": "date_of_onset",
+                    "dataType": "sc:Float",
+                    "source": {
+                        "@id": "89",
+                        "fileObject": {"@id": "cholera_synthetic.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "date_seen_at_health_facility",
+                    "description": "date_seen_at_health_facility",
+                    "dataType": "sc:Float",
+                    "source": {
+                        "@id": "102",
+                        "fileObject": {"@id": "cholera_synthetic.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "specimen_date",
+                    "description": "specimen_date",
+                    "dataType": "sc:Float",
+                    "source": {
+                        "@id": "83",
+                        "fileObject": {"@id": "cholera_synthetic.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "outcome_date",
+                    "description": "outcome_date",
+                    "dataType": "sc:Float",
+                    "source": {
+                        "@id": "90",
+                        "fileObject": {"@id": "cholera_synthetic.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "date_of_last_vaccine_dose",
+                    "description": "date_of_last_vaccine_dose",
+                    "dataType": "sc:Float",
+                    "source": {
+                        "@id": "94",
+                        "fileObject": {"@id": "cholera_synthetic.csv"}
+                    }
+                }
+            ]
+        }
+    ]
+}

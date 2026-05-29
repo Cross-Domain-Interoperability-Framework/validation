@@ -1,0 +1,739 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dqv": "http://www.w3.org/ns/dqv#",
+    "cr": "http://mlcommons.org/croissant/",
+    "rai": "http://mlcommons.org/croissant/RAI/",
+    "dct": "http://purl.org/dc/terms/",
+    "sc": "https://schema.org/",
+    "wd": "https://www.wikidata.org/wiki/"
+  },
+  "@type": [
+    "schema:Dataset"
+  ],
+  "@id": "https://doi.org/10.5072/FK2/BXSHPO",
+  "schema:name": "Earthquake dataset",
+  "schema:description": "Earthquake data from Kaggle",
+  "schema:url": "https://doi.org/10.5072/FK2/BXSHPO",
+  "schema:datePublished": "2025-11-27",
+  "schema:dateModified": "2025-11-27",
+  "schema:includedInDataCatalog": {
+    "@type": "DataCatalog",
+    "name": "Root",
+    "url": "http://localhost:8080"
+  },
+  "schema:version": "1.0",
+  "schema:identifier": {
+    "@type": [
+      "schema:PropertyValue"
+    ],
+    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:value": "10.5072/FK2/BXSHPO",
+    "schema:url": "https://doi.org/10.5072/FK2/BXSHPO"
+  },
+  "schema:license": [
+    "http://creativecommons.org/publicdomain/zero/1.0"
+  ],
+  "schema:creator": {
+    "@list": [
+      {
+        "@type": "schema:Person",
+        "schema:name": "User, Test"
+      }
+    ]
+  },
+  "schema:publisher": {
+    "@type": "schema:Organization",
+    "schema:name": "Root"
+  },
+  "schema:keywords": [
+    "Astronomy and Astrophysics"
+  ],
+  "schema:distribution": [
+    {
+      "@id": "earthquakes.csv",
+      "schema:name": "earthquakes.csv",
+      "schema:encodingFormat": [
+        "text/csv"
+      ],
+      "schema:contentUrl": "http://localhost:8080/api/access/datafile/48?format=original",
+      "schema:size": {
+        "@type": [
+          "schema:QuantitativeValue"
+        ],
+        "schema:value": 1548710,
+        "schema:unitText": "byte"
+      },
+      "spdx:checksum": {
+        "@type": [
+          "spdx:Checksum"
+        ],
+        "spdx:checksumAlgorithm": "checksumAlgorithm_md5",
+        "spdx:checksumValue": "a418de5e65545c6776b1dfd87078dba7"
+      },
+      "@type": [
+        "schema:DataDownload",
+        "cdi:TabularTextDataSet"
+      ],
+      "cdi:hasPhysicalMapping": [
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 1,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#time"
+          },
+          "cdi:locator": "time"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 2,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#latitude"
+          },
+          "cdi:locator": "latitude"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 3,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#longitude"
+          },
+          "cdi:locator": "longitude"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 4,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#depth"
+          },
+          "cdi:locator": "depth"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 5,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#mag"
+          },
+          "cdi:locator": "mag"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 6,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#magtype"
+          },
+          "cdi:locator": "magType"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 7,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#nst"
+          },
+          "cdi:locator": "nst"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 8,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#gap"
+          },
+          "cdi:locator": "gap"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 9,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#dmin"
+          },
+          "cdi:locator": "dmin"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 10,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#rms"
+          },
+          "cdi:locator": "rms"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 11,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#net"
+          },
+          "cdi:locator": "net"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 12,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#id"
+          },
+          "cdi:locator": "id"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 13,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#updated"
+          },
+          "cdi:locator": "updated"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 14,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#place"
+          },
+          "cdi:locator": "place"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 15,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#type"
+          },
+          "cdi:locator": "type"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 16,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#horizontalerror"
+          },
+          "cdi:locator": "horizontalError"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 17,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#deptherror"
+          },
+          "cdi:locator": "depthError"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 18,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#magerror"
+          },
+          "cdi:locator": "magError"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 19,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#magnst"
+          },
+          "cdi:locator": "magNst"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 20,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#status"
+          },
+          "cdi:locator": "status"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 21,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#locationsource"
+          },
+          "cdi:locator": "locationSource"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 22,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#magsource"
+          },
+          "cdi:locator": "magSource"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 23,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#alert"
+          },
+          "cdi:locator": "Alert"
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [
+    {
+      "@id": "#time",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "time",
+      "schema:description": "time",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:string"
+      }
+    },
+    {
+      "@id": "#latitude",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "latitude",
+      "schema:description": "latitude",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:decimal"
+      }
+    },
+    {
+      "@id": "#longitude",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "longitude",
+      "schema:description": "longitude",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:decimal"
+      }
+    },
+    {
+      "@id": "#depth",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "depth",
+      "schema:description": "depth",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:decimal"
+      }
+    },
+    {
+      "@id": "#mag",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "mag",
+      "schema:description": "mag",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:decimal"
+      }
+    },
+    {
+      "@id": "#magtype",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "magType",
+      "schema:description": "magType",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:string"
+      }
+    },
+    {
+      "@id": "#nst",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "nst",
+      "schema:description": "nst",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:decimal"
+      }
+    },
+    {
+      "@id": "#gap",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "gap",
+      "schema:description": "gap",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:decimal"
+      }
+    },
+    {
+      "@id": "#dmin",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "dmin",
+      "schema:description": "dmin",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:decimal"
+      }
+    },
+    {
+      "@id": "#rms",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "rms",
+      "schema:description": "rms",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:decimal"
+      }
+    },
+    {
+      "@id": "#net",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "net",
+      "schema:description": "net",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:string"
+      }
+    },
+    {
+      "@id": "#id",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "id",
+      "schema:description": "id",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:string"
+      }
+    },
+    {
+      "@id": "#updated",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "updated",
+      "schema:description": "updated",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:string"
+      }
+    },
+    {
+      "@id": "#place",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "place",
+      "schema:description": "place",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:string"
+      }
+    },
+    {
+      "@id": "#type",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "type",
+      "schema:description": "type",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:string"
+      }
+    },
+    {
+      "@id": "#horizontalerror",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "horizontalError",
+      "schema:description": "horizontalError",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:decimal"
+      }
+    },
+    {
+      "@id": "#deptherror",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "depthError",
+      "schema:description": "depthError",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:decimal"
+      }
+    },
+    {
+      "@id": "#magerror",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "magError",
+      "schema:description": "magError",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:decimal"
+      }
+    },
+    {
+      "@id": "#magnst",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "magNst",
+      "schema:description": "magNst",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:decimal"
+      }
+    },
+    {
+      "@id": "#status",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "status",
+      "schema:description": "status",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:string"
+      }
+    },
+    {
+      "@id": "#locationsource",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "locationSource",
+      "schema:description": "locationSource",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:string"
+      }
+    },
+    {
+      "@id": "#magsource",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "magSource",
+      "schema:description": "magSource",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:string"
+      }
+    },
+    {
+      "@id": "#alert",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Alert",
+      "schema:description": "Alert",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:string"
+      }
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset",
+      "dcat:CatalogRecord"
+    ],
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/profiles/discovery"
+      },
+      {
+        "@id": "https://w3id.org/cdif/profiles/datadescription"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.0"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.0"
+      }
+    ],
+    "schema:sdDatePublished": "2025-11-27"
+  },
+  "prov:wasDerivedFrom": [
+    {
+      "@id": "http://mlcommons.org/croissant/1.0",
+      "schema:description": "Converted from Croissant 1.0 JSON-LD"
+    }
+  ]
+}

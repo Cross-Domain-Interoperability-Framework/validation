@@ -1,0 +1,307 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dqv": "http://www.w3.org/ns/dqv#",
+    "cr": "http://mlcommons.org/croissant/",
+    "rai": "http://mlcommons.org/croissant/RAI/",
+    "dct": "http://purl.org/dc/terms/",
+    "sc": "https://schema.org/",
+    "wd": "https://www.wikidata.org/wiki/"
+  },
+  "@type": [
+    "schema:Dataset"
+  ],
+  "@id": "https://doi.org/10.5072/FK2/ON7W1G",
+  "schema:name": "Lunar Eclipse Data",
+  "schema:description": "The lunar eclipse data starting from 1981",
+  "schema:url": "https://doi.org/10.5072/FK2/ON7W1G",
+  "schema:datePublished": "2025-11-27",
+  "schema:dateModified": "2025-11-27",
+  "schema:includedInDataCatalog": {
+    "@type": "DataCatalog",
+    "name": "Root",
+    "url": "https://dataverse.dev.codata.org"
+  },
+  "schema:version": "1.0",
+  "schema:identifier": {
+    "@type": [
+      "schema:PropertyValue"
+    ],
+    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:value": "10.5072/FK2/ON7W1G",
+    "schema:url": "https://doi.org/10.5072/FK2/ON7W1G"
+  },
+  "schema:license": [
+    "http://creativecommons.org/publicdomain/zero/1.0"
+  ],
+  "schema:creator": {
+    "@list": [
+      {
+        "@type": "schema:Person",
+        "schema:name": "Esen, Bora"
+      }
+    ]
+  },
+  "schema:publisher": {
+    "@type": "schema:Organization",
+    "schema:name": "Root"
+  },
+  "schema:keywords": [
+    "Astronomy and Astrophysics"
+  ],
+  "schema:distribution": [
+    {
+      "@id": "lunar_eclipses_1981-2030.csv",
+      "schema:name": "lunar_eclipses_1981-2030.csv",
+      "schema:encodingFormat": [
+        "text/csv"
+      ],
+      "schema:contentUrl": "https://dataverse.dev.codata.org/api/access/datafile/52?format=original",
+      "schema:size": {
+        "@type": [
+          "schema:QuantitativeValue"
+        ],
+        "schema:value": 10244,
+        "schema:unitText": "byte"
+      },
+      "spdx:checksum": {
+        "@type": [
+          "spdx:Checksum"
+        ],
+        "spdx:checksumAlgorithm": "checksumAlgorithm_md5",
+        "spdx:checksumValue": "0e06deb286d56dedb5fdc483f288b2a4"
+      },
+      "@type": [
+        "schema:DataDownload",
+        "cdi:TabularTextDataSet"
+      ],
+      "cdi:hasPhysicalMapping": [
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 1,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#calendardate"
+          },
+          "cdi:locator": "Calendar Date"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 2,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#tdofgreatesteclipse"
+          },
+          "cdi:locator": "TD of Greatest Eclipse"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 3,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#eclipsetype"
+          },
+          "cdi:locator": "Eclipse Type"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 4,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#sarosseries"
+          },
+          "cdi:locator": "Saros Series"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 5,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#umbralmagnitude"
+          },
+          "cdi:locator": "Umbral Magnitude"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 6,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#eclipseduration"
+          },
+          "cdi:locator": "Eclipse Duration"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 7,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#geographicregionofeclipsevisibility"
+          },
+          "cdi:locator": "Geographic Region of Eclipse Visibility"
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [
+    {
+      "@id": "#calendardate",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Calendar Date",
+      "schema:description": "Calendar Date",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:string"
+      }
+    },
+    {
+      "@id": "#tdofgreatesteclipse",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "TD of Greatest Eclipse",
+      "schema:description": "TD of Greatest Eclipse",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:string"
+      }
+    },
+    {
+      "@id": "#eclipsetype",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Eclipse Type",
+      "schema:description": "Eclipse Type",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:string"
+      }
+    },
+    {
+      "@id": "#sarosseries",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Saros Series",
+      "schema:description": "Saros Series",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:integer"
+      }
+    },
+    {
+      "@id": "#umbralmagnitude",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Umbral Magnitude",
+      "schema:description": "Umbral Magnitude",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:decimal"
+      }
+    },
+    {
+      "@id": "#eclipseduration",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Eclipse Duration",
+      "schema:description": "Eclipse Duration",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:string"
+      }
+    },
+    {
+      "@id": "#geographicregionofeclipsevisibility",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Geographic Region of Eclipse Visibility",
+      "schema:description": "Geographic Region of Eclipse Visibility",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:string"
+      }
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset",
+      "dcat:CatalogRecord"
+    ],
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/profiles/discovery"
+      },
+      {
+        "@id": "https://w3id.org/cdif/profiles/datadescription"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.0"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.0"
+      }
+    ],
+    "schema:sdDatePublished": "2025-11-27"
+  },
+  "prov:wasDerivedFrom": [
+    {
+      "@id": "http://mlcommons.org/croissant/1.0",
+      "schema:description": "Converted from Croissant 1.0 JSON-LD"
+    }
+  ]
+}

@@ -1,0 +1,257 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dqv": "http://www.w3.org/ns/dqv#",
+    "cr": "http://mlcommons.org/croissant/",
+    "rai": "http://mlcommons.org/croissant/RAI/",
+    "dct": "http://purl.org/dc/terms/",
+    "sc": "https://schema.org/",
+    "wd": "https://www.wikidata.org/wiki/"
+  },
+  "@type": [
+    "schema:Dataset"
+  ],
+  "@id": "https://doi.org/10.5072/FK2/KRKCNG",
+  "schema:name": "EDDI 2025 Hackathon example 1",
+  "schema:description": "Hackathon example 1",
+  "schema:url": "https://doi.org/10.5072/FK2/KRKCNG",
+  "schema:datePublished": "2025-12-04",
+  "schema:dateModified": "2025-12-04",
+  "schema:includedInDataCatalog": {
+    "@type": "DataCatalog",
+    "name": "Root",
+    "url": "https://dataverse.dev.codata.org"
+  },
+  "schema:version": "1.0",
+  "schema:identifier": {
+    "@type": [
+      "schema:PropertyValue"
+    ],
+    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:value": "10.5072/FK2/KRKCNG",
+    "schema:url": "https://doi.org/10.5072/FK2/KRKCNG"
+  },
+  "schema:license": [
+    "http://creativecommons.org/publicdomain/zero/1.0"
+  ],
+  "schema:creator": {
+    "@list": [
+      {
+        "@type": "schema:Person",
+        "schema:name": "Admin, Dataverse",
+        "schema:affiliation": {
+          "@type": "schema:Organization",
+          "schema:name": "Dataverse.org"
+        }
+      }
+    ]
+  },
+  "schema:publisher": {
+    "@type": "schema:Organization",
+    "schema:name": "Root"
+  },
+  "schema:keywords": [
+    "Computer and Information Science"
+  ],
+  "schema:distribution": [
+    {
+      "@id": "cdi_example.csv",
+      "schema:name": "cdi_example.csv",
+      "schema:encodingFormat": [
+        "text/csv"
+      ],
+      "schema:contentUrl": "https://dataverse.dev.codata.org/api/access/datafile/64?format=original",
+      "schema:size": {
+        "@type": [
+          "schema:QuantitativeValue"
+        ],
+        "schema:value": 184,
+        "schema:unitText": "byte"
+      },
+      "spdx:checksum": {
+        "@type": [
+          "spdx:Checksum"
+        ],
+        "spdx:checksumAlgorithm": "checksumAlgorithm_md5",
+        "spdx:checksumValue": "d6a18940c560f99ba1a1bb417e8ace99"
+      },
+      "@type": [
+        "schema:DataDownload",
+        "cdi:TabularTextDataSet"
+      ],
+      "cdi:hasPhysicalMapping": [
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 1,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#idno"
+          },
+          "cdi:locator": "idno"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 2,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#pweight"
+          },
+          "cdi:locator": "pweight"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 3,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#cntry"
+          },
+          "cdi:locator": "cntry"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 4,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#proddate"
+          },
+          "cdi:locator": "proddate"
+        },
+        {
+          "@type": [
+            "cdi:PhysicalMapping",
+            "cdi:ValueMapping"
+          ],
+          "cdi:hasIndex": 5,
+          "cdi:isDefinedBy_InstanceVariable": {
+            "@id": "#health"
+          },
+          "cdi:locator": "health"
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [
+    {
+      "@id": "#idno",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "idno",
+      "schema:description": "idno",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:integer"
+      }
+    },
+    {
+      "@id": "#pweight",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "pweight",
+      "schema:description": "pweight",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:decimal"
+      }
+    },
+    {
+      "@id": "#cntry",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "cntry",
+      "schema:description": "cntry",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:string"
+      }
+    },
+    {
+      "@id": "#proddate",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "proddate",
+      "schema:description": "proddate",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:string"
+      }
+    },
+    {
+      "@id": "#health",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "health",
+      "schema:description": "health",
+      "cdi:hasValueDomain": {
+        "@type": [
+          "cdi:ValueDomain",
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdi:physicalDataType": "xsd:integer"
+      }
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset",
+      "dcat:CatalogRecord"
+    ],
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/profiles/discovery"
+      },
+      {
+        "@id": "https://w3id.org/cdif/profiles/datadescription"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.0"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.0"
+      }
+    ],
+    "schema:sdDatePublished": "2025-12-04"
+  },
+  "prov:wasDerivedFrom": [
+    {
+      "@id": "http://mlcommons.org/croissant/1.0",
+      "schema:description": "Converted from Croissant 1.0 JSON-LD"
+    }
+  ]
+}

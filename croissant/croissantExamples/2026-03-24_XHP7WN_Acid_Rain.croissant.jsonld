@@ -1,0 +1,233 @@
+{
+    "@context": {
+        "@language": "en",
+        "@vocab": "https://schema.org/",
+        "citeAs": "cr:citeAs",
+        "column": "cr:column",
+        "conformsTo": "dct:conformsTo",
+        "cr": "http://mlcommons.org/croissant/",
+        "rai": "http://mlcommons.org/croissant/RAI/",
+        "data": {
+            "@id": "cr:data",
+            "@type": "@json"
+        },
+        "dataType": {
+            "@id": "cr:dataType",
+            "@type": "@vocab"
+        },
+        "dct": "http://purl.org/dc/terms/",
+        "examples": {
+            "@id": "cr:examples",
+            "@type": "@json"
+        },
+        "extract": "cr:extract",
+        "field": "cr:field",
+        "fileProperty": "cr:fileProperty",
+        "fileObject": "cr:fileObject",
+        "fileSet": "cr:fileSet",
+        "format": "cr:format",
+        "includes": "cr:includes",
+        "isLiveDataset": "cr:isLiveDataset",
+        "jsonPath": "cr:jsonPath",
+        "key": "cr:key",
+        "md5": "cr:md5",
+        "parentField": "cr:parentField",
+        "path": "cr:path",
+        "recordSet": "cr:recordSet",
+        "references": "cr:references",
+        "regex": "cr:regex",
+        "repeated": "cr:repeated",
+        "replace": "cr:replace",
+        "sc": "https://schema.org/",
+        "separator": "cr:separator",
+        "source": "cr:source",
+        "subField": "cr:subField",
+        "transform": "cr:transform",
+        "wd": "https://www.wikidata.org/wiki/"
+    },
+    "@type": "sc:Dataset",
+    "conformsTo": "http://mlcommons.org/croissant/1.0",
+    "name": "Acid Rain",
+    "url": "https://doi.org/10.5072/FK2/XHP7WN",
+    "creator": [
+        {
+            "@type": "Person",
+            "affiliation": {
+                "@type": "Organization",
+                "name": "United Nations Office for Disaster Risk Reduction"
+            },
+            "name": "HIPs Machine actionability group"
+        }
+    ],
+    "description": "Acid rain is rain that, in the course of its history, has combined with chemical elements or pollutants in the atmosphere and reaches the Earth’s surface as a weak acid solution (WMO/UNESCO, 2012).",
+    "keywords": [
+        "Earth and Environmental Sciences",
+        "Acid Rain",
+        "Acid Rain",
+        "киселинен дъжд",
+        "kyselý déšť",
+        "zuurregen",
+        "Acid Rain",
+        "happe vihm",
+        "pluie acide",
+        "όξινη βροχή",
+        "savanyú eső",
+        "pollán aigéad",
+        "pioggia acida",
+        "rūgštinis lietus",
+        "varżiet aċidu",
+        "kwaśny deszcz",
+        "chuva ácida",
+        "ploaie acidă",
+        "kyselový déšť",
+        "kisla dež",
+        "lluvia ácida",
+        "sur regn",
+        "кислотний дощ",
+        "酸雨",
+        "кислотный дождь"
+    ],
+    "license": "http://creativecommons.org/licenses/by/4.0",
+    "datePublished": "2026-03-24",
+    "dateModified": "2026-03-24",
+    "includedInDataCatalog": {
+        "@type": "DataCatalog",
+        "name": "Root",
+        "url": "https://dataverse.dev1.codata.org"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Root"
+    },
+    "version": "1.0",
+    "citeAs": "@data{FK2/XHP7WN_2026,author = {HIPs Machine actionability group},publisher = {Root},title = {Acid Rain},year = {2026},url = {https://doi.org/10.5072/FK2/XHP7WN}}",
+    "distribution": [
+        {
+            "@type": "cr:FileObject",
+            "@id": "croissant_acid_rain_final.json",
+            "name": "croissant_acid_rain_final.json",
+            "encodingFormat": "application/json",
+            "md5": "9f156b7f9d099114834c2cfb3f344c45",
+            "contentSize": "9834",
+            "description": "Croissant Metadata",
+            "contentUrl": "https://dataverse.dev1.codata.org/api/access/datafile/165"
+        },
+        {
+            "@type": "cr:FileObject",
+            "@id": "translations_acid_rain.csv",
+            "name": "translations_acid_rain.csv",
+            "encodingFormat": "text/csv",
+            "md5": "91d051fb935c5a4970c4095230d166f2",
+            "contentSize": "23087",
+            "description": "Translations for Acid Rain",
+            "contentUrl": "https://dataverse.dev1.codata.org/api/access/datafile/164?format=original"
+        }
+    ],
+    "recordSet": [
+        {
+            "@type": "cr:RecordSet",
+            "field": [
+                {
+                    "@type": "cr:Field",
+                    "name": "term",
+                    "description": "term",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "@id": "563",
+                        "fileObject": {"@id": "translations_acid_rain.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "translation",
+                    "description": "translation",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "@id": "568",
+                        "fileObject": {"@id": "translations_acid_rain.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "context",
+                    "description": "context",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "@id": "564",
+                        "fileObject": {"@id": "translations_acid_rain.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "language",
+                    "description": "language",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "@id": "569",
+                        "fileObject": {"@id": "translations_acid_rain.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "confidence",
+                    "description": "confidence",
+                    "dataType": "sc:Float",
+                    "source": {
+                        "@id": "567",
+                        "fileObject": {"@id": "translations_acid_rain.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "winning_model",
+                    "description": "winning_model",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "@id": "571",
+                        "fileObject": {"@id": "translations_acid_rain.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "consensus",
+                    "description": "consensus",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "@id": "566",
+                        "fileObject": {"@id": "translations_acid_rain.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "version",
+                    "description": "version",
+                    "dataType": "sc:Float",
+                    "source": {
+                        "@id": "570",
+                        "fileObject": {"@id": "translations_acid_rain.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "code",
+                    "description": "code",
+                    "dataType": "sc:Integer",
+                    "source": {
+                        "@id": "562",
+                        "fileObject": {"@id": "translations_acid_rain.csv"}
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "name": "url",
+                    "description": "url",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "@id": "565",
+                        "fileObject": {"@id": "translations_acid_rain.csv"}
+                    }
+                }
+            ]
+        }
+    ]
+}
