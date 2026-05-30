@@ -336,14 +336,8 @@
                     "description": "Specifies the role this variable plays in a data structure. UnitIdentifier names the unit a row describes; Measure holds observed/derived values; Attribute qualifies an observation; Dimension addresses a cell in a multi-dimensional cube; Descriptor names the variable that a Reference column records values for (long format); ReferenceVariable holds those recorded values."
                 },
                 "cdif:simpleUnitOfMeasure": {
-                    "anyOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "$ref": "#/$defs/CdifInstanceVariable_cdifConceptOrTerm"
-                        }
-                    ]
+                    "description": "The unit in which the data values are measured (kg, pound, euro), expressed as a simple string, in cases where no additional information is available (in the legacy system) or needed (as in the case of broad agreement within the community of use [i.e., ISO country codes, currencies, etc. in SDMX])",
+                    "type": "string"
                 },
                 "cdif:uses": {
                     "type": "array",
@@ -420,14 +414,7 @@
                     ]
                 },
                 "cdi:describedUnitOfMeasure": {
-                    "anyOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "$ref": "#/$defs/CdifInstanceVariable_cdifConceptOrTerm"
-                        }
-                    ],
+                    "$ref": "#/$defs/CdifInstanceVariable_cdifConceptOrTerm",
                     "description": "The unit in which the data values are measured, expressed as a controlled-vocabulary entry (RepresentedVariable.describedUnitOfMeasure). For a plain-string unit, use cdif:simpleUnitOfMeasure instead."
                 },
                 "cdi:qualifies": {
