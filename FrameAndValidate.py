@@ -45,6 +45,7 @@ ARRAY_PROPERTIES = [
     'schema:query-input',
     'schema:participant',
     'schema:additionalProperty',
+    'schema:subjectOf',
     # PROV properties
     'prov:wasGeneratedBy',
     'prov:wasDerivedFrom',
