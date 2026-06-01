@@ -265,6 +265,11 @@ def _normalize(obj, parent=None):
     """Drop nulls; rename unprefixed terms (TERM_MAPPINGS) on dict keys
     AND on @type values; ensure ARRAY_PROPERTIES are arrays; @type
     always an array.
+
+    Context-aware unwrap: schema:contributor is an array at the dataset
+    level but a single object inside a schema:Role wrapper. After the
+    array-wrap pass, walk back and unwrap single-element arrays where
+    the parent's @type indicates a scalar-expecting context.
     """
     if isinstance(obj, list):
         out = [_normalize(v, parent) for v in obj if v is not None]
@@ -292,6 +297,30 @@ def _normalize(obj, parent=None):
             if new_key in ARRAY_PROPERTIES and not isinstance(nv, list):
                 nv = [nv]
             result[new_key] = nv
+
+        # Context-aware unwrap: properties that are array at the dataset
+        # level but scalar inside specific nested wrappers.
+        at = result.get("@type", [])
+        if isinstance(at, str):
+            at = [at]
+
+        # schema:Role wrapper: nested schema:contributor expects single
+        # Person/Organization (agentInRole schema is single-valued there).
+        if "schema:Role" in at:
+            inner = result.get("schema:contributor")
+            if isinstance(inner, list) and len(inner) == 1:
+                result["schema:contributor"] = inner[0]
+
+        # Inner instrument-component pattern: nodes typed
+        # [schema:Thing, schema:Product] (XAS hasPart items, sample,
+        # source, monochromator, etc.) carry schema:additionalType as a
+        # single const string per the XAS schemas — not the array form
+        # used on the root Dataset.
+        if "schema:Thing" in at and "schema:Product" in at:
+            inner = result.get("schema:additionalType")
+            if isinstance(inner, list) and len(inner) == 1:
+                result["schema:additionalType"] = inner[0]
+
         return result
     if isinstance(obj, str) and parent == "@type":
         return TERM_MAPPINGS.get(obj, obj)
