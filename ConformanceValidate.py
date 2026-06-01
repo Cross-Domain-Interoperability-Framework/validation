@@ -91,6 +91,7 @@ CDIF_OUTPUT_CONTEXT = {
     "checksum": "http://spdx.org/rdf/terms#checksum",
     "algorithm": "http://spdx.org/rdf/terms#algorithm",
     "checksumValue": "http://spdx.org/rdf/terms#checksumValue",
+    "Checksum": "http://spdx.org/rdf/terms#Checksum",
     "hasBeginning": "http://www.w3.org/2006/time#hasBeginning",
     "hasEnd": "http://www.w3.org/2006/time#hasEnd",
     "inTimePosition": "http://www.w3.org/2006/time#inTimePosition",
@@ -103,6 +104,7 @@ CDIF_OUTPUT_CONTEXT = {
 TERM_MAPPINGS = {
     "conformsTo": "dcterms:conformsTo",
     "Activity": "prov:Activity",
+    "Checksum": "spdx:Checksum",
     "wasGeneratedBy": "prov:wasGeneratedBy",
     "wasDerivedFrom": "prov:wasDerivedFrom",
     "used": "prov:used",
