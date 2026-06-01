@@ -9,6 +9,7 @@ This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule s
 - [Validation Workflow](#validation-workflow)
   - [Step 1: Frame the JSON-LD Document](#step-1-frame-the-json-ld-document)
   - [Step 2: Validate Against Schema](#step-2-validate-against-schema)
+- [Conformance-URI-Driven Validation (ConformanceValidate.py)](#conformance-uri-driven-validation-conformancevalidatepy)
 - [RO-Crate Conversion and Validation](#ro-crate-conversion-and-validation)
 - [Croissant Conversion](#croissant-conversion)
   - [How the Croissant Conversion Works](#how-the-croissant-conversion-works)
@@ -162,6 +163,82 @@ Validate the framed output against the appropriate schema:
 - `CDIFDiscoverySchema.json` -- discovery profile only
 - `CDIFDataDescriptionSchema.json` -- discovery + data description
 - `CDIFCompleteSchema.json` -- discovery + data description + archive + provenance (default)
+
+## Conformance-URI-Driven Validation (`ConformanceValidate.py`)
+
+`ConformanceValidate.py` is a profile-agnostic validator that **discovers which
+schemas to use from the instance document itself**, rather than requiring you
+to specify a profile up front.
+
+### How it works
+
+1. Reads the instance JSON-LD document.
+2. Extracts every URI inside `schema:subjectOf` / `dcterms:conformsTo`.
+3. For each URI, fetches the JSON Schema from `<URI>/schema` and the SHACL
+   rules from `<URI>/shacl` via the `https://w3id.org/cdif/` redirector.
+4. Frames + compacts the document with the CDIF output context (re-wrapping
+   `schema:propertyID`, `schema:additionalType`, etc. into arrays where the
+   schemas expect them).
+5. Validates against each profile's schema (and optionally SHACL) and prints
+   per-profile pass/fail with attributed error messages.
+
+### Quick start
+
+```bash
+# Both passes (JSON Schema + SHACL); cache fetched artifacts
+python ConformanceValidate.py myrecord.jsonld --cache-dir .cache
+
+# Verbose — show every URI it discovers and every GET
+python ConformanceValidate.py myrecord.jsonld --verbose
+
+# JSON Schema only (skip SHACL)
+python ConformanceValidate.py myrecord.jsonld --no-shacl
+
+# Use Accept-header content negotiation on the bare URI instead of /schema
+# and /shacl sub-paths (e.g. for testing alternate redirect rules)
+python ConformanceValidate.py myrecord.jsonld --use-accept
+```
+
+### Output
+
+Per-profile sections list violations like:
+
+```
+======================================================================
+Profile: https://w3id.org/cdif/data_description/1.0
+======================================================================
+
+  JSON Schema: PASSED
+
+  SHACL: 2 violation(s)
+    - cdif:InstanceVariable missing required cdif:name  [path=cdif:name, focus=#var1]
+    - ...
+```
+
+A final summary reports total violations across all profiles. Exit code is 0
+if no violations, 1 otherwise.
+
+### Dependencies
+
+```bash
+pip install pyld jsonschema pyshacl requests
+```
+
+### Differences from `FrameAndValidate.py`
+
+| Aspect | `FrameAndValidate.py` | `ConformanceValidate.py` |
+|---|---|---|
+| Profile selection | User picks via `--schema` flag | Discovered from the document's `dcterms:conformsTo` |
+| Validation count | One profile per run | All profiles the document claims |
+| Schema source | Local file path | Fetched from `<URI>/schema` via w3id |
+| SHACL | Not built-in | Fetched from `<URI>/shacl`, validated via pyshacl |
+| Use case | One profile, deep | Cross-profile sweep / conformance check |
+
+When you know exactly which profile you want, use the per-profile
+`FrameAndValidate.py` in each release repo (they have profile-specific
+`ARRAY_PROPERTIES` lists tuned for that profile's idioms). When you want
+to ask "what does this document actually conform to, and how well?", use
+`ConformanceValidate.py`.
 
 ## RO-Crate Conversion and Validation
 
