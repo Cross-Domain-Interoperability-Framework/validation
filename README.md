@@ -173,7 +173,11 @@ to specify a profile up front.
 ### How it works
 
 1. Reads the instance JSON-LD document.
-2. Extracts every URI inside `schema:subjectOf` / `dcterms:conformsTo`.
+2. Extracts every `dcterms:conformsTo` URI from `schema:subjectOf` entries
+   **that are tagged `schema:additionalType: dcat:CatalogRecord`**. Entries
+   without the CatalogRecord tag (e.g. a related publication carrying its
+   own `conformsTo`) are skipped — they don't declare profile conformance
+   for the parent dataset.
 3. For each URI, fetches the JSON Schema from `<URI>/schema` and the SHACL
    rules from `<URI>/shacl` via the `https://w3id.org/cdif/` redirector.
 4. Frames + compacts the document with the CDIF output context (re-wrapping

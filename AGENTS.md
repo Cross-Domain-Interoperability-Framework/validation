@@ -105,6 +105,10 @@ Key operations: parse each Turtle file with rdflib, detect named shape URIs, res
 # JSON Schema validation (frames then validates)
 python FrameAndValidate.py metadata.jsonld -v
 
+# Profile-agnostic: discover profiles from the document's catalog-record
+# conformsTo URIs, fetch each profile's schema + SHACL from w3id, validate
+python ConformanceValidate.py metadata.jsonld --cache-dir .conformance-cache
+
 # SHACL validation (complete profile)
 python ShaclValidation/ShaclJSONLDContext.py metadata.jsonld ShaclValidation/CDIF-Complete-Shapes.ttl
 
@@ -114,6 +118,11 @@ python ShaclValidation/generate_shacl_report.py metadata.jsonld ShaclValidation/
 # Batch validate all file groups (JSON Schema + SHACL)
 python batch_validate.py
 ```
+
+`ConformanceValidate.py` only considers `dcterms:conformsTo` URIs on
+`schema:subjectOf` entries tagged `schema:additionalType: dcat:CatalogRecord`.
+A `subjectOf` pointing at e.g. a related publication won't accidentally drive
+profile validation, even if it carries its own `conformsTo`.
 
 ### Regenerate schemas after building block changes
 
