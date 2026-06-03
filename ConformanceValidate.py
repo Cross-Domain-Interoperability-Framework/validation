@@ -167,13 +167,43 @@ ARRAY_PROPERTIES = {
 # Discovery — pull conformance URIs out of a CDIF instance
 # ---------------------------------------------------------------------------
 
-def extract_conforms_to(doc):
-    """Return the list of dcterms:conformsTo URIs inside schema:subjectOf.
+# Accepted forms for the CatalogRecord type tag on a subjectOf entry.
+# Compaction or hand-authored docs may use the prefixed CURIE or the full IRI.
+CATALOG_RECORD_TYPES = {
+    "dcat:CatalogRecord",
+    "http://www.w3.org/ns/dcat#CatalogRecord",
+}
 
-    schema:subjectOf may be a single object or an array of objects (a
-    catalog-record convention). Each entry may carry dcterms:conformsTo
-    as a string, an {"@id": ...} object, or an array of those. Returns
-    a deduplicated, order-preserving list of URI strings.
+
+def _is_catalog_record(entry):
+    """True if a schema:subjectOf entry is tagged as a dcat:CatalogRecord
+    via schema:additionalType. Accepts string, list-of-strings, or
+    {"@id": ...} object forms, and either the CURIE or full IRI.
+    """
+    at = entry.get("schema:additionalType") or entry.get("additionalType")
+    if at is None:
+        return False
+    if not isinstance(at, list):
+        at = [at]
+    for v in at:
+        if isinstance(v, dict):
+            v = v.get("@id")
+        if isinstance(v, str) and v in CATALOG_RECORD_TYPES:
+            return True
+    return False
+
+
+def extract_conforms_to(doc):
+    """Return the list of dcterms:conformsTo URIs inside schema:subjectOf
+    entries that are tagged schema:additionalType=dcat:CatalogRecord.
+
+    schema:subjectOf may be a single object or an array of objects (the
+    catalog-record convention). Entries lacking the CatalogRecord type
+    tag are skipped — conformsTo on a non-catalog-record subjectOf
+    (e.g. a related publication) should not drive profile validation.
+    Each surviving entry may carry dcterms:conformsTo as a string, an
+    {"@id": ...} object, or an array of those. Returns a deduplicated,
+    order-preserving list of URI strings.
     """
     subj = doc.get("schema:subjectOf") or doc.get("subjectOf")
     if subj is None:
@@ -185,6 +215,8 @@ def extract_conforms_to(doc):
     seen = set()
     for entry in subj:
         if not isinstance(entry, dict):
+            continue
+        if not _is_catalog_record(entry):
             continue
         ct = entry.get("dcterms:conformsTo") or entry.get("conformsTo")
         if ct is None:
@@ -296,7 +328,16 @@ def _normalize(obj, parent=None):
                 elif isinstance(nv, list):
                     nv = [TERM_MAPPINGS.get(t, t) if isinstance(t, str) else t
                           for t in nv]
-            if new_key in ARRAY_PROPERTIES and not isinstance(nv, list):
+            # schema:propertyID is contextual: an array inside
+            # schema:additionalProperty items (per CDIF additionalProperty
+            # schema's "Multiple values can specify the property at different
+            # levels of granularity") but a single string inside
+            # schema:identifier (per the schemaorgProperties/identifier
+            # schema). Skip the array-wrap in identifier context.
+            skip_wrap = (parent == "schema:identifier"
+                         and new_key == "schema:propertyID")
+            if (not skip_wrap and new_key in ARRAY_PROPERTIES
+                    and not isinstance(nv, list)):
                 nv = [nv]
             result[new_key] = nv
 
