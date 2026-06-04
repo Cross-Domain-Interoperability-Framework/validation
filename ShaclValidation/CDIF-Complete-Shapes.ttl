@@ -965,16 +965,20 @@ cdifd:dataCubeShape a sh:NodeShape ;
     sh:targetClass cdi:StructuredDataSet .
 
 cdifd:dataDescriptionDatasetShape a sh:NodeShape ;
-    sh:property [ sh:message "A data-description-level Dataset must carry at least one schema:variableMeasured." ;
+    sh:property [ sh:message "A Dataset declaring conformance to the data_description profile must carry at least one schema:variableMeasured." ;
             sh:minCount 1 ;
             sh:path schema1:variableMeasured ;
             sh:severity sh:Violation ] ;
     sh:target [ a sh:SPARQLTarget ;
             sh:select """
 	       PREFIX schema: <http://schema.org/>
+	       PREFIX dcterms: <http://purl.org/dc/terms/>
 	            SELECT ?this
 	            WHERE {
 	              ?this a schema:Dataset .
+	              ?this schema:subjectOf ?cr .
+	              ?cr dcterms:conformsTo ?prof .
+	              FILTER( STRSTARTS( STR(?prof), "https://w3id.org/cdif/data_description/" ) )
 	              MINUS {
 	                ?this schema:about ?x .
 	                ?this schema:additionalType "dcat:CatalogRecord" .

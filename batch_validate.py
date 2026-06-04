@@ -15,7 +15,30 @@ from pathlib import Path
 VALIDATION_DIR = Path(__file__).parent
 FRAME_VALIDATE = VALIDATION_DIR / "FrameAndValidate.py"
 SHACL_VALIDATE = VALIDATION_DIR / "ShaclValidation" / "ShaclJSONLDContext.py"
-SHACL_SHAPES = VALIDATION_DIR / "ShaclValidation" / "CDIF-Complete-Shapes.ttl"
+SHACL_SHAPES_COMPLETE = VALIDATION_DIR / "ShaclValidation" / "CDIF-Complete-Shapes.ttl"
+SHACL_SHAPES_DISCOVERY = VALIDATION_DIR / "ShaclValidation" / "CDIF-Discovery-Shapes.ttl"
+
+
+def _select_shapes(filepath):
+    """Validate each record against the composite for the level it declares.
+
+    The Complete composite carries the data-description / data-structure /
+    provenance profile shapes, several of which require the record to *declare*
+    the corresponding profile. Applying it to a discovery-level record (which
+    does not claim those profiles) produces wrong-level violations. Choose the
+    Complete shapes only when the record's catalog record actually declares
+    data_description, data_structure, or complete; otherwise use Discovery.
+    """
+    try:
+        text = Path(filepath).read_text(encoding="utf-8")
+    except Exception:
+        return SHACL_SHAPES_COMPLETE
+    # Works for both framed (top-level subjectOf) and @graph documents: a
+    # declared higher-than-discovery profile URI anywhere in the conformsTo
+    # selects the Complete composite.
+    if any(p in text for p in ("/data_description/", "/data_structure/", "/complete/")):
+        return SHACL_SHAPES_COMPLETE
+    return SHACL_SHAPES_DISCOVERY
 
 # File patterns to exclude from SHACL validation (generated output, not CDIF source)
 SHACL_EXCLUDE_SUFFIXES = ("-croissant.json", "-rocrate.json", "rocrate-jsonld-example.json", "ro-crate-metadata.json")
@@ -86,11 +109,32 @@ def collect_files():
     return groups
 
 
+SCHEMA_DISCOVERY = VALIDATION_DIR / "CDIFDiscoverySchema.json"
+SCHEMA_DATADESC = VALIDATION_DIR / "CDIFDataDescriptionSchema.json"
+SCHEMA_COMPLETE = VALIDATION_DIR / "CDIFCompleteSchema.json"
+
+
+def _select_schema(filepath):
+    """Pick the framed JSON Schema matching the level the record declares
+    (same rationale as _select_shapes: validating a discovery-level record
+    against the Complete schema, which requires variableMeasured, is wrong-level)."""
+    try:
+        text = Path(filepath).read_text(encoding="utf-8")
+    except Exception:
+        return SCHEMA_COMPLETE
+    if "/complete/" in text:
+        return SCHEMA_COMPLETE
+    if "/data_description/" in text or "/data_structure/" in text:
+        return SCHEMA_DATADESC
+    return SCHEMA_DISCOVERY
+
+
 def run_json_schema_validation(filepath):
     """Run FrameAndValidate.py and return (passed: bool, output: str)."""
     try:
         result = subprocess.run(
-            [sys.executable, str(FRAME_VALIDATE), str(filepath), "-v"],
+            [sys.executable, str(FRAME_VALIDATE), str(filepath), "-v",
+             "--schema", str(_select_schema(filepath))],
             capture_output=True, text=True, timeout=120,
             cwd=str(VALIDATION_DIR)
         )
@@ -110,8 +154,9 @@ def run_shacl_validation(filepath):
     Returns a tuple of (violation_count, warning_count, info_count, raw_output).
     """
     try:
+        shapes = _select_shapes(filepath)
         result = subprocess.run(
-            [sys.executable, str(SHACL_VALIDATE), str(filepath), str(SHACL_SHAPES)],
+            [sys.executable, str(SHACL_VALIDATE), str(filepath), str(shapes)],
             capture_output=True, text=True, timeout=120,
             cwd=str(VALIDATION_DIR)
         )
