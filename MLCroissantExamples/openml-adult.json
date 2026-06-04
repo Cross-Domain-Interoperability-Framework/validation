@@ -1,0 +1,844 @@
+{
+    "@context": {
+        "@language": "en",
+        "@vocab": "https://schema.org/",
+        "citeAs": "cr:citeAs",
+        "column": "cr:column",
+        "conformsTo": "dct:conformsTo",
+        "cr": "http://mlcommons.org/croissant/",
+        "rai": "http://mlcommons.org/croissant/RAI/",
+        "data": {
+            "@id": "cr:data",
+            "@type": "@json"
+        },
+        "dataType": {
+            "@id": "cr:dataType",
+            "@type": "@vocab"
+        },
+        "dct": "http://purl.org/dc/terms/",
+        "examples": {
+            "@id": "cr:examples",
+            "@type": "@json"
+        },
+        "extract": "cr:extract",
+        "field": "cr:field",
+        "fileProperty": "cr:fileProperty",
+        "fileObject": "cr:fileObject",
+        "fileSet": "cr:fileSet",
+        "format": "cr:format",
+        "includes": "cr:includes",
+        "isLiveDataset": "cr:isLiveDataset",
+        "jsonPath": "cr:jsonPath",
+        "key": "cr:key",
+        "md5": "cr:md5",
+        "parentField": "cr:parentField",
+        "path": "cr:path",
+        "recordSet": "cr:recordSet",
+        "references": "cr:references",
+        "regex": "cr:regex",
+        "repeated": "cr:repeated",
+        "replace": "cr:replace",
+        "sc": "https://schema.org/",
+        "separator": "cr:separator",
+        "source": "cr:source",
+        "subField": "cr:subField",
+        "transform": "cr:transform"
+    },
+    "@type": "sc:Dataset",
+    "conformsTo": "http://mlcommons.org/croissant/1.0",
+    "dateCreated": "2015-06-09T16:39:06",
+    "description": "**Author**: Ronny Kohavi and Barry Becker  \n**Source**: [UCI](https://archive.ics.uci.edu/ml/datasets/Adult) - 1996  \n**Please cite**: Ron Kohavi, \"Scaling Up the Accuracy of Naive-Bayes Classifiers: a Decision-Tree Hybrid\", Proceedings of the Second International Conference on Knowledge Discovery and Data Mining, 1996  \n\nPrediction task is to determine whether a person makes over 50K a year. Extraction was done by Barry Becker from the 1994 Census database. A set of reasonably clean records was extracted using the following conditions: ((AAGE>16) && (AGI>100) && (AFNLWGT>1)&& (HRSWK>0))\n\nThis is the original version from the UCI repository, with training and test sets merged.\n\n### Variable description\n\nVariables are all self-explanatory except __fnlwgt__. This is a proxy for the demographic background of the people: \"People with similar demographic characteristics should have similar weights\". This similarity-statement is not transferable across the 51 different states.\n\nDescription from the donor of the database: \n\nThe weights on the CPS files are controlled to independent estimates of the civilian noninstitutional population of the US.  These are prepared monthly for us by Population Division here at the Census Bureau. We use 3 sets of controls. These are:\n1.  A single cell estimate of the population 16+ for each state.\n2.  Controls for Hispanic Origin by age and sex.\n3.  Controls by Race, age and sex.\n\nWe use all three sets of controls in our weighting program and \"rake\" through them 6 times so that by the end we come back to all the controls we used. The term estimate refers to population totals derived from CPS by creating \"weighted tallies\" of any specified socio-economic characteristics of the population. People with similar demographic characteristics should have similar weights. There is one important caveat to remember about this statement. That is that since the CPS sample is actually a collection of 51 state samples, each with its own probability of selection, the statement only applies within state.\n\n\n### Relevant papers  \n\nRonny Kohavi and Barry Becker. Data Mining and Visualization, Silicon Graphics.  \ne-mail: ronnyk '@' live.com for questions.",
+    "isAccessibleForFree": true,
+    "keywords": [
+        "Chemistry",
+        "Life Science",
+        "OpenML-CC18",
+        "OpenML100",
+        "study_123",
+        "study_135",
+        "study_14",
+        "study_144",
+        "study_218",
+        "study_241",
+        "study_34",
+        "study_99"
+    ],
+    "license": "Public",
+    "name": "adult",
+    "sameAs": "https://archive.ics.uci.edu/ml/datasets/adult",
+    "url": "https://www.openml.org/search?type=data&id=1590",
+    "version": 2,
+    "distribution": [
+        {
+            "@type": "cr:FileObject",
+            "@id": "data-file",
+            "name": "data-file",
+            "description": "Data file belonging to the dataset.",
+            "contentUrl": "https://api.openml.org/data/v1/download/1595261/adult.arff",
+            "encodingFormat": "text/plain",
+            "md5": "bb6510925e5d4b23d136715febb2cdf5"
+        }
+    ],
+    "recordSet": [
+        {
+            "@type": "cr:RecordSet",
+            "@id": "enumerations/workclass",
+            "name": "workclass",
+            "description": "Possible values for workclass",
+            "dataType": "sc:Enumeration",
+            "field": [
+                {
+                    "@type": "cr:Field",
+                    "@id": "enumerations/workclass/value",
+                    "name": "value",
+                    "description": "The value of workclass.",
+                    "dataType": "sc:Text"
+                }
+            ],
+            "data": [
+                {
+                    "value": "Federal-gov"
+                },
+                {
+                    "value": "Local-gov"
+                },
+                {
+                    "value": "Never-worked"
+                },
+                {
+                    "value": "Private"
+                },
+                {
+                    "value": "Self-emp-inc"
+                },
+                {
+                    "value": "Self-emp-not-inc"
+                },
+                {
+                    "value": "State-gov"
+                },
+                {
+                    "value": "Without-pay"
+                }
+            ]
+        },
+        {
+            "@type": "cr:RecordSet",
+            "@id": "enumerations/education",
+            "name": "education",
+            "description": "Possible values for education",
+            "dataType": "sc:Enumeration",
+            "field": [
+                {
+                    "@type": "cr:Field",
+                    "@id": "enumerations/education/value",
+                    "name": "value",
+                    "description": "The value of education.",
+                    "dataType": "sc:Text"
+                }
+            ],
+            "data": [
+                {
+                    "value": "10th"
+                },
+                {
+                    "value": "11th"
+                },
+                {
+                    "value": "12th"
+                },
+                {
+                    "value": "1st-4th"
+                },
+                {
+                    "value": "5th-6th"
+                },
+                {
+                    "value": "7th-8th"
+                },
+                {
+                    "value": "9th"
+                },
+                {
+                    "value": "Assoc-acdm"
+                },
+                {
+                    "value": "Assoc-voc"
+                },
+                {
+                    "value": "Bachelors"
+                },
+                {
+                    "value": "Doctorate"
+                },
+                {
+                    "value": "HS-grad"
+                },
+                {
+                    "value": "Masters"
+                },
+                {
+                    "value": "Preschool"
+                },
+                {
+                    "value": "Prof-school"
+                },
+                {
+                    "value": "Some-college"
+                }
+            ]
+        },
+        {
+            "@type": "cr:RecordSet",
+            "@id": "enumerations/marital-status",
+            "name": "marital-status",
+            "description": "Possible values for marital-status",
+            "dataType": "sc:Enumeration",
+            "field": [
+                {
+                    "@type": "cr:Field",
+                    "@id": "enumerations/marital-status/value",
+                    "name": "value",
+                    "description": "The value of marital-status.",
+                    "dataType": "sc:Text"
+                }
+            ],
+            "data": [
+                {
+                    "value": "Divorced"
+                },
+                {
+                    "value": "Married-AF-spouse"
+                },
+                {
+                    "value": "Married-civ-spouse"
+                },
+                {
+                    "value": "Married-spouse-absent"
+                },
+                {
+                    "value": "Never-married"
+                },
+                {
+                    "value": "Separated"
+                },
+                {
+                    "value": "Widowed"
+                }
+            ]
+        },
+        {
+            "@type": "cr:RecordSet",
+            "@id": "enumerations/occupation",
+            "name": "occupation",
+            "description": "Possible values for occupation",
+            "dataType": "sc:Enumeration",
+            "field": [
+                {
+                    "@type": "cr:Field",
+                    "@id": "enumerations/occupation/value",
+                    "name": "value",
+                    "description": "The value of occupation.",
+                    "dataType": "sc:Text"
+                }
+            ],
+            "data": [
+                {
+                    "value": "Adm-clerical"
+                },
+                {
+                    "value": "Armed-Forces"
+                },
+                {
+                    "value": "Craft-repair"
+                },
+                {
+                    "value": "Exec-managerial"
+                },
+                {
+                    "value": "Farming-fishing"
+                },
+                {
+                    "value": "Handlers-cleaners"
+                },
+                {
+                    "value": "Machine-op-inspct"
+                },
+                {
+                    "value": "Other-service"
+                },
+                {
+                    "value": "Priv-house-serv"
+                },
+                {
+                    "value": "Prof-specialty"
+                },
+                {
+                    "value": "Protective-serv"
+                },
+                {
+                    "value": "Sales"
+                },
+                {
+                    "value": "Tech-support"
+                },
+                {
+                    "value": "Transport-moving"
+                }
+            ]
+        },
+        {
+            "@type": "cr:RecordSet",
+            "@id": "enumerations/relationship",
+            "name": "relationship",
+            "description": "Possible values for relationship",
+            "dataType": "sc:Enumeration",
+            "field": [
+                {
+                    "@type": "cr:Field",
+                    "@id": "enumerations/relationship/value",
+                    "name": "value",
+                    "description": "The value of relationship.",
+                    "dataType": "sc:Text"
+                }
+            ],
+            "data": [
+                {
+                    "value": "Husband"
+                },
+                {
+                    "value": "Not-in-family"
+                },
+                {
+                    "value": "Other-relative"
+                },
+                {
+                    "value": "Own-child"
+                },
+                {
+                    "value": "Unmarried"
+                },
+                {
+                    "value": "Wife"
+                }
+            ]
+        },
+        {
+            "@type": "cr:RecordSet",
+            "@id": "enumerations/race",
+            "name": "race",
+            "description": "Possible values for race",
+            "dataType": "sc:Enumeration",
+            "field": [
+                {
+                    "@type": "cr:Field",
+                    "@id": "enumerations/race/value",
+                    "name": "value",
+                    "description": "The value of race.",
+                    "dataType": "sc:Text"
+                }
+            ],
+            "data": [
+                {
+                    "value": "Amer-Indian-Eskimo"
+                },
+                {
+                    "value": "Asian-Pac-Islander"
+                },
+                {
+                    "value": "Black"
+                },
+                {
+                    "value": "Other"
+                },
+                {
+                    "value": "White"
+                }
+            ]
+        },
+        {
+            "@type": "cr:RecordSet",
+            "@id": "enumerations/sex",
+            "name": "sex",
+            "description": "Possible values for sex",
+            "dataType": "sc:Enumeration",
+            "field": [
+                {
+                    "@type": "cr:Field",
+                    "@id": "enumerations/sex/value",
+                    "name": "value",
+                    "description": "The value of sex.",
+                    "dataType": "sc:Text"
+                }
+            ],
+            "data": [
+                {
+                    "value": "Female"
+                },
+                {
+                    "value": "Male"
+                }
+            ]
+        },
+        {
+            "@type": "cr:RecordSet",
+            "@id": "enumerations/native-country",
+            "name": "native-country",
+            "description": "Possible values for native-country",
+            "dataType": "sc:Enumeration",
+            "field": [
+                {
+                    "@type": "cr:Field",
+                    "@id": "enumerations/native-country/value",
+                    "name": "value",
+                    "description": "The value of native-country.",
+                    "dataType": "sc:Text"
+                }
+            ],
+            "data": [
+                {
+                    "value": "Cambodia"
+                },
+                {
+                    "value": "Canada"
+                },
+                {
+                    "value": "China"
+                },
+                {
+                    "value": "Columbia"
+                },
+                {
+                    "value": "Cuba"
+                },
+                {
+                    "value": "Dominican-Republic"
+                },
+                {
+                    "value": "Ecuador"
+                },
+                {
+                    "value": "El-Salvador"
+                },
+                {
+                    "value": "England"
+                },
+                {
+                    "value": "France"
+                },
+                {
+                    "value": "Germany"
+                },
+                {
+                    "value": "Greece"
+                },
+                {
+                    "value": "Guatemala"
+                },
+                {
+                    "value": "Haiti"
+                },
+                {
+                    "value": "Holand-Netherlands"
+                },
+                {
+                    "value": "Honduras"
+                },
+                {
+                    "value": "Hong"
+                },
+                {
+                    "value": "Hungary"
+                },
+                {
+                    "value": "India"
+                },
+                {
+                    "value": "Iran"
+                },
+                {
+                    "value": "Ireland"
+                },
+                {
+                    "value": "Italy"
+                },
+                {
+                    "value": "Jamaica"
+                },
+                {
+                    "value": "Japan"
+                },
+                {
+                    "value": "Laos"
+                },
+                {
+                    "value": "Mexico"
+                },
+                {
+                    "value": "Nicaragua"
+                },
+                {
+                    "value": "Outlying-US(Guam-USVI-etc)"
+                },
+                {
+                    "value": "Peru"
+                },
+                {
+                    "value": "Philippines"
+                },
+                {
+                    "value": "Poland"
+                },
+                {
+                    "value": "Portugal"
+                },
+                {
+                    "value": "Puerto-Rico"
+                },
+                {
+                    "value": "Scotland"
+                },
+                {
+                    "value": "South"
+                },
+                {
+                    "value": "Taiwan"
+                },
+                {
+                    "value": "Thailand"
+                },
+                {
+                    "value": "Trinadad&Tobago"
+                },
+                {
+                    "value": "United-States"
+                },
+                {
+                    "value": "Vietnam"
+                },
+                {
+                    "value": "Yugoslavia"
+                }
+            ]
+        },
+        {
+            "@type": "cr:RecordSet",
+            "@id": "enumerations/class",
+            "name": "class",
+            "description": "Possible values for class",
+            "dataType": "sc:Enumeration",
+            "field": [
+                {
+                    "@type": "cr:Field",
+                    "@id": "enumerations/class/value",
+                    "name": "value",
+                    "description": "The value of class.",
+                    "dataType": "sc:Text"
+                }
+            ],
+            "data": [
+                {
+                    "value": "<=50K"
+                },
+                {
+                    "value": ">50K"
+                }
+            ]
+        },
+        {
+            "@type": "cr:RecordSet",
+            "name": "data-file-description",
+            "description": "Listing the fields of the data.",
+            "field": [
+                {
+                    "@type": "cr:Field",
+                    "@id": "features/0-age",
+                    "name": "age",
+                    "description": "age - a field.",
+                    "dataType": [
+                        "sc:Float",
+                        "sc:Integer"
+                    ],
+                    "source": {
+                        "fileObject": {
+                            "@id": "data-file"
+                        },
+                        "extract": {
+                            "column": "age"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "features/1-workclass",
+                    "name": "workclass",
+                    "description": "workclass - a field.",
+                    "dataType": "sc:Text",
+                    "references": {
+                        "field": {
+                            "@id": "enumerations/workclass/value"
+                        }
+                    },
+                    "source": {
+                        "fileObject": {
+                            "@id": "data-file"
+                        },
+                        "extract": {
+                            "column": "workclass"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "features/2-fnlwgt",
+                    "name": "fnlwgt",
+                    "description": "fnlwgt - a field.",
+                    "dataType": [
+                        "sc:Float",
+                        "sc:Integer"
+                    ],
+                    "source": {
+                        "fileObject": {
+                            "@id": "data-file"
+                        },
+                        "extract": {
+                            "column": "fnlwgt"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "features/3-education",
+                    "name": "education",
+                    "description": "education - a field.",
+                    "dataType": "sc:Text",
+                    "references": {
+                        "field": {
+                            "@id": "enumerations/education/value"
+                        }
+                    },
+                    "source": {
+                        "fileObject": {
+                            "@id": "data-file"
+                        },
+                        "extract": {
+                            "column": "education"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "features/4-education-num",
+                    "name": "education-num",
+                    "description": "education-num - a field.",
+                    "dataType": [
+                        "sc:Float",
+                        "sc:Integer"
+                    ],
+                    "source": {
+                        "fileObject": {
+                            "@id": "data-file"
+                        },
+                        "extract": {
+                            "column": "education-num"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "features/5-marital-status",
+                    "name": "marital-status",
+                    "description": "marital-status - a field.",
+                    "dataType": "sc:Text",
+                    "references": {
+                        "field": {
+                            "@id": "enumerations/marital-status/value"
+                        }
+                    },
+                    "source": {
+                        "fileObject": {
+                            "@id": "data-file"
+                        },
+                        "extract": {
+                            "column": "marital-status"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "features/6-occupation",
+                    "name": "occupation",
+                    "description": "occupation - a field.",
+                    "dataType": "sc:Text",
+                    "references": {
+                        "field": {
+                            "@id": "enumerations/occupation/value"
+                        }
+                    },
+                    "source": {
+                        "fileObject": {
+                            "@id": "data-file"
+                        },
+                        "extract": {
+                            "column": "occupation"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "features/7-relationship",
+                    "name": "relationship",
+                    "description": "relationship - a field.",
+                    "dataType": "sc:Text",
+                    "references": {
+                        "field": {
+                            "@id": "enumerations/relationship/value"
+                        }
+                    },
+                    "source": {
+                        "fileObject": {
+                            "@id": "data-file"
+                        },
+                        "extract": {
+                            "column": "relationship"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "features/8-race",
+                    "name": "race",
+                    "description": "race - a field.",
+                    "dataType": "sc:Text",
+                    "references": {
+                        "field": {
+                            "@id": "enumerations/race/value"
+                        }
+                    },
+                    "source": {
+                        "fileObject": {
+                            "@id": "data-file"
+                        },
+                        "extract": {
+                            "column": "race"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "features/9-sex",
+                    "name": "sex",
+                    "description": "sex - a field.",
+                    "dataType": "sc:Text",
+                    "references": {
+                        "field": {
+                            "@id": "enumerations/sex/value"
+                        }
+                    },
+                    "source": {
+                        "fileObject": {
+                            "@id": "data-file"
+                        },
+                        "extract": {
+                            "column": "sex"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "features/10-capital-gain",
+                    "name": "capital-gain",
+                    "description": "capital-gain - a field.",
+                    "dataType": [
+                        "sc:Float",
+                        "sc:Integer"
+                    ],
+                    "source": {
+                        "fileObject": {
+                            "@id": "data-file"
+                        },
+                        "extract": {
+                            "column": "capital-gain"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "features/11-capital-loss",
+                    "name": "capital-loss",
+                    "description": "capital-loss - a field.",
+                    "dataType": [
+                        "sc:Float",
+                        "sc:Integer"
+                    ],
+                    "source": {
+                        "fileObject": {
+                            "@id": "data-file"
+                        },
+                        "extract": {
+                            "column": "capital-loss"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "features/12-hours-per-week",
+                    "name": "hours-per-week",
+                    "description": "hours-per-week - a field.",
+                    "dataType": [
+                        "sc:Float",
+                        "sc:Integer"
+                    ],
+                    "source": {
+                        "fileObject": {
+                            "@id": "data-file"
+                        },
+                        "extract": {
+                            "column": "hours-per-week"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "features/13-native-country",
+                    "name": "native-country",
+                    "description": "native-country - a field.",
+                    "dataType": "sc:Text",
+                    "references": {
+                        "field": {
+                            "@id": "enumerations/native-country/value"
+                        }
+                    },
+                    "source": {
+                        "fileObject": {
+                            "@id": "data-file"
+                        },
+                        "extract": {
+                            "column": "native-country"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "features/14-class",
+                    "name": "class",
+                    "description": "class - the default target field.",
+                    "dataType": "sc:Text",
+                    "references": {
+                        "field": {
+                            "@id": "enumerations/class/value"
+                        }
+                    },
+                    "source": {
+                        "fileObject": {
+                            "@id": "data-file"
+                        },
+                        "extract": {
+                            "column": "class"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

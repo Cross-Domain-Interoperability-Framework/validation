@@ -52,9 +52,9 @@ CDIF_CONTEXT = {
 # RecordSet maps to the DataDescription level; core + discovery are always
 # implied by the discovery foundation.
 CDIF_PROFILE_CONFORMS_TO = [
-    "https://w3id.org/cdif/core/1.0",
-    "https://w3id.org/cdif/discovery/1.0",
-    "https://w3id.org/cdif/data_description/1.0",
+    "https://w3id.org/cdif/core/1.1",
+    "https://w3id.org/cdif/discovery/1.1",
+    "https://w3id.org/cdif/data_description/1.1",
 ]
 
 # Accept either Croissant version on input; the converter is version-agnostic
@@ -330,12 +330,21 @@ def _convert_distribution(croissant, record_sets_by_file, verbose=False):
     file_objs = [d for d in raw if isinstance(d, dict)
                  and "FileObject" in str(d.get("@type", ""))]
 
-    # Detect cr:FileSet (we drop these with a warning)
+    # cr:FileSet entries (a glob of files, e.g. Hugging Face parquet shards)
+    # become CDIF schema:DataDownload nodes too (handled below), so RecordSet
+    # fields whose source is a fileSet still anchor their cdif:hasPhysicalMapping.
     file_sets = [d for d in raw if isinstance(d, dict)
                  and "FileSet" in str(d.get("@type", ""))]
-    if file_sets and verbose:
-        print(f"  WARN: {len(file_sets)} cr:FileSet entr(ies) dropped "
-              f"(no CDIF equivalent)")
+    fo_by_id = {d.get("@id"): d for d in file_objs}
+    # A FileObject that exists only as a FileSet's containedIn host (e.g. the HF
+    # "repo" tree) need not be emitted as its own distribution; its contentUrl
+    # is inherited by the FileSet DataDownload instead.
+    fileset_parent_ids = set()
+    for fs in file_sets:
+        ci = fs.get("containedIn")
+        pid = ci.get("@id") if isinstance(ci, dict) else (ci if isinstance(ci, str) else None)
+        if pid:
+            fileset_parent_ids.add(pid)
 
     # Group by containedIn parent id (or None for stand-alone files)
     parents = {}  # parent_id -> parent FileObject dict
@@ -359,7 +368,9 @@ def _convert_distribution(croissant, record_sets_by_file, verbose=False):
     # parents are standalone FileObjects whose @id appears as a containedIn target
     parent_ids = set(children_of.keys())
     real_archives = [fo for fo in standalone if fo.get("@id") in parent_ids]
-    plain_files = [fo for fo in standalone if fo.get("@id") not in parent_ids]
+    plain_files = [fo for fo in standalone
+                   if fo.get("@id") not in parent_ids
+                   and fo.get("@id") not in fileset_parent_ids]
 
     cdif_distribution = []
     # node_for_file_id: file @id -> CDIF node (DataDownload or hasPart MediaObject)
@@ -414,6 +425,28 @@ def _convert_distribution(croissant, record_sets_by_file, verbose=False):
             cdif_distribution.append(dd)
             node_for_file_id[child.get("@id")] = dd
 
+    # 4) FileSets -> standalone DataDownloads. A FileSet carries no contentUrl
+    # of its own, so inherit the containedIn parent FileObject's URL; record the
+    # selection glob in the description for traceability.
+    for fs in file_sets:
+        dd = _file_object_basic(fs)
+        dd["@type"] = ["schema:DataDownload"]
+        if "schema:contentUrl" not in dd:
+            ci = fs.get("containedIn")
+            pid = ci.get("@id") if isinstance(ci, dict) else (ci if isinstance(ci, str) else None)
+            parent = fo_by_id.get(pid) if pid else None
+            purl = parent.get("contentUrl") if isinstance(parent, dict) else None
+            if purl and purl != OGC_NIL_INAPPLICABLE:
+                dd["schema:contentUrl"] = purl
+        inc = fs.get("includes")
+        if inc:
+            glob = inc if isinstance(inc, str) else ", ".join(_as_list(inc))
+            note = f"File set; includes: {glob}"
+            dd["schema:description"] = (
+                f"{dd['schema:description']} ({note})" if dd.get("schema:description") else note)
+        cdif_distribution.append(dd)
+        node_for_file_id[fs.get("@id")] = dd
+
     return cdif_distribution, node_for_file_id
 
 
@@ -422,16 +455,20 @@ def _convert_distribution(croissant, record_sets_by_file, verbose=False):
 # ---------------------------------------------------------------------------
 
 def _field_source_file_id(field):
-    """Return the @id of the FileObject this Field draws from, if any."""
+    """Return the @id of the FileObject or FileSet this Field draws from.
+
+    Croissant field sources reference either a single ``fileObject`` (the
+    CSV shape Kaggle/OpenML emit) or a ``fileSet`` (a glob of files, e.g.
+    Hugging Face's parquet shards). Both anchor the field's physical mapping."""
     src = field.get("source")
     if not isinstance(src, dict):
         return None
-    fo = src.get("fileObject")
-    if isinstance(fo, dict):
-        return fo.get("@id")
-    if isinstance(fo, str):
-        return fo
-    # Croissant 1.0 alternative shape: source.fileObject as direct value
+    for key in ("fileObject", "fileSet"):
+        ref = src.get(key)
+        if isinstance(ref, dict):
+            return ref.get("@id")
+        if isinstance(ref, str):
+            return ref
     return None
 
 
@@ -643,6 +680,17 @@ def convert(croissant, verbose=False):
         if c_key in croissant and croissant[c_key] not in (None, "", []):
             out[cdif_key] = croissant[c_key]
 
+    # Fallback dateModified (prototype): CDIF discovery requires it; when the
+    # source omits dateModified, fall back to datePublished, then dateCreated.
+    # (If the source carries no date at all, it stays absent — not fabricated.)
+    if "schema:dateModified" not in out:
+        for alt in ("datePublished", "dateCreated"):
+            if croissant.get(alt):
+                out["schema:dateModified"] = croissant[alt]
+                if verbose:
+                    print(f"  FALLBACK: schema:dateModified <- {alt}")
+                break
+
     version = croissant.get("version")
     if version and version != CROISSANT_VERSION_PLACEHOLDER:
         out["schema:version"] = version
@@ -653,6 +701,17 @@ def convert(croissant, verbose=False):
     elif croissant.get("citeAs"):
         # Preserve verbatim even if no DOI parseable
         out["schema:citeAs"] = croissant["citeAs"]
+
+    # Fallback identifier (prototype): CDIF discovery requires schema:identifier,
+    # but most HF/Kaggle/OpenML records expose no DOI. Use the dataset's
+    # landing-page URL (or @id) as a stable identifier so the record is usable;
+    # a curator can replace it with a DOI later.
+    if "schema:identifier" not in out:
+        fallback_id = croissant.get("url") or croissant.get("@id")
+        if isinstance(fallback_id, str) and fallback_id.startswith("http"):
+            out["schema:identifier"] = fallback_id
+            if verbose:
+                print(f"  FALLBACK: schema:identifier <- {fallback_id} (no DOI in source)")
 
     lic = _convert_license(croissant)
     if lic:

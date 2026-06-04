@@ -1,0 +1,1425 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dqv": "http://www.w3.org/ns/dqv#",
+    "cr": "http://mlcommons.org/croissant/",
+    "dct": "http://purl.org/dc/terms/",
+    "sc": "https://schema.org/"
+  },
+  "@type": [
+    "schema:Dataset"
+  ],
+  "@id": "https://huggingface.co/datasets/nyu-mll/glue",
+  "schema:name": "glue",
+  "schema:description": "\n\t\n\t\t\n\t\tDataset Card for GLUE\n\t\n\n\n\t\n\t\t\n\t\tDataset Summary\n\t\n\nGLUE, the General Language Understanding Evaluation benchmark (https://gluebenchmark.com/) is a collection of resources for training, evaluating, and analyzing natural language understanding systems.\n\n\t\n\t\t\n\t\tSupported Tasks and Leaderboards\n\t\n\nThe leaderboard for the GLUE benchmark can be found at this address. It comprises the following tasks:\n\n\t\n\t\t\n\t\tax\n\t\n\nA manually-curated evaluation dataset for fine-grained analysis of system… See the full description on the dataset page: https://huggingface.co/datasets/nyu-mll/glue.",
+  "schema:url": "https://huggingface.co/datasets/nyu-mll/glue",
+  "schema:dateModified": "2024-01-30",
+  "schema:sameAs": "https://gluebenchmark.com/",
+  "schema:identifier": "https://huggingface.co/datasets/nyu-mll/glue",
+  "schema:license": [
+    "https://choosealicense.com/licenses/other/"
+  ],
+  "schema:creator": {
+    "@list": [
+      {
+        "@type": "schema:Organization",
+        "schema:name": "NYU Machine Learning for Language"
+      }
+    ]
+  },
+  "schema:keywords": [
+    "text-classification",
+    "acceptability-classification",
+    "natural-language-inference",
+    "semantic-similarity-scoring",
+    "sentiment-classification",
+    "text-scoring",
+    "other",
+    "other",
+    "monolingual",
+    "original",
+    "English",
+    "other",
+    "1M - 10M",
+    "parquet",
+    "Tabular",
+    "Text",
+    "Datasets",
+    "pandas",
+    "Croissant",
+    "Polars",
+    "arxiv:1804.07461",
+    "🇺🇸 Region: US",
+    "qa-nli",
+    "coreference-nli",
+    "paraphrase-identification"
+  ],
+  "schema:distribution": [
+    {
+      "@id": "parquet-files-for-config-ax",
+      "schema:name": "parquet-files-for-config-ax",
+      "schema:description": "The underlying Parquet files as converted by Hugging Face (see: https://huggingface.co/docs/dataset-viewer/parquet). (File set; includes: ax/*/*.parquet)",
+      "schema:encodingFormat": [
+        "application/x-parquet"
+      ],
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://huggingface.co/datasets/nyu-mll/glue/tree/refs%2Fconvert%2Fparquet",
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdif:index": 1,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#axsplit"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 2,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#axpremise"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 3,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#axhypothesis"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 4,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#axlabel"
+          },
+          "cdif:physicalDataType": "xsd:integer"
+        },
+        {
+          "cdif:index": 5,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#axidx"
+          },
+          "cdif:physicalDataType": "xsd:integer"
+        }
+      ]
+    },
+    {
+      "@id": "parquet-files-for-config-cola",
+      "schema:name": "parquet-files-for-config-cola",
+      "schema:description": "The underlying Parquet files as converted by Hugging Face (see: https://huggingface.co/docs/dataset-viewer/parquet). (File set; includes: cola/*/*.parquet)",
+      "schema:encodingFormat": [
+        "application/x-parquet"
+      ],
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://huggingface.co/datasets/nyu-mll/glue/tree/refs%2Fconvert%2Fparquet",
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdif:index": 1,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#colasplit"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 2,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#colasentence"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 3,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#colalabel"
+          },
+          "cdif:physicalDataType": "xsd:integer"
+        },
+        {
+          "cdif:index": 4,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#colaidx"
+          },
+          "cdif:physicalDataType": "xsd:integer"
+        }
+      ]
+    },
+    {
+      "@id": "parquet-files-for-config-mnli",
+      "schema:name": "parquet-files-for-config-mnli",
+      "schema:description": "The underlying Parquet files as converted by Hugging Face (see: https://huggingface.co/docs/dataset-viewer/parquet). (File set; includes: mnli/*/*.parquet)",
+      "schema:encodingFormat": [
+        "application/x-parquet"
+      ],
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://huggingface.co/datasets/nyu-mll/glue/tree/refs%2Fconvert%2Fparquet",
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdif:index": 1,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#mnlisplit"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 2,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#mnlipremise"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 3,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#mnlihypothesis"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 4,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#mnlilabel"
+          },
+          "cdif:physicalDataType": "xsd:integer"
+        },
+        {
+          "cdif:index": 5,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#mnliidx"
+          },
+          "cdif:physicalDataType": "xsd:integer"
+        }
+      ]
+    },
+    {
+      "@id": "parquet-files-for-config-mnli_matched",
+      "schema:name": "parquet-files-for-config-mnli_matched",
+      "schema:description": "The underlying Parquet files as converted by Hugging Face (see: https://huggingface.co/docs/dataset-viewer/parquet). (File set; includes: mnli_matched/*/*.parquet)",
+      "schema:encodingFormat": [
+        "application/x-parquet"
+      ],
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://huggingface.co/datasets/nyu-mll/glue/tree/refs%2Fconvert%2Fparquet",
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdif:index": 1,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#mnlimatchedsplit"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 2,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#mnlimatchedpremise"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 3,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#mnlimatchedhypothesis"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 4,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#mnlimatchedlabel"
+          },
+          "cdif:physicalDataType": "xsd:integer"
+        },
+        {
+          "cdif:index": 5,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#mnlimatchedidx"
+          },
+          "cdif:physicalDataType": "xsd:integer"
+        }
+      ]
+    },
+    {
+      "@id": "parquet-files-for-config-mnli_mismatched",
+      "schema:name": "parquet-files-for-config-mnli_mismatched",
+      "schema:description": "The underlying Parquet files as converted by Hugging Face (see: https://huggingface.co/docs/dataset-viewer/parquet). (File set; includes: mnli_mismatched/*/*.parquet)",
+      "schema:encodingFormat": [
+        "application/x-parquet"
+      ],
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://huggingface.co/datasets/nyu-mll/glue/tree/refs%2Fconvert%2Fparquet",
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdif:index": 1,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#mnlimismatchedsplit"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 2,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#mnlimismatchedpremise"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 3,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#mnlimismatchedhypothesis"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 4,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#mnlimismatchedlabel"
+          },
+          "cdif:physicalDataType": "xsd:integer"
+        },
+        {
+          "cdif:index": 5,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#mnlimismatchedidx"
+          },
+          "cdif:physicalDataType": "xsd:integer"
+        }
+      ]
+    },
+    {
+      "@id": "parquet-files-for-config-mrpc",
+      "schema:name": "parquet-files-for-config-mrpc",
+      "schema:description": "The underlying Parquet files as converted by Hugging Face (see: https://huggingface.co/docs/dataset-viewer/parquet). (File set; includes: mrpc/*/*.parquet)",
+      "schema:encodingFormat": [
+        "application/x-parquet"
+      ],
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://huggingface.co/datasets/nyu-mll/glue/tree/refs%2Fconvert%2Fparquet",
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdif:index": 1,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#mrpcsplit"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 2,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#mrpcsentence1"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 3,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#mrpcsentence2"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 4,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#mrpclabel"
+          },
+          "cdif:physicalDataType": "xsd:integer"
+        },
+        {
+          "cdif:index": 5,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#mrpcidx"
+          },
+          "cdif:physicalDataType": "xsd:integer"
+        }
+      ]
+    },
+    {
+      "@id": "parquet-files-for-config-qnli",
+      "schema:name": "parquet-files-for-config-qnli",
+      "schema:description": "The underlying Parquet files as converted by Hugging Face (see: https://huggingface.co/docs/dataset-viewer/parquet). (File set; includes: qnli/*/*.parquet)",
+      "schema:encodingFormat": [
+        "application/x-parquet"
+      ],
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://huggingface.co/datasets/nyu-mll/glue/tree/refs%2Fconvert%2Fparquet",
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdif:index": 1,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#qnlisplit"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 2,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#qnliquestion"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 3,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#qnlisentence"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 4,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#qnlilabel"
+          },
+          "cdif:physicalDataType": "xsd:integer"
+        },
+        {
+          "cdif:index": 5,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#qnliidx"
+          },
+          "cdif:physicalDataType": "xsd:integer"
+        }
+      ]
+    },
+    {
+      "@id": "parquet-files-for-config-qqp",
+      "schema:name": "parquet-files-for-config-qqp",
+      "schema:description": "The underlying Parquet files as converted by Hugging Face (see: https://huggingface.co/docs/dataset-viewer/parquet). (File set; includes: qqp/*/*.parquet)",
+      "schema:encodingFormat": [
+        "application/x-parquet"
+      ],
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://huggingface.co/datasets/nyu-mll/glue/tree/refs%2Fconvert%2Fparquet",
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdif:index": 1,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#qqpsplit"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 2,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#qqpquestion1"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 3,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#qqpquestion2"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 4,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#qqplabel"
+          },
+          "cdif:physicalDataType": "xsd:integer"
+        },
+        {
+          "cdif:index": 5,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#qqpidx"
+          },
+          "cdif:physicalDataType": "xsd:integer"
+        }
+      ]
+    },
+    {
+      "@id": "parquet-files-for-config-rte",
+      "schema:name": "parquet-files-for-config-rte",
+      "schema:description": "The underlying Parquet files as converted by Hugging Face (see: https://huggingface.co/docs/dataset-viewer/parquet). (File set; includes: rte/*/*.parquet)",
+      "schema:encodingFormat": [
+        "application/x-parquet"
+      ],
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://huggingface.co/datasets/nyu-mll/glue/tree/refs%2Fconvert%2Fparquet",
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdif:index": 1,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#rtesplit"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 2,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#rtesentence1"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 3,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#rtesentence2"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 4,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#rtelabel"
+          },
+          "cdif:physicalDataType": "xsd:integer"
+        },
+        {
+          "cdif:index": 5,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#rteidx"
+          },
+          "cdif:physicalDataType": "xsd:integer"
+        }
+      ]
+    },
+    {
+      "@id": "parquet-files-for-config-sst2",
+      "schema:name": "parquet-files-for-config-sst2",
+      "schema:description": "The underlying Parquet files as converted by Hugging Face (see: https://huggingface.co/docs/dataset-viewer/parquet). (File set; includes: sst2/*/*.parquet)",
+      "schema:encodingFormat": [
+        "application/x-parquet"
+      ],
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://huggingface.co/datasets/nyu-mll/glue/tree/refs%2Fconvert%2Fparquet",
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdif:index": 1,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#sst2split"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 2,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#sst2sentence"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 3,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#sst2label"
+          },
+          "cdif:physicalDataType": "xsd:integer"
+        },
+        {
+          "cdif:index": 4,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#sst2idx"
+          },
+          "cdif:physicalDataType": "xsd:integer"
+        }
+      ]
+    },
+    {
+      "@id": "parquet-files-for-config-stsb",
+      "schema:name": "parquet-files-for-config-stsb",
+      "schema:description": "The underlying Parquet files as converted by Hugging Face (see: https://huggingface.co/docs/dataset-viewer/parquet). (File set; includes: stsb/*/*.parquet)",
+      "schema:encodingFormat": [
+        "application/x-parquet"
+      ],
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://huggingface.co/datasets/nyu-mll/glue/tree/refs%2Fconvert%2Fparquet",
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdif:index": 1,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#stsbsplit"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 2,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#stsbsentence1"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 3,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#stsbsentence2"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 4,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#stsblabel"
+          },
+          "cdif:physicalDataType": "xsd:decimal"
+        },
+        {
+          "cdif:index": 5,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#stsbidx"
+          },
+          "cdif:physicalDataType": "xsd:integer"
+        }
+      ]
+    },
+    {
+      "@id": "parquet-files-for-config-wnli",
+      "schema:name": "parquet-files-for-config-wnli",
+      "schema:description": "The underlying Parquet files as converted by Hugging Face (see: https://huggingface.co/docs/dataset-viewer/parquet). (File set; includes: wnli/*/*.parquet)",
+      "schema:encodingFormat": [
+        "application/x-parquet"
+      ],
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://huggingface.co/datasets/nyu-mll/glue/tree/refs%2Fconvert%2Fparquet",
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdif:index": 1,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#wnlisplit"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 2,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#wnlisentence1"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 3,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#wnlisentence2"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 4,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#wnlilabel"
+          },
+          "cdif:physicalDataType": "xsd:integer"
+        },
+        {
+          "cdif:index": 5,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#wnliidx"
+          },
+          "cdif:physicalDataType": "xsd:integer"
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [
+    {
+      "@id": "#axsplit",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "ax/split",
+      "schema:description": "Split to which the example belongs to.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#axpremise",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "ax/premise",
+      "schema:description": "Column 'premise' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#axhypothesis",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "ax/hypothesis",
+      "schema:description": "Column 'hypothesis' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#axlabel",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "ax/label",
+      "schema:description": "ClassLabel column 'label' from the Hugging Face parquet file.\nLabels:\nentailment (0), neutral (1), contradiction (2)",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#axidx",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "ax/idx",
+      "schema:description": "Column 'idx' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#colasplit",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "cola/split",
+      "schema:description": "Split to which the example belongs to.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#colasentence",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "cola/sentence",
+      "schema:description": "Column 'sentence' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#colalabel",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "cola/label",
+      "schema:description": "ClassLabel column 'label' from the Hugging Face parquet file.\nLabels:\nunacceptable (0), acceptable (1)",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#colaidx",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "cola/idx",
+      "schema:description": "Column 'idx' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#mnlisplit",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "mnli/split",
+      "schema:description": "Split to which the example belongs to.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#mnlipremise",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "mnli/premise",
+      "schema:description": "Column 'premise' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#mnlihypothesis",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "mnli/hypothesis",
+      "schema:description": "Column 'hypothesis' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#mnlilabel",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "mnli/label",
+      "schema:description": "ClassLabel column 'label' from the Hugging Face parquet file.\nLabels:\nentailment (0), neutral (1), contradiction (2)",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#mnliidx",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "mnli/idx",
+      "schema:description": "Column 'idx' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#mnlimatchedsplit",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "mnli_matched/split",
+      "schema:description": "Split to which the example belongs to.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#mnlimatchedpremise",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "mnli_matched/premise",
+      "schema:description": "Column 'premise' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#mnlimatchedhypothesis",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "mnli_matched/hypothesis",
+      "schema:description": "Column 'hypothesis' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#mnlimatchedlabel",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "mnli_matched/label",
+      "schema:description": "ClassLabel column 'label' from the Hugging Face parquet file.\nLabels:\nentailment (0), neutral (1), contradiction (2)",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#mnlimatchedidx",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "mnli_matched/idx",
+      "schema:description": "Column 'idx' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#mnlimismatchedsplit",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "mnli_mismatched/split",
+      "schema:description": "Split to which the example belongs to.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#mnlimismatchedpremise",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "mnli_mismatched/premise",
+      "schema:description": "Column 'premise' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#mnlimismatchedhypothesis",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "mnli_mismatched/hypothesis",
+      "schema:description": "Column 'hypothesis' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#mnlimismatchedlabel",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "mnli_mismatched/label",
+      "schema:description": "ClassLabel column 'label' from the Hugging Face parquet file.\nLabels:\nentailment (0), neutral (1), contradiction (2)",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#mnlimismatchedidx",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "mnli_mismatched/idx",
+      "schema:description": "Column 'idx' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#mrpcsplit",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "mrpc/split",
+      "schema:description": "Split to which the example belongs to.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#mrpcsentence1",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "mrpc/sentence1",
+      "schema:description": "Column 'sentence1' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#mrpcsentence2",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "mrpc/sentence2",
+      "schema:description": "Column 'sentence2' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#mrpclabel",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "mrpc/label",
+      "schema:description": "ClassLabel column 'label' from the Hugging Face parquet file.\nLabels:\nnot_equivalent (0), equivalent (1)",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#mrpcidx",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "mrpc/idx",
+      "schema:description": "Column 'idx' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#qnlisplit",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "qnli/split",
+      "schema:description": "Split to which the example belongs to.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#qnliquestion",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "qnli/question",
+      "schema:description": "Column 'question' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#qnlisentence",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "qnli/sentence",
+      "schema:description": "Column 'sentence' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#qnlilabel",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "qnli/label",
+      "schema:description": "ClassLabel column 'label' from the Hugging Face parquet file.\nLabels:\nentailment (0), not_entailment (1)",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#qnliidx",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "qnli/idx",
+      "schema:description": "Column 'idx' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#qqpsplit",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "qqp/split",
+      "schema:description": "Split to which the example belongs to.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#qqpquestion1",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "qqp/question1",
+      "schema:description": "Column 'question1' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#qqpquestion2",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "qqp/question2",
+      "schema:description": "Column 'question2' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#qqplabel",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "qqp/label",
+      "schema:description": "ClassLabel column 'label' from the Hugging Face parquet file.\nLabels:\nnot_duplicate (0), duplicate (1)",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#qqpidx",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "qqp/idx",
+      "schema:description": "Column 'idx' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#rtesplit",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "rte/split",
+      "schema:description": "Split to which the example belongs to.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#rtesentence1",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "rte/sentence1",
+      "schema:description": "Column 'sentence1' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#rtesentence2",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "rte/sentence2",
+      "schema:description": "Column 'sentence2' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#rtelabel",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "rte/label",
+      "schema:description": "ClassLabel column 'label' from the Hugging Face parquet file.\nLabels:\nentailment (0), not_entailment (1)",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#rteidx",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "rte/idx",
+      "schema:description": "Column 'idx' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#sst2split",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "sst2/split",
+      "schema:description": "Split to which the example belongs to.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#sst2sentence",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "sst2/sentence",
+      "schema:description": "Column 'sentence' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#sst2label",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "sst2/label",
+      "schema:description": "ClassLabel column 'label' from the Hugging Face parquet file.\nLabels:\nnegative (0), positive (1)",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#sst2idx",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "sst2/idx",
+      "schema:description": "Column 'idx' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#stsbsplit",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "stsb/split",
+      "schema:description": "Split to which the example belongs to.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#stsbsentence1",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "stsb/sentence1",
+      "schema:description": "Column 'sentence1' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#stsbsentence2",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "stsb/sentence2",
+      "schema:description": "Column 'sentence2' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#stsblabel",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "stsb/label",
+      "schema:description": "Column 'label' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#stsbidx",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "stsb/idx",
+      "schema:description": "Column 'idx' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#wnlisplit",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "wnli/split",
+      "schema:description": "Split to which the example belongs to.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#wnlisentence1",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "wnli/sentence1",
+      "schema:description": "Column 'sentence1' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#wnlisentence2",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "wnli/sentence2",
+      "schema:description": "Column 'sentence2' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#wnlilabel",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "wnli/label",
+      "schema:description": "ClassLabel column 'label' from the Hugging Face parquet file.\nLabels:\nnot_entailment (0), entailment (1)",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#wnliidx",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "wnli/idx",
+      "schema:description": "Column 'idx' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      "dcat:CatalogRecord"
+    ],
+    "schema:about": {
+      "@id": "https://huggingface.co/datasets/nyu-mll/glue"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.1"
+      }
+    ],
+    "schema:sdDatePublished": "2024-01-30"
+  },
+  "prov:wasDerivedFrom": [
+    {
+      "@id": "http://mlcommons.org/croissant/1.1",
+      "schema:description": "Converted from Croissant 1.0 JSON-LD"
+    }
+  ]
+}

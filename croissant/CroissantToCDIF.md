@@ -51,7 +51,7 @@ distribution / file inventory (flat and archive), tabular RecordSet →
 | `url` | `schema:url` | Direct |
 | `license` | `schema:license` | If absent or OGC `nil:missing`, output is empty |
 | `datePublished` | `schema:datePublished` | Direct |
-| `dateModified` | `schema:dateModified` | Direct |
+| `dateModified` | `schema:dateModified` | Direct; **fallback** to `datePublished` then `dateCreated` when absent (CDIF discovery requires it). Never fabricated — if the source carries no date at all, it stays absent (enrich upstream; see note below). |
 | `creator` | `schema:creator` (wrapped in `@list`) | CDIF uses `@list` so authorship order is RDF-stable |
 | `keywords` | `schema:keywords` | Direct (kept as array) |
 | `publisher` | `schema:publisher` | Direct |
@@ -70,14 +70,18 @@ one when a DOI can be detected:
 2. If found, emit a `schema:PropertyValue` with `schema:propertyID`
    (`https://registry.identifiers.org/registry/doi`), `schema:value`, and
    `schema:url` (`https://doi.org/...`).
-3. Otherwise leave `schema:identifier` absent and preserve `citeAs` verbatim as
-   `schema:citeAs`.
+3. **Fallback** (no DOI): CDIF discovery requires `schema:identifier`, but most
+   HF/Kaggle/OpenML records carry no DOI. The inverse then uses the dataset's
+   landing-page `url` (or `@id`) as a string `schema:identifier` so the record is
+   usable; `citeAs` is still preserved verbatim as `schema:citeAs`. A curator can
+   replace the URL identifier with a DOI later.
 
 ### Conformance declaration
 
 Croissant declares conformance as a single top-level `dct:conformsTo` URI
 (`http://mlcommons.org/croissant/1.1` or `/1.0`). CDIF requires a catalog record
-on `schema:subjectOf`. The inverse emits the current CDIF catalog-record shape:
+on `schema:subjectOf`. The inverse emits the current CDIF catalog-record shape
+(conformance URIs at **1.1**):
 
 ```json
 "schema:subjectOf": {
@@ -85,9 +89,9 @@ on `schema:subjectOf`. The inverse emits the current CDIF catalog-record shape:
   "schema:additionalType": ["dcat:CatalogRecord"],
   "schema:about": {"@id": "<dataset @id>"},
   "dcterms:conformsTo": [
-    {"@id": "https://w3id.org/cdif/core/1.0"},
-    {"@id": "https://w3id.org/cdif/discovery/1.0"},
-    {"@id": "https://w3id.org/cdif/data_description/1.0"}
+    {"@id": "https://w3id.org/cdif/core/1.1"},
+    {"@id": "https://w3id.org/cdif/discovery/1.1"},
+    {"@id": "https://w3id.org/cdif/data_description/1.1"}
   ]
 }
 ```
@@ -105,7 +109,7 @@ traceability.
 | `cr:FileObject` (top-level, with `contentUrl`) | `schema:DataDownload` | Direct |
 | `cr:FileObject` with `containedIn: {"@id": …}` | `schema:hasPart` item of the containing archive `DataDownload` | Grouped by `containedIn`; archive carries the components |
 | `cr:FileObject` referenced by a `cr:RecordSet` field source | `schema:DataDownload` of `@type [schema:DataDownload, cdi:TabularTextDataSet]` | The attached RecordSet promotes the file to tabular type |
-| `cr:FileSet` (glob-based) | _(no equivalent)_ | Dropped; emits a warning |
+| `cr:FileSet` (glob-based, e.g. Hugging Face parquet shards) | `schema:DataDownload` | Inherits `contentUrl` from the `containedIn` parent FileObject (the FileSet itself has none); the `includes` glob is recorded in `schema:description`. The host parent FileObject is not emitted separately. RecordSet fields whose `source` is a `fileSet` anchor their `cdif:hasPhysicalMapping` here. |
 
 ### Archive reconstruction
 
@@ -134,8 +138,9 @@ collects the components as `schema:MediaObject`s.
 
 | Croissant concept | CDIF concept | Notes |
 |-------------------|--------------|-------|
-| `cr:RecordSet` | attaches `cdif:hasPhysicalMapping` to the source file (`cdi:TabularTextDataSet`) | One RecordSet maps to one tabular file; fields are assumed to draw from one source file |
+| `cr:RecordSet` | attaches `cdif:hasPhysicalMapping` to the source file | One RecordSet maps to one source file (or file set); fields are assumed to draw from one source |
 | `cr:Field` | `cdi:InstanceVariable` (added to top-level `schema:variableMeasured`) + a `cdif:hasPhysicalMapping` entry | Field name → variable name + column |
+| `cr:Field.source.fileObject` **or** `cr:Field.source.fileSet` | the anchor file/file-set the mapping attaches to | Both are resolved (CSV via `fileObject`; Hugging Face parquet shards via `fileSet`) |
 | `cr:Field.source.extract.column` | the field's column identity | Reflected in the variable name and mapping order |
 | `cr:Field.dataType` | `cdif:physicalDataType` (single value) + `cdi:hasIntendedDataType` (IRI) on the variable, and `cdif:physicalDataType` on the mapping | Reverse-mapped via the table below |
 | `cr:Field.description` | `schema:description` on the InstanceVariable | Direct |
@@ -209,7 +214,7 @@ Croissant does not carry enough to rebuild it:
 |-----------|----------------------------|------------------------|
 | `cr:RecordSet.key` | `cdif:hasPrimaryKey` (dataset level) | **Produced** — see above |
 | `cr:Field.references` | `cdif:ForeignKey` on a `cdi:DataStructure` | A foreign key is recoverable in principle, but the full DataStructure / component graph it lives in is not; left to curation |
-| _(none)_ | component roles (`IdentifierComponent` / `MeasureComponent` / `AttributeComponent` / `DimensionComponent`, i.e. `cdif:role`) | Croissant fields have no role concept |
+| _(none)_ | `cdif:role` (`UnitIdentifier` / `Measure` / `Attribute` / `Dimension` / `Descriptor` / `ReferenceVariable`) | Croissant fields have no role concept |
 | _(none)_ | `cdi:RepresentedVariable`, `cdi:DataStructure` flavour (Wide/Long/Dimensional) | No Croissant equivalent |
 
 ## Croissant Properties with No CDIF Equivalent (Dropped)
@@ -225,7 +230,6 @@ A warning is printed when any of these is encountered.
 | `cr:Label`, `cr:BoundingBox`, `cr:SegmentationMask` | ML annotation types | Not part of science-data metadata |
 | `cr:isLiveDataset` | Continuously-updated flag | No equivalent |
 | `cr:data` / `cr:examples` | Inline records / examples | No equivalent |
-| `cr:FileSet` (glob patterns) | Files matched by pattern | CDIF requires explicit `hasPart` enumeration |
 
 ## CDIF Features Not Produced (Required Curation)
 

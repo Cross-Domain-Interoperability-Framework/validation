@@ -1,0 +1,566 @@
+{
+  "@context": {
+    "@language": "en",
+    "@vocab": "https://schema.org/",
+    "citeAs": "cr:citeAs",
+    "column": "cr:column",
+    "conformsTo": "dct:conformsTo",
+    "cr": "http://mlcommons.org/croissant/",
+    "data": {
+      "@id": "cr:data",
+      "@type": "@json"
+    },
+    "dataBiases": "cr:dataBiases",
+    "dataCollection": "cr:dataCollection",
+    "dataType": {
+      "@id": "cr:dataType",
+      "@type": "@vocab"
+    },
+    "dct": "http://purl.org/dc/terms/",
+    "extract": "cr:extract",
+    "field": "cr:field",
+    "fileProperty": "cr:fileProperty",
+    "fileObject": "cr:fileObject",
+    "fileSet": "cr:fileSet",
+    "format": "cr:format",
+    "includes": "cr:includes",
+    "isEnumeration": "cr:isEnumeration",
+    "jsonPath": "cr:jsonPath",
+    "key": "cr:key",
+    "md5": "cr:md5",
+    "parentField": "cr:parentField",
+    "path": "cr:path",
+    "personalSensitiveInformation": "cr:personalSensitiveInformation",
+    "recordSet": "cr:recordSet",
+    "references": "cr:references",
+    "regex": "cr:regex",
+    "repeated": "cr:repeated",
+    "replace": "cr:replace",
+    "sc": "https://schema.org/",
+    "separator": "cr:separator",
+    "source": "cr:source",
+    "subField": "cr:subField",
+    "transform": "cr:transform",
+    "wd": "https://www.wikidata.org/wiki/"
+  },
+  "alternateName": "130k wine reviews with variety, location, winery, price, and description",
+  "conformsTo": "http://mlcommons.org/croissant/1.0",
+  "license": {
+    "@type": "sc:CreativeWork",
+    "name": "CC BY-NC-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+  },
+  "distribution": [
+    {
+      "contentUrl": "https://www.kaggle.com/api/v1/datasets/download/zynicide/wine-reviews?datasetVersionNumber=4",
+      "contentSize": "50.865 MB",
+      "md5": "0107M1gstNxz20rFyUK10w==",
+      "encodingFormat": "application/zip",
+      "@id": "archive.zip",
+      "@type": "cr:FileObject",
+      "name": "archive.zip",
+      "description": "Archive containing all the contents of the Wine Reviews dataset"
+    },
+    {
+      "includes": "*.json",
+      "containedIn": {
+        "@id": "archive.zip"
+      },
+      "encodingFormat": "application/json",
+      "@id": "application-json_fileset",
+      "@type": "cr:FileSet",
+      "name": "application/json files",
+      "description": "application/json files contained in archive.zip"
+    },
+    {
+      "contentUrl": "winemag-data-130k-v2.csv",
+      "containedIn": {
+        "@id": "archive.zip"
+      },
+      "encodingFormat": "text/csv",
+      "@id": "winemag-data-130k-v2.csv_fileobject",
+      "@type": "cr:FileObject",
+      "name": "winemag-data-130k-v2.csv",
+      "description": "Here is a CSV version of the data I scraped. This dataset has three new fields\n\n--Title (which you can parse the vintage from), Taster Name, and Taster Twitter Handle. This should also fix the duplicate entries problem in the first version of the dataset and add ~25k unique reviews to play with. "
+    },
+    {
+      "contentUrl": "winemag-data_first150k.csv",
+      "containedIn": {
+        "@id": "archive.zip"
+      },
+      "encodingFormat": "text/csv",
+      "@id": "winemag-data_first150k.csv_fileobject",
+      "@type": "cr:FileObject",
+      "name": "winemag-data_first150k.csv",
+      "description": "Here is a CSV version of the data I scraped. This dataset has three new fields\n\n--Title (which you can parse the vintage from), Taster Name, and Taster Twitter Handle. This should also fix the duplicate entries problem in the first version of the dataset and add ~25k unique reviews to play with. "
+    }
+  ],
+  "recordSet": [
+    {
+      "field": [
+        {
+          "dataType": [
+            "sc:Integer"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "winemag-data-130k-v2.csv_fileobject"
+            },
+            "extract": {
+              "column": ""
+            }
+          },
+          "@id": "winemag-data-130k-v2.csv/",
+          "@type": "cr:Field",
+          "name": ""
+        },
+        {
+          "dataType": [
+            "sc:Text"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "winemag-data-130k-v2.csv_fileobject"
+            },
+            "extract": {
+              "column": "country"
+            }
+          },
+          "@id": "winemag-data-130k-v2.csv/country",
+          "@type": "cr:Field",
+          "name": "country",
+          "description": "The country that the wine is from"
+        },
+        {
+          "dataType": [
+            "sc:Text"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "winemag-data-130k-v2.csv_fileobject"
+            },
+            "extract": {
+              "column": "description"
+            }
+          },
+          "@id": "winemag-data-130k-v2.csv/description",
+          "@type": "cr:Field",
+          "name": "description"
+        },
+        {
+          "dataType": [
+            "sc:Text"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "winemag-data-130k-v2.csv_fileobject"
+            },
+            "extract": {
+              "column": "designation"
+            }
+          },
+          "@id": "winemag-data-130k-v2.csv/designation",
+          "@type": "cr:Field",
+          "name": "designation",
+          "description": "The vineyard within the winery where the grapes that made the wine are from"
+        },
+        {
+          "dataType": [
+            "sc:Integer"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "winemag-data-130k-v2.csv_fileobject"
+            },
+            "extract": {
+              "column": "points"
+            }
+          },
+          "@id": "winemag-data-130k-v2.csv/points",
+          "@type": "cr:Field",
+          "name": "points",
+          "description": "The number of points WineEnthusiast rated the wine on a scale of 1-100 (though they say they only post reviews for wines that score &gt;=80)\n"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "winemag-data-130k-v2.csv_fileobject"
+            },
+            "extract": {
+              "column": "price"
+            }
+          },
+          "@id": "winemag-data-130k-v2.csv/price",
+          "@type": "cr:Field",
+          "name": "price",
+          "description": "The cost for a bottle of the wine"
+        },
+        {
+          "dataType": [
+            "sc:Text"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "winemag-data-130k-v2.csv_fileobject"
+            },
+            "extract": {
+              "column": "province"
+            }
+          },
+          "@id": "winemag-data-130k-v2.csv/province",
+          "@type": "cr:Field",
+          "name": "province",
+          "description": "The province or state that the wine is from"
+        },
+        {
+          "dataType": [
+            "sc:Text"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "winemag-data-130k-v2.csv_fileobject"
+            },
+            "extract": {
+              "column": "region_1"
+            }
+          },
+          "@id": "winemag-data-130k-v2.csv/region_1",
+          "@type": "cr:Field",
+          "name": "region_1",
+          "description": "The wine growing area in a province or state (ie Napa)"
+        },
+        {
+          "dataType": [
+            "sc:Text"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "winemag-data-130k-v2.csv_fileobject"
+            },
+            "extract": {
+              "column": "region_2"
+            }
+          },
+          "@id": "winemag-data-130k-v2.csv/region_2",
+          "@type": "cr:Field",
+          "name": "region_2",
+          "description": "Sometimes there are more specific regions specified within a wine growing area (ie Rutherford inside the Napa Valley), but this value can sometimes be blank"
+        },
+        {
+          "dataType": [
+            "sc:Text"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "winemag-data-130k-v2.csv_fileobject"
+            },
+            "extract": {
+              "column": "taster_name"
+            }
+          },
+          "@id": "winemag-data-130k-v2.csv/taster_name",
+          "@type": "cr:Field",
+          "name": "taster_name"
+        },
+        {
+          "dataType": [
+            "sc:Text"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "winemag-data-130k-v2.csv_fileobject"
+            },
+            "extract": {
+              "column": "taster_twitter_handle"
+            }
+          },
+          "@id": "winemag-data-130k-v2.csv/taster_twitter_handle",
+          "@type": "cr:Field",
+          "name": "taster_twitter_handle"
+        },
+        {
+          "dataType": [
+            "sc:Text"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "winemag-data-130k-v2.csv_fileobject"
+            },
+            "extract": {
+              "column": "title"
+            }
+          },
+          "@id": "winemag-data-130k-v2.csv/title",
+          "@type": "cr:Field",
+          "name": "title",
+          "description": "The title of the wine review, which often contains the vintage if you're interested in extracting that feature"
+        },
+        {
+          "dataType": [
+            "sc:Text"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "winemag-data-130k-v2.csv_fileobject"
+            },
+            "extract": {
+              "column": "variety"
+            }
+          },
+          "@id": "winemag-data-130k-v2.csv/variety",
+          "@type": "cr:Field",
+          "name": "variety",
+          "description": "The type of grapes used to make the wine (ie Pinot Noir)"
+        },
+        {
+          "dataType": [
+            "sc:Text"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "winemag-data-130k-v2.csv_fileobject"
+            },
+            "extract": {
+              "column": "winery"
+            }
+          },
+          "@id": "winemag-data-130k-v2.csv/winery",
+          "@type": "cr:Field",
+          "name": "winery",
+          "description": "The winery that made the wine"
+        }
+      ],
+      "@id": "winemag-data-130k-v2.csv",
+      "@type": "cr:RecordSet",
+      "name": "winemag-data-130k-v2.csv",
+      "description": "Here is a CSV version of the data I scraped. This dataset has three new fields\n\n--Title (which you can parse the vintage from), Taster Name, and Taster Twitter Handle. This should also fix the duplicate entries problem in the first version of the dataset and add ~25k unique reviews to play with. "
+    },
+    {
+      "field": [
+        {
+          "dataType": [
+            "sc:Integer"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "winemag-data_first150k.csv_fileobject"
+            },
+            "extract": {
+              "column": ""
+            }
+          },
+          "@id": "winemag-data_first150k.csv/",
+          "@type": "cr:Field",
+          "name": "",
+          "description": "No"
+        },
+        {
+          "dataType": [
+            "sc:Text"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "winemag-data_first150k.csv_fileobject"
+            },
+            "extract": {
+              "column": "country"
+            }
+          },
+          "@id": "winemag-data_first150k.csv/country",
+          "@type": "cr:Field",
+          "name": "country",
+          "description": "The country that the wine is from"
+        },
+        {
+          "dataType": [
+            "sc:Text"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "winemag-data_first150k.csv_fileobject"
+            },
+            "extract": {
+              "column": "description"
+            }
+          },
+          "@id": "winemag-data_first150k.csv/description",
+          "@type": "cr:Field",
+          "name": "description",
+          "description": "A few sentences from a sommelier describing the wine's taste, smell, look, feel, etc."
+        },
+        {
+          "dataType": [
+            "sc:Text"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "winemag-data_first150k.csv_fileobject"
+            },
+            "extract": {
+              "column": "designation"
+            }
+          },
+          "@id": "winemag-data_first150k.csv/designation",
+          "@type": "cr:Field",
+          "name": "designation",
+          "description": "The vineyard within the winery where the grapes that made the wine are from"
+        },
+        {
+          "dataType": [
+            "sc:Integer"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "winemag-data_first150k.csv_fileobject"
+            },
+            "extract": {
+              "column": "points"
+            }
+          },
+          "@id": "winemag-data_first150k.csv/points",
+          "@type": "cr:Field",
+          "name": "points",
+          "description": "The number of points WineEnthusiast rated the wine on a scale of 1-100 (though they say they only post reviews for wines that score &gt;=80)"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "winemag-data_first150k.csv_fileobject"
+            },
+            "extract": {
+              "column": "price"
+            }
+          },
+          "@id": "winemag-data_first150k.csv/price",
+          "@type": "cr:Field",
+          "name": "price",
+          "description": "The cost for a bottle of the wine"
+        },
+        {
+          "dataType": [
+            "sc:Text"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "winemag-data_first150k.csv_fileobject"
+            },
+            "extract": {
+              "column": "province"
+            }
+          },
+          "@id": "winemag-data_first150k.csv/province",
+          "@type": "cr:Field",
+          "name": "province",
+          "description": "The province or state that the wine is from"
+        },
+        {
+          "dataType": [
+            "sc:Text"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "winemag-data_first150k.csv_fileobject"
+            },
+            "extract": {
+              "column": "region_1"
+            }
+          },
+          "@id": "winemag-data_first150k.csv/region_1",
+          "@type": "cr:Field",
+          "name": "region_1",
+          "description": "The wine growing area in a province or state (ie Napa)"
+        },
+        {
+          "dataType": [
+            "sc:Text"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "winemag-data_first150k.csv_fileobject"
+            },
+            "extract": {
+              "column": "region_2"
+            }
+          },
+          "@id": "winemag-data_first150k.csv/region_2",
+          "@type": "cr:Field",
+          "name": "region_2",
+          "description": "Sometimes there are more specific regions specified within a wine growing area (ie Rutherford inside the Napa Valley), but this value can sometimes be blank"
+        },
+        {
+          "dataType": [
+            "sc:Text"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "winemag-data_first150k.csv_fileobject"
+            },
+            "extract": {
+              "column": "variety"
+            }
+          },
+          "@id": "winemag-data_first150k.csv/variety",
+          "@type": "cr:Field",
+          "name": "variety",
+          "description": "The type of grapes used to make the wine (ie Pinot Noir)"
+        },
+        {
+          "dataType": [
+            "sc:Text"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "winemag-data_first150k.csv_fileobject"
+            },
+            "extract": {
+              "column": "winery"
+            }
+          },
+          "@id": "winemag-data_first150k.csv/winery",
+          "@type": "cr:Field",
+          "name": "winery",
+          "description": "The winery that made the wine"
+        }
+      ],
+      "@id": "winemag-data_first150k.csv",
+      "@type": "cr:RecordSet",
+      "name": "winemag-data_first150k.csv",
+      "description": "Here is a CSV version of the data I scraped. This dataset has three new fields\n\n--Title (which you can parse the vintage from), Taster Name, and Taster Twitter Handle. This should also fix the duplicate entries problem in the first version of the dataset and add ~25k unique reviews to play with. "
+    }
+  ],
+  "version": 4,
+  "keywords": [
+    "subject > health and fitness > food > alcohol"
+  ],
+  "isAccessibleForFree": true,
+  "includedInDataCatalog": {
+    "@type": "sc:DataCatalog",
+    "name": "Kaggle",
+    "url": "https://www.kaggle.com"
+  },
+  "creator": {
+    "@type": "sc:Person",
+    "name": "zackthoutt",
+    "url": "/zynicide",
+    "image": "https://storage.googleapis.com/kaggle-avatars/thumbnails/519516-kg.jpg"
+  },
+  "publisher": {
+    "@type": "sc:Organization",
+    "name": "Kaggle",
+    "url": "https://www.kaggle.com/organizations/kaggle",
+    "image": "https://storage.googleapis.com/kaggle-organizations/4/thumbnail.png"
+  },
+  "thumbnailUrl": "https://storage.googleapis.com/kaggle-datasets-images/1442/2584/c583eedd59e12a6c54266c13a50879c4/dataset-card.jpg",
+  "dateModified": "2017-11-27T17:08:04.7",
+  "datePublished": "2017-06-21T21:36:28.907",
+  "@type": "sc:Dataset",
+  "name": "Wine Reviews",
+  "url": "https://www.kaggle.com/datasets/zynicide/wine-reviews/versions/4",
+  "description": "### Context\n\nAfter watching [Somm](http://www.imdb.com/title/tt2204371/) (a documentary on master sommeliers) I wondered how I could create a predictive model to identify wines through blind tasting like a master sommelier would. The first step in this journey was gathering some data to train a model. I plan to use deep learning to predict the wine variety using words in the description/review. The model still won't be able to taste the wine, but theoretically it could identify the wine based on a description that a sommelier could give. If anyone has any ideas on how to accomplish this, please post them!\n\n### Content\n\n\nThis dataset contains three files:\n\n- **winemag-data-130k-v2.csv** contains 10 columns and 130k rows of wine reviews. \n\n- **winemag-data_first150k.csv** contains 10 columns and 150k rows of wine reviews.  \n\n- **winemag-data-130k-v2.json** contains 6919 nodes of wine reviews. \n\nClick on the data tab to see individual file descriptions, column-level metadata and summary statistics.\n\n\n### Acknowledgements\n\nThe data was scraped from [WineEnthusiast](http://www.winemag.com/?s=&drink_type=wine) during the week of June 15th, 2017. The code for the scraper can be found [here](https://github.com/zackthoutt/wine-deep-learning) if you have any more specific questions about data collection that I didn't address.\n\n**UPDATE 11/24/2017**\nAfter feedback from users of the dataset I scraped the reviews again on November 22nd, 2017. This time around I collected the title of each review, which you can parse the year out of, the tasters name, and the taster's Twitter handle. This should also fix the duplicate entry issue.\n\n\n### Inspiration\n\nI think that this dataset offers some great opportunities for sentiment analysis and other text related predictive models. My overall goal is to create a model that can identify the variety, winery, and location of a wine based on a description. If anyone has any ideas, breakthroughs, or other interesting insights/models please post them."
+}

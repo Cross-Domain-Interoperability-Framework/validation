@@ -1,0 +1,399 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dqv": "http://www.w3.org/ns/dqv#",
+    "cr": "http://mlcommons.org/croissant/",
+    "rai": "http://mlcommons.org/croissant/RAI/",
+    "dct": "http://purl.org/dc/terms/",
+    "sc": "https://schema.org/"
+  },
+  "@type": [
+    "schema:Dataset"
+  ],
+  "@id": "https://www.openml.org/search?type=data&id=1590",
+  "schema:name": "adult",
+  "schema:description": "**Author**: Ronny Kohavi and Barry Becker  \n**Source**: [UCI](https://archive.ics.uci.edu/ml/datasets/Adult) - 1996  \n**Please cite**: Ron Kohavi, \"Scaling Up the Accuracy of Naive-Bayes Classifiers: a Decision-Tree Hybrid\", Proceedings of the Second International Conference on Knowledge Discovery and Data Mining, 1996  \n\nPrediction task is to determine whether a person makes over 50K a year. Extraction was done by Barry Becker from the 1994 Census database. A set of reasonably clean records was extracted using the following conditions: ((AAGE>16) && (AGI>100) && (AFNLWGT>1)&& (HRSWK>0))\n\nThis is the original version from the UCI repository, with training and test sets merged.\n\n### Variable description\n\nVariables are all self-explanatory except __fnlwgt__. This is a proxy for the demographic background of the people: \"People with similar demographic characteristics should have similar weights\". This similarity-statement is not transferable across the 51 different states.\n\nDescription from the donor of the database: \n\nThe weights on the CPS files are controlled to independent estimates of the civilian noninstitutional population of the US.  These are prepared monthly for us by Population Division here at the Census Bureau. We use 3 sets of controls. These are:\n1.  A single cell estimate of the population 16+ for each state.\n2.  Controls for Hispanic Origin by age and sex.\n3.  Controls by Race, age and sex.\n\nWe use all three sets of controls in our weighting program and \"rake\" through them 6 times so that by the end we come back to all the controls we used. The term estimate refers to population totals derived from CPS by creating \"weighted tallies\" of any specified socio-economic characteristics of the population. People with similar demographic characteristics should have similar weights. There is one important caveat to remember about this statement. That is that since the CPS sample is actually a collection of 51 state samples, each with its own probability of selection, the statement only applies within state.\n\n\n### Relevant papers  \n\nRonny Kohavi and Barry Becker. Data Mining and Visualization, Silicon Graphics.  \ne-mail: ronnyk '@' live.com for questions.",
+  "schema:url": "https://www.openml.org/search?type=data&id=1590",
+  "schema:sameAs": "https://archive.ics.uci.edu/ml/datasets/adult",
+  "schema:dateModified": "2015-06-09T16:39:06",
+  "schema:version": 2,
+  "schema:identifier": "https://www.openml.org/search?type=data&id=1590",
+  "schema:license": [
+    "Public"
+  ],
+  "schema:keywords": [
+    "Chemistry",
+    "Life Science",
+    "OpenML-CC18",
+    "OpenML100",
+    "study_123",
+    "study_135",
+    "study_14",
+    "study_144",
+    "study_218",
+    "study_241",
+    "study_34",
+    "study_99"
+  ],
+  "schema:distribution": [
+    {
+      "@id": "data-file",
+      "schema:name": "data-file",
+      "schema:description": "Data file belonging to the dataset.",
+      "schema:encodingFormat": [
+        "text/plain"
+      ],
+      "schema:contentUrl": "https://api.openml.org/data/v1/download/1595261/adult.arff",
+      "spdx:checksum": {
+        "@type": [
+          "spdx:Checksum"
+        ],
+        "spdx:checksumAlgorithm": "checksumAlgorithm_md5",
+        "spdx:checksumValue": "bb6510925e5d4b23d136715febb2cdf5"
+      },
+      "@type": [
+        "schema:DataDownload",
+        "cdi:TabularTextDataSet"
+      ],
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdif:index": 1,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#age"
+          },
+          "cdif:physicalDataType": "xsd:decimal"
+        },
+        {
+          "cdif:index": 2,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#workclass"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 3,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#fnlwgt"
+          },
+          "cdif:physicalDataType": "xsd:decimal"
+        },
+        {
+          "cdif:index": 4,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#education"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 5,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#educationnum"
+          },
+          "cdif:physicalDataType": "xsd:decimal"
+        },
+        {
+          "cdif:index": 6,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#maritalstatus"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 7,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#occupation"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 8,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#relationship"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 9,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#race"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 10,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#sex"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 11,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#capitalgain"
+          },
+          "cdif:physicalDataType": "xsd:decimal"
+        },
+        {
+          "cdif:index": 12,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#capitalloss"
+          },
+          "cdif:physicalDataType": "xsd:decimal"
+        },
+        {
+          "cdif:index": 13,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#hoursperweek"
+          },
+          "cdif:physicalDataType": "xsd:decimal"
+        },
+        {
+          "cdif:index": 14,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#nativecountry"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 15,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#class"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [
+    {
+      "@id": "#age",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "age",
+      "schema:description": "age - a field.",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#workclass",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "workclass",
+      "schema:description": "workclass - a field.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#fnlwgt",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "fnlwgt",
+      "schema:description": "fnlwgt - a field.",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#education",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "education",
+      "schema:description": "education - a field.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#educationnum",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "education-num",
+      "schema:description": "education-num - a field.",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#maritalstatus",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "marital-status",
+      "schema:description": "marital-status - a field.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#occupation",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "occupation",
+      "schema:description": "occupation - a field.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#relationship",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "relationship",
+      "schema:description": "relationship - a field.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#race",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "race",
+      "schema:description": "race - a field.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#sex",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "sex",
+      "schema:description": "sex - a field.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#capitalgain",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "capital-gain",
+      "schema:description": "capital-gain - a field.",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#capitalloss",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "capital-loss",
+      "schema:description": "capital-loss - a field.",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#hoursperweek",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "hours-per-week",
+      "schema:description": "hours-per-week - a field.",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#nativecountry",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "native-country",
+      "schema:description": "native-country - a field.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#class",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "class",
+      "schema:description": "class - the default target field.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      "dcat:CatalogRecord"
+    ],
+    "schema:about": {
+      "@id": "https://www.openml.org/search?type=data&id=1590"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.1"
+      }
+    ]
+  },
+  "prov:wasDerivedFrom": [
+    {
+      "@id": "http://mlcommons.org/croissant/1.1",
+      "schema:description": "Converted from Croissant 1.0 JSON-LD"
+    }
+  ]
+}

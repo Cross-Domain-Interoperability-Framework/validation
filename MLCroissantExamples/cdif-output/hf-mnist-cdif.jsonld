@@ -1,0 +1,158 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dqv": "http://www.w3.org/ns/dqv#",
+    "cr": "http://mlcommons.org/croissant/",
+    "dct": "http://purl.org/dc/terms/",
+    "sc": "https://schema.org/"
+  },
+  "@type": [
+    "schema:Dataset"
+  ],
+  "@id": "https://huggingface.co/datasets/ylecun/mnist",
+  "schema:name": "mnist",
+  "schema:description": "\n\t\n\t\t\n\t\tDataset Card for MNIST\n\t\n\n\n\t\n\t\t\n\t\tDataset Summary\n\t\n\nThe MNIST dataset consists of 70,000 28x28 black-and-white images of handwritten digits extracted from two NIST databases. There are 60,000 images in the training dataset and 10,000 images in the validation dataset, one class per digit so a total of 10 classes, with 7,000 images (6,000 train images and 1,000 test images) per class.\nHalf of the image were drawn by Census Bureau employees and the other half by high school students… See the full description on the dataset page: https://huggingface.co/datasets/ylecun/mnist.",
+  "schema:url": "https://huggingface.co/datasets/ylecun/mnist",
+  "schema:dateModified": "2024-08-08",
+  "schema:sameAs": "http://yann.lecun.com/exdb/mnist/",
+  "schema:identifier": "https://huggingface.co/datasets/ylecun/mnist",
+  "schema:license": [
+    "https://choosealicense.com/licenses/mit/"
+  ],
+  "schema:creator": {
+    "@list": [
+      {
+        "@type": "schema:Person",
+        "schema:name": "Yann LeCun"
+      }
+    ]
+  },
+  "schema:keywords": [
+    "image-classification",
+    "multi-class-image-classification",
+    "expert-generated",
+    "found",
+    "monolingual",
+    "extended|other-nist",
+    "English",
+    "mit",
+    "10K - 100K",
+    "parquet",
+    "Image",
+    "Datasets",
+    "pandas",
+    "Polars",
+    "Croissant",
+    "🇺🇸 Region: US"
+  ],
+  "schema:distribution": [
+    {
+      "@id": "parquet-files-for-config-mnist",
+      "schema:encodingFormat": [
+        "application/x-parquet"
+      ],
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://huggingface.co/datasets/ylecun/mnist/tree/refs%2Fconvert%2Fparquet",
+      "schema:description": "File set; includes: mnist/*/*.parquet",
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdif:index": 1,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#field1"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 2,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#field2"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 3,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#field3"
+          },
+          "cdif:physicalDataType": "xsd:integer"
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [
+    {
+      "@id": "#field1",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "field_1",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#field2",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "field_2",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#field3",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "field_3",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      "dcat:CatalogRecord"
+    ],
+    "schema:about": {
+      "@id": "https://huggingface.co/datasets/ylecun/mnist"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.1"
+      }
+    ],
+    "schema:sdDatePublished": "2024-08-08"
+  },
+  "prov:wasDerivedFrom": [
+    {
+      "@id": "http://mlcommons.org/croissant/1.1",
+      "schema:description": "Converted from Croissant 1.0 JSON-LD"
+    }
+  ]
+}

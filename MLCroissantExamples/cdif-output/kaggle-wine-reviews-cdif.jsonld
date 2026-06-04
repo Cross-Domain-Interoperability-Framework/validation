@@ -1,0 +1,652 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dqv": "http://www.w3.org/ns/dqv#",
+    "cr": "http://mlcommons.org/croissant/",
+    "dct": "http://purl.org/dc/terms/",
+    "sc": "https://schema.org/",
+    "wd": "https://www.wikidata.org/wiki/"
+  },
+  "@type": [
+    "schema:Dataset"
+  ],
+  "@id": "https://www.kaggle.com/datasets/zynicide/wine-reviews/versions/4",
+  "schema:name": "Wine Reviews",
+  "schema:description": "### Context\n\nAfter watching [Somm](http://www.imdb.com/title/tt2204371/) (a documentary on master sommeliers) I wondered how I could create a predictive model to identify wines through blind tasting like a master sommelier would. The first step in this journey was gathering some data to train a model. I plan to use deep learning to predict the wine variety using words in the description/review. The model still won't be able to taste the wine, but theoretically it could identify the wine based on a description that a sommelier could give. If anyone has any ideas on how to accomplish this, please post them!\n\n### Content\n\n\nThis dataset contains three files:\n\n- **winemag-data-130k-v2.csv** contains 10 columns and 130k rows of wine reviews. \n\n- **winemag-data_first150k.csv** contains 10 columns and 150k rows of wine reviews.  \n\n- **winemag-data-130k-v2.json** contains 6919 nodes of wine reviews. \n\nClick on the data tab to see individual file descriptions, column-level metadata and summary statistics.\n\n\n### Acknowledgements\n\nThe data was scraped from [WineEnthusiast](http://www.winemag.com/?s=&drink_type=wine) during the week of June 15th, 2017. The code for the scraper can be found [here](https://github.com/zackthoutt/wine-deep-learning) if you have any more specific questions about data collection that I didn't address.\n\n**UPDATE 11/24/2017**\nAfter feedback from users of the dataset I scraped the reviews again on November 22nd, 2017. This time around I collected the title of each review, which you can parse the year out of, the tasters name, and the taster's Twitter handle. This should also fix the duplicate entry issue.\n\n\n### Inspiration\n\nI think that this dataset offers some great opportunities for sentiment analysis and other text related predictive models. My overall goal is to create a model that can identify the variety, winery, and location of a wine based on a description. If anyone has any ideas, breakthroughs, or other interesting insights/models please post them.",
+  "schema:url": "https://www.kaggle.com/datasets/zynicide/wine-reviews/versions/4",
+  "schema:datePublished": "2017-06-21T21:36:28.907",
+  "schema:dateModified": "2017-11-27T17:08:04.7",
+  "schema:includedInDataCatalog": {
+    "@type": "sc:DataCatalog",
+    "name": "Kaggle",
+    "url": "https://www.kaggle.com"
+  },
+  "schema:version": 4,
+  "schema:identifier": "https://www.kaggle.com/datasets/zynicide/wine-reviews/versions/4",
+  "schema:license": {
+    "@type": "sc:CreativeWork",
+    "name": "CC BY-NC-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+  },
+  "schema:creator": {
+    "@list": [
+      {
+        "@type": "schema:sc:Person",
+        "schema:name": "zackthoutt"
+      }
+    ]
+  },
+  "schema:publisher": {
+    "@type": "schema:sc:Organization",
+    "schema:name": "Kaggle"
+  },
+  "schema:keywords": [
+    "subject > health and fitness > food > alcohol"
+  ],
+  "schema:distribution": [
+    {
+      "@id": "archive.zip",
+      "schema:name": "archive.zip",
+      "schema:description": "Archive containing all the contents of the Wine Reviews dataset",
+      "schema:encodingFormat": [
+        "application/zip"
+      ],
+      "schema:contentUrl": "https://www.kaggle.com/api/v1/datasets/download/zynicide/wine-reviews?datasetVersionNumber=4",
+      "schema:size": {
+        "@type": [
+          "schema:QuantitativeValue"
+        ],
+        "schema:value": 50.865,
+        "schema:unitText": "megabyte"
+      },
+      "spdx:checksum": {
+        "@type": [
+          "spdx:Checksum"
+        ],
+        "spdx:checksumAlgorithm": "checksumAlgorithm_md5",
+        "spdx:checksumValue": "0107M1gstNxz20rFyUK10w=="
+      },
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:hasPart": [
+        {
+          "@id": "winemag-data-130k-v2.csv_fileobject",
+          "schema:name": "winemag-data-130k-v2.csv",
+          "schema:description": "Here is a CSV version of the data I scraped. This dataset has three new fields\n\n--Title (which you can parse the vintage from), Taster Name, and Taster Twitter Handle. This should also fix the duplicate entries problem in the first version of the dataset and add ~25k unique reviews to play with. ",
+          "schema:encodingFormat": [
+            "text/csv"
+          ],
+          "schema:contentUrl": "winemag-data-130k-v2.csv",
+          "@type": [
+            "schema:MediaObject",
+            "cdi:TabularTextDataSet"
+          ],
+          "cdif:hasPhysicalMapping": [
+            {
+              "cdif:index": 1,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#field1"
+              },
+              "cdif:physicalDataType": "xsd:integer"
+            },
+            {
+              "cdif:index": 2,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#country"
+              },
+              "cdif:physicalDataType": "xsd:string"
+            },
+            {
+              "cdif:index": 3,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#description"
+              },
+              "cdif:physicalDataType": "xsd:string"
+            },
+            {
+              "cdif:index": 4,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#designation"
+              },
+              "cdif:physicalDataType": "xsd:string"
+            },
+            {
+              "cdif:index": 5,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#points"
+              },
+              "cdif:physicalDataType": "xsd:integer"
+            },
+            {
+              "cdif:index": 6,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#price"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 7,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#province"
+              },
+              "cdif:physicalDataType": "xsd:string"
+            },
+            {
+              "cdif:index": 8,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#region1"
+              },
+              "cdif:physicalDataType": "xsd:string"
+            },
+            {
+              "cdif:index": 9,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#region2"
+              },
+              "cdif:physicalDataType": "xsd:string"
+            },
+            {
+              "cdif:index": 10,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#tastername"
+              },
+              "cdif:physicalDataType": "xsd:string"
+            },
+            {
+              "cdif:index": 11,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#tastertwitterhandle"
+              },
+              "cdif:physicalDataType": "xsd:string"
+            },
+            {
+              "cdif:index": 12,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#title"
+              },
+              "cdif:physicalDataType": "xsd:string"
+            },
+            {
+              "cdif:index": 13,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#variety"
+              },
+              "cdif:physicalDataType": "xsd:string"
+            },
+            {
+              "cdif:index": 14,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#winery"
+              },
+              "cdif:physicalDataType": "xsd:string"
+            }
+          ]
+        },
+        {
+          "@id": "winemag-data_first150k.csv_fileobject",
+          "schema:name": "winemag-data_first150k.csv",
+          "schema:description": "Here is a CSV version of the data I scraped. This dataset has three new fields\n\n--Title (which you can parse the vintage from), Taster Name, and Taster Twitter Handle. This should also fix the duplicate entries problem in the first version of the dataset and add ~25k unique reviews to play with. ",
+          "schema:encodingFormat": [
+            "text/csv"
+          ],
+          "schema:contentUrl": "winemag-data_first150k.csv",
+          "@type": [
+            "schema:MediaObject",
+            "cdi:TabularTextDataSet"
+          ],
+          "cdif:hasPhysicalMapping": [
+            {
+              "cdif:index": 1,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#field1_1"
+              },
+              "cdif:physicalDataType": "xsd:integer"
+            },
+            {
+              "cdif:index": 2,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#country_2"
+              },
+              "cdif:physicalDataType": "xsd:string"
+            },
+            {
+              "cdif:index": 3,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#description_3"
+              },
+              "cdif:physicalDataType": "xsd:string"
+            },
+            {
+              "cdif:index": 4,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#designation_4"
+              },
+              "cdif:physicalDataType": "xsd:string"
+            },
+            {
+              "cdif:index": 5,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#points_5"
+              },
+              "cdif:physicalDataType": "xsd:integer"
+            },
+            {
+              "cdif:index": 6,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#price_6"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 7,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#province_7"
+              },
+              "cdif:physicalDataType": "xsd:string"
+            },
+            {
+              "cdif:index": 8,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#region1_8"
+              },
+              "cdif:physicalDataType": "xsd:string"
+            },
+            {
+              "cdif:index": 9,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#region2_9"
+              },
+              "cdif:physicalDataType": "xsd:string"
+            },
+            {
+              "cdif:index": 10,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#variety_10"
+              },
+              "cdif:physicalDataType": "xsd:string"
+            },
+            {
+              "cdif:index": 11,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#winery_11"
+              },
+              "cdif:physicalDataType": "xsd:string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "@id": "application-json_fileset",
+      "schema:name": "application/json files",
+      "schema:description": "application/json files contained in archive.zip (File set; includes: *.json)",
+      "schema:encodingFormat": [
+        "application/json"
+      ],
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://www.kaggle.com/api/v1/datasets/download/zynicide/wine-reviews?datasetVersionNumber=4"
+    }
+  ],
+  "schema:variableMeasured": [
+    {
+      "@id": "#field1",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "field_1",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#country",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "country",
+      "schema:description": "The country that the wine is from",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#description",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "description",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#designation",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "designation",
+      "schema:description": "The vineyard within the winery where the grapes that made the wine are from",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#points",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "points",
+      "schema:description": "The number of points WineEnthusiast rated the wine on a scale of 1-100 (though they say they only post reviews for wines that score &gt;=80)\n",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#price",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "price",
+      "schema:description": "The cost for a bottle of the wine",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#province",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "province",
+      "schema:description": "The province or state that the wine is from",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#region1",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "region_1",
+      "schema:description": "The wine growing area in a province or state (ie Napa)",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#region2",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "region_2",
+      "schema:description": "Sometimes there are more specific regions specified within a wine growing area (ie Rutherford inside the Napa Valley), but this value can sometimes be blank",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#tastername",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "taster_name",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#tastertwitterhandle",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "taster_twitter_handle",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#title",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "title",
+      "schema:description": "The title of the wine review, which often contains the vintage if you're interested in extracting that feature",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#variety",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "variety",
+      "schema:description": "The type of grapes used to make the wine (ie Pinot Noir)",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#winery",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "winery",
+      "schema:description": "The winery that made the wine",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#field1_1",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "field_1",
+      "schema:description": "No",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#country_2",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "country",
+      "schema:description": "The country that the wine is from",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#description_3",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "description",
+      "schema:description": "A few sentences from a sommelier describing the wine's taste, smell, look, feel, etc.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#designation_4",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "designation",
+      "schema:description": "The vineyard within the winery where the grapes that made the wine are from",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#points_5",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "points",
+      "schema:description": "The number of points WineEnthusiast rated the wine on a scale of 1-100 (though they say they only post reviews for wines that score &gt;=80)",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#price_6",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "price",
+      "schema:description": "The cost for a bottle of the wine",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#province_7",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "province",
+      "schema:description": "The province or state that the wine is from",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#region1_8",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "region_1",
+      "schema:description": "The wine growing area in a province or state (ie Napa)",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#region2_9",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "region_2",
+      "schema:description": "Sometimes there are more specific regions specified within a wine growing area (ie Rutherford inside the Napa Valley), but this value can sometimes be blank",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#variety_10",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "variety",
+      "schema:description": "The type of grapes used to make the wine (ie Pinot Noir)",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#winery_11",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "winery",
+      "schema:description": "The winery that made the wine",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      "dcat:CatalogRecord"
+    ],
+    "schema:about": {
+      "@id": "https://www.kaggle.com/datasets/zynicide/wine-reviews/versions/4"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.1"
+      }
+    ],
+    "schema:sdDatePublished": "2017-11-27T17:08:04.7"
+  },
+  "prov:wasDerivedFrom": [
+    {
+      "@id": "http://mlcommons.org/croissant/1.1",
+      "schema:description": "Converted from Croissant 1.0 JSON-LD"
+    }
+  ]
+}

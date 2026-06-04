@@ -1,0 +1,724 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dqv": "http://www.w3.org/ns/dqv#",
+    "cr": "http://mlcommons.org/croissant/",
+    "dct": "http://purl.org/dc/terms/",
+    "sc": "https://schema.org/",
+    "wd": "https://www.wikidata.org/wiki/"
+  },
+  "@type": [
+    "schema:Dataset"
+  ],
+  "@id": "https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud/versions/3",
+  "schema:name": "Credit Card Fraud Detection",
+  "schema:description": "Context\n---------\n\nIt is important that credit card companies are able to recognize fraudulent credit card transactions so that customers are not charged for items that they did not purchase.\n\nContent\n---------\n\nThe dataset contains transactions made by credit cards in September 2013 by European cardholders. \nThis dataset presents transactions that occurred in two days, where we have 492 frauds out of 284,807 transactions. The dataset is highly unbalanced, the positive class (frauds) account for 0.172% of all transactions.\n\nIt contains only numerical input variables which are the result of a PCA transformation. Unfortunately, due to confidentiality issues, we cannot provide the original features and more background information about the data. Features V1, V2, ... V28 are the principal components obtained with PCA, the only features which have not been transformed with PCA are 'Time' and 'Amount'. Feature 'Time' contains the seconds elapsed between each transaction and the first transaction in the dataset. The feature 'Amount' is the transaction Amount, this feature can be used for example-dependant cost-sensitive learning. Feature 'Class' is the response variable and it takes value 1 in case of fraud and 0 otherwise. \n\nGiven the class imbalance ratio, we recommend measuring the accuracy using the Area Under the Precision-Recall Curve (AUPRC). Confusion matrix accuracy is not meaningful for unbalanced classification.\n\nUpdate (03/05/2021)\n---------\n\nA simulator for transaction data has been released as part of the practical handbook on Machine Learning for Credit Card Fraud Detection - https://fraud-detection-handbook.github.io/fraud-detection-handbook/Chapter_3_GettingStarted/SimulatedDataset.html. We invite all practitioners interested in fraud detection datasets to also check out this data simulator, and the methodologies for credit card fraud detection presented in the book.\n\nAcknowledgements\n---------\n\nThe dataset has been collected and analysed during a research collaboration of Worldline and the Machine Learning Group (http://mlg.ulb.ac.be) of ULB (Université Libre de Bruxelles) on big data mining and fraud detection.\nMore details on current and past projects on related topics are available on [https://www.researchgate.net/project/Fraud-detection-5][1] and the page of the [DefeatFraud][2] project\n\nPlease cite the following works: \n\nAndrea Dal Pozzolo, Olivier Caelen, Reid A. Johnson and Gianluca  Bontempi. [Calibrating Probability with Undersampling for Unbalanced  Classification.][3] In Symposium on Computational Intelligence and Data  Mining (CIDM), IEEE, 2015\n\nDal Pozzolo, Andrea; Caelen, Olivier; Le Borgne, Yann-Ael; Waterschoot, Serge; Bontempi, Gianluca.  [Learned lessons in credit  card fraud detection from a practitioner perspective][4], Expert systems with applications,41,10,4915-4928,2014, Pergamon\n\nDal Pozzolo, Andrea; Boracchi, Giacomo; Caelen, Olivier; Alippi,  Cesare; Bontempi, Gianluca. [Credit card fraud detection: a realistic modeling and a novel learning strategy,][5]  IEEE transactions on neural networks and learning systems,29,8,3784-3797,2018,IEEE\n\nDal Pozzolo, Andrea [Adaptive Machine learning for credit card fraud detection][6] ULB MLG PhD thesis (supervised by G. Bontempi)\n\nCarcillo, Fabrizio; Dal Pozzolo, Andrea; Le Borgne, Yann-Aël; Caelen, Olivier; Mazzer, Yannis; Bontempi, Gianluca. [Scarff: a scalable  framework for streaming credit card fraud detection with Spark][7], Information fusion,41, 182-194,2018,Elsevier\n\nCarcillo, Fabrizio; Le Borgne, Yann-Aël; Caelen, Olivier; Bontempi, Gianluca. [Streaming active learning strategies for real-life credit card fraud detection: assessment and visualization,][8] International Journal of Data Science and Analytics, 5,4,285-300,2018,Springer International Publishing\n\nBertrand Lebichot, Yann-Aël Le Borgne, Liyun He, Frederic Oblé, Gianluca Bontempi [Deep-Learning Domain Adaptation Techniques for Credit Cards Fraud Detection](https://www.researchgate.net/publication/332180999_Deep-Learning_Domain_Adaptation_Techniques_for_Credit_Cards_Fraud_Detection),  INNSBDDL 2019: Recent Advances in Big Data and Deep Learning, pp 78-88, 2019\n\nFabrizio Carcillo, Yann-Aël Le Borgne, Olivier Caelen, Frederic Oblé, Gianluca Bontempi [Combining Unsupervised and Supervised Learning in Credit Card Fraud Detection ](https://www.researchgate.net/publication/333143698_Combining_Unsupervised_and_Supervised_Learning_in_Credit_Card_Fraud_Detection) Information Sciences, 2019\n\nYann-Aël Le Borgne, Gianluca Bontempi [Reproducible machine Learning for Credit Card Fraud Detection - Practical Handbook ](https://www.researchgate.net/publication/351283764_Machine_Learning_for_Credit_Card_Fraud_Detection_-_Practical_Handbook) \n\nBertrand Lebichot, Gianmarco Paldino, Wissam Siblini, Liyun He, Frederic Oblé, Gianluca Bontempi [Incremental learning strategies for credit cards fraud detection](https://www.researchgate.net/publication/352275169_Incremental_learning_strategies_for_credit_cards_fraud_detection),  IInternational Journal of Data Science and Analytics\n\n  [1]: https://www.researchgate.net/project/Fraud-detection-5\n  [2]: https://mlg.ulb.ac.be/wordpress/portfolio_page/defeatfraud-assessment-and-validation-of-deep-feature-engineering-and-learning-solutions-for-fraud-detection/\n  [3]: https://www.researchgate.net/publication/283349138_Calibrating_Probability_with_Undersampling_for_Unbalanced_Classification\n  [4]: https://www.researchgate.net/publication/260837261_Learned_lessons_in_credit_card_fraud_detection_from_a_practitioner_perspective\n  [5]: https://www.researchgate.net/publication/319867396_Credit_Card_Fraud_Detection_A_Realistic_Modeling_and_a_Novel_Learning_Strategy\n  [6]: http://di.ulb.ac.be/map/adalpozz/pdf/Dalpozzolo2015PhD.pdf\n  [7]: https://www.researchgate.net/publication/319616537_SCARFF_a_Scalable_Framework_for_Streaming_Credit_Card_Fraud_Detection_with_Spark\n  \n[8]: https://www.researchgate.net/publication/332180999_Deep-Learning_Domain_Adaptation_Techniques_for_Credit_Cards_Fraud_Detection",
+  "schema:url": "https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud/versions/3",
+  "schema:datePublished": "2016-11-03T13:21:36.757",
+  "schema:dateModified": "2018-03-23T01:17:27.913",
+  "schema:includedInDataCatalog": {
+    "@type": "sc:DataCatalog",
+    "name": "Kaggle",
+    "url": "https://www.kaggle.com"
+  },
+  "schema:version": 3,
+  "schema:identifier": "https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud/versions/3",
+  "schema:license": {
+    "@type": "sc:CreativeWork",
+    "name": "Database: Open Database, Contents: Database Contents",
+    "url": "http://opendatacommons.org/licenses/dbcl/1.0/"
+  },
+  "schema:creator": {
+    "@list": [
+      {
+        "@type": "schema:sc:Organization",
+        "schema:name": "Machine Learning Group - ULB"
+      }
+    ]
+  },
+  "schema:publisher": {
+    "@type": "schema:sc:Organization",
+    "schema:name": "Kaggle"
+  },
+  "schema:keywords": [
+    "subject > people and society > business > finance",
+    "subject > people and society > law > government > crime"
+  ],
+  "schema:distribution": [
+    {
+      "@id": "archive.zip",
+      "schema:name": "archive.zip",
+      "schema:description": "Archive containing all the contents of the Credit Card Fraud Detection dataset",
+      "schema:encodingFormat": [
+        "application/zip"
+      ],
+      "schema:contentUrl": "https://www.kaggle.com/api/v1/datasets/download/mlg-ulb/creditcardfraud?datasetVersionNumber=3",
+      "schema:size": {
+        "@type": [
+          "schema:QuantitativeValue"
+        ],
+        "schema:value": 65.951,
+        "schema:unitText": "megabyte"
+      },
+      "spdx:checksum": {
+        "@type": [
+          "spdx:Checksum"
+        ],
+        "spdx:checksumAlgorithm": "checksumAlgorithm_md5",
+        "spdx:checksumValue": "v46YQnMatvm4q1HhpnQfiw=="
+      },
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:hasPart": [
+        {
+          "@id": "creditcard.csv_fileobject",
+          "schema:name": "creditcard.csv",
+          "schema:description": "BigQuery Table  bigquery-public-data.fraud_detection.comments",
+          "schema:encodingFormat": [
+            "text/csv"
+          ],
+          "schema:contentUrl": "creditcard.csv",
+          "@type": [
+            "schema:MediaObject",
+            "cdi:TabularTextDataSet"
+          ],
+          "cdif:hasPhysicalMapping": [
+            {
+              "cdif:index": 1,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#time"
+              },
+              "cdif:physicalDataType": "xsd:integer"
+            },
+            {
+              "cdif:index": 2,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#v1"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 3,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#v2"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 4,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#v3"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 5,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#v4"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 6,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#v5"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 7,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#v6"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 8,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#v7"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 9,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#v8"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 10,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#v9"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 11,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#v10"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 12,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#v11"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 13,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#v12"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 14,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#v13"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 15,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#v14"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 16,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#v15"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 17,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#v16"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 18,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#v17"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 19,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#v18"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 20,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#v19"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 21,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#v20"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 22,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#v21"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 23,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#v22"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 24,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#v23"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 25,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#v24"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 26,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#v25"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 27,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#v26"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 28,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#v27"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 29,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#v28"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 30,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#amount"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 31,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#class"
+              },
+              "cdif:physicalDataType": "xsd:integer"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [
+    {
+      "@id": "#time",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Time",
+      "schema:description": "Number of seconds elapsed between this transaction and the first transaction in the dataset",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#v1",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "V1",
+      "schema:description": "may be result of a PCA Dimensionality reduction to protect user identities and sensitive features(v1-v28)",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#v2",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "V2",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#v3",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "V3",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#v4",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "V4",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#v5",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "V5",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#v6",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "V6",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#v7",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "V7",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#v8",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "V8",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#v9",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "V9",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#v10",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "V10",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#v11",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "V11",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#v12",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "V12",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#v13",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "V13",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#v14",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "V14",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#v15",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "V15",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#v16",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "V16",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#v17",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "V17",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#v18",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "V18",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#v19",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "V19",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#v20",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "V20",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#v21",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "V21",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#v22",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "V22",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#v23",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "V23",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#v24",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "V24",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#v25",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "V25",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#v26",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "V26",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#v27",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "V27",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#v28",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "V28",
+      "schema:description": "abc",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#amount",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Amount",
+      "schema:description": "Transaction amount",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#class",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Class",
+      "schema:description": "1 for fraudulent transactions, 0 otherwise",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      "dcat:CatalogRecord"
+    ],
+    "schema:about": {
+      "@id": "https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud/versions/3"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.1"
+      }
+    ],
+    "schema:sdDatePublished": "2018-03-23T01:17:27.913"
+  },
+  "prov:wasDerivedFrom": [
+    {
+      "@id": "http://mlcommons.org/croissant/1.1",
+      "schema:description": "Converted from Croissant 1.0 JSON-LD"
+    }
+  ]
+}

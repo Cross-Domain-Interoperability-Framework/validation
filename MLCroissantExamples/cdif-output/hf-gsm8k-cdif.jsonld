@@ -1,0 +1,231 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dqv": "http://www.w3.org/ns/dqv#",
+    "cr": "http://mlcommons.org/croissant/",
+    "dct": "http://purl.org/dc/terms/",
+    "sc": "https://schema.org/"
+  },
+  "@type": [
+    "schema:Dataset"
+  ],
+  "@id": "https://huggingface.co/datasets/openai/gsm8k",
+  "schema:name": "gsm8k",
+  "schema:description": "\n\t\n\t\t\n\t\tDataset Card for GSM8K\n\t\n\n\n\t\n\t\t\n\t\tDataset Summary\n\t\n\nGSM8K (Grade School Math 8K) is a dataset of 8.5K high quality linguistically diverse grade school math word problems. The dataset was created to support the task of question answering on basic mathematical problems that require multi-step reasoning.\n\nThese problems take between 2 and 8 steps to solve.\nSolutions primarily involve performing a sequence of elementary calculations using basic arithmetic operations (+ − ×÷) to reach the… See the full description on the dataset page: https://huggingface.co/datasets/openai/gsm8k.",
+  "schema:url": "https://huggingface.co/datasets/openai/gsm8k",
+  "schema:dateModified": "2026-03-23",
+  "schema:sameAs": "https://openai.com/blog/grade-school-math/",
+  "schema:identifier": "https://huggingface.co/datasets/openai/gsm8k",
+  "schema:license": [
+    "https://choosealicense.com/licenses/mit/"
+  ],
+  "schema:creator": {
+    "@list": [
+      {
+        "@type": "schema:Organization",
+        "schema:name": "OpenAI"
+      }
+    ]
+  },
+  "schema:keywords": [
+    "Benchmark",
+    "eval-yaml",
+    "text-generation",
+    "crowdsourced",
+    "crowdsourced",
+    "monolingual",
+    "original",
+    "English",
+    "mit",
+    "10K - 100K",
+    "parquet",
+    "Text",
+    "Datasets",
+    "pandas",
+    "Polars",
+    "Croissant",
+    "arxiv:2110.14168",
+    "🇺🇸 Region: US",
+    "math-word-problems"
+  ],
+  "schema:distribution": [
+    {
+      "@id": "parquet-files-for-config-main",
+      "schema:encodingFormat": [
+        "application/x-parquet"
+      ],
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://huggingface.co/datasets/openai/gsm8k/tree/refs%2Fconvert%2Fparquet",
+      "schema:description": "File set; includes: main/*/*.parquet",
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdif:index": 1,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#field1"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 2,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#field2"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 3,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#field3"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        }
+      ]
+    },
+    {
+      "@id": "parquet-files-for-config-socratic",
+      "schema:encodingFormat": [
+        "application/x-parquet"
+      ],
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://huggingface.co/datasets/openai/gsm8k/tree/refs%2Fconvert%2Fparquet",
+      "schema:description": "File set; includes: socratic/*/*.parquet",
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdif:index": 1,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#field1_1"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 2,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#field2_2"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 3,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#field3_3"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [
+    {
+      "@id": "#field1",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "field_1",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#field2",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "field_2",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#field3",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "field_3",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#field1_1",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "field_1",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#field2_2",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "field_2",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#field3_3",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "field_3",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      "dcat:CatalogRecord"
+    ],
+    "schema:about": {
+      "@id": "https://huggingface.co/datasets/openai/gsm8k"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.1"
+      }
+    ],
+    "schema:sdDatePublished": "2026-03-23"
+  },
+  "prov:wasDerivedFrom": [
+    {
+      "@id": "http://mlcommons.org/croissant/1.1",
+      "schema:description": "Converted from Croissant 1.0 JSON-LD"
+    }
+  ]
+}

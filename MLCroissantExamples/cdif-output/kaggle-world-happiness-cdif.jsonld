@@ -1,0 +1,1264 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dqv": "http://www.w3.org/ns/dqv#",
+    "cr": "http://mlcommons.org/croissant/",
+    "dct": "http://purl.org/dc/terms/",
+    "sc": "https://schema.org/",
+    "wd": "https://www.wikidata.org/wiki/"
+  },
+  "@type": [
+    "schema:Dataset"
+  ],
+  "@id": "https://www.kaggle.com/datasets/unsdsn/world-happiness/versions/2",
+  "schema:name": "World Happiness Report",
+  "schema:description": "### Context \n\nThe World Happiness Report is a landmark survey of the state of global happiness. The first report was published in 2012, the second in 2013, the third in 2015, and the fourth in the 2016 Update. The World Happiness 2017, which ranks 155 countries by their happiness levels, was released at the United Nations at an event celebrating International Day of Happiness on March 20th. The report continues to gain global recognition as governments, organizations and civil society increasingly use happiness indicators to inform their policy-making decisions. Leading experts across fields – economics, psychology, survey analysis, national statistics, health, public policy and more – describe how measurements of well-being can be used effectively to assess the progress of nations. The reports review the state of happiness in the world today and show how the new science of happiness explains personal and national variations in happiness. \n\n### Content\n\nThe happiness scores and rankings use data from the Gallup World Poll. The scores are based on answers to the main life evaluation question asked in the poll. This question, known as the Cantril ladder, asks respondents to think of a ladder with the best possible life for them being a 10 and the worst possible life being a 0 and to rate their own current lives on that scale. The scores are from nationally representative samples for the years 2013-2016 and use the Gallup weights to make the estimates representative. The columns following the happiness score estimate the extent to which each of six factors – economic production, social support, life expectancy, freedom, absence of corruption, and generosity – contribute to making life evaluations higher in each country than they are in Dystopia, a hypothetical country that has values equal to the world’s lowest national averages for each of the six factors. They have no impact on the total score reported for each country, but they do explain why some countries rank higher than others.\n\n\n### Inspiration\n\nWhat countries or regions rank the highest in overall happiness and each of the six factors contributing to happiness? How did country ranks or scores change between the 2015 and 2016 as well as the 2016 and 2017 reports? Did any country experience a significant increase or decrease in happiness?\n\n**What is Dystopia?**\n\nDystopia is an imaginary country that has the world’s least-happy people. The purpose in establishing Dystopia is to have a benchmark against which all countries can be favorably compared (no country performs more poorly than Dystopia) in terms of each of the six key variables, thus allowing each sub-bar to be of positive width. The lowest scores observed for the six key variables, therefore, characterize Dystopia. Since life would be very unpleasant in a country with the world’s lowest incomes, lowest life expectancy, lowest generosity, most corruption, least freedom and least social support, it is referred to as “Dystopia,” in contrast to Utopia.\n\n**What are the residuals?**\n\nThe residuals, or unexplained components, differ for each country, reflecting the extent to which the six variables either over- or under-explain average 2014-2016 life evaluations. These residuals have an average value of approximately zero over the whole set of countries. Figure 2.2 shows the average residual for each country when the equation in Table 2.1 is applied to average 2014- 2016 data for the six variables in that country. We combine these residuals with the estimate for life evaluations in Dystopia so that the combined bar will always have positive values. As can be seen in Figure 2.2, although some life evaluation residuals are quite large, occasionally exceeding one point on the scale from 0 to 10, they are always much smaller than the calculated value in Dystopia, where the average life is rated at 1.85 on the 0 to 10 scale.\n\n**What do the columns succeeding the Happiness Score(like Family, Generosity, etc.) describe?**\n\nThe following columns: GDP per Capita, Family, Life Expectancy, Freedom, Generosity, Trust Government Corruption describe the extent to which these factors contribute in evaluating the happiness in each country. \nThe Dystopia Residual metric actually is the Dystopia Happiness Score(1.85) +  the Residual value or the unexplained value for each country as stated in the previous answer.\n\nIf you add all these factors up, you get the happiness score so it might be un-reliable to model them to predict Happiness Scores.\n\n#[Start a new kernel][1]\n\n\n  [1]: https://www.kaggle.com/unsdsn/world-happiness/kernels?modal=true",
+  "schema:url": "https://www.kaggle.com/datasets/unsdsn/world-happiness/versions/2",
+  "schema:datePublished": "2017-02-28T15:00:38.977",
+  "schema:dateModified": "2019-11-27T04:41:47.297",
+  "schema:includedInDataCatalog": {
+    "@type": "sc:DataCatalog",
+    "name": "Kaggle",
+    "url": "https://www.kaggle.com"
+  },
+  "schema:version": 2,
+  "schema:identifier": "https://www.kaggle.com/datasets/unsdsn/world-happiness/versions/2",
+  "schema:license": {
+    "@type": "sc:CreativeWork",
+    "name": "CC0: Public Domain",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "schema:creator": {
+    "@list": [
+      {
+        "@type": "schema:sc:Organization",
+        "schema:name": "Sustainable Development Solutions Network"
+      }
+    ]
+  },
+  "schema:publisher": {
+    "@type": "schema:sc:Organization",
+    "schema:name": "Kaggle"
+  },
+  "schema:keywords": [
+    "subject > people and society > social science > economics",
+    "subject > people and society > social science",
+    "subject > arts and entertainment",
+    "subject > people and society > religion and belief systems",
+    "subject > people and society > news"
+  ],
+  "schema:distribution": [
+    {
+      "@id": "archive.zip",
+      "schema:name": "archive.zip",
+      "schema:description": "Archive containing all the contents of the World Happiness Report dataset",
+      "schema:encodingFormat": [
+        "application/zip"
+      ],
+      "schema:contentUrl": "https://www.kaggle.com/api/v1/datasets/download/unsdsn/world-happiness?datasetVersionNumber=2",
+      "schema:size": {
+        "@type": [
+          "schema:QuantitativeValue"
+        ],
+        "schema:value": 36.809,
+        "schema:unitText": "kilobyte"
+      },
+      "spdx:checksum": {
+        "@type": [
+          "spdx:Checksum"
+        ],
+        "spdx:checksumAlgorithm": "checksumAlgorithm_md5",
+        "spdx:checksumValue": "bc1++XNoIWW685QyDLewsg=="
+      },
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:hasPart": [
+        {
+          "@id": "2015.csv_fileobject",
+          "schema:name": "2015.csv",
+          "schema:description": "Happiness rank and scores by country, 2015",
+          "schema:encodingFormat": [
+            "text/csv"
+          ],
+          "schema:contentUrl": "2015.csv",
+          "@type": [
+            "schema:MediaObject",
+            "cdi:TabularTextDataSet"
+          ],
+          "cdif:hasPhysicalMapping": [
+            {
+              "cdif:index": 1,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#country"
+              },
+              "cdif:physicalDataType": "xsd:string"
+            },
+            {
+              "cdif:index": 2,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#region"
+              },
+              "cdif:physicalDataType": "xsd:string"
+            },
+            {
+              "cdif:index": 3,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#happinessrank"
+              },
+              "cdif:physicalDataType": "xsd:integer"
+            },
+            {
+              "cdif:index": 4,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#happinessscore"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 5,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#standarderror"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 6,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#economygdppercapita"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 7,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#family"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 8,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#healthlifeexpectancy"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 9,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#freedom"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 10,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#trustgovernmentcorruption"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 11,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#generosity"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 12,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#dystopiaresidual"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            }
+          ]
+        },
+        {
+          "@id": "2016.csv_fileobject",
+          "schema:name": "2016.csv",
+          "schema:description": "Happiness rank and scores by country, 2016",
+          "schema:encodingFormat": [
+            "text/csv"
+          ],
+          "schema:contentUrl": "2016.csv",
+          "@type": [
+            "schema:MediaObject",
+            "cdi:TabularTextDataSet"
+          ],
+          "cdif:hasPhysicalMapping": [
+            {
+              "cdif:index": 1,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#country_1"
+              },
+              "cdif:physicalDataType": "xsd:string"
+            },
+            {
+              "cdif:index": 2,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#region_2"
+              },
+              "cdif:physicalDataType": "xsd:string"
+            },
+            {
+              "cdif:index": 3,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#happinessrank_3"
+              },
+              "cdif:physicalDataType": "xsd:integer"
+            },
+            {
+              "cdif:index": 4,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#happinessscore_4"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 5,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#lowerconfidenceinterval"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 6,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#upperconfidenceinterval"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 7,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#economygdppercapita_7"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 8,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#family_8"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 9,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#healthlifeexpectancy_9"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 10,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#freedom_10"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 11,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#trustgovernmentcorruption_11"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 12,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#generosity_12"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 13,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#dystopiaresidual_13"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            }
+          ]
+        },
+        {
+          "@id": "2017.csv_fileobject",
+          "schema:name": "2017.csv",
+          "schema:description": "Happiness rank and scores by country, 2017",
+          "schema:encodingFormat": [
+            "text/csv"
+          ],
+          "schema:contentUrl": "2017.csv",
+          "@type": [
+            "schema:MediaObject",
+            "cdi:TabularTextDataSet"
+          ],
+          "cdif:hasPhysicalMapping": [
+            {
+              "cdif:index": 1,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#country_1"
+              },
+              "cdif:physicalDataType": "xsd:string"
+            },
+            {
+              "cdif:index": 2,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#happinessrank_2"
+              },
+              "cdif:physicalDataType": "xsd:integer"
+            },
+            {
+              "cdif:index": 3,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#happinessscore_3"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 4,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#whiskerhigh"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 5,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#whiskerlow"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 6,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#economygdppercapita_6"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 7,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#family_7"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 8,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#healthlifeexpectancy_8"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 9,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#freedom_9"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 10,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#generosity_10"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 11,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#trustgovernmentcorruption_11"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 12,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#dystopiaresidual_12"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            }
+          ]
+        },
+        {
+          "@id": "2018.csv_fileobject",
+          "schema:name": "2018.csv",
+          "schema:description": "Happiness rank and scores by country, 2018",
+          "schema:encodingFormat": [
+            "text/csv"
+          ],
+          "schema:contentUrl": "2018.csv",
+          "@type": [
+            "schema:MediaObject",
+            "cdi:TabularTextDataSet"
+          ],
+          "cdif:hasPhysicalMapping": [
+            {
+              "cdif:index": 1,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#overallrank"
+              },
+              "cdif:physicalDataType": "xsd:integer"
+            },
+            {
+              "cdif:index": 2,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#countryorregion"
+              },
+              "cdif:physicalDataType": "xsd:string"
+            },
+            {
+              "cdif:index": 3,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#score"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 4,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#gdppercapita"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 5,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#socialsupport"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 6,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#healthylifeexpectancy"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 7,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#freedomtomakelifechoices"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 8,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#generosity_8"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 9,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#perceptionsofcorruption"
+              },
+              "cdif:physicalDataType": "xsd:string"
+            }
+          ]
+        },
+        {
+          "@id": "2019.csv_fileobject",
+          "schema:name": "2019.csv",
+          "schema:description": "Happiness rank and scores by country, 2019",
+          "schema:encodingFormat": [
+            "text/csv"
+          ],
+          "schema:contentUrl": "2019.csv",
+          "@type": [
+            "schema:MediaObject",
+            "cdi:TabularTextDataSet"
+          ],
+          "cdif:hasPhysicalMapping": [
+            {
+              "cdif:index": 1,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#overallrank_1"
+              },
+              "cdif:physicalDataType": "xsd:integer"
+            },
+            {
+              "cdif:index": 2,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#countryorregion_2"
+              },
+              "cdif:physicalDataType": "xsd:string"
+            },
+            {
+              "cdif:index": 3,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#score_3"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 4,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#gdppercapita_4"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 5,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#socialsupport_5"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 6,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#healthylifeexpectancy_6"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 7,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#freedomtomakelifechoices_7"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 8,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#generosity_8"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            },
+            {
+              "cdif:index": 9,
+              "cdif:formats_InstanceVariable": {
+                "@id": "#perceptionsofcorruption_9"
+              },
+              "cdif:physicalDataType": "xsd:decimal"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [
+    {
+      "@id": "#country",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Country",
+      "schema:description": "Name of the country.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#region",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Region",
+      "schema:description": "Region the country belongs to.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#happinessrank",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Happiness Rank",
+      "schema:description": "Rank of the country based on the Happiness Score.",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#happinessscore",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Happiness Score",
+      "schema:description": "A metric measured in 2015 by asking the sampled people the question: \"How would you rate your happiness on a scale of 0 to 10 where 10 is the happiest.\"",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#standarderror",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Standard Error",
+      "schema:description": "The standard error of the happiness score.",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#economygdppercapita",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Economy (GDP per Capita)",
+      "schema:description": "The extent to which GDP contributes to the calculation of the Happiness Score.",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#family",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Family",
+      "schema:description": "The extent to which Family contributes to the calculation of the Happiness Score",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#healthlifeexpectancy",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Health (Life Expectancy)",
+      "schema:description": "The extent to which Life expectancy contributed to the calculation of the Happiness Score",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#freedom",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Freedom",
+      "schema:description": "The extent to which Freedom contributed to the calculation of the Happiness Score.",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#trustgovernmentcorruption",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Trust (Government Corruption)",
+      "schema:description": "The extent to which Perception of Corruption contributes to Happiness Score.",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#generosity",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Generosity",
+      "schema:description": "The extent to which Generosity contributed to the calculation of the Happiness Score.",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#dystopiaresidual",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Dystopia Residual",
+      "schema:description": "The extent to which Dystopia Residual contributed to the calculation of the Happiness Score.",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#country_1",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Country",
+      "schema:description": "Name of the country",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#region_2",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Region",
+      "schema:description": "Region the country belongs to",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#happinessrank_3",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Happiness Rank",
+      "schema:description": "Rank of the country based on the Happiness Score.",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#happinessscore_4",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Happiness Score",
+      "schema:description": "A metric measured in 2016 by asking the sampled people the question: \"How would you rate your happiness on a scale of 0 to 10 where 10 is the happiest\"",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#lowerconfidenceinterval",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Lower Confidence Interval",
+      "schema:description": "Lower Confidence Interval of the Happiness Score",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#upperconfidenceinterval",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Upper Confidence Interval",
+      "schema:description": "Upper Confidence Interval of the Happiness Score",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#economygdppercapita_7",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Economy (GDP per Capita)",
+      "schema:description": "The extent to which GDP contributes to the calculation of the Happiness Score.",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#family_8",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Family",
+      "schema:description": "The extent to which Family contributes to the calculation of the Happiness Score",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#healthlifeexpectancy_9",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Health (Life Expectancy)",
+      "schema:description": "The extent to which Life expectancy contributed to the calculation of the Happiness Score",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#freedom_10",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Freedom",
+      "schema:description": "The extent to which Freedom contributed to the calculation of the Happiness Score",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#trustgovernmentcorruption_11",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Trust (Government Corruption)",
+      "schema:description": "The extent to which Perception of Corruption contributes to Happiness Score",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#generosity_12",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Generosity",
+      "schema:description": "The extent to which Generosity contributed to the calculation of the Happiness Score",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#dystopiaresidual_13",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Dystopia Residual",
+      "schema:description": "The extent to which Dystopia Residual contributed to the calculation of the Happiness Score.",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#country_1",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Country",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#happinessrank_2",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Happiness.Rank",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#happinessscore_3",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Happiness.Score",
+      "schema:description": "A metric measured in 2016 by asking the sampled people the question: \"How would you rate your happiness on a scale of 0 to 10 where 10 is the happiest\"",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#whiskerhigh",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Whisker.high",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#whiskerlow",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Whisker.low",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#economygdppercapita_6",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Economy..GDP.per.Capita.",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#family_7",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Family",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#healthlifeexpectancy_8",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Health..Life.Expectancy.",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#freedom_9",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Freedom",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#generosity_10",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Generosity",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#trustgovernmentcorruption_11",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Trust..Government.Corruption.",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#dystopiaresidual_12",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Dystopia.Residual",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#overallrank",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Overall rank",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#countryorregion",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Country or region",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#score",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Score",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#gdppercapita",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "GDP per capita",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#socialsupport",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Social support",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#healthylifeexpectancy",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Healthy life expectancy",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#freedomtomakelifechoices",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Freedom to make life choices",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#generosity_8",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Generosity",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#perceptionsofcorruption",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Perceptions of corruption",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#overallrank_1",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Overall rank",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    },
+    {
+      "@id": "#countryorregion_2",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Country or region",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#score_3",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Score",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#gdppercapita_4",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "GDP per capita",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#socialsupport_5",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Social support",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#healthylifeexpectancy_6",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Healthy life expectancy",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#freedomtomakelifechoices_7",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Freedom to make life choices",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#generosity_8",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Generosity",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    },
+    {
+      "@id": "#perceptionsofcorruption_9",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "Perceptions of corruption",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
+      }
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      "dcat:CatalogRecord"
+    ],
+    "schema:about": {
+      "@id": "https://www.kaggle.com/datasets/unsdsn/world-happiness/versions/2"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.1"
+      }
+    ],
+    "schema:sdDatePublished": "2019-11-27T04:41:47.297"
+  },
+  "prov:wasDerivedFrom": [
+    {
+      "@id": "http://mlcommons.org/croissant/1.1",
+      "schema:description": "Converted from Croissant 1.0 JSON-LD"
+    }
+  ]
+}

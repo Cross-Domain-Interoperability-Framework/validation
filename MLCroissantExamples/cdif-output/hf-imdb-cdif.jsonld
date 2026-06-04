@@ -1,0 +1,162 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dqv": "http://www.w3.org/ns/dqv#",
+    "cr": "http://mlcommons.org/croissant/",
+    "dct": "http://purl.org/dc/terms/",
+    "sc": "https://schema.org/"
+  },
+  "@type": [
+    "schema:Dataset"
+  ],
+  "@id": "https://huggingface.co/datasets/stanfordnlp/imdb",
+  "schema:name": "imdb",
+  "schema:description": "\n\t\n\t\t\n\t\tDataset Card for \"imdb\"\n\t\n\n\n\t\n\t\t\n\t\tDataset Summary\n\t\n\nLarge Movie Review Dataset.\nThis is a dataset for binary sentiment classification containing substantially more data than previous benchmark datasets. We provide a set of 25,000 highly polar movie reviews for training, and 25,000 for testing. There is additional unlabeled data for use as well.\n\n\t\n\t\t\n\t\tSupported Tasks and Leaderboards\n\t\n\nMore Information Needed\n\n\t\n\t\t\n\t\tLanguages\n\t\n\nMore Information Needed\n\n\t\n\t\t\n\t\tDataset Structure… See the full description on the dataset page: https://huggingface.co/datasets/stanfordnlp/imdb.",
+  "schema:url": "https://huggingface.co/datasets/stanfordnlp/imdb",
+  "schema:dateModified": "2024-01-04",
+  "schema:sameAs": "http://ai.stanford.edu/~amaas/data/sentiment/",
+  "schema:identifier": "https://huggingface.co/datasets/stanfordnlp/imdb",
+  "schema:license": [
+    "https://choosealicense.com/licenses/other/"
+  ],
+  "schema:creator": {
+    "@list": [
+      {
+        "@type": "schema:Organization",
+        "schema:name": "Stanford NLP"
+      }
+    ]
+  },
+  "schema:keywords": [
+    "text-classification",
+    "sentiment-classification",
+    "expert-generated",
+    "expert-generated",
+    "monolingual",
+    "original",
+    "English",
+    "other",
+    "100K - 1M",
+    "parquet",
+    "Text",
+    "Datasets",
+    "pandas",
+    "Croissant",
+    "Polars",
+    "🇺🇸 Region: US"
+  ],
+  "schema:distribution": [
+    {
+      "@id": "parquet-files-for-config-plain_text",
+      "schema:name": "parquet-files-for-config-plain_text",
+      "schema:description": "The underlying Parquet files as converted by Hugging Face (see: https://huggingface.co/docs/dataset-viewer/parquet). (File set; includes: plain_text/*/*.parquet)",
+      "schema:encodingFormat": [
+        "application/x-parquet"
+      ],
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://huggingface.co/datasets/stanfordnlp/imdb/tree/refs%2Fconvert%2Fparquet",
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdif:index": 1,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#plaintextsplit"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 2,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#plaintexttext"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 3,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#plaintextlabel"
+          },
+          "cdif:physicalDataType": "xsd:integer"
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [
+    {
+      "@id": "#plaintextsplit",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "plain_text/split",
+      "schema:description": "Split to which the example belongs to.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#plaintexttext",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "plain_text/text",
+      "schema:description": "Column 'text' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#plaintextlabel",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "plain_text/label",
+      "schema:description": "ClassLabel column 'label' from the Hugging Face parquet file.\nLabels:\nneg (0), pos (1)",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      "dcat:CatalogRecord"
+    ],
+    "schema:about": {
+      "@id": "https://huggingface.co/datasets/stanfordnlp/imdb"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.1"
+      }
+    ],
+    "schema:sdDatePublished": "2024-01-04"
+  },
+  "prov:wasDerivedFrom": [
+    {
+      "@id": "http://mlcommons.org/croissant/1.1",
+      "schema:description": "Converted from Croissant 1.0 JSON-LD"
+    }
+  ]
+}

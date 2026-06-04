@@ -1,0 +1,1651 @@
+{
+  "@context": {
+    "@language": "en",
+    "@vocab": "https://schema.org/",
+    "citeAs": "cr:citeAs",
+    "column": "cr:column",
+    "conformsTo": "dct:conformsTo",
+    "cr": "http://mlcommons.org/croissant/",
+    "data": {
+      "@id": "cr:data",
+      "@type": "@json"
+    },
+    "dataBiases": "cr:dataBiases",
+    "dataCollection": "cr:dataCollection",
+    "dataType": {
+      "@id": "cr:dataType",
+      "@type": "@vocab"
+    },
+    "dct": "http://purl.org/dc/terms/",
+    "extract": "cr:extract",
+    "field": "cr:field",
+    "fileProperty": "cr:fileProperty",
+    "fileObject": "cr:fileObject",
+    "fileSet": "cr:fileSet",
+    "format": "cr:format",
+    "includes": "cr:includes",
+    "isLiveDataset": "cr:isLiveDataset",
+    "jsonPath": "cr:jsonPath",
+    "key": "cr:key",
+    "md5": "cr:md5",
+    "parentField": "cr:parentField",
+    "path": "cr:path",
+    "personalSensitiveInformation": "cr:personalSensitiveInformation",
+    "recordSet": "cr:recordSet",
+    "references": "cr:references",
+    "regex": "cr:regex",
+    "repeated": "cr:repeated",
+    "replace": "cr:replace",
+    "sc": "https://schema.org/",
+    "separator": "cr:separator",
+    "source": "cr:source",
+    "subField": "cr:subField",
+    "transform": "cr:transform"
+  },
+  "@type": "sc:Dataset",
+  "distribution": [
+    {
+      "@type": "cr:FileObject",
+      "@id": "repo",
+      "name": "repo",
+      "description": "The Hugging Face git repository.",
+      "contentUrl": "https://huggingface.co/datasets/nyu-mll/glue/tree/refs%2Fconvert%2Fparquet",
+      "encodingFormat": "git+https",
+      "sha256": "https://github.com/mlcommons/croissant/issues/80"
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "parquet-files-for-config-ax",
+      "name": "parquet-files-for-config-ax",
+      "description": "The underlying Parquet files as converted by Hugging Face (see: https://huggingface.co/docs/dataset-viewer/parquet).",
+      "containedIn": {
+        "@id": "repo"
+      },
+      "encodingFormat": "application/x-parquet",
+      "includes": "ax/*/*.parquet"
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "parquet-files-for-config-cola",
+      "name": "parquet-files-for-config-cola",
+      "description": "The underlying Parquet files as converted by Hugging Face (see: https://huggingface.co/docs/dataset-viewer/parquet).",
+      "containedIn": {
+        "@id": "repo"
+      },
+      "encodingFormat": "application/x-parquet",
+      "includes": "cola/*/*.parquet"
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "parquet-files-for-config-mnli",
+      "name": "parquet-files-for-config-mnli",
+      "description": "The underlying Parquet files as converted by Hugging Face (see: https://huggingface.co/docs/dataset-viewer/parquet).",
+      "containedIn": {
+        "@id": "repo"
+      },
+      "encodingFormat": "application/x-parquet",
+      "includes": "mnli/*/*.parquet"
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "parquet-files-for-config-mnli_matched",
+      "name": "parquet-files-for-config-mnli_matched",
+      "description": "The underlying Parquet files as converted by Hugging Face (see: https://huggingface.co/docs/dataset-viewer/parquet).",
+      "containedIn": {
+        "@id": "repo"
+      },
+      "encodingFormat": "application/x-parquet",
+      "includes": "mnli_matched/*/*.parquet"
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "parquet-files-for-config-mnli_mismatched",
+      "name": "parquet-files-for-config-mnli_mismatched",
+      "description": "The underlying Parquet files as converted by Hugging Face (see: https://huggingface.co/docs/dataset-viewer/parquet).",
+      "containedIn": {
+        "@id": "repo"
+      },
+      "encodingFormat": "application/x-parquet",
+      "includes": "mnli_mismatched/*/*.parquet"
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "parquet-files-for-config-mrpc",
+      "name": "parquet-files-for-config-mrpc",
+      "description": "The underlying Parquet files as converted by Hugging Face (see: https://huggingface.co/docs/dataset-viewer/parquet).",
+      "containedIn": {
+        "@id": "repo"
+      },
+      "encodingFormat": "application/x-parquet",
+      "includes": "mrpc/*/*.parquet"
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "parquet-files-for-config-qnli",
+      "name": "parquet-files-for-config-qnli",
+      "description": "The underlying Parquet files as converted by Hugging Face (see: https://huggingface.co/docs/dataset-viewer/parquet).",
+      "containedIn": {
+        "@id": "repo"
+      },
+      "encodingFormat": "application/x-parquet",
+      "includes": "qnli/*/*.parquet"
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "parquet-files-for-config-qqp",
+      "name": "parquet-files-for-config-qqp",
+      "description": "The underlying Parquet files as converted by Hugging Face (see: https://huggingface.co/docs/dataset-viewer/parquet).",
+      "containedIn": {
+        "@id": "repo"
+      },
+      "encodingFormat": "application/x-parquet",
+      "includes": "qqp/*/*.parquet"
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "parquet-files-for-config-rte",
+      "name": "parquet-files-for-config-rte",
+      "description": "The underlying Parquet files as converted by Hugging Face (see: https://huggingface.co/docs/dataset-viewer/parquet).",
+      "containedIn": {
+        "@id": "repo"
+      },
+      "encodingFormat": "application/x-parquet",
+      "includes": "rte/*/*.parquet"
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "parquet-files-for-config-sst2",
+      "name": "parquet-files-for-config-sst2",
+      "description": "The underlying Parquet files as converted by Hugging Face (see: https://huggingface.co/docs/dataset-viewer/parquet).",
+      "containedIn": {
+        "@id": "repo"
+      },
+      "encodingFormat": "application/x-parquet",
+      "includes": "sst2/*/*.parquet"
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "parquet-files-for-config-stsb",
+      "name": "parquet-files-for-config-stsb",
+      "description": "The underlying Parquet files as converted by Hugging Face (see: https://huggingface.co/docs/dataset-viewer/parquet).",
+      "containedIn": {
+        "@id": "repo"
+      },
+      "encodingFormat": "application/x-parquet",
+      "includes": "stsb/*/*.parquet"
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "parquet-files-for-config-wnli",
+      "name": "parquet-files-for-config-wnli",
+      "description": "The underlying Parquet files as converted by Hugging Face (see: https://huggingface.co/docs/dataset-viewer/parquet).",
+      "containedIn": {
+        "@id": "repo"
+      },
+      "encodingFormat": "application/x-parquet",
+      "includes": "wnli/*/*.parquet"
+    }
+  ],
+  "recordSet": [
+    {
+      "@type": "cr:RecordSet",
+      "dataType": "cr:Split",
+      "key": {
+        "@id": "ax_splits/split_name"
+      },
+      "@id": "ax_splits",
+      "name": "ax_splits",
+      "description": "Splits for the ax config.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "ax_splits/split_name",
+          "name": "split_name",
+          "description": "The name of the split.",
+          "dataType": "sc:Text"
+        }
+      ],
+      "data": [
+        {
+          "ax_splits/split_name": "test"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "ax",
+      "name": "ax",
+      "description": "nyu-mll/glue - 'ax' subset",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "ax/split",
+          "name": "ax/split",
+          "description": "Split to which the example belongs to.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-ax"
+            },
+            "extract": {
+              "fileProperty": "fullpath"
+            },
+            "transform": {
+              "regex": "ax/(?:partial-)?(test)/.+parquet$"
+            }
+          },
+          "references": {
+            "field": {
+              "@id": "ax_splits/split_name"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "ax/premise",
+          "name": "ax/premise",
+          "description": "Column 'premise' from the Hugging Face parquet file.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-ax"
+            },
+            "extract": {
+              "column": "premise"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "ax/hypothesis",
+          "name": "ax/hypothesis",
+          "description": "Column 'hypothesis' from the Hugging Face parquet file.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-ax"
+            },
+            "extract": {
+              "column": "hypothesis"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "ax/label",
+          "name": "ax/label",
+          "description": "ClassLabel column 'label' from the Hugging Face parquet file.\nLabels:\nentailment (0), neutral (1), contradiction (2)",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-ax"
+            },
+            "extract": {
+              "column": "label"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "ax/idx",
+          "name": "ax/idx",
+          "description": "Column 'idx' from the Hugging Face parquet file.",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-ax"
+            },
+            "extract": {
+              "column": "idx"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "dataType": "cr:Split",
+      "key": {
+        "@id": "cola_splits/split_name"
+      },
+      "@id": "cola_splits",
+      "name": "cola_splits",
+      "description": "Splits for the cola config.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "cola_splits/split_name",
+          "name": "split_name",
+          "description": "The name of the split.",
+          "dataType": "sc:Text"
+        }
+      ],
+      "data": [
+        {
+          "cola_splits/split_name": "train"
+        },
+        {
+          "cola_splits/split_name": "validation"
+        },
+        {
+          "cola_splits/split_name": "test"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "cola",
+      "name": "cola",
+      "description": "nyu-mll/glue - 'cola' subset\n\nAdditional information:\n- 3 splits: train, validation, test",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "cola/split",
+          "name": "cola/split",
+          "description": "Split to which the example belongs to.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-cola"
+            },
+            "extract": {
+              "fileProperty": "fullpath"
+            },
+            "transform": {
+              "regex": "cola/(?:partial-)?(train|validation|test)/.+parquet$"
+            }
+          },
+          "references": {
+            "field": {
+              "@id": "cola_splits/split_name"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "cola/sentence",
+          "name": "cola/sentence",
+          "description": "Column 'sentence' from the Hugging Face parquet file.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-cola"
+            },
+            "extract": {
+              "column": "sentence"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "cola/label",
+          "name": "cola/label",
+          "description": "ClassLabel column 'label' from the Hugging Face parquet file.\nLabels:\nunacceptable (0), acceptable (1)",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-cola"
+            },
+            "extract": {
+              "column": "label"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "cola/idx",
+          "name": "cola/idx",
+          "description": "Column 'idx' from the Hugging Face parquet file.",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-cola"
+            },
+            "extract": {
+              "column": "idx"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "dataType": "cr:Split",
+      "key": {
+        "@id": "mnli_splits/split_name"
+      },
+      "@id": "mnli_splits",
+      "name": "mnli_splits",
+      "description": "Splits for the mnli config.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "mnli_splits/split_name",
+          "name": "split_name",
+          "description": "The name of the split.",
+          "dataType": "sc:Text"
+        }
+      ],
+      "data": [
+        {
+          "mnli_splits/split_name": "train"
+        },
+        {
+          "mnli_splits/split_name": "validation_matched"
+        },
+        {
+          "mnli_splits/split_name": "validation_mismatched"
+        },
+        {
+          "mnli_splits/split_name": "test_matched"
+        },
+        {
+          "mnli_splits/split_name": "test_mismatched"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "mnli",
+      "name": "mnli",
+      "description": "nyu-mll/glue - 'mnli' subset\n\nAdditional information:\n- 5 splits: train, validation_matched, validation_mismatched, test_matched, test_mismatched",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "mnli/split",
+          "name": "mnli/split",
+          "description": "Split to which the example belongs to.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-mnli"
+            },
+            "extract": {
+              "fileProperty": "fullpath"
+            },
+            "transform": {
+              "regex": "mnli/(?:partial-)?(train|validation_matched|validation_mismatched|test_matched|test_mismatched)/.+parquet$"
+            }
+          },
+          "references": {
+            "field": {
+              "@id": "mnli_splits/split_name"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "mnli/premise",
+          "name": "mnli/premise",
+          "description": "Column 'premise' from the Hugging Face parquet file.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-mnli"
+            },
+            "extract": {
+              "column": "premise"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "mnli/hypothesis",
+          "name": "mnli/hypothesis",
+          "description": "Column 'hypothesis' from the Hugging Face parquet file.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-mnli"
+            },
+            "extract": {
+              "column": "hypothesis"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "mnli/label",
+          "name": "mnli/label",
+          "description": "ClassLabel column 'label' from the Hugging Face parquet file.\nLabels:\nentailment (0), neutral (1), contradiction (2)",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-mnli"
+            },
+            "extract": {
+              "column": "label"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "mnli/idx",
+          "name": "mnli/idx",
+          "description": "Column 'idx' from the Hugging Face parquet file.",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-mnli"
+            },
+            "extract": {
+              "column": "idx"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "dataType": "cr:Split",
+      "key": {
+        "@id": "mnli_matched_splits/split_name"
+      },
+      "@id": "mnli_matched_splits",
+      "name": "mnli_matched_splits",
+      "description": "Splits for the mnli_matched config.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "mnli_matched_splits/split_name",
+          "name": "split_name",
+          "description": "The name of the split.",
+          "dataType": "sc:Text"
+        }
+      ],
+      "data": [
+        {
+          "mnli_matched_splits/split_name": "validation"
+        },
+        {
+          "mnli_matched_splits/split_name": "test"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "mnli_matched",
+      "name": "mnli_matched",
+      "description": "nyu-mll/glue - 'mnli_matched' subset\n\nAdditional information:\n- 2 splits: validation, test",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "mnli_matched/split",
+          "name": "mnli_matched/split",
+          "description": "Split to which the example belongs to.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-mnli_matched"
+            },
+            "extract": {
+              "fileProperty": "fullpath"
+            },
+            "transform": {
+              "regex": "mnli_matched/(?:partial-)?(validation|test)/.+parquet$"
+            }
+          },
+          "references": {
+            "field": {
+              "@id": "mnli_matched_splits/split_name"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "mnli_matched/premise",
+          "name": "mnli_matched/premise",
+          "description": "Column 'premise' from the Hugging Face parquet file.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-mnli_matched"
+            },
+            "extract": {
+              "column": "premise"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "mnli_matched/hypothesis",
+          "name": "mnli_matched/hypothesis",
+          "description": "Column 'hypothesis' from the Hugging Face parquet file.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-mnli_matched"
+            },
+            "extract": {
+              "column": "hypothesis"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "mnli_matched/label",
+          "name": "mnli_matched/label",
+          "description": "ClassLabel column 'label' from the Hugging Face parquet file.\nLabels:\nentailment (0), neutral (1), contradiction (2)",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-mnli_matched"
+            },
+            "extract": {
+              "column": "label"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "mnli_matched/idx",
+          "name": "mnli_matched/idx",
+          "description": "Column 'idx' from the Hugging Face parquet file.",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-mnli_matched"
+            },
+            "extract": {
+              "column": "idx"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "dataType": "cr:Split",
+      "key": {
+        "@id": "mnli_mismatched_splits/split_name"
+      },
+      "@id": "mnli_mismatched_splits",
+      "name": "mnli_mismatched_splits",
+      "description": "Splits for the mnli_mismatched config.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "mnli_mismatched_splits/split_name",
+          "name": "split_name",
+          "description": "The name of the split.",
+          "dataType": "sc:Text"
+        }
+      ],
+      "data": [
+        {
+          "mnli_mismatched_splits/split_name": "validation"
+        },
+        {
+          "mnli_mismatched_splits/split_name": "test"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "mnli_mismatched",
+      "name": "mnli_mismatched",
+      "description": "nyu-mll/glue - 'mnli_mismatched' subset\n\nAdditional information:\n- 2 splits: validation, test",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "mnli_mismatched/split",
+          "name": "mnli_mismatched/split",
+          "description": "Split to which the example belongs to.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-mnli_mismatched"
+            },
+            "extract": {
+              "fileProperty": "fullpath"
+            },
+            "transform": {
+              "regex": "mnli_mismatched/(?:partial-)?(validation|test)/.+parquet$"
+            }
+          },
+          "references": {
+            "field": {
+              "@id": "mnli_mismatched_splits/split_name"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "mnli_mismatched/premise",
+          "name": "mnli_mismatched/premise",
+          "description": "Column 'premise' from the Hugging Face parquet file.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-mnli_mismatched"
+            },
+            "extract": {
+              "column": "premise"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "mnli_mismatched/hypothesis",
+          "name": "mnli_mismatched/hypothesis",
+          "description": "Column 'hypothesis' from the Hugging Face parquet file.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-mnli_mismatched"
+            },
+            "extract": {
+              "column": "hypothesis"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "mnli_mismatched/label",
+          "name": "mnli_mismatched/label",
+          "description": "ClassLabel column 'label' from the Hugging Face parquet file.\nLabels:\nentailment (0), neutral (1), contradiction (2)",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-mnli_mismatched"
+            },
+            "extract": {
+              "column": "label"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "mnli_mismatched/idx",
+          "name": "mnli_mismatched/idx",
+          "description": "Column 'idx' from the Hugging Face parquet file.",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-mnli_mismatched"
+            },
+            "extract": {
+              "column": "idx"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "dataType": "cr:Split",
+      "key": {
+        "@id": "mrpc_splits/split_name"
+      },
+      "@id": "mrpc_splits",
+      "name": "mrpc_splits",
+      "description": "Splits for the mrpc config.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "mrpc_splits/split_name",
+          "name": "split_name",
+          "description": "The name of the split.",
+          "dataType": "sc:Text"
+        }
+      ],
+      "data": [
+        {
+          "mrpc_splits/split_name": "train"
+        },
+        {
+          "mrpc_splits/split_name": "validation"
+        },
+        {
+          "mrpc_splits/split_name": "test"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "mrpc",
+      "name": "mrpc",
+      "description": "nyu-mll/glue - 'mrpc' subset\n\nAdditional information:\n- 3 splits: train, validation, test",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "mrpc/split",
+          "name": "mrpc/split",
+          "description": "Split to which the example belongs to.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-mrpc"
+            },
+            "extract": {
+              "fileProperty": "fullpath"
+            },
+            "transform": {
+              "regex": "mrpc/(?:partial-)?(train|validation|test)/.+parquet$"
+            }
+          },
+          "references": {
+            "field": {
+              "@id": "mrpc_splits/split_name"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "mrpc/sentence1",
+          "name": "mrpc/sentence1",
+          "description": "Column 'sentence1' from the Hugging Face parquet file.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-mrpc"
+            },
+            "extract": {
+              "column": "sentence1"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "mrpc/sentence2",
+          "name": "mrpc/sentence2",
+          "description": "Column 'sentence2' from the Hugging Face parquet file.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-mrpc"
+            },
+            "extract": {
+              "column": "sentence2"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "mrpc/label",
+          "name": "mrpc/label",
+          "description": "ClassLabel column 'label' from the Hugging Face parquet file.\nLabels:\nnot_equivalent (0), equivalent (1)",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-mrpc"
+            },
+            "extract": {
+              "column": "label"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "mrpc/idx",
+          "name": "mrpc/idx",
+          "description": "Column 'idx' from the Hugging Face parquet file.",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-mrpc"
+            },
+            "extract": {
+              "column": "idx"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "dataType": "cr:Split",
+      "key": {
+        "@id": "qnli_splits/split_name"
+      },
+      "@id": "qnli_splits",
+      "name": "qnli_splits",
+      "description": "Splits for the qnli config.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "qnli_splits/split_name",
+          "name": "split_name",
+          "description": "The name of the split.",
+          "dataType": "sc:Text"
+        }
+      ],
+      "data": [
+        {
+          "qnli_splits/split_name": "train"
+        },
+        {
+          "qnli_splits/split_name": "validation"
+        },
+        {
+          "qnli_splits/split_name": "test"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "qnli",
+      "name": "qnli",
+      "description": "nyu-mll/glue - 'qnli' subset\n\nAdditional information:\n- 3 splits: train, validation, test",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "qnli/split",
+          "name": "qnli/split",
+          "description": "Split to which the example belongs to.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-qnli"
+            },
+            "extract": {
+              "fileProperty": "fullpath"
+            },
+            "transform": {
+              "regex": "qnli/(?:partial-)?(train|validation|test)/.+parquet$"
+            }
+          },
+          "references": {
+            "field": {
+              "@id": "qnli_splits/split_name"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "qnli/question",
+          "name": "qnli/question",
+          "description": "Column 'question' from the Hugging Face parquet file.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-qnli"
+            },
+            "extract": {
+              "column": "question"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "qnli/sentence",
+          "name": "qnli/sentence",
+          "description": "Column 'sentence' from the Hugging Face parquet file.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-qnli"
+            },
+            "extract": {
+              "column": "sentence"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "qnli/label",
+          "name": "qnli/label",
+          "description": "ClassLabel column 'label' from the Hugging Face parquet file.\nLabels:\nentailment (0), not_entailment (1)",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-qnli"
+            },
+            "extract": {
+              "column": "label"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "qnli/idx",
+          "name": "qnli/idx",
+          "description": "Column 'idx' from the Hugging Face parquet file.",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-qnli"
+            },
+            "extract": {
+              "column": "idx"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "dataType": "cr:Split",
+      "key": {
+        "@id": "qqp_splits/split_name"
+      },
+      "@id": "qqp_splits",
+      "name": "qqp_splits",
+      "description": "Splits for the qqp config.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "qqp_splits/split_name",
+          "name": "split_name",
+          "description": "The name of the split.",
+          "dataType": "sc:Text"
+        }
+      ],
+      "data": [
+        {
+          "qqp_splits/split_name": "train"
+        },
+        {
+          "qqp_splits/split_name": "validation"
+        },
+        {
+          "qqp_splits/split_name": "test"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "qqp",
+      "name": "qqp",
+      "description": "nyu-mll/glue - 'qqp' subset\n\nAdditional information:\n- 3 splits: train, validation, test",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "qqp/split",
+          "name": "qqp/split",
+          "description": "Split to which the example belongs to.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-qqp"
+            },
+            "extract": {
+              "fileProperty": "fullpath"
+            },
+            "transform": {
+              "regex": "qqp/(?:partial-)?(train|validation|test)/.+parquet$"
+            }
+          },
+          "references": {
+            "field": {
+              "@id": "qqp_splits/split_name"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "qqp/question1",
+          "name": "qqp/question1",
+          "description": "Column 'question1' from the Hugging Face parquet file.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-qqp"
+            },
+            "extract": {
+              "column": "question1"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "qqp/question2",
+          "name": "qqp/question2",
+          "description": "Column 'question2' from the Hugging Face parquet file.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-qqp"
+            },
+            "extract": {
+              "column": "question2"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "qqp/label",
+          "name": "qqp/label",
+          "description": "ClassLabel column 'label' from the Hugging Face parquet file.\nLabels:\nnot_duplicate (0), duplicate (1)",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-qqp"
+            },
+            "extract": {
+              "column": "label"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "qqp/idx",
+          "name": "qqp/idx",
+          "description": "Column 'idx' from the Hugging Face parquet file.",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-qqp"
+            },
+            "extract": {
+              "column": "idx"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "dataType": "cr:Split",
+      "key": {
+        "@id": "rte_splits/split_name"
+      },
+      "@id": "rte_splits",
+      "name": "rte_splits",
+      "description": "Splits for the rte config.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "rte_splits/split_name",
+          "name": "split_name",
+          "description": "The name of the split.",
+          "dataType": "sc:Text"
+        }
+      ],
+      "data": [
+        {
+          "rte_splits/split_name": "train"
+        },
+        {
+          "rte_splits/split_name": "validation"
+        },
+        {
+          "rte_splits/split_name": "test"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "rte",
+      "name": "rte",
+      "description": "nyu-mll/glue - 'rte' subset\n\nAdditional information:\n- 3 splits: train, validation, test",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "rte/split",
+          "name": "rte/split",
+          "description": "Split to which the example belongs to.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-rte"
+            },
+            "extract": {
+              "fileProperty": "fullpath"
+            },
+            "transform": {
+              "regex": "rte/(?:partial-)?(train|validation|test)/.+parquet$"
+            }
+          },
+          "references": {
+            "field": {
+              "@id": "rte_splits/split_name"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "rte/sentence1",
+          "name": "rte/sentence1",
+          "description": "Column 'sentence1' from the Hugging Face parquet file.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-rte"
+            },
+            "extract": {
+              "column": "sentence1"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "rte/sentence2",
+          "name": "rte/sentence2",
+          "description": "Column 'sentence2' from the Hugging Face parquet file.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-rte"
+            },
+            "extract": {
+              "column": "sentence2"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "rte/label",
+          "name": "rte/label",
+          "description": "ClassLabel column 'label' from the Hugging Face parquet file.\nLabels:\nentailment (0), not_entailment (1)",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-rte"
+            },
+            "extract": {
+              "column": "label"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "rte/idx",
+          "name": "rte/idx",
+          "description": "Column 'idx' from the Hugging Face parquet file.",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-rte"
+            },
+            "extract": {
+              "column": "idx"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "dataType": "cr:Split",
+      "key": {
+        "@id": "sst2_splits/split_name"
+      },
+      "@id": "sst2_splits",
+      "name": "sst2_splits",
+      "description": "Splits for the sst2 config.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "sst2_splits/split_name",
+          "name": "split_name",
+          "description": "The name of the split.",
+          "dataType": "sc:Text"
+        }
+      ],
+      "data": [
+        {
+          "sst2_splits/split_name": "train"
+        },
+        {
+          "sst2_splits/split_name": "validation"
+        },
+        {
+          "sst2_splits/split_name": "test"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "sst2",
+      "name": "sst2",
+      "description": "nyu-mll/glue - 'sst2' subset\n\nAdditional information:\n- 3 splits: train, validation, test",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "sst2/split",
+          "name": "sst2/split",
+          "description": "Split to which the example belongs to.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-sst2"
+            },
+            "extract": {
+              "fileProperty": "fullpath"
+            },
+            "transform": {
+              "regex": "sst2/(?:partial-)?(train|validation|test)/.+parquet$"
+            }
+          },
+          "references": {
+            "field": {
+              "@id": "sst2_splits/split_name"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sst2/sentence",
+          "name": "sst2/sentence",
+          "description": "Column 'sentence' from the Hugging Face parquet file.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-sst2"
+            },
+            "extract": {
+              "column": "sentence"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sst2/label",
+          "name": "sst2/label",
+          "description": "ClassLabel column 'label' from the Hugging Face parquet file.\nLabels:\nnegative (0), positive (1)",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-sst2"
+            },
+            "extract": {
+              "column": "label"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sst2/idx",
+          "name": "sst2/idx",
+          "description": "Column 'idx' from the Hugging Face parquet file.",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-sst2"
+            },
+            "extract": {
+              "column": "idx"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "dataType": "cr:Split",
+      "key": {
+        "@id": "stsb_splits/split_name"
+      },
+      "@id": "stsb_splits",
+      "name": "stsb_splits",
+      "description": "Splits for the stsb config.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "stsb_splits/split_name",
+          "name": "split_name",
+          "description": "The name of the split.",
+          "dataType": "sc:Text"
+        }
+      ],
+      "data": [
+        {
+          "stsb_splits/split_name": "train"
+        },
+        {
+          "stsb_splits/split_name": "validation"
+        },
+        {
+          "stsb_splits/split_name": "test"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "stsb",
+      "name": "stsb",
+      "description": "nyu-mll/glue - 'stsb' subset\n\nAdditional information:\n- 3 splits: train, validation, test",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "stsb/split",
+          "name": "stsb/split",
+          "description": "Split to which the example belongs to.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-stsb"
+            },
+            "extract": {
+              "fileProperty": "fullpath"
+            },
+            "transform": {
+              "regex": "stsb/(?:partial-)?(train|validation|test)/.+parquet$"
+            }
+          },
+          "references": {
+            "field": {
+              "@id": "stsb_splits/split_name"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "stsb/sentence1",
+          "name": "stsb/sentence1",
+          "description": "Column 'sentence1' from the Hugging Face parquet file.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-stsb"
+            },
+            "extract": {
+              "column": "sentence1"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "stsb/sentence2",
+          "name": "stsb/sentence2",
+          "description": "Column 'sentence2' from the Hugging Face parquet file.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-stsb"
+            },
+            "extract": {
+              "column": "sentence2"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "stsb/label",
+          "name": "stsb/label",
+          "description": "Column 'label' from the Hugging Face parquet file.",
+          "dataType": "sc:Float",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-stsb"
+            },
+            "extract": {
+              "column": "label"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "stsb/idx",
+          "name": "stsb/idx",
+          "description": "Column 'idx' from the Hugging Face parquet file.",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-stsb"
+            },
+            "extract": {
+              "column": "idx"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "dataType": "cr:Split",
+      "key": {
+        "@id": "wnli_splits/split_name"
+      },
+      "@id": "wnli_splits",
+      "name": "wnli_splits",
+      "description": "Splits for the wnli config.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "wnli_splits/split_name",
+          "name": "split_name",
+          "description": "The name of the split.",
+          "dataType": "sc:Text"
+        }
+      ],
+      "data": [
+        {
+          "wnli_splits/split_name": "train"
+        },
+        {
+          "wnli_splits/split_name": "validation"
+        },
+        {
+          "wnli_splits/split_name": "test"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "wnli",
+      "name": "wnli",
+      "description": "nyu-mll/glue - 'wnli' subset\n\nAdditional information:\n- 3 splits: train, validation, test",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "wnli/split",
+          "name": "wnli/split",
+          "description": "Split to which the example belongs to.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-wnli"
+            },
+            "extract": {
+              "fileProperty": "fullpath"
+            },
+            "transform": {
+              "regex": "wnli/(?:partial-)?(train|validation|test)/.+parquet$"
+            }
+          },
+          "references": {
+            "field": {
+              "@id": "wnli_splits/split_name"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "wnli/sentence1",
+          "name": "wnli/sentence1",
+          "description": "Column 'sentence1' from the Hugging Face parquet file.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-wnli"
+            },
+            "extract": {
+              "column": "sentence1"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "wnli/sentence2",
+          "name": "wnli/sentence2",
+          "description": "Column 'sentence2' from the Hugging Face parquet file.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-wnli"
+            },
+            "extract": {
+              "column": "sentence2"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "wnli/label",
+          "name": "wnli/label",
+          "description": "ClassLabel column 'label' from the Hugging Face parquet file.\nLabels:\nnot_entailment (0), entailment (1)",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-wnli"
+            },
+            "extract": {
+              "column": "label"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "wnli/idx",
+          "name": "wnli/idx",
+          "description": "Column 'idx' from the Hugging Face parquet file.",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-wnli"
+            },
+            "extract": {
+              "column": "idx"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "conformsTo": "http://mlcommons.org/croissant/1.0",
+  "name": "glue",
+  "description": "\n\t\n\t\t\n\t\tDataset Card for GLUE\n\t\n\n\n\t\n\t\t\n\t\tDataset Summary\n\t\n\nGLUE, the General Language Understanding Evaluation benchmark (https://gluebenchmark.com/) is a collection of resources for training, evaluating, and analyzing natural language understanding systems.\n\n\t\n\t\t\n\t\tSupported Tasks and Leaderboards\n\t\n\nThe leaderboard for the GLUE benchmark can be found at this address. It comprises the following tasks:\n\n\t\n\t\t\n\t\tax\n\t\n\nA manually-curated evaluation dataset for fine-grained analysis of system… See the full description on the dataset page: https://huggingface.co/datasets/nyu-mll/glue.",
+  "alternateName": [
+    "nyu-mll/glue",
+    "GLUE (General Language Understanding Evaluation benchmark)"
+  ],
+  "creator": {
+    "@type": "Organization",
+    "name": "NYU Machine Learning for Language",
+    "url": "https://huggingface.co/nyu-mll"
+  },
+  "keywords": [
+    "text-classification",
+    "acceptability-classification",
+    "natural-language-inference",
+    "semantic-similarity-scoring",
+    "sentiment-classification",
+    "text-scoring",
+    "other",
+    "other",
+    "monolingual",
+    "original",
+    "English",
+    "other",
+    "1M - 10M",
+    "parquet",
+    "Tabular",
+    "Text",
+    "Datasets",
+    "pandas",
+    "Croissant",
+    "Polars",
+    "arxiv:1804.07461",
+    "🇺🇸 Region: US",
+    "qa-nli",
+    "coreference-nli",
+    "paraphrase-identification"
+  ],
+  "license": "https://choosealicense.com/licenses/other/",
+  "sameAs": "https://gluebenchmark.com/",
+  "url": "https://huggingface.co/datasets/nyu-mll/glue",
+  "dateModified": "2024-01-30",
+  "dateCreated": "2022-03-02"
+}

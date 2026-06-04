@@ -1,0 +1,617 @@
+{
+  "@context": {
+    "@language": "en",
+    "@vocab": "https://schema.org/",
+    "citeAs": "cr:citeAs",
+    "column": "cr:column",
+    "conformsTo": "dct:conformsTo",
+    "cr": "http://mlcommons.org/croissant/",
+    "data": {
+      "@id": "cr:data",
+      "@type": "@json"
+    },
+    "dataBiases": "cr:dataBiases",
+    "dataCollection": "cr:dataCollection",
+    "dataType": {
+      "@id": "cr:dataType",
+      "@type": "@vocab"
+    },
+    "dct": "http://purl.org/dc/terms/",
+    "extract": "cr:extract",
+    "field": "cr:field",
+    "fileProperty": "cr:fileProperty",
+    "fileObject": "cr:fileObject",
+    "fileSet": "cr:fileSet",
+    "format": "cr:format",
+    "includes": "cr:includes",
+    "isEnumeration": "cr:isEnumeration",
+    "jsonPath": "cr:jsonPath",
+    "key": "cr:key",
+    "md5": "cr:md5",
+    "parentField": "cr:parentField",
+    "path": "cr:path",
+    "personalSensitiveInformation": "cr:personalSensitiveInformation",
+    "recordSet": "cr:recordSet",
+    "references": "cr:references",
+    "regex": "cr:regex",
+    "repeated": "cr:repeated",
+    "replace": "cr:replace",
+    "sc": "https://schema.org/",
+    "separator": "cr:separator",
+    "source": "cr:source",
+    "subField": "cr:subField",
+    "transform": "cr:transform",
+    "wd": "https://www.wikidata.org/wiki/"
+  },
+  "alternateName": "Anonymized credit card transactions labeled as fraudulent or genuine",
+  "conformsTo": "http://mlcommons.org/croissant/1.0",
+  "license": {
+    "@type": "sc:CreativeWork",
+    "name": "Database: Open Database, Contents: Database Contents",
+    "url": "http://opendatacommons.org/licenses/dbcl/1.0/"
+  },
+  "distribution": [
+    {
+      "contentUrl": "https://www.kaggle.com/api/v1/datasets/download/mlg-ulb/creditcardfraud?datasetVersionNumber=3",
+      "contentSize": "65.951 MB",
+      "md5": "v46YQnMatvm4q1HhpnQfiw==",
+      "encodingFormat": "application/zip",
+      "@id": "archive.zip",
+      "@type": "cr:FileObject",
+      "name": "archive.zip",
+      "description": "Archive containing all the contents of the Credit Card Fraud Detection dataset"
+    },
+    {
+      "contentUrl": "creditcard.csv",
+      "containedIn": {
+        "@id": "archive.zip"
+      },
+      "encodingFormat": "text/csv",
+      "@id": "creditcard.csv_fileobject",
+      "@type": "cr:FileObject",
+      "name": "creditcard.csv",
+      "description": "BigQuery Table  bigquery-public-data.fraud_detection.comments"
+    }
+  ],
+  "recordSet": [
+    {
+      "field": [
+        {
+          "dataType": [
+            "sc:Integer"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "Time"
+            }
+          },
+          "@id": "creditcard.csv/Time",
+          "@type": "cr:Field",
+          "name": "Time",
+          "description": "Number of seconds elapsed between this transaction and the first transaction in the dataset"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "V1"
+            }
+          },
+          "@id": "creditcard.csv/V1",
+          "@type": "cr:Field",
+          "name": "V1",
+          "description": "may be result of a PCA Dimensionality reduction to protect user identities and sensitive features(v1-v28)"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "V2"
+            }
+          },
+          "@id": "creditcard.csv/V2",
+          "@type": "cr:Field",
+          "name": "V2"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "V3"
+            }
+          },
+          "@id": "creditcard.csv/V3",
+          "@type": "cr:Field",
+          "name": "V3"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "V4"
+            }
+          },
+          "@id": "creditcard.csv/V4",
+          "@type": "cr:Field",
+          "name": "V4"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "V5"
+            }
+          },
+          "@id": "creditcard.csv/V5",
+          "@type": "cr:Field",
+          "name": "V5"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "V6"
+            }
+          },
+          "@id": "creditcard.csv/V6",
+          "@type": "cr:Field",
+          "name": "V6"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "V7"
+            }
+          },
+          "@id": "creditcard.csv/V7",
+          "@type": "cr:Field",
+          "name": "V7"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "V8"
+            }
+          },
+          "@id": "creditcard.csv/V8",
+          "@type": "cr:Field",
+          "name": "V8"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "V9"
+            }
+          },
+          "@id": "creditcard.csv/V9",
+          "@type": "cr:Field",
+          "name": "V9"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "V10"
+            }
+          },
+          "@id": "creditcard.csv/V10",
+          "@type": "cr:Field",
+          "name": "V10"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "V11"
+            }
+          },
+          "@id": "creditcard.csv/V11",
+          "@type": "cr:Field",
+          "name": "V11"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "V12"
+            }
+          },
+          "@id": "creditcard.csv/V12",
+          "@type": "cr:Field",
+          "name": "V12"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "V13"
+            }
+          },
+          "@id": "creditcard.csv/V13",
+          "@type": "cr:Field",
+          "name": "V13"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "V14"
+            }
+          },
+          "@id": "creditcard.csv/V14",
+          "@type": "cr:Field",
+          "name": "V14"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "V15"
+            }
+          },
+          "@id": "creditcard.csv/V15",
+          "@type": "cr:Field",
+          "name": "V15"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "V16"
+            }
+          },
+          "@id": "creditcard.csv/V16",
+          "@type": "cr:Field",
+          "name": "V16"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "V17"
+            }
+          },
+          "@id": "creditcard.csv/V17",
+          "@type": "cr:Field",
+          "name": "V17"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "V18"
+            }
+          },
+          "@id": "creditcard.csv/V18",
+          "@type": "cr:Field",
+          "name": "V18"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "V19"
+            }
+          },
+          "@id": "creditcard.csv/V19",
+          "@type": "cr:Field",
+          "name": "V19"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "V20"
+            }
+          },
+          "@id": "creditcard.csv/V20",
+          "@type": "cr:Field",
+          "name": "V20"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "V21"
+            }
+          },
+          "@id": "creditcard.csv/V21",
+          "@type": "cr:Field",
+          "name": "V21"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "V22"
+            }
+          },
+          "@id": "creditcard.csv/V22",
+          "@type": "cr:Field",
+          "name": "V22"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "V23"
+            }
+          },
+          "@id": "creditcard.csv/V23",
+          "@type": "cr:Field",
+          "name": "V23"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "V24"
+            }
+          },
+          "@id": "creditcard.csv/V24",
+          "@type": "cr:Field",
+          "name": "V24"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "V25"
+            }
+          },
+          "@id": "creditcard.csv/V25",
+          "@type": "cr:Field",
+          "name": "V25"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "V26"
+            }
+          },
+          "@id": "creditcard.csv/V26",
+          "@type": "cr:Field",
+          "name": "V26"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "V27"
+            }
+          },
+          "@id": "creditcard.csv/V27",
+          "@type": "cr:Field",
+          "name": "V27"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "V28"
+            }
+          },
+          "@id": "creditcard.csv/V28",
+          "@type": "cr:Field",
+          "name": "V28",
+          "description": "abc"
+        },
+        {
+          "dataType": [
+            "sc:Float"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "Amount"
+            }
+          },
+          "@id": "creditcard.csv/Amount",
+          "@type": "cr:Field",
+          "name": "Amount",
+          "description": "Transaction amount"
+        },
+        {
+          "dataType": [
+            "sc:Integer"
+          ],
+          "source": {
+            "fileObject": {
+              "@id": "creditcard.csv_fileobject"
+            },
+            "extract": {
+              "column": "Class"
+            }
+          },
+          "@id": "creditcard.csv/Class",
+          "@type": "cr:Field",
+          "name": "Class",
+          "description": "1 for fraudulent transactions, 0 otherwise"
+        }
+      ],
+      "@id": "creditcard.csv",
+      "@type": "cr:RecordSet",
+      "name": "creditcard.csv",
+      "description": "BigQuery Table  bigquery-public-data.fraud_detection.comments"
+    }
+  ],
+  "version": 3,
+  "keywords": [
+    "subject > people and society > business > finance",
+    "subject > people and society > law > government > crime"
+  ],
+  "isAccessibleForFree": true,
+  "includedInDataCatalog": {
+    "@type": "sc:DataCatalog",
+    "name": "Kaggle",
+    "url": "https://www.kaggle.com"
+  },
+  "creator": {
+    "@type": "sc:Organization",
+    "name": "Machine Learning Group - ULB",
+    "url": "/organizations/mlg-ulb",
+    "image": "https://storage.googleapis.com/kaggle-organizations/1160/thumbnail.png%3Fr=153"
+  },
+  "publisher": {
+    "@type": "sc:Organization",
+    "name": "Kaggle",
+    "url": "https://www.kaggle.com/organizations/kaggle",
+    "image": "https://storage.googleapis.com/kaggle-organizations/4/thumbnail.png"
+  },
+  "thumbnailUrl": "https://storage.googleapis.com/kaggle-datasets-images/310/684/3503c6c827ca269cc00ffa66f2a9c207/dataset-card.jpg",
+  "dateModified": "2018-03-23T01:17:27.913",
+  "datePublished": "2016-11-03T13:21:36.757",
+  "@type": "sc:Dataset",
+  "name": "Credit Card Fraud Detection",
+  "url": "https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud/versions/3",
+  "description": "Context\n---------\n\nIt is important that credit card companies are able to recognize fraudulent credit card transactions so that customers are not charged for items that they did not purchase.\n\nContent\n---------\n\nThe dataset contains transactions made by credit cards in September 2013 by European cardholders. \nThis dataset presents transactions that occurred in two days, where we have 492 frauds out of 284,807 transactions. The dataset is highly unbalanced, the positive class (frauds) account for 0.172% of all transactions.\n\nIt contains only numerical input variables which are the result of a PCA transformation. Unfortunately, due to confidentiality issues, we cannot provide the original features and more background information about the data. Features V1, V2, ... V28 are the principal components obtained with PCA, the only features which have not been transformed with PCA are 'Time' and 'Amount'. Feature 'Time' contains the seconds elapsed between each transaction and the first transaction in the dataset. The feature 'Amount' is the transaction Amount, this feature can be used for example-dependant cost-sensitive learning. Feature 'Class' is the response variable and it takes value 1 in case of fraud and 0 otherwise. \n\nGiven the class imbalance ratio, we recommend measuring the accuracy using the Area Under the Precision-Recall Curve (AUPRC). Confusion matrix accuracy is not meaningful for unbalanced classification.\n\nUpdate (03/05/2021)\n---------\n\nA simulator for transaction data has been released as part of the practical handbook on Machine Learning for Credit Card Fraud Detection - https://fraud-detection-handbook.github.io/fraud-detection-handbook/Chapter_3_GettingStarted/SimulatedDataset.html. We invite all practitioners interested in fraud detection datasets to also check out this data simulator, and the methodologies for credit card fraud detection presented in the book.\n\nAcknowledgements\n---------\n\nThe dataset has been collected and analysed during a research collaboration of Worldline and the Machine Learning Group (http://mlg.ulb.ac.be) of ULB (Université Libre de Bruxelles) on big data mining and fraud detection.\nMore details on current and past projects on related topics are available on [https://www.researchgate.net/project/Fraud-detection-5][1] and the page of the [DefeatFraud][2] project\n\nPlease cite the following works: \n\nAndrea Dal Pozzolo, Olivier Caelen, Reid A. Johnson and Gianluca  Bontempi. [Calibrating Probability with Undersampling for Unbalanced  Classification.][3] In Symposium on Computational Intelligence and Data  Mining (CIDM), IEEE, 2015\n\nDal Pozzolo, Andrea; Caelen, Olivier; Le Borgne, Yann-Ael; Waterschoot, Serge; Bontempi, Gianluca.  [Learned lessons in credit  card fraud detection from a practitioner perspective][4], Expert systems with applications,41,10,4915-4928,2014, Pergamon\n\nDal Pozzolo, Andrea; Boracchi, Giacomo; Caelen, Olivier; Alippi,  Cesare; Bontempi, Gianluca. [Credit card fraud detection: a realistic modeling and a novel learning strategy,][5]  IEEE transactions on neural networks and learning systems,29,8,3784-3797,2018,IEEE\n\nDal Pozzolo, Andrea [Adaptive Machine learning for credit card fraud detection][6] ULB MLG PhD thesis (supervised by G. Bontempi)\n\nCarcillo, Fabrizio; Dal Pozzolo, Andrea; Le Borgne, Yann-Aël; Caelen, Olivier; Mazzer, Yannis; Bontempi, Gianluca. [Scarff: a scalable  framework for streaming credit card fraud detection with Spark][7], Information fusion,41, 182-194,2018,Elsevier\n\nCarcillo, Fabrizio; Le Borgne, Yann-Aël; Caelen, Olivier; Bontempi, Gianluca. [Streaming active learning strategies for real-life credit card fraud detection: assessment and visualization,][8] International Journal of Data Science and Analytics, 5,4,285-300,2018,Springer International Publishing\n\nBertrand Lebichot, Yann-Aël Le Borgne, Liyun He, Frederic Oblé, Gianluca Bontempi [Deep-Learning Domain Adaptation Techniques for Credit Cards Fraud Detection](https://www.researchgate.net/publication/332180999_Deep-Learning_Domain_Adaptation_Techniques_for_Credit_Cards_Fraud_Detection),  INNSBDDL 2019: Recent Advances in Big Data and Deep Learning, pp 78-88, 2019\n\nFabrizio Carcillo, Yann-Aël Le Borgne, Olivier Caelen, Frederic Oblé, Gianluca Bontempi [Combining Unsupervised and Supervised Learning in Credit Card Fraud Detection ](https://www.researchgate.net/publication/333143698_Combining_Unsupervised_and_Supervised_Learning_in_Credit_Card_Fraud_Detection) Information Sciences, 2019\n\nYann-Aël Le Borgne, Gianluca Bontempi [Reproducible machine Learning for Credit Card Fraud Detection - Practical Handbook ](https://www.researchgate.net/publication/351283764_Machine_Learning_for_Credit_Card_Fraud_Detection_-_Practical_Handbook) \n\nBertrand Lebichot, Gianmarco Paldino, Wissam Siblini, Liyun He, Frederic Oblé, Gianluca Bontempi [Incremental learning strategies for credit cards fraud detection](https://www.researchgate.net/publication/352275169_Incremental_learning_strategies_for_credit_cards_fraud_detection),  IInternational Journal of Data Science and Analytics\n\n  [1]: https://www.researchgate.net/project/Fraud-detection-5\n  [2]: https://mlg.ulb.ac.be/wordpress/portfolio_page/defeatfraud-assessment-and-validation-of-deep-feature-engineering-and-learning-solutions-for-fraud-detection/\n  [3]: https://www.researchgate.net/publication/283349138_Calibrating_Probability_with_Undersampling_for_Unbalanced_Classification\n  [4]: https://www.researchgate.net/publication/260837261_Learned_lessons_in_credit_card_fraud_detection_from_a_practitioner_perspective\n  [5]: https://www.researchgate.net/publication/319867396_Credit_Card_Fraud_Detection_A_Realistic_Modeling_and_a_Novel_Learning_Strategy\n  [6]: http://di.ulb.ac.be/map/adalpozz/pdf/Dalpozzolo2015PhD.pdf\n  [7]: https://www.researchgate.net/publication/319616537_SCARFF_a_Scalable_Framework_for_Streaming_Credit_Card_Fraud_Detection_with_Spark\n  \n[8]: https://www.researchgate.net/publication/332180999_Deep-Learning_Domain_Adaptation_Techniques_for_Credit_Cards_Fraud_Detection"
+}

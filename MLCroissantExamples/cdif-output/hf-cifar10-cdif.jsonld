@@ -1,0 +1,161 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dqv": "http://www.w3.org/ns/dqv#",
+    "cr": "http://mlcommons.org/croissant/",
+    "dct": "http://purl.org/dc/terms/",
+    "sc": "https://schema.org/"
+  },
+  "@type": [
+    "schema:Dataset"
+  ],
+  "@id": "https://huggingface.co/datasets/uoft-cs/cifar10",
+  "schema:name": "cifar10",
+  "schema:description": "\n\t\n\t\t\n\t\tDataset Card for CIFAR-10\n\t\n\n\n\t\n\t\t\n\t\tDataset Summary\n\t\n\nThe CIFAR-10 dataset consists of 60000 32x32 colour images in 10 classes, with 6000 images per class. There are 50000 training images and 10000 test images.\nThe dataset is divided into five training batches and one test batch, each with 10000 images. The test batch contains exactly 1000 randomly-selected images from each class. The training batches contain the remaining images in random order, but some training batches may contain… See the full description on the dataset page: https://huggingface.co/datasets/uoft-cs/cifar10.",
+  "schema:url": "https://huggingface.co/datasets/uoft-cs/cifar10",
+  "schema:dateModified": "2024-01-04",
+  "schema:sameAs": "https://www.cs.toronto.edu/~kriz/cifar.html",
+  "schema:identifier": "https://huggingface.co/datasets/uoft-cs/cifar10",
+  "schema:license": [
+    "https://choosealicense.com/licenses/unknown/"
+  ],
+  "schema:creator": {
+    "@list": [
+      {
+        "@type": "schema:Organization",
+        "schema:name": "University of Toronto Computer Science"
+      }
+    ]
+  },
+  "schema:keywords": [
+    "image-classification",
+    "crowdsourced",
+    "found",
+    "monolingual",
+    "extended|other-80-Million-Tiny-Images",
+    "English",
+    "unknown",
+    "10K - 100K",
+    "parquet",
+    "Image",
+    "Datasets",
+    "pandas",
+    "Croissant",
+    "Polars",
+    "🇺🇸 Region: US"
+  ],
+  "schema:distribution": [
+    {
+      "@id": "parquet-files-for-config-plain_text",
+      "schema:name": "parquet-files-for-config-plain_text",
+      "schema:description": "The underlying Parquet files as converted by Hugging Face (see: https://huggingface.co/docs/dataset-viewer/parquet). (File set; includes: plain_text/*/*.parquet)",
+      "schema:encodingFormat": [
+        "application/x-parquet"
+      ],
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://huggingface.co/datasets/uoft-cs/cifar10/tree/refs%2Fconvert%2Fparquet",
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdif:index": 1,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#plaintextsplit"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 2,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#plaintextimg"
+          },
+          "cdif:physicalDataType": "xsd:string"
+        },
+        {
+          "cdif:index": 3,
+          "cdif:formats_InstanceVariable": {
+            "@id": "#plaintextlabel"
+          },
+          "cdif:physicalDataType": "xsd:integer"
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [
+    {
+      "@id": "#plaintextsplit",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "plain_text/split",
+      "schema:description": "Split to which the example belongs to.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#plaintextimg",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "plain_text/img",
+      "schema:description": "Image column 'img' from the Hugging Face parquet file.",
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
+      }
+    },
+    {
+      "@id": "#plaintextlabel",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "plain_text/label",
+      "schema:description": "ClassLabel column 'label' from the Hugging Face parquet file.\nLabels:\nairplane (0), automobile (1), bird (2), cat (3), deer (4), dog (5), frog (6), horse (7), ship (8), truck (9)",
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
+      }
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      "dcat:CatalogRecord"
+    ],
+    "schema:about": {
+      "@id": "https://huggingface.co/datasets/uoft-cs/cifar10"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.1"
+      }
+    ],
+    "schema:sdDatePublished": "2024-01-04"
+  },
+  "prov:wasDerivedFrom": [
+    {
+      "@id": "http://mlcommons.org/croissant/1.1",
+      "schema:description": "Converted from Croissant 1.0 JSON-LD"
+    }
+  ]
+}
