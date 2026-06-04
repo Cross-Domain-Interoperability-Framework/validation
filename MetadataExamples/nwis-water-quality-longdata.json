@@ -179,7 +179,170 @@
           "csvw:headerRowCount": 1,
           "csvw:skipInitialSpace": true,
           "cdi:isDelimited": true,
-          "cdi:isFixedWidth": false
+          "cdi:isFixedWidth": false,
+          "cdif:isStructuredBy": {
+            "@type": [
+              "cdi:LongDataStructure"
+            ],
+            "@id": "ex:nwis-long-structure",
+            "cdi:has_DataStructureComponent": [
+              {
+                "@type": [
+                  "cdi:IdentifierComponent"
+                ],
+                "@id": "ex:comp-identifier",
+                "cdif:isDefinedBy_RepresentedVariable": {
+                  "@type": [
+                    "cdi:RepresentedVariable"
+                  ],
+                  "@id": "ex:rv-ActivityIdentifier",
+                  "cdif:name": [
+                    "ActivityIdentifier"
+                  ],
+                  "cdi:hasIntendedDataType": {
+                    "@type": [
+                      "cdi:ControlledVocabularyEntry"
+                    ],
+                    "cdi:entryValue": [
+                      "xsd:string"
+                    ]
+                  }
+                }
+              },
+              {
+                "@type": [
+                  "cdi:VariableDescriptorComponent"
+                ],
+                "@id": "ex:comp-descriptor",
+                "cdif:isDefinedBy_DescriptorVariable": {
+                  "@type": [
+                    "cdi:DescriptorVariable"
+                  ],
+                  "@id": "ex:dv-Characteristic",
+                  "cdif:name": [
+                    "CharacteristicName"
+                  ],
+                  "cdif:hasValuesFrom": {
+                    "@type": [
+                      "cdi:DescriptorValueDomain"
+                    ],
+                    "@id": "ex:dvd-Characteristic",
+                    "cdif:takesValuesFrom": [
+                      {
+                        "cdif:value": "Nitrate",
+                        "cdif:isDefinedBy": {
+                          "@type": [
+                            "cdi:RepresentedVariable"
+                          ],
+                          "@id": "ex:rv-Nitrate",
+                          "cdif:name": [
+                            "Nitrate as N"
+                          ],
+                          "cdi:simpleUnitOfMeasure": "mg/l",
+                          "cdi:hasIntendedDataType": {
+                            "@type": [
+                              "cdi:ControlledVocabularyEntry"
+                            ],
+                            "cdi:entryValue": [
+                              "xsd:decimal"
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "cdif:value": "Ammonia",
+                        "cdif:isDefinedBy": {
+                          "@type": [
+                            "cdi:RepresentedVariable"
+                          ],
+                          "@id": "ex:rv-Ammonia",
+                          "cdif:name": [
+                            "Ammonia as N"
+                          ],
+                          "cdi:simpleUnitOfMeasure": "mg/l",
+                          "cdi:hasIntendedDataType": {
+                            "@type": [
+                              "cdi:ControlledVocabularyEntry"
+                            ],
+                            "cdi:entryValue": [
+                              "xsd:decimal"
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "cdif:value": "Orthophosphate",
+                        "cdif:isDefinedBy": {
+                          "@type": [
+                            "cdi:RepresentedVariable"
+                          ],
+                          "@id": "ex:rv-Orthophosphate",
+                          "cdif:name": [
+                            "Orthophosphate as P"
+                          ],
+                          "cdi:simpleUnitOfMeasure": "mg/l",
+                          "cdi:hasIntendedDataType": {
+                            "@type": [
+                              "cdi:ControlledVocabularyEntry"
+                            ],
+                            "cdi:entryValue": [
+                              "xsd:decimal"
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "@type": [
+                  "cdi:VariableValueComponent"
+                ],
+                "@id": "ex:comp-value",
+                "cdif:isDefinedBy_RepresentedVariable": {
+                  "@type": [
+                    "cdi:RepresentedVariable"
+                  ],
+                  "@id": "ex:rv-ResultMeasureValue",
+                  "cdif:name": [
+                    "ResultMeasureValue"
+                  ],
+                  "cdi:hasIntendedDataType": {
+                    "@type": [
+                      "cdi:ControlledVocabularyEntry"
+                    ],
+                    "cdi:entryValue": [
+                      "xsd:decimal"
+                    ]
+                  }
+                }
+              },
+              {
+                "@type": [
+                  "cdi:AttributeComponent"
+                ],
+                "@id": "ex:comp-uom",
+                "cdif:isDefinedBy_RepresentedVariable": {
+                  "@type": [
+                    "cdi:RepresentedVariable"
+                  ],
+                  "@id": "ex:rv-UOM",
+                  "cdif:name": [
+                    "ResultMeasure/MeasureUnitCode"
+                  ],
+                  "cdi:hasIntendedDataType": {
+                    "@type": [
+                      "cdi:ControlledVocabularyEntry"
+                    ],
+                    "cdi:entryValue": [
+                      "xsd:string"
+                    ]
+                  }
+                }
+              }
+            ]
+          }
         }
       ],
       "schema:variableMeasured": [

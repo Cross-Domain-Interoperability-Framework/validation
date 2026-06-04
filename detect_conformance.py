@@ -172,8 +172,16 @@ def detect_conformance(doc, bb_dir=None, do_shacl=True, verbose=False):
         if do_shacl and cls["shacl"] and HAS_PYSHACL and bb is not None:
             shapes_path = bb / cls["shacl"]
             if shapes_path.is_file():
+                # Building-block rules.shacl still declare cdif: as the stale
+                # https://cdif.org/0.1/ IRI, while the deployed convention (and
+                # all CDIF data) uses https://w3id.org/cdif/. Left unfixed, every
+                # cdif:-pathed shape mis-fires "missing property" on valid data.
+                # Normalize the shapes to the canonical IRI at validation time.
+                # (Real fix belongs in the BB sources — tracked separately.)
+                shapes_ttl = shapes_path.read_text(encoding="utf-8").replace(
+                    "https://cdif.org/0.1/", "https://w3id.org/cdif/")
                 _conforms, results_graph, _t = shacl_validate(
-                    graph, shacl_graph=str(shapes_path),
+                    graph, shacl_graph=shapes_ttl,
                     shacl_graph_format="turtle", inference="rdfs",
                     advanced=True)
                 # Only sh:Violation blocks declaration; sh:Warning / sh:Info are
