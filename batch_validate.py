@@ -15,30 +15,37 @@ from pathlib import Path
 VALIDATION_DIR = Path(__file__).parent
 FRAME_VALIDATE = VALIDATION_DIR / "FrameAndValidate.py"
 SHACL_VALIDATE = VALIDATION_DIR / "ShaclValidation" / "ShaclJSONLDContext.py"
-SHACL_SHAPES_COMPLETE = VALIDATION_DIR / "ShaclValidation" / "CDIF-Complete-Shapes.ttl"
-SHACL_SHAPES_DISCOVERY = VALIDATION_DIR / "ShaclValidation" / "CDIF-Discovery-Shapes.ttl"
+sys.path.insert(0, str(VALIDATION_DIR))
+import ConformanceValidate as CV  # noqa: E402
+
+# Validate each record against every CDIF profile its catalog record declares,
+# resolving each profile's JSON Schema + per-profile SHACL shapes from the local
+# conformance-schema-map.json. Covers exactly the profiles a record claims
+# (incl. provenance / manifest), not a single fixed composite.
+_RESOLVER = None
+_CONF_CACHE = {}
 
 
-def _select_shapes(filepath):
-    """Validate each record against the composite for the level it declares.
+def _resolver():
+    global _RESOLVER
+    if _RESOLVER is None:
+        _RESOLVER = CV.build_resolver("local")
+    return _RESOLVER
 
-    The Complete composite carries the data-description / data-structure /
-    provenance profile shapes, several of which require the record to *declare*
-    the corresponding profile. Applying it to a discovery-level record (which
-    does not claim those profiles) produces wrong-level violations. Choose the
-    Complete shapes only when the record's catalog record actually declares
-    data_description, data_structure, or complete; otherwise use Discovery.
-    """
-    try:
-        text = Path(filepath).read_text(encoding="utf-8")
-    except Exception:
-        return SHACL_SHAPES_COMPLETE
-    # Works for both framed (top-level subjectOf) and @graph documents: a
-    # declared higher-than-discovery profile URI anywhere in the conformsTo
-    # selects the Complete composite.
-    if any(p in text for p in ("/data_description/", "/data_structure/", "/complete/")):
-        return SHACL_SHAPES_COMPLETE
-    return SHACL_SHAPES_DISCOVERY
+
+def _conformance(filepath):
+    """Run (and cache) the full per-declared-profile conformance check."""
+    key = str(filepath)
+    if key not in _CONF_CACHE:
+        try:
+            doc = json.loads(Path(filepath).read_text(encoding="utf-8"))
+            _CONF_CACHE[key] = CV.run_conformance(
+                doc, _resolver(), do_schema=True, do_shacl=True)
+        except Exception as e:
+            _CONF_CACHE[key] = {"error": str(e), "profiles": [],
+                                "conformsTo": [], "total_violations": -1}
+    return _CONF_CACHE[key]
+
 
 # File patterns to exclude from SHACL validation (generated output, not CDIF source)
 SHACL_EXCLUDE_SUFFIXES = ("-croissant.json", "-rocrate.json", "rocrate-jsonld-example.json", "ro-crate-metadata.json")
@@ -99,7 +106,7 @@ def collect_files():
     # Group 4: ADA profile examples (36 files)
     ada_profiles = []
     ada_dir = USGIN_BB / "_sources" / "profiles" / "adaProfiles"
-    for d in sorted(ada_dir.iterdir()):
+    for d in sorted(ada_dir.iterdir()) if ada_dir.is_dir() else []:
         if d.is_dir():
             example = d / f"example{d.name}.json"
             if example.exists():
@@ -109,67 +116,48 @@ def collect_files():
     return groups
 
 
-SCHEMA_DISCOVERY = VALIDATION_DIR / "CDIFDiscoverySchema.json"
-SCHEMA_DATADESC = VALIDATION_DIR / "CDIFDataDescriptionSchema.json"
-SCHEMA_COMPLETE = VALIDATION_DIR / "CDIFCompleteSchema.json"
-
-
-def _select_schema(filepath):
-    """Pick the framed JSON Schema matching the level the record declares
-    (same rationale as _select_shapes: validating a discovery-level record
-    against the Complete schema, which requires variableMeasured, is wrong-level)."""
-    try:
-        text = Path(filepath).read_text(encoding="utf-8")
-    except Exception:
-        return SCHEMA_COMPLETE
-    if "/complete/" in text:
-        return SCHEMA_COMPLETE
-    if "/data_description/" in text or "/data_structure/" in text:
-        return SCHEMA_DATADESC
-    return SCHEMA_DISCOVERY
+def _short(uri):
+    return uri.split("/cdif/", 1)[-1] if "/cdif/" in uri else uri
 
 
 def run_json_schema_validation(filepath):
-    """Run FrameAndValidate.py and return (passed: bool, output: str)."""
-    try:
-        result = subprocess.run(
-            [sys.executable, str(FRAME_VALIDATE), str(filepath), "-v",
-             "--schema", str(_select_schema(filepath))],
-            capture_output=True, text=True, timeout=120,
-            cwd=str(VALIDATION_DIR)
-        )
-        output = result.stdout + result.stderr
-        # Check for validation success indicators
-        passed = result.returncode == 0 and "Validation errors" not in output
-        return passed, output.strip()
-    except subprocess.TimeoutExpired:
-        return False, "TIMEOUT"
-    except Exception as e:
-        return False, str(e)
+    """JSON Schema pass across every declared profile (via ConformanceValidate).
+
+    Returns (passed: bool, output: str). Passes when no declared profile's
+    framed JSON Schema fails; profiles with no local schema are reported but
+    don't fail the record.
+    """
+    res = _conformance(filepath)
+    if res.get("error"):
+        return False, res["error"]
+    profiles = res.get("profiles", [])
+    if not profiles:
+        return False, "No CDIF conformsTo profiles declared in catalog record"
+    failed = [p for p in profiles if p["schema"]["status"] in ("failed", "error")]
+    if failed:
+        msgs = [f"{_short(p['uri'])}: {e.get('message', e)}"
+                for p in failed for e in p["schema"]["errors"][:2]]
+        return False, "\n".join(msgs)
+    checked = [_short(p["uri"]) for p in profiles
+               if p["schema"]["status"] == "passed"]
+    return True, "PASSED [" + ", ".join(checked) + "]" if checked else "PASSED (no local schema)"
 
 
 def run_shacl_validation(filepath):
-    """Run SHACL validation and return (violations, warnings, infos, output).
+    """SHACL pass across every declared profile (via ConformanceValidate).
 
-    Returns a tuple of (violation_count, warning_count, info_count, raw_output).
+    Returns (violations, warnings, infos, output). Only sh:Violation results
+    count (ConformanceValidate filters severity); warnings/info are advisory and
+    not surfaced here.
     """
-    try:
-        shapes = _select_shapes(filepath)
-        result = subprocess.run(
-            [sys.executable, str(SHACL_VALIDATE), str(filepath), str(shapes)],
-            capture_output=True, text=True, timeout=120,
-            cwd=str(VALIDATION_DIR)
-        )
-        output = result.stdout + result.stderr
-        # Count issues by severity from the pyshacl report
-        violations = len(re.findall(r'Severity: sh:Violation', output))
-        warnings = len(re.findall(r'Severity: sh:Warning', output))
-        infos = len(re.findall(r'Severity: sh:Info', output))
-        return violations, warnings, infos, output.strip()
-    except subprocess.TimeoutExpired:
-        return -1, 0, 0, "TIMEOUT"
-    except Exception as e:
-        return -1, 0, 0, str(e)
+    res = _conformance(filepath)
+    if res.get("error"):
+        return -1, 0, 0, res["error"]
+    profiles = res.get("profiles", [])
+    violations = sum(len(p["shacl"]["errors"]) for p in profiles)
+    msgs = [f"{_short(p['uri'])}: {e.get('Message', e.get('message', '(violation)'))}"
+            for p in profiles for e in p["shacl"]["errors"][:3]]
+    return violations, 0, 0, "\n".join(msgs)
 
 
 def extract_errors(output):
