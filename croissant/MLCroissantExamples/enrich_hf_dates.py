@@ -8,7 +8,7 @@ instances (deriving the dataset slug from each file's `url`). Run once after
 harvesting; ConvertFromCroissant.py then maps `dateModified` normally and needs
 no network access of its own.
 
-    python MLCroissantExamples/enrich_hf_dates.py
+    python croissant/MLCroissantExamples/enrich_hf_dates.py
 """
 import glob
 import json

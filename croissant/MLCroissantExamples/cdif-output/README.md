@@ -7,9 +7,10 @@ CDIF profiles each output claims.
 **Generated:** 2026-06-04 · one `*-cdif.jsonld` per source instance.
 
 ```bash
-python croissant/ConvertFromCroissant.py MLCroissantExamples/<name>.json \
-  -o MLCroissantExamples/cdif-output/<name>-cdif.jsonld
-python ConformanceValidate.py MLCroissantExamples/cdif-output/<name>-cdif.jsonld \
+# run from the repo root
+python croissant/ConvertFromCroissant.py croissant/MLCroissantExamples/<name>.json \
+  -o croissant/MLCroissantExamples/cdif-output/<name>-cdif.jsonld
+python ConformanceValidate.py croissant/MLCroissantExamples/cdif-output/<name>-cdif.jsonld \
   --source local --no-shacl
 ```
 
