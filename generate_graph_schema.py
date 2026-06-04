@@ -77,6 +77,8 @@ BB_REF_MAP = {
     "temporalExtentSchema.json": "type-ProperInterval",
     "funder": "type-MonetaryGrant",
     "funderSchema.json": "type-MonetaryGrant",
+    "monetaryGrant": "type-MonetaryGrant",
+    "monetaryGrantSchema.json": "type-MonetaryGrant",
     "agentInRole": "type-Role",
     "agentInRoleSchema.json": "type-Role",
     "variableMeasured": "type-InstanceVariable",
@@ -89,6 +91,10 @@ BB_REF_MAP = {
     "generatedBySchema.json": "type-Activity",
     "cdifProv": "type-Activity",
     "cdifProvSchema.json": "type-Activity",
+    "cdifProvActivity": "type-Activity",
+    "cdifProvActivitySchema.json": "type-Activity",
+    "provActivity": "type-Activity",
+    "provActivitySchema.json": "type-Activity",
     "derivedFrom": "type-Dataset",  # derivedFrom is a property on Dataset, not a dispatch type
     "derivedFromSchema.json": "type-Dataset",
     "qualityMeasure": "type-QualityMeasurement",
@@ -97,10 +103,17 @@ BB_REF_MAP = {
     "cdifDataCubeSchema.json": "type-StructuredDataSet",
     "cdifTabularData": "type-TabularTextDataSet",
     "cdifTabularDataSchema.json": "type-TabularTextDataSet",
+    "CDIFTabularDataSchema.json": "type-TabularTextDataSet",
+    "cdifTabularTextDataSet": "type-TabularTextDataSet",
+    "cdifTabularTextDataSetSchema.json": "type-TabularTextDataSet",
+    "cdifStructuredDataSet": "type-StructuredDataSet",
+    "cdifStructuredDataSetSchema.json": "type-StructuredDataSet",
     "cdifLongData": "type-LongStructureDataSet",
     "cdifLongDataSchema.json": "type-LongStructureDataSet",
     "cdiVariableMeasured": "type-InstanceVariable",
     "cdiVariableMeasuredSchema.json": "type-InstanceVariable",
+    "cdifInstanceVariable": "type-InstanceVariable",
+    "cdifInstanceVariableSchema.json": "type-InstanceVariable",
 }
 
 # ---------------------------------------------------------------------------
@@ -159,6 +172,19 @@ def is_external_bb_ref(ref_str):
     return file_part.endswith("Schema.json")
 
 
+def is_yaml_ref(ref_str):
+    """Check if a $ref points into a .yaml source file.
+
+    The restructured BB tree references a few advanced sub-structures
+    (value domains, statistics collections, concept-scheme concepts,
+    LongDataStructure) via `schema.yaml#/$defs/...`. These are deep,
+    optional refinements; for the flattened-graph validator we resolve
+    them to a permissive object so the schema stays valid and accepts
+    both inline objects and {@id} cross-references.
+    """
+    return ".yaml" in ref_str.split("#")[0]
+
+
 def is_internal_type_ref(ref_str):
     """Check if a $ref is an internal reference (#/$defs/...)."""
     return ref_str.startswith("#/$defs/") or ref_str.startswith("#/")
@@ -208,9 +234,18 @@ def resolve_and_transform(schema, base_dir, loader, depth=0):
     if not isinstance(schema, dict):
         return schema
 
-    # Handle $ref
-    if "$ref" in schema and len(schema) == 1:
+    # Handle $ref. In JSON Schema 2020-12 a $ref may carry sibling keywords
+    # (e.g. "description"); the restructured BB schemas do this, so do NOT
+    # require $ref to be the sole key. Internal (#/...) refs fall through to
+    # generic processing so their siblings are still walked.
+    if "$ref" in schema and isinstance(schema["$ref"], str) \
+            and not schema["$ref"].startswith("#"):
         ref = schema["$ref"]
+        if is_yaml_ref(ref):
+            # Advanced .yaml-defined sub-structure (value domain, statistics,
+            # concept, data structure). Permissive: accept inline object or
+            # {@id} reference. (Sibling description, if any, is dropped.)
+            return {"type": "object"}
         if is_external_bb_ref(ref):
             bb_name = ref_to_bb_name(ref)
             if bb_name in BB_REF_MAP:
@@ -231,7 +266,9 @@ def resolve_and_transform(schema, base_dir, loader, depth=0):
             for def_name, def_schema in value.items():
                 if isinstance(def_schema, dict) and "$ref" in def_schema and len(def_schema) == 1:
                     ref = def_schema["$ref"]
-                    if is_external_bb_ref(ref):
+                    if is_yaml_ref(ref):
+                        new_defs[def_name] = {"type": "object"}
+                    elif is_external_bb_ref(ref):
                         bb_name = ref_to_bb_name(ref)
                         if bb_name in BB_REF_MAP:
                             # This $def just redirects to a building block;
@@ -412,6 +449,49 @@ def strip_schema_key(schema):
     return schema
 
 
+def relax_type_property(schema):
+    """Recursively relax every `@type` constraint (top-level and nested, e.g.
+    schema:contactPoint, spdx:checksum, schema:size) to accept a bare string as
+    well as the array form. Flattened JSON-LD nodes carry `@type` as either a
+    string ("schema:Organization") or an array (["schema:Dataset"]). The
+    building-block sources type `@type` as array-only; since the dispatch chain
+    already routed each node by its @type, accepting the string form too is safe
+    and matches the framed-schema convention. Array-form constraints (contains
+    schema:DataDownload + cdi:..., etc.) are preserved inside the anyOf."""
+    if isinstance(schema, list):
+        for item in schema:
+            relax_type_property(item)
+        return schema
+    if not isinstance(schema, dict):
+        return schema
+
+    props = schema.get("properties")
+    if isinstance(props, dict) and "@type" in props:
+        original = props["@type"]
+        # Skip if already string-permissive (bare string/const or anyOf).
+        already = (isinstance(original, dict)
+                   and (original.get("type") == "string" or "anyOf" in original))
+        if not already:
+            props["@type"] = {"anyOf": [{"type": "string"}, original]}
+
+    # Recurse into all sub-schema positions.
+    for key in ("properties", "patternProperties", "$defs"):
+        sub = schema.get(key)
+        if isinstance(sub, dict):
+            for k, v in sub.items():
+                if k == "@type":
+                    continue  # handled above; don't descend into the @type schema
+                relax_type_property(v)
+    for key in ("items", "additionalProperties", "if", "then", "else",
+                "not", "contains"):
+        if key in schema:
+            relax_type_property(schema[key])
+    for key in ("allOf", "anyOf", "oneOf"):
+        if key in schema and isinstance(schema[key], list):
+            relax_type_property(schema[key])
+    return schema
+
+
 def ensure_id_property(schema):
     """Make sure @id is in the properties of a type."""
     if "properties" not in schema:
@@ -544,12 +624,15 @@ def build_type_media_object(loader, bb_dir):
     properties (via allOf + anyOf in the source schema). In flattened
     form these properties appear directly on the MediaObject node.
     """
-    # Load physical mapping inline (used by dataCube and tabularData)
-    pm_schema = loader.load("cdifProperties/cdifPhysicalMapping/cdifPhysicalMappingSchema.json")
+    # Load physical mapping inline (used by dataCube and tabularData). Resolve
+    # its external refs (definedTerm, concept) so none leak into the output.
+    pm_schema = loader.load("cdifDataType/cdifPhysicalMapping/cdifPhysicalMappingSchema.json")
+    pm_dir = bb_dir / "cdifDataType" / "cdifPhysicalMapping"
+    pm_schema = resolve_and_transform(pm_schema, pm_dir, loader)
     pm_schema = strip_schema_key(pm_schema)
 
     # Load tabularData properties
-    tab_schema = loader.load("cdifProperties/cdifTabularData/cdifTabularDataSchema.json")
+    tab_schema = loader.load("cdifDataType/cdifTabularData/CDIFTabularDataSchema.json")
     tab_schema = strip_schema_key(tab_schema)
 
     # Base MediaObject properties (from cdifArchiveDistribution hasPart items)
@@ -620,7 +703,7 @@ def build_type_media_object(loader, bb_dir):
             "countRows": {"type": "integer"},
             "countColumns": {"type": "integer"},
             # --- Optional cdifDataCube locator extension ---
-            "cdi:hasPhysicalMapping": {
+            "cdif:hasPhysicalMapping": {
                 "type": "array",
                 "description": "Links variables to their physical representation. Present when this component has tabular or structured data description.",
                 "items": {
@@ -721,8 +804,8 @@ def build_type_proper_interval(loader, bb_dir):
 
 def build_type_monetary_grant(loader, bb_dir):
     """Build type-MonetaryGrant (funder) definition."""
-    schema = loader.load("schemaorgProperties/funder/funderSchema.json")
-    base_dir = bb_dir / "schemaorgProperties" / "funder"
+    schema = loader.load("schemaorgProperties/monetaryGrant/monetaryGrantSchema.json")
+    base_dir = bb_dir / "schemaorgProperties" / "monetaryGrant"
     schema = resolve_and_transform(schema, base_dir, loader)
     schema = flatten_local_defs(schema)
     schema = strip_schema_key(schema)
@@ -743,16 +826,16 @@ def build_type_role(loader, bb_dir):
 
 def build_type_activity(loader, bb_dir):
     """Build type-Activity from cdifProv (extended) or generatedBy (minimal fallback)."""
-    cdif_prov_path = bb_dir / "cdifProperties" / "cdifProv" / "cdifProvSchema.json"
+    cdif_prov_path = bb_dir / "cdifDataType" / "cdifProvActivity" / "cdifProvActivitySchema.json"
     if cdif_prov_path.is_file():
         # Load the base generatedBy schema directly (before resolve_and_transform
         # turns the $ref into a self-reference #/$defs/type-Activity)
         base_schema = loader.load("provProperties/generatedBy/generatedBySchema.json")
         base_schema = strip_schema_key(base_schema)
 
-        # Load the extended cdifProv schema
-        schema = loader.load("cdifProperties/cdifProv/cdifProvSchema.json")
-        base_dir = bb_dir / "cdifProperties" / "cdifProv"
+        # Load the extended cdifProvActivity schema (schema.org Action + prov:Activity)
+        schema = loader.load("cdifDataType/cdifProvActivity/cdifProvActivitySchema.json")
+        base_dir = bb_dir / "cdifDataType" / "cdifProvActivity"
         schema = resolve_and_transform(schema, base_dir, loader)
         schema = flatten_local_defs(schema)
         schema = strip_schema_key(schema)
@@ -929,8 +1012,8 @@ def build_type_property_value(loader, bb_dir):
 def build_type_instance_variable(loader, bb_dir):
     """Build type-InstanceVariable from cdifVariableMeasured + variableMeasured."""
     # Load the CDI extension
-    cdi_schema = loader.load("cdifProperties/cdifVariableMeasured/cdiVariableMeasuredSchema.json")
-    cdi_dir = bb_dir / "cdifProperties" / "cdifVariableMeasured"
+    cdi_schema = loader.load("cdifDataType/cdifInstanceVariable/cdifInstanceVariableSchema.json")
+    cdi_dir = bb_dir / "cdifDataType" / "cdifInstanceVariable"
     cdi_schema = resolve_and_transform(cdi_schema, cdi_dir, loader)
     cdi_schema = strip_schema_key(cdi_schema)
 
@@ -973,6 +1056,10 @@ def build_type_instance_variable(loader, bb_dir):
     if not merged["allOf"]:
         del merged["allOf"]
 
+    # Explicitly open-world: InstanceVariables routinely carry domain or DDI-CDI
+    # extension properties beyond the base + cdif: set, so allow them.
+    merged["additionalProperties"] = True
+
     merged = flatten_local_defs(merged)
     merged = ensure_id_property(merged)
     return merged
@@ -980,63 +1067,74 @@ def build_type_instance_variable(loader, bb_dir):
 
 def build_type_catalog_record(loader, bb_dir):
     """Build type-CatalogRecord from cdifCatalogRecord with @type changed to dcat:CatalogRecord."""
-    schema = loader.load("cdifProperties/cdifCatalogRecord/cdifCatalogRecordSchema.json")
-    base_dir = bb_dir / "cdifProperties" / "cdifCatalogRecord"
+    schema = loader.load("cdifDataType/cdifCatalogRecord/cdifCatalogRecordSchema.json")
+    base_dir = bb_dir / "cdifDataType" / "cdifCatalogRecord"
     schema = resolve_and_transform(schema, base_dir, loader)
     schema = flatten_local_defs(schema)
     schema = strip_schema_key(schema)
     schema = ensure_id_property(schema)
 
-    # Change @type from schema:Dataset to dcat:CatalogRecord
-    schema["properties"]["@type"] = {
-        "type": "string",
-        "const": "dcat:CatalogRecord"
-    }
-
-    # Keep conformsTo_item inline
+    # The current cdifCatalogRecord is typed @type: [schema:Dataset] with
+    # schema:additionalType containing dcat:CatalogRecord (not @type:
+    # dcat:CatalogRecord). It is used nested under schema:subjectOf, so keep
+    # the source @type rather than forcing a dcat:CatalogRecord const.
+    # Keep conformsTo_item inline.
     return schema
 
 
 def build_type_dataset(loader, bb_dir):
-    """Build type-Dataset: merge mandatory + optional + CDIFDataDescription distribution."""
-    mandatory = loader.load("cdifProperties/cdifMandatory/cdifMandatorySchema.json")
-    mandatory_dir = bb_dir / "cdifProperties" / "cdifMandatory"
+    """Build type-Dataset: merge cdifCore + cdifDiscovery + cdifDataDescription.
+
+    In the restructured BB tree, the old cdifMandatory/cdifOptional aggregates
+    are now the profile modules cdifCore (core required props + @context) and
+    cdifDiscovery (discovery extensions: variableMeasured, spatial/temporal
+    coverage, quality). cdifDataDescription adds data-description constraints
+    (variableMeasured required, distribution physical-mapping properties)."""
+    mandatory = loader.load("profiles/cdifProfile/cdifCore/cdifCoreSchema.json")
+    mandatory_dir = bb_dir / "profiles" / "cdifProfile" / "cdifCore"
     mandatory = resolve_and_transform(mandatory, mandatory_dir, loader)
     mandatory = strip_schema_key(mandatory)
 
-    optional = loader.load("cdifProperties/cdifOptional/cdifOptionalSchema.json")
-    optional_dir = bb_dir / "cdifProperties" / "cdifOptional"
+    optional = loader.load("profiles/cdifProfile/cdifDiscovery/cdifDiscoverySchema.json")
+    optional_dir = bb_dir / "profiles" / "cdifProfile" / "cdifDiscovery"
     optional = resolve_and_transform(optional, optional_dir, loader)
     optional = strip_schema_key(optional)
 
-    # Load CDIFDataDescription for distribution constraints
-    # Try new nested path first, fall back to old flat path
-    dd_rel = "profiles/cdifProfiles/CDIFDataDescription/CDIFDataDescriptionSchema.json"
-    dd_dir = bb_dir / "profiles" / "cdifProfiles" / "CDIFDataDescription"
-    if not (bb_dir / dd_rel).exists():
-        dd_rel = "profiles/CDIFDataDescription/CDIFDataDescriptionSchema.json"
-        dd_dir = bb_dir / "profiles" / "CDIFDataDescription"
+    # Load cdifDataDescription for variableMeasured + distribution constraints
+    dd_rel = "profiles/cdifProfile/cdifDataDescription/cdifDataDescriptionSchema.json"
+    dd_dir = bb_dir / "profiles" / "cdifProfile" / "cdifDataDescription"
     dd_schema = loader.load(dd_rel)
     dd_schema = resolve_and_transform(dd_schema, dd_dir, loader)
     dd_schema = strip_schema_key(dd_schema)
 
-    # Merge all properties from mandatory + optional
+    # Merge all properties from core + discovery + data description
     merged = {"type": "object", "properties": {}}
 
-    for src in [mandatory, optional]:
+    for src in [mandatory, optional, dd_schema]:
         for key, val in src.get("properties", {}).items():
             merged["properties"][key] = val
 
     # Merge $defs
     merged_defs = {}
-    for src in [mandatory, optional]:
+    for src in [mandatory, optional, dd_schema]:
         merged_defs.update(src.get("$defs", {}))
     if merged_defs:
         merged["$defs"] = merged_defs
 
-    # Build allOf from mandatory constraints
+    # Build allOf from core constraints (e.g. @type contains schema:Dataset,
+    # required-property and license/url choices). Drop entries that constrain
+    # schema:subjectOf — cdifCore pins the catalog record's dcterms:conformsTo
+    # to a specific profile version (e.g. core/1.1). That is profile-version
+    # conformance policy enforced by ConformanceValidate, not graph structure;
+    # pinning it here would reject every record claiming a different version.
+    # schema:subjectOf structure is validated via the type-CatalogRecord ref set
+    # on the property above.
     all_of = []
     for constraint in mandatory.get("allOf", []):
+        if (isinstance(constraint, dict)
+                and isinstance(constraint.get("properties"), dict)
+                and "schema:subjectOf" in constraint["properties"]):
+            continue
         all_of.append(constraint)
 
     if all_of:
@@ -1051,17 +1149,19 @@ def build_type_dataset(loader, bb_dir):
     # Ensure @id present
     merged = ensure_id_property(merged)
 
-    # In flattened form, schema:subjectOf, schema:distribution, etc. become id-references
-    # Modify schema:subjectOf to allow id-reference
-    if "schema:subjectOf" in merged.get("properties", {}):
-        subj = merged["properties"]["schema:subjectOf"]
-        if "$ref" in subj:
-            merged["properties"]["schema:subjectOf"] = {
-                "anyOf": [
-                    subj,
-                    {"$ref": "#/$defs/id-reference"}
-                ]
-            }
+    # schema:subjectOf is the catalog record (type-CatalogRecord), or an @id
+    # reference to one. Set this explicitly: the 3-way profile merge above lets
+    # cdifDataDescription's schema:subjectOf (a conformsTo "must contain
+    # data_description/1.1" policy constraint) overwrite cdifCore's structural
+    # catalog-record reference. Profile-version conformance is enforced by
+    # ConformanceValidate, not the structural graph schema, so keep the
+    # structural shape here.
+    merged["properties"]["schema:subjectOf"] = {
+        "anyOf": [
+            {"$ref": "#/$defs/type-CatalogRecord"},
+            {"$ref": "#/$defs/id-reference"}
+        ]
+    }
 
     # Modify schema:distribution items to allow id-references
     if "schema:distribution" in merged.get("properties", {}):
@@ -1318,14 +1418,10 @@ def build_type_structured_dataset(loader, bb_dir):
     dd_schema = resolve_and_transform(dd_schema, dd_dir, loader)
     dd_schema = strip_schema_key(dd_schema)
 
-    cube_schema = loader.load("cdifProperties/cdifDataCube/cdifDataCubeSchema.json")
-    cube_dir = bb_dir / "cdifProperties" / "cdifDataCube"
+    cube_schema = loader.load("cdifDataType/cdifDataCube/cdifDataCubeSchema.json")
+    cube_dir = bb_dir / "cdifDataType" / "cdifDataCube"
     cube_schema = resolve_and_transform(cube_schema, cube_dir, loader)
     cube_schema = strip_schema_key(cube_schema)
-
-    # Load physical mapping inline
-    pm_schema = loader.load("cdifProperties/cdifPhysicalMapping/cdifPhysicalMappingSchema.json")
-    pm_schema = strip_schema_key(pm_schema)
 
     # Merge: allOf [dataDownload properties, dataCube properties]
     merged = {"type": "object", "properties": {}}
@@ -1334,7 +1430,8 @@ def build_type_structured_dataset(loader, bb_dir):
     for key, val in dd_schema.get("properties", {}).items():
         merged["properties"][key] = val
 
-    # Copy dataCube properties
+    # Copy dataCube properties (includes cdif:hasPhysicalMapping, resolved inline
+    # from the cdifPhysicalMapping building block by resolve_and_transform)
     for key, val in cube_schema.get("properties", {}).items():
         merged["properties"][key] = val
 
@@ -1346,26 +1443,6 @@ def build_type_structured_dataset(loader, bb_dir):
             {"contains": {"const": "schema:DataDownload"}},
             {"contains": {"const": "cdi:StructuredDataSet"}}
         ]
-    }
-
-    # Inline the physical mapping in cdi:hasPhysicalMapping
-    merged["properties"]["cdi:hasPhysicalMapping"] = {
-        "type": "array",
-        "description": "Links variables to their physical representation in this dataset.",
-        "items": {
-            "allOf": [
-                pm_schema,
-                {
-                    "type": "object",
-                    "properties": {
-                        "cdi:locator": {
-                            "type": "string",
-                            "description": "String that can be used by software to locate values of the variable in this physical dataset."
-                        }
-                    }
-                }
-            ]
-        }
     }
 
     # Required
@@ -1390,14 +1467,10 @@ def build_type_tabular_text_dataset(loader, bb_dir):
     dd_schema = resolve_and_transform(dd_schema, dd_dir, loader)
     dd_schema = strip_schema_key(dd_schema)
 
-    tab_schema = loader.load("cdifProperties/cdifTabularData/cdifTabularDataSchema.json")
-    tab_dir = bb_dir / "cdifProperties" / "cdifTabularData"
+    tab_schema = loader.load("cdifDataType/cdifTabularData/CDIFTabularDataSchema.json")
+    tab_dir = bb_dir / "cdifDataType" / "cdifTabularData"
     tab_schema = resolve_and_transform(tab_schema, tab_dir, loader)
     tab_schema = strip_schema_key(tab_schema)
-
-    # Load physical mapping inline
-    pm_schema = loader.load("cdifProperties/cdifPhysicalMapping/cdifPhysicalMappingSchema.json")
-    pm_schema = strip_schema_key(pm_schema)
 
     # Merge
     merged = {"type": "object", "properties": {}}
@@ -1406,7 +1479,8 @@ def build_type_tabular_text_dataset(loader, bb_dir):
     for key, val in dd_schema.get("properties", {}).items():
         merged["properties"][key] = val
 
-    # Copy tabularData properties
+    # Copy tabularData properties (includes cdif:hasPhysicalMapping, resolved
+    # inline from the cdifPhysicalMapping building block)
     for key, val in tab_schema.get("properties", {}).items():
         merged["properties"][key] = val
 
@@ -1418,13 +1492,6 @@ def build_type_tabular_text_dataset(loader, bb_dir):
             {"contains": {"const": "schema:DataDownload"}},
             {"contains": {"const": "cdi:TabularTextDataSet"}}
         ]
-    }
-
-    # Inline physical mapping
-    merged["properties"]["cdi:hasPhysicalMapping"] = {
-        "type": "array",
-        "description": "Links variables to their physical representation in this dataset.",
-        "items": pm_schema
     }
 
     # Required
@@ -1453,14 +1520,10 @@ def build_type_long_structure_dataset(loader, bb_dir):
     dd_schema = resolve_and_transform(dd_schema, dd_dir, loader)
     dd_schema = strip_schema_key(dd_schema)
 
-    long_schema = loader.load("cdifProperties/cdifLongData/cdifLongDataSchema.json")
-    long_dir = bb_dir / "cdifProperties" / "cdifLongData"
+    long_schema = loader.load("cdifDataType/cdifLongData/cdifLongDataSchema.json")
+    long_dir = bb_dir / "cdifDataType" / "cdifLongData"
     long_schema = resolve_and_transform(long_schema, long_dir, loader)
     long_schema = strip_schema_key(long_schema)
-
-    # Load physical mapping inline
-    pm_schema = loader.load("cdifProperties/cdifPhysicalMapping/cdifPhysicalMappingSchema.json")
-    pm_schema = strip_schema_key(pm_schema)
 
     # Merge
     merged = {"type": "object", "properties": {}}
@@ -1469,7 +1532,9 @@ def build_type_long_structure_dataset(loader, bb_dir):
     for key, val in dd_schema.get("properties", {}).items():
         merged["properties"][key] = val
 
-    # Copy longData properties
+    # Copy longData properties (includes cdif:hasPhysicalMapping, resolved inline
+    # from the cdifPhysicalMapping building block; descriptor/reference roles are
+    # carried by cdif:role on the InstanceVariables in schema:variableMeasured)
     for key, val in long_schema.get("properties", {}).items():
         merged["properties"][key] = val
 
@@ -1481,13 +1546,6 @@ def build_type_long_structure_dataset(loader, bb_dir):
             {"contains": {"const": "schema:DataDownload"}},
             {"contains": {"const": "cdi:LongStructureDataSet"}}
         ]
-    }
-
-    # Inline physical mapping in cdi:hasPhysicalMapping
-    merged["properties"]["cdi:hasPhysicalMapping"] = {
-        "type": "array",
-        "description": "Links variables to their physical representation in this dataset.",
-        "items": pm_schema
     }
 
     # Required
@@ -1532,7 +1590,23 @@ def build_root_object_dispatch(type_dispatch):
     """
     branches = []
     for dispatch_type, defs_name in type_dispatch:
-        condition = build_dispatch_condition(dispatch_type)
+        if defs_name == "type-CatalogRecord":
+            # A catalog record in the current convention is typed
+            # @type: [schema:Dataset] with schema:additionalType containing
+            # dcat:CatalogRecord — so by @type alone it is indistinguishable
+            # from the main Dataset. Dispatch it by the additionalType marker
+            # (this branch precedes the schema:Dataset branch).
+            condition = {
+                "properties": {
+                    "schema:additionalType": {
+                        "type": "array",
+                        "contains": {"const": "dcat:CatalogRecord"}
+                    }
+                },
+                "required": ["schema:additionalType"]
+            }
+        else:
+            condition = build_dispatch_condition(dispatch_type)
         branches.append({
             "if": condition,
             "then": {"$ref": f"#/$defs/{defs_name}"},
@@ -1659,6 +1733,18 @@ def build_output_schema(defs, type_dispatch):
     defs["root-graph"] = root_graph
     defs["id-reference"] = id_reference
 
+    # Safety net: some building blocks reference internal $defs of inlined
+    # sub-schemas (e.g. cdifPhysicalMapping's cdifConceptOrTerm, cdifStatistics'
+    # Statistics/Category structures) that promotion can't reach because they
+    # live nested inside an inlined property rather than at a type root. These
+    # are optional, advanced DDI-CDI refinements, each referenced from an anyOf
+    # that also admits a string or {@id} form. Stub any still-missing single-
+    # segment $def with a permissive object so the schema stays resolvable.
+    stubbed = _stub_missing_defs(defs)
+    if stubbed:
+        print(f"  Stubbed {len(stubbed)} missing optional $def(s) as permissive "
+              f"objects: {', '.join(sorted(stubbed))}")
+
     # Root schema: if object → anyOf [root-object, root-graph], else → root-array
     output = {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -1757,6 +1843,12 @@ def main():
         else:
             defs[name] = builder(loader, bb_dir)
 
+    # Relax each type def's @type to accept string-or-array (flattened nodes
+    # may carry @type as a bare string; dispatch already routed by @type).
+    for name in defs:
+        if name.startswith("type-"):
+            defs[name] = relax_type_property(defs[name])
+
     # Apply id-reference alternatives to all type definitions
     print("Adding @id-reference alternatives...")
     for name in defs:
@@ -1796,6 +1888,27 @@ def main():
             print(f"  {ref}")
     else:
         print("All internal references resolved successfully.")
+
+
+def _stub_missing_defs(defs):
+    """Add permissive `{"type": "object"}` stubs for any single-segment
+    `#/$defs/X` reference whose target X is absent from `defs`. Returns the set
+    of names stubbed. Sub-path refs (`#/$defs/type-Action/$defs/...`) are left
+    alone — they resolve within an existing type def."""
+    refs = _collect_refs(defs)
+    missing = set()
+    for ref in refs:
+        if not ref.startswith("#/$defs/"):
+            continue
+        parts = ref.split("/")
+        if len(parts) != 3:  # only bare #/$defs/X (3 segments: '#','$defs','X')
+            continue
+        name = parts[2]
+        if name not in defs:
+            missing.add(name)
+    for name in missing:
+        defs[name] = {"type": "object"}
+    return missing
 
 
 def _collect_refs(obj):

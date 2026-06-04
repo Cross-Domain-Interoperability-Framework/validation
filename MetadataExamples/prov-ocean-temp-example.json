@@ -76,16 +76,21 @@
     },
     {
       "@id": "#catalog-record",
-      "@type": "dcat:CatalogRecord",
+      "@type": [
+        "schema:Dataset"
+      ],
+      "schema:additionalType": [
+        "dcat:CatalogRecord"
+      ],
       "schema:about": {
         "@id": "https://example.org/dataset/ocean-temp-2024"
       },
       "dcterms:conformsTo": [
         {
-          "@id": "https://w3id.org/cdif/core/1.0"
+          "@id": "https://w3id.org/cdif/core/1.1"
         },
         {
-          "@id": "https://w3id.org/cdif/discovery/1.0"
+          "@id": "https://w3id.org/cdif/discovery/1.1"
         }
       ],
       "schema:dateModified": "2024-12-15"
@@ -112,9 +117,7 @@
     {
       "@id": "#spatial-na",
       "@type": "schema:Place",
-      "schema:name": [
-        "North Atlantic"
-      ],
+      "schema:name": "North Atlantic",
       "schema:geo": {
         "@type": "schema:GeoShape",
         "schema:box": "30.0 -80.0 60.0 -10.0"
