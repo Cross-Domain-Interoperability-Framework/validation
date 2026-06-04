@@ -63,7 +63,7 @@ CDIF_DISCOVERY_BLOCKS = [
     "schemaorgProperties/spatialExtent",
     "schemaorgProperties/temporalExtent",
     "schemaorgProperties/variableMeasured",
-    "schemaorgProperties/funder",
+    "schemaorgProperties/monetaryGrant",
     "schemaorgProperties/agentInRole",
     "schemaorgProperties/additionalProperty",
     "schemaorgProperties/labeledLink",
@@ -74,11 +74,11 @@ CDIF_DISCOVERY_BLOCKS = [
     "provProperties/derivedFrom",
     "qualityProperties/qualityMeasure",
     # --- CDIF composite building blocks ---
-    "cdifProperties/cdifCatalogRecord",
-    # --- CDIF aggregate building blocks ---
-    "cdifProperties/cdifCore",
+    "cdifDataType/cdifCatalogRecord",
+    # --- CDIF aggregate (core) ---
+    "profiles/cdifProfile/cdifCore",
     # --- Profile level (lowest priority -- shapes here are copies) ---
-    "profiles/cdifProfiles/CDIFDiscoveryProfile",
+    "profiles/cdifCompositeProfile/CoreDiscovery",
 ]
 
 # ---------------------------------------------------------------------------
@@ -100,7 +100,7 @@ CDIF_COMPLETE_BLOCKS = [
     "schemaorgProperties/spatialExtent",
     "schemaorgProperties/temporalExtent",
     "schemaorgProperties/variableMeasured",
-    "schemaorgProperties/funder",
+    "schemaorgProperties/monetaryGrant",
     "schemaorgProperties/agentInRole",
     "schemaorgProperties/additionalProperty",
     "schemaorgProperties/labeledLink",
@@ -112,22 +112,31 @@ CDIF_COMPLETE_BLOCKS = [
     "provProperties/derivedFrom",
     "qualityProperties/qualityMeasure",
     # --- CDIF composite building blocks ---
-    "cdifProperties/cdifCatalogRecord",
-    "cdifProperties/cdifProv",
-    # --- Data description building blocks (CDIFcompleteProfile additions) ---
-    "cdifProperties/cdifVariableMeasured",
-    "cdifProperties/cdifPhysicalMapping",
-    "cdifProperties/cdifDataCube",
-    "cdifProperties/cdifTabularData",
-    "cdifProperties/cdifLongData",
-    "cdifProperties/cdifArchiveDistribution",
-    "cdifProperties/cdifDataDescription",
-    # --- CDIF aggregate building blocks ---
-    "cdifProperties/cdifCore",
+    "cdifDataType/cdifCatalogRecord",
+    "cdifDataType/cdifProvActivity",
+    # --- Data description building blocks ---
+    "cdifDataType/cdifInstanceVariable",
+    "cdifDataType/cdifPhysicalMapping",
+    "cdifDataType/cdifDataCube",
+    "cdifDataType/cdifTabularData",
+    "cdifDataType/cdifLongData",
+    # --- Data structure building blocks ---
+    "cdifDataType/cdifDataStructureComponent",
+    "cdifDataType/cdifDescriptorVariable",
+    "cdifDataType/cdifRepresentedVariable",
+    "cdifDataType/cdifKey",
+    "cdifDataType/cdifValueDomain",
+    "cdifDataType/cdifStatistics",
+    "cdifDataType/cdifEnumerationDomain",
+    "cdifDataType/cdifReference",
+    # --- CDIF aggregate (core) ---
+    "profiles/cdifProfile/cdifCore",
     # --- Profile level (lowest priority -- shapes here are copies) ---
-    "profiles/cdifProfiles/CDIFDiscoveryProfile",
-    "profiles/cdifProfiles/CDIFDataDescriptionProfile",
-    "profiles/cdifProfiles/CDIFcompleteProfile",
+    "profiles/cdifProfile/cdifDataDescription",
+    "profiles/cdifProfile/cdifDataStructure",
+    "profiles/cdifProfile/cdifProvenance",
+    "profiles/cdifProfile/cdifManifest",
+    "profiles/cdifCompositeProfile/cdifComplete",
 ]
 
 PROFILES = {
