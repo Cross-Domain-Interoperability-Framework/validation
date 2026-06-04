@@ -50,68 +50,112 @@ def _conformance(filepath):
 # File patterns to exclude from SHACL validation (generated output, not CDIF source)
 SHACL_EXCLUDE_SUFFIXES = ("-croissant.json", "-rocrate.json", "rocrate-jsonld-example.json", "ro-crate-metadata.json")
 
-# Repo roots
 CDIF_VALIDATION = VALIDATION_DIR
-USGIN_BB = Path(r"C:\Users\smrTu\OneDrive\Documents\GithubC\USGIN\metadataBuildingBlocks")
-CDIFBOOK = Path(r"C:\Users\smrTu\OneDrive\Documents\GithubC\CDIF\cdifbook")
+
+# ---------------------------------------------------------------------------
+# External example corpora live in sibling CDIF repos. Each group resolves its
+# files either from a local clone (SOURCE_MODE="local", the default — works on a
+# dev box with the repos checked out under C:\GithubC\CDIF) or straight from
+# GitHub (SOURCE_MODE="github", fetched from raw.githubusercontent.com into
+# _remote_cache/). Flip with the CDIF_BATCH_SOURCE env var; collect_files() is
+# identical either way.
+#
+# Release target: once the CDIF examples are published as versioned GitHub
+# *release* assets, repoint REPOS[...]["raw"] at the release download base
+# (https://github.com/<org>/<repo>/releases/download/<tag>) and adjust the
+# per-file relative paths if the asset layout differs. The local/github switch
+# and the rest of this file stay unchanged.
+# ---------------------------------------------------------------------------
+
+SOURCE_MODE = os.environ.get("CDIF_BATCH_SOURCE", "local")  # "local" | "github"
+
+_ORG_RAW = "https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework"
+REPOS = {
+    "cdifbook": {
+        "local": Path(r"C:\GithubC\CDIF\cdifbook"),
+        "raw": f"{_ORG_RAW}/cdifbook/main",
+    },
+    "buildingBlocks": {
+        "local": Path(r"C:\GithubC\CDIF\metadataBuildingBlocks"),
+        "raw": f"{_ORG_RAW}/metadataBuildingBlocks/main",
+    },
+}
+
+_REMOTE_CACHE = VALIDATION_DIR / "_remote_cache"
+
+
+def _repo_file(repo_key, relpath):
+    """Return a local Path to <repo>/<relpath>, fetching from GitHub if needed.
+
+    Returns None (with a warning) if the file can't be located."""
+    relpath = relpath.replace("\\", "/")
+    if SOURCE_MODE == "local":
+        p = REPOS[repo_key]["local"] / relpath
+        if p.exists():
+            return p
+        print(f"  WARNING: {p} not found")
+        return None
+    # github: download into a per-repo cache mirroring the relpath
+    dest = _REMOTE_CACHE / repo_key / relpath
+    if not dest.exists():
+        url = f"{REPOS[repo_key]['raw']}/{relpath}"
+        try:
+            import urllib.request
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            with urllib.request.urlopen(url) as resp:
+                dest.write_bytes(resp.read())
+        except Exception as e:
+            print(f"  WARNING: could not fetch {url}: {e}")
+            return None
+    return dest
+
+
+# cdifbook examples (schema.org-serialized CDIF documents the validator handles
+# directly; the DCAT/.ttl examples in that folder need conversion first).
+CDIFBOOK_EXAMPLES = [
+    "SDO-CDIF-BasicDataset.json",
+    "SDO-CDIF-BasicDatasetTemporalExtent.json",
+    "SDO-CDIF-BasicDatasetWVariables.json",
+    "SDO-CDIF-CreatorContributorExample.json",
+    "SDO-CDIF-IndOBIS28001-30000.jsonld",
+    "SDO-CDIF-MinimalDigitalObject.json",
+    "SDO-CDIF-OIH-BuoySeaSurfaceTemp.json",
+    "SDO-CDIF-QueryableDistribution.json",
+    "SDO-CDIF-SwedishDataServiceWind.jsonld",
+    "SDO-CDIF-datasetMultipleDistributions.json",
+]
+
+# Composite-profile example documents from metadataBuildingBlocks (restructured
+# layout: _sources/profiles/cdifCompositeProfile/<profile>/example*.json). These
+# are complete standalone documents, one per representative profile.
+PROFILE_EXAMPLES = [
+    "_sources/profiles/cdifCompositeProfile/CoreDiscovery/exampleCDIFDiscovery.json",
+    "_sources/profiles/cdifCompositeProfile/DiscoveryDataDescription/exampleCDIFDataDescription.json",
+    "_sources/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/exampleCDIFDataStructureComplete.json",
+    "_sources/profiles/cdifCompositeProfile/cdifComplete/exampleCDIFcomplete.json",
+    "_sources/profiles/cdifCompositeProfile/XASdata/exampleCDIFxas.json",
+]
+
 
 def collect_files():
     """Collect all files grouped by category."""
     groups = {}
 
-    # Group 1: testJSONMetadata (77 files)
+    # Group 1: testJSONMetadata (local to this repo)
     test_dir = CDIF_VALIDATION / "testJSONMetadata"
-    files = sorted(test_dir.glob("metadata_*.json"))
-    groups["testJSONMetadata"] = files
+    groups["testJSONMetadata"] = sorted(test_dir.glob("metadata_*.json"))
 
-    # Group 2: cdifbook examples (10 files)
-    cdifbook_examples = CDIFBOOK / "examples"
-    cdifbook_files = []
-    for name in [
-        "SDO-CDIF-BasicDataset.json",
-        "SDO-CDIF-BasicDatasetTemporalExtent.json",
-        "SDO-CDIF-BasicDatasetWVariables.json",
-        "SDO-CDIF-CreatorContributorExample.json",
-        "SDO-CDIF-IndOBIS28001-30000.jsonld",
-        "SDO-CDIF-MinimalDigitalObject.json",
-        "SDO-CDIF-OIH-BuoySeaSurfaceTemp.json",
-        "SDO-CDIF-QueryableDistribution.json",
-        "SDO-CDIF-SwedishDataServiceWind.jsonld",
-        "SDO-CDIF-datasetMultipleDistributions.json",
-    ]:
-        f = cdifbook_examples / name
-        if f.exists():
-            cdifbook_files.append(f)
-        else:
-            print(f"  WARNING: {f} not found")
-    groups["cdifbook"] = cdifbook_files
+    # Group 2: cdifbook examples
+    groups["cdifbook"] = [
+        f for name in CDIFBOOK_EXAMPLES
+        if (f := _repo_file("cdifbook", f"examples/{name}"))
+    ]
 
-    # Group 3: CDIF profile examples (5 files)
-    cdif_profiles = []
-    bb_profiles = USGIN_BB / "_sources" / "profiles" / "cdifProfiles"
-    for subdir, fname in [
-        ("CDIFDiscovery", "CDIF-XAS-Full.json"),
-        ("CDIFDiscovery", "exampleCDIFDiscovery.json"),
-        ("CDIFDataDescription", "exampleCDIFDataDescription.json"),
-        ("CDIFcomplete", "exampleCDIFcomplete.json"),
-        ("CDIFxas", "exampleCDIFxas.json"),
-    ]:
-        f = bb_profiles / subdir / fname
-        if f.exists():
-            cdif_profiles.append(f)
-        else:
-            print(f"  WARNING: {f} not found")
-    groups["cdifProfiles"] = cdif_profiles
-
-    # Group 4: ADA profile examples (36 files)
-    ada_profiles = []
-    ada_dir = USGIN_BB / "_sources" / "profiles" / "adaProfiles"
-    for d in sorted(ada_dir.iterdir()) if ada_dir.is_dir() else []:
-        if d.is_dir():
-            example = d / f"example{d.name}.json"
-            if example.exists():
-                ada_profiles.append(example)
-    groups["adaProfiles"] = ada_profiles
+    # Group 3: CDIF composite-profile examples (metadataBuildingBlocks)
+    groups["cdifProfiles"] = [
+        f for rel in PROFILE_EXAMPLES
+        if (f := _repo_file("buildingBlocks", rel))
+    ]
 
     return groups
 
