@@ -3,21 +3,37 @@
 ConformanceValidate.py — discover and apply CDIF conformance validation.
 
 Reads a CDIF JSON-LD instance document, extracts the
-schema:subjectOf / dcterms:conformsTo URIs, fetches each profile's
-JSON Schema (via <URI>/schema) and SHACL rules (via <URI>/shacl)
-from the w3id.org/cdif redirector, validates the document against
-each, and produces a consolidated report.
+schema:subjectOf / dcterms:conformsTo URIs, resolves each profile's
+JSON Schema and SHACL rules, validates the document against each, and
+produces a consolidated report.
 
 Each conformance URI in the instance document's catalog record drives
 one validation pass; the report is sectioned per-profile so failures
 are attributable to the specific profile that requires the constraint.
 
+Two schema sources (--source):
+  * w3id   (default) — fetch <URI>/schema and <URI>/shacl from the
+                       w3id.org/cdif redirector (authoritative; needs network).
+  * local            — look each URI up in a JSON map file (--schema-map)
+                       that points at local framed-tree schemas + SHACL
+                       shapes. Works offline; useful for a web app's dev
+                       mode. Defaults to conformance-schema-map.json beside
+                       this script.
+
+Input may be a single JSON-LD file or a directory (batch mode).
+
+The validation engine is exposed as run_conformance(doc, resolver, ...)
+returning a JSON-serializable results dict, so a web application can call
+it directly and pick the resolver per request.
+
 Usage:
     python ConformanceValidate.py instance.json
     python ConformanceValidate.py instance.json --verbose
     python ConformanceValidate.py instance.json --no-shacl
-    python ConformanceValidate.py instance.json --no-schema
+    python ConformanceValidate.py instance.json --source local
+    python ConformanceValidate.py instance.json --source local --schema-map map.json
     python ConformanceValidate.py instance.json --cache-dir ./.conformance-cache
+    python ConformanceValidate.py ./testJSONMetadata --summary
     python ConformanceValidate.py instance.json --frame frame.jsonld
 
 Dependencies:
@@ -25,9 +41,12 @@ Dependencies:
 """
 
 import argparse
+import glob
 import json
+import os
 import sys
 import urllib.parse
+from collections import Counter
 from pathlib import Path
 
 import requests
@@ -173,6 +192,31 @@ CATALOG_RECORD_TYPES = {
     "dcat:CatalogRecord",
     "http://www.w3.org/ns/dcat#CatalogRecord",
 }
+
+# Variant spellings → canonical conformsTo URI (matched after trailing-slash
+# stripping, case-insensitively).
+URI_ALIASES = {
+    "https://w3id.org/cdif/datadescription/1.0":
+        "https://w3id.org/cdif/data_description/1.0",
+}
+
+# conformsTo URIs with these CURIE prefixes are domain-specific extension
+# claims, not CDIF profiles; skip them during discovery so they don't drive
+# profile validation (or trigger spurious w3id fetches).
+IGNORE_PREFIXES = ("ada:",)
+
+
+def normalize_uri(uri):
+    """Strip a trailing slash and apply known alias rewrites. Used both for
+    ignore-prefix matching and for LocalResolver map lookups so map keys and
+    document URIs match regardless of trailing slash or spelling variant."""
+    norm = uri.rstrip("/")
+    return URI_ALIASES.get(norm.lower(), URI_ALIASES.get(norm, norm))
+
+
+def is_ignored_uri(uri):
+    """True if the conformsTo URI carries an ignored extension prefix."""
+    return any(uri.startswith(p) for p in IGNORE_PREFIXES)
 
 
 def _is_catalog_record(entry):
@@ -475,49 +519,362 @@ def validate_with_shacl(doc, shacl_text):
 
 
 # ---------------------------------------------------------------------------
+# Schema resolvers — pluggable backends for fetching schema/SHACL artifacts
+# ---------------------------------------------------------------------------
+
+# Default local map file, looked up beside this script when --source local is
+# used without an explicit --schema-map.
+DEFAULT_MAP_NAME = "conformance-schema-map.json"
+
+
+class W3idResolver:
+    """Resolve schema/SHACL by fetching <URI>/schema and <URI>/shacl from the
+    w3id.org/cdif redirector. Authoritative; requires network access."""
+
+    def __init__(self, cache_dir=None, use_accept=False, verbose=False):
+        self.cache_dir = cache_dir
+        self.use_accept = use_accept
+        self.verbose = verbose
+
+    def schema(self, uri):
+        return fetch_schema(uri, self.cache_dir, self.verbose, self.use_accept)
+
+    def shacl(self, uri):
+        return fetch_shacl(uri, self.cache_dir, self.verbose, self.use_accept)
+
+
+class LocalResolver:
+    """Resolve schema/SHACL from local files listed in a JSON map.
+
+    Map format — keys are conformsTo URIs (trailing-slash/alias-insensitive),
+    values are objects with a required "schema" path and an optional "shacl"
+    path, both relative to the map file's directory:
+
+        {
+          "https://w3id.org/cdif/discovery/1.0": {
+            "schema": "CDIFDiscoverySchema.json",
+            "shacl":  "ShaclValidation/CDIF-Discovery-Shapes.ttl"
+          }
+        }
+
+    Returns None for a URI with no mapping (the engine reports it as
+    no_schema / no_shacl rather than an error), so a partial map is fine.
+    """
+
+    def __init__(self, map_path, verbose=False):
+        self.map_path = Path(map_path).resolve()
+        self.base = self.map_path.parent
+        self.verbose = verbose
+        raw = json.loads(self.map_path.read_text(encoding="utf-8"))
+        # Skip "_"-prefixed metadata keys (e.g. "_comment").
+        self.map = {normalize_uri(k): v for k, v in raw.items()
+                    if not k.startswith("_")}
+
+    def _entry(self, uri):
+        return self.map.get(normalize_uri(uri))
+
+    def schema(self, uri):
+        entry = self._entry(uri)
+        if not entry or not entry.get("schema"):
+            return None
+        path = (self.base / entry["schema"]).resolve()
+        if self.verbose:
+            print(f"  LOCAL schema: {path}", file=sys.stderr)
+        return json.loads(path.read_text(encoding="utf-8"))
+
+    def shacl(self, uri):
+        entry = self._entry(uri)
+        if not entry or not entry.get("shacl"):
+            return None
+        path = (self.base / entry["shacl"]).resolve()
+        if self.verbose:
+            print(f"  LOCAL shacl:  {path}", file=sys.stderr)
+        return path.read_text(encoding="utf-8")
+
+
+def build_resolver(source, schema_map=None, cache_dir=None,
+                   use_accept=False, verbose=False):
+    """Construct the schema resolver selected by `source` ('w3id' or
+    'local'). For 'local', falls back to DEFAULT_MAP_NAME beside this script
+    when schema_map is not given."""
+    if source == "local":
+        map_path = schema_map or str(Path(__file__).resolve().parent
+                                     / DEFAULT_MAP_NAME)
+        if not Path(map_path).exists():
+            raise FileNotFoundError(
+                f"Local schema map not found: {map_path} "
+                f"(pass --schema-map or create {DEFAULT_MAP_NAME})")
+        return LocalResolver(map_path, verbose=verbose)
+    return W3idResolver(cache_dir=cache_dir, use_accept=use_accept,
+                        verbose=verbose)
+
+
+# ---------------------------------------------------------------------------
+# Validation engine — pure function, returns JSON-serializable results
+# ---------------------------------------------------------------------------
+
+def run_conformance(doc, resolver, do_schema=True, do_shacl=True,
+                    frame=None, verbose=False):
+    """Validate one CDIF JSON-LD document against every profile it claims.
+
+    Discovers conformsTo URIs from the catalog record, frames the document
+    once (for JSON Schema), then validates against each profile's schema and
+    SHACL via `resolver`. Returns:
+
+        {
+          "conformsTo": [uri, ...],          # discovered, ignored-prefix filtered
+          "profiles": [
+            {"uri": uri,
+             "schema": {"status": <s>, "errors": [...]},
+             "shacl":  {"status": <s>, "errors": [...]}},
+            ...
+          ],
+          "total_violations": int,
+        }
+
+    status values: passed | failed | skipped | no_schema | no_shacl |
+    not_installed | error. The function never prints and never exits — it is
+    safe to import and call from a web application.
+    """
+    uris = [u for u in extract_conforms_to(doc) if not is_ignored_uri(u)]
+
+    framed = None
+    frame_error = None
+    if do_schema and uris:
+        try:
+            framed = frame_doc(doc, frame or DEFAULT_FRAME)
+        except Exception as e:
+            frame_error = f"Framing error: {e}"
+
+    result = {"conformsTo": uris, "profiles": [], "total_violations": 0}
+
+    for uri in uris:
+        if verbose:
+            print(f"\nResolving artifacts for {uri}...", file=sys.stderr)
+
+        # --- JSON Schema pass ---
+        if not do_schema:
+            schema_res = {"status": "skipped", "errors": []}
+        elif frame_error:
+            schema_res = {"status": "error",
+                          "errors": [{"path": "/", "message": frame_error,
+                                      "validator": "frame"}]}
+        else:
+            try:
+                schema = resolver.schema(uri)
+                if schema is None:
+                    schema_res = {"status": "no_schema", "errors": []}
+                else:
+                    errs = validate_with_jsonschema(framed, schema)
+                    schema_res = {"status": "passed" if not errs else "failed",
+                                  "errors": errs}
+            except Exception as e:
+                schema_res = {"status": "error",
+                              "errors": [{"path": "/", "message":
+                                          f"Schema resolve/validate error: {e}",
+                                          "validator": "resolve"}]}
+
+        # --- SHACL pass ---
+        if not do_shacl:
+            shacl_res = {"status": "skipped", "errors": []}
+        elif not HAS_PYSHACL:
+            shacl_res = {"status": "not_installed", "errors": []}
+        else:
+            try:
+                shacl_text = resolver.shacl(uri)
+                if shacl_text is None:
+                    shacl_res = {"status": "no_shacl", "errors": []}
+                else:
+                    errs = validate_with_shacl(doc, shacl_text)
+                    real = [e for e in errs if not e.get("skipped")]
+                    shacl_res = {"status": "passed" if not real else "failed",
+                                 "errors": real}
+            except Exception as e:
+                shacl_res = {"status": "error",
+                             "errors": [{"message":
+                                         f"SHACL resolve/validate error: {e}"}]}
+
+        result["profiles"].append({"uri": uri, "schema": schema_res,
+                                   "shacl": shacl_res})
+        result["total_violations"] += (len(schema_res["errors"])
+                                       + len(shacl_res["errors"]))
+
+    return result
+
+
+# ---------------------------------------------------------------------------
 # Reporting
 # ---------------------------------------------------------------------------
 
-def print_profile_section(uri, schema_errors, shacl_errors, verbose):
+def short_uri(uri):
+    """Compact a conformsTo URI for table/line display."""
+    return uri.split("/cdif/", 1)[-1] if "/cdif/" in uri else uri
+
+
+def _profile_violations(prof):
+    return len(prof["schema"]["errors"]) + len(prof["shacl"]["errors"])
+
+
+def print_profile_section(prof):
+    """Print one per-profile section for single-file mode."""
     print(f"\n{'='*70}")
-    print(f"Profile: {uri}")
+    print(f"Profile: {prof['uri']}")
     print(f"{'='*70}")
 
-    if schema_errors is None:
+    s = prof["schema"]
+    if s["status"] == "skipped":
         print("\n  JSON Schema: skipped (--no-schema)")
-    elif schema_errors == []:
+    elif s["status"] == "no_schema":
+        print("\n  JSON Schema: no schema mapped for this URI")
+    elif s["status"] == "passed":
         print("\n  JSON Schema: PASSED")
+    elif s["status"] == "error":
+        print("\n  JSON Schema: ERROR")
+        for e in s["errors"]:
+            print(f"    - {e.get('path','/')}: {e['message']}")
     else:
-        print(f"\n  JSON Schema: {len(schema_errors)} violation(s)")
-        for e in schema_errors:
+        print(f"\n  JSON Schema: {len(s['errors'])} violation(s)")
+        for e in s["errors"]:
             print(f"    - {e['path']}: {e['message']}")
 
-    if shacl_errors is None:
+    sh = prof["shacl"]
+    if sh["status"] == "skipped":
         print("\n  SHACL: skipped (--no-shacl)")
-    elif shacl_errors == []:
+    elif sh["status"] == "not_installed":
+        print("\n  SHACL: skipped (pyshacl not installed)")
+    elif sh["status"] == "no_shacl":
+        print("\n  SHACL: no shapes mapped for this URI")
+    elif sh["status"] == "passed":
         print("\n  SHACL: PASSED")
+    elif sh["status"] == "error":
+        print("\n  SHACL: ERROR")
+        for e in sh["errors"]:
+            print(f"    - {e.get('message','(no message)')}")
     else:
-        # Filter out pyshacl-skipped entries
-        real = [e for e in shacl_errors if not e.get("skipped")]
-        skipped = [e for e in shacl_errors if e.get("skipped")]
-        if skipped:
-            for e in skipped:
-                print(f"\n  SHACL: SKIPPED ({e['message']})")
-        if real:
-            print(f"\n  SHACL: {len(real)} violation(s)")
-            for e in real:
-                msg = e.get("Message") or e.get("message") or "(no message)"
-                path = e.get("Result Path") or ""
-                focus = e.get("Focus Node") or ""
-                line = f"    - {msg}"
-                extras = []
-                if path:
-                    extras.append(f"path={path}")
-                if focus:
-                    extras.append(f"focus={focus}")
-                if extras:
-                    line += f"  [{', '.join(extras)}]"
-                print(line)
+        print(f"\n  SHACL: {len(sh['errors'])} violation(s)")
+        for e in sh["errors"]:
+            msg = e.get("Message") or e.get("message") or "(no message)"
+            path = e.get("Result Path") or ""
+            focus = e.get("Focus Node") or ""
+            line = f"    - {msg}"
+            extras = []
+            if path:
+                extras.append(f"path={path}")
+            if focus:
+                extras.append(f"focus={focus}")
+            if extras:
+                line += f"  [{', '.join(extras)}]"
+            print(line)
+
+
+def report_single(result):
+    """Print the full per-profile report for one document; return exit code."""
+    for prof in result["profiles"]:
+        print_profile_section(prof)
+
+    print(f"\n{'='*70}")
+    print(f"Summary: {len(result['profiles'])} profile(s) checked, "
+          f"{result['total_violations']} total violation(s)")
+    print(f"{'='*70}")
+    return 0 if result["total_violations"] == 0 else 1
+
+
+# ---------------------------------------------------------------------------
+# Batch mode
+# ---------------------------------------------------------------------------
+
+def run_batch(directory, resolver, do_schema, do_shacl, frame,
+              summary=False, verbose=False):
+    """Validate every *.json / *.jsonld file in `directory`, printing a
+    per-file line plus an aggregate summary. Returns an exit code."""
+    files = sorted(glob.glob(os.path.join(directory, "*.json")) +
+                   glob.glob(os.path.join(directory, "*.jsonld")))
+    if not files:
+        print(f"No JSON/JSONLD files found in {directory}")
+        return 1
+
+    profile_stats = {}                 # uri -> {pass, fail, sample_errors}
+    error_patterns = Counter()         # (profile, path, msg) -> count
+    file_count = 0
+    all_pass_count = 0
+
+    for filepath in files:
+        filename = os.path.basename(filepath)
+        try:
+            with open(filepath, "r", encoding="utf-8") as f:
+                doc = json.load(f)
+        except Exception as e:
+            print(f"ERROR reading {filename}: {e}")
+            continue
+
+        result = run_conformance(doc, resolver, do_schema, do_shacl,
+                                 frame, verbose=False)
+        if not result["profiles"]:
+            if not summary:
+                print(f"SKIP  {filename} (no conformsTo)")
+            continue
+
+        file_count += 1
+        file_pass = result["total_violations"] == 0
+        if file_pass:
+            all_pass_count += 1
+
+        statuses = []
+        for prof in result["profiles"]:
+            uri = prof["uri"]
+            short = short_uri(uri)
+            viol = _profile_violations(prof)
+            stats = profile_stats.setdefault(
+                uri, {"pass": 0, "fail": 0, "sample_errors": []})
+            if (prof["schema"]["status"] == "no_schema"
+                    and prof["shacl"]["status"] in ("no_shacl", "skipped",
+                                                    "not_installed")):
+                statuses.append(f"{short}:NO_SCHEMA")
+                continue
+            if viol:
+                stats["fail"] += 1
+                statuses.append(f"{short}:{viol}err")
+                for e in (prof["schema"]["errors"]):
+                    error_patterns[(short, e.get("path", "/"),
+                                    e.get("message", "")[:80])] += 1
+                for e in (prof["shacl"]["errors"]):
+                    error_patterns[(short, e.get("Result Path", "") or "(shacl)",
+                                    (e.get("Message") or e.get("message")
+                                     or "")[:80])] += 1
+                if len(stats["sample_errors"]) < 3:
+                    stats["sample_errors"].append((filename, prof))
+            else:
+                stats["pass"] += 1
+                statuses.append(f"{short}:PASS")
+
+        if not summary:
+            label = "PASS" if file_pass else "FAIL"
+            print(f"{label}  {filename}  [{', '.join(statuses)}]")
+            if verbose and not file_pass:
+                for prof in result["profiles"]:
+                    if _profile_violations(prof):
+                        print_profile_section(prof)
+
+    print(f"\n{'='*70}")
+    print("PROFILE VALIDATION SUMMARY")
+    print(f"{'='*70}")
+    for uri in sorted(profile_stats.keys()):
+        r = profile_stats[uri]
+        total = r["pass"] + r["fail"]
+        pct = r["pass"] / total * 100 if total else 0
+        print(f"  {short_uri(uri):35s}  {r['pass']:3d} pass  {r['fail']:3d} fail"
+              f"  ({pct:.0f}% of {total})")
+
+    print(f"\nFiles: {file_count} validated, {all_pass_count} all-pass, "
+          f"{file_count - all_pass_count} with failures")
+
+    print(f"\n{'='*70}")
+    print("DISTINCT ERROR PATTERNS (across all files and profiles)")
+    print(f"{'='*70}")
+    for (profile, path, msg), count in error_patterns.most_common(20):
+        print(f"  ({count:3d}x) [{profile}] {path}: {msg}...")
+
+    return 0 if all_pass_count == file_count else 1
 
 
 # ---------------------------------------------------------------------------
@@ -526,115 +883,96 @@ def print_profile_section(uri, schema_errors, shacl_errors, verbose):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Validate a CDIF JSON-LD instance against the conformance "
-                    "URIs declared in its schema:subjectOf catalog record.",
+        description="Validate a CDIF JSON-LD instance (or a directory of them) "
+                    "against the conformance URIs declared in its "
+                    "schema:subjectOf catalog record.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 For each dcterms:conformsTo URI in the document, this tool:
-  1. Fetches the JSON Schema at <URI>/schema
-  2. Fetches the SHACL rules at <URI>/shacl
+  1. Resolves the JSON Schema (w3id <URI>/schema, or a local map entry)
+  2. Resolves the SHACL rules (w3id <URI>/shacl, or a local map entry)
   3. Validates the document against both
-  4. Prints a per-profile pass/fail report
+  4. Prints a per-profile (single file) or aggregate (directory) report
 
-Default subpaths follow the w3id.org/cdif redirect conventions
-(commit d223ae6c on perma-id/w3id.org master).
+Schema sources (--source):
+  w3id   fetch from the w3id.org/cdif redirector (default; needs network)
+  local  look up local schemas via --schema-map (default:
+         conformance-schema-map.json beside this script)
 
 Examples:
   python ConformanceValidate.py myrecord.jsonld
+  python ConformanceValidate.py myrecord.jsonld --source local
   python ConformanceValidate.py myrecord.jsonld --verbose --cache-dir .cache
-  python ConformanceValidate.py myrecord.jsonld --no-shacl
+  python ConformanceValidate.py ./testJSONMetadata --source local --summary
 """)
-    parser.add_argument("input", help="Input JSON-LD file")
+    parser.add_argument("input", help="Input JSON-LD file or directory")
     parser.add_argument("-v", "--verbose", action="store_true")
+    parser.add_argument("--source", choices=["w3id", "local"], default="w3id",
+                        help="Schema source: w3id redirector (default) or "
+                             "local map file")
+    parser.add_argument("--schema-map",
+                        help="Path to the local URI->schema/SHACL JSON map "
+                             "(used with --source local; default: "
+                             f"{DEFAULT_MAP_NAME} beside this script)")
     parser.add_argument("--no-schema", action="store_true",
                         help="Skip JSON Schema validation pass")
     parser.add_argument("--no-shacl", action="store_true",
                         help="Skip SHACL validation pass")
+    parser.add_argument("--summary", "-s", action="store_true",
+                        help="Directory mode: print only the aggregate summary")
     parser.add_argument("--frame",
                         help="Custom JSON-LD frame (default: minimal "
                              "schema:Dataset frame)")
     parser.add_argument("--cache-dir",
                         help="Directory for caching fetched schema/SHACL files "
-                             "between runs")
+                             "between runs (w3id source only)")
     parser.add_argument("--use-accept", action="store_true",
                         help="Use Accept-header content negotiation on the "
                              "bare conformance URI instead of /schema and "
-                             "/shacl sub-paths")
+                             "/shacl sub-paths (w3id source only)")
     args = parser.parse_args()
+
+    try:
+        resolver = build_resolver(args.source, args.schema_map,
+                                  args.cache_dir, args.use_accept, args.verbose)
+    except FileNotFoundError as e:
+        print(f"ERROR: {e}", file=sys.stderr)
+        sys.exit(2)
+
+    frame = None
+    if args.frame:
+        with open(args.frame, "r", encoding="utf-8") as f:
+            frame = json.load(f)
+
+    do_schema = not args.no_schema
+    do_shacl = not args.no_shacl
+
+    # Directory -> batch mode; file -> single-document report.
+    if os.path.isdir(args.input):
+        sys.exit(run_batch(args.input, resolver, do_schema, do_shacl, frame,
+                           summary=args.summary, verbose=args.verbose))
 
     with open(args.input, "r", encoding="utf-8") as f:
         doc = json.load(f)
 
-    # Discover conformance URIs from the raw document.
-    uris = extract_conforms_to(doc)
-    if not uris:
+    if args.verbose:
+        discovered = [u for u in extract_conforms_to(doc)
+                      if not is_ignored_uri(u)]
+        print(f"Discovered {len(discovered)} conformance URI(s):",
+              file=sys.stderr)
+        for u in discovered:
+            print(f"  - {u}", file=sys.stderr)
+
+    result = run_conformance(doc, resolver, do_schema, do_shacl, frame,
+                             verbose=args.verbose)
+    if not result["profiles"]:
         print("ERROR: No dcterms:conformsTo URIs found in schema:subjectOf.",
               file=sys.stderr)
         print("       The instance must include a catalog record with at "
               "least one conformsTo URI.", file=sys.stderr)
         sys.exit(2)
 
-    if args.verbose:
-        print(f"Discovered {len(uris)} conformance URI(s):", file=sys.stderr)
-        for u in uris:
-            print(f"  - {u}", file=sys.stderr)
-
-    # Frame once for JSON Schema validation (StructuredSchemas expect
-    # the nested form). SHACL validation operates on the unframed doc.
-    if args.frame:
-        with open(args.frame, "r", encoding="utf-8") as f:
-            frame = json.load(f)
-    else:
-        frame = DEFAULT_FRAME
-
-    framed = frame_doc(doc, frame) if not args.no_schema else None
-
-    total_failures = 0
-    total_skipped_profiles = 0
-
-    for uri in uris:
-        if args.verbose:
-            print(f"\nFetching artifacts for {uri}...", file=sys.stderr)
-
-        # --- JSON Schema pass ---
-        if args.no_schema:
-            schema_errors = None
-        else:
-            try:
-                schema = fetch_schema(uri, args.cache_dir, args.verbose,
-                                       args.use_accept)
-                schema_errors = validate_with_jsonschema(framed, schema)
-            except Exception as e:
-                schema_errors = [{"path": "/", "message":
-                                  f"Schema fetch/validate error: {e}",
-                                  "validator": "fetch"}]
-
-        # --- SHACL pass ---
-        if args.no_shacl:
-            shacl_errors = None
-        else:
-            try:
-                shacl_text = fetch_shacl(uri, args.cache_dir, args.verbose,
-                                         args.use_accept)
-                shacl_errors = validate_with_shacl(doc, shacl_text)
-            except Exception as e:
-                shacl_errors = [{"message":
-                                 f"SHACL fetch/validate error: {e}"}]
-
-        print_profile_section(uri, schema_errors, shacl_errors, args.verbose)
-
-        if schema_errors:
-            total_failures += len(schema_errors)
-        if shacl_errors:
-            real = [e for e in shacl_errors if not e.get("skipped")]
-            total_failures += len(real)
-
-    print(f"\n{'='*70}")
-    print(f"Summary: {len(uris)} profile(s) checked, "
-          f"{total_failures} total violation(s)")
-    print(f"{'='*70}")
-
-    sys.exit(0 if total_failures == 0 else 1)
+    sys.exit(report_single(result))
 
 
 if __name__ == "__main__":
