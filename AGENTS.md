@@ -9,9 +9,10 @@ Validation is performed at three levels:
 - **SHACL** (semantic) -- `ShaclValidation/ShaclJSONLDContext.py` validates RDF graphs against SHACL shapes
 - **RO-Crate** (structural) -- RO-Crate conversion/validation tools have moved to the [packaging repo](https://github.com/Cross-Domain-Interoperability-Framework/packaging)
 - **Batch** -- `batch_validate.py` runs both JSON Schema and SHACL validation across multiple file groups (testJSONMetadata, cdifbook examples, CDIF profiles, ADA profiles), with severity-aware reporting (violations vs warnings vs info)
-- **Conformance** -- `validate_conformance.py` reads `schema:subjectOf/dcterms:conformsTo` claims from JSON-LD files and validates each file against the profile schemas it claims. Maps conformsTo URIs to building-block/profile resolved schemas. Ignores `ada:` prefixed URIs.
+- **Conformance** -- `ConformanceValidate.py` reads `schema:subjectOf/dcterms:conformsTo` claims (on CatalogRecord-tagged `subjectOf` entries, ignoring `ada:` URIs) and validates each file against the profiles it claims (JSON Schema + SHACL). Two schema sources via `--source`: `w3id` (fetch `<URI>/schema` + `<URI>/shacl` from the redirector, default) or `local` (resolve from `conformance-schema-map.json`, a URI→local-schema/SHACL map). Accepts a single file or a directory (batch). The engine is importable as `run_conformance(doc, resolver, ...)` returning a JSON-serializable results dict, for embedding in a web app. (Replaces the former `validate_conformance.py`.)
 - **Harvesting** -- `geocodes_harvester.py` queries the EarthCube GeoCodes SPARQL endpoint for dataset records, fetches original JSON-LD from source landing pages, and optionally converts to CDIF core or discovery profile format (prefixing, @context, @type arrays, subjectOf with conformsTo, type mappings, Person name synthesis). Preserves extra properties (open-world).
 - **DCAT Conversion** -- `DCAT/dcat_to_cdif.py` converts DCAT JSON-LD catalogs to CDIF schema.org format. Maps dcterms/DCAT/FOAF properties to schema.org equivalents per the CDIF DCAT implementation guide. Supports nested catalogs, qualified attributions (roles), spatial/temporal, distributions. Auto-detects core vs discovery profile. Preserves unmapped properties (open-world).
+- **DDI Conversion** -- `DDI/ddi_to_cdif.py` converts DDI Codebook 2.5 XML (e.g., a Harvard Dataverse DDI export) to CDIF DataDescription JSON-LD: study-level metadata (title, abstract, authors, keywords, spatial/temporal), `<var>` → `schema:variableMeasured` (`cdi:InstanceVariable`), `<fileDscr>` → `schema:DataDownload` (`cdi:TabularTextDataSet`) with CSVW properties, tab-file headers → physical mappings, `caseQnty`/`varQnty` → `cdifq:nRows`/`nColumns`. `--doi` is required; `--fetch-headers`/`--fetch-file-meta` pull headers and size/checksum from the Dataverse API. Currently emits pre-migration `cdi:`-prefixed data-structure properties (`cdi:role`, `cdif:physicalDataType`, `cdi:hasPhysicalMapping`).
 - **Croissant Conversion (bidirectional)** -- targets **Croissant 1.1** (`mlcommons.org/croissant/1.1`) and the current **`cdif:` schema** (`https://w3id.org/cdif/`). `croissant/ConvertToCroissant.py` converts CDIF → Croissant 1.1; `croissant/ConvertFromCroissant.py` converts Croissant (1.0 **or** 1.1) → CDIF DataDescription/Discovery (lossy inverse: reconstructs `schema:identifier` from DOI in `citeAs`/`url`, pivots `cr:FileObject`+`containedIn` into `schema:DataDownload`+`hasPart`, generates `schema:variableMeasured` (`cdi:InstanceVariable`) + per-file `cdif:hasPhysicalMapping` (`cdif:index`/`cdif:formats_InstanceVariable`/single-value `cdif:physicalDataType`) from `cr:RecordSet`/`cr:Field`, maps `cr:RecordSet.key` → `cdif:hasPrimaryKey`, emits the current `schema:subjectOf` catalog-record shape with `core`/`discovery`/`data_description`/1.0 conformance URIs, merges source `@context` prefixes so pass-through PROV/etc. survive framing). `cdi:qualifies` is **not** mapped to `cr:Field.references` (it is metadata-about-data, not a foreign key). When the source Croissant has no `recordSet`, the output validates against the Discovery schema instead of DataDescription. Forward output gives every `cr:FileObject` a `contentUrl`/`encodingFormat`/`sha256` (placeholders when CDIF lacks them) and a RecordSet `@id` distinct from its source FileObject `@id`. Validated with `mlcroissant` (1.1) + `FrameAndValidate`. Per-direction mappings (incl. full Data Structure profile crosswalk): `croissant/CDIFtoCroissant.md` (forward), `croissant/CroissantToCDIF.md` (inverse). The CDIF test corpus (`MetadataExamples/`, `testJSONMetadata/`) was migrated to the current `cdif:` schema via `tools/migrate_corpus_cdi_to_cdif.py` (all 84 validate); harvested Croissant examples + conversions live in `croissant/croissantExamples/`.
 
 ## Building block architecture
@@ -43,7 +44,7 @@ _sources/
     cdifMandatory/         # Core required properties + @context (schema, dcterms, spdx, dcat)
     cdifOptional/          # Optional properties + @context (geosparql, prov, dqv, cdi)
     cdifVariableMeasured/  # Extends variableMeasured with DDI-CDI InstanceVariable properties
-    cdifDataDescription/   # Data description level: cdi:physicalDataType requirement + distribution cdi file properties
+    cdifDataDescription/   # Data description level: cdif:physicalDataType requirement + distribution cdi file properties
       ...
   provProperties/
     generatedBy/
@@ -60,7 +61,7 @@ _sources/
 
 **@context** is defined across building blocks: cdifMandatory declares schema + dcterms (required) plus spdx + dcat; cdifOptional adds geosparql, prov, dqv, cdi; CDIFDataDescription adds csvw. These merge via allOf composition.
 
-**variableMeasured** has a layered architecture: base `variableMeasured` (schemaorgProperties) defines PropertyValue-based variables; `statisticalVariable` (schemaorgProperties) defines StatisticalVariable; `cdifVariableMeasured` (cdifProperties) extends variableMeasured with DDI-CDI properties. In cdifOptional, items are anyOf[cdifVariableMeasured, StatisticalVariable]. The `cdifDataDescription` BB adds cdi:physicalDataType requirement at the data description level.
+**variableMeasured** has a layered architecture: base `variableMeasured` (schemaorgProperties) defines PropertyValue-based variables; `statisticalVariable` (schemaorgProperties) defines StatisticalVariable; `cdifVariableMeasured` (cdifProperties) extends variableMeasured with DDI-CDI properties. In cdifOptional, items are anyOf[cdifVariableMeasured, StatisticalVariable]. The `cdifDataDescription` BB adds cdif:physicalDataType requirement at the data description level.
 
 ## Schema generators
 
@@ -106,8 +107,11 @@ Key operations: parse each Turtle file with rdflib, detect named shape URIs, res
 python FrameAndValidate.py metadata.jsonld -v
 
 # Profile-agnostic: discover profiles from the document's catalog-record
-# conformsTo URIs, fetch each profile's schema + SHACL from w3id, validate
+# conformsTo URIs, resolve each profile's schema + SHACL, validate.
+# Default source is w3id (fetched); use --source local for offline/local schemas.
 python ConformanceValidate.py metadata.jsonld --cache-dir .conformance-cache
+python ConformanceValidate.py metadata.jsonld --source local
+python ConformanceValidate.py ./testJSONMetadata --source local --summary  # batch
 
 # SHACL validation (complete profile)
 python ShaclValidation/ShaclJSONLDContext.py metadata.jsonld ShaclValidation/CDIF-Complete-Shapes.ttl
@@ -187,7 +191,7 @@ batch_validate.py ──> FrameAndValidate.py (JSON Schema)
 - **cdifOptional shape authority**: `cdifOptional/rules.shacl` is the authoritative source for `keywordsNoCommaTest` (accepts string, DefinedTerm, or IRI) and `relatedResourceProperty` (`schema:linkRelationship` accepts string, DefinedTerm, or IRI). These propagate via conflict resolution (cdifOptional wins over CDIFDiscovery).
 - **additionalProperty value flexibility**: `additionalProperty/rules.shacl` allows any datatype for `schema:value` (not just `xsd:string`), since JSON-LD serializes numbers as `xsd:integer`/`xsd:decimal`. The JSON Schema also accepts `anyOf: [string, number, boolean, object]` for `schema:value`, plus `schema:unitCode` and `schema:unitText` properties.
 - **`@context` layering**: `@context` is defined as a layered property across building blocks: `cdifMandatory` declares `schema` + `dcterms` (required) plus `spdx` + `dcat`; `cdifOptional` adds `geosparql`, `prov`, `dqv`, `cdi`; `CDIFDataDescription` profile adds `csvw`. These merge via allOf composition in profiles.
-- **variableMeasured architecture**: `variableMeasured` items use `anyOf` in `cdifOptional` to accept either `cdifVariableMeasured` (PropertyValue with DDI-CDI extensions) or `StatisticalVariable` (separate BB). The `cdifDataDescription` BB adds `cdi:physicalDataType` requirement at the data description level (not discovery). `StatisticalVariable` is defined in its own `schemaorgProperties/statisticalVariable` building block.
+- **variableMeasured architecture**: `variableMeasured` items use `anyOf` in `cdifOptional` to accept either `cdifVariableMeasured` (PropertyValue with DDI-CDI extensions) or `StatisticalVariable` (separate BB). The `cdifDataDescription` BB adds `cdif:physicalDataType` requirement at the data description level (not discovery). `StatisticalVariable` is defined in its own `schemaorgProperties/statisticalVariable` building block.
 - **`@type` array pattern in building blocks**: Building block `@type` definitions use `type: array` with `contains: {const: X}` and `minItems: 1` (array-only). Validation schemas use `anyOf` accepting both string and array for framing compatibility.
 - **Root `@type` enum**: `cdifMandatory` constrains root `@type` items to an enum of 12 types (CreativeWork, SoftwareApplication, SoftwareSourceCode, Product, WebAPI, Dataset, DigitalDocument, Collection, ImageObject, DataCatalog, DefinedTermSet, MediaObject) with `contains: {const: schema:Dataset}` and `default: schema:Dataset`.
 - **Context-aware array normalization**: `FrameAndValidate.py` wraps properties in arrays based on the enclosing `@type` context, not globally. Key context-dependent properties:

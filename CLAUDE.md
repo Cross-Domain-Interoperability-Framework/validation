@@ -22,9 +22,15 @@ This repository contains validation tools for **CDIF (Cross-Domain Interoperabil
 | `ValidateROCrate.py` | Validates RO-Crate documents -- **moved to [packaging repo](https://github.com/Cross-Domain-Interoperability-Framework/packaging)** |
 | `validate-cdif.bat` | Windows batch wrapper for oXygen XML Editor integration |
 | `batch_validate.py` | Batch validation of CDIF metadata files across multiple file groups |
+| `ConformanceValidate.py` | Profile-agnostic validator: discovers profiles from the document's `schema:subjectOf/dcterms:conformsTo` (CatalogRecord-tagged) and validates against each profile's schema + SHACL. `--source w3id` (fetch from redirector) or `--source local` (via `conformance-schema-map.json`); single file or directory (batch); engine importable as `run_conformance(...)` |
+| `conformance-schema-map.json` | Local URI→schema/SHACL map for `ConformanceValidate.py --source local` |
+| `geocodes_harvester.py` | Harvests dataset metadata from the EarthCube GeoCodes SPARQL endpoint and optionally converts to CDIF core/discovery profile |
+| `DCAT/dcat_to_cdif.py` | Converts DCAT JSON-LD catalogs to CDIF schema.org format (see `DCAT/README.md`) |
+| `DDI/ddi_to_cdif.py` | Converts DDI Codebook 2.5 XML (e.g., Harvard Dataverse exports) to CDIF DataDescription JSON-LD (emits pre-migration `cdi:` data-structure prefixes) |
 | `CDIFDiscoverySchema.json` | JSON Schema for framed (tree) CDIF discovery profile metadata |
 | `CDIFCompleteSchema.json` | JSON Schema for framed (tree) CDIF complete profile metadata |
 | `CDIFDataDescriptionSchema.json` | JSON Schema for framed (tree) CDIF data description profile metadata |
+| `generate_validation_schema.py` | Generates the framed-tree validation schemas from building block profile resolved schemas |
 | `CDIF-graph-schema-2026.json` | JSON Schema for flattened JSON-LD graphs (generated) |
 | `generate_graph_schema.py` | Generates graph schema from building block source schemas |
 | `CDIF-frame-2026.jsonld` | JSON-LD frame for 2026 schema |
@@ -32,7 +38,8 @@ This repository contains validation tools for **CDIF (Cross-Domain Interoperabil
 | `ddi-cdi/ddi-cdi.schema_normative.json` | Full DDI-CDI normative JSON Schema (395 definitions) |
 | `ddi-cdi/cls-InstanceVariable-resolved.json` | Resolved standalone schema for DDI-CDI InstanceVariable |
 | `ddi-cdi/cls-InstanceVariable-resolved-README.md` | Documentation for the resolved schema generation |
-| `croissant/ConvertToCroissant.py` | Converts CDIF JSON-LD to Croissant (mlcommons.org/croissant/1.0) format |
+| `croissant/ConvertToCroissant.py` | Converts CDIF JSON-LD to Croissant 1.1 (mlcommons.org/croissant/1.1) format |
+| `croissant/ConvertFromCroissant.py` | Converts Croissant (1.0 or 1.1) JSON-LD to CDIF DataDescription/Discovery (lossy inverse) |
 | `croissant/CDIFtoCroissant.md` | Documents the CDIF-to-Croissant mapping, converter code, and gaps |
 | `ShaclValidation/generate_shacl_shapes.py` | Generates composite SHACL shapes from building block rules.shacl files |
 | `ShaclValidation/generate_shacl_report.py` | Generates markdown SHACL validation reports with severity grouping |
@@ -243,12 +250,12 @@ The `rocrate-validator` library provides thorough SHACL-based RO-Crate validatio
 
 ## ConvertToCroissant.py (CDIF to Croissant)
 
-Converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissant/docs/croissant-spec.html) (mlcommons.org/croissant/1.0) JSON-LD for ML dataset discovery and loading. See `croissant/CDIFtoCroissant.md` for the full mapping documentation.
+Converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissant/docs/croissant-spec.html) 1.1 (mlcommons.org/croissant/1.1) JSON-LD for ML dataset discovery and loading. The inverse `croissant/ConvertFromCroissant.py` converts Croissant (1.0 or 1.1) back to CDIF DataDescription/Discovery (lossy). See `croissant/CDIFtoCroissant.md` (forward) and `croissant/CroissantToCDIF.md` (inverse) for the full mapping documentation.
 
 **Key mappings:**
 - `schema:DataDownload` → `cr:FileObject`; archive `hasPart` items become FileObjects with `containedIn`
-- `schema:variableMeasured` + `cdi:hasPhysicalMapping` → `cr:RecordSet` + `cr:Field` with `source.extract.column`
-- `schema:propertyID` / `cdi:uses` → `cr:Field.equivalentProperty`
+- `schema:variableMeasured` + `cdif:hasPhysicalMapping` → `cr:RecordSet` + `cr:Field` with `source.extract.column`
+- `schema:propertyID` / `cdif:uses` → `cr:Field.equivalentProperty`
 - CDIF-only properties (`prov:wasGeneratedBy`, `dqv:hasQualityMeasurement`, `schema:spatialCoverage`, etc.) are passed through verbatim with namespace prefixes added to `@context`
 - Missing `schema:license` gets OGC `nil:missing` placeholder
 
@@ -257,7 +264,7 @@ Converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissa
 ## Test documents
 
 - `MetadataExamples/` - Sample CDIF metadata files
-  - `nwis-water-quality-longdata.json` -- NWIS water quality long data example using `cdi:LongStructureDataSet` with 20 CSV column variables (DescriptorComponent, ReferenceValueComponent, DimensionComponent, AttributeComponent roles) and 5 MeasureComponent domain variables. Validates against graph schema; framed schema validation has expected failures (no LongStructureDataSet branch in framed schema yet).
+  - `nwis-water-quality-longdata.json` -- NWIS water quality long data example using `cdi:LongStructureDataSet` with 20 CSV column variables (`cdif:role`: `Descriptor`, `ReferenceVariable`, `Dimension`, `Attribute`) and 5 `Measure` domain variables. Declares conformance to `core/1.1`, `discovery/1.1`, `data_description/1.1`, `data_structure/1.1`. Validates against the (regenerated) graph schema `CDIF-graph-schema-2026.json`. The detailed LongDataStructure component cardinality (exactly one Identifier/VariableDescriptor/VariableValue component) is defined in the `cdifDataStructure` profile (`data_structure/1.1`), enforced there in both JSON Schema (`minContains`/`maxContains`) and SHACL.
   - `prov-ocean-temp-example.json` -- Extended provenance example demonstrating `cdifProv` building block features: action chaining (QC activity → compilation activity via `schema:object`/`schema:result`), multi-typed activities (`["schema:Action", "prov:Activity"]`), agents with Role wrappers, inline `schema:HowTo` methodology via `schema:actionProcess` with 3 steps, diverse instruments (DefinedTerm, CreativeWork, strings), facility location (WHOI -- `schema:location` is where the activity was performed, not spatial coverage of the data), and backward-compatible `prov:used`.
 - `BuildingBlockSubmodule/_sources/cdifProperties/cdifProv/exampleCdifProv.json` -- Single-node building block example: soil chemistry analysis activity (`["schema:Action", "prov:Activity"]`) with agent (Person with ORCID), `prov:used` array containing instrument wrapper (`schema:instrument` sub-key with DefinedTerm ICP-MS, `schema:alternateName` for specific model, `schema:additionalProperty` detection limit), vocab URI, sample description string, and CreativeWork EPA Method 6200. Action chaining (`schema:object`/`schema:result`), `schema:actionProcess` HowTo with 2 steps, facility location (Nevada Bureau of Mines), and temporal bounds. Companion `rules.shacl` provides SHACL validation shapes.
 - `BuildingBlockSubmodule/_sources/ddiProperties/ddicdiProv/exampleDdicdiProv.json` -- Multi-node `@graph` document: same soil chemistry analysis scenario expressed in DDI-CDI vocabulary. Contains 8 graph nodes: `cdi:Activity` with `entityUsed`/`entityProduced` References and `has_Step` refs, 2 `cdi:Step` nodes with `script` (CommandCode/CommandFile) and `receives`/`produces` Parameter refs, 3 `cdi:Parameter` nodes with `entityBound` References, `cdi:ProcessingAgent` with ORCID identifier and `performs`/`operatesOn` links, `cdi:ProductionEnvironment` for the lab facility. Companion `rules.shacl` provides SHACL validation shapes.
@@ -274,7 +281,7 @@ Converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissa
 - **SHACL Violations**: 0 across all files
 - **SHACL Warnings/Info**: All files pass with warnings/info only — missing activity descriptions, contact points, physical data types, etc.
 
-**SHACL severity rationale**: Properties that are optional in JSON Schema (`schema:name` on activities, `cdi:physicalDataType` on InstanceVariable) are set to `sh:Warning` in SHACL for consistency. Only structurally required properties (e.g., `prov:used` on activities) use `sh:Violation`.
+**SHACL severity rationale**: Properties that are optional in JSON Schema (`schema:name` on activities, `cdif:physicalDataType` on InstanceVariable) are set to `sh:Warning` in SHACL for consistency. Only structurally required properties (e.g., `prov:used` on activities) use `sh:Violation`.
 
 **SHACL shape authority**: `cdifOptional/rules.shacl` is the authoritative source for `keywordsNoCommaTest` (accepts string, DefinedTerm, or IRI) and `relatedResourceProperty` (accepts string, DefinedTerm, or IRI for `schema:linkRelationship`). These shapes propagate via conflict resolution in `ShaclValidation/generate_shacl_shapes.py` (cdifOptional wins over CDIFDiscovery profile copies). `additionalProperty/rules.shacl` allows any datatype for `schema:value` (not just `xsd:string`).
 

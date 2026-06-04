@@ -66,9 +66,11 @@ This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule s
 | `validate_building_blocks.py` | Validates building block schemas, SHACL shapes, and examples across the BB source tree |
 | `validate-cdif.bat` | Windows batch script for oXygen XML Editor integration |
 | `batch_validate.py` | Batch validation of CDIF metadata files across multiple file groups (JSON Schema + SHACL) |
-| `validate_conformance.py` | Validates JSON-LD instances against the CDIF profiles they claim conformance to via `schema:subjectOf/dcterms:conformsTo`. Maps conformsTo URIs to profile/building-block schemas and reports per-file, per-profile results |
+| `ConformanceValidate.py` | Profile-agnostic validator: discovers the profiles a document claims via `schema:subjectOf/dcterms:conformsTo` and validates against each profile's JSON Schema + SHACL. `--source w3id` (fetch from the w3id redirector) or `--source local` (local schemas via `conformance-schema-map.json`). Accepts a single file or a directory (batch). Engine importable as `run_conformance(...)` |
+| `conformance-schema-map.json` | Local URI→schema/SHACL map used by `ConformanceValidate.py --source local` |
 | `geocodes_harvester.py` | Harvests dataset metadata from the [EarthCube GeoCodes](https://geocodes.earthcube.org/) SPARQL endpoint, extracts original JSON-LD from landing pages, and optionally converts to CDIF core or discovery profile format |
 | `DCAT/dcat_to_cdif.py` | Converts DCAT JSON-LD catalogs to CDIF schema.org format. Maps DCAT/Dublin Core properties to schema.org equivalents per the [CDIF DCAT implementation guide](https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/dcat.html). See [DCAT/README.md](DCAT/README.md) |
+| `DDI/ddi_to_cdif.py` | Converts DDI Codebook 2.5 XML (e.g., from Harvard Dataverse) to CDIF DataDescription JSON-LD: study-level metadata, `<var>` → `schema:variableMeasured`, `<fileDscr>` → `schema:DataDownload`/`cdi:TabularTextDataSet`, tab-file headers → physical mappings |
 
 ### DDI-CDI Resolved Schema
 
@@ -177,29 +179,72 @@ to specify a profile up front.
    **that are tagged `schema:additionalType: dcat:CatalogRecord`**. Entries
    without the CatalogRecord tag (e.g. a related publication carrying its
    own `conformsTo`) are skipped — they don't declare profile conformance
-   for the parent dataset.
-3. For each URI, fetches the JSON Schema from `<URI>/schema` and the SHACL
-   rules from `<URI>/shacl` via the `https://w3id.org/cdif/` redirector.
+   for the parent dataset. URIs with an `ada:` (extension) prefix are ignored.
+3. For each URI, **resolves** the JSON Schema and SHACL rules from the
+   selected source (`--source`):
+   - `w3id` (default) — fetches `<URI>/schema` and `<URI>/shacl` from the
+     `https://w3id.org/cdif/` redirector (authoritative; needs network).
+   - `local` — looks the URI up in a JSON map file (`--schema-map`, default
+     `conformance-schema-map.json` beside the script) that points at local
+     framed-tree schemas + SHACL shapes. Works offline. URIs absent from the
+     map report as `no_schema`/`no_shacl` rather than failing.
 4. Frames + compacts the document with the CDIF output context (re-wrapping
    `schema:propertyID`, `schema:additionalType`, etc. into arrays where the
    schemas expect them).
 5. Validates against each profile's schema (and optionally SHACL) and prints
    per-profile pass/fail with attributed error messages.
 
+The input may be a **single file** (per-profile report) or a **directory**
+(batch mode — per-file PASS/FAIL lines plus an aggregate summary and an
+error-pattern histogram). The validation engine is also importable:
+`run_conformance(doc, resolver, ...)` returns a JSON-serializable results
+dict (`conformsTo`, `profiles[].schema/shacl.status/errors`,
+`total_violations`) so a web application can call it directly and pick the
+resolver (`W3idResolver` or `LocalResolver`) per request.
+
+### Local schema map
+
+`conformance-schema-map.json` maps conformsTo URIs to local schema/SHACL
+files (paths relative to the map file; `shacl` optional; trailing-slash and
+`datadescription`/`data_description` insensitive):
+
+```json
+{
+  "https://w3id.org/cdif/discovery/1.0": {
+    "schema": "CDIFDiscoverySchema.json",
+    "shacl":  "ShaclValidation/CDIF-Discovery-Shapes.ttl"
+  }
+}
+```
+
+The shipped map covers the three profiles that have framed-tree schemas in
+this repo (discovery, data_description, complete). Other conformance URIs
+(core, manifest, provenance, …) resolve as `no_schema` in local mode — use
+`--source w3id` for the authoritative, complete set, or extend the map.
+
 ### Quick start
 
 ```bash
-# Both passes (JSON Schema + SHACL); cache fetched artifacts
+# Default (w3id source): both passes, cache fetched artifacts
 python ConformanceValidate.py myrecord.jsonld --cache-dir .cache
 
-# Verbose — show every URI it discovers and every GET
+# Local source (offline) — uses conformance-schema-map.json
+python ConformanceValidate.py myrecord.jsonld --source local
+
+# Local source with an explicit map
+python ConformanceValidate.py myrecord.jsonld --source local --schema-map mymap.json
+
+# Verbose — show every URI it discovers and every resolve
 python ConformanceValidate.py myrecord.jsonld --verbose
 
 # JSON Schema only (skip SHACL)
 python ConformanceValidate.py myrecord.jsonld --no-shacl
 
-# Use Accept-header content negotiation on the bare URI instead of /schema
-# and /shacl sub-paths (e.g. for testing alternate redirect rules)
+# Batch: validate a whole directory, summary only
+python ConformanceValidate.py ./testJSONMetadata --source local --summary
+
+# (w3id only) Accept-header content negotiation on the bare URI instead of
+# the /schema and /shacl sub-paths
 python ConformanceValidate.py myrecord.jsonld --use-accept
 ```
 
@@ -438,7 +483,6 @@ Your JSON-LD metadata documents must include a `@context` with namespace prefixe
 | `dqv` | `http://www.w3.org/ns/dqv#` | Data quality measurements |
 | `cdi` | `http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/` | DDI-CDI variable/data structure properties |
 | `csvw` | `http://www.w3.org/ns/csvw#` | CSVW tabular data properties (data description level) |
-```
 
 Domain-specific metadata may also use extension namespace prefixes. For example, the XAS (X-ray absorption spectroscopy) test example uses:
 
@@ -535,9 +579,9 @@ The 2026 schema adds support for:
 **Variables (`schema:variableMeasured`):**
 - Items are `anyOf` PropertyValue-based (`cdifVariableMeasured`) or `schema:StatisticalVariable`
 - **PropertyValue variables**: typed as `schema:PropertyValue` with DDI-CDI extensions (`cdi:intendedDataType`, `cdif:simpleUnitOfMeasure`, `cdi:describedUnitOfMeasure`, `cdif:uses`, `cdif:role`)
-- `cdif:role` -- enum: `MeasureComponent`, `AttributeComponent`, `DimensionComponent`, `DescriptorComponent`, `ReferenceValueComponent`
+- `cdif:role` -- enum: `UnitIdentifier`, `Measure`, `Attribute`, `Dimension`, `Descriptor`, `ReferenceVariable`
 - **StatisticalVariable**: typed as `schema:StatisticalVariable` with `schema:statType`, `schema:measuredProperty` (required)
-- `cdi:physicalDataType` is required at the **data description level** (CDIFDataDescription/CDIFcomplete profiles), not at discovery level
+- `cdif:physicalDataType` is required at the **data description level** (CDIFDataDescription/CDIFcomplete profiles), not at discovery level
 
 **Distributions:**
 - `cdi:StructuredDataSet` - For structured formats (JSON, XML, HDF5, NetCDF)
@@ -546,11 +590,11 @@ The 2026 schema adds support for:
   - `cdi:isDelimited` OR `cdi:isFixedWidth`
   - `cdif:hasPhysicalMapping` - Links variables to physical representation
 - `cdi:LongStructureDataSet` - For long/narrow data format where each row is a single observation:
-  - A descriptor column identifies which variable each row measures (`cdif:role: DescriptorComponent`)
-  - A reference column holds the actual value (`cdif:role: ReferenceValueComponent`)
+  - A descriptor column identifies which variable each row measures (`cdif:role: Descriptor`)
+  - A reference column holds the actual value (`cdif:role: ReferenceVariable`)
   - Optional CSVW properties (delimiter, header, etc.) and DDI-CDI physical properties
   - `cdif:hasPhysicalMapping` - Links variables to physical representation
-  - SHACL rules enforce exactly one `DescriptorComponent` and at least one `ReferenceValueComponent`
+  - The detailed LongDataStructure component cardinality (exactly one Identifier/VariableDescriptor/VariableValue component) is defined in the `cdifDataStructure` profile (`data_structure/1.1`), enforced in both JSON Schema (`minContains`/`maxContains`) and SHACL
 
 ## Flattened Graph Schema
 
@@ -681,23 +725,6 @@ See [`ShaclValidation/README.md`](ShaclValidation/README.md) for detailed docume
 
 **Recommendation**: Use both JSON Schema and SHACL validation for comprehensive coverage. `batch_validate.py` runs both automatically across multiple file groups.
 
-## Conformance Validation
-
-`validate_conformance.py` inspects JSON-LD files for `schema:subjectOf/dcterms:conformsTo` claims and validates each file against the profile schemas it claims to conform to. Supports cdifCore, CDIFDiscovery, CDIFDataDescription, CDIFcomplete, and building block schemas (provenance, manifest/archive distribution).
-
-```bash
-# Validate a directory of JSON-LD files against their claimed profiles
-python validate_conformance.py testJSONMetadata/
-
-# Summary only
-python validate_conformance.py testJSONMetadata/ --summary
-
-# Verbose per-file error details
-python validate_conformance.py testJSONMetadata/ --verbose
-```
-
-Conformance URIs with `ada:` prefix are ignored. URIs are normalized (trailing slashes stripped, `dataDescription` mapped to `data_description`).
-
 ## GeoCodes Harvester
 
 `geocodes_harvester.py` harvests dataset metadata from the [EarthCube GeoCodes](https://geocodes.earthcube.org/) catalog (~170K indexed datasets). It queries the Blazegraph SPARQL endpoint, fetches original JSON-LD from source landing pages when available, and optionally converts records to CDIF profile format.
@@ -736,6 +763,23 @@ Key mappings: `dcterms:title` → `schema:name`, `dcterms:description` → `sche
 
 See [DCAT/README.md](DCAT/README.md) for the full property mapping table, PSDI catalog example, and known limitations.
 
+## DDI Conversion
+
+`DDI/ddi_to_cdif.py` converts a [DDI Codebook 2.5](https://ddialliance.org/Specification/DDI-Codebook/2.5/) XML file (for example, a DDI export from Harvard Dataverse) to a CDIF DataDescription JSON-LD document.
+
+```bash
+# Convert a DDI XML export (DOI is required)
+python DDI/ddi_to_cdif.py input.xml --doi https://doi.org/10.7910/DVN/XXXXXX -o output.json
+
+# Also fetch tab-file headers and file size/checksum from the Dataverse API
+python DDI/ddi_to_cdif.py input.xml --doi https://doi.org/10.7910/DVN/XXXXXX \
+  --fetch-headers --fetch-file-meta -o output.json
+```
+
+Key mappings: study `titl`/`abstract` → `schema:name`/`schema:description`, authors → `schema:creator`, `keyword` → `schema:keywords`, spatial/temporal coverage; DDI `<var>` → `schema:variableMeasured` (`cdi:InstanceVariable`); DDI `<fileDscr>` → `schema:DataDownload` (`cdi:TabularTextDataSet`) with CSVW properties; tab-file headers → physical mappings; `caseQnty`/`varQnty` → `cdifq:nRows`/`nColumns`. `--fetch-headers` and `--fetch-file-meta` pull headers and file size/checksum from the Dataverse API.
+
+> **Note:** The converter currently emits the pre-migration `cdi:`-prefixed data-structure properties (`cdi:role`, `cdi:physicalDataType`, `cdi:hasPhysicalMapping`, `cdi:index`, `cdi:formats_InstanceVariable`). These should be migrated to the current `cdif:` prefix before the output is treated as current-schema CDIF.
+
 ## MetadataExamples
 
 The `MetadataExamples/` directory contains sample CDIF JSON-LD documents for testing:
@@ -747,7 +791,7 @@ The `MetadataExamples/` directory contains sample CDIF JSON-LD documents for tes
 | `xanes-2arx-b516.json` | XANES | X-ray absorption near-edge structure |
 | `yv1f-jb20.json` | -- | General dataset |
 | `test_se_na2so4-testschemaorg-cdiv3.json` | XAS | X-ray absorption spectroscopy with DDI-CDI data structure (WideDataStructure, InstanceVariable, ValueMapping). Uses `xas:` and `cdifq:` extension namespaces |
-| `nwis-water-quality-longdata.json` | Water Quality | NWIS groundwater nutrient analysis (464 rows, 20 columns) in `cdi:LongStructureDataSet` long (narrow) format with `DescriptorComponent`/`ReferenceValueComponent` roles, `cdif:hasPhysicalMapping`, and 5 MeasureComponent domain variables. Validates against graph schema (`CDIF-graph-schema-2026.json`) |
+| `nwis-water-quality-longdata.json` | Water Quality | NWIS groundwater nutrient analysis (464 rows, 20 columns) in `cdi:LongStructureDataSet` long (narrow) format with `Descriptor`/`ReferenceVariable` roles, `cdif:hasPhysicalMapping`, and 5 `Measure` domain variables. Declares `core`/`discovery`/`data_description`/`data_structure` 1.1 conformance. Validates against graph schema (`CDIF-graph-schema-2026.json`) |
 | `prov-ocean-temp-example.json` | Ocean Temperature | Extended provenance example demonstrating `cdifProv` building block: action chaining (`schema:object`/`schema:result`), multi-typed `["schema:Action", "prov:Activity"]` activities, agents with Role wrappers, inline `schema:HowTo` methodology via `schema:actionProcess` with 3 steps, diverse instruments, facility location, and backward-compatible `prov:used`. Validates against graph schema |
 
 Corresponding Croissant output files are in the [`croissant/`](croissant/) directory.
