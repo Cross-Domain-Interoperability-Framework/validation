@@ -318,6 +318,19 @@ def _file_object_basic(fobj, is_archive_component=False):
     return out
 
 
+def _mark_tabular(node, fobj):
+    """A cdi:TabularTextDataSet must declare a physical layout (cdi:isDelimited
+    OR cdi:isFixedWidth). Croissant tabular sources are delimited text, so set
+    cdi:isDelimited and a csvw:delimiter inferred from encodingFormat (tab for
+    TSV, comma otherwise)."""
+    if "cdi:TabularTextDataSet" not in (node.get("@type") or []):
+        return node
+    node.setdefault("cdi:isDelimited", True)
+    enc = " ".join(_as_list(fobj.get("encodingFormat") or [])).lower()
+    node.setdefault("csvw:delimiter", "\t" if ("tsv" in enc or "tab" in enc) else ",")
+    return node
+
+
 def _convert_distribution(croissant, record_sets_by_file, verbose=False):
     """Convert cr:FileObject inventory into CDIF schema:distribution[].
 
@@ -386,6 +399,7 @@ def _convert_distribution(croissant, record_sets_by_file, verbose=False):
         if fo.get("@id") in record_sets_by_file:
             types.append("cdi:TabularTextDataSet")
         dd["@type"] = types
+        _mark_tabular(dd, fo)
         cdif_distribution.append(dd)
         node_for_file_id[fo.get("@id")] = dd
 
@@ -402,6 +416,7 @@ def _convert_distribution(croissant, record_sets_by_file, verbose=False):
             if child.get("@id") in record_sets_by_file:
                 child_types.append("cdi:TabularTextDataSet")
             part["@type"] = child_types
+            _mark_tabular(part, child)
             parts.append(part)
             node_for_file_id[child.get("@id")] = part
 
