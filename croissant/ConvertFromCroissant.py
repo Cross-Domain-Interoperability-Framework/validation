@@ -48,14 +48,16 @@ CDIF_CONTEXT = {
     "dqv": "http://www.w3.org/ns/dqv#",
 }
 
-# Current CDIF conformance URIs (subjectOf.dcterms:conformsTo). A Croissant
-# RecordSet maps to the DataDescription level; core + discovery are always
-# implied by the discovery foundation.
-CDIF_PROFILE_CONFORMS_TO = [
+# Current CDIF conformance URIs (subjectOf.dcterms:conformsTo). core + discovery
+# are always implied by the discovery foundation; data_description is declared
+# ONLY when the record actually describes variables (a Croissant RecordSet with
+# fields). A record with no variableMeasured does not conform to — and must not
+# claim — the data_description profile.
+CDIF_CORE_DISCOVERY_CONFORMS_TO = [
     "https://w3id.org/cdif/core/1.1",
     "https://w3id.org/cdif/discovery/1.1",
-    "https://w3id.org/cdif/data_description/1.1",
 ]
+CDIF_DATA_DESCRIPTION_CONFORMS_TO = "https://w3id.org/cdif/data_description/1.1"
 
 # Accept either Croissant version on input; the converter is version-agnostic
 # for the lossless subset it handles.
@@ -779,12 +781,17 @@ def convert(croissant, verbose=False):
         # Current CDIF catalog-record shape: a schema:Dataset bearing
         # schema:additionalType "dcat:CatalogRecord", schema:about pointing at
         # the described dataset, and dcterms:conformsTo profile URIs.
+        # Declare data_description only when variables are actually described;
+        # otherwise the record is discovery-level (empty variableMeasured is not
+        # inserted either, so it must not claim the data_description profile).
+        conforms = list(CDIF_CORE_DISCOVERY_CONFORMS_TO)
+        if variables:
+            conforms.append(CDIF_DATA_DESCRIPTION_CONFORMS_TO)
         subject_of = {
             "@type": ["schema:Dataset"],
             "schema:additionalType": ["dcat:CatalogRecord"],
             "schema:about": {"@id": out["@id"]},
-            "dcterms:conformsTo": [{"@id": uri}
-                                   for uri in CDIF_PROFILE_CONFORMS_TO],
+            "dcterms:conformsTo": [{"@id": uri} for uri in conforms],
         }
         date_modified = croissant.get("dateModified")
         if date_modified:

@@ -19,25 +19,28 @@ against the document's claimed `discovery/1.1` + `data_description/1.1` profiles
 
 ## Results (after converter enhancements + HF date enrichment — see below)
 
-**13/14 fully pass** discovery **and** data_description; **14/14 pass discovery**. The
-single remaining failure is a genuine *source-completeness* gap, not a conversion defect.
+**14/14 fully conform** to every profile they declare. 13 describe variables and
+claim + pass `discovery` **and** `data_description`. `openml-mnist784` has no fields in
+its source record set, so it correctly claims **only `discovery`** (passing) rather than
+declaring a `data_description` profile it can't satisfy — no empty `variableMeasured` is
+emitted and `data_description` is not in its `conformsTo`.
 
-| file | src | vars | discovery/1.1 | data_description/1.1 | missing required |
-|------|-----|------|---------------|----------------------|------------------|
-| hf-mnist | hf | 3 | **PASS** | **PASS** | — |
-| hf-cifar10 | hf | 3 | **PASS** | **PASS** | — |
-| hf-imdb | hf | 3 | **PASS** | **PASS** | — |
-| hf-squad | hf | 5 | **PASS** | **PASS** | — |
-| hf-glue | hf | 58 | **PASS** | **PASS** | — |
-| hf-gsm8k | hf | 6 | **PASS** | **PASS** | — |
-| hf-awesome-chatgpt-prompts | hf | 6 | **PASS** | **PASS** | — |
-| kaggle-creditcardfraud | kaggle | 31 | **PASS** | **PASS** | — |
-| kaggle-netflix-shows | kaggle | 12 | **PASS** | **PASS** | — |
-| kaggle-wine-reviews | kaggle | 25 | **PASS** | **PASS** | — |
-| kaggle-world-happiness | kaggle | 55 | **PASS** | **PASS** | — |
-| openml-adult | openml | 15 | **PASS** | **PASS** | — |
-| openml-iris | openml | 5 | **PASS** | **PASS** | — |
-| openml-mnist784 | openml | 0 | **PASS** | FAIL(1) | variableMeasured |
+| file | src | vars | claims data_description? | discovery/1.1 | data_description/1.1 |
+|------|-----|------|--------------------------|---------------|----------------------|
+| hf-mnist | hf | 3 | yes | **PASS** | **PASS** |
+| hf-cifar10 | hf | 3 | yes | **PASS** | **PASS** |
+| hf-imdb | hf | 3 | yes | **PASS** | **PASS** |
+| hf-squad | hf | 5 | yes | **PASS** | **PASS** |
+| hf-glue | hf | 58 | yes | **PASS** | **PASS** |
+| hf-gsm8k | hf | 6 | yes | **PASS** | **PASS** |
+| hf-awesome-chatgpt-prompts | hf | 6 | yes | **PASS** | **PASS** |
+| kaggle-creditcardfraud | kaggle | 31 | yes | **PASS** | **PASS** |
+| kaggle-netflix-shows | kaggle | 12 | yes | **PASS** | **PASS** |
+| kaggle-wine-reviews | kaggle | 25 | yes | **PASS** | **PASS** |
+| kaggle-world-happiness | kaggle | 55 | yes | **PASS** | **PASS** |
+| openml-adult | openml | 15 | yes | **PASS** | **PASS** |
+| openml-iris | openml | 5 | yes | **PASS** | **PASS** |
+| openml-mnist784 | openml | 0 | **no** (discovery-only) | **PASS** | n/a |
 
 (`vars` = `schema:variableMeasured` count. Compare to the first run: every file failed on
 `schema:identifier`, and all 7 HF files extracted **0** variables.)
@@ -56,25 +59,22 @@ single remaining failure is a genuine *source-completeness* gap, not a conversio
    DOI later.
 3. **dateModified fallback** — when `dateModified` is absent, fall back to
    `datePublished`, then `dateCreated` (never fabricated).
-4. **1.1 conformance** — emits `core`/`discovery`/`data_description` **`1.1`** URIs.
+4. **1.1 conformance, declared conditionally** — emits `core`/`discovery` **`1.1`**
+   always, and `data_description/1.1` **only when variables are present**. A record with
+   no variables (no source fields) stays discovery-level: no empty `schema:variableMeasured`
+   is inserted and `data_description` is not claimed — so it can't fail a profile it
+   doesn't assert. (Fixed the former `openml-mnist784` failure.)
 
 Plus, at the **harvest layer** (not the converter): the HF instances were enriched with
 `dateModified`/`dateCreated` from the HF dataset API, since HF's Croissant payload omits
 dates — see [`../enrich_hf_dates.py`](../enrich_hf_dates.py). This took the 7 HF files
 from failing-on-dateModified to fully passing.
 
-## Remaining failure — source-completeness, not a converter bug
-
-- **`openml-mnist784` `schema:variableMeasured`.** Its *source* Croissant record set has
-  **0 `field`s** (OpenML didn't enumerate the 784 pixel columns), so there is nothing to
-  convert into variables. data_description requires `variableMeasured`. This is a
-  source-side gap — the converter has nothing to work with.
-
 ## Bottom line
 
-The two real converter limitations from the first pass are fixed — **`cr:FileSet`
-extraction** (HF now retains variables, e.g. glue 0 → 58) and the **missing-identifier**
-failure (landing-page-URL fallback) — and the HF date gap is closed at the harvest layer.
-Result: **14/14 pass discovery, 13/14 pass data_description**, across all three sources and
-both Croissant versions. The one residual failure is purely *what the source metadata
-doesn't carry* (OpenML's mnist_784 omits field definitions), not a conversion defect.
+The converter limitations from the first pass are fixed — **`cr:FileSet` extraction**
+(HF now retains variables, e.g. glue 0 → 58), the **missing-identifier** failure
+(landing-page-URL fallback), the HF date gap (closed at the harvest layer), and
+**conditional `data_description` declaration** (a record with no variables claims only
+discovery). Result: **14/14 conform to every profile they declare**, across all three
+sources and both Croissant versions, with no conversion defects remaining.

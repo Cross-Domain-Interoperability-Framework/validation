@@ -81,7 +81,11 @@ one when a DOI can be detected:
 Croissant declares conformance as a single top-level `dct:conformsTo` URI
 (`http://mlcommons.org/croissant/1.1` or `/1.0`). CDIF requires a catalog record
 on `schema:subjectOf`. The inverse emits the current CDIF catalog-record shape
-(conformance URIs at **1.1**):
+(conformance URIs at **1.1**). `core` + `discovery` are always declared;
+`data_description` is declared **only when the record actually describes variables**
+(`schema:variableMeasured` is non-empty). A source Croissant with no fields (e.g.
+an OpenML record set with zero `field`s) produces a discovery-level record that
+neither inserts an empty `schema:variableMeasured` nor claims `data_description`:
 
 ```json
 "schema:subjectOf": {
@@ -90,8 +94,8 @@ on `schema:subjectOf`. The inverse emits the current CDIF catalog-record shape
   "schema:about": {"@id": "<dataset @id>"},
   "dcterms:conformsTo": [
     {"@id": "https://w3id.org/cdif/core/1.1"},
-    {"@id": "https://w3id.org/cdif/discovery/1.1"},
-    {"@id": "https://w3id.org/cdif/data_description/1.1"}
+    {"@id": "https://w3id.org/cdif/discovery/1.1"}
+    // + {"@id": "https://w3id.org/cdif/data_description/1.1"} when variables present
   ]
 }
 ```
