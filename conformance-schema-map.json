@@ -1,24 +1,50 @@
 {
-  "_comment": "Local URI->schema/SHACL map for ConformanceValidate.py --source local. Keys are dcterms:conformsTo profile URIs (trailing-slash and datadescription/data_description insensitive). Paths are relative to this file. Both 1.0 and 1.1 versions map to this repo's current framed-tree schemas. Other conformance URIs resolve as no_schema in local mode (use --source w3id for the authoritative set). data_description has no dedicated SHACL shapes file, so its shacl entry is omitted.",
+  "_comment": "Local URI->schema/SHACL map for ConformanceValidate.py --source local. Each CDIF profile maps to its framed JSON Schema (where one exists in this repo: discovery, data_description, complete) and its per-profile SHACL shapes (scoped to that profile, no cross-profile requirements). A record is validated against exactly the profiles its catalog record declares, so a discovery+provenance+manifest record is checked against provenance/manifest shapes without being required to carry data-description content. Both 1.0 and 1.1 versions map to the same artifacts. Paths are relative to this file; trailing-slash and datadescription/data_description insensitive.",
 
+  "https://w3id.org/cdif/core/1.1": {
+    "shacl": "ShaclValidation/CDIF-Discovery-Shapes.ttl"
+  },
   "https://w3id.org/cdif/discovery/1.1": {
     "schema": "CDIFDiscoverySchema.json",
     "shacl": "ShaclValidation/CDIF-Discovery-Shapes.ttl"
   },
   "https://w3id.org/cdif/data_description/1.1": {
-    "schema": "CDIFDataDescriptionSchema.json"
+    "schema": "CDIFDataDescriptionSchema.json",
+    "shacl": "ShaclValidation/CDIF-DataDescription-Shapes.ttl"
+  },
+  "https://w3id.org/cdif/data_structure/1.1": {
+    "shacl": "ShaclValidation/CDIF-DataStructure-Shapes.ttl"
+  },
+  "https://w3id.org/cdif/provenance/1.1": {
+    "shacl": "ShaclValidation/CDIF-Provenance-Shapes.ttl"
+  },
+  "https://w3id.org/cdif/manifest/1.1": {
+    "shacl": "ShaclValidation/CDIF-Manifest-Shapes.ttl"
   },
   "https://w3id.org/cdif/complete/1.1": {
     "schema": "CDIFCompleteSchema.json",
     "shacl": "ShaclValidation/CDIF-Complete-Shapes.ttl"
   },
 
+  "https://w3id.org/cdif/core/1.0": {
+    "shacl": "ShaclValidation/CDIF-Discovery-Shapes.ttl"
+  },
   "https://w3id.org/cdif/discovery/1.0": {
     "schema": "CDIFDiscoverySchema.json",
     "shacl": "ShaclValidation/CDIF-Discovery-Shapes.ttl"
   },
   "https://w3id.org/cdif/data_description/1.0": {
-    "schema": "CDIFDataDescriptionSchema.json"
+    "schema": "CDIFDataDescriptionSchema.json",
+    "shacl": "ShaclValidation/CDIF-DataDescription-Shapes.ttl"
+  },
+  "https://w3id.org/cdif/data_structure/1.0": {
+    "shacl": "ShaclValidation/CDIF-DataStructure-Shapes.ttl"
+  },
+  "https://w3id.org/cdif/provenance/1.0": {
+    "shacl": "ShaclValidation/CDIF-Provenance-Shapes.ttl"
+  },
+  "https://w3id.org/cdif/manifest/1.0": {
+    "shacl": "ShaclValidation/CDIF-Manifest-Shapes.ttl"
   },
   "https://w3id.org/cdif/complete/1.0": {
     "schema": "CDIFCompleteSchema.json",

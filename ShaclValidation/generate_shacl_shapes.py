@@ -139,11 +139,65 @@ CDIF_COMPLETE_BLOCKS = [
     "profiles/cdifCompositeProfile/cdifComplete",
 ]
 
+# Per-profile (incremental) block sets. Each = the discovery base plus the
+# blocks that profile introduces, and deliberately NOT the other profiles'
+# blocks/requirements. This lets a record be validated against exactly the
+# profiles it declares (via ConformanceValidate) -- e.g. a discovery+provenance
+# record is checked against provenance shapes without being required to also
+# carry data-description content.
+_DATADESC_BLOCKS = CDIF_DISCOVERY_BLOCKS + [
+    "cdifDataType/cdifInstanceVariable",
+    "cdifDataType/cdifPhysicalMapping",
+    "cdifDataType/cdifDataCube",
+    "cdifDataType/cdifTabularData",
+    "cdifDataType/cdifLongData",
+    "profiles/cdifProfile/cdifDataDescription",
+]
+_DATASTRUCT_BLOCKS = _DATADESC_BLOCKS + [
+    "cdifDataType/cdifDataStructureComponent",
+    "cdifDataType/cdifDescriptorVariable",
+    "cdifDataType/cdifRepresentedVariable",
+    "cdifDataType/cdifKey",
+    "cdifDataType/cdifValueDomain",
+    "cdifDataType/cdifStatistics",
+    "cdifDataType/cdifEnumerationDomain",
+    "cdifDataType/cdifReference",
+    "profiles/cdifProfile/cdifDataStructure",
+]
+_PROVENANCE_BLOCKS = CDIF_DISCOVERY_BLOCKS + [
+    "provProperties/provActivity",
+    "cdifDataType/cdifProvActivity",
+    "profiles/cdifProfile/cdifProvenance",
+]
+_MANIFEST_BLOCKS = CDIF_DISCOVERY_BLOCKS + [
+    "profiles/cdifProfile/cdifManifest",
+]
+
 PROFILES = {
     "discovery": {
         "blocks": CDIF_DISCOVERY_BLOCKS,
         "label": "CDIF Discovery Profile",
         "default_output": "ShaclValidation/CDIF-Discovery-Shapes.ttl",
+    },
+    "data_description": {
+        "blocks": _DATADESC_BLOCKS,
+        "label": "CDIF Data Description Profile",
+        "default_output": "ShaclValidation/CDIF-DataDescription-Shapes.ttl",
+    },
+    "data_structure": {
+        "blocks": _DATASTRUCT_BLOCKS,
+        "label": "CDIF Data Structure Profile",
+        "default_output": "ShaclValidation/CDIF-DataStructure-Shapes.ttl",
+    },
+    "provenance": {
+        "blocks": _PROVENANCE_BLOCKS,
+        "label": "CDIF Provenance Profile",
+        "default_output": "ShaclValidation/CDIF-Provenance-Shapes.ttl",
+    },
+    "manifest": {
+        "blocks": _MANIFEST_BLOCKS,
+        "label": "CDIF Manifest Profile",
+        "default_output": "ShaclValidation/CDIF-Manifest-Shapes.ttl",
     },
     "complete": {
         "blocks": CDIF_COMPLETE_BLOCKS,
