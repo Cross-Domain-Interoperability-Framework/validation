@@ -55,9 +55,12 @@ from jsonschema import Draft202012Validator
 
 try:
     from pyshacl import validate as shacl_validate
+    import rdflib
     HAS_PYSHACL = True
 except ImportError:
     HAS_PYSHACL = False
+
+_SH = "http://www.w3.org/ns/shacl#"
 
 
 # Sub-paths exposed by the w3id.org/cdif/<profile>/<version>/ redirector.
@@ -249,17 +252,35 @@ def extract_conforms_to(doc):
     {"@id": ...} object, or an array of those. Returns a deduplicated,
     order-preserving list of URI strings.
     """
-    subj = doc.get("schema:subjectOf") or doc.get("subjectOf")
-    if subj is None:
+    # Index @graph nodes by @id so flattened documents (catalog record as a
+    # separate @graph node, referenced by @id) resolve, and gather schema:subjectOf
+    # from the top level AND from any @graph nodes (flattened docs put the
+    # dataset -- and its subjectOf -- inside @graph rather than at the root).
+    graph = doc.get("@graph")
+    nodes_by_id = {}
+    containers = [doc]
+    if isinstance(graph, list):
+        containers += [n for n in graph if isinstance(n, dict)]
+        for n in graph:
+            if isinstance(n, dict) and isinstance(n.get("@id"), str):
+                nodes_by_id[n["@id"]] = n
+
+    subj = []
+    for c in containers:
+        s = c.get("schema:subjectOf") or c.get("subjectOf")
+        if s is not None:
+            subj.extend(s if isinstance(s, list) else [s])
+    if not subj:
         return []
-    if isinstance(subj, dict):
-        subj = [subj]
 
     uris = []
     seen = set()
     for entry in subj:
         if not isinstance(entry, dict):
             continue
+        # Resolve an @id-only reference to its node in @graph.
+        if set(entry.keys()) <= {"@id"} and entry.get("@id") in nodes_by_id:
+            entry = nodes_by_id[entry["@id"]]
         if not _is_catalog_record(entry):
             continue
         ct = entry.get("dcterms:conformsTo") or entry.get("conformsTo")
@@ -475,17 +496,19 @@ def validate_with_jsonschema(framed, schema):
 
 
 def validate_with_shacl(doc, shacl_text):
-    """Return a list of violation dicts; empty list = conforms.
+    """Return a list of sh:Violation-severity result dicts; empty list = no
+    violations. sh:Warning / sh:Info results are advisory and are NOT returned
+    (they must not fail conformance), consistent with CDIF's severity policy.
 
-    Runs pyshacl against the JSON-LD instance directly; pyshacl
-    parses the JSON-LD into an RDF graph internally.
+    Runs pyshacl against the JSON-LD instance directly; pyshacl parses the
+    JSON-LD into an RDF graph internally.
     """
     if not HAS_PYSHACL:
         return [{"message": "pyshacl not installed; SHACL pass skipped",
                  "skipped": True}]
 
     try:
-        conforms, _results_graph, results_text = shacl_validate(
+        _conforms, results_graph, _txt = shacl_validate(
             json.dumps(doc),
             shacl_graph=shacl_text,
             data_graph_format="json-ld",
@@ -496,25 +519,20 @@ def validate_with_shacl(doc, shacl_text):
     except Exception as e:
         return [{"message": f"SHACL execution error: {e}"}]
 
-    if conforms:
-        return []
-
-    # Parse the textual report into per-violation entries. pyshacl emits
-    # multi-line entries separated by blank lines.
+    SH = rdflib.Namespace(_SH)
     errors = []
-    current = {}
-    for raw in results_text.splitlines():
-        line = raw.strip()
-        if not line:
-            if current:
-                errors.append(current)
-                current = {}
-            continue
-        if ":" in line:
-            k, v = line.split(":", 1)
-            current[k.strip()] = v.strip()
-    if current:
-        errors.append(current)
+    for result in results_graph.subjects(rdflib.RDF.type, SH.ValidationResult):
+        if results_graph.value(result, SH.resultSeverity) != SH.Violation:
+            continue  # advisory (Warning/Info) -- does not fail conformance
+        msg = results_graph.value(result, SH.resultMessage)
+        focus = results_graph.value(result, SH.focusNode)
+        path = results_graph.value(result, SH.resultPath)
+        errors.append({
+            "Message": str(msg) if msg is not None else "(no message)",
+            "Focus Node": str(focus) if focus is not None else "",
+            "Result Path": str(path) if path is not None else "",
+            "Severity": "sh:Violation",
+        })
     return errors
 
 
