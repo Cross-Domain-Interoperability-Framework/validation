@@ -27,20 +27,25 @@ so no normalization artifacts like dropped empty arrays):
 
 A class is declared iff presence AND (no SHACL, or SHACL conforms).
 
-The CONFORMANCE_CLASSES registry below is the interim home for these rules. The
-intent is that each rule (conformsTo URI + ASK + shapes) eventually lives WITH
-the building block that defines the class, so new classes (e.g. geochem) register
-their own presence rule and this module reads them from the BB sources.
+The CONFORMANCE_CLASSES registry below is the default home for these rules, but
+each rule (conformsTo URI + ASK + shapes) can also live WITH the building block
+that defines the class, as a ``conformance.json`` sidecar — see
+docs/CDIF-Conformance-Declaration-Convention.md. Run with ``--from-source`` (or
+env ``CDIF_CONFORMANCE_FROM_SOURCE=1``) to read the rules from the BB sources via
+load_bb_conformance() instead of the registry. This is how new classes (e.g.
+geochem) register their own presence rule without editing this file.
 
 Usage:
     python detect_conformance.py record.jsonld            # print declarable URIs
     python detect_conformance.py record.jsonld --no-shacl # presence only
+    python detect_conformance.py record.jsonld --from-source  # read BB sidecars
     python detect_conformance.py record.jsonld --apply -o out.jsonld  # write conformsTo
 
 Dependencies: pip install rdflib pyshacl   (pyld optional, rdflib parses JSON-LD)
 """
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -135,7 +140,6 @@ CONFORMANCE_CLASSES = [
 
 def _find_bb_dir(explicit=None):
     """Locate the building-block _sources dir for SHACL resolution."""
-    import os
     if explicit:
         return Path(explicit)
     env = os.environ.get("CDIF_BB_DIR")
@@ -156,13 +160,61 @@ def _to_graph(doc):
     return g
 
 
-def detect_conformance(doc, bb_dir=None, do_shacl=True, verbose=False):
+def load_bb_conformance(bb_dir):
+    """Read per-building-block conformance declarations from a BB _sources tree.
+
+    Scans for ``conformance.json`` sidecars (one per profile building block; see
+    docs/CDIF-Conformance-Declaration-Convention.md) and returns class entries in
+    the SAME shape as the CONFORMANCE_CLASSES registry — ``{uri, presence, shacl}``
+    — so detect_conformance() can consume either source. ``validityShapes`` paths
+    are relative to ``bb_dir`` (the _sources root), exactly as the registry's
+    ``shacl`` paths are. Returns [] if no sidecars are found.
+
+    This is the migration path away from the hardcoded registry: once every
+    profile BB carries a sidecar, detect_conformance can read its rules from the
+    building blocks that define them (run with ``use_bb_source=True`` or
+    ``CDIF_CONFORMANCE_FROM_SOURCE=1``)."""
+    classes = []
+    root = Path(bb_dir)
+    if not root.is_dir():
+        return classes
+    for path in sorted(root.glob("**/conformance.json")):
+        try:
+            d = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        uri, ask = d.get("conformsTo"), d.get("presence")
+        if not uri or not ask:
+            continue
+        classes.append({"uri": uri, "presence": ask,
+                        "shacl": d.get("validityShapes")})
+    return classes
+
+
+def detect_conformance(doc, bb_dir=None, do_shacl=True, verbose=False,
+                       use_bb_source=None):
     """Return the list of CDIF conformsTo URIs the record should declare,
-    based on its content (presence ASK) and well-formedness (per-class SHACL)."""
+    based on its content (presence ASK) and well-formedness (per-class SHACL).
+
+    By default the rules come from the hardcoded CONFORMANCE_CLASSES registry.
+    Set ``use_bb_source=True`` (or env ``CDIF_CONFORMANCE_FROM_SOURCE=1``) to read
+    them instead from the building blocks' ``conformance.json`` sidecars via
+    load_bb_conformance() — the eventual source of truth. Falls back to the
+    registry if no sidecars are found."""
+    if use_bb_source is None:
+        use_bb_source = os.environ.get("CDIF_CONFORMANCE_FROM_SOURCE") == "1"
     graph = _to_graph(doc)
-    bb = _find_bb_dir(bb_dir) if do_shacl else None
+    bb = _find_bb_dir(bb_dir) if (do_shacl or use_bb_source) else None
+    classes = CONFORMANCE_CLASSES
+    if use_bb_source and bb is not None:
+        src = load_bb_conformance(bb)
+        if src:
+            classes = src
+            if verbose:
+                print(f"  using {len(src)} source-declared conformance "
+                      f"class(es) from {bb}", file=sys.stderr)
     declared = []
-    for cls in CONFORMANCE_CLASSES:
+    for cls in classes:
         present = bool(graph.query(PREFIXES + cls["presence"]).askAnswer)
         if verbose:
             print(f"  presence {cls['uri'].split('/cdif/')[-1]:18} {present}",
@@ -190,11 +242,30 @@ def detect_conformance(doc, bb_dir=None, do_shacl=True, verbose=False):
     return declared
 
 
-def apply_conformance(doc, uris):
-    """Set schema:subjectOf.dcterms:conformsTo to the detected URIs (in place)."""
+# CDIF profile URIs all live under this base. apply_conformance manages exactly
+# this space and leaves any other conformsTo entries (e.g. a domain-specific
+# profile) untouched.
+CDIF_BASE = "https://w3id.org/cdif/"
+
+
+def apply_conformance(doc, uris, manage_prefix=CDIF_BASE):
+    """Set schema:subjectOf.dcterms:conformsTo to the detected URIs (in place).
+
+    Only the CDIF-managed profile space (URIs under ``manage_prefix``) is
+    replaced; any existing conformsTo entries outside that space — e.g. a
+    project/domain profile such as ``ada:profile/...`` — are preserved (appended
+    after the detected CDIF URIs)."""
     subj = doc.get("schema:subjectOf")
-    if isinstance(subj, dict):
-        subj["dcterms:conformsTo"] = [{"@id": u} for u in uris]
+    if not isinstance(subj, dict):
+        return doc
+    preserved = []
+    existing = subj.get("dcterms:conformsTo")
+    if isinstance(existing, list):
+        for entry in existing:
+            ref = entry.get("@id") if isinstance(entry, dict) else entry
+            if isinstance(ref, str) and not ref.startswith(manage_prefix):
+                preserved.append(entry)
+    subj["dcterms:conformsTo"] = [{"@id": u} for u in uris] + preserved
     return doc
 
 
@@ -205,6 +276,9 @@ def main(argv=None):
     p.add_argument("--no-shacl", action="store_true",
                    help="presence-only (skip the SHACL validity gate)")
     p.add_argument("--bb-dir", help="building-block _sources dir (for SHACL)")
+    p.add_argument("--from-source", action="store_true",
+                   help="read conformance rules from BB conformance.json sidecars "
+                        "instead of the hardcoded registry")
     p.add_argument("--apply", action="store_true",
                    help="write detected conformsTo into the record")
     p.add_argument("-o", "--output", help="output path (with --apply)")
@@ -213,7 +287,8 @@ def main(argv=None):
 
     doc = json.load(open(args.input, encoding="utf-8"))
     uris = detect_conformance(doc, bb_dir=args.bb_dir,
-                              do_shacl=not args.no_shacl, verbose=args.verbose)
+                              do_shacl=not args.no_shacl, verbose=args.verbose,
+                              use_bb_source=args.from_source or None)
     print("Declarable conformance classes:")
     for u in uris:
         print(f"  {u}")

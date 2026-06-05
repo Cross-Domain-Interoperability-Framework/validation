@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://w3id.org/cdif/schema/conformance-declaration/0.1",
+  "title": "CDIF building-block conformance declaration",
+  "description": "Schema for a building block's conformance.json sidecar: how detect_conformance decides whether a record should declare this block's conformance class. See docs/CDIF-Conformance-Declaration-Convention.md.",
+  "type": "object",
+  "required": ["conformsTo", "presence"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "This declaration schema's identifier."
+    },
+    "conformsTo": {
+      "type": "string",
+      "format": "uri",
+      "description": "The canonical CDIF profile URI this building block defines (the value written into schema:subjectOf/dcterms:conformsTo when declared). Version aliasing (1.0/1.1) is handled by the resolver map, not here.",
+      "examples": ["https://w3id.org/cdif/provenance/1.1"]
+    },
+    "title": {
+      "type": "string",
+      "description": "Human-readable profile name."
+    },
+    "description": {
+      "type": "string",
+      "description": "What this class introduces beyond its base, and why the presence test is shaped the way it is."
+    },
+    "presence": {
+      "type": "string",
+      "description": "A SPARQL ASK query (evaluated on the record's RDF graph) that is true iff the record uses the elements this class introduces BEYOND its base. The standard CDIF prefix preamble (schema, prov, cdi, cdif, dcterms, dcat, rdf) is prepended automatically, so the ASK body may use those prefixes without redeclaring them.",
+      "examples": [
+        "ASK { ?d prov:wasGeneratedBy ?a . ?a a prov:Activity, schema:Action ; ?p ?o . FILTER (?p NOT IN (rdf:type, prov:used)) }"
+      ]
+    },
+    "validityShapes": {
+      "type": ["string", "null"],
+      "description": "Path (relative to the _sources root) to this class's CONTENT SHACL shapes, used as the validity gate: the class is declared only if these shapes raise no sh:Violation on the record (sh:Warning / sh:Info are advisory and never block). Use the building-block content shapes (cdifDataType/<block>/rules.shacl), NOT the profile rules.shacl, which are circular for this purpose. null => presence-only (structural validity is the JSON Schema's job).",
+      "examples": ["cdifDataType/cdifProvActivity/rules.shacl", null]
+    }
+  }
+}
