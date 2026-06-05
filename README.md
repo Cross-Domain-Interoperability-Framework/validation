@@ -137,9 +137,9 @@ Group summaries and an overall summary list all violations and schema failures.
 
 ### Current Validation Status
 
-As of April 2026, validation across testJSONMetadata (77 files) and all 5 CDIF profile examples shows:
+As of June 2026, validation across testJSONMetadata (77 files) and all 5 CDIF profile examples shows. Each record is validated against exactly the profiles its catalog record declares (per-declared-profile, via `ConformanceValidate.py`); the 77 testJSONMetadata declare core + discovery + manifest + provenance.
 
-- **JSON Schema**: 77/77 testJSONMetadata pass against all three schemas (Discovery, DataDescription, Complete)
+- **JSON Schema**: 77/77 testJSONMetadata pass the Discovery JSON Schema (the only framed-tree schema among their declared profiles; core, manifest, and provenance are validated by SHACL only)
 - **Profile examples**: 5/5 pass (Discovery, DiscoveryMinimal, DiscoveryComplete, DataDescription, Complete)
 - **SHACL Violations**: 0 across all files
 - **SHACL Warnings/Info**: All files pass with warnings/info only — these reflect optional-but-recommended properties (missing activity descriptions, contact points, physical data types, etc.)
