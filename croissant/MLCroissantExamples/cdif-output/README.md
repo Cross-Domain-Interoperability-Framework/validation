@@ -16,32 +16,42 @@ python ConformanceValidate.py croissant/MLCroissantExamples/cdif-output/<name>-c
 
 Validation is JSON-Schema (structural) via `ConformanceValidate.py --source local`
 against the document's claimed `discovery/1.1` + `data_description/1.1` profiles.
-`core/1.1` is not mapped locally (validate `--source w3id` for that); SHACL not run.
+`core/1.1` and `manifest/1.1` have no local JSON Schema (validate `--source w3id`,
+or run the per-profile SHACL, for those); structural validation here is discovery +
+data_description.
 
 ## Results (after converter enhancements + HF date enrichment — see below)
 
-**14/14 fully conform** to every profile they declare. 13 describe variables and
-claim + pass `discovery` **and** `data_description`. `openml-mnist784` has no fields in
-its source record set, so it correctly claims **only `discovery`** (passing) rather than
-declaring a `data_description` profile it can't satisfy — no empty `variableMeasured` is
-emitted and `data_description` is not in its `conformsTo`.
+**14/14 fully conform** to every profile they declare. The converter no longer
+hardcodes the profile list — it calls [`detect_conformance.py`](../../detect_conformance.py),
+which derives `dcterms:conformsTo` from what the record actually contains (a presence
+SPARQL ASK per class, gated by that class's content SHACL). So:
 
-| file | src | vars | claims data_description? | discovery/1.1 | data_description/1.1 |
-|------|-----|------|--------------------------|---------------|----------------------|
-| hf-mnist | hf | 3 | yes | **PASS** | **PASS** |
-| hf-cifar10 | hf | 3 | yes | **PASS** | **PASS** |
-| hf-imdb | hf | 3 | yes | **PASS** | **PASS** |
-| hf-squad | hf | 5 | yes | **PASS** | **PASS** |
-| hf-glue | hf | 58 | yes | **PASS** | **PASS** |
-| hf-gsm8k | hf | 6 | yes | **PASS** | **PASS** |
-| hf-awesome-chatgpt-prompts | hf | 6 | yes | **PASS** | **PASS** |
-| kaggle-creditcardfraud | kaggle | 31 | yes | **PASS** | **PASS** |
-| kaggle-netflix-shows | kaggle | 12 | yes | **PASS** | **PASS** |
-| kaggle-wine-reviews | kaggle | 25 | yes | **PASS** | **PASS** |
-| kaggle-world-happiness | kaggle | 55 | yes | **PASS** | **PASS** |
-| openml-adult | openml | 15 | yes | **PASS** | **PASS** |
-| openml-iris | openml | 5 | yes | **PASS** | **PASS** |
-| openml-mnist784 | openml | 0 | **no** (discovery-only) | **PASS** | n/a |
+- 13 carry `cdi:InstanceVariable`-typed variables → claim + pass `discovery` **and**
+  `data_description`. `openml-mnist784` has no fields in its source record set, so it
+  correctly claims **only `discovery`** (no empty `variableMeasured` is emitted and
+  `data_description` is not in its `conformsTo`).
+- The 4 Kaggle datasets ship as **archive distributions** (a `schema:DataDownload` with
+  `schema:hasPart` member files), which `detect_conformance` recognizes as the
+  `manifest/1.1` marker — so they additionally (and correctly) declare **`manifest/1.1`**.
+  This is auto-detected per record; nothing in the converter special-cases Kaggle.
+
+| file | src | vars | data_description? | manifest? | discovery/1.1 | data_description/1.1 |
+|------|-----|------|-------------------|-----------|---------------|----------------------|
+| hf-mnist | hf | 3 | yes | – | **PASS** | **PASS** |
+| hf-cifar10 | hf | 3 | yes | – | **PASS** | **PASS** |
+| hf-imdb | hf | 3 | yes | – | **PASS** | **PASS** |
+| hf-squad | hf | 5 | yes | – | **PASS** | **PASS** |
+| hf-glue | hf | 58 | yes | – | **PASS** | **PASS** |
+| hf-gsm8k | hf | 6 | yes | – | **PASS** | **PASS** |
+| hf-awesome-chatgpt-prompts | hf | 6 | yes | – | **PASS** | **PASS** |
+| kaggle-creditcardfraud | kaggle | 31 | yes | **yes** | **PASS** | **PASS** |
+| kaggle-netflix-shows | kaggle | 12 | yes | **yes** | **PASS** | **PASS** |
+| kaggle-wine-reviews | kaggle | 25 | yes | **yes** | **PASS** | **PASS** |
+| kaggle-world-happiness | kaggle | 55 | yes | **yes** | **PASS** | **PASS** |
+| openml-adult | openml | 15 | yes | – | **PASS** | **PASS** |
+| openml-iris | openml | 5 | yes | – | **PASS** | **PASS** |
+| openml-mnist784 | openml | 0 | **no** (discovery-only) | – | **PASS** | n/a |
 
 (`vars` = `schema:variableMeasured` count. Compare to the first run: every file failed on
 `schema:identifier`, and all 7 HF files extracted **0** variables.)
@@ -60,11 +70,15 @@ emitted and `data_description` is not in its `conformsTo`.
    DOI later.
 3. **dateModified fallback** — when `dateModified` is absent, fall back to
    `datePublished`, then `dateCreated` (never fabricated).
-4. **1.1 conformance, declared conditionally** — emits `core`/`discovery` **`1.1`**
-   always, and `data_description/1.1` **only when variables are present**. A record with
-   no variables (no source fields) stays discovery-level: no empty `schema:variableMeasured`
-   is inserted and `data_description` is not claimed — so it can't fail a profile it
-   doesn't assert. (Fixed the former `openml-mnist784` failure.)
+4. **Content-derived conformance** — the converter delegates `dcterms:conformsTo` to
+   `detect_conformance.py` instead of a hardcoded list. Each profile is declared iff the
+   record contains its marker (presence ASK) and passes that class's content SHACL:
+   `core`/`discovery` for any named+identified dataset, `data_description/1.1` only when
+   `cdi:InstanceVariable` variables are present, `manifest/1.1` when an archive
+   distribution carries `schema:hasPart` files. A record with no variables stays
+   discovery-level (no empty `schema:variableMeasured`, no `data_description` claim — so it
+   can't fail a profile it doesn't assert; fixed the former `openml-mnist784` failure), and
+   archive datasets pick up `manifest` automatically.
 
 Plus, at the **harvest layer** (not the converter): the HF instances were enriched with
 `dateModified`/`dateCreated` from the HF dataset API, since HF's Croissant payload omits
@@ -76,6 +90,7 @@ from failing-on-dateModified to fully passing.
 The converter limitations from the first pass are fixed — **`cr:FileSet` extraction**
 (HF now retains variables, e.g. glue 0 → 58), the **missing-identifier** failure
 (landing-page-URL fallback), the HF date gap (closed at the harvest layer), and
-**conditional `data_description` declaration** (a record with no variables claims only
-discovery). Result: **14/14 conform to every profile they declare**, across all three
-sources and both Croissant versions, with no conversion defects remaining.
+**content-derived conformance** via `detect_conformance` (a record with no variables claims
+only discovery; archive datasets auto-declare `manifest`). Result: **14/14 conform to every
+profile they declare**, across all three sources and both Croissant versions, with no
+conversion defects remaining.

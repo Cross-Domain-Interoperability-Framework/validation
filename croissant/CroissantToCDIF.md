@@ -81,11 +81,19 @@ one when a DOI can be detected:
 Croissant declares conformance as a single top-level `dct:conformsTo` URI
 (`http://mlcommons.org/croissant/1.1` or `/1.0`). CDIF requires a catalog record
 on `schema:subjectOf`. The inverse emits the current CDIF catalog-record shape
-(conformance URIs at **1.1**). `core` + `discovery` are always declared;
-`data_description` is declared **only when the record actually describes variables**
-(`schema:variableMeasured` is non-empty). A source Croissant with no fields (e.g.
-an OpenML record set with zero `field`s) produces a discovery-level record that
-neither inserts an empty `schema:variableMeasured` nor claims `data_description`:
+(conformance URIs at **1.1**). `dcterms:conformsTo` is **derived from the record's
+actual content** by [`detect_conformance.py`](../detect_conformance.py) — a presence
+SPARQL ASK per profile, gated by that profile's content SHACL — rather than a
+hardcoded list. In practice this means:
+
+- `core` + `discovery` — any named, identified dataset (the discovery baseline).
+- `data_description/1.1` — only when the record carries `cdi:InstanceVariable`-typed
+  variables. A source Croissant with no fields (e.g. an OpenML record set with zero
+  `field`s) produces a discovery-level record that neither inserts an empty
+  `schema:variableMeasured` nor claims `data_description`.
+- `manifest/1.1` — when an archive distribution carries member files (a
+  `schema:DataDownload` with `schema:hasPart`), as Kaggle zip datasets do. Detected
+  automatically; no source-specific special-casing.
 
 ```json
 "schema:subjectOf": {
@@ -95,10 +103,14 @@ neither inserts an empty `schema:variableMeasured` nor claims `data_description`
   "dcterms:conformsTo": [
     {"@id": "https://w3id.org/cdif/core/1.1"},
     {"@id": "https://w3id.org/cdif/discovery/1.1"}
-    // + {"@id": "https://w3id.org/cdif/data_description/1.1"} when variables present
+    // + data_description/1.1 when InstanceVariable variables are present
+    // + manifest/1.1 when an archive distribution has hasPart member files
   ]
 }
 ```
+
+(If `rdflib`/`detect_conformance` is unavailable, the converter falls back to the
+prior heuristic: `core` + `discovery`, plus `data_description` iff variables exist.)
 
 The Croissant `conformsTo` is dropped (it is not part of CDIF's conformance
 space) but the source is recorded in a `prov:wasDerivedFrom` block for

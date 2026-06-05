@@ -31,6 +31,19 @@ import sys
 import argparse
 import re
 from copy import deepcopy
+from pathlib import Path
+
+# detect_conformance lives in the parent validation/ dir. It derives the
+# dcterms:conformsTo set from the record's actual content (presence ASK +
+# per-class content SHACL) instead of a hardcoded profile list, so the record
+# claims exactly the profiles it satisfies (and auto-detects data_description /
+# manifest / etc. per record).
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+try:
+    from detect_conformance import detect_conformance, apply_conformance
+    HAS_DETECT = True
+except Exception:
+    HAS_DETECT = False
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -796,22 +809,35 @@ def convert(croissant, verbose=False):
         # Current CDIF catalog-record shape: a schema:Dataset bearing
         # schema:additionalType "dcat:CatalogRecord", schema:about pointing at
         # the described dataset, and dcterms:conformsTo profile URIs.
-        # Declare data_description only when variables are actually described;
-        # otherwise the record is discovery-level (empty variableMeasured is not
-        # inserted either, so it must not claim the data_description profile).
-        conforms = list(CDIF_CORE_DISCOVERY_CONFORMS_TO)
-        if variables:
-            conforms.append(CDIF_DATA_DESCRIPTION_CONFORMS_TO)
+        # dcterms:conformsTo is derived from the record's actual content by
+        # detect_conformance (presence ASK + per-class content SHACL), so the
+        # record claims exactly the profiles it satisfies — e.g. data_description
+        # only when InstanceVariable-typed variables are present, manifest when an
+        # archive distribution carries hasPart files.
         subject_of = {
             "@type": ["schema:Dataset"],
             "schema:additionalType": ["dcat:CatalogRecord"],
             "schema:about": {"@id": out["@id"]},
-            "dcterms:conformsTo": [{"@id": uri} for uri in conforms],
         }
         date_modified = croissant.get("dateModified")
         if date_modified:
             subject_of["schema:sdDatePublished"] = date_modified
         out["schema:subjectOf"] = subject_of
+
+        if HAS_DETECT:
+            uris = detect_conformance(out, verbose=verbose)
+            apply_conformance(out, uris)
+        else:
+            # Fallback when detect_conformance / rdflib is unavailable: the prior
+            # heuristic (core + discovery, plus data_description iff variables).
+            conforms = list(CDIF_CORE_DISCOVERY_CONFORMS_TO)
+            if variables:
+                conforms.append(CDIF_DATA_DESCRIPTION_CONFORMS_TO)
+            subject_of["dcterms:conformsTo"] = [{"@id": uri} for uri in conforms]
+        if verbose:
+            got = [c.get("@id") for c in
+                   out["schema:subjectOf"].get("dcterms:conformsTo", [])]
+            print(f"  conformsTo: {got}")
     # ---- Traceability: where did this come from --------------------------
     out.setdefault("prov:wasDerivedFrom", []).append(
         {"@id": CROISSANT_SOURCE_URI,
