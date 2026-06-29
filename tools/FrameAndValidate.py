@@ -442,6 +442,43 @@ def _auto_default(patterns, label):
     return None
 
 
+def _load_detect_conformance():
+    """Best-effort import of detect_conformance + apply_conformance from the CDIF
+    validation repo. The release-repo copies of this script do not ship those
+    modules, so this returns (None, None) there and --conformance becomes a no-op.
+    Looks beside the script, one and two levels up (tools/ -> validation/), the
+    CDIF_VALIDATION_DIR env var, and finally PYTHONPATH."""
+    import os
+    cands = []
+    env = os.environ.get('CDIF_VALIDATION_DIR')
+    if env:
+        cands.append(Path(env))
+    cands += [SCRIPT_DIR, SCRIPT_DIR.parent, SCRIPT_DIR.parent.parent]
+    for c in cands:
+        if c and (c / 'detect_conformance.py').is_file():
+            if str(c) not in sys.path:
+                sys.path.insert(0, str(c))
+            break
+    try:
+        from detect_conformance import detect_conformance, apply_conformance
+        return detect_conformance, apply_conformance
+    except Exception:
+        return None, None
+
+
+def detect_and_apply_conformance(framed):
+    """Detect the CDIF profiles the framed document conforms to (from its content)
+    and rewrite schema:subjectOf/dcterms:conformsTo to declare them, preserving any
+    non-CDIF (domain) profile claims. Returns the list of detected URIs, or None if
+    detect_conformance is unavailable."""
+    detect_fn, apply_fn = _load_detect_conformance()
+    if detect_fn is None:
+        return None
+    uris = detect_fn(framed)
+    apply_fn(framed, uris)
+    return uris
+
+
 def validate_against_schema(framed, schema_path):
     """Validate framed document against JSON Schema"""
     print(f"Loading schema: {schema_path}")
@@ -481,6 +518,10 @@ Examples:
                         help='Path to JSON Schema (default: the single *Schema*.json beside this script)')
     parser.add_argument('--frame', default=None,
                         help='Path to JSON-LD frame (default: the single *-frame.jsonld beside this script)')
+    parser.add_argument('--conformance', action='store_true',
+                        help='detect which CDIF profiles the framed document conforms to '
+                             '(from its content) and rewrite schema:subjectOf/dcterms:conformsTo '
+                             'to declare them (requires detect_conformance.py from the validation repo)')
 
     args = parser.parse_args()
 
@@ -490,6 +531,16 @@ Examples:
 
     try:
         framed = frame_cdif_document(args.input, frame_path)
+
+        if args.conformance:
+            uris = detect_and_apply_conformance(framed)
+            if uris is None:
+                print("\n--conformance: detect_conformance.py not found (or rdflib "
+                      "missing); leaving conformsTo unchanged.", file=sys.stderr)
+            else:
+                print("\nDetected CDIF conformance (written to schema:subjectOf/dcterms:conformsTo):")
+                for u in uris:
+                    print(f"  {u}")
 
         if args.output:
             with open(args.output, 'w', encoding='utf-8') as f:

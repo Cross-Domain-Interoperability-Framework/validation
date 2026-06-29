@@ -17,6 +17,19 @@ is the **union** across all profiles (wrapping an absent property is a no-op), a
 the main-entity picker matches the frame's root `@type`, so it handles both
 Dataset-rooted and SKOS `ConceptScheme`-rooted profiles.
 
+### Detecting conformance while framing
+
+`FrameAndValidate.py --conformance` frames the document, then derives which CDIF
+profiles the framed result conforms to (from its content, via `detect_conformance.py`)
+and rewrites `schema:subjectOf/dcterms:conformsTo` to declare them — preserving any
+non-CDIF (domain) profile already claimed. The import of `detect_conformance` is
+best-effort: it works in the validation repo (which ships it and can reach the
+building-block SHACL gates) and is a no-op in a release repo that doesn't have it.
+
+```bash
+python tools/FrameAndValidate.py record.jsonld --frame CDIF-frame-2026.jsonld --conformance -o out.json
+```
+
 ### Propagating changes
 
 ```bash

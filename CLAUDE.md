@@ -61,6 +61,9 @@ python tools/FrameAndValidate.py path/to/metadata.jsonld -v --schema CDIFDiscove
 # Frame and save output for debugging
 python tools/FrameAndValidate.py path/to/metadata.jsonld -o framed.json --frame CDIF-frame-2026.jsonld
 
+# Frame, then detect CDIF profiles from the framed content and write them into subjectOf/conformsTo
+python tools/FrameAndValidate.py path/to/metadata.jsonld --frame CDIF-frame-2026.jsonld --conformance -o framed.json
+
 # Propagate the normative FrameAndValidate.py to the release repos (dry-run, then apply)
 python tools/sync_frameandvalidate.py
 python tools/sync_frameandvalidate.py --apply
