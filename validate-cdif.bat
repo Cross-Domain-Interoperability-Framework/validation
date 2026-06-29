@@ -91,7 +91,7 @@ echo ========================================
 echo.
 
 REM Build the command
-set "CMD="%PYTHON%" "%SCRIPT_DIR%FrameAndValidate.py" "%INPUT_FILE%" --schema "%SCHEMA%" --frame "%FRAME%" -v"
+set "CMD="%PYTHON%" "%SCRIPT_DIR%tools\FrameAndValidate.py" "%INPUT_FILE%" --schema "%SCHEMA%" --frame "%FRAME%" -v"
 
 if "%SAVE_FRAMED%"=="1" (
     set "FRAMED_OUTPUT=%INPUT_DIR%%INPUT_NAME%-framed.json"

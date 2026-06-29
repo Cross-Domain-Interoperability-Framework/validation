@@ -13,7 +13,7 @@ import re
 from pathlib import Path
 
 VALIDATION_DIR = Path(__file__).parent
-FRAME_VALIDATE = VALIDATION_DIR / "FrameAndValidate.py"
+FRAME_VALIDATE = VALIDATION_DIR / "tools" / "FrameAndValidate.py"
 SHACL_VALIDATE = VALIDATION_DIR / "ShaclValidation" / "ShaclJSONLDContext.py"
 sys.path.insert(0, str(VALIDATION_DIR))
 import ConformanceValidate as CV  # noqa: E402

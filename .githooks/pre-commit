@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# CDIF validation pre-commit hook.
+#
+# Reminds you to propagate FrameAndValidate.py when you change the normative
+# source (tools/FrameAndValidate.py) but haven't re-synced the release-repo
+# copies. Enable once per clone with:
+#
+#     git config core.hooksPath .githooks
+#
+# By default this only WARNS (the commit proceeds). Set CDIF_SYNC_STRICT=1 to
+# make it BLOCK the commit until the copies are in sync.
+
+set -euo pipefail
+
+# Is the normative source part of this commit?
+if ! git diff --cached --name-only | grep -q '^tools/FrameAndValidate\.py$'; then
+    exit 0
+fi
+
+repo_root="$(git rev-parse --show-toplevel)"
+sync="$repo_root/tools/sync_frameandvalidate.py"
+[ -f "$sync" ] || exit 0
+
+# Dry-run sync to see whether any release copy is stale. "Would write: N"
+out="$(python "$sync" --no-verify 2>/dev/null || true)"
+would_write="$(printf '%s\n' "$out" | sed -n 's/^Would write: \([0-9]\+\).*/\1/p' | tail -1)"
+would_write="${would_write:-0}"
+
+if [ "$would_write" -gt 0 ]; then
+    echo "" >&2
+    echo "  +------------------------------------------------------------------+" >&2
+    echo "  |  tools/FrameAndValidate.py changed, but $would_write release copy(ies)" >&2
+    echo "  |  are STALE. Propagate before/after committing:" >&2
+    echo "  |                                                                  " >&2
+    echo "  |     python tools/sync_frameandvalidate.py --apply                " >&2
+    echo "  |                                                                  " >&2
+    echo "  |  then commit the updated copies in their repos.                  " >&2
+    echo "  +------------------------------------------------------------------+" >&2
+    echo "" >&2
+    if [ "${CDIF_SYNC_STRICT:-0}" = "1" ]; then
+        echo "CDIF_SYNC_STRICT=1: blocking commit. Run the sync, or commit with --no-verify to bypass." >&2
+        exit 1
+    fi
+fi
+
+exit 0

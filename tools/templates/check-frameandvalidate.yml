@@ -1,0 +1,69 @@
+# CDIF: verify FrameAndValidate.py has not drifted from the normative source.
+#
+# This file is a TEMPLATE. Deploy it into each release repo as
+# .github/workflows/check-frameandvalidate.yml (the sync script can place it for
+# you with --with-ci). It fails the build if this repo's FrameAndValidate.py
+# differs (in its script body, ignoring the banner and line endings) from the
+# normative copy in Cross-Domain-Interoperability-Framework/validation.
+#
+# The normative source lives at: validation/tools/FrameAndValidate.py
+# Edit it there and run `python tools/sync_frameandvalidate.py --apply`; do not
+# hand-edit the generated copy in this repo.
+name: check-frameandvalidate
+
+on:
+  pull_request:
+    paths: ["FrameAndValidate.py"]
+  push:
+    paths: ["FrameAndValidate.py"]
+  workflow_dispatch:
+
+env:
+  # Branch/tag of the *validation* repo that holds the normative
+  # tools/FrameAndValidate.py. The validation repo is developed on main; point
+  # this at a release tag instead if you pin to a published version.
+  UPSTREAM_REF: main
+
+jobs:
+  check-drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch normative FrameAndValidate.py
+        run: |
+          curl -fsSL \
+            "https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/validation/${UPSTREAM_REF}/tools/FrameAndValidate.py" \
+            -o /tmp/normative_FrameAndValidate.py
+
+      - name: Compare script bodies (banner/line-endings ignored)
+        run: |
+          python - <<'PY'
+          import hashlib, sys
+
+          END_MARKERS = ("# <<< CDIF-SYNC NORMATIVE <<<", "# <<< CDIF-SYNC GENERATED <<<")
+
+          def body_hash(path):
+              text = open(path, encoding="utf-8").read()
+              lines = text.replace("\r\n", "\n").replace("\r", "\n").split("\n")
+              last = -1
+              for i, ln in enumerate(lines):
+                  if ln.strip() in END_MARKERS:
+                      last = i
+              body = lines[last + 1:] if last >= 0 else lines
+              while body and body[0].strip() == "":
+                  body.pop(0)
+              return hashlib.sha256("\n".join(body).encode("utf-8")).hexdigest()
+
+          local = body_hash("FrameAndValidate.py")
+          upstream = body_hash("/tmp/normative_FrameAndValidate.py")
+          print(f"local   : {local}")
+          print(f"upstream: {upstream}")
+          if local != upstream:
+              print("::error::FrameAndValidate.py has drifted from the normative source "
+                    "(validation/tools/FrameAndValidate.py). Do not hand-edit this copy; "
+                    "edit the normative source and run "
+                    "`python tools/sync_frameandvalidate.py --apply`.")
+              sys.exit(1)
+          print("OK: in sync with the normative source.")
+          PY

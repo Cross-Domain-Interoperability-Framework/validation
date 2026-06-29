@@ -17,13 +17,17 @@ This repository contains validation tools for **CDIF (Cross-Domain Interoperabil
 
 | File | Role |
 |------|------|
-| `FrameAndValidate.py` | Main validation script: frames JSON-LD then validates against schema |
+| `tools/FrameAndValidate.py` | Main validation script: frames JSON-LD then validates against schema. **Normative source** for the per-profile copies shipped in the release repos (profile-core, profile-manifest, …); profile-agnostic (auto-detects the single `*Schema*.json`/`*-frame.jsonld` beside it). Propagate edits with `tools/sync_frameandvalidate.py` — see `tools/README.md` |
+| `tools/sync_frameandvalidate.py` | Copies the normative `FrameAndValidate.py` into every sibling release repo with a `DO NOT EDIT` banner + `src-sha256` + read-only flag; verifies each repo's `examples/` don't regress before overwriting (`--apply` to write, `--force`/`--no-verify` to override) |
 | `ConvertToROCrate.py` | Converts CDIF JSON-LD to RO-Crate format -- **moved to [packaging repo](https://github.com/Cross-Domain-Interoperability-Framework/packaging)** |
 | `ValidateROCrate.py` | Validates RO-Crate documents -- **moved to [packaging repo](https://github.com/Cross-Domain-Interoperability-Framework/packaging)** |
 | `validate-cdif.bat` | Windows batch wrapper for oXygen XML Editor integration |
 | `batch_validate.py` | Batch validation of CDIF metadata files across multiple file groups |
 | `ConformanceValidate.py` | Profile-agnostic validator: discovers profiles from the document's `schema:subjectOf/dcterms:conformsTo` (CatalogRecord-tagged) and validates against each profile's schema + SHACL. `--source w3id` (fetch from redirector) or `--source local` (via `conformance-schema-map.json`); single file or directory (batch); engine importable as `run_conformance(...)` |
 | `conformance-schema-map.json` | Local URI→schema/SHACL map for `ConformanceValidate.py --source local` |
+| `detect_conformance.py` | Content-derived conformance detection: for each CDIF class, a presence SPARQL ASK (what the class introduces beyond its base) gated by a content-SHACL validity check (only `sh:Violation` blocks; warnings/info are advisory). `apply_conformance()` writes detected `cdif:` URIs into `schema:subjectOf/dcterms:conformsTo`, preserving any non-`cdif:` (domain) claims. `--apply`/`--from-source` CLI; importable. `CDIF_CONFORMANCE_FROM_SOURCE=1` (or `--from-source`) reads rules from BB `conformance.json` sidecars via `load_bb_conformance()` instead of the in-code `CONFORMANCE_CLASSES` registry |
+| `docs/CDIF-Conformance-Declaration-Convention.md` | Spec for the per-building-block `conformance.json` sidecar (conformsTo URI + presence ASK + content `validityShapes`) consumed by `detect_conformance.py` |
+| `docs/conformance-declaration.schema.json` | JSON Schema (`.../conformance-declaration/0.1`) validating the sidecar files |
 | `geocodes_harvester.py` | Harvests dataset metadata from the EarthCube GeoCodes SPARQL endpoint and optionally converts to CDIF core/discovery profile |
 | `DCAT/dcat_to_cdif.py` | Converts DCAT JSON-LD catalogs to CDIF schema.org format (see `DCAT/README.md`) |
 | `DDI/ddi_to_cdif.py` | Converts DDI Codebook 2.5 XML (e.g., Harvard Dataverse exports) to CDIF DataDescription JSON-LD (emits pre-migration `cdi:` data-structure prefixes) |
@@ -52,10 +56,14 @@ This repository contains validation tools for **CDIF (Cross-Domain Interoperabil
 
 ```bash
 # Validate a CDIF document
-python FrameAndValidate.py path/to/metadata.jsonld -v
+python tools/FrameAndValidate.py path/to/metadata.jsonld -v --schema CDIFDiscoverySchema.json --frame CDIF-frame-2026.jsonld
 
 # Frame and save output for debugging
-python FrameAndValidate.py path/to/metadata.jsonld -o framed.json -v
+python tools/FrameAndValidate.py path/to/metadata.jsonld -o framed.json --frame CDIF-frame-2026.jsonld
+
+# Propagate the normative FrameAndValidate.py to the release repos (dry-run, then apply)
+python tools/sync_frameandvalidate.py
+python tools/sync_frameandvalidate.py --apply
 
 # Convert CDIF to RO-Crate (standalone, no validation)
 python ConvertToROCrate.py path/to/metadata.jsonld -o output-rocrate.jsonld
@@ -78,8 +86,15 @@ python ShaclValidation/ShaclJSONLDContext.py metadata.jsonld ShaclValidation/CDI
 # Generate a markdown SHACL validation report
 python ShaclValidation/generate_shacl_report.py metadata.jsonld ShaclValidation/CDIF-Complete-Shapes.ttl -o report.md
 
-# Batch validate all file groups (testJSONMetadata, cdifbook, cdifProfiles, adaProfiles)
+# Batch validate all file groups (testJSONMetadata=77, cdifbook=10, cdifProfiles=5; 92 total)
 python batch_validate.py
+# Fetch cdifbook/cdifProfiles artifacts from GitHub instead of local clones (cached in _remote_cache/)
+CDIF_BATCH_SOURCE=github python batch_validate.py
+
+# Detect a document's actual conformance from its content (vs. its declared conformsTo)
+python detect_conformance.py path/to/metadata.jsonld          # report
+python detect_conformance.py path/to/metadata.jsonld --apply  # rewrite conformsTo in place
+python detect_conformance.py path/to/metadata.jsonld --from-source  # use BB conformance.json sidecars
 
 # Windows batch (for oXygen)
 validate-cdif.bat path/to/metadata.jsonld
@@ -201,7 +216,7 @@ When adding new properties:
 1. Add to `CDIFCompleteSchema.json` (and `CDIFDiscoverySchema.json` if applicable) in appropriate `$defs` section
 2. Add framing instructions to `CDIF-frame-2026.jsonld`
 3. Add term mapping to `CDIF-context-2026.jsonld` (for prefix-free authoring)
-4. If property should be array, add to `ARRAY_PROPERTIES` in `FrameAndValidate.py`
+4. If property should be array, add to `ARRAY_PROPERTIES` in `tools/FrameAndValidate.py` (the normative source — then run `tools/sync_frameandvalidate.py --apply` to propagate)
 5. Update SHACL shapes if semantic constraints needed
 
 ## JSON-LD frame structure (CDIF-frame-2026.jsonld)
@@ -275,15 +290,28 @@ Converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissa
 
 ## Current validation status
 
-`batch_validate.py` runs both JSON Schema and SHACL validation across 128 files (77 testJSONMetadata + 10 cdifbook + 5 cdifProfiles + 36 adaProfiles). Output distinguishes SHACL severity levels: violations (structural failures), warnings (recommended properties), and info (suggestions).
+`batch_validate.py` runs both JSON Schema and SHACL validation across 92 files (77 testJSONMetadata + 10 cdifbook + 5 cdifProfiles; the `adaProfiles` group was dropped in the building-block restructure). The `cdifbook`/`cdifProfiles` groups resolve from sibling GitHub repos — local clones by default, or HTTPS-fetched artifacts (cached in `_remote_cache/`) with `CDIF_BATCH_SOURCE=github`. Output distinguishes SHACL severity levels: violations (structural failures), warnings (recommended properties), and info (suggestions).
 
-- **JSON Schema**: 77/77 testJSONMetadata pass against all three schemas (Discovery, DataDescription, Complete); 5/5 profile examples pass
+- **JSON Schema**: 92/92 pass (77/77 testJSONMetadata against the Discovery schema — the only framed-tree schema among their declared profiles; 10/10 cdifbook; 5/5 composite-profile examples)
 - **SHACL Violations**: 0 across all files
 - **SHACL Warnings/Info**: All files pass with warnings/info only — missing activity descriptions, contact points, physical data types, etc.
 
 **SHACL severity rationale**: Properties that are optional in JSON Schema (`schema:name` on activities, `cdif:physicalDataType` on InstanceVariable) are set to `sh:Warning` in SHACL for consistency. Only structurally required properties (e.g., `prov:used` on activities) use `sh:Violation`.
 
 **SHACL shape authority**: `cdifOptional/rules.shacl` is the authoritative source for `keywordsNoCommaTest` (accepts string, DefinedTerm, or IRI) and `relatedResourceProperty` (accepts string, DefinedTerm, or IRI for `schema:linkRelationship`). These shapes propagate via conflict resolution in `ShaclValidation/generate_shacl_shapes.py` (cdifOptional wins over CDIFDiscovery profile copies). `additionalProperty/rules.shacl` allows any datatype for `schema:value` (not just `xsd:string`).
+
+## Content-derived conformance detection (detect_conformance.py)
+
+`detect_conformance.py` answers "which CDIF profiles does this document *actually* conform to?" from the document's **content**, independent of whatever it declares. Each managed class has two rules:
+
+1. **presence** — a SPARQL `ASK` for the elements the class *introduces beyond its base*. E.g. data_description is marked by `schema:variableMeasured` whose values are `cdi:InstanceVariable` (a plain `PropertyValue` is discovery-level); provenance is marked by a dual-typed `prov:Activity`+`schema:Action` carrying properties beyond `prov:used` (a bare `prov:Activity` with only `prov:used` is already core-level).
+2. **validity gate** — the class's *content* SHACL (`cdifDataType/<block>/rules.shacl`), where only `sh:Violation` blocks the declaration; `sh:Warning`/`sh:Info` are advisory. A class is declared **iff** presence holds **and** (no validity shapes, or the shapes conform). Some classes (core, discovery, manifest) are presence-only (`validityShapes: null`).
+
+Profile-level `rules.shacl` is **not** the gate: it is circular (it presupposes the profile is already declared). The `cdifDataType` content shapes are the correct, non-circular validity check.
+
+`apply_conformance(doc, uris)` rewrites `schema:subjectOf/dcterms:conformsTo` to the detected `cdif:` URIs **while preserving any claim outside the `https://w3id.org/cdif/` namespace** (e.g. `ada:profile/...` domain profiles). This is wired into `croissant/ConvertFromCroissant.py` (replaces its old hardcoded core/discovery+conditional-data_description heuristic) and into `amds-ldeo`'s `ada_json_loader.py` (post-build hook, preserving each record's domain profile).
+
+**Rule source — two modes.** By default the rules live in the in-code `CONFORMANCE_CLASSES` registry. With `CDIF_CONFORMANCE_FROM_SOURCE=1` (or `--from-source`), `load_bb_conformance()` globs `**/conformance.json` sidecars from the building blocks tree and uses those instead. The sidecars (in `metadataBuildingBlocks/_sources/profiles/cdifProfile/<name>/conformance.json`) declare `conformsTo` + `presence` + `validityShapes`, and mirror the registry exactly. This is the migration path toward each building block owning its own conformance declaration rather than the validation repo hardcoding it. See `docs/CDIF-Conformance-Declaration-Convention.md` and `docs/conformance-declaration.schema.json`.
 
 ## Known issues
 
