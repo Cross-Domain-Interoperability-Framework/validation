@@ -67,6 +67,29 @@ To install the CI check in a release repo, copy the template to that repo's
 `.github/workflows/check-frameandvalidate.yml` and set `UPSTREAM_REF` to the
 validation branch/tag holding the normative source (default `main`).
 
+## FlattenCDIF.py — the inverse of framing
+
+`FlattenCDIF.py` takes a nested / compacted CDIF JSON-LD document and produces the
+flattened `@graph` form (every node a top-level entry, cross-references by `@id`),
+re-applying the CDIF namespace prefixes (`schema:`, `cdi:`, …) so the output stays
+readable. It is the inverse direction of `FrameAndValidate.py`.
+
+```bash
+python tools/FlattenCDIF.py my-metadata.jsonld -o flattened.json
+```
+
+Pipeline: `jsonld.expand` → `jsonld.flatten` → compact with the namespace prefixes
+from `CDIF-context-2026.jsonld` (`--context` to override). It is a validation-repo
+utility — **not** part of the `FrameAndValidate.py` sync set.
+
+Note: this is a *full* JSON-LD flatten, so embedded value objects (`schema:GeoShape`,
+`schema:QuantitativeValue`, `spdx:Checksum`, …) are promoted to their own `@graph`
+nodes. That is standard flattened JSON-LD, but it is **not** the shape the framed
+`*Schema*.json` files expect, and the generated `CDIF-graph-schema-2026.json`
+expects those value objects to remain nested — so it is not a validation target for
+this output. Correctness is instead confirmed by round-trip: flattening then
+re-framing reproduces a schema-valid tree.
+
 ## migrate_corpus_cdi_to_cdif.py
 
 One-off corpus migration helper (pre-2026 `cdi:` → current `cdif:` data-structure

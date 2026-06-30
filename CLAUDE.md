@@ -64,6 +64,9 @@ python tools/FrameAndValidate.py path/to/metadata.jsonld -o framed.json --frame 
 # Frame, then detect CDIF profiles from the framed content and write them into subjectOf/conformsTo
 python tools/FrameAndValidate.py path/to/metadata.jsonld --frame CDIF-frame-2026.jsonld --conformance -o framed.json
 
+# Flatten a nested CDIF document into the @graph form (inverse of framing)
+python tools/FlattenCDIF.py path/to/metadata.jsonld -o flattened.json
+
 # Propagate the normative FrameAndValidate.py to the release repos (dry-run, then apply)
 python tools/sync_frameandvalidate.py
 python tools/sync_frameandvalidate.py --apply
