@@ -480,6 +480,68 @@ def _convert_distribution(croissant, record_sets_by_file, verbose=False):
     return cdif_distribution, node_for_file_id
 
 
+def _convert_is_based_on(croissant, verbose=False):
+    """Map Croissant isBasedOn source(s) to prov:wasDerivedFrom entries.
+
+    isBasedOn names the resource(s) this dataset was derived from — that is
+    derivation provenance, which in CDIF is prov:wasDerivedFrom (a CreativeWork
+    reference), not a distribution."""
+    out = []
+    for src in _as_list(croissant.get("isBasedOn", [])):
+        if isinstance(src, str):
+            out.append({"@id": src})
+            continue
+        if not isinstance(src, dict):
+            continue
+        entry = {"@type": ["schema:CreativeWork"]}
+        if src.get("@id"):
+            entry["@id"] = src["@id"]
+        if src.get("name"):
+            entry["schema:name"] = src["name"]
+        if src.get("description"):
+            entry["schema:description"] = src["description"]
+        url = src.get("contentUrl") or src.get("url")
+        if url:
+            entry["schema:url"] = url
+        enc = src.get("encodingFormat")
+        if enc:
+            entry["schema:encodingFormat"] = [enc] if isinstance(enc, str) else enc
+        out.append(entry)
+    if verbose and out:
+        print(f"  isBasedOn -> prov:wasDerivedFrom: {len(out)} source(s)")
+    return out
+
+
+def _download_to_related_link(dd):
+    """Reshape a CDIF DataDownload (from a Croissant FileObject that no RecordSet
+    draws data from) into a schema:relatedLink LinkRole -> EntryPoint: a related
+    resource, not part of the described data distribution."""
+    target = {"@type": ["schema:EntryPoint"]}
+    if dd.get("schema:name"):
+        target["schema:name"] = dd["schema:name"]
+    if dd.get("schema:description"):
+        target["schema:description"] = dd["schema:description"]
+    if dd.get("schema:contentUrl"):
+        target["schema:url"] = dd["schema:contentUrl"]
+    enc = dd.get("schema:encodingFormat")
+    if enc:
+        target["schema:encodingFormat"] = enc[0] if isinstance(enc, list) and enc else enc
+    return {
+        "@type": ["schema:LinkRole"],
+        "schema:linkRelationship": "related",
+        "schema:target": target,
+    }
+
+
+def _has_data_part(dd):
+    """True if this distribution node (or any of its archive hasPart items) is
+    a data file — i.e. carries cdif:hasPhysicalMapping."""
+    if "cdif:hasPhysicalMapping" in dd:
+        return True
+    return any(isinstance(p, dict) and "cdif:hasPhysicalMapping" in p
+               for p in _as_list(dd.get("schema:hasPart", [])))
+
+
 # ---------------------------------------------------------------------------
 # RecordSet / Field -> variableMeasured + hasPhysicalMapping
 # ---------------------------------------------------------------------------
@@ -732,6 +794,22 @@ def convert(croissant, verbose=False):
         # Preserve verbatim even if no DOI parseable
         out["schema:citeAs"] = croissant["citeAs"]
 
+    # Plain schema:identifier value: some producers emit `identifier` (or the
+    # expanded `https://schema.org/identifier` key) carrying a bare string/code
+    # or a PropertyValue rather than a DOI in citeAs.
+    if "schema:identifier" not in out:
+        for _k in ("identifier", "https://schema.org/identifier",
+                   "http://schema.org/identifier"):
+            _v = croissant.get(_k)
+            if isinstance(_v, str) and _v.strip():
+                out["schema:identifier"] = _v
+                if verbose:
+                    print(f"  schema:identifier <- {_k} = {_v!r}")
+                break
+            if isinstance(_v, (dict, list)):
+                out["schema:identifier"] = _v
+                break
+
     # Fallback identifier (prototype): CDIF discovery requires schema:identifier,
     # but most HF/Kaggle/OpenML records expose no DOI. Use the dataset's
     # landing-page URL (or @id) as a stable identifier so the record is usable;
@@ -777,8 +855,26 @@ def convert(croissant, verbose=False):
         if node is not None:
             node["cdif:hasPhysicalMapping"] = mappings
 
+    # A FileObject that no RecordSet draws data from is not part of the described
+    # data distribution — route it to schema:relatedLink (a related resource).
+    # BUT only demote such files when the dataset actually has at least one
+    # described data file: if NO file has a RecordSet, the file(s) are still the
+    # data (just undescribed) and stay as distribution.
     if cdif_distribution:
-        out["schema:distribution"] = cdif_distribution
+        data_file_ids = set(record_sets_by_file.keys())
+        has_data = bool(data_file_ids) or any(_has_data_part(dd)
+                                              for dd in cdif_distribution)
+        data_dist, related = [], []
+        for dd in cdif_distribution:
+            is_data = _has_data_part(dd) or dd.get("@id") in data_file_ids
+            (data_dist if (is_data or not has_data) else related).append(dd)
+        if data_dist:
+            out["schema:distribution"] = data_dist
+        if related:
+            out["schema:relatedLink"] = [_download_to_related_link(dd) for dd in related]
+        if verbose:
+            print(f"  distribution split: {len(data_dist)} data distribution(s), "
+                  f"{len(related)} related -> schema:relatedLink")
     if variables:
         out["schema:variableMeasured"] = variables
 
@@ -786,6 +882,11 @@ def convert(croissant, verbose=False):
     primary_key = _convert_primary_key(croissant, field_ref_to_var_id)
     if primary_key:
         out["cdif:hasPrimaryKey"] = primary_key
+
+    # isBasedOn -> prov:wasDerivedFrom (derivation sources)
+    derived = _convert_is_based_on(croissant, verbose=verbose)
+    if derived:
+        out.setdefault("prov:wasDerivedFrom", []).extend(derived)
 
     # ---- Pass-through properties (preserved by the forward converter) ----
     PASS_THROUGH = [

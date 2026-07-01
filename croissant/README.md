@@ -57,10 +57,20 @@ The inverse is **lossy** by design — Croissant carries no equivalents for
 or the Data Structure component roles. See `CroissantToCDIF.md` for the full
 list. The converter:
 
-- Reconstructs `schema:identifier` (`PropertyValue`) from a DOI in Croissant's
-  `citeAs` / `url` / `@id`
+- Reconstructs `schema:identifier` from a DOI in Croissant's `citeAs` / `url` /
+  `@id` (as a `PropertyValue`), or from a plain `identifier` /
+  `https://schema.org/identifier` value (bare string, `PropertyValue`, or list)
+  when no DOI is present
 - Pivots Croissant's `cr:FileObject` + `containedIn` archive pattern into CDIF's
   `schema:DataDownload` + `schema:hasPart`
+- **Splits the distribution by whether a `RecordSet` describes it**: FileObjects
+  that no `RecordSet` draws data from become `schema:relatedLink`
+  (`LinkRole` → `EntryPoint`, `linkRelationship: "related"`) rather than
+  `schema:distribution` — *but only when the dataset has at least one described
+  data file*; if no FileObject has a RecordSet, the file(s) stay as distribution
+  (an undescribed file is still the data, not a related resource)
+- Maps Croissant `isBasedOn` sources → `prov:wasDerivedFrom`
+  (`schema:CreativeWork` entries, or bare `@id` references for string sources)
 - Generates `schema:variableMeasured` (`cdi:InstanceVariable`) + per-file
   `cdif:hasPhysicalMapping` entries (`cdif:index`, `cdif:formats_InstanceVariable`,
   `cdif:physicalDataType`) from `cr:RecordSet` / `cr:Field`
@@ -118,6 +128,12 @@ ForeignKey, RepresentedVariable).
   (with `cdif/README.md` and `cdif/_manifest.json` describing provenance).
 - **`<name>-croissant.json`** — five CDIF→Croissant converter-output examples
   generated from ADA metadata in `../MetadataExamples/` / `../testJSONMetadata/`.
+- **`minority-report-BI0104-croissant.json`** — a "semantic Croissant" export from
+  the CODATA [minority-report](https://github.com/codata/the-minority-report) HIPS
+  corpus (1 described CSV + 20 auxiliary files + 2 `isBasedOn` sources), with its
+  `cdif/minority-report-BI0104-cdif.json` conversion. Exercises the
+  `isBasedOn` → `prov:wasDerivedFrom` and non-RecordSet → `schema:relatedLink`
+  mappings above.
 
 ## Test corpus note
 
