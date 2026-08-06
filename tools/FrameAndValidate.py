@@ -186,6 +186,70 @@ def is_bare_id_reference(obj):
     return len(keys) == 1 and keys[0] == '@id'
 
 
+# --- Bare-DataStructure normalizations -------------------------------------
+# These run ONLY on documents rooted directly on a DDI-CDI data-structure type
+# (the cdi:has_DataStructureComponent grammar), never on Dataset / manifest /
+# data-description docs, where the same keys are typed differently (e.g.
+# cdi:qualifies is an array here but a single object in cdifDataDescription).
+STRUCTURE_ROOT_TYPES = frozenset({
+    'DataStructure', 'DimensionalDataStructure',
+    'LongDataStructure', 'WideDataStructure',
+})
+
+# Keys whose value is an id-reference to another node (a data-structure
+# component), never an inline copy of it. Framing with @embed:@always inlines
+# the whole target; these get collapsed back to a bare {@id} because the full
+# node is retained at its own cdi:has_DataStructureComponent slot and the schema
+# types these as references.
+REFERENCE_ONLY_KEYS = ('cdi:qualifies', 'cdi:refersTo')
+
+# Keys the (bare-structure) schema requires as arrays but framing collapses to a
+# scalar / single object when there is exactly one value.
+STRUCTURE_ARRAY_KEYS = ('cdif:name', 'cdi:qualifies', 'cdi:semantic')
+
+
+def _collapse_to_id_ref(value):
+    """Reduce an embedded node (a dict carrying @id plus other keys) to a bare
+    {@id} reference. Recurses into lists; leaves inline objects without @id (e.g.
+    an anonymous role) and plain strings untouched."""
+    if isinstance(value, list):
+        return [_collapse_to_id_ref(v) for v in value]
+    if isinstance(value, dict) and '@id' in value and len(value) > 1:
+        return {'@id': value['@id']}
+    return value
+
+
+def _is_structure_rooted(doc):
+    """True if the raw document's top-level @type names a DDI-CDI data structure."""
+    if not isinstance(doc, dict):
+        return False
+    t = doc.get('@type')
+    if isinstance(t, str):
+        t = [t]
+    if not isinstance(t, list):
+        return False
+    return any(_local_name(v) in STRUCTURE_ROOT_TYPES for v in t)
+
+
+def normalize_bare_structure(obj):
+    """Recursive normalizations for bare DataStructure documents: collapse
+    framing-inlined component references (cdi:qualifies / cdi:refersTo) back to
+    bare {@id}, and wrap single-valued STRUCTURE_ARRAY_KEYS into arrays."""
+    if isinstance(obj, list):
+        return [normalize_bare_structure(x) for x in obj]
+    if isinstance(obj, dict):
+        out = {}
+        for k, v in obj.items():
+            v = normalize_bare_structure(v)
+            if k in REFERENCE_ONLY_KEYS:
+                v = _collapse_to_id_ref(v)
+            if k in STRUCTURE_ARRAY_KEYS and not isinstance(v, list):
+                v = [v]
+            out[k] = v
+        return out
+    return obj
+
+
 def _is_catalog_record(item):
     """True if the item's schema:additionalType marks it as a catalog record.
 
@@ -433,6 +497,12 @@ def frame_cdif_document(doc_path, frame_path=None):
     print("Post-processing output...")
     result = remove_nulls_and_normalize(result)
 
+    # Step 6: For bare DataStructure documents only, apply structure-specific
+    # normalizations (reference collapse + array wrapping) that must NOT run on
+    # Dataset / manifest / data-description docs (same keys, different types).
+    if _is_structure_rooted(doc):
+        result = normalize_bare_structure(result)
+
     return result
 
 
@@ -449,6 +519,71 @@ def _auto_default(patterns, label):
     if len(hits) == 1:
         return str(hits[0])
     return None
+
+
+FRAME_PATTERNS = ['*-frame.jsonld', '*frame*.jsonld']
+
+
+def _local_name(token):
+    """Local name of a type token: strip after the last '/', '#' or ':'.
+    'schema:Dataset' -> 'Dataset'; 'cdi:WideDataStructure' -> 'WideDataStructure';
+    'http://schema.org/Dataset' -> 'Dataset'. Lets a compact frame root match a
+    full-IRI document root and vice versa."""
+    if not isinstance(token, str):
+        return None
+    for sep in ('/', '#', ':'):
+        token = token.rsplit(sep, 1)[-1]
+    return token
+
+
+def _root_type_names(json_path):
+    """Set of local @type names on a JSON(-LD) file's top-level node."""
+    try:
+        with open(json_path, 'r', encoding='utf-8') as f:
+            d = json.load(f)
+    except Exception:
+        return set()
+    t = d.get('@type') if isinstance(d, dict) else None
+    if t is None:
+        return set()
+    if isinstance(t, str):
+        t = [t]
+    return {n for n in (_local_name(v) for v in t) if n}
+
+
+def _auto_frames():
+    """All frame files beside this script (deduped, sorted)."""
+    hits, seen = [], set()
+    for pat in FRAME_PATTERNS:
+        for p in sorted(SCRIPT_DIR.glob(pat)):
+            if p.name not in seen:
+                seen.add(p.name)
+                hits.append(p)
+    return hits
+
+
+def _select_frame(input_path):
+    """Pick the frame beside this script for the given input document.
+
+    Zero frames -> None (caller falls back to the minimal Dataset template).
+    One frame  -> that frame (unchanged single-frame behaviour, no matching).
+    Many frames -> the frame whose root @type best matches the document's root
+    @type (by local name). A profile can thus ship a second, differently-rooted
+    frame (e.g. a bare-structure frame alongside the Dataset frame) and have the
+    right one chosen per input. If no frame's root matches, return None so the
+    Dataset template default applies."""
+    frames = _auto_frames()
+    if not frames:
+        return None
+    if len(frames) == 1:
+        return str(frames[0])
+    doc_roots = _root_type_names(input_path)
+    best, best_score = None, 0
+    for fr in frames:
+        score = len(doc_roots & _root_type_names(fr))
+        if score > best_score:
+            best, best_score = fr, score
+    return str(best) if best is not None else None
 
 
 def _load_detect_conformance():
@@ -536,7 +671,7 @@ Examples:
 
     # Resolve auto-detected defaults when not given explicitly.
     schema_path = args.schema or _auto_default(['*Schema*.json', '*schema*.json'], 'schema')
-    frame_path = args.frame or _auto_default(['*-frame.jsonld', '*frame*.jsonld'], 'frame')
+    frame_path = args.frame or _select_frame(args.input)
 
     try:
         framed = frame_cdif_document(args.input, frame_path)
