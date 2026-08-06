@@ -408,6 +408,19 @@ def remove_nulls_and_normalize(obj, parent_key=None):
             if mt is not None and not isinstance(mt, list):
                 result['schema:measurementTechnique'] = [mt]
 
+        # schema:about: array on manifest archive/part nodes (a part pointing at
+        # the part it documents), but a single {@id} inside a schema:subjectOf
+        # catalog record (the back-reference to the described resource). Framing
+        # embeds the referenced node and collapses the single-item array, so wrap
+        # it back -- except inside schema:subjectOf, where the schema types it as
+        # a single object. Keyed on parent_key (not the catalog-record marker,
+        # whose schema:additionalType form varies: 'dcat:CatalogRecord' vs
+        # {'@id': 'dcat:CatalogRecord'}).
+        if parent_key != 'schema:subjectOf':
+            about = result.get('schema:about')
+            if about is not None and not isinstance(about, list):
+                result['schema:about'] = [about]
+
         # schema:encodingFormat: array on DataDownload and on MediaObject
         # (archive member files in schema:hasPart), string on EntryPoint
         if 'schema:DataDownload' in type_list or 'schema:MediaObject' in type_list:
