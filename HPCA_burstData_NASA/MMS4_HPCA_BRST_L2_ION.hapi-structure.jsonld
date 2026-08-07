@@ -1,0 +1,2466 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/",
+    "dcterms": "http://purl.org/dc/terms/"
+  },
+  "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure",
+  "@type": [
+    "cdi:WideDataStructure"
+  ],
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure"
+  },
+  "schema:name": "Column structure of the CDAWeb HAPI CSV response for MMS4_HPCA_BRST_L2_ION (DDI-CDI WideDataStructure)",
+  "schema:description": "Authoritative column layout of the HAPI CSV, derived from https://cdaweb.gsfc.nasa.gov/hapi/info?id=MMS4_HPCA_BRST_L2_ION . This is a DIFFERENT and larger parameter set than the CDF granules: it omits the CDF support/time-angle variables and adds derived flux variants (_movie, _byE_atAnode, _byAnode_atE) and housekeeping. One component per HAPI parameter, in order; array parameters ([16,63] or [4]) are flattened to that many consecutive CSV columns (cdif:columnSpan), so the CSV has 32274 columns total and no header row. Components whose name matches a CDF variable reference the dataset's InstanceVariable by @id.",
+  "dcterms:conformsTo": [
+    {
+      "@id": "https://w3id.org/cdif/data_structure/1.1"
+    }
+  ],
+  "schema:about": {
+    "@id": "https://doi.org/10.48322/6cfb-rq65"
+  },
+  "cdif:totalColumns": 32274,
+  "cdi:semantic": [
+    {
+      "@type": [
+        "cdi:PairedControlledVocabularyEntry"
+      ],
+      "cdi:term": {
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
+        "cdi:entryValue": [
+          "wide-table"
+        ]
+      },
+      "cdi:extent": {
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
+        "cdi:entryValue": [
+          "primary"
+        ]
+      }
+    }
+  ],
+  "cdi:has_DataStructureComponent": [
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/Time",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/Time"
+      },
+      "schema:name": "Time",
+      "schema:description": "CSV time column (ISO 8601 UTC); corresponds to the CDF Epoch record dimension.",
+      "schema:unitText": "UTC",
+      "cdif:startColumn": 0,
+      "cdif:columnSpan": 1,
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "identifier"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_start_azimuth",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_start_azimuth"
+      },
+      "schema:name": "mms4_hpca_start_azimuth",
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_start_azimuth"
+      },
+      "cdi:nullSequence": "255",
+      "cdif:startColumn": 1,
+      "cdif:columnSpan": 1,
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_science_mode",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_science_mode"
+      },
+      "schema:name": "mms4_hpca_science_mode",
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_science_mode"
+      },
+      "cdi:nullSequence": "255",
+      "cdif:startColumn": 2,
+      "cdif:columnSpan": 1,
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_hplus_data_quality",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_hplus_data_quality"
+      },
+      "schema:name": "mms4_hpca_hplus_data_quality",
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_hplus_data_quality"
+      },
+      "cdi:nullSequence": "65535",
+      "cdif:startColumn": 3,
+      "cdif:columnSpan": 1,
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_hplus_flux",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_hplus_flux"
+      },
+      "schema:name": "mms4_hpca_hplus_flux",
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_hplus_flux"
+      },
+      "schema:unitText": "1/(cm^2 s sr eV)",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 4,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "schema:description": "Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_hplus_flux_movie",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_hplus_flux_movie"
+      },
+      "schema:name": "mms4_hpca_hplus_flux_movie",
+      "schema:description": "HAPI-only parameter (not a CDF variableMeasured): derived flux variant or housekeeping exposed by the HAPI service. Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "schema:unitText": "1/(cm^2 s sr eV)",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 1012,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_hplus_flux_byE_atAnode",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_hplus_flux_byE_atAnode"
+      },
+      "schema:name": "mms4_hpca_hplus_flux_byE_atAnode",
+      "schema:description": "HAPI-only parameter (not a CDF variableMeasured): derived flux variant or housekeeping exposed by the HAPI service. Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "schema:unitText": "1/(cm^2 s sr eV)",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 2020,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_hplus_flux_byAnode_atE",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_hplus_flux_byAnode_atE"
+      },
+      "schema:name": "mms4_hpca_hplus_flux_byAnode_atE",
+      "schema:description": "HAPI-only parameter (not a CDF variableMeasured): derived flux variant or housekeeping exposed by the HAPI service. Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "schema:unitText": "1/(cm^2 s sr eV)",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 3028,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_hplus_phase_space_density",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_hplus_phase_space_density"
+      },
+      "schema:name": "mms4_hpca_hplus_phase_space_density",
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_hplus_phase_space_density"
+      },
+      "schema:unitText": "cm^-6 s^3",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 4036,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "schema:description": "Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_hplus_phase_space_density_movie",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_hplus_phase_space_density_movie"
+      },
+      "schema:name": "mms4_hpca_hplus_phase_space_density_movie",
+      "schema:description": "HAPI-only parameter (not a CDF variableMeasured): derived flux variant or housekeeping exposed by the HAPI service. Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "schema:unitText": "1/(cm^2 s sr eV)",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 5044,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_hplus_phase_space_density_byE_atAnode",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_hplus_phase_space_density_byE_atAnode"
+      },
+      "schema:name": "mms4_hpca_hplus_phase_space_density_byE_atAnode",
+      "schema:description": "HAPI-only parameter (not a CDF variableMeasured): derived flux variant or housekeeping exposed by the HAPI service. Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "schema:unitText": "1/(cm^2 s sr eV)",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 6052,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_hplus_phase_space_density_byAnode_atE",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_hplus_phase_space_density_byAnode_atE"
+      },
+      "schema:name": "mms4_hpca_hplus_phase_space_density_byAnode_atE",
+      "schema:description": "HAPI-only parameter (not a CDF variableMeasured): derived flux variant or housekeeping exposed by the HAPI service. Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "schema:unitText": "1/(cm^2 s sr eV)",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 7060,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplus_data_quality",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplus_data_quality"
+      },
+      "schema:name": "mms4_hpca_heplus_data_quality",
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_heplus_data_quality"
+      },
+      "cdi:nullSequence": "65535",
+      "cdif:startColumn": 8068,
+      "cdif:columnSpan": 1,
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplus_flux",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplus_flux"
+      },
+      "schema:name": "mms4_hpca_heplus_flux",
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_heplus_flux"
+      },
+      "schema:unitText": "1/(cm^2 s sr eV)",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 8069,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "schema:description": "Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplus_flux_movie",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplus_flux_movie"
+      },
+      "schema:name": "mms4_hpca_heplus_flux_movie",
+      "schema:description": "HAPI-only parameter (not a CDF variableMeasured): derived flux variant or housekeeping exposed by the HAPI service. Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "schema:unitText": "1/(cm^2 s sr eV)",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 9077,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplus_flux_byE_atAnode",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplus_flux_byE_atAnode"
+      },
+      "schema:name": "mms4_hpca_heplus_flux_byE_atAnode",
+      "schema:description": "HAPI-only parameter (not a CDF variableMeasured): derived flux variant or housekeeping exposed by the HAPI service. Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "schema:unitText": "1/(cm^2 s sr eV)",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 10085,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplus_flux_byAnode_atE",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplus_flux_byAnode_atE"
+      },
+      "schema:name": "mms4_hpca_heplus_flux_byAnode_atE",
+      "schema:description": "HAPI-only parameter (not a CDF variableMeasured): derived flux variant or housekeeping exposed by the HAPI service. Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "schema:unitText": "1/(cm^2 s sr eV)",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 11093,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplus_phase_space_density",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplus_phase_space_density"
+      },
+      "schema:name": "mms4_hpca_heplus_phase_space_density",
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_heplus_phase_space_density"
+      },
+      "schema:unitText": "cm^-6 s^3",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 12101,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "schema:description": "Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplus_phase_space_density_movie",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplus_phase_space_density_movie"
+      },
+      "schema:name": "mms4_hpca_heplus_phase_space_density_movie",
+      "schema:description": "HAPI-only parameter (not a CDF variableMeasured): derived flux variant or housekeeping exposed by the HAPI service. Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "schema:unitText": "1/(cm^2 s sr eV)",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 13109,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplus_phase_space_density_byE_atAnode",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplus_phase_space_density_byE_atAnode"
+      },
+      "schema:name": "mms4_hpca_heplus_phase_space_density_byE_atAnode",
+      "schema:description": "HAPI-only parameter (not a CDF variableMeasured): derived flux variant or housekeeping exposed by the HAPI service. Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "schema:unitText": "1/(cm^2 s sr eV)",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 14117,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplus_phase_space_density_byAnode_atE",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplus_phase_space_density_byAnode_atE"
+      },
+      "schema:name": "mms4_hpca_heplus_phase_space_density_byAnode_atE",
+      "schema:description": "HAPI-only parameter (not a CDF variableMeasured): derived flux variant or housekeeping exposed by the HAPI service. Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "schema:unitText": "1/(cm^2 s sr eV)",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 15125,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplusplus_data_quality",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplusplus_data_quality"
+      },
+      "schema:name": "mms4_hpca_heplusplus_data_quality",
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_heplusplus_data_quality"
+      },
+      "cdi:nullSequence": "65535",
+      "cdif:startColumn": 16133,
+      "cdif:columnSpan": 1,
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplusplus_flux",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplusplus_flux"
+      },
+      "schema:name": "mms4_hpca_heplusplus_flux",
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_heplusplus_flux"
+      },
+      "schema:unitText": "1/(cm^2 s sr eV)",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 16134,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "schema:description": "Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplusplus_flux_movie",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplusplus_flux_movie"
+      },
+      "schema:name": "mms4_hpca_heplusplus_flux_movie",
+      "schema:description": "HAPI-only parameter (not a CDF variableMeasured): derived flux variant or housekeeping exposed by the HAPI service. Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "schema:unitText": "1/(cm^2 s sr eV)",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 17142,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplusplus_flux_byE_atAnode",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplusplus_flux_byE_atAnode"
+      },
+      "schema:name": "mms4_hpca_heplusplus_flux_byE_atAnode",
+      "schema:description": "HAPI-only parameter (not a CDF variableMeasured): derived flux variant or housekeeping exposed by the HAPI service. Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "schema:unitText": "1/(cm^2 s sr eV)",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 18150,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplusplus_flux_byAnode_atE",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplusplus_flux_byAnode_atE"
+      },
+      "schema:name": "mms4_hpca_heplusplus_flux_byAnode_atE",
+      "schema:description": "HAPI-only parameter (not a CDF variableMeasured): derived flux variant or housekeeping exposed by the HAPI service. Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "schema:unitText": "1/(cm^2 s sr eV)",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 19158,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplusplus_phase_space_density",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplusplus_phase_space_density"
+      },
+      "schema:name": "mms4_hpca_heplusplus_phase_space_density",
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_heplusplus_phase_space_density"
+      },
+      "schema:unitText": "cm^-6 s^3",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 20166,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "schema:description": "Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplusplus_phase_space_density_movie",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplusplus_phase_space_density_movie"
+      },
+      "schema:name": "mms4_hpca_heplusplus_phase_space_density_movie",
+      "schema:description": "HAPI-only parameter (not a CDF variableMeasured): derived flux variant or housekeeping exposed by the HAPI service. Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "schema:unitText": "1/(cm^2 s sr eV)",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 21174,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplusplus_phase_space_density_byE_atAnode",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplusplus_phase_space_density_byE_atAnode"
+      },
+      "schema:name": "mms4_hpca_heplusplus_phase_space_density_byE_atAnode",
+      "schema:description": "HAPI-only parameter (not a CDF variableMeasured): derived flux variant or housekeeping exposed by the HAPI service. Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "schema:unitText": "1/(cm^2 s sr eV)",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 22182,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplusplus_phase_space_density_byAnode_atE",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplusplus_phase_space_density_byAnode_atE"
+      },
+      "schema:name": "mms4_hpca_heplusplus_phase_space_density_byAnode_atE",
+      "schema:description": "HAPI-only parameter (not a CDF variableMeasured): derived flux variant or housekeeping exposed by the HAPI service. Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "schema:unitText": "1/(cm^2 s sr eV)",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 23190,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_oplus_data_quality",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_oplus_data_quality"
+      },
+      "schema:name": "mms4_hpca_oplus_data_quality",
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_oplus_data_quality"
+      },
+      "cdi:nullSequence": "65535",
+      "cdif:startColumn": 24198,
+      "cdif:columnSpan": 1,
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_oplus_flux",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_oplus_flux"
+      },
+      "schema:name": "mms4_hpca_oplus_flux",
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_oplus_flux"
+      },
+      "schema:unitText": "1/(cm^2 s sr eV)",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 24199,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "schema:description": "Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_oplus_flux_movie",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_oplus_flux_movie"
+      },
+      "schema:name": "mms4_hpca_oplus_flux_movie",
+      "schema:description": "HAPI-only parameter (not a CDF variableMeasured): derived flux variant or housekeeping exposed by the HAPI service. Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "schema:unitText": "1/(cm^2 s sr eV)",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 25207,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_oplus_flux_byE_atAnode",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_oplus_flux_byE_atAnode"
+      },
+      "schema:name": "mms4_hpca_oplus_flux_byE_atAnode",
+      "schema:description": "HAPI-only parameter (not a CDF variableMeasured): derived flux variant or housekeeping exposed by the HAPI service. Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "schema:unitText": "1/(cm^2 s sr eV)",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 26215,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_oplus_flux_byAnode_atE",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_oplus_flux_byAnode_atE"
+      },
+      "schema:name": "mms4_hpca_oplus_flux_byAnode_atE",
+      "schema:description": "HAPI-only parameter (not a CDF variableMeasured): derived flux variant or housekeeping exposed by the HAPI service. Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "schema:unitText": "1/(cm^2 s sr eV)",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 27223,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_oplus_phase_space_density",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_oplus_phase_space_density"
+      },
+      "schema:name": "mms4_hpca_oplus_phase_space_density",
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_oplus_phase_space_density"
+      },
+      "schema:unitText": "cm^-6 s^3",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 28231,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "schema:description": "Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_oplus_phase_space_density_movie",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_oplus_phase_space_density_movie"
+      },
+      "schema:name": "mms4_hpca_oplus_phase_space_density_movie",
+      "schema:description": "HAPI-only parameter (not a CDF variableMeasured): derived flux variant or housekeeping exposed by the HAPI service. Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "schema:unitText": "1/(cm^2 s sr eV)",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 29239,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_oplus_phase_space_density_byE_atAnode",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_oplus_phase_space_density_byE_atAnode"
+      },
+      "schema:name": "mms4_hpca_oplus_phase_space_density_byE_atAnode",
+      "schema:description": "HAPI-only parameter (not a CDF variableMeasured): derived flux variant or housekeeping exposed by the HAPI service. Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "schema:unitText": "1/(cm^2 s sr eV)",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 30247,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_oplus_phase_space_density_byAnode_atE",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_oplus_phase_space_density_byAnode_atE"
+      },
+      "schema:name": "mms4_hpca_oplus_phase_space_density_byAnode_atE",
+      "schema:description": "HAPI-only parameter (not a CDF variableMeasured): derived flux variant or housekeeping exposed by the HAPI service. Array [16, 63] flattened to 1008 CSV columns (row-major).",
+      "schema:unitText": "1/(cm^2 s sr eV)",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 31255,
+      "cdif:columnSpan": 1008,
+      "cdif:arrayShape": [
+        16,
+        63
+      ],
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_B_GSE_sweep_avg",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_B_GSE_sweep_avg"
+      },
+      "schema:name": "mms4_hpca_B_GSE_sweep_avg",
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_B_GSE_sweep_avg"
+      },
+      "schema:unitText": "nT",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 32263,
+      "cdif:columnSpan": 4,
+      "cdif:arrayShape": [
+        4
+      ],
+      "schema:description": "Array [4] flattened to 4 CSV columns (row-major).",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_B_GSM_sweep_avg",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_B_GSM_sweep_avg"
+      },
+      "schema:name": "mms4_hpca_B_GSM_sweep_avg",
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_B_GSM_sweep_avg"
+      },
+      "schema:unitText": "nT",
+      "cdi:nullSequence": "-1.0E31",
+      "cdif:startColumn": 32267,
+      "cdif:columnSpan": 4,
+      "cdif:arrayShape": [
+        4
+      ],
+      "schema:description": "Array [4] flattened to 4 CSV columns (row-major).",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_MCP_VMON_MIN_converted",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_MCP_VMON_MIN_converted"
+      },
+      "schema:name": "mms4_hpca_MCP_VMON_MIN_converted",
+      "schema:description": "HAPI-only parameter (not a CDF variableMeasured): derived flux variant or housekeeping exposed by the HAPI service.",
+      "cdi:nullSequence": "1.0E31",
+      "cdif:startColumn": 32271,
+      "cdif:columnSpan": 1,
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_TOF_VMON_MIN_converted",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_TOF_VMON_MIN_converted"
+      },
+      "schema:name": "mms4_hpca_TOF_VMON_MIN_converted",
+      "schema:description": "HAPI-only parameter (not a CDF variableMeasured): derived flux variant or housekeeping exposed by the HAPI service.",
+      "cdi:nullSequence": "1.0E31",
+      "cdif:startColumn": 32272,
+      "cdif:columnSpan": 1,
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:DataStructureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_decimation_factor_index",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_decimation_factor_index"
+      },
+      "schema:name": "mms4_hpca_decimation_factor_index",
+      "schema:description": "HAPI-only parameter (not a CDF variableMeasured): derived flux variant or housekeeping exposed by the HAPI service.",
+      "cdi:nullSequence": "255",
+      "cdif:startColumn": 32273,
+      "cdif:columnSpan": 1,
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "cdi:has_ComponentPosition": [
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/Time",
+      "cdi:value": 0,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/Time"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_start_azimuth",
+      "cdi:value": 1,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_start_azimuth"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_science_mode",
+      "cdi:value": 2,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_science_mode"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_hplus_data_quality",
+      "cdi:value": 3,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_hplus_data_quality"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_hplus_flux",
+      "cdi:value": 4,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_hplus_flux"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_hplus_flux_movie",
+      "cdi:value": 5,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_hplus_flux_movie"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_hplus_flux_byE_atAnode",
+      "cdi:value": 6,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_hplus_flux_byE_atAnode"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_hplus_flux_byAnode_atE",
+      "cdi:value": 7,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_hplus_flux_byAnode_atE"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_hplus_phase_space_density",
+      "cdi:value": 8,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_hplus_phase_space_density"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_hplus_phase_space_density_movie",
+      "cdi:value": 9,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_hplus_phase_space_density_movie"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_hplus_phase_space_density_byE_atAnode",
+      "cdi:value": 10,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_hplus_phase_space_density_byE_atAnode"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_hplus_phase_space_density_byAnode_atE",
+      "cdi:value": 11,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_hplus_phase_space_density_byAnode_atE"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_heplus_data_quality",
+      "cdi:value": 12,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplus_data_quality"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_heplus_flux",
+      "cdi:value": 13,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplus_flux"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_heplus_flux_movie",
+      "cdi:value": 14,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplus_flux_movie"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_heplus_flux_byE_atAnode",
+      "cdi:value": 15,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplus_flux_byE_atAnode"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_heplus_flux_byAnode_atE",
+      "cdi:value": 16,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplus_flux_byAnode_atE"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_heplus_phase_space_density",
+      "cdi:value": 17,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplus_phase_space_density"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_heplus_phase_space_density_movie",
+      "cdi:value": 18,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplus_phase_space_density_movie"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_heplus_phase_space_density_byE_atAnode",
+      "cdi:value": 19,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplus_phase_space_density_byE_atAnode"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_heplus_phase_space_density_byAnode_atE",
+      "cdi:value": 20,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplus_phase_space_density_byAnode_atE"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_heplusplus_data_quality",
+      "cdi:value": 21,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplusplus_data_quality"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_heplusplus_flux",
+      "cdi:value": 22,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplusplus_flux"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_heplusplus_flux_movie",
+      "cdi:value": 23,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplusplus_flux_movie"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_heplusplus_flux_byE_atAnode",
+      "cdi:value": 24,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplusplus_flux_byE_atAnode"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_heplusplus_flux_byAnode_atE",
+      "cdi:value": 25,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplusplus_flux_byAnode_atE"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_heplusplus_phase_space_density",
+      "cdi:value": 26,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplusplus_phase_space_density"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_heplusplus_phase_space_density_movie",
+      "cdi:value": 27,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplusplus_phase_space_density_movie"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_heplusplus_phase_space_density_byE_atAnode",
+      "cdi:value": 28,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplusplus_phase_space_density_byE_atAnode"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_heplusplus_phase_space_density_byAnode_atE",
+      "cdi:value": 29,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_heplusplus_phase_space_density_byAnode_atE"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_oplus_data_quality",
+      "cdi:value": 30,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_oplus_data_quality"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_oplus_flux",
+      "cdi:value": 31,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_oplus_flux"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_oplus_flux_movie",
+      "cdi:value": 32,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_oplus_flux_movie"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_oplus_flux_byE_atAnode",
+      "cdi:value": 33,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_oplus_flux_byE_atAnode"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_oplus_flux_byAnode_atE",
+      "cdi:value": 34,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_oplus_flux_byAnode_atE"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_oplus_phase_space_density",
+      "cdi:value": 35,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_oplus_phase_space_density"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_oplus_phase_space_density_movie",
+      "cdi:value": 36,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_oplus_phase_space_density_movie"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_oplus_phase_space_density_byE_atAnode",
+      "cdi:value": 37,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_oplus_phase_space_density_byE_atAnode"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_oplus_phase_space_density_byAnode_atE",
+      "cdi:value": 38,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_oplus_phase_space_density_byAnode_atE"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_B_GSE_sweep_avg",
+      "cdi:value": 39,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_B_GSE_sweep_avg"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_B_GSM_sweep_avg",
+      "cdi:value": 40,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_B_GSM_sweep_avg"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_MCP_VMON_MIN_converted",
+      "cdi:value": 41,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_MCP_VMON_MIN_converted"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_TOF_VMON_MIN_converted",
+      "cdi:value": 42,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_TOF_VMON_MIN_converted"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/pos/mms4_hpca_decimation_factor_index",
+      "cdi:value": 43,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#hapi-csv-structure/component/mms4_hpca_decimation_factor_index"
+      }
+    }
+  ]
+}

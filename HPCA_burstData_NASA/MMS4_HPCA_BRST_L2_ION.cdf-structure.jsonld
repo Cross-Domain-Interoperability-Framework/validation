@@ -1,0 +1,1797 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/",
+    "dcterms": "http://purl.org/dc/terms/"
+  },
+  "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure",
+  "@type": [
+    "cdi:DimensionalDataStructure"
+  ],
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure"
+  },
+  "schema:name": "Logical data structure of the MMS4 HPCA burst L2 ion CDF granules (DDI-CDI DimensionalDataStructure)",
+  "schema:description": "Heterogeneous dimensional structure of each CDF granule. Dimensions: time (record), elevation anode (16), energy step (63), azimuth within half-spin (16), and field-vector component (4). Each measure lists the dimensions it actually spans via cdif:dimensionedBy; e.g. species fluxes/PSDs are time x anode x energy, per-sweep data quality is time only, the energy table is time x energy, and the B-field is time x component. Measures reference the schema:variableMeasured InstanceVariables of the dataset by @id. Physical (byte-level) representation is on the CDF distribution's cdi:hasPhysicalMapping.",
+  "dcterms:conformsTo": [
+    {
+      "@id": "https://w3id.org/cdif/data_structure/1.1"
+    }
+  ],
+  "schema:about": {
+    "@id": "https://doi.org/10.48322/6cfb-rq65"
+  },
+  "cdi:semantic": [
+    {
+      "@type": [
+        "cdi:PairedControlledVocabularyEntry"
+      ],
+      "cdi:term": {
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
+        "cdi:entryValue": [
+          "dimensional-cube"
+        ]
+      },
+      "cdi:extent": {
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
+        "cdi:entryValue": [
+          "primary"
+        ]
+      }
+    }
+  ],
+  "cdi:uses": [
+    {
+      "@type": [
+        "cdi:DimensionGroup"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dimGroup/recordDimensions",
+      "cdi:name": [
+        {
+          "@type": [
+            "cdi:ObjectName"
+          ],
+          "cdi:name": "HPCArecordDimensions"
+        }
+      ],
+      "cdi:has": [
+        {
+          "@type": [
+            "cdi:DimensionComponent"
+          ],
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time",
+          "cdi:identifier": {
+            "@type": [
+              "cdi:Identifier"
+            ],
+            "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+          },
+          "schema:name": "Epoch (record time, TT2000)",
+          "schema:description": "Record dimension: one time step per HPCA half-spin (nominal 0.625 s cadence).",
+          "cdi:isDefinedBy": {
+            "@id": "https://doi.org/10.48322/6cfb-rq65#var-Epoch"
+          }
+        },
+        {
+          "@type": [
+            "cdi:DimensionComponent"
+          ],
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/anode",
+          "cdi:identifier": {
+            "@type": [
+              "cdi:Identifier"
+            ],
+            "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/anode"
+          },
+          "schema:name": "Elevation anode index",
+          "schema:description": "16 elevation anodes.",
+          "cdif:extent": 16,
+          "cdi:isDefinedBy": {
+            "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_polar_anode_number"
+          }
+        },
+        {
+          "@type": [
+            "cdi:DimensionComponent"
+          ],
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/energy",
+          "cdi:identifier": {
+            "@type": [
+              "cdi:Identifier"
+            ],
+            "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/energy"
+          },
+          "schema:name": "Energy step index",
+          "schema:description": "63 energy steps (values in mms4_hpca_ion_energy, sweep-table dependent).",
+          "cdif:extent": 63,
+          "cdi:isDefinedBy": {
+            "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_energy_step_number"
+          }
+        },
+        {
+          "@type": [
+            "cdi:DimensionComponent"
+          ],
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/azimuth",
+          "cdi:identifier": {
+            "@type": [
+              "cdi:Identifier"
+            ],
+            "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/azimuth"
+          },
+          "schema:name": "Azimuth index within half-spin",
+          "schema:description": "16 azimuths per half-spin.",
+          "cdif:extent": 16,
+          "cdi:isDefinedBy": {
+            "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_azimuth_index"
+          }
+        },
+        {
+          "@type": [
+            "cdi:DimensionComponent"
+          ],
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/fieldComp",
+          "cdi:identifier": {
+            "@type": [
+              "cdi:Identifier"
+            ],
+            "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/fieldComp"
+          },
+          "schema:name": "Field vector component",
+          "schema:description": "4-element vector: X, Y, Z, magnitude.",
+          "cdif:extent": 4
+        }
+      ]
+    }
+  ],
+  "cdi:has_DataStructureComponent": [
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/Epoch_MINUS",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/Epoch_MINUS"
+      },
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-Epoch_MINUS"
+      },
+      "cdif:dimensionedBy": [
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+        }
+      ],
+      "schema:description": "Dimensioned by: time",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/Epoch_PLUS",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/Epoch_PLUS"
+      },
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-Epoch_PLUS"
+      },
+      "cdif:dimensionedBy": [
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+        }
+      ],
+      "schema:description": "Dimensioned by: time",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_azimuth_decimation_factor",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_azimuth_decimation_factor"
+      },
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_azimuth_decimation_factor"
+      },
+      "cdif:dimensionedBy": [
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+        }
+      ],
+      "schema:description": "Dimensioned by: time",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_polar_decimation_factor",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_polar_decimation_factor"
+      },
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_polar_decimation_factor"
+      },
+      "cdif:dimensionedBy": [
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+        }
+      ],
+      "schema:description": "Dimensioned by: time",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_energy_decimation_factor",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_energy_decimation_factor"
+      },
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_energy_decimation_factor"
+      },
+      "cdif:dimensionedBy": [
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+        }
+      ],
+      "schema:description": "Dimensioned by: time",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_sweep_table_number",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_sweep_table_number"
+      },
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_sweep_table_number"
+      },
+      "cdif:dimensionedBy": [
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+        }
+      ],
+      "schema:description": "Dimensioned by: time",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_start_azimuth",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_start_azimuth"
+      },
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_start_azimuth"
+      },
+      "cdif:dimensionedBy": [
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+        }
+      ],
+      "schema:description": "Dimensioned by: time",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_science_mode",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_science_mode"
+      },
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_science_mode"
+      },
+      "cdif:dimensionedBy": [
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+        }
+      ],
+      "schema:description": "Dimensioned by: time",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_ion_energy",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_ion_energy"
+      },
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_ion_energy"
+      },
+      "cdif:dimensionedBy": [
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+        },
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/energy"
+        }
+      ],
+      "schema:description": "Dimensioned by: time, energy",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_hplus_flux",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_hplus_flux"
+      },
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_hplus_flux"
+      },
+      "cdif:dimensionedBy": [
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+        },
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/anode"
+        },
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/energy"
+        }
+      ],
+      "schema:description": "Dimensioned by: time, anode, energy",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_hplus_phase_space_density",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_hplus_phase_space_density"
+      },
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_hplus_phase_space_density"
+      },
+      "cdif:dimensionedBy": [
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+        },
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/anode"
+        },
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/energy"
+        }
+      ],
+      "schema:description": "Dimensioned by: time, anode, energy",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_hplus_data_quality",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_hplus_data_quality"
+      },
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_hplus_data_quality"
+      },
+      "cdif:dimensionedBy": [
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+        }
+      ],
+      "schema:description": "Dimensioned by: time",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_heplus_flux",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_heplus_flux"
+      },
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_heplus_flux"
+      },
+      "cdif:dimensionedBy": [
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+        },
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/anode"
+        },
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/energy"
+        }
+      ],
+      "schema:description": "Dimensioned by: time, anode, energy",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_heplus_phase_space_density",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_heplus_phase_space_density"
+      },
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_heplus_phase_space_density"
+      },
+      "cdif:dimensionedBy": [
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+        },
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/anode"
+        },
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/energy"
+        }
+      ],
+      "schema:description": "Dimensioned by: time, anode, energy",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_heplus_data_quality",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_heplus_data_quality"
+      },
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_heplus_data_quality"
+      },
+      "cdif:dimensionedBy": [
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+        }
+      ],
+      "schema:description": "Dimensioned by: time",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_heplusplus_flux",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_heplusplus_flux"
+      },
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_heplusplus_flux"
+      },
+      "cdif:dimensionedBy": [
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+        },
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/anode"
+        },
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/energy"
+        }
+      ],
+      "schema:description": "Dimensioned by: time, anode, energy",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_heplusplus_phase_space_density",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_heplusplus_phase_space_density"
+      },
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_heplusplus_phase_space_density"
+      },
+      "cdif:dimensionedBy": [
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+        },
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/anode"
+        },
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/energy"
+        }
+      ],
+      "schema:description": "Dimensioned by: time, anode, energy",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_heplusplus_data_quality",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_heplusplus_data_quality"
+      },
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_heplusplus_data_quality"
+      },
+      "cdif:dimensionedBy": [
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+        }
+      ],
+      "schema:description": "Dimensioned by: time",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_oplus_flux",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_oplus_flux"
+      },
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_oplus_flux"
+      },
+      "cdif:dimensionedBy": [
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+        },
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/anode"
+        },
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/energy"
+        }
+      ],
+      "schema:description": "Dimensioned by: time, anode, energy",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_oplus_phase_space_density",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_oplus_phase_space_density"
+      },
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_oplus_phase_space_density"
+      },
+      "cdif:dimensionedBy": [
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+        },
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/anode"
+        },
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/energy"
+        }
+      ],
+      "schema:description": "Dimensioned by: time, anode, energy",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_oplus_data_quality",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_oplus_data_quality"
+      },
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_oplus_data_quality"
+      },
+      "cdif:dimensionedBy": [
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+        }
+      ],
+      "schema:description": "Dimensioned by: time",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_B_GSE_sweep_avg",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_B_GSE_sweep_avg"
+      },
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_B_GSE_sweep_avg"
+      },
+      "cdif:dimensionedBy": [
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+        },
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/fieldComp"
+        }
+      ],
+      "schema:description": "Dimensioned by: time, fieldComp",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_B_GSM_sweep_avg",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_B_GSM_sweep_avg"
+      },
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_B_GSM_sweep_avg"
+      },
+      "cdif:dimensionedBy": [
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+        },
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/fieldComp"
+        }
+      ],
+      "schema:description": "Dimensioned by: time, fieldComp",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/Epoch_Angles",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/Epoch_Angles"
+      },
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-Epoch_Angles"
+      },
+      "cdif:dimensionedBy": [
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+        }
+      ],
+      "schema:description": "Dimensioned by: time",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/Epoch_MINUS_Angles",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/Epoch_MINUS_Angles"
+      },
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-Epoch_MINUS_Angles"
+      },
+      "cdif:dimensionedBy": [
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+        }
+      ],
+      "schema:description": "Dimensioned by: time",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/Epoch_PLUS_Angles",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/Epoch_PLUS_Angles"
+      },
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-Epoch_PLUS_Angles"
+      },
+      "cdif:dimensionedBy": [
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+        }
+      ],
+      "schema:description": "Dimensioned by: time",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_azimuth_angles_degrees",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_azimuth_angles_degrees"
+      },
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_azimuth_angles_degrees"
+      },
+      "cdif:dimensionedBy": [
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+        },
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/anode"
+        },
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/azimuth"
+        }
+      ],
+      "schema:description": "Dimensioned by: time, anode, azimuth",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_azimuth_angles_per_ev_degrees",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_azimuth_angles_per_ev_degrees"
+      },
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_azimuth_angles_per_ev_degrees"
+      },
+      "cdif:dimensionedBy": [
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+        },
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/anode"
+        },
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/azimuth"
+        }
+      ],
+      "schema:description": "Dimensioned by: time, anode, azimuth",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_centroid_elevation_angle",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_centroid_elevation_angle"
+      },
+      "cdi:isDefinedBy": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#var-mms4_hpca_centroid_elevation_angle"
+      },
+      "cdif:dimensionedBy": [
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/time"
+        },
+        {
+          "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/dim/anode"
+        }
+      ],
+      "schema:description": "Dimensioned by: time, anode",
+      "cdi:semantic": [
+        {
+          "@type": [
+            "cdi:PairedControlledVocabularyEntry"
+          ],
+          "cdi:term": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "measure"
+            ]
+          },
+          "cdi:extent": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "primary"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "cdi:has_ComponentPosition": [
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/pos/Epoch_MINUS",
+      "cdi:value": 0,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/Epoch_MINUS"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/pos/Epoch_PLUS",
+      "cdi:value": 1,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/Epoch_PLUS"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/pos/mms4_hpca_azimuth_decimation_factor",
+      "cdi:value": 2,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_azimuth_decimation_factor"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/pos/mms4_hpca_polar_decimation_factor",
+      "cdi:value": 3,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_polar_decimation_factor"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/pos/mms4_hpca_energy_decimation_factor",
+      "cdi:value": 4,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_energy_decimation_factor"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/pos/mms4_hpca_sweep_table_number",
+      "cdi:value": 5,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_sweep_table_number"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/pos/mms4_hpca_start_azimuth",
+      "cdi:value": 6,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_start_azimuth"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/pos/mms4_hpca_science_mode",
+      "cdi:value": 7,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_science_mode"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/pos/mms4_hpca_ion_energy",
+      "cdi:value": 8,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_ion_energy"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/pos/mms4_hpca_hplus_flux",
+      "cdi:value": 9,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_hplus_flux"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/pos/mms4_hpca_hplus_phase_space_density",
+      "cdi:value": 10,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_hplus_phase_space_density"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/pos/mms4_hpca_hplus_data_quality",
+      "cdi:value": 11,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_hplus_data_quality"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/pos/mms4_hpca_heplus_flux",
+      "cdi:value": 12,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_heplus_flux"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/pos/mms4_hpca_heplus_phase_space_density",
+      "cdi:value": 13,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_heplus_phase_space_density"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/pos/mms4_hpca_heplus_data_quality",
+      "cdi:value": 14,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_heplus_data_quality"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/pos/mms4_hpca_heplusplus_flux",
+      "cdi:value": 15,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_heplusplus_flux"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/pos/mms4_hpca_heplusplus_phase_space_density",
+      "cdi:value": 16,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_heplusplus_phase_space_density"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/pos/mms4_hpca_heplusplus_data_quality",
+      "cdi:value": 17,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_heplusplus_data_quality"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/pos/mms4_hpca_oplus_flux",
+      "cdi:value": 18,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_oplus_flux"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/pos/mms4_hpca_oplus_phase_space_density",
+      "cdi:value": 19,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_oplus_phase_space_density"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/pos/mms4_hpca_oplus_data_quality",
+      "cdi:value": 20,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_oplus_data_quality"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/pos/mms4_hpca_B_GSE_sweep_avg",
+      "cdi:value": 21,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_B_GSE_sweep_avg"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/pos/mms4_hpca_B_GSM_sweep_avg",
+      "cdi:value": 22,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_B_GSM_sweep_avg"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/pos/Epoch_Angles",
+      "cdi:value": 23,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/Epoch_Angles"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/pos/Epoch_MINUS_Angles",
+      "cdi:value": 24,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/Epoch_MINUS_Angles"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/pos/Epoch_PLUS_Angles",
+      "cdi:value": 25,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/Epoch_PLUS_Angles"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/pos/mms4_hpca_azimuth_angles_degrees",
+      "cdi:value": 26,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_azimuth_angles_degrees"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/pos/mms4_hpca_azimuth_angles_per_ev_degrees",
+      "cdi:value": 27,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_azimuth_angles_per_ev_degrees"
+      }
+    },
+    {
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/pos/mms4_hpca_centroid_elevation_angle",
+      "cdi:value": 28,
+      "cdi:indexes": {
+        "@id": "https://doi.org/10.48322/6cfb-rq65#cdf-structure/measure/mms4_hpca_centroid_elevation_angle"
+      }
+    }
+  ]
+}
