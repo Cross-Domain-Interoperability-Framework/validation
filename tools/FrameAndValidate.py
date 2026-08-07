@@ -303,14 +303,59 @@ def _type_tokens(item):
     return out
 
 
+def _referenced_ids(graph):
+    """@ids that appear *inside* some node -- i.e. that something points at.
+
+    Framing hoists any node matching the frame's root type to the top of
+    @graph, so a dataset's parts land beside the dataset itself when they
+    are Datasets too. The one nothing else points at is the document's
+    subject; the rest are its children.
+    """
+    refs = set()
+
+    def walk(node, owner):
+        if isinstance(node, dict):
+            got = node.get('@id')
+            if isinstance(got, str) and got != owner:
+                refs.add(got)
+            for key, value in node.items():
+                if key != '@id':
+                    walk(value, owner)
+        elif isinstance(node, list):
+            for value in node:
+                walk(value, owner)
+
+    for item in graph:
+        if isinstance(item, dict):
+            owner = item.get('@id')
+            walk({k: v for k, v in item.items() if k != '@id'}, owner)
+    return refs
+
+
 def pick_main_entity(graph, frame):
     """Choose the document's main entity from a framed @graph.
 
-    Profile-agnostic: prefer a node whose @type matches the frame's root type
+    Profile-agnostic: prefer a node nothing else references (the root of a
+    hasPart tree), then one whose @type matches the frame's root type
     (skipping catalog records), then a node with schema:distribution, then one
-    with schema:url, then the first non-catalog-record node."""
+    with schema:url, then the first non-catalog-record node.
+
+    The unreferenced-node check has to come FIRST. Without it, a dataset
+    whose parts carry the distributions -- a package of independently
+    accessible resources, where the aggregate itself has no single
+    download -- loses to its own first part on the schema:distribution
+    test, and the validator then reports on the part while silently
+    discarding the dataset. Every such record passes, because the thing
+    being checked was never the thing being described.
+    """
     candidates = [it for it in graph
                   if isinstance(it, dict) and not _is_catalog_record(it)]
+    if len(candidates) > 1:
+        referenced = _referenced_ids(graph)
+        roots = [it for it in candidates
+                 if it.get('@id') not in referenced]
+        if roots:
+            candidates = roots
     if not candidates:
         return None
     # Dataset-rooted profiles: the main dataset is the one carrying a
