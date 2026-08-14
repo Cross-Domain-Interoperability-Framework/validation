@@ -196,12 +196,26 @@ STRUCTURE_ROOT_TYPES = frozenset({
     'LongDataStructure', 'WideDataStructure',
 })
 
-# Keys whose value is an id-reference to another node (a data-structure
-# component), never an inline copy of it. Framing with @embed:@always inlines
-# the whole target; these get collapsed back to a bare {@id} because the full
-# node is retained at its own cdi:has_DataStructureComponent slot and the schema
-# types these as references.
-REFERENCE_ONLY_KEYS = ('cdi:qualifies', 'cdi:refersTo')
+# Keys whose value is an id-reference to another node, never an inline copy of
+# it. Framing with @embed:@always inlines the whole target; these get collapsed
+# back to a bare {@id} because the full node is retained at its own slot (or is
+# an external resource) and the tightened schemas type these slots as {@id}-only
+# references. The collapse runs on EVERY doc type (see remove_nulls_and_normalize),
+# not just bare-structure docs -- cdi:qualifies also appears in dataset-rooted
+# data-description docs, and schema:about (manifest part -> documented file) /
+# schema:result (activity -> produced entity) are reference slots on manifest /
+# provenance / dataset docs.
+#
+# A key belongs here ONLY when its target node is defined elsewhere in the
+# document, so dropping the framing-embedded copy back to a bare {@id} is
+# non-lossy. (prov:wasDerivedFrom is deliberately NOT here: in the examples its
+# target is defined nowhere else, so a labelled {@id, schema:name} there is an
+# authoring error -- fix the example to a bare {@id} or a full Reference with
+# @type + schema:url -- not something the harness should silently collapse.)
+REFERENCE_ONLY_KEYS = (
+    'cdi:qualifies', 'cdi:refersTo',
+    'schema:about', 'schema:result',
+)
 
 # Keys the (bare-structure) schema requires as arrays but framing collapses to a
 # scalar / single object when there is exactly one value.
@@ -375,6 +389,38 @@ def pick_main_entity(graph, frame):
     return candidates[0]
 
 
+def _content_signature(x):
+    """Canonical JSON of x with blank-node @ids (_:bN) normalized away, so two
+    nodes that differ only by their framing-assigned blank-node identifier compare
+    equal. Non-blank @ids are kept, so genuinely distinct references never match."""
+    def norm(v):
+        if isinstance(v, dict):
+            return {k: (None if k == '@id' and isinstance(val, str) and val.startswith('_:')
+                        else norm(val))
+                    for k, val in sorted(v.items())}
+        if isinstance(v, list):
+            return [norm(i) for i in v]
+        return v
+    return json.dumps(norm(x), sort_keys=True, ensure_ascii=False)
+
+
+def _dedupe_framing_dupes(items):
+    """Drop later dict items whose content signature (ignoring blank-node @ids)
+    duplicates an earlier one -- an @embed:@always framing artifact where the same
+    node is emitted more than once with distinct _:bN ids (e.g. a schema:identifier
+    duplicated on a publisher). Scalars and distinct nodes are left untouched."""
+    seen = set()
+    out = []
+    for item in items:
+        if isinstance(item, dict):
+            sig = _content_signature(item)
+            if sig in seen:
+                continue
+            seen.add(sig)
+        out.append(item)
+    return out
+
+
 def remove_nulls_and_normalize(obj, parent_key=None):
     """
     Post-process the framed output to match schema expectations:
@@ -382,10 +428,12 @@ def remove_nulls_and_normalize(obj, parent_key=None):
     2. Rename unprefixed terms to prefixed versions
     3. Wrap single values in arrays where the schema expects arrays
     4. Convert bare @id references to strings for identifier fields
+    5. Drop framing-produced duplicate nodes (same content, distinct blank @ids)
     """
     if isinstance(obj, list):
-        # Filter out None values and process remaining items
-        return [remove_nulls_and_normalize(item, parent_key) for item in obj if item is not None]
+        # Filter out None values, process remaining items, then drop framing dupes
+        items = [remove_nulls_and_normalize(item, parent_key) for item in obj if item is not None]
+        return _dedupe_framing_dupes(items)
 
     if isinstance(obj, dict):
         result = {}
@@ -427,6 +475,13 @@ def remove_nulls_and_normalize(obj, parent_key=None):
             # Convert bare @id references to strings for identifier fields
             if new_key == 'schema:identifier' and is_bare_id_reference(new_value):
                 new_value = new_value['@id']
+
+            # Collapse framing-embedded references back to a bare {@id} for
+            # reference-only slots (the tightened schemas type these as {@id};
+            # framing with @embed:@always inlines the whole target). Ungated --
+            # runs on every doc type, before the array wrap below.
+            if new_key in REFERENCE_ONLY_KEYS:
+                new_value = _collapse_to_id_ref(new_value)
 
             # Wrap in array if schema expects array and value is not already an array
             if new_key in ARRAY_PROPERTIES and not isinstance(new_value, list):
@@ -493,6 +548,15 @@ def remove_nulls_and_normalize(obj, parent_key=None):
         if alt is not None:
             if is_var_or_place and not isinstance(alt, list):
                 result['schema:alternateName'] = [alt]
+
+        # schema:identifier: single object/string on Person/Organization agents
+        # (the schema types it anyOf[Identifier, string], not an array). Framing --
+        # especially after deduping a framing-duplicated identifier node -- can
+        # leave a single-element array; unwrap it to match the agent schema.
+        if 'schema:Organization' in type_list or 'schema:Person' in type_list:
+            ident = result.get('schema:identifier')
+            if isinstance(ident, list) and len(ident) == 1:
+                result['schema:identifier'] = ident[0]
 
         return result
 
