@@ -111,6 +111,7 @@
                         },
                         {
                             "type": "object",
+                            "additionalProperties": false,
                             "properties": {
                                 "@id": {
                                     "type": "string"
@@ -168,6 +169,7 @@
                         },
                         {
                             "type": "object",
+                            "additionalProperties": false,
                             "properties": {
                                 "@id": {
                                     "type": "string"
@@ -199,6 +201,7 @@
                     "type": "array",
                     "items": {
                         "type": "object",
+                        "additionalProperties": false,
                         "properties": {
                             "@id": {
                                 "type": "string"
@@ -210,7 +213,7 @@
                     }
                 },
                 "skos:prefLabel": {
-                    "description": "Preferred lexical label for this concept. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
+                    "description": "Preferred lexical label for this concept. A single string,\na single language-tagged value, or an array of language-tagged values.\nEach language should appear at most once.\n\n**Uniqueness rule.** Each language should appear at most once in the\nset of prefLabel values. Two prefLabel values with duplicate `@language`\ntags are non-conformant. Consumers may reject or arbitrarily pick one.\n\n**Relationship to skos:altLabel.** Alternate labels (acronyms,\nspelling variants, obsolete names) go on `skos:altLabel`, NOT on\n`prefLabel`. A concept has exactly one preferred label per language.\n",
                     "type": "string"
                 },
                 "skos:notation": {
@@ -228,6 +231,7 @@
                         "anyOf": [
                             {
                                 "type": "object",
+                                "additionalProperties": false,
                                 "properties": {
                                     "@id": {
                                         "type": "string"
@@ -257,6 +261,7 @@
                     "type": "array",
                     "items": {
                         "type": "object",
+                        "additionalProperties": false,
                         "properties": {
                             "@id": {
                                 "type": "string"
@@ -334,6 +339,10 @@
                         },
                         {
                             "type": "object",
+                            "required": [
+                                "@id"
+                            ],
+                            "additionalProperties": false,
                             "properties": {
                                 "@id": {
                                     "type": "string"
@@ -351,6 +360,7 @@
                         },
                         {
                             "type": "object",
+                            "additionalProperties": false,
                             "properties": {
                                 "@id": {
                                     "type": "string"
@@ -367,6 +377,10 @@
                     "anyOf": [
                         {
                             "type": "object",
+                            "required": [
+                                "@id"
+                            ],
+                            "additionalProperties": false,
                             "properties": {
                                 "@id": {
                                     "type": "string",
@@ -384,6 +398,10 @@
                 },
                 "cdi:qualifies": {
                     "type": "object",
+                    "required": [
+                        "@id"
+                    ],
+                    "additionalProperties": false,
                     "properties": {
                         "@id": {
                             "type": "string"
@@ -437,6 +455,10 @@
                                 },
                                 {
                                     "type": "object",
+                                    "required": [
+                                        "@id"
+                                    ],
+                                    "additionalProperties": false,
                                     "properties": {
                                         "@id": {
                                             "type": "string",
@@ -459,6 +481,10 @@
                                     },
                                     {
                                         "type": "object",
+                                        "required": [
+                                            "@id"
+                                        ],
+                                        "additionalProperties": false,
                                         "properties": {
                                             "@id": {
                                                 "type": "string"
@@ -483,6 +509,10 @@
                                 },
                                 {
                                     "type": "object",
+                                    "required": [
+                                        "@id"
+                                    ],
+                                    "additionalProperties": false,
                                     "properties": {
                                         "@id": {
                                             "type": "string"
@@ -614,6 +644,10 @@
                 },
                 "cdif:formats_InstanceVariable": {
                     "type": "object",
+                    "required": [
+                        "@id"
+                    ],
+                    "additionalProperties": false,
                     "description": "Reference to a variable defined in schema:variableMeasured.",
                     "properties": {
                         "@id": {
@@ -699,11 +733,8 @@
                     ]
                 },
                 "skos:notation": {
-                    "description": "Classification code for this concept within a scheme.",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
+                    "description": "Classification code for this concept within a scheme (a single notation string, consistent with CdifCodelistConcept).",
+                    "type": "string"
                 },
                 "skos:definition": {
                     "description": "Formal explanation of the meaning of this concept.",
@@ -854,6 +885,7 @@
                     "anyOf": [
                         {
                             "type": "object",
+                            "additionalProperties": false,
                             "properties": {
                                 "@id": {
                                     "type": "string"
@@ -867,6 +899,7 @@
                             "type": "array",
                             "items": {
                                 "type": "object",
+                                "additionalProperties": false,
                                 "properties": {
                                     "@id": {
                                         "type": "string"
@@ -884,6 +917,7 @@
                     "anyOf": [
                         {
                             "type": "object",
+                            "additionalProperties": false,
                             "properties": {
                                 "@id": {
                                     "type": "string"
@@ -897,6 +931,7 @@
                             "type": "array",
                             "items": {
                                 "type": "object",
+                                "additionalProperties": false,
                                 "properties": {
                                     "@id": {
                                         "type": "string"
@@ -916,6 +951,7 @@
                         "anyOf": [
                             {
                                 "type": "object",
+                                "additionalProperties": false,
                                 "description": "A reference to a SKOS Concept by URI.",
                                 "properties": {
                                     "@id": {
@@ -940,6 +976,7 @@
                         "anyOf": [
                             {
                                 "type": "object",
+                                "additionalProperties": false,
                                 "description": "A reference to a SKOS Concept by URI.",
                                 "properties": {
                                     "@id": {
@@ -1044,8 +1081,24 @@
                     "minItems": 1
                 },
                 "schema:propertyID": {
-                    "type": "string",
-                    "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                                "@id"
+                            ],
+                            "properties": {
+                                "@id": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    ],
+                    "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability. URI-shape values MUST be serialized as JSON-LD IRI references ({\"@id\":\"...\"}) so they participate in RDF entailment; free-label strings remain valid as strings."
                 },
                 "schema:value": {
                     "type": "string",
@@ -1206,6 +1259,10 @@
                                     },
                                     {
                                         "type": "object",
+                                        "required": [
+                                            "@id"
+                                        ],
+                                        "additionalProperties": false,
                                         "properties": {
                                             "@id": {
                                                 "type": "string"
@@ -1258,6 +1315,7 @@
                         }
                     },
                     "required": [
+                        "@type",
                         "schema:email"
                     ]
                 },
@@ -1271,6 +1329,10 @@
                             },
                             {
                                 "type": "object",
+                                "required": [
+                                    "@id"
+                                ],
+                                "additionalProperties": false,
                                 "properties": {
                                     "@id": {
                                         "type": "string"
@@ -1448,6 +1510,7 @@
                         },
                         {
                             "type": "object",
+                            "additionalProperties": false,
                             "properties": {
                                 "@id": {
                                     "type": "string"
@@ -1469,6 +1532,7 @@
                             },
                             {
                                 "type": "object",
+                                "additionalProperties": false,
                                 "properties": {
                                     "@id": {
                                         "type": "string"
@@ -1522,6 +1586,7 @@
                         },
                         {
                             "type": "object",
+                            "additionalProperties": false,
                             "properties": {
                                 "@id": {
                                     "type": "string"
@@ -1543,6 +1608,7 @@
                             },
                             {
                                 "type": "object",
+                                "additionalProperties": false,
                                 "properties": {
                                     "@id": {
                                         "type": "string"
@@ -1566,6 +1632,7 @@
                             },
                             {
                                 "type": "object",
+                                "additionalProperties": false,
                                 "properties": {
                                     "@id": {
                                         "type": "string"
@@ -1632,11 +1699,8 @@
                     ]
                 },
                 "skos:notation": {
-                    "description": "Classification code for this concept within a scheme.",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
+                    "description": "Classification code for this concept within a scheme (a single notation string, consistent with CdifCodelistConcept).",
+                    "type": "string"
                 },
                 "skos:definition": {
                     "description": "Formal explanation of the meaning of this concept.",
@@ -1691,6 +1755,7 @@
                     "anyOf": [
                         {
                             "type": "object",
+                            "additionalProperties": false,
                             "properties": {
                                 "@id": {
                                     "type": "string"
@@ -1704,6 +1769,7 @@
                             "type": "array",
                             "items": {
                                 "type": "object",
+                                "additionalProperties": false,
                                 "properties": {
                                     "@id": {
                                         "type": "string"
@@ -1723,6 +1789,7 @@
                         "anyOf": [
                             {
                                 "type": "object",
+                                "additionalProperties": false,
                                 "description": "Reference (by URI) to a skos:Concept defined elsewhere. Used inside skos:broader / skos:narrower as the @id-reference alternative to an inline Concept.",
                                 "properties": {
                                     "@id": {
@@ -1747,6 +1814,7 @@
                         "anyOf": [
                             {
                                 "type": "object",
+                                "additionalProperties": false,
                                 "description": "Reference (by URI) to a skos:Concept defined elsewhere. Used inside skos:broader / skos:narrower as the @id-reference alternative to an inline Concept.",
                                 "properties": {
                                     "@id": {
@@ -1782,6 +1850,10 @@
                     "anyOf": [
                         {
                             "type": "object",
+                            "required": [
+                                "@id"
+                            ],
+                            "additionalProperties": false,
                             "properties": {
                                 "@id": {
                                     "type": "string",
