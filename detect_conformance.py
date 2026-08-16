@@ -41,7 +41,14 @@ Usage:
     python detect_conformance.py record.jsonld --from-source  # read BB sidecars
     python detect_conformance.py record.jsonld --apply -o out.jsonld  # write conformsTo
 
-Dependencies: pip install rdflib pyshacl   (pyld optional, rdflib parses JSON-LD)
+The per-class SHACL validity shapes resolve from a local building-block
+``_sources`` tree when one is present; otherwise they are fetched automatically
+from the metadataBuildingBlocks repo on GitHub (raw). The git ref is configurable
+(``--bb-ref``, env ``CDIF_BB_REF``; default ``main``) so detection can be pinned
+for reproducibility, and ``--cache-dir`` caches fetched shapes between runs.
+
+Dependencies: pip install rdflib pyshacl requests   (requests only for the
+remote SHACL fallback; pyld optional, rdflib parses JSON-LD)
 """
 import argparse
 import json
@@ -153,6 +160,86 @@ def _find_bb_dir(explicit=None):
     return None
 
 
+# ---------------------------------------------------------------------------
+# Content-SHACL resolution — local _sources when present, else GitHub raw
+# ---------------------------------------------------------------------------
+
+# When no local building-block _sources tree is found, the per-class validity
+# shapes are fetched from the metadataBuildingBlocks repo on GitHub. The ref
+# (branch, tag, or commit) is configurable so detection can be pinned.
+DEFAULT_BB_REF = "main"
+BB_RAW_BASE_TEMPLATE = (
+    "https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/"
+    "metadataBuildingBlocks/{ref}/_sources"
+)
+
+
+def _bb_raw_base(ref=None):
+    """Base URL for remote _sources content. Precedence: CDIF_BB_RAW_BASE (full
+    base override) > explicit ref arg > CDIF_BB_REF env > DEFAULT_BB_REF."""
+    override = os.environ.get("CDIF_BB_RAW_BASE")
+    if override:
+        return override.rstrip("/")
+    ref = ref or os.environ.get("CDIF_BB_REF") or DEFAULT_BB_REF
+    return BB_RAW_BASE_TEMPLATE.format(ref=ref)
+
+
+class _ShapesResolver:
+    """Resolve a per-class content-SHACL path (e.g.
+    ``cdifDataType/cdifInstanceVariable/rules.shacl``) to Turtle text.
+
+    Uses a local building-block ``_sources`` dir when one is available; otherwise
+    auto-falls-back to the metadataBuildingBlocks repo on GitHub (raw), over HTTP.
+    Results are memoized; remote fetches may also be cached on disk via
+    ``cache_dir``. ``get()`` returns None when a path can't be resolved, so a
+    missing shape simply skips that class's validity gate (presence still counts).
+    """
+
+    def __init__(self, bb_dir=None, ref=None, cache_dir=None, verbose=False):
+        self.bb_dir = Path(bb_dir) if bb_dir else None
+        self.remote = self.bb_dir is None
+        self.base = _bb_raw_base(ref) if self.remote else None
+        self.cache_dir = Path(cache_dir) if cache_dir else None
+        self.verbose = verbose
+        self._mem = {}
+
+    def source_label(self):
+        return f"local {self.bb_dir}" if not self.remote else f"remote {self.base}"
+
+    def get(self, rel_path):
+        if rel_path not in self._mem:
+            self._mem[rel_path] = (self._local(rel_path) if not self.remote
+                                   else self._remote(rel_path))
+        return self._mem[rel_path]
+
+    def _local(self, rel_path):
+        p = self.bb_dir / rel_path
+        return p.read_text(encoding="utf-8") if p.is_file() else None
+
+    def _remote(self, rel_path):
+        cp = None
+        if self.cache_dir:
+            self.cache_dir.mkdir(parents=True, exist_ok=True)
+            cp = self.cache_dir / rel_path.replace("/", "_")
+            if cp.exists():
+                return cp.read_text(encoding="utf-8")
+        url = f"{self.base}/{rel_path}"
+        try:
+            import requests
+            r = requests.get(url, timeout=30)
+        except Exception as e:
+            if self.verbose:
+                print(f"    remote SHACL fetch error ({url}): {e}", file=sys.stderr)
+            return None
+        if r.status_code != 200:
+            if self.verbose:
+                print(f"    remote SHACL HTTP {r.status_code}: {url}", file=sys.stderr)
+            return None
+        if cp is not None:
+            cp.write_text(r.text, encoding="utf-8")
+        return r.text
+
+
 def _to_graph(doc):
     """Parse a CDIF JSON-LD dict into an rdflib Graph (expanded triples)."""
     g = rdflib.Graph()
@@ -192,7 +279,7 @@ def load_bb_conformance(bb_dir):
 
 
 def detect_conformance(doc, bb_dir=None, do_shacl=True, verbose=False,
-                       use_bb_source=None):
+                       use_bb_source=None, ref=None, cache_dir=None):
     """Return the list of CDIF conformsTo URIs the record should declare,
     based on its content (presence ASK) and well-formedness (per-class SHACL).
 
@@ -200,11 +287,26 @@ def detect_conformance(doc, bb_dir=None, do_shacl=True, verbose=False,
     Set ``use_bb_source=True`` (or env ``CDIF_CONFORMANCE_FROM_SOURCE=1``) to read
     them instead from the building blocks' ``conformance.json`` sidecars via
     load_bb_conformance() — the eventual source of truth. Falls back to the
-    registry if no sidecars are found."""
+    registry if no sidecars are found.
+
+    The per-class SHACL validity shapes resolve from a local ``_sources`` tree
+    when one is found, else are fetched from the metadataBuildingBlocks repo on
+    GitHub at ``ref`` (default ``main``; env ``CDIF_BB_REF``), optionally cached
+    under ``cache_dir``."""
     if use_bb_source is None:
         use_bb_source = os.environ.get("CDIF_CONFORMANCE_FROM_SOURCE") == "1"
     graph = _to_graph(doc)
     bb = _find_bb_dir(bb_dir) if (do_shacl or use_bb_source) else None
+
+    # Validity-gate shapes: local _sources when present, else auto-fallback to
+    # the metadataBuildingBlocks repo on GitHub.
+    resolver = None
+    if do_shacl and HAS_PYSHACL:
+        resolver = _ShapesResolver(bb_dir=bb, ref=ref, cache_dir=cache_dir,
+                                   verbose=verbose)
+        if verbose:
+            print(f"  SHACL shapes: {resolver.source_label()}", file=sys.stderr)
+
     classes = CONFORMANCE_CLASSES
     if use_bb_source and bb is not None:
         src = load_bb_conformance(bb)
@@ -221,11 +323,11 @@ def detect_conformance(doc, bb_dir=None, do_shacl=True, verbose=False,
                   file=sys.stderr)
         if not present:
             continue
-        if do_shacl and cls["shacl"] and HAS_PYSHACL and bb is not None:
-            shapes_path = bb / cls["shacl"]
-            if shapes_path.is_file():
+        if do_shacl and cls["shacl"] and resolver is not None:
+            shapes_ttl = resolver.get(cls["shacl"])
+            if shapes_ttl:
                 _conforms, results_graph, _t = shacl_validate(
-                    graph, shacl_graph=str(shapes_path),
+                    graph, shacl_graph=shapes_ttl,
                     shacl_graph_format="turtle", inference="rdfs",
                     advanced=True)
                 # Only sh:Violation blocks declaration; sh:Warning / sh:Info are
@@ -276,6 +378,12 @@ def main(argv=None):
     p.add_argument("--no-shacl", action="store_true",
                    help="presence-only (skip the SHACL validity gate)")
     p.add_argument("--bb-dir", help="building-block _sources dir (for SHACL)")
+    p.add_argument("--bb-ref",
+                   help="git ref (branch/tag/commit) for fetching SHACL shapes "
+                        "from GitHub when no local _sources tree is found "
+                        "(default: main; env CDIF_BB_REF)")
+    p.add_argument("--cache-dir",
+                   help="cache directory for remotely fetched SHACL shapes")
     p.add_argument("--from-source", action="store_true",
                    help="read conformance rules from BB conformance.json sidecars "
                         "instead of the hardcoded registry")
@@ -288,7 +396,8 @@ def main(argv=None):
     doc = json.load(open(args.input, encoding="utf-8"))
     uris = detect_conformance(doc, bb_dir=args.bb_dir,
                               do_shacl=not args.no_shacl, verbose=args.verbose,
-                              use_bb_source=args.from_source or None)
+                              use_bb_source=args.from_source or None,
+                              ref=args.bb_ref, cache_dir=args.cache_dir)
     print("Declarable conformance classes:")
     for u in uris:
         print(f"  {u}")
