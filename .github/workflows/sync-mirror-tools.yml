@@ -1,0 +1,103 @@
+# Mirror the CDIF instance-validation tools into cdif-umlmodel/tools/.
+#
+# When the validation tools, framing docs, framed-tree schemas, local map, or
+# SHACL shape sets change on main, copy them into the cdif-umlmodel repo's
+# tools/ directory (the mirror) and push the update. The validation repo is the
+# source of truth; the mirrored files must not be hand-edited in cdif-umlmodel.
+# The mirror's examples/ and readme.md are never touched by this sync.
+#
+# SETUP (required — the job skips itself until this exists):
+#   Create a repository secret named MIRROR_SYNC_TOKEN on THIS (validation) repo,
+#   holding a token that can push to Cross-Domain-Interoperability-Framework/
+#   cdif-umlmodel. A fine-grained PAT scoped to that repo with
+#   "Contents: Read and write" (+ Metadata: Read) is sufficient; a GitHub App
+#   installation token or a classic PAT with `repo` scope also work.
+#
+# To review changes before they land instead of pushing straight to the mirror's
+# main, replace the final "Commit and push" step with peter-evans/create-pull-request
+# (pass token: MIRROR_SYNC_TOKEN, path: mirror, add-paths: tools/**).
+
+name: Sync validation tools to cdif-umlmodel mirror
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - tools/FrameAndValidate.py
+      - tools/sync_mirror_tools.sh
+      - ConformanceValidate.py
+      - detect_conformance.py
+      - CDIF-frame-2026.jsonld
+      - CDIF-context-2026.jsonld
+      - CDIFDiscoverySchema.json
+      - CDIFDataDescriptionSchema.json
+      - CDIFCompleteSchema.json
+      - conformance-schema-map.json
+      - ShaclValidation/ShaclJSONLDContext.py
+      - ShaclValidation/CDIF-Discovery-Shapes.ttl
+      - ShaclValidation/CDIF-DataDescription-Shapes.ttl
+      - ShaclValidation/CDIF-DataStructure-Shapes.ttl
+      - ShaclValidation/CDIF-Provenance-Shapes.ttl
+      - ShaclValidation/CDIF-Manifest-Shapes.ttl
+      - ShaclValidation/CDIF-Complete-Shapes.ttl
+      - .github/workflows/sync-mirror-tools.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sync-mirror-tools
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify mirror token is configured
+        id: guard
+        env:
+          MIRROR_SYNC_TOKEN: ${{ secrets.MIRROR_SYNC_TOKEN }}
+        run: |
+          if [ -z "${MIRROR_SYNC_TOKEN}" ]; then
+            echo "::warning::MIRROR_SYNC_TOKEN not set — skipping mirror sync (see workflow header for setup)."
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout validation (source)
+        if: steps.guard.outputs.run == 'true'
+        uses: actions/checkout@v4
+        with:
+          path: source
+
+      - name: Checkout cdif-umlmodel (mirror)
+        if: steps.guard.outputs.run == 'true'
+        uses: actions/checkout@v4
+        with:
+          repository: Cross-Domain-Interoperability-Framework/cdif-umlmodel
+          token: ${{ secrets.MIRROR_SYNC_TOKEN }}
+          path: mirror
+
+      - name: Copy validation tools into the mirror
+        if: steps.guard.outputs.run == 'true'
+        run: bash source/tools/sync_mirror_tools.sh source mirror/tools
+
+      - name: Commit and push if changed
+        if: steps.guard.outputs.run == 'true'
+        working-directory: mirror
+        env:
+          SRC_SHA: ${{ github.sha }}
+        run: |
+          git config user.name "cdif-tools-sync"
+          git config user.email "actions@users.noreply.github.com"
+          git add tools/
+          if git diff --cached --quiet; then
+            echo "Mirror already up to date; nothing to push."
+            exit 0
+          fi
+          git commit \
+            -m "sync: update validation tools mirror (validation@${SRC_SHA:0:7})" \
+            -m "Automated copy of the CDIF validation tools + framing docs + framed-tree schemas + SHACL shapes from Cross-Domain-Interoperability-Framework/validation@${SRC_SHA}. Source of truth: the validation repo — do not edit the mirrored files here."
+          git push
