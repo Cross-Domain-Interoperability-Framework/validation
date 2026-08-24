@@ -141,9 +141,16 @@ OUTPUT_CONTEXT = {
     # Namespace prefixes
     "schema": "http://schema.org/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    # cdif: was missing entirely, so every cdif:-namespaced property came out
+    # of compaction as a full IRI -- 19 of them on a data-structure document.
+    "cdif": "https://w3id.org/cdif/",
     "csvw": "http://www.w3.org/ns/csvw#",
     "ada": "https://ada.astromat.org/metadata/",
-    "xas": "https://ada.astromat.org/metadata/xas/",
+    # xas: is a CDIF sub-namespace, not an Astromat one. mBB binds it to
+    # w3id (23 context.jsonld + 41 examples agree); this used to say
+    # https://ada.astromat.org/metadata/xas/, which denotes something else.
+    # Compaction prefers the longest match, so xas: still wins over cdif:.
+    "xas": "https://w3id.org/cdif/xas/",
     "nxs": "https://manual.nexusformat.org/classes/",
 
     # Explicit term mappings for other vocabularies (avoids prefix conflicts)
@@ -215,6 +222,14 @@ STRUCTURE_ROOT_TYPES = frozenset({
 REFERENCE_ONLY_KEYS = (
     'cdi:qualifies', 'cdi:refersTo',
     'schema:about', 'schema:result',
+    # On an InstanceVariable this is an objectReference -- @id and nothing
+    # else -- because the represented-variable-level properties are defined
+    # once on the RepresentedVariable and deliberately not duplicated. The
+    # RV node itself is reached through the data structure's components, so
+    # collapsing the framing-embedded copy is non-lossy. (The same key on
+    # cdifDataStructureComponent may legitimately be inline; that node is not
+    # framed through this path.)
+    'cdif:isDefinedBy_RepresentedVariable',
 )
 
 # Keys the (bare-structure) schema requires as arrays but framing collapses to a
