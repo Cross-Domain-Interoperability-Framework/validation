@@ -72,11 +72,12 @@ accepts a SOSO Dataset (bare schema.org terms via `@vocab`) or an `@graph`.
 
 To convert a SOSO record from a **file path or URL** (with the same
 detect-conformance step and a default/`-o` output location), use
-[`../geocodes_harvester.py`](../geocodes_harvester.py), which wraps this engine:
+[`../converters/soso2cdif.py`](../converters/soso2cdif.py), the file/URL
+front-end that wraps this engine:
 
 ```bash
-python ../geocodes_harvester.py path/to/soso.json            # -> soso-cdif.json
-python ../geocodes_harvester.py https://example.org/dataset -o out.json
+python ../converters/soso2cdif.py path/to/soso.json            # -> soso-cdif.json
+python ../converters/soso2cdif.py https://example.org/dataset -o out.json
 ```
 - Reports (does not invent) CDIF-required fields it cannot derive
   (`dateModified`, `license`/`conditionsOfAccess`, `url`/`distribution`).

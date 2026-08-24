@@ -29,6 +29,9 @@ This repository contains validation tools for **CDIF (Cross-Domain Interoperabil
 | `docs/CDIF-Conformance-Declaration-Convention.md` | Spec for the per-building-block `conformance.json` sidecar (conformsTo URI + presence ASK + content `validityShapes`) consumed by `detect_conformance.py` |
 | `docs/conformance-declaration.schema.json` | JSON Schema (`.../conformance-declaration/0.1`) validating the sidecar files |
 | `geocodes_harvester.py` | Harvests dataset metadata from the EarthCube GeoCodes SPARQL endpoint and optionally converts to CDIF core/discovery profile |
+| `converters/soso2cdif.py` | SOSO file/URL → CDIF core/discovery tool: reads a SOSO record from a path or http(s) URL (extracting embedded JSON-LD from an HTML landing page), converts via `soso/ConvertFromSOSO.py`, and derives `conformsTo` from content (detect_conformance). Writes `<stem>-cdif.json` or the `-o` path |
+| `soso/ConvertToSOSO.py` | Converts CDIF core+discovery JSON-LD to ESIP Science-on-Schema.org (SOSO) v1.3 Dataset (drops the CDIF catalog record, strips `schema:` prefixes; `--https` emits `https://schema.org/`) |
+| `soso/ConvertFromSOSO.py` | Converts SOSO Dataset JSON-LD to CDIF core+discovery (adds the catalog record; `conformsTo` derived from content via detect_conformance, `--static-conformance` opts out). The engine behind `converters/soso2cdif.py` |
 | `DCAT/dcat_to_cdif.py` | Converts DCAT JSON-LD catalogs to CDIF schema.org format (see `DCAT/README.md`) |
 | `DDI/ddi_to_cdif.py` | Converts DDI Codebook 2.5 XML (e.g., Harvard Dataverse exports) to CDIF DataDescription JSON-LD (emits pre-migration `cdi:` data-structure prefixes) |
 | `CDIFDiscoverySchema.json` | JSON Schema for framed (tree) CDIF discovery profile metadata |
