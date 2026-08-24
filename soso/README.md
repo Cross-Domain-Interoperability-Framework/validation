@@ -63,8 +63,21 @@ accepts a SOSO Dataset (bare schema.org terms via `@vocab`) or an `@graph`.
   `datePublished`/`dateCreated`); wraps `schema:creator` in a JSON-LD `@list`;
   synthesizes Person names from given/family names.
 - **Adds the CDIF catalog record**: `schema:subjectOf` typed `schema:Dataset` +
-  `dcat:CatalogRecord`, pointing at the dataset `@id` via `schema:about`, and
-  declaring `dcterms:conformsTo` `core/1.1` (+ `discovery/1.1`).
+  `dcat:CatalogRecord`, pointing at the dataset `@id` via `schema:about`.
+- **Derives `dcterms:conformsTo` from content** by running `detect_conformance`
+  (presence + content-SHACL gate) on the converted record, instead of a
+  hardcoded profile list. Best-effort — falls back to the profile default when
+  `detect_conformance` (or its deps) is unavailable; pass `--static-conformance`
+  to force the profile default.
+
+To convert a SOSO record from a **file path or URL** (with the same
+detect-conformance step and a default/`-o` output location), use
+[`../geocodes_harvester.py`](../geocodes_harvester.py), which wraps this engine:
+
+```bash
+python ../geocodes_harvester.py path/to/soso.json            # -> soso-cdif.json
+python ../geocodes_harvester.py https://example.org/dataset -o out.json
+```
 - Reports (does not invent) CDIF-required fields it cannot derive
   (`dateModified`, `license`/`conditionsOfAccess`, `url`/`distribution`).
 

@@ -39,6 +39,19 @@ import argparse
 import copy
 import json
 import sys
+from pathlib import Path
+
+# detect_conformance lives at the validation/ root (one level up from soso/). It
+# derives dcterms:conformsTo from the record's actual content (presence ASK +
+# per-class content SHACL, with a remote-SHACL fallback). Best-effort: if it or
+# its rdflib/pyshacl deps are unavailable, conversion falls back to the
+# profile-based default conformsTo.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+try:
+    from detect_conformance import detect_conformance, apply_conformance
+    _HAVE_DETECT = True
+except Exception:
+    _HAVE_DETECT = False
 
 CDIF_CONTEXT = {
     "schema": "http://schema.org/",
@@ -200,10 +213,15 @@ def _pick_dataset(soso):
 
 
 def convert_soso_to_cdif(soso, profile="discovery", source_label=None,
-                         verbose=False):
+                         verbose=False, detect=True):
     """Convert a SOSO Dataset record (dict) to a CDIF core/discovery record.
 
     Returns (cdif_dict, changes_list). Never mutates the input.
+
+    ``detect``: after building the record, run detect_conformance to set
+    ``schema:subjectOf/dcterms:conformsTo`` from the record's actual content
+    (overriding the profile-based default). Falls back to the profile default
+    when detect_conformance is unavailable or the detection errors.
     """
     node, wrap_ctx = _pick_dataset(soso)
     doc = copy.deepcopy(node)
@@ -408,6 +426,22 @@ def convert_soso_to_cdif(soso, profile="discovery", source_label=None,
         doc["schema:subjectOf"] = record
         changes.append(f"Added CDIF catalog record (conformsTo {profile})")
 
+    # 15. Content-derived conformsTo — override the profile default with what
+    #     the record actually contains (presence + content-SHACL gate).
+    if detect and _HAVE_DETECT and isinstance(doc.get("schema:subjectOf"), dict):
+        try:
+            uris = detect_conformance(doc, verbose=verbose)
+            if uris:
+                apply_conformance(doc, uris)
+                changes.append("conformsTo set from content by detect_conformance "
+                               f"({', '.join(u.rsplit('/cdif/', 1)[-1] for u in uris)})")
+        except Exception as e:
+            changes.append(f"detect_conformance failed ({e}); kept profile-default "
+                           "conformsTo")
+    elif detect and not _HAVE_DETECT:
+        changes.append("detect_conformance unavailable; kept profile-default "
+                       "conformsTo")
+
     # Report SOSO/CDIF gaps that could not be filled from the source.
     if "schema:dateModified" not in doc:
         changes.append("WARNING: CDIF requires schema:dateModified; none derivable "
@@ -439,6 +473,9 @@ def main():
                         help="Target CDIF profile (default: discovery)")
     parser.add_argument("--source", help="Source/publisher label for the "
                         "catalog record (default: derived from schema:publisher)")
+    parser.add_argument("--static-conformance", action="store_true",
+                        help="Use the profile-based default conformsTo instead of "
+                             "deriving it from content via detect_conformance")
     parser.add_argument("-v", "--verbose", action="store_true",
                         help="Print conversion notes/warnings to stderr")
     args = parser.parse_args()
@@ -448,7 +485,8 @@ def main():
 
     cdif, changes = convert_soso_to_cdif(soso, profile=args.profile,
                                          source_label=args.source,
-                                         verbose=args.verbose)
+                                         verbose=args.verbose,
+                                         detect=not args.static_conformance)
 
     text = json.dumps(cdif, indent=2, ensure_ascii=False)
     if args.output:

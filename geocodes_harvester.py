@@ -1,29 +1,35 @@
 #!/usr/bin/env python3
 """
-geocodes_harvester.py - Harvest dataset metadata from the EarthCube GeoCodes catalog.
+geocodes_harvester.py - Convert ESIP Science-on-Schema.org (SOSO) records to CDIF,
+and harvest them from the EarthCube GeoCodes catalog.
 
-Queries the GeoCodes Blazegraph SPARQL endpoint for dataset records, fetches
-the original JSON-LD from source landing pages (falling back to SPARQL CONSTRUCT
-if no embedded JSON-LD is found), and optionally converts them to CDIF profile
-format.
+Two modes:
 
-The GeoCodes catalog indexes ~170K datasets harvested from data providers via
-the Gleaner crawler.  Records follow ESIP Science-on-Schema.org conventions.
+1. Generic SOSO -> CDIF (give it a file path or URL):
+   Reads a SOSO schema.org Dataset record from a local file or an http(s) URL
+   (extracting embedded JSON-LD from an HTML landing page if needed), converts it
+   to a CDIF core/discovery record, and derives the catalog record's
+   dcterms:conformsTo from the record's actual content via detect_conformance.
+   Output goes to a default file (<input-stem>-cdif.json) or a path you give.
+
+2. GeoCodes harvest (the original behavior): queries the GeoCodes Blazegraph
+   SPARQL endpoint for dataset records, fetches the original JSON-LD from source
+   landing pages (falling back to SPARQL CONSTRUCT), and optionally converts them
+   to CDIF. The GeoCodes catalog indexes ~170K datasets whose records follow ESIP
+   Science-on-Schema.org conventions.
 
 SPARQL endpoint:
     https://graph.geocodes-aws.earthcube.org/blazegraph/namespace/geocodes_all/sparql
 
 Usage:
-    # List available publishers
+    # Generic: convert a SOSO file or URL to CDIF (conformsTo from content)
+    python geocodes_harvester.py path/to/soso-record.json
+    python geocodes_harvester.py https://example.org/dataset -o out.json
+    python geocodes_harvester.py soso.json --cdif core --static-conformance
+
+    # Harvest from GeoCodes
     python geocodes_harvester.py --list-publishers
-
-    # Harvest 5 random records from diverse publishers
-    python geocodes_harvester.py --count 5 --output ./examples
-
-    # Harvest and convert to CDIF Discovery profile
     python geocodes_harvester.py --count 5 --output ./examples --cdif discovery
-
-    # Harvest from a specific publisher
     python geocodes_harvester.py --publisher "PANGAEA" --count 3 --output ./examples
 """
 
@@ -37,6 +43,14 @@ import urllib.parse
 import urllib.error
 from html.parser import HTMLParser
 
+# The SOSO->CDIF conversion engine lives beside this file in soso/. It performs
+# the schema.org->CDIF structural alignment and runs detect_conformance to set
+# the catalog record's dcterms:conformsTo from the record's actual content.
+_SOSO_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "soso")
+if _SOSO_DIR not in sys.path:
+    sys.path.insert(0, _SOSO_DIR)
+from ConvertFromSOSO import convert_soso_to_cdif
+
 
 # ---------------------------------------------------------------------------
 # Configuration
@@ -48,53 +62,6 @@ SPARQL_ENDPOINT = (
 )
 
 GEOCODES_URL = "https://geocodes.earthcube.org/"
-
-CDIF_CONTEXT = {
-    "schema": "http://schema.org/",
-    "dcterms": "http://purl.org/dc/terms/",
-    "dcat": "http://www.w3.org/ns/dcat#",
-    "prov": "http://www.w3.org/ns/prov#",
-}
-
-# schema.org property names to prefix with schema:
-SCHEMA_PROPS = {
-    "name", "description", "identifier", "url", "sameAs", "version",
-    "dateModified", "datePublished", "dateCreated", "license", "keywords",
-    "creator", "author", "publisher", "provider", "funder", "funding",
-    "distribution", "spatialCoverage", "temporalCoverage", "variableMeasured",
-    "measurementTechnique", "measurementMethod", "citation",
-    "isAccessibleForFree", "inLanguage", "includedInDataCatalog",
-    "additionalType", "alternateName", "abstract", "encodingFormat",
-    "contentUrl", "contentSize", "about", "givenName", "familyName",
-    "affiliation", "email", "telephone", "contactPoint", "contactType",
-    "address", "geo", "latitude", "longitude", "box", "polygon", "elevation",
-    "additionalProperty", "propertyID", "value", "unitText", "unitCode",
-    "minValue", "maxValue", "isBasedOn", "hasPart", "isPartOf", "mainEntity",
-    "subjectOf", "creativeWorkStatus", "thumbnailUrl", "audience", "size",
-    "conditionsOfAccess", "comment", "roleName", "contributor",
-    "locationCreated", "fileFormat", "usageinfo", "potentialAction",
-    "sdDatePublished", "maintainer",
-    # Properties found in NCEI, Copernicus, Kaggle records
-    "addressCountry", "addressLocality", "addressRegion", "availableLanguage",
-    "caption", "commentCount", "dayOfWeek", "disambiguatingDescription",
-    "discussionUrl", "faxNumber", "hoursAvailable", "image",
-    "inDefinedTermSet", "interactionStatistic", "interactionType",
-    "parentOrganization", "postalCode", "requiresSubscription",
-    "streetAddress", "userInteractionCount",
-}
-
-# schema.org type names
-SCHEMA_TYPES = {
-    "Person", "Organization", "Place", "GeoShape", "GeoCoordinates",
-    "PropertyValue", "CreativeWork", "DataDownload", "DataCatalog",
-    "ContactPoint", "MonetaryGrant", "FundingAgency", "ResearchProject",
-    "DigitalDocument", "Dataset", "Role", "DefinedTerm", "QuantitativeValue",
-    "PostalAddress", "ImageObject", "WebAPI", "SearchAction", "EntryPoint",
-    "Action", "Collection", "MediaObject", "SoftwareApplication",
-    "SoftwareSourceCode", "Product", "DefinedTermSet",
-    "InteractionCounter", "OpeningHoursSpecification",
-}
-
 
 # ---------------------------------------------------------------------------
 # SPARQL queries
@@ -313,401 +280,112 @@ def harvest_record(dataset_info, verbose=False):
 
 
 # ---------------------------------------------------------------------------
-# CDIF conversion
-# ---------------------------------------------------------------------------
-
-UNKNOWN_NS = "https://ex.org/unknown/"
-UNKNOWN_PREFIX = "unk"
-
-
-def _prefix_keys(obj, depth=0, assumed_schema_keys=None, unknown_keys=None):
-    """Recursively prefix unprefixed property names.
-
-    Known schema.org properties get ``schema:``.  Unprefixed keys that match
-    schema.org class or property names (in SCHEMA_PROPS or SCHEMA_TYPES) are
-    assumed to be schema.org and prefixed with ``schema:``, tracked in
-    *assumed_schema_keys*.  Any remaining unprefixed key is assigned to the
-    ``unk:`` (https://ex.org/unknown/) namespace.  *unknown_keys* collects
-    these truly unknown names.
-    """
-    if depth > 20:
-        return obj
-    if isinstance(obj, list):
-        return [_prefix_keys(item, depth + 1, assumed_schema_keys, unknown_keys)
-                for item in obj]
-    if not isinstance(obj, dict):
-        return obj
-    if assumed_schema_keys is None:
-        assumed_schema_keys = set()
-    if unknown_keys is None:
-        unknown_keys = set()
-    result = {}
-    for key, value in obj.items():
-        new_key = key
-        if not key.startswith("@") and ":" not in key and not key.startswith("http"):
-            if key in SCHEMA_PROPS:
-                new_key = "schema:" + key
-            elif key in SCHEMA_TYPES:
-                # Type name used as property — unusual but assume schema.org
-                new_key = "schema:" + key
-                assumed_schema_keys.add(key)
-            else:
-                new_key = UNKNOWN_PREFIX + ":" + key
-                unknown_keys.add(key)
-        result[new_key] = _prefix_keys(value, depth + 1,
-                                       assumed_schema_keys, unknown_keys)
-    return result
-
-
-def _fix_types(obj):
-    """Recursively normalize @type to arrays with schema: prefix."""
-    if isinstance(obj, list):
-        return [_fix_types(item) for item in obj]
-    if not isinstance(obj, dict):
-        return obj
-    if "@type" in obj:
-        types = obj["@type"] if isinstance(obj["@type"], list) else [obj["@type"]]
-        # Normalize types: prefix schema.org types, map known aliases
-        _TYPE_MAP = {
-            "FundingAgency": "schema:Organization",
-            "schema:FundingAgency": "schema:Organization",
-            "sc:Dataset": "schema:Dataset",
-            "cr:FileObject": "schema:DataDownload",
-            "Grant": "schema:MonetaryGrant",
-        }
-        normalized = []
-        for t in types:
-            if t in _TYPE_MAP:
-                normalized.append(_TYPE_MAP[t])
-            elif t in SCHEMA_TYPES:
-                normalized.append("schema:" + t)
-            elif ":" not in t and not t.startswith("http"):
-                # Unprefixed type not in schema.org — assign to unk:
-                normalized.append(UNKNOWN_PREFIX + ":" + t)
-            else:
-                normalized.append(t)
-        types = normalized
-        obj["@type"] = types
-    for k, v in obj.items():
-        if k != "@type":
-            obj[k] = _fix_types(v)
-    return obj
-
-
-def _extract_persons(obj):
-    """Recursively extract Person/Org objects from @list/Role wrappers."""
-    if not obj:
-        return []
-    if isinstance(obj, list):
-        return [p for item in obj for p in _extract_persons(item)]
-    if not isinstance(obj, dict):
-        return []
-    if "@list" in obj:
-        return _extract_persons(obj["@list"])
-    if obj.get("@type") and any("Role" in str(t) for t in
-                                 (obj["@type"] if isinstance(obj["@type"], list)
-                                  else [obj["@type"]])):
-        return _extract_persons(
-            obj.get("schema:author") or obj.get("schema:creator") or [])
-    return [obj]
-
-
-def _ensure_array(val):
-    if val is None:
-        return None
-    return val if isinstance(val, list) else [val]
-
-
-def convert_to_cdif(doc, publisher_label, profile="core"):
-    """Convert a schema.org JSON-LD record to CDIF profile format.
-
-    Args:
-        doc: The JSON-LD dict (with @vocab-style or unprefixed properties).
-        publisher_label: Name of the source publisher for the subjectOf note.
-        profile: 'core' or 'discovery'.
-
-    Returns:
-        Converted dict.
-    """
-    changes = []
-
-    # 1. Prefix property names — known schema.org props get schema:,
-    #    unknown unprefixed props get unk: (https://ex.org/unknown/)
-    assumed_schema_keys = set()
-    unknown_keys = set()
-    doc = _prefix_keys(doc, assumed_schema_keys=assumed_schema_keys,
-                       unknown_keys=unknown_keys)
-    changes.append("Property names prefixed with schema: namespace")
-    if assumed_schema_keys:
-        changes.append(
-            f"Unprefixed properties assumed to be schema.org based on "
-            f"matching schema.org class/property names and prefixed with "
-            f"schema: ({', '.join(sorted(assumed_schema_keys))})"
-        )
-    if unknown_keys:
-        changes.append(
-            f"Unprefixed properties with no matching schema.org name "
-            f"assigned to unk: namespace ({UNKNOWN_NS}): "
-            f"{', '.join(sorted(unknown_keys))}"
-        )
-
-    # 2. Fix @context — set CDIF required prefixes, preserve any extras
-    orig_ctx = doc.get("@context", {})
-    extra = {}
-    if isinstance(orig_ctx, dict):
-        for k, v in orig_ctx.items():
-            if k not in ("@vocab", "@language", "schema", "dcterms", "dcat", "prov") \
-               and isinstance(v, str):
-                extra[k] = v
-    elif isinstance(orig_ctx, list):
-        for item in orig_ctx:
-            if isinstance(item, dict):
-                for k, v in item.items():
-                    if k not in ("@vocab", "@language", "schema", "dcterms", "dcat", "prov") \
-                       and isinstance(v, str):
-                        extra[k] = v
-    ctx = {**CDIF_CONTEXT, **extra}
-    if unknown_keys:
-        ctx[UNKNOWN_PREFIX] = UNKNOWN_NS
-    doc["@context"] = ctx
-    changes.append("@context set to CDIF prefix declarations (extra prefixes preserved)")
-
-    # 3. Normalize types
-    doc = _fix_types(doc)
-    changes.append("@type values normalized to arrays with schema: prefix")
-
-    # 4. Ensure @id
-    if "@id" not in doc:
-        url = doc.get("schema:url")
-        if url:
-            doc["@id"] = url
-            changes.append("@id set from schema:url")
-
-    # 5. Ensure dateModified
-    if "schema:dateModified" not in doc:
-        for fallback in ("schema:datePublished", "schema:dateCreated"):
-            if fallback in doc:
-                doc["schema:dateModified"] = doc[fallback]
-                changes.append(f"schema:dateModified set from {fallback}")
-                break
-
-    # 6. Ensure identifier (single value, not array)
-    if "schema:identifier" not in doc and doc.get("@id", "").startswith("http"):
-        doc["schema:identifier"] = doc["@id"]
-        changes.append("schema:identifier added from @id")
-    elif isinstance(doc.get("schema:identifier"), list):
-        doc["schema:identifier"] = doc["schema:identifier"][0]
-        changes.append("schema:identifier unwrapped from array")
-
-    # 6b. Ensure description is string, not array
-    if isinstance(doc.get("schema:description"), list):
-        doc["schema:description"] = doc["schema:description"][0] \
-            if doc["schema:description"] else ""
-        changes.append("schema:description unwrapped from array")
-
-    # 7. license as array
-    if "schema:license" in doc and not isinstance(doc["schema:license"], list):
-        doc["schema:license"] = [doc["schema:license"]]
-        changes.append("schema:license wrapped in array")
-
-    # 8. Fix distributions
-    if "schema:distribution" in doc:
-        dists = _ensure_array(doc["schema:distribution"])
-        doc["schema:distribution"] = dists
-        for dist in dists:
-            if not isinstance(dist, dict):
-                continue
-            enc = dist.get("schema:encodingFormat")
-            if enc and not isinstance(enc, list):
-                dist["schema:encodingFormat"] = [enc]
-            if "@type" not in dist:
-                dist["@type"] = ["schema:DataDownload"]
-            # schema:url on a DataDownload → schema:contentUrl
-            if "schema:contentUrl" not in dist and "schema:url" in dist:
-                dist["schema:contentUrl"] = dist["schema:url"]
-        changes.append("Distributions normalized")
-
-    # 9. Fix creator
-    if "schema:creator" in doc:
-        persons = _extract_persons(doc["schema:creator"])
-        if persons:
-            doc["schema:creator"] = {"@list": persons}
-            changes.append("schema:creator wrapped in @list")
-
-    # 9b. Fix agent objects (Person/Org) for CDIF conformance:
-    #     - Ensure Person has schema:name (synthesize from givenName/familyName)
-    #     - Ensure schema:sameAs is array where present
-    #     - Remove empty spatialCoverage entries
-    def _fix_agents(obj):
-        if isinstance(obj, list):
-            for item in obj:
-                _fix_agents(item)
-        elif isinstance(obj, dict):
-            types = obj.get("@type", [])
-            if not isinstance(types, list):
-                types = [types]
-
-            # Person: ensure schema:name exists
-            if any("Person" in str(t) for t in types):
-                if "schema:name" not in obj:
-                    given = obj.get("schema:givenName", "")
-                    family = obj.get("schema:familyName", "")
-                    if family and given:
-                        obj["schema:name"] = f"{family}, {given}"
-                    elif family:
-                        obj["schema:name"] = family
-                    elif given:
-                        obj["schema:name"] = given
-
-            # sameAs must be array on any object that has it
-            if "schema:sameAs" in obj and not isinstance(obj["schema:sameAs"], list):
-                obj["schema:sameAs"] = [obj["schema:sameAs"]]
-
-            for v in obj.values():
-                _fix_agents(v)
-
-    _fix_agents(doc)
-    changes.append("Agent objects fixed (Person name synthesis, sameAs arrays)")
-
-    if "schema:author" in doc and "schema:creator" not in doc:
-        persons = _extract_persons(doc["schema:author"])
-        doc["schema:creator"] = {"@list": persons}
-        del doc["schema:author"]
-        changes.append("schema:author converted to schema:creator")
-
-    # 10. Scalar-to-array fixes for properties the schema expects as arrays
-    for prop in ("schema:sameAs", "schema:additionalType",
-                 "schema:conditionsOfAccess", "schema:provider",
-                 "schema:keywords"):
-        if prop in doc and not isinstance(doc[prop], list):
-            # keywords: split comma-separated strings
-            if prop == "schema:keywords" and isinstance(doc[prop], str):
-                doc[prop] = [k.strip() for k in doc[prop].split(",") if k.strip()]
-            else:
-                doc[prop] = [doc[prop]]
-
-    # 11. Fix contributor to array (not @list — schema expects array)
-    if "schema:contributor" in doc:
-        val = doc["schema:contributor"]
-        if isinstance(val, dict):
-            if "@list" in val:
-                doc["schema:contributor"] = val["@list"]
-            else:
-                doc["schema:contributor"] = [val]
-        elif not isinstance(val, list):
-            doc["schema:contributor"] = [val]
-
-    # 12. Fix funding: ensure array, fix types
-    if "schema:funding" in doc:
-        if not isinstance(doc["schema:funding"], list):
-            doc["schema:funding"] = [doc["schema:funding"]]
-        for f in doc["schema:funding"]:
-            if isinstance(f, dict):
-                # identifier must be object, not string
-                ident = f.get("schema:identifier")
-                if isinstance(ident, str):
-                    f["schema:identifier"] = {
-                        "@type": ["schema:PropertyValue"],
-                        "schema:value": ident,
-                    }
-
-    # 13. Discovery-specific fixes
-    if profile == "discovery":
-        for prop in ("schema:spatialCoverage", "schema:temporalCoverage",
-                     "schema:measurementTechnique"):
-            if prop in doc and not isinstance(doc[prop], list):
-                doc[prop] = [doc[prop]]
-
-        if isinstance(doc.get("schema:spatialCoverage"), list):
-            fixed_sc = []
-            for sc in doc["schema:spatialCoverage"]:
-                if isinstance(sc, str):
-                    sc = {"@type": ["schema:Place"], "schema:name": sc}
-                if isinstance(sc, dict):
-                    # geo must be single object, not array
-                    geo = sc.get("schema:geo")
-                    if isinstance(geo, list):
-                        if len(geo) >= 1:
-                            sc["schema:geo"] = geo[0]
-                        else:
-                            del sc["schema:geo"]
-                            geo = None
-                    # Fix GeoCoordinates lat/lon to numbers
-                    geo = sc.get("schema:geo")
-                    if isinstance(geo, dict):
-                        for coord in ("schema:latitude", "schema:longitude"):
-                            val = geo.get(coord)
-                            if isinstance(val, str):
-                                try:
-                                    geo[coord] = float(val)
-                                except ValueError:
-                                    pass
-                # Skip empty Place objects (no geo, no name)
-                useful_keys = [k for k in sc.keys()
-                               if k not in ("@type",)]
-                if useful_keys:
-                    fixed_sc.append(sc)
-            doc["schema:spatialCoverage"] = fixed_sc
-            if not fixed_sc:
-                del doc["schema:spatialCoverage"]
-
-        if isinstance(doc.get("schema:variableMeasured"), list):
-            for v in doc["schema:variableMeasured"]:
-                if isinstance(v, dict):
-                    for k in ("schema:propertyID", "schema:alternateName"):
-                        if k in v and not isinstance(v[k], list):
-                            v[k] = [v[k]]
-
-    # 12. Build subjectOf
-    dataset_id = doc.get("@id") or doc.get("schema:url") or ""
-    conformsTo = [{"@id": "https://w3id.org/cdif/core/1.0"}]
-    if profile == "discovery":
-        conformsTo.append({"@id": "https://w3id.org/cdif/discovery/1.0"})
-
-    doc["schema:subjectOf"] = {
-        "@type": ["schema:Dataset"],
-        "schema:additionalType": ["dcat:CatalogRecord"],
-        "@id": (dataset_id + "#metadata") if dataset_id else "#metadata",
-        "schema:name": (
-            f"Metadata record for: "
-            f"{(doc.get('schema:name') or 'dataset')[:120]}"
-        ),
-        "schema:about": {"@id": dataset_id},
-        "dcterms:conformsTo": conformsTo,
-        "schema:includedInDataCatalog": {
-            "@type": ["schema:DataCatalog"],
-            "schema:name": publisher_label,
-            "schema:url": doc.get("schema:url") or dataset_id or "",
-        },
-        "schema:description": (
-            f"Metadata harvested from {publisher_label} by Claude Code. "
-            f"Converted to CDIF {profile} profile: {'; '.join(changes)}."
-        ),
-    }
-
-    return doc
-
-
-# ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
 
+def load_soso(source, verbose=False):
+    """Load a SOSO JSON-LD document from a local file path or an http(s) URL.
+    For a URL, fetch it; if the body is HTML, extract the embedded JSON-LD."""
+    if re.match(r"(?i)^https?://", source):
+        if verbose:
+            print(f"Fetching {source} ...", file=sys.stderr)
+        req = urllib.request.Request(source, headers={
+            "Accept": "application/ld+json, application/json;q=0.9, text/html;q=0.8",
+            "User-Agent": "cdif-soso-converter"})
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            body = resp.read().decode("utf-8", errors="replace")
+        if body.lstrip()[:1] in ("{", "["):
+            return json.loads(body)
+        doc = extract_dataset_jsonld(body)
+        if doc is None:
+            raise ValueError(f"No embedded JSON-LD Dataset found at {source}")
+        return doc
+    with open(source, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def cdif_output_path(source, output):
+    """Resolve the CDIF output file path. ``output`` may be a file path (used
+    as-is), an existing directory (``<stem>-cdif.json`` written inside), or
+    omitted / '.' (``<stem>-cdif.json`` in the current directory). ``stem`` comes
+    from the input file name, or the last URL path segment."""
+    if re.match(r"(?i)^https?://", source):
+        base = source.rstrip("/").split("/")[-1] or "soso"
+        stem = os.path.splitext(re.sub(r"[^A-Za-z0-9._-]", "-", base))[0] or "soso"
+    else:
+        stem = os.path.splitext(os.path.basename(source))[0]
+    name = f"{stem}-cdif.json"
+    if not output or output == ".":
+        return name
+    if os.path.isdir(output):
+        return os.path.join(output, name)
+    return output
+
+
+def convert_file_or_url(source, output=None, profile="discovery",
+                        detect=True, verbose=False):
+    """Generic SOSO -> CDIF: read ``source`` (file path or URL), convert to a
+    CDIF ``profile`` record (conformsTo derived from content unless
+    ``detect`` is False), write it, and return the output path."""
+    soso = load_soso(source, verbose=verbose)
+    cdif, changes = convert_soso_to_cdif(soso, profile=profile, verbose=verbose,
+                                         detect=detect)
+    outpath = cdif_output_path(source, output)
+    parent = os.path.dirname(outpath)
+    if parent:
+        os.makedirs(parent, exist_ok=True)
+    with open(outpath, "w", encoding="utf-8") as f:
+        json.dump(cdif, f, indent=2, ensure_ascii=False)
+        f.write("\n")
+    subj = cdif.get("schema:subjectOf")
+    ct = subj.get("dcterms:conformsTo", []) if isinstance(subj, dict) else []
+    conf = ", ".join(c.get("@id", "") for c in ct if isinstance(c, dict))
+    print(f"Wrote CDIF ({profile} profile): {outpath}")
+    print(f"  conformsTo: {conf}")
+    if verbose:
+        for c in changes:
+            print(f"  {c}", file=sys.stderr)
+    return outpath
+
+
 def main():
     parser = argparse.ArgumentParser(
-        description="Harvest dataset metadata from the EarthCube GeoCodes catalog")
+        description="Convert ESIP Science-on-Schema.org records to CDIF (from a "
+                    "file/URL), or harvest them from the GeoCodes catalog.")
+    parser.add_argument("input", nargs="?",
+                        help="SOSO JSON-LD file path or URL to convert to CDIF. "
+                             "If given, runs the generic converter; omit to "
+                             "harvest from GeoCodes.")
     parser.add_argument("--list-publishers", action="store_true",
-                        help="List available publishers and exit")
+                        help="List available GeoCodes publishers and exit")
     parser.add_argument("--publisher", "-p", type=str, default=None,
-                        help="Filter to a specific publisher name")
+                        help="Filter to a specific publisher name (harvest mode)")
     parser.add_argument("--count", "-n", type=int, default=5,
                         help="Number of records to harvest (default: 5)")
     parser.add_argument("--output", "-o", type=str, default=".",
-                        help="Output directory for JSON-LD files")
+                        help="Output path: CDIF file (generic mode) or directory "
+                             "(harvest mode)")
     parser.add_argument("--cdif", type=str, choices=["core", "discovery"],
                         default=None,
-                        help="Convert to CDIF profile format (core or discovery)")
+                        help="Target CDIF profile (default: discovery in generic "
+                             "mode; harvest converts only when given)")
+    parser.add_argument("--static-conformance", action="store_true",
+                        help="Use the profile-default conformsTo instead of "
+                             "deriving it from content via detect_conformance")
     parser.add_argument("--verbose", "-v", action="store_true")
     args = parser.parse_args()
+
+    # Generic mode: SOSO file/URL -> CDIF.
+    if args.input:
+        try:
+            convert_file_or_url(args.input, output=args.output,
+                                profile=args.cdif or "discovery",
+                                detect=not args.static_conformance,
+                                verbose=args.verbose)
+        except Exception as e:
+            print(f"ERROR: {e}", file=sys.stderr)
+            return 1
+        return 0
 
     if args.list_publishers:
         print(f"{'Publisher':50s} {'Datasets':>10s}")
@@ -744,9 +422,11 @@ def main():
         else:
             print(f"  Harvested from landing page")
 
-        # Convert if requested
+        # Convert if requested (same engine as the generic mode)
         if args.cdif and isinstance(record, dict):
-            record = convert_to_cdif(record, pub, profile=args.cdif)
+            record, _ = convert_soso_to_cdif(
+                record, profile=args.cdif, source_label=pub,
+                detect=not args.static_conformance, verbose=args.verbose)
             print(f"  Converted to CDIF {args.cdif} profile")
 
         # Write output
