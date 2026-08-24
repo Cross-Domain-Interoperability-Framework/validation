@@ -1,0 +1,24 @@
+{
+  "@context": {"@vocab": "http://schema.org/"},
+  "@type": "Dataset",
+  "@id": "https://doi.org/10.5066/example-soso-001",
+  "name": "Streamflow and water-quality time series, Example Basin, 2010-2020",
+  "description": "Daily streamflow and water-quality observations collected at gaging stations across the Example River Basin between 2010 and 2020, including discharge, temperature, and specific conductance.",
+  "url": "https://www.example.org/datasets/example-soso-001",
+  "identifier": {"@type": "PropertyValue", "propertyID": "https://registry.identifiers.org/registry/doi", "value": "10.5066/example-soso-001", "url": "https://doi.org/10.5066/example-soso-001"},
+  "datePublished": "2021-03-15",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "keywords": ["streamflow", "water quality", "discharge", "hydrology"],
+  "creator": {"@list": [
+    {"@type": "Person", "givenName": "Ada", "familyName": "Rivers", "@id": "https://orcid.org/0000-0002-1111-2222"},
+    {"@type": "Organization", "name": "Example Water Science Center"}
+  ]},
+  "publisher": {"@type": "Organization", "name": "Example Geological Survey"},
+  "distribution": {"@type": "DataDownload", "contentUrl": "https://www.example.org/data/example-soso-001.csv", "encodingFormat": "text/csv"},
+  "spatialCoverage": {"@type": "Place", "geo": {"@type": "GeoShape", "box": "37.0 -108.0 41.0 -102.0"}},
+  "temporalCoverage": "2010-01-01/2020-12-31",
+  "variableMeasured": [
+    {"@type": "PropertyValue", "name": "discharge", "unitText": "cubic feet per second"},
+    {"@type": "PropertyValue", "name": "water temperature", "propertyID": "http://vocab.example.org/temp", "unitText": "degree Celsius"}
+  ]
+}
