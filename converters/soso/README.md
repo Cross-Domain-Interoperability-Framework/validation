@@ -11,7 +11,7 @@ dropping) each side's required scaffolding.
 | `ConvertFromSOSO.py` | SOSO Dataset → CDIF core+discovery |
 
 The property-by-property mapping is documented authoritatively in
-[`doc-corediscovery/documents/CDIF-Discovery-vs-SOSO-comparison.md`](../../doc-corediscovery/documents/CDIF-Discovery-vs-SOSO-comparison.md),
+[`doc-corediscovery/documents/CDIF-Discovery-vs-SOSO-comparison.md`](../../../doc-corediscovery/documents/CDIF-Discovery-vs-SOSO-comparison.md),
 which tracks the ESIP discussion in
 [science-on-schema.org issue #283](https://github.com/ESIPFed/science-on-schema.org/issues/283).
 
@@ -72,12 +72,12 @@ accepts a SOSO Dataset (bare schema.org terms via `@vocab`) or an `@graph`.
 
 To convert a SOSO record from a **file path or URL** (with the same
 detect-conformance step and a default/`-o` output location), use
-[`../converters/soso2cdif.py`](../converters/soso2cdif.py), the file/URL
+[`../soso2cdif.py`](../soso2cdif.py), the file/URL
 front-end that wraps this engine:
 
 ```bash
-python ../converters/soso2cdif.py path/to/soso.json            # -> soso-cdif.json
-python ../converters/soso2cdif.py https://example.org/dataset -o out.json
+python ../soso2cdif.py path/to/soso.json            # -> soso-cdif.json
+python ../soso2cdif.py https://example.org/dataset -o out.json
 ```
 - Reports (does not invent) CDIF-required fields it cannot derive
   (`dateModified`, `license`/`conditionsOfAccess`, `url`/`distribution`).
@@ -122,7 +122,7 @@ Google Dataset Search accepts either namespace.
 
 ```bash
 # CDIF output -> CDIF Discovery schema
-python ../tools/FrameAndValidate.py cdif-record.json -v --schema ../CDIFDiscoverySchema.json --frame ../CDIF-frame-2026.jsonld
+python ../../tools/FrameAndValidate.py cdif-record.json -v --schema ../../CDIFDiscoverySchema.json --frame ../../CDIF-frame-2026.jsonld
 
 # SOSO output -> SOSO v1.3 SHACL (use --https output so the shapes target it)
 #   shapes: https://github.com/ESIPFed/science-on-schema.org/blob/v1.3-SHACL/validation/shapegraphs/soso_common_v1.3.0.ttl

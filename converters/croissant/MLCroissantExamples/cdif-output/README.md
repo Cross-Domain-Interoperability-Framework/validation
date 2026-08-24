@@ -1,6 +1,6 @@
 # cdif-output — Croissant → CDIF conversions + validation
 
-CDIF JSON-LD produced by running [`croissant/ConvertFromCroissant.py`](../../croissant/ConvertFromCroissant.py)
+CDIF JSON-LD produced by running [`croissant/ConvertFromCroissant.py`](../../ConvertFromCroissant.py)
 on the 14 harvested Croissant instances in [`../`](../), then validated against the
 CDIF profiles each output claims.
 
@@ -23,7 +23,7 @@ data_description.
 ## Results (after converter enhancements + HF date enrichment — see below)
 
 **14/14 fully conform** to every profile they declare. The converter no longer
-hardcodes the profile list — it calls [`detect_conformance.py`](../../detect_conformance.py),
+hardcodes the profile list — it calls [`detect_conformance.py`](../../../../detect_conformance.py),
 which derives `dcterms:conformsTo` from what the record actually contains (a presence
 SPARQL ASK per class, gated by that class's content SHACL). So:
 

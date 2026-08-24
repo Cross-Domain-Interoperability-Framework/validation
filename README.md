@@ -62,8 +62,8 @@ This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule s
 | `CDIF-context-2026.jsonld` | JSON-LD context for authoring without namespace prefixes |
 | `tools/FrameAndValidate.py` | Python script for framing and validation (**normative source** for the release-repo copies; see [`tools/README.md`](tools/README.md)). When a repo ships more than one `*-frame.jsonld`, it auto-selects the frame whose root `@type` matches the input document's root `@type`. |
 | `tools/sync_frameandvalidate.py` | Propagates the normative `FrameAndValidate.py` to the release repos (banner + `src-sha256` + read-only, with example-regression verification) |
-| `croissant/ConvertToCroissant.py` | Converts current-`cdif:` CDIF JSON-LD to Croissant 1.1 (mlcommons.org/croissant/1.1) format |
-| `croissant/ConvertFromCroissant.py` | Converts Croissant JSON-LD to CDIF DataDescription (lossy inverse) — see [`croissant/CroissantToCDIF.md`](croissant/CroissantToCDIF.md) |
+| `converters/croissant/ConvertToCroissant.py` | Converts current-`cdif:` CDIF JSON-LD to Croissant 1.1 (mlcommons.org/croissant/1.1) format |
+| `converters/croissant/ConvertFromCroissant.py` | Converts Croissant JSON-LD to CDIF DataDescription (lossy inverse) — see [`converters/croissant/CroissantToCDIF.md`](converters/croissant/CroissantToCDIF.md) |
 | `validate_building_blocks.py` | Validates building block schemas, SHACL shapes, and examples across the BB source tree |
 | `validate-cdif.bat` | Windows batch script for oXygen XML Editor integration |
 | `batch_validate.py` | Batch validation of CDIF metadata files across multiple file groups (JSON Schema + SHACL) |
@@ -73,8 +73,8 @@ This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule s
 | `docs/CDIF-Conformance-Declaration-Convention.md` | Convention spec for the per-building-block `conformance.json` sidecar (conformsTo URI + presence ASK + content `validityShapes`) that `detect_conformance.py` consumes |
 | `docs/conformance-declaration.schema.json` | JSON Schema (`https://w3id.org/cdif/schema/conformance-declaration/0.1`) validating those sidecar files |
 | `geocodes_harvester.py` | Harvests dataset metadata from the [EarthCube GeoCodes](https://geocodes.earthcube.org/) SPARQL endpoint, extracts original JSON-LD from landing pages, and optionally converts to CDIF core or discovery profile format |
-| `DCAT/dcat_to_cdif.py` | Converts DCAT JSON-LD catalogs to CDIF schema.org format. Maps DCAT/Dublin Core properties to schema.org equivalents per the [CDIF DCAT implementation guide](https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/dcat.html). See [DCAT/README.md](DCAT/README.md) |
-| `DDI/ddi_to_cdif.py` | Converts DDI Codebook 2.5 XML (e.g., from Harvard Dataverse) to CDIF DataDescription JSON-LD: study-level metadata, `<var>` → `schema:variableMeasured`, `<fileDscr>` → `schema:DataDownload`/`cdi:TabularTextDataSet`, tab-file headers → physical mappings |
+| `converters/DCAT/dcat_to_cdif.py` | Converts DCAT JSON-LD catalogs to CDIF schema.org format. Maps DCAT/Dublin Core properties to schema.org equivalents per the [CDIF DCAT implementation guide](https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/dcat.html). See [converters/DCAT/README.md](converters/DCAT/README.md) |
+| `converters/DDI/ddi_to_cdif.py` | Converts DDI Codebook 2.5 XML (e.g., from Harvard Dataverse) to CDIF DataDescription JSON-LD: study-level metadata, `<var>` → `schema:variableMeasured`, `<fileDscr>` → `schema:DataDownload`/`cdi:TabularTextDataSet`, tab-file headers → physical mappings |
 
 ### DDI-CDI Resolved Schema
 
@@ -314,11 +314,11 @@ and the current **`cdif:` CDIF schema**; the inverse accepts Croissant 1.0 or 1.
 
 ```bash
 # Forward: CDIF -> Croissant 1.1
-python croissant/ConvertToCroissant.py input.jsonld -o output-croissant.json
+python converters/croissant/ConvertToCroissant.py input.jsonld -o output-croissant.json
 python -c "import mlcroissant as mlc; mlc.Dataset(jsonld='output-croissant.json')"  # optional
 
 # Inverse: Croissant -> CDIF DataDescription / Discovery
-python croissant/ConvertFromCroissant.py input-croissant.json -o output.jsonld
+python converters/croissant/ConvertFromCroissant.py input-croissant.json -o output.jsonld
 # then validate against the current Discovery / DataDescription profile schema
 ```
 
@@ -331,10 +331,10 @@ passed through verbatim, reconstructs `schema:identifier` from a DOI in
 Croissant has no `recordSet`, the output validates against the Discovery schema
 rather than the DataDescription schema (the appropriate profile in that case).
 
-See [`croissant/README.md`](croissant/README.md) for detailed documentation on
+See [`converters/croissant/README.md`](converters/croissant/README.md) for detailed documentation on
 both converters, property mappings, and example output. The full
-property-by-property mappings are in [`croissant/CDIFtoCroissant.md`](croissant/CDIFtoCroissant.md)
-(forward) and [`croissant/CroissantToCDIF.md`](croissant/CroissantToCDIF.md)
+property-by-property mappings are in [`converters/croissant/CDIFtoCroissant.md`](converters/croissant/CDIFtoCroissant.md)
+(forward) and [`converters/croissant/CroissantToCDIF.md`](converters/croissant/CroissantToCDIF.md)
 (inverse).
 
 ## Usage Examples
@@ -500,7 +500,7 @@ Domain-specific metadata may also use extension namespace prefixes. For example,
 | `xas` | `http://cdi4exas.org/` | XAS-specific types and properties (beamline, detector, edge energy, etc.) |
 | `cdifq` | `http://crossdomaininteroperability.org/cdifq/` | Placeholder namespace for data structure properties (`nColumns`, `nRows`) not yet assigned to a formal vocabulary |
 
-The `cdifq` namespace is a temporary placeholder. Properties using it (such as row/column counts on data structures) may migrate to DDI-CDI, CSVW, or another standard vocabulary in the future. `croissant/ConvertToCroissant.py` includes `cdifq` in its output context so that these terms resolve correctly during JSON-LD processing.
+The `cdifq` namespace is a temporary placeholder. Properties using it (such as row/column counts on data structures) may migrate to DDI-CDI, CSVW, or another standard vocabulary in the future. `converters/croissant/ConvertToCroissant.py` includes `cdifq` in its output context so that these terms resolve correctly during JSON-LD processing.
 
 ### Legacy Schema Requirements
 
@@ -756,32 +756,32 @@ The CDIF conversion handles: property prefixing (`schema:`), `@context`/`@type` 
 
 ## DCAT Conversion
 
-`DCAT/dcat_to_cdif.py` converts DCAT JSON-LD catalogs or individual dataset records to CDIF-conformant schema.org JSON-LD. Maps DCAT/Dublin Core properties to schema.org equivalents per the [CDIF DCAT implementation guide](https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/dcat.html).
+`converters/DCAT/dcat_to_cdif.py` converts DCAT JSON-LD catalogs or individual dataset records to CDIF-conformant schema.org JSON-LD. Maps DCAT/Dublin Core properties to schema.org equivalents per the [CDIF DCAT implementation guide](https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/dcat.html).
 
 ```bash
 # List datasets in a DCAT catalog
-python DCAT/dcat_to_cdif.py catalog.jsonld --list
+python converters/DCAT/dcat_to_cdif.py catalog.jsonld --list
 
 # Convert selected records, validate output
-python DCAT/dcat_to_cdif.py catalog.jsonld --output ./examples \
+python converters/DCAT/dcat_to_cdif.py catalog.jsonld --output ./examples \
   --select 0,3,5 --catalog-name "My Catalog" --catalog-url "https://example.org/" \
   --validate
 ```
 
 Key mappings: `dcterms:title` → `schema:name`, `dcterms:description` → `schema:description`, `dcterms:modified` → `schema:dateModified`, `dcterms:license` �� `schema:license`, `dcterms:accessRights` → `schema:conditionsOfAccess`, `dcat:keyword` → `schema:keywords`, `dcat:Distribution` → `schema:DataDownload`, `dcterms:spatial` → `schema:spatialCoverage`, `dcterms:temporal` → `schema:temporalCoverage`. Unmapped properties preserved (open world). Auto-detects Discovery vs Core profile based on spatial/temporal content.
 
-See [DCAT/README.md](DCAT/README.md) for the full property mapping table, PSDI catalog example, and known limitations.
+See [converters/DCAT/README.md](converters/DCAT/README.md) for the full property mapping table, PSDI catalog example, and known limitations.
 
 ## DDI Conversion
 
-`DDI/ddi_to_cdif.py` converts a [DDI Codebook 2.5](https://ddialliance.org/Specification/DDI-Codebook/2.5/) XML file (for example, a DDI export from Harvard Dataverse) to a CDIF DataDescription JSON-LD document.
+`converters/DDI/ddi_to_cdif.py` converts a [DDI Codebook 2.5](https://ddialliance.org/Specification/DDI-Codebook/2.5/) XML file (for example, a DDI export from Harvard Dataverse) to a CDIF DataDescription JSON-LD document.
 
 ```bash
 # Convert a DDI XML export (DOI is required)
-python DDI/ddi_to_cdif.py input.xml --doi https://doi.org/10.7910/DVN/XXXXXX -o output.json
+python converters/DDI/ddi_to_cdif.py input.xml --doi https://doi.org/10.7910/DVN/XXXXXX -o output.json
 
 # Also fetch tab-file headers and file size/checksum from the Dataverse API
-python DDI/ddi_to_cdif.py input.xml --doi https://doi.org/10.7910/DVN/XXXXXX \
+python converters/DDI/ddi_to_cdif.py input.xml --doi https://doi.org/10.7910/DVN/XXXXXX \
   --fetch-headers --fetch-file-meta -o output.json
 ```
 

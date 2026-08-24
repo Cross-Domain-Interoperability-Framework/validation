@@ -46,7 +46,7 @@ from pathlib import Path
 # per-class content SHACL, with a remote-SHACL fallback). Best-effort: if it or
 # its rdflib/pyshacl deps are unavailable, conversion falls back to the
 # profile-based default conformsTo.
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 try:
     from detect_conformance import detect_conformance, apply_conformance
     _HAVE_DETECT = True

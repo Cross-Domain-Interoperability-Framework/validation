@@ -139,6 +139,6 @@ ForeignKey, RepresentedVariable).
 
 The CDIF test corpus in `../MetadataExamples/` and `../testJSONMetadata/` has
 been migrated to the current `cdif:` schema (see
-`../tools/migrate_corpus_cdi_to_cdif.py`). All 84 files validate against the
+`../../tools/migrate_corpus_cdi_to_cdif.py`). All 84 files validate against the
 current Discovery / DataDescription schema, so they are valid current-schema
 inputs for `ConvertToCroissant.py`.

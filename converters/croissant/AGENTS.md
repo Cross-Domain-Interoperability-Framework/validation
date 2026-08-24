@@ -60,8 +60,8 @@ against its correct profile schema (DataDescription, or Discovery when the sourc
 cd croissant
 for f in MLCroissantExamples/*.json; do
   python ConvertFromCroissant.py "$f" -o _t.json 2>/dev/null
-  python ../tools/FrameAndValidate.py _t.json -v --frame ../CDIF-frame-2026.jsonld \
-    --schema ../CDIFDataDescriptionSchema.json | grep -Eo 'Validation (PASSED|FAILED)'
+  python ../../tools/FrameAndValidate.py _t.json -v --frame ../../CDIF-frame-2026.jsonld \
+    --schema ../../CDIFDataDescriptionSchema.json | grep -Eo 'Validation (PASSED|FAILED)'
 done; rm -f _t.json
 ```
 

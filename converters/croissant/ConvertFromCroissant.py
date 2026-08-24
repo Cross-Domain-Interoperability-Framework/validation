@@ -38,7 +38,7 @@ from pathlib import Path
 # per-class content SHACL) instead of a hardcoded profile list, so the record
 # claims exactly the profiles it satisfies (and auto-detects data_description /
 # manifest / etc. per record).
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 try:
     from detect_conformance import detect_conformance, apply_conformance
     HAS_DETECT = True

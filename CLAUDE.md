@@ -29,11 +29,11 @@ This repository contains validation tools for **CDIF (Cross-Domain Interoperabil
 | `docs/CDIF-Conformance-Declaration-Convention.md` | Spec for the per-building-block `conformance.json` sidecar (conformsTo URI + presence ASK + content `validityShapes`) consumed by `detect_conformance.py` |
 | `docs/conformance-declaration.schema.json` | JSON Schema (`.../conformance-declaration/0.1`) validating the sidecar files |
 | `geocodes_harvester.py` | Harvests dataset metadata from the EarthCube GeoCodes SPARQL endpoint and optionally converts to CDIF core/discovery profile |
-| `converters/soso2cdif.py` | SOSO file/URL → CDIF core/discovery tool: reads a SOSO record from a path or http(s) URL (extracting embedded JSON-LD from an HTML landing page), converts via `soso/ConvertFromSOSO.py`, and derives `conformsTo` from content (detect_conformance). Writes `<stem>-cdif.json` or the `-o` path |
-| `soso/ConvertToSOSO.py` | Converts CDIF core+discovery JSON-LD to ESIP Science-on-Schema.org (SOSO) v1.3 Dataset (drops the CDIF catalog record, strips `schema:` prefixes; `--https` emits `https://schema.org/`) |
-| `soso/ConvertFromSOSO.py` | Converts SOSO Dataset JSON-LD to CDIF core+discovery (adds the catalog record; `conformsTo` derived from content via detect_conformance, `--static-conformance` opts out). The engine behind `converters/soso2cdif.py` |
-| `DCAT/dcat_to_cdif.py` | Converts DCAT JSON-LD catalogs to CDIF schema.org format (see `DCAT/README.md`) |
-| `DDI/ddi_to_cdif.py` | Converts DDI Codebook 2.5 XML (e.g., Harvard Dataverse exports) to CDIF DataDescription JSON-LD (emits pre-migration `cdi:` data-structure prefixes) |
+| `converters/soso2cdif.py` | SOSO file/URL → CDIF core/discovery tool: reads a SOSO record from a path or http(s) URL (extracting embedded JSON-LD from an HTML landing page), converts via `converters/soso/ConvertFromSOSO.py`, and derives `conformsTo` from content (detect_conformance). Writes `<stem>-cdif.json` or the `-o` path |
+| `converters/soso/ConvertToSOSO.py` | Converts CDIF core+discovery JSON-LD to ESIP Science-on-Schema.org (SOSO) v1.3 Dataset (drops the CDIF catalog record, strips `schema:` prefixes; `--https` emits `https://schema.org/`) |
+| `converters/soso/ConvertFromSOSO.py` | Converts SOSO Dataset JSON-LD to CDIF core+discovery (adds the catalog record; `conformsTo` derived from content via detect_conformance, `--static-conformance` opts out). The engine behind `converters/soso2cdif.py` |
+| `converters/DCAT/dcat_to_cdif.py` | Converts DCAT JSON-LD catalogs to CDIF schema.org format (see `converters/DCAT/README.md`) |
+| `converters/DDI/ddi_to_cdif.py` | Converts DDI Codebook 2.5 XML (e.g., Harvard Dataverse exports) to CDIF DataDescription JSON-LD (emits pre-migration `cdi:` data-structure prefixes) |
 | `CDIFDiscoverySchema.json` | JSON Schema for framed (tree) CDIF discovery profile metadata |
 | `CDIFCompleteSchema.json` | JSON Schema for framed (tree) CDIF complete profile metadata |
 | `CDIFDataDescriptionSchema.json` | JSON Schema for framed (tree) CDIF data description profile metadata |
@@ -45,9 +45,9 @@ This repository contains validation tools for **CDIF (Cross-Domain Interoperabil
 | `ddi-cdi/ddi-cdi.schema_normative.json` | Full DDI-CDI normative JSON Schema (395 definitions) |
 | `ddi-cdi/cls-InstanceVariable-resolved.json` | Resolved standalone schema for DDI-CDI InstanceVariable |
 | `ddi-cdi/cls-InstanceVariable-resolved-README.md` | Documentation for the resolved schema generation |
-| `croissant/ConvertToCroissant.py` | Converts CDIF JSON-LD to Croissant 1.1 (mlcommons.org/croissant/1.1) format |
-| `croissant/ConvertFromCroissant.py` | Converts Croissant (1.0 or 1.1) JSON-LD to CDIF DataDescription/Discovery (lossy inverse) |
-| `croissant/CDIFtoCroissant.md` | Documents the CDIF-to-Croissant mapping, converter code, and gaps |
+| `converters/croissant/ConvertToCroissant.py` | Converts CDIF JSON-LD to Croissant 1.1 (mlcommons.org/croissant/1.1) format |
+| `converters/croissant/ConvertFromCroissant.py` | Converts Croissant (1.0 or 1.1) JSON-LD to CDIF DataDescription/Discovery (lossy inverse) |
+| `converters/croissant/CDIFtoCroissant.md` | Documents the CDIF-to-Croissant mapping, converter code, and gaps |
 | `ShaclValidation/generate_shacl_shapes.py` | Generates composite SHACL shapes from building block rules.shacl files |
 | `ShaclValidation/generate_shacl_report.py` | Generates markdown SHACL validation reports with severity grouping |
 | `ShaclValidation/CDIF-Discovery-Shapes.ttl` | Composite SHACL shapes for CDIFDiscovery profile (generated) |
@@ -81,7 +81,7 @@ python ConvertToROCrate.py path/to/metadata.jsonld -o output-rocrate.jsonld
 python ValidateROCrate.py path/to/metadata.jsonld
 
 # Convert CDIF to Croissant (ML dataset format)
-python croissant/ConvertToCroissant.py path/to/metadata.jsonld -o output-croissant.json -v
+python converters/croissant/ConvertToCroissant.py path/to/metadata.jsonld -o output-croissant.json -v
 
 # Validate Croissant output (requires: pip install mlcroissant)
 mlcroissant validate --jsonld output-croissant.json
@@ -274,7 +274,7 @@ The `rocrate-validator` library provides thorough SHACL-based RO-Crate validatio
 
 ## ConvertToCroissant.py (CDIF to Croissant)
 
-Converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissant/docs/croissant-spec.html) 1.1 (mlcommons.org/croissant/1.1) JSON-LD for ML dataset discovery and loading. The inverse `croissant/ConvertFromCroissant.py` converts Croissant (1.0 or 1.1) back to CDIF DataDescription/Discovery (lossy). See `croissant/CDIFtoCroissant.md` (forward) and `croissant/CroissantToCDIF.md` (inverse) for the full mapping documentation.
+Converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissant/docs/croissant-spec.html) 1.1 (mlcommons.org/croissant/1.1) JSON-LD for ML dataset discovery and loading. The inverse `converters/croissant/ConvertFromCroissant.py` converts Croissant (1.0 or 1.1) back to CDIF DataDescription/Discovery (lossy). See `converters/croissant/CDIFtoCroissant.md` (forward) and `converters/croissant/CroissantToCDIF.md` (inverse) for the full mapping documentation.
 
 **Key mappings:**
 - `schema:DataDownload` → `cr:FileObject`; archive `hasPart` items become FileObjects with `containedIn`
@@ -319,7 +319,7 @@ Converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissa
 
 Profile-level `rules.shacl` is **not** the gate: it is circular (it presupposes the profile is already declared). The `cdifDataType` content shapes are the correct, non-circular validity check.
 
-`apply_conformance(doc, uris)` rewrites `schema:subjectOf/dcterms:conformsTo` to the detected `cdif:` URIs **while preserving any claim outside the `https://w3id.org/cdif/` namespace** (e.g. `ada:profile/...` domain profiles). This is wired into `croissant/ConvertFromCroissant.py` (replaces its old hardcoded core/discovery+conditional-data_description heuristic) and into `amds-ldeo`'s `ada_json_loader.py` (post-build hook, preserving each record's domain profile).
+`apply_conformance(doc, uris)` rewrites `schema:subjectOf/dcterms:conformsTo` to the detected `cdif:` URIs **while preserving any claim outside the `https://w3id.org/cdif/` namespace** (e.g. `ada:profile/...` domain profiles). This is wired into `converters/croissant/ConvertFromCroissant.py` (replaces its old hardcoded core/discovery+conditional-data_description heuristic) and into `amds-ldeo`'s `ada_json_loader.py` (post-build hook, preserving each record's domain profile).
 
 **Rule source — two modes.** By default the rules live in the in-code `CONFORMANCE_CLASSES` registry. With `CDIF_CONFORMANCE_FROM_SOURCE=1` (or `--from-source`), `load_bb_conformance()` globs `**/conformance.json` sidecars from the building blocks tree and uses those instead. The sidecars (in `metadataBuildingBlocks/_sources/profiles/cdifProfile/<name>/conformance.json`) declare `conformsTo` + `presence` + `validityShapes`, and mirror the registry exactly. This is the migration path toward each building block owning its own conformance declaration rather than the validation repo hardcoding it. See `docs/CDIF-Conformance-Declaration-Convention.md` and `docs/conformance-declaration.schema.json`.
 
