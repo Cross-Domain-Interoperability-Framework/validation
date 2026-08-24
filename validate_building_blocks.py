@@ -129,30 +129,51 @@ def load_yaml(path):
 # Discovery
 # ---------------------------------------------------------------------------
 
-PROPERTY_CATEGORIES = [
-    "schemaorgProperties",
-    "cdifProperties",
-    "provProperties",
-    "ddiProperties",
-    "adaProperties",
-    "ecrrProperties",
-    "xasProperties",
-    "qualityProperties",
-    "DDEproperties",
-]
+# Categories are discovered from the tree, not hardcoded.
+#
+# They used to be two literal lists, and they went stale silently: the 2026-05
+# reorg renamed cdifProperties -> cdifDataType and split profiles/cdifProfiles
+# into cdifProfile + cdifCompositeProfile, and skosProperties /
+# bioschemasProperties were never listed at all. The lists still named the old
+# paths, so discovery walked directories that no longer existed and found 52 of
+# metadataBuildingBlocks' 93 building blocks -- missing every cdifDataType block
+# and every profile -- while reporting 0 failures. A run that skips 41 blocks
+# and a run where 41 blocks pass look identical in the summary.
+#
+# Deriving them from the filesystem also means this works unchanged against the
+# domain repos (ddeBuildingBlocks, ecrrBuildingBlocks, geochemBuildingBlocks),
+# whose category names differ.
+NON_BB_DIRS = {"assets", "tests", "__pycache__", "jsonforms"}
 
-PROFILE_CATEGORIES = [
-    "profiles/cdifProfiles",
-    "profiles/adaProfiles",
-    "profiles/ecrrProfiles",
-    "profiles/DDEProfiles",
-]
+
+def _is_bb_dir(path):
+    """A building block is a directory holding schema.yaml or a *Schema.json."""
+    return path.is_dir() and (
+        (path / "schema.yaml").is_file() or _find_schema_json(path) is not None
+    )
+
+
+def find_categories(bb_dir):
+    """Every directory under bb_dir that directly contains building blocks.
+
+    Returned as paths relative to bb_dir ("schemaorgProperties",
+    "profiles/cdifProfile"), so --category matching and reporting are unchanged.
+    """
+    cats = []
+    for d in sorted(p for p in bb_dir.rglob("*") if p.is_dir()):
+        if d.name in NON_BB_DIRS or any(part in NON_BB_DIRS for part in d.parts):
+            continue
+        if _is_bb_dir(d):
+            continue  # a BB itself, not a container of BBs
+        if any(_is_bb_dir(c) for c in d.iterdir() if c.is_dir()):
+            cats.append(str(d.relative_to(bb_dir)).replace("\\", "/"))
+    return cats
 
 
 def discover_building_blocks(bb_dir, filter_pattern=None, category_filter=None):
     """Walk bb_dir to find all building blocks (dirs containing schema.yaml or *Schema.json)."""
     bbs = []
-    all_categories = PROPERTY_CATEGORIES + PROFILE_CATEGORIES
+    all_categories = find_categories(bb_dir)
 
     if category_filter:
         # Match on the last component or full path

@@ -133,7 +133,7 @@ PROFILE_EXAMPLES = [
     "_sources/profiles/cdifCompositeProfile/DiscoveryDataDescription/exampleCDIFDataDescription.json",
     "_sources/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/exampleCDIFDataStructureComplete.json",
     "_sources/profiles/cdifCompositeProfile/cdifComplete/exampleCDIFcomplete.json",
-    "_sources/profiles/cdifCompositeProfile/XASdata/exampleCDIFxas.json",
+    "_sources/profiles/cdifCompositeProfile/xasDocument/exampleCDIFxas.json",
 ]
 
 
