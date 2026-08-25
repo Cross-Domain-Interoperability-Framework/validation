@@ -24,6 +24,17 @@ import sys
 import os
 import argparse
 import urllib.request
+from pathlib import Path
+
+# detect_conformance (validation/ root) derives dcterms:conformsTo from the
+# record's actual content. Best-effort: falls back to the built-in conformsTo
+# when it (or its rdflib/pyshacl deps) is unavailable.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+try:
+    from detect_conformance import detect_conformance, apply_conformance
+    _HAVE_DETECT = True
+except Exception:
+    _HAVE_DETECT = False
 
 
 def strip_ns(tag):
@@ -127,7 +138,8 @@ def fetch_tab_headers(access_id):
         return []
 
 
-def convert(xml_path, doi_url, do_fetch_headers=False, do_fetch_file_meta=False):
+def convert(xml_path, doi_url, do_fetch_headers=False, do_fetch_file_meta=False,
+            detect=True):
     tree = ET.parse(xml_path)
     root = tree.getroot()
     files = parse_files(root)
@@ -295,6 +307,16 @@ def convert(xml_path, doi_url, do_fetch_headers=False, do_fetch_file_meta=False)
             f"{change_text}"
             f"Distributions typed as cdi:TabularTextDataSet with CSVW properties.")}
 
+    # Derive dcterms:conformsTo from the record's actual content (overrides the
+    # built-in default), preserving any non-cdif domain claims.
+    if detect and _HAVE_DETECT:
+        try:
+            uris = detect_conformance(doc)
+            if uris:
+                apply_conformance(doc, uris)
+        except Exception:
+            pass
+
     return doc
 
 
@@ -308,11 +330,15 @@ def main():
                         help="Fetch tab file headers for physical mappings")
     parser.add_argument("--fetch-file-meta", action="store_true",
                         help="Fetch file size/checksum from Dataverse API")
+    parser.add_argument("--static-conformance", action="store_true",
+                        help="Use the built-in conformsTo instead of deriving it "
+                             "from content via detect_conformance")
     args = parser.parse_args()
 
     doc = convert(args.input, args.doi,
                   do_fetch_headers=args.fetch_headers,
-                  do_fetch_file_meta=args.fetch_file_meta)
+                  do_fetch_file_meta=args.fetch_file_meta,
+                  detect=not args.static_conformance)
 
     output = json.dumps(doc, indent=2, ensure_ascii=False) + "\n"
     if args.output:

@@ -33,9 +33,14 @@ beyond its base) gated by a content-SHACL validity check, and
 `detect_conformance` has a remote-SHACL fallback, so it works without a local
 building-blocks checkout.
 
-- **`ConvertFromSOSO.py`** and **`ConvertFromCroissant.py`** use `detect_conformance`.
-- **`dcat_to_cdif.py`** and **`ddi_to_cdif.py`** currently set `conformsTo` from
-  fixed logic; wiring `detect_conformance` into them is a natural follow-up.
+All four `format → CDIF` converters — **`ConvertFromSOSO.py`**,
+**`ConvertFromCroissant.py`**, **`dcat_to_cdif.py`**, and **`ddi_to_cdif.py`** —
+run `detect_conformance` by default and write the detected `conformsTo` into the
+catalog record. Each takes a **`--static-conformance`** flag that skips detection
+and keeps the converter's built-in default instead (and detection degrades to
+the built-in default automatically if `detect_conformance` or its deps are
+unavailable). For example, the DDI converter's output carries `cdi:InstanceVariable`
+variables, so detection adds `data_description` to the declared profiles.
 
 ## Why framing / structure matters
 

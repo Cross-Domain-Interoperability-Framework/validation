@@ -39,6 +39,17 @@ import sys
 import os
 import re
 import argparse
+from pathlib import Path
+
+# detect_conformance (validation/ root) derives dcterms:conformsTo from the
+# record's actual content. Best-effort: falls back to the built-in conformsTo
+# when it (or its rdflib/pyshacl deps) is unavailable.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+try:
+    from detect_conformance import detect_conformance, apply_conformance
+    _HAVE_DETECT = True
+except Exception:
+    _HAVE_DETECT = False
 
 
 # ---------------------------------------------------------------------------
@@ -275,7 +286,8 @@ def convert_temporal(temporal):
 # Main conversion
 # ---------------------------------------------------------------------------
 
-def convert_dcat_to_cdif(ds, catalog_name="", catalog_url="", profile="core"):
+def convert_dcat_to_cdif(ds, catalog_name="", catalog_url="", profile="core",
+                         detect=True):
     """Convert a dcat:Dataset to CDIF schema.org JSON-LD.
 
     Args:
@@ -496,6 +508,16 @@ def convert_dcat_to_cdif(ds, catalog_name="", catalog_url="", profile="core"):
         ),
     }
 
+    # Derive dcterms:conformsTo from the record's actual content (overrides the
+    # built-in default), preserving any non-cdif domain claims.
+    if detect and _HAVE_DETECT:
+        try:
+            uris = detect_conformance(doc)
+            if uris:
+                apply_conformance(doc, uris)
+        except Exception:
+            pass
+
     return doc
 
 
@@ -522,6 +544,9 @@ def main():
                         help="Comma-separated indices to convert (default: all)")
     parser.add_argument("--validate", action="store_true",
                         help="Validate output against CDIF schema")
+    parser.add_argument("--static-conformance", action="store_true",
+                        help="Use the built-in conformsTo instead of deriving it "
+                             "from content via detect_conformance")
     parser.add_argument("--verbose", "-v", action="store_true")
     args = parser.parse_args()
 
@@ -569,6 +594,7 @@ def main():
             catalog_name=args.catalog_name,
             catalog_url=args.catalog_url,
             profile=args.profile,
+            detect=not args.static_conformance,
         )
 
         # Derive filename
