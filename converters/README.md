@@ -134,5 +134,14 @@ converters/
 ├── soso/                     CDIF <-> Science-on-Schema.org (+ README, examples)
 ├── croissant/                CDIF <-> MLCommons Croissant (+ mapping docs, examples)
 ├── DCAT/                     DCAT -> CDIF (+ README)
-└── DDI/                      DDI Codebook 2.5 -> CDIF
+├── DDI/                      DDI Codebook 2.5 -> CDIF
+└── mappings/                 SSSOM tables documenting each converter's mappings
 ```
+
+## Mappings (SSSOM)
+
+[`mappings/`](mappings/) holds an [SSSOM](https://mapping-commons.github.io/sssom/)
+mapping set for each direction (`cdif→soso`, `soso→cdif`, `cdif→croissant`,
+`croissant→cdif`, `dcat→cdif`, `ddi→cdif`) — the property-level correspondences
+each converter applies, hand-authored from the mapping docs and code. See
+[`mappings/README.md`](mappings/README.md).

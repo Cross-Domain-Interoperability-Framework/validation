@@ -1,0 +1,40 @@
+# mapping_set_id: https://w3id.org/cdif/mappings/cdif-to-soso
+# mapping_set_title: CDIF core+discovery to ESIP Science-on-Schema.org
+# mapping_set_description: Property correspondences applied by ConvertToSOSO.py (CDIF core+discovery -> SOSO v1.3).
+# license: https://creativecommons.org/publicdomain/zero/1.0/
+# mapping_provider: https://cross-domain-interoperability-framework.github.io/
+# mapping_tool: converters/soso/ConvertToSOSO.py
+# mapping_date: 2026-08-24
+# subject_source: https://w3id.org/cdif/discovery/1.1
+# object_source: https://science-on-schema.org/1.3/
+# mapping_justification: semapv:ManualMappingCuration
+# curie_map:
+#   dqv: http://www.w3.org/ns/dqv#
+#   geosparql: http://www.opengis.net/ont/geosparql#
+#   schema: http://schema.org/
+#   semapv: https://w3id.org/semapv/vocab/
+#   skos: http://www.w3.org/2004/02/skos/core#
+# comment: |
+#   Structural transforms the converter performs that are not term-to-term
+#   mappings (so they have no TSV row):
+#   - schema:subjectOf catalog record (with dcterms:conformsTo) is dropped - SOSO has no metadata-conformance mechanism.
+#   - @context rewritten to SOSO style ({@vocab: http://schema.org/}); schema: prefixes stripped from property names and @type.
+#   - Warnings emitted (not mappings) for SOSO-required fields the CDIF record lacks: description, version, url, license.
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	comment
+schema:name	name	skos:exactMatch	schema:name	name	semapv:ManualMappingCuration	schema: prefix stripped; SOSO serializes bare via @vocab http://schema.org/
+schema:description	description	skos:exactMatch	schema:description	description	semapv:ManualMappingCuration	
+schema:url	url	skos:exactMatch	schema:url	url	semapv:ManualMappingCuration	landing page
+schema:identifier	identifier	skos:exactMatch	schema:identifier	identifier	semapv:ManualMappingCuration	PropertyValue structure preserved
+schema:license	license	skos:exactMatch	schema:license	license	semapv:ManualMappingCuration	
+schema:creator	creator	skos:exactMatch	schema:creator	creator	semapv:ManualMappingCuration	JSON-LD @list author order preserved
+schema:keywords	keywords	skos:exactMatch	schema:keywords	keywords	semapv:ManualMappingCuration	
+schema:datePublished	datePublished	skos:exactMatch	schema:datePublished	datePublished	semapv:ManualMappingCuration	
+schema:dateModified	dateModified	skos:exactMatch	schema:dateModified	dateModified	semapv:ManualMappingCuration	CDIF-required, SOSO-optional; retained
+schema:variableMeasured	variableMeasured	skos:exactMatch	schema:variableMeasured	variableMeasured	semapv:ManualMappingCuration	PropertyValue items retained
+schema:spatialCoverage	spatialCoverage	skos:exactMatch	schema:spatialCoverage	spatialCoverage	semapv:ManualMappingCuration	geosparql:asWKT geometry retained (SOSO-endorsed optional)
+schema:temporalCoverage	temporalCoverage	skos:exactMatch	schema:temporalCoverage	temporalCoverage	semapv:ManualMappingCuration	
+schema:distribution	distribution	skos:exactMatch	schema:distribution	distribution	semapv:ManualMappingCuration	DataDownload / WebAPI retained
+schema:conditionsOfAccess	conditionsOfAccess	skos:exactMatch	schema:conditionsOfAccess	conditionsOfAccess	semapv:ManualMappingCuration	CDIF-only; passed through open-world (not a SOSO term)
+schema:relatedLink	relatedLink	skos:exactMatch	schema:relatedLink	relatedLink	semapv:ManualMappingCuration	CDIF-only; passed through open-world
+schema:measurementTechnique	measurementTechnique	skos:exactMatch	schema:measurementTechnique	measurementTechnique	semapv:ManualMappingCuration	CDIF-only; passed through open-world
+dqv:hasQualityMeasurement	hasQualityMeasurement	skos:exactMatch	dqv:hasQualityMeasurement	hasQualityMeasurement	semapv:ManualMappingCuration	CDIF-only; passed through open-world

@@ -1,0 +1,35 @@
+# mapping_set_id: https://w3id.org/cdif/mappings/soso-to-cdif
+# mapping_set_title: ESIP Science-on-Schema.org to CDIF core+discovery
+# mapping_set_description: Property correspondences applied by ConvertFromSOSO.py (SOSO -> CDIF core+discovery).
+# license: https://creativecommons.org/publicdomain/zero/1.0/
+# mapping_provider: https://cross-domain-interoperability-framework.github.io/
+# mapping_tool: converters/soso/ConvertFromSOSO.py
+# mapping_date: 2026-08-24
+# subject_source: https://science-on-schema.org/1.3/
+# object_source: https://w3id.org/cdif/discovery/1.1
+# mapping_justification: semapv:ManualMappingCuration
+# curie_map:
+#   schema: http://schema.org/
+#   semapv: https://w3id.org/semapv/vocab/
+#   skos: http://www.w3.org/2004/02/skos/core#
+# comment: |
+#   Structural transforms the converter performs that are not term-to-term
+#   mappings (so they have no TSV row):
+#   - A CDIF catalog record is ADDED: schema:subjectOf typed schema:Dataset + dcat:CatalogRecord, schema:about -> dataset @id, and dcterms:conformsTo derived from content by detect_conformance.
+#   - @context rewritten to CDIF prefix declarations (schema/dcterms/dcat/prov, http://schema.org/).
+#   - Unrecognized bare property names are assigned to an unk: namespace.
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	comment
+schema:name	name	skos:exactMatch	schema:name	name	semapv:ManualMappingCuration	schema: prefix added
+schema:description	description	skos:exactMatch	schema:description	description	semapv:ManualMappingCuration	
+schema:url	url	skos:exactMatch	schema:url	url	semapv:ManualMappingCuration	also used to fill @id when absent
+schema:identifier	identifier	skos:exactMatch	schema:identifier	identifier	semapv:ManualMappingCuration	filled from @id when absent
+schema:license	license	skos:exactMatch	schema:license	license	semapv:ManualMappingCuration	wrapped in array
+schema:creator	creator	skos:exactMatch	schema:creator	creator	semapv:ManualMappingCuration	wrapped in JSON-LD @list; Person names synthesized from given/family
+schema:author	author	skos:closeMatch	schema:creator	creator	semapv:ManualMappingCuration	author folded into creator when creator absent
+schema:keywords	keywords	skos:exactMatch	schema:keywords	keywords	semapv:ManualMappingCuration	comma-delimited strings split into array
+schema:datePublished	datePublished	skos:closeMatch	schema:dateModified	dateModified	semapv:ManualMappingCuration	used as dateModified fallback (CDIF requires dateModified)
+schema:dateModified	dateModified	skos:exactMatch	schema:dateModified	dateModified	semapv:ManualMappingCuration	
+schema:variableMeasured	variableMeasured	skos:exactMatch	schema:variableMeasured	variableMeasured	semapv:ManualMappingCuration	
+schema:spatialCoverage	spatialCoverage	skos:exactMatch	schema:spatialCoverage	spatialCoverage	semapv:ManualMappingCuration	string coerced to schema:Place; lat/long to numbers
+schema:temporalCoverage	temporalCoverage	skos:exactMatch	schema:temporalCoverage	temporalCoverage	semapv:ManualMappingCuration	
+schema:distribution	distribution	skos:exactMatch	schema:distribution	distribution	semapv:ManualMappingCuration	typed schema:DataDownload; url -> contentUrl

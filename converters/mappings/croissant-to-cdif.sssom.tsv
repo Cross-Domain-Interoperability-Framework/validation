@@ -1,0 +1,42 @@
+# mapping_set_id: https://w3id.org/cdif/mappings/croissant-to-cdif
+# mapping_set_title: MLCommons Croissant to CDIF
+# mapping_set_description: Property correspondences applied by ConvertFromCroissant.py (Croissant 1.0/1.1 -> CDIF DataDescription/Discovery; lossy inverse).
+# license: https://creativecommons.org/publicdomain/zero/1.0/
+# mapping_provider: https://cross-domain-interoperability-framework.github.io/
+# mapping_tool: converters/croissant/ConvertFromCroissant.py
+# mapping_date: 2026-08-24
+# subject_source: http://mlcommons.org/croissant/1.1
+# object_source: https://w3id.org/cdif/data_description/1.1
+# mapping_justification: semapv:ManualMappingCuration
+# curie_map:
+#   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+#   cdif: https://w3id.org/cdif/
+#   cr: http://mlcommons.org/croissant/
+#   sc: https://schema.org/
+#   schema: http://schema.org/
+#   semapv: https://w3id.org/semapv/vocab/
+#   skos: http://www.w3.org/2004/02/skos/core#
+#   spdx: http://spdx.org/rdf/terms#
+# comment: |
+#   Structural transforms the converter performs that are not term-to-term
+#   mappings (so they have no TSV row):
+#   - A CDIF catalog record is ADDED; dcterms:conformsTo is derived from content by detect_conformance.
+#   - Lossy: Croissant transform/format pipelines beyond column extraction are not represented in CDIF.
+#   - Field dataType (sc:Float/Integer/Date/Boolean/Text) is mapped back to the xsd: type on cdif:physicalDataType.
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	comment
+sc:name	name	skos:exactMatch	schema:name	name	semapv:ManualMappingCuration	schema.org term (CDIF uses http:// + schema: prefix)
+sc:description	description	skos:exactMatch	schema:description	description	semapv:ManualMappingCuration	
+sc:url	url	skos:exactMatch	schema:url	url	semapv:ManualMappingCuration	
+sc:license	license	skos:exactMatch	schema:license	license	semapv:ManualMappingCuration	
+sc:datePublished	datePublished	skos:exactMatch	schema:datePublished	datePublished	semapv:ManualMappingCuration	
+sc:creator	creator	skos:exactMatch	schema:creator	creator	semapv:ManualMappingCuration	wrapped in @list
+sc:keywords	keywords	skos:exactMatch	schema:keywords	keywords	semapv:ManualMappingCuration	
+sc:version	version	skos:exactMatch	schema:version	version	semapv:ManualMappingCuration	
+cr:FileObject	FileObject	skos:closeMatch	schema:DataDownload	DataDownload	semapv:ManualMappingCuration	containedIn -> archive schema:hasPart
+sc:contentUrl	contentUrl	skos:exactMatch	schema:contentUrl	contentUrl	semapv:ManualMappingCuration	
+sc:encodingFormat	encodingFormat	skos:exactMatch	schema:encodingFormat	encodingFormat	semapv:ManualMappingCuration	wrapped in array
+cr:sha256	sha256	skos:closeMatch	spdx:checksum	checksum	semapv:ManualMappingCuration	-> spdx:Checksum object (SHA-256)
+cr:RecordSet	RecordSet	skos:closeMatch	cdi:TabularTextDataSet	TabularTextDataSet distribution	semapv:ManualMappingCuration	-> distribution with cdif:hasPhysicalMapping
+cr:Field	Field	skos:closeMatch	cdi:InstanceVariable	InstanceVariable	semapv:ManualMappingCuration	dual-typed schema:PropertyValue + cdi:InstanceVariable
+cr:Field	Field.source.extract.column	skos:narrowMatch	cdif:hasPhysicalMapping	hasPhysicalMapping	semapv:ManualMappingCuration	column source -> physical mapping (cdif:index)
+cr:Field	Field.dataType	skos:closeMatch	cdif:physicalDataType	physicalDataType	semapv:ManualMappingCuration	sc:Float/Integer/Date/Boolean/Text -> xsd type

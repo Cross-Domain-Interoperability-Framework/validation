@@ -1,0 +1,43 @@
+# mapping_set_id: https://w3id.org/cdif/mappings/dcat-to-cdif
+# mapping_set_title: W3C DCAT to CDIF
+# mapping_set_description: Property correspondences applied by dcat_to_cdif.py (DCAT JSON-LD -> CDIF core/discovery).
+# license: https://creativecommons.org/publicdomain/zero/1.0/
+# mapping_provider: https://cross-domain-interoperability-framework.github.io/
+# mapping_tool: converters/DCAT/dcat_to_cdif.py
+# mapping_date: 2026-08-24
+# subject_source: http://www.w3.org/ns/dcat#
+# object_source: https://w3id.org/cdif/discovery/1.1
+# mapping_justification: semapv:ManualMappingCuration
+# curie_map:
+#   dcat: http://www.w3.org/ns/dcat#
+#   dcterms: http://purl.org/dc/terms/
+#   prov: http://www.w3.org/ns/prov#
+#   schema: http://schema.org/
+#   semapv: https://w3id.org/semapv/vocab/
+#   skos: http://www.w3.org/2004/02/skos/core#
+# comment: |
+#   Structural transforms the converter performs that are not term-to-term
+#   mappings (so they have no TSV row):
+#   - A CDIF catalog record is ADDED; dcterms:conformsTo is derived from content by detect_conformance (spatial/temporal presence upgrades core -> discovery).
+#   - Unmapped DCAT properties are preserved verbatim (open world).
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	comment
+dcterms:title	title	skos:exactMatch	schema:name	name	semapv:ManualMappingCuration	
+dcterms:description	description	skos:exactMatch	schema:description	description	semapv:ManualMappingCuration	
+dcterms:identifier	identifier	skos:exactMatch	schema:identifier	identifier	semapv:ManualMappingCuration	
+dcterms:modified	modified	skos:exactMatch	schema:dateModified	dateModified	semapv:ManualMappingCuration	falls back to dcterms:issued
+dcterms:issued	issued	skos:exactMatch	schema:datePublished	datePublished	semapv:ManualMappingCuration	
+dcterms:license	license	skos:exactMatch	schema:license	license	semapv:ManualMappingCuration	
+dcterms:accessRights	accessRights	skos:closeMatch	schema:conditionsOfAccess	conditionsOfAccess	semapv:ManualMappingCuration	
+dcterms:creator	creator	skos:exactMatch	schema:creator	creator	semapv:ManualMappingCuration	FOAF agent -> schema:Person/Organization
+dcterms:publisher	publisher	skos:exactMatch	schema:publisher	publisher	semapv:ManualMappingCuration	
+dcterms:spatial	spatial	skos:closeMatch	schema:spatialCoverage	spatialCoverage	semapv:ManualMappingCuration	bbox WKT / named place -> schema:Place
+dcterms:temporal	temporal	skos:closeMatch	schema:temporalCoverage	temporalCoverage	semapv:ManualMappingCuration	start/end -> ISO 8601 interval
+dcat:keyword	keyword	skos:exactMatch	schema:keywords	keywords	semapv:ManualMappingCuration	
+dcat:landingPage	landingPage	skos:exactMatch	schema:url	url	semapv:ManualMappingCuration	
+dcat:Distribution	Distribution	skos:closeMatch	schema:DataDownload	DataDownload	semapv:ManualMappingCuration	
+dcat:downloadURL	downloadURL	skos:exactMatch	schema:contentUrl	contentUrl	semapv:ManualMappingCuration	
+dcat:accessURL	accessURL	skos:closeMatch	schema:contentUrl	contentUrl	semapv:ManualMappingCuration	
+dcat:mediaType	mediaType	skos:exactMatch	schema:encodingFormat	encodingFormat	semapv:ManualMappingCuration	
+dcat:version	version	skos:exactMatch	schema:version	version	semapv:ManualMappingCuration	
+prov:qualifiedAttribution	qualifiedAttribution	skos:closeMatch	schema:contributor	contributor	semapv:ManualMappingCuration	agent + role extracted
+dcat:contactPoint	contactPoint	skos:closeMatch	schema:provider	provider	semapv:ManualMappingCuration	vcard (name/email) -> provider

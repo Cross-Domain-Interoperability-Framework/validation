@@ -1,0 +1,49 @@
+# mapping_set_id: https://w3id.org/cdif/mappings/cdif-to-croissant
+# mapping_set_title: CDIF to MLCommons Croissant 1.1
+# mapping_set_description: Property correspondences applied by ConvertToCroissant.py (CDIF -> Croissant 1.1).
+# license: https://creativecommons.org/publicdomain/zero/1.0/
+# mapping_provider: https://cross-domain-interoperability-framework.github.io/
+# mapping_tool: converters/croissant/ConvertToCroissant.py
+# mapping_date: 2026-08-24
+# subject_source: https://w3id.org/cdif/data_description/1.1
+# object_source: http://mlcommons.org/croissant/1.1
+# mapping_justification: semapv:ManualMappingCuration
+# curie_map:
+#   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+#   cdif: https://w3id.org/cdif/
+#   cr: http://mlcommons.org/croissant/
+#   sc: https://schema.org/
+#   schema: http://schema.org/
+#   semapv: https://w3id.org/semapv/vocab/
+#   skos: http://www.w3.org/2004/02/skos/core#
+#   spdx: http://spdx.org/rdf/terms#
+# comment: |
+#   Structural transforms the converter performs that are not term-to-term
+#   mappings (so they have no TSV row):
+#   - CDIF-only discovery/provenance properties (prov:wasGeneratedBy, dqv:hasQualityMeasurement, schema:spatialCoverage, ...) are passed through verbatim with namespace prefixes added to @context.
+#   - Croissant conformsTo is set to http://mlcommons.org/croissant/1.1; the CDIF schema:subjectOf block is passed through.
+#   - Field dataType derives from the variable's data type: xsd:decimal/float/double -> sc:Float, xsd:integer/int/long -> sc:Integer, xsd:date/dateTime -> sc:Date, xsd:boolean -> sc:Boolean, String -> sc:Text.
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	comment
+schema:name	name	skos:exactMatch	sc:name	name	semapv:ManualMappingCuration	schema.org term (Croissant uses https:// serialization)
+schema:description	description	skos:exactMatch	sc:description	description	semapv:ManualMappingCuration	name used as fallback (Croissant requires description)
+schema:url	url	skos:exactMatch	sc:url	url	semapv:ManualMappingCuration	falls back to DOI URL from identifier
+schema:license	license	skos:exactMatch	sc:license	license	semapv:ManualMappingCuration	OGC nil:missing placeholder when absent
+schema:datePublished	datePublished	skos:exactMatch	sc:datePublished	datePublished	semapv:ManualMappingCuration	
+schema:dateModified	dateModified	skos:exactMatch	sc:dateModified	dateModified	semapv:ManualMappingCuration	
+schema:creator	creator	skos:exactMatch	sc:creator	creator	semapv:ManualMappingCuration	@list unwrapped
+schema:keywords	keywords	skos:exactMatch	sc:keywords	keywords	semapv:ManualMappingCuration	
+schema:publisher	publisher	skos:exactMatch	sc:publisher	publisher	semapv:ManualMappingCuration	
+schema:version	version	skos:exactMatch	sc:version	version	semapv:ManualMappingCuration	defaults to 'not assigned' when absent
+schema:inLanguage	inLanguage	skos:exactMatch	sc:inLanguage	inLanguage	semapv:ManualMappingCuration	
+schema:sameAs	sameAs	skos:exactMatch	sc:sameAs	sameAs	semapv:ManualMappingCuration	object -> URL extracted
+schema:funding	funding	skos:exactMatch	sc:funding	funding	semapv:ManualMappingCuration	MonetaryGrant
+schema:DataDownload	DataDownload	skos:closeMatch	cr:FileObject	FileObject	semapv:ManualMappingCuration	structural; archive hasPart -> component FileObjects via containedIn
+schema:contentUrl	contentUrl	skos:exactMatch	sc:contentUrl	contentUrl	semapv:ManualMappingCuration	placeholder when missing
+schema:encodingFormat	encodingFormat	skos:exactMatch	sc:encodingFormat	encodingFormat	semapv:ManualMappingCuration	first array element
+schema:size	size	skos:closeMatch	sc:contentSize	contentSize	semapv:ManualMappingCuration	QuantitativeValue -> 'NNN B' string
+spdx:checksum	checksum	skos:closeMatch	cr:sha256	sha256	semapv:ManualMappingCuration	sha256 hex extracted; nil placeholder otherwise
+cdi:TabularTextDataSet	TabularTextDataSet distribution	skos:closeMatch	cr:RecordSet	RecordSet	semapv:ManualMappingCuration	distribution carrying cdif:hasPhysicalMapping
+cdi:InstanceVariable	InstanceVariable	skos:closeMatch	cr:Field	Field	semapv:ManualMappingCuration	variable -> field
+cdif:hasPhysicalMapping	hasPhysicalMapping	skos:narrowMatch	cr:Field	Field.source.extract.column	semapv:ManualMappingCuration	cdif:index / cdif:formats_InstanceVariable -> field column source
+schema:propertyID	propertyID	skos:closeMatch	cr:Field	Field.equivalentProperty	semapv:ManualMappingCuration	semantic link of a field
+cdif:hasPrimaryKey	hasPrimaryKey	skos:closeMatch	cr:RecordSet	RecordSet.key	semapv:ManualMappingCuration	key variables -> key field @ids
