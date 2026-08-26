@@ -1592,15 +1592,22 @@ def build_root_object_dispatch(type_dispatch):
     for dispatch_type, defs_name in type_dispatch:
         if defs_name == "type-CatalogRecord":
             # A catalog record in the current convention is typed
-            # @type: [schema:Dataset] with schema:additionalType containing
-            # dcat:CatalogRecord — so by @type alone it is indistinguishable
-            # from the main Dataset. Dispatch it by the additionalType marker
-            # (this branch precedes the schema:Dataset branch).
+            # @type: [schema:Dataset] with schema:additionalType containing the
+            # dcat:CatalogRecord IRI reference ({"@id": "dcat:CatalogRecord"}) —
+            # so by @type alone it is indistinguishable from the main Dataset.
+            # Dispatch it by the additionalType marker (this branch precedes the
+            # schema:Dataset branch).
             condition = {
                 "properties": {
                     "schema:additionalType": {
                         "type": "array",
-                        "contains": {"const": "dcat:CatalogRecord"}
+                        "contains": {
+                            "type": "object",
+                            "required": ["@id"],
+                            "properties": {
+                                "@id": {"const": "dcat:CatalogRecord"}
+                            }
+                        }
                     }
                 },
                 "required": ["schema:additionalType"]
