@@ -666,7 +666,7 @@ def convert_to_cdif(doc, publisher_label, profile="core"):
 
     doc["schema:subjectOf"] = {
         "@type": ["schema:Dataset"],
-        "schema:additionalType": ["dcat:CatalogRecord"],
+        "schema:additionalType": [{"@id": "dcat:CatalogRecord"}],
         "@id": (dataset_id + "#metadata") if dataset_id else "#metadata",
         "schema:name": (
             f"Metadata record for: "

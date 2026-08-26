@@ -413,7 +413,7 @@ def convert_soso_to_cdif(soso, profile="discovery", source_label=None,
         label = label or "unknown source"
     record = {
         "@type": ["schema:Dataset"],
-        "schema:additionalType": ["dcat:CatalogRecord"],
+        "schema:additionalType": [{"@id": "dcat:CatalogRecord"}],
         "@id": (dataset_id + "#metadata") if dataset_id else "urn:cdif:metadata",
         "schema:name": f"Metadata record for: {(doc.get('schema:name') or 'dataset')[:120]}",
         "schema:about": {"@id": dataset_id},

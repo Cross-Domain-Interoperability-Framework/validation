@@ -463,9 +463,13 @@ def frame_doc(doc, frame):
         picked = None
         for item in compacted["@graph"]:
             at = item.get("schema:additionalType") or item.get("additionalType", [])
-            if isinstance(at, str):
+            if not isinstance(at, list):
                 at = [at]
-            if "dcat:CatalogRecord" in at:
+            # additionalType may carry dcat:CatalogRecord as a string, an
+            # {"@id": ...} reference (the CDIF convention), or a full IRI.
+            types = {v.get("@id") if isinstance(v, dict) else v for v in at}
+            if types & {"dcat:CatalogRecord",
+                        "http://www.w3.org/ns/dcat#CatalogRecord"}:
                 continue
             picked = item
             break

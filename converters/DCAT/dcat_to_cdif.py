@@ -491,7 +491,7 @@ def convert_dcat_to_cdif(ds, catalog_name="", catalog_url="", profile="core",
 
     doc["schema:subjectOf"] = {
         "@type": ["schema:Dataset"],
-        "schema:additionalType": ["dcat:CatalogRecord"],
+        "schema:additionalType": [{"@id": "dcat:CatalogRecord"}],
         "@id": (dsid + "#metadata") if dsid else "#metadata",
         "schema:name": f"Metadata record for: {doc['schema:name'][:120]}",
         "schema:about": {"@id": dsid},

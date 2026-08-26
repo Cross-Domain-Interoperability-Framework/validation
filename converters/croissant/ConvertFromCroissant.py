@@ -917,7 +917,7 @@ def convert(croissant, verbose=False):
         # archive distribution carries hasPart files.
         subject_of = {
             "@type": ["schema:Dataset"],
-            "schema:additionalType": ["dcat:CatalogRecord"],
+            "schema:additionalType": [{"@id": "dcat:CatalogRecord"}],
             "schema:about": {"@id": out["@id"]},
         }
         date_modified = croissant.get("dateModified")

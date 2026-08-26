@@ -284,7 +284,7 @@ def convert(xml_path, doi_url, do_fetch_headers=False, do_fetch_file_meta=False,
     change_text = "; ".join(sorted(set(changes))) + ". " if changes else ""
     doc["schema:subjectOf"] = {
         "@type": ["schema:Dataset"],
-        "schema:additionalType": ["dcat:CatalogRecord"],
+        "schema:additionalType": [{"@id": "dcat:CatalogRecord"}],
         "@id": doi_url + "#metadata",
         "schema:name": f"Metadata record for: {doc['schema:name'][:120]}",
         "schema:about": {"@id": doi_url},
