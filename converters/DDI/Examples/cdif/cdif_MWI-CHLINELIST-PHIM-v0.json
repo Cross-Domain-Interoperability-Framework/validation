@@ -1,0 +1,616 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+  },
+  "@id": "urn:ddi:MWI-CHLINELIST-PHIM-v0.1",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "MALAWI CHOLERA LINELIST FROM AUGUST 2023 - 2025",
+  "schema:alternateName": "CHLINELIST 2024-2025",
+  "schema:identifier": {
+    "@type": [
+      "schema:PropertyValue"
+    ],
+    "schema:value": "MWI-CHLINELIST-PHIM-v0.1"
+  },
+  "schema:dateModified": "2024-08-01",
+  "schema:datePublished": "2024-08-01",
+  "schema:version": "V0.1 : Basic raw data, obtained from data entry",
+  "schema:creator": {
+    "@list": [
+      {
+        "@type": [
+          "schema:Person"
+        ],
+        "schema:name": "Public Health Instiatute of Malawi"
+      }
+    ]
+  },
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:name": "District Health management information system officers"
+  },
+  "schema:contributor": [
+    {
+      "@type": [
+        "schema:Person"
+      ],
+      "schema:name": "Health facility data clerks",
+      "schema:affiliation": {
+        "@type": [
+          "schema:Organization"
+        ],
+        "schema:name": "ministry of health"
+      }
+    }
+  ],
+  "schema:spatialCoverage": [
+    {
+      "@type": [
+        "schema:Place"
+      ],
+      "schema:name": "Malawi"
+    }
+  ],
+  "schema:temporalCoverage": [
+    "2023-08-01/2025-08-01"
+  ],
+  "schema:measurementTechnique": [
+    "Face-to-face [f2f]",
+    "Observation data/ratings [obs]"
+  ],
+  "schema:license": [
+    "http://www.opengis.net/def/nil/OGC/0/missing"
+  ],
+  "schema:variableMeasured": [
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V1",
+      "schema:name": "V1",
+      "schema:description": "Serial Number",
+      "cdi:intendedDataType": "xsd:decimal",
+      "cdi:role": "MeasureComponent",
+      "schema:minValue": 1.0,
+      "schema:maxValue": 350.0
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V2",
+      "schema:name": "DISTRICT",
+      "schema:description": "District of Case Residence",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V3",
+      "schema:name": "HEALTHFACILITYCTC",
+      "schema:description": "Name of the reporting health facility Name of the reporting health facility Name of the reporting health facility",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V5",
+      "schema:name": "SEX",
+      "schema:description": "Sex at birth",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V32",
+      "schema:name": "AGE",
+      "schema:description": "Age in years",
+      "cdi:intendedDataType": "xsd:decimal",
+      "cdi:role": "AttributeComponent",
+      "schema:minValue": 0.0,
+      "schema:maxValue": 90.0
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V71",
+      "schema:name": "AGEGROUP",
+      "schema:description": "A standardized categorization of the individual's age",
+      "cdi:intendedDataType": "xsd:decimal",
+      "cdi:role": "AttributeComponent",
+      "schema:minValue": 60.0,
+      "schema:maxValue": 60.0
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V8",
+      "schema:name": "VILLAGE",
+      "schema:description": "The specific village or community where the case is coming from",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V69",
+      "schema:name": "TA",
+      "schema:description": "Admin level (e.g.,traitional authority, ward, municipality sector) of residence",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V10",
+      "schema:name": "COUNTRYOFORIGIN",
+      "schema:description": "The country/district of permanent residence",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V76",
+      "schema:name": "RDTNegativepositive",
+      "schema:description": "the Rapid Diagnostic Test (RDT)",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V15",
+      "schema:name": "CULTURENegativepositive",
+      "schema:description": "Culture and seroagglutination result",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V16",
+      "schema:name": "EPILINKYesNo",
+      "schema:description": "epidemiological link to another confirmed or probable case",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V66",
+      "schema:name": "STATUSSuspectConfirmed",
+      "schema:description": "classification of the case based on case definition, indicating whether the individual is a suspected case or a confirmed case",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V18",
+      "schema:name": "OUTBREAKCASES",
+      "schema:description": "The number of confirmed or suspected outbreak-related cases reported from a specific location",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V85",
+      "schema:name": "OUTCOMEDeadAlive",
+      "schema:description": "The final status of the patient after the illness or treatment",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V90",
+      "schema:name": "PLACEOFOUTCOME",
+      "schema:description": "The location where the patient is alive or died",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V24",
+      "schema:name": "VACCINATIONSTATUS",
+      "schema:description": "The vaccination status of the case",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V25",
+      "schema:name": "NUMBEROFDOSESOFVACCINE",
+      "schema:description": "Number of vaccination doses the case received",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V26",
+      "schema:name": "INPATIENTOUTPATIENT",
+      "schema:description": "IN-the type of healthcare encounter — whether the individual was admitted as an inpatient or received care without admission (outpatient)",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V94",
+      "schema:name": "COMMENTS",
+      "schema:description": "Any other comment",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V36",
+      "schema:name": "SERIALNO",
+      "schema:description": "This is a case' Unique Indentifier",
+      "cdi:intendedDataType": "xsd:decimal",
+      "cdi:role": "MeasureComponent",
+      "schema:minValue": 1.0,
+      "schema:maxValue": 704.0
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V37",
+      "schema:name": "DISTRICT",
+      "schema:description": "District of Case Residence",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V38",
+      "schema:name": "HEALTHFACILITYCTC",
+      "schema:description": "Name of the reporting health facility Name of the reporting health facility Name of the reporting health facility",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V40",
+      "schema:name": "SEX",
+      "schema:description": "Sex at birth",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V41",
+      "schema:name": "AGE",
+      "schema:description": "Age in years",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V42",
+      "schema:name": "AGEGROUP",
+      "schema:description": "A standardized categorization of the individual's age",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V43",
+      "schema:name": "VILLAGE",
+      "schema:description": "The specific village or community where the case is coming from",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V44",
+      "schema:name": "TA",
+      "schema:description": "Admin level (e.g.,traitional authority, ward, municipality sector) of residence",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V45",
+      "schema:name": "COUNTRYDISTRICTOFORIGIN",
+      "schema:description": "The country/district of permanent residence",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V49",
+      "schema:name": "RDTNegativepositive",
+      "schema:description": "This refers to the result of the Rapid Diagnostic Test (RDT)",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V50",
+      "schema:name": "CULTURENegativepositive",
+      "schema:description": "Culture and seroagglutination result",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V51",
+      "schema:name": "EPILINKYesNo",
+      "schema:description": "epidemiological link to another confirmed or probable case",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V52",
+      "schema:name": "STATUSSuspectConfirmed",
+      "schema:description": "classification of the case based on case definition, indicating whether the individual is a suspected case or a confirmed case",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V54",
+      "schema:name": "OUTCOMEDeadAlive",
+      "schema:description": "The final status of the patient after the illness or treatment",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V55",
+      "schema:name": "PLACEOFDEATH",
+      "schema:description": "The location where the patient died",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V56",
+      "schema:name": "OUTCOMEDATE",
+      "schema:description": "The date on which the final outcome",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V58",
+      "schema:name": "VACCINATIONSTATUS",
+      "schema:description": "The vaccination status of the case",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V59",
+      "schema:name": "NUMBEROFDOSESOFVACCINE",
+      "schema:description": "Number of vaccination doses the case received",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V61",
+      "schema:name": "TypeofCase",
+      "schema:description": "A department where the case was captured",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V63",
+      "schema:name": "COMMENTS",
+      "schema:description": "Any other comment",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#V64",
+      "schema:name": "V29",
+      "schema:description": "SERIAL NO",
+      "cdi:intendedDataType": "xsd:string",
+      "cdi:role": "AttributeComponent"
+    }
+  ],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:name": "Malawi Cholera Linelist from August 2024-2025(Cholera cases from Aug_2024 to ).NSDstat",
+      "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/missing",
+      "schema:description": "Source file type: Nesstar 200801",
+      "schema:additionalProperty": [
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:name": "row count",
+          "schema:value": 350
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:name": "column count",
+          "schema:value": 20
+        }
+      ]
+    },
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:name": "Malawi Cholera Linelist 2023_2024(2023-2024).NSDstat",
+      "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/missing",
+      "schema:description": "Source file type: Nesstar 200801",
+      "schema:additionalProperty": [
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:name": "row count",
+          "schema:value": 708
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:name": "column count",
+          "schema:value": 21
+        }
+      ]
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "urn:ddi:MWI-CHLINELIST-PHIM-v0.1#cdif-catalog-record",
+    "schema:name": "Metadata record for: MALAWI CHOLERA LINELIST FROM AUGUST 2023 - 2025",
+    "schema:about": {
+      "@id": "urn:ddi:MWI-CHLINELIST-PHIM-v0.1"
+    },
+    "schema:description": "Metadata harvested from a DDI Codebook 1.2.2 (ICPSR) document (IDNo MWI-CHLINELIST-PHIM-v0.1) and converted to CDIF by ddi122_to_cdif.py. Study citation/title, abstract, agents, spatial/temporal coverage, and access conditions mapped to discovery properties; 41 DDI <var> mapped to schema:variableMeasured / cdi:InstanceVariable; 2 <fileDscr> mapped to schema:distribution (schema:DataDownload; contentUrl set to the OGC nil 'missing' value where the source provides no resolvable download URL). 27 variable(s) carry an inline DDI code list (<catgry>); these categories are not yet emitted as a CDIF code list.",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.1"
+      }
+    ],
+    "schema:sdDatePublished": "2024-08-01",
+    "schema:maintainer": {
+      "@type": [
+        "schema:Organization"
+      ],
+      "schema:name": "Francis Makina"
+    }
+  }
+}
