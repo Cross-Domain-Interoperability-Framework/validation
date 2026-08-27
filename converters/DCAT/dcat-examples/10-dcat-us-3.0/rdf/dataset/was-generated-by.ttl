@@ -1,0 +1,19 @@
+@prefix ex: <http://example.org/>.
+@prefix prov: <http://www.w3.org/ns/prov#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+
+# Dataset resulting from the census activity
+ex:Census2020Dataset a dcat:Dataset ;
+    dcterms:title "2020 Census Dataset" ;
+    dcterms:description "Dataset resulting from the 2020 National Census" ;
+    dcterms:publisher <https;//www.census.gov> ;
+    prov:wasGeneratedBy ex:NationalCensus .
+
+# Activity
+ex:NationalCensus a prov:Activity ;
+    rdfs:label "National Census" ;
+    dcterms:type ex:CensusActivity ;
+.

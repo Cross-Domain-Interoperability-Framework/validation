@@ -1,0 +1,21 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ex: <http://example.org/ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+ex:Distribution1
+  a dcat:Distribution ;
+  dcterms:title "CSV distribution";
+  dcat:downloadURL <https://example.com/download.csv> ;
+  dcat:mediaType <https://www.iana.org/assignments/media-types/text/csv>
+.
+
+    
+ex:Distribution2 a dcat:Distribution ;
+  dcterms:title "Geopackage distribution";
+  dcat:downloadURL <https://example.com/geopackage2.gpkg> ;
+  dcterms:mediaType <https://www.iana.org/assignments/media-types/application/geopackage+sqlite3> 
+.
+
+<https://www.iana.org/assignments/media-types/application/geopackage+sqlite3>  a dcterms:MediaType ;
+    rdfs:label "Geopackage" .

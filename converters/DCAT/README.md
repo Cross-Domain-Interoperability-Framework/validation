@@ -4,7 +4,7 @@ Tools for converting [DCAT](https://www.w3.org/TR/vocab-dcat-3/) metadata to CDI
 
 ## Background
 
-Many institutional and government data catalogs publish metadata using the W3C DCAT vocabulary (often serialized as JSON-LD with Dublin Core and FOAF terms). CDIF uses schema.org as its primary vocabulary. The property mappings between DCAT and schema.org are documented in the [CDIF DCAT implementation guide](https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/dcat.html), which draws on the W3C DXWG group's alignment work.
+Many institutional and government data catalogs publish metadata using the W3C DCAT vocabulary (often serialized as JSON-LD with Dublin Core and FOAF terms). CDIF uses schema.org as its primary vocabulary. The property mappings between DCAT and schema.org are documented in the [CDIF DCAT implementation guide](https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/dcat/), which draws on the W3C DXWG group's alignment work.
 
 This converter enables DCAT catalog records to be consumed by CDIF-aware tools by translating DCAT/Dublin Core properties to their schema.org equivalents while preserving any unmapped properties (open-world assumption).
 

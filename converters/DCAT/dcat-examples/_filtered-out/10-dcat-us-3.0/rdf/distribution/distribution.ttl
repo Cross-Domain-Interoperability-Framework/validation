@@ -1,0 +1,28 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix odrs: <http://schema.theodi.org/odrs#> .
+@prefix : <http://example.org/> .
+
+# ---------- class Distribution ---------------------------------------------
+:Distribution1
+  a dcat:Distribution ;
+
+  # mandatory properties
+
+  dcterms:accessURL <https://census.gov/data/1234/access> ;
+  dcterms:license <http://data.gov/vocabulary/licenses/cc-by/4.0> ;
+
+  # recommended properties
+
+  dcterms:availability <http://data.gov/resource/authority/planned-availability/STABLE> ;
+  dcterms:description "some description of the data";
+  dcterms:format <http://data.gov/resource/authority/file-type/CSV> ;
+  dcterms:rights :census.gov-rights-statement ;
+  dcterms:title "some title of the distribution" ;
+  dcterms:modified "2019-04-26"^^xsd:date .
+
+# ---------- class RightsStatement ------------------------------------------
+:census.gov-rights-statement
+    a odrs:RightsStatement;
+    odrs:attributionText "Some census.gov organization rights statement" .

@@ -1,0 +1,1099 @@
+# constraints concerning existence, domain and literal range, and cardinalities.
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix : <https://semiceu.github.io/DCAT-AP/releases/3.0.0/html/shacl/shapes.ttl#> .
+@prefix adms: <http://www.w3.org/ns/adms#> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix lcon: <http://www.w3.org/ns/locn#> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix spdx: <http://spdx.org/rdf/terms#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcatap: <http://data.europa.eu/r5r/> .
+
+# HealthDCAT-AP
+@prefix dqv: <http://www.w3.org/ns/dqv#> .
+@prefix dpv: <https://w3id.org/dpv#> .
+@prefix healthdcatapShape: <https://healthdcat-ap.github.io/shapes.ttl#> .  # to be modified when available
+@prefix healthdcatap: <http://healthdataportal.eu/ns/health#> .  # to be modified when available
+@prefix csvw: <http://www.w3.org/ns/csvw#> .
+
+<https://semiceu.github.io/DCAT-AP/releases/3.0.0/html/shacl/shapes.ttl> 
+    dct:format <http://publications.europa.eu/resource/authority/file-type/RDF_TURTLE> ;
+    dct:conformsTo <https://www.w3.org/TR/shacl> ;
+    dct:description "This files specifies the core constraints on properties and classes expressed by DCAT-AP in SHACL."@en.
+
+# HealthDCAT-AP
+<https://healthdcat-ap.github.io/shapes.ttl> # to be modified
+    dct:format <http://publications.europa.eu/resource/authority/file-type/RDF_TURTLE> ;
+    dct:conformsTo <https://www.w3.org/TR/shacl> ;
+    dct:description "This files specifies the core constraints on properties and classes expressed by HealthDCAT-AP in SHACL."@en.
+
+
+#-------------------------------------------------------------------------
+# The shapes in this file cover all classes in HealthDCAT-AP sensitive data specification
+# It covers all constraints that must be satisfied except those verifying 
+# the class ranges. This can be found in a separate file.
+# 
+#-------------------------------------------------------------------------
+
+:Agent_Shape
+    a sh:NodeShape ;
+    rdfs:label "Agent"@en ;
+    sh:property [
+        sh:minCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:path foaf:name ;
+        sh:severity sh:Violation
+    ], [
+        sh:maxCount 1 ;
+        sh:path dct:type ;
+        sh:severity sh:Violation
+    ] ;
+    sh:targetClass foaf:Agent .
+
+# HealthDCAT-AP 
+# Health Agent Shape
+:HealthAgent_Shape
+    a sh:NodeShape ;
+    sh:extends :Agent_Shape ;
+    rdfs:label "Health Agent"@en ;
+    sh:property [
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:path foaf:homepage ;
+        sh:severity sh:Violation ;
+        sh:message "Each foaf:Agent must have exactly one foaf:homepage as an IRI."
+    ], [
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:path foaf:mbox ;
+        sh:severity sh:Violation ;
+        sh:message "Each foaf:Agent must have exactly one foaf:mbox as an IRI."
+    ] .
+
+# Health Publisher Agent Shape (Only for dcat:Dataset publishers)
+:HealthPublisherAgent_Shape
+    a sh:NodeShape ;
+    sh:extends :HealthAgent_Shape ;
+    rdfs:label "Health Publisher Agent"@en ;
+    sh:property [
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path healthdcatap:publisherType ;
+        sh:severity sh:Violation ;
+        sh:message "Each dct:publisher must have exactly one healthdcatap:publisherType as a blank node or IRI."
+    ], [
+        sh:minCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:path healthdcatap:publisherNote ;
+        sh:severity sh:Violation ;
+        sh:message "Each dct:publisher must have at least one healthdcatap:publisherNote as a literal."
+    ], [
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:boolean ;
+        sh:path healthdcatap:trustedDataHolder ;
+        sh:severity sh:Violation ;
+        sh:message "Each dct:publisher must have exactly one healthdcatap:trustedDataHolder with a boolean value."
+    ] .
+
+:Kind_Shape
+    a sh:NodeShape ;
+    rdfs:label "vcard Kind"@en ;
+    sh:property [
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:path vcard:hasURL ;
+        sh:severity sh:Violation ;
+        sh:message "Each vcard:Kind must have one vcard:hasURL as an IRI."
+    ], [
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:path vcard:hasEmail ;
+        sh:severity sh:Violation ;
+        sh:message "Each vcard:Kind node must have one vcard:hasEmail as an IRI."
+    ] ;
+    sh:targetClass vcard:Kind .
+
+:CatalogRecord_Shape
+    a sh:NodeShape ;
+    rdfs:label "Catalog Record"@en ;
+    sh:property [
+        sh:maxCount 1 ;
+        sh:minCount 1 ;
+        sh:node :DcatResource_Shape ;
+        sh:path foaf:primaryTopic ;
+        sh:severity sh:Violation
+    ], [
+        sh:maxCount 1 ;
+        sh:minCount 1 ;
+        sh:path dct:modified ;
+        sh:severity sh:Violation ;
+        sh:shape :DateOrDateTimeDataType_Shape
+    ], [
+        sh:maxCount 1 ;
+        sh:path dct:conformsTo ;
+        sh:severity sh:Violation
+    ], [
+        sh:maxCount 1 ;
+        sh:node :DateOrDateTimeDataType_Shape ;
+        sh:path dct:issued ;
+        sh:severity sh:Violation
+    ], [
+        sh:maxCount 1 ;
+        sh:path adms:status ;
+        sh:severity sh:Violation
+    ], [
+        sh:path dct:language ;
+        sh:severity sh:Violation
+    ], [
+        sh:maxCount 1 ;
+        sh:path dct:source ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:Literal ;
+        sh:path dct:title ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:Literal ;
+        sh:path dct:description ;
+        sh:severity sh:Violation
+    ] ;
+    sh:targetClass dcat:CatalogRecord .
+
+:Catalog_Shape
+    a sh:NodeShape ;
+    rdfs:label "Catalog"@en ;
+    sh:property [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dct:language ;
+        sh:severity sh:Violation
+    ], [
+        sh:minCount 1 ;
+        sh:path dcatap:applicableLegislation;
+        sh:nodeKind sh:IRI;
+        sh:severity sh:Violation ;
+        sh:message "dcatap:applicableLegislation for dcat:Catalogue is required."
+    ], [
+        sh:maxCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dct:license ;
+        sh:severity sh:Violation
+    ], [
+        sh:maxCount 1 ;
+        sh:node :DateOrDateTimeDataType_Shape ;
+        sh:path dct:issued ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dct:spatial ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dct:hasPart ;
+        sh:severity sh:Violation
+    ], [
+        sh:maxCount 1 ;
+        sh:node :DateOrDateTimeDataType_Shape ;
+        sh:path dct:modified ;
+        sh:severity sh:Violation
+    ], [
+        sh:maxCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dct:rights ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dcat:record ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dcat:themeTaxonomy ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dcat:service ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dcat:catalog ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:maxCount 1 ;
+        sh:path dct:creator ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dcat:dataset ;
+        sh:severity sh:Violation
+    ], [
+        sh:minCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:path dct:description ; 
+        sh:severity sh:Violation ;
+        sh:message "A dct:description for dcat:Catalogue is required." 
+    ], [
+        sh:maxCount 1 ;
+        sh:minCount 1 ;
+        sh:path dct:publisher ;
+        sh:severity sh:Violation ;
+        sh:message "A dct:publisher for dcat:Catalogue is required." 
+    ], [
+        sh:minCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:path dct:title ;
+        sh:severity sh:Violation ;
+        sh:message "A dct:title for dcat:Catalogue is required." 
+    ], [
+        sh:maxCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path foaf:homepage ;
+        sh:severity sh:Violation
+    ] ;
+    sh:targetClass dcat:Catalog .
+
+:CategoryScheme_Shape
+    a sh:NodeShape ;
+    rdfs:label "Category Scheme"@en ;
+    sh:property [
+        sh:minCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:path dct:title ;
+        sh:severity sh:Violation ;
+        sh:message "Each skos:ConceptScheme must have at least one dct:title." 
+    ] ;
+    sh:targetClass skos:ConceptScheme .
+
+:Category_Shape
+    a sh:NodeShape ;
+    rdfs:label "Category"@en ;
+    sh:property [
+        sh:minCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:path skos:prefLabel ;
+        sh:severity sh:Violation ;
+        sh:message "Each skos:Concept must have at least one skos:prefLabel." 
+    ] ;
+    sh:targetClass skos:Concept .
+
+:Checksum_Shape
+    a sh:NodeShape ;
+    rdfs:label "Checksum"@en ;
+    sh:property [
+        sh:maxCount 1 ;
+        sh:minCount 1 ;
+        sh:path spdx:algorithm ;
+        sh:severity sh:Violation
+    ], [
+        sh:datatype xsd:hexBinary ;
+        sh:maxCount 1 ;
+        sh:minCount 1 ;
+        sh:path spdx:checksumValue ;
+        sh:severity sh:Violation
+    ] ;
+    sh:targetClass spdx:Checksum .
+
+:DataService_Shape
+    a sh:NodeShape ;
+    rdfs:label "Data Service"@en ;
+    sh:property [
+        sh:maxCount 1 ;
+        sh:path dct:accessRights ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:severity sh:Violation
+    ], [
+        sh:minCount 1 ;
+        sh:path dcatap:applicableLegislation;
+        sh:nodeKind sh:IRI;
+        sh:severity sh:Violation;
+        sh:message "A dcatap:applicableLegislation for dcat:DataService is required." 
+    ], [
+        sh:path dct:conformsTo ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dcat:contactPoint ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:Literal ;
+        sh:path dct:description ;
+        sh:severity sh:Violation
+    ], [
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dcat:endpointURL ;
+        sh:severity sh:Violation ;
+        sh:message "A dcatap:applicableLegislation for dcat:DataService is required." 
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dcat:endpointDescription ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dct:format ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:Literal ;
+        sh:path dcat:keyword ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dcat:landingPage ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:maxCount 1 ;
+        sh:path dct:license ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:maxCount 1 ;
+        sh:path dct:publisher ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dcat:servesDataset ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:IRI ;
+        sh:path dcat:theme ;
+        sh:severity sh:Violation
+    ], [
+        sh:minCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:path dct:title ;
+        sh:severity sh:Violation ;
+        sh:message "A dct:title for dcat:DataService is required." 
+    ] ;
+    sh:targetClass dcat:DataService .
+
+
+
+:Dataset_Shape
+    a sh:NodeShape ;
+    rdfs:label "Dataset"@en ;
+    sh:property [
+        # HealthDCAT-AP
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dct:accessRights ;
+        sh:severity sh:Violation ;
+        sh:message "Each dcat:Dataset must have exactly one dct:accessRights."
+    ], [
+        sh:minCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:path dct:title ;
+        sh:severity sh:Violation ;
+        sh:message "A dct:title for dcat:Dataset is required."
+    ], [
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI ;
+  	    sh:path dcatap:applicableLegislation;
+        sh:severity sh:Violation;
+        sh:message "A dcatap:applicableLegislation for dcat:Dataset is required."
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dct:conformsTo ;
+        sh:severity sh:Violation
+    ], [
+        # HealthDCAT-AP
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dcat:contactPoint ;
+        sh:severity sh:Violation ;
+        sh:message "Each dcat:Dataset must have at least one dcat:contactPoint."
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dct:creator ;
+        sh:severity sh:Violation
+    ], [
+        # HealthDCAT-AP
+        sh:minCount 1 ;
+        sh:node :healthDistribution_Shape ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dcat:distribution ;
+        sh:severity sh:Violation ;
+        sh:message "Each dcat:Dataset must have at least one dcat:distribution conforming to :healthDistribution_Shape."
+    ], [
+        sh:minCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:path dct:description ;
+        sh:severity sh:Violation ;
+        sh:message "A dct:description for dcat:Dataset is required."
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path foaf:page ;
+        sh:severity sh:Violation
+    ], [
+        sh:maxCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:path dcat:version ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:Literal ;
+        sh:path adms:versionNotes ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path prov:wasGeneratedBy ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dcat:landingPage ;
+        sh:severity sh:Violation
+    ], [
+        # HealthDCAT-AP
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dct:spatial ;
+        sh:severity sh:Violation ;
+        sh:message "Each dcat:Dataset must have at least one dct:spatial."
+    ], [
+        sh:maxCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+	    sh:path dct:accrualPeriodicity;
+        sh:severity sh:Violation
+    ], [
+        # HealthDCAT-AP
+        sh:minCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:path dct:identifier ;
+        sh:datatype xsd:anyURI ;
+        sh:severity sh:Violation ;
+        sh:message "Each dcat:Dataset must have at least one dct:identifier."
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dct:hasVersion ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dcat:inSeries ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dct:isReferencedBy ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dct:language ;
+        sh:severity sh:Violation
+    ], [
+        sh:maxCount 1 ;
+        sh:path dct:issued ;
+        sh:severity sh:Violation ;
+        sh:shape :DateOrDateTimeDataType_Shape
+    ], [
+        sh:maxCount 1 ;
+        sh:path dct:modified ;
+        sh:severity sh:Violation ;
+        sh:shape :DateOrDateTimeDataType_Shape
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path adms:identifier ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path prov:qualifiedAttribution ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dcat:qualifiedRelation ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dct:relation ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dct:source ;
+        sh:severity sh:Violation
+    ], [
+        sh:datatype xsd:decimal ;
+	    sh:maxCount 1 ;
+        sh:path dcat:spatialResolutionInMeters ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dct:temporal ;
+        sh:severity sh:Violation
+    ], [
+        sh:datatype xsd:duration ;
+		sh:maxCount 1 ;
+        sh:path dcat:temporalResolution ;
+        sh:severity sh:Violation
+    ], [
+        # HealthDCAT-AP
+        sh:minCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:path dcat:keyword ;
+        sh:severity sh:Violation ;
+        sh:message "Each dcat:Dataset must have at least one dcat:keyword."
+    ], [
+        # HealthDCAT-AP
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dct:provenance ;
+        sh:severity sh:Violation ;
+        sh:message "Each dcat:Dataset must have at least one dct:provenance."
+    ], [
+        # HealthDCAT-AP
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:node :HealthPublisherAgent_Shape ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dct:publisher ;
+        sh:severity sh:Violation ;
+        sh:message "Each dcat:Dataset must have exactly one dct:publisher conforming to :HealthPublisherAgent_Shape."
+    ], [
+        # HealthDCAT-AP
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path adms:sample ;
+        sh:node :Distribution_Shape ;
+        sh:severity sh:Violation ;
+        sh:message "Each dcat:Dataset must have at least one adms:sample conforming to :Distribution_Shape."
+    ], [
+        # HealthDCAT-AP
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:path dcat:theme ;
+        sh:severity sh:Violation ;
+        sh:message "Each dcat:Dataset must have at least one dcat:theme."
+    ], [
+        # HealthDCAT-AP
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dct:type ;
+        sh:severity sh:Violation ;
+        sh:message "Each dcat:Dataset must have exactly one dct:type."
+    ], [
+        # HealthDCAT-AP
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dpv:hasPurpose ;
+        sh:severity sh:Violation ;
+        sh:message "Each dcat:Dataset must have at least one dpv:hasPurpose."
+    ], [
+        # HealthDCAT-AP
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:node :HealthAgent_Shape ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path healthdcatap:hdab ;
+        sh:severity sh:Violation ;
+        sh:message "Each dcat:Dataset must have exactly one healthdcatap:hdab conforming to :HealthAgent_Shape."
+    ], [
+        # HealthDCAT-AP
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path healthdcatap:healthCategory ;
+        sh:severity sh:Violation ;
+        sh:message "Each dcat:Dataset must have at least one healthdcatap:healthCategory."
+    ], [
+        # HealthDCAT-AP
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path healthdcatap:healthTheme ;
+        sh:severity sh:Violation ;
+        sh:message "Each dcat:Dataset must have at least one healthdcatap:healthTheme."
+    ], [
+        # HealthDCAT-AP
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dqv:hasLegalBasis ;
+        sh:severity sh:Violation
+    ], [
+        # HealthDCAT-AP
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dpv:hasPersonalData ;
+        sh:severity sh:Violation
+    ], [
+        # HealthDCAT-AP
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dqv:hasQualityAnnotation ;
+        sh:severity sh:Violation
+    ], [
+        # HealthDCAT-AP
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:node :Distribution_Shape;
+        sh:path healthdcatap:analytics ;
+        sh:severity sh:Violation
+    ], [
+        # HealthDCAT-AP
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:node :HasCodeValues_Shape;
+        sh:path healthdcatap:hasCodeValues ;
+        sh:severity sh:Violation
+    ], [
+        # HealthDCAT-AP
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path healthdcatap:hasCodingSystem ;
+        sh:severity sh:Violation
+    ], [
+        # HealthDCAT-AP
+        sh:path healthdcatap:minTypicalAge ;
+        sh:datatype xsd:nonNegativeInteger ;
+        sh:severity sh:Violation
+    ], [
+        # HealthDCAT-AP
+        sh:path healthdcatap:maxTypicalAge ;
+        sh:datatype xsd:nonNegativeInteger ;
+        sh:severity sh:Violation
+    ], [
+        # HealthDCAT-AP
+        sh:path healthdcatap:numberOfRecords ;
+        sh:datatype xsd:nonNegativeInteger ;
+        sh:severity sh:Violation
+    ], [
+        # HealthDCAT-AP
+        sh:path healthdcatap:numberOfUniqueIndividuals ;
+        sh:datatype xsd:nonNegativeInteger ;
+        sh:severity sh:Violation
+    ], [
+        # HealthDCAT-AP
+        sh:nodeKind sh:Literal ;
+        sh:path healthdcatap:populationCoverage ;
+        sh:severity sh:Violation
+    ], [
+        # HealthDCAT-AP
+        sh:nodeKind sh:Literal ;
+        sh:path dct:alternative ;
+        sh:severity sh:Violation
+    ], [
+        # HealthDCAT-AP
+        sh:node :PeriodOfTime_Shape ;
+        sh:path healthdcatap:retentionPeriod ;
+        sh:severity sh:Violation
+    ] ;
+    sh:targetClass dcat:Dataset .
+
+:DateOrDateTimeDataType_Shape
+    a sh:NodeShape ;
+    rdfs:comment "Date time date disjunction shape checks that a datatype property receives a temporal value: date, dateTime, gYear or gYearMonth literal" ;
+    rdfs:label "Date time date disjunction" ;
+    sh:message "The values must be data typed as either xsd:date, xsd:dateTime, xsd:gYear or xsd:gYearMonth" ;
+    sh:or ([
+            sh:datatype xsd:date
+        ]
+        [
+            sh:datatype xsd:dateTime
+        ]
+		[
+            sh:datatype xsd:gYear
+        ]
+		[
+            sh:datatype xsd:gYearMonth
+        ]
+    ) .
+
+:HasCodeValues_Shape
+    a sh:NodeShape ;
+    rdfs:label "hasCodeValue"@en ;
+    sh:property [
+        sh:minCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:path dct:identifier ;
+        sh:datatype xsd:anyURI ;
+        sh:message "It is mandatory to reference an identifier for each healthdcatap:hasCodeValue." ;
+        sh:severity sh:Violation
+    ], [
+        sh:minCount 1 ;
+        sh:path skos:inScheme ;
+        sh:nodeKind sh:IRI ;
+        sh:message "It is mandatory to reference a skos:ConceptScheme through skos:inScheme for each healthdcatap:hasCodeValue." ;
+        sh:severity sh:Violation
+    ] .
+
+
+
+:DcatResource_Shape
+    a sh:NodeShape ;
+    rdfs:comment "the union of Catalog, Dataset and DataService" ;
+    rdfs:label "dcat:Resource" ;
+    sh:message "The node is either a Catalog, Dataset or a DataService" ;
+    sh:or ([
+            sh:class dcat:Catalog
+        ]
+        [
+            sh:class dcat:Dataset
+        ]
+        [
+            sh:class dcat:DataService
+        ]
+        [
+            sh:class dcat:DatasetSeries
+        ]
+    ) .
+
+:Distribution_Shape
+    a sh:NodeShape ;
+    rdfs:label "Distribution"@en ;
+    sh:property [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dcat:accessService ;
+        sh:severity sh:Violation
+    ], [
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI;
+        sh:path dcat:accessURL ;
+        sh:severity sh:Violation ;
+        sh:message "A dcat:accessURL for dcat:Distribution is required."
+    ], [
+        sh:nodeKind sh:IRI ;
+  	    sh:path dcatap:applicableLegislation;
+        sh:severity sh:Violation
+    ], [
+        sh:maxCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dcatap:availability ;
+        sh:severity sh:Violation
+    ], [
+        sh:datatype xsd:nonNegativeInteger ;
+        sh:maxCount 1 ;
+        sh:path dcat:byteSize ;
+        sh:severity sh:Violation
+    ], [
+        sh:maxCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path spdx:checksum ;
+        sh:severity sh:Violation
+    ], [
+        sh:maxCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dcat:compressFormat ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:Literal ;
+        sh:path dct:description ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path foaf:page ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI;
+        sh:path dcat:downloadURL ;
+        sh:severity sh:Violation
+    ], [
+        sh:maxCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dct:format ;
+        sh:severity sh:Violation
+    ], [
+        sh:maxCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path odrl:hasPolicy ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dct:language ;
+        sh:severity sh:Violation
+    ], [
+        sh:maxCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dct:license ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dct:conformsTo ;
+        sh:severity sh:Violation
+    ], [
+        sh:maxCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dcat:mediaType ;
+        sh:severity sh:Violation
+    ], [
+        sh:maxCount 1 ;
+        sh:node :DateOrDateTimeDataType_Shape ;
+        sh:path dct:modified ;
+        sh:severity sh:Violation
+    ], [
+        sh:maxCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dcat:packageFormat ;
+        sh:severity sh:Violation
+    ], [
+        sh:maxCount 1 ;
+        sh:node :DateOrDateTimeDataType_Shape ;
+        sh:path dct:issued ;
+        sh:severity sh:Violation
+    ], [
+        sh:maxCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dct:rights ;
+        sh:severity sh:Violation
+    ], [
+        sh:datatype xsd:decimal ;
+	    sh:maxCount 1 ;
+        sh:path dcat:spatialResolutionInMeters ;
+        sh:severity sh:Violation
+    ], [
+        sh:maxCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path adms:status ;
+        sh:severity sh:Violation
+    ], [
+        sh:datatype xsd:duration ;
+	    sh:maxCount 1 ;
+        sh:path dcat:temporalResolution ;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:Literal ;
+        sh:path dct:title ;
+        sh:severity sh:Violation
+    ] ;
+    sh:targetClass dcat:Distribution .
+
+# HealthDCAT-AP
+:healthDistribution_Shape
+    a sh:NodeShape ;
+    rdfs:label "Health Distribution"@en ;
+    sh:extends :Distribution_Shape ;
+    sh:property [
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI ;
+  	    sh:path dcatap:applicableLegislation;
+        sh:severity sh:Violation
+    ], [
+        # HealthDCAT-AP
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:path dcat:byteSize ;
+        sh:datatype xsd:nonNegativeInteger ;
+        sh:severity sh:Violation ;
+        sh:message "Each dcat:Distribution must have exactly one dcat:byteSize xsd:nonNegativeInteger."
+    ], [
+        # HealthDCAT-AP
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dct:format ;
+        sh:severity sh:Violation ;
+        sh:message "Each dcat:Distribution must have exactly one dct:format."
+    ], [
+        # HealthDCAT-AP
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:path dct:rights ;
+        sh:severity sh:Violation ;
+        sh:message "Each dcat:Distribution must have exactly one dct:rights."
+    ] .
+
+
+# HealthDCAT-AP
+:CSVWTableShape
+    a sh:NodeShape ;
+    sh:targetClass csvw:Table ;
+    sh:property [
+        sh:path csvw:url ;
+        sh:nodeKind sh:IRI ;
+        sh:severity sh:Violation ;
+        sh:message "Each csvw:Table must have a valid URL (csvw:url) as an IRI."
+    ], [
+        sh:minCount 1 ;
+        sh:path dct:title ;
+        sh:nodeKind sh:Literal ;
+        sh:severity sh:Violation ;
+        sh:message "Each csvw:Table must have at least one title (dct:title) as a literal."
+    ], [
+        sh:minCount 1 ;
+        sh:path csvw:column ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:node :CSVWColumnShape ;
+        sh:severity sh:Violation ;
+        sh:message "Each csvw:Table must contain at least one column (csvw:column) defined as a blank node or IRI."
+    ] .
+
+# HealthDCAT-AP
+:CSVWColumnShape
+    a sh:NodeShape ;
+    sh:targetClass csvw:Column ;
+    sh:property [
+        sh:minCount 1 ;
+        sh:path csvw:name ;
+        sh:nodeKind sh:Literal ;
+        sh:message "Each csvw:Column must have a name (csvw:name) as a literal."
+    ], [
+        sh:path dct:description ;
+        sh:nodeKind sh:Literal ;
+        sh:message "If present, dct:description must be a literal for the column."
+    ], [
+        sh:minCount 1 ;
+        sh:path csvw:titles ;
+        sh:nodeKind sh:Literal ;
+        sh:message "Each csvw:Column must have at least one title (csvw:titles) as a literal."
+    ], [
+        sh:minCount 1 ;
+        sh:path csvw:datatype ;
+        sh:nodeKind sh:Literal ;
+        sh:message "Each csvw:Column must define a datatype (csvw:datatype) as a literal (e.g., 'string', 'integer'). See https://csvw.readthedocs.io/en/latest/datatypes.html"
+    ], [
+        sh:path csvw:propertyUrl ;
+        sh:nodeKind sh:IRI ;
+        sh:severity sh:Violation ;
+        sh:message "If defined, csvw:propertyUrl must be a valid IRI pointing to a semantic property."
+    ] .
+
+
+:Identifier_Shape
+    a sh:NodeShape ;
+    rdfs:label "Identifier"@en ;
+    sh:property [
+        sh:maxCount 1 ;
+        sh:path skos:notation ;
+        sh:severity sh:Violation
+    ] ;
+    sh:targetClass adms:Identifier .
+
+:LicenceDocument_Shape
+    a sh:NodeShape ;
+    rdfs:label "Licence Document"@en ;
+    sh:property [
+        sh:path dct:type ;
+        sh:severity sh:Violation
+    ] ;
+    sh:targetClass dct:LicenseDocument .
+
+:Location_Shape
+    a sh:NodeShape ;
+    rdfs:label "Location"@en ;
+    sh:property [
+        sh:maxCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:path dcat:bbox ;
+        sh:severity sh:Violation
+    ], [
+        sh:maxCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:path dcat:centroid ;
+        sh:severity sh:Violation
+    ], [
+        sh:maxCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:path lcon:geometry ;
+        sh:severity sh:Violation
+    ] ;
+    sh:targetClass dct:Location .
+
+:PeriodOfTime_Shape
+    a sh:NodeShape ;
+    rdfs:label "PeriodOfTime"@en ;
+    sh:property [
+        sh:maxCount 1 ;
+        sh:path dcat:endDate ;
+        sh:severity sh:Violation ;
+        sh:shape :DateOrDateTimeDataType_Shape
+    ], [
+        sh:maxCount 1 ;
+        sh:path time:hasBeginning ;
+        sh:severity sh:Violation
+    ], [
+        sh:maxCount 1 ;
+        sh:path time:hasEnd ;
+        sh:severity sh:Violation
+    ], [
+        sh:maxCount 1 ;
+        sh:path dcat:startDate ;
+        sh:severity sh:Violation ;
+        sh:shape :DateOrDateTimeDataType_Shape
+    ] ;
+    sh:targetClass dct:PeriodOfTime .
+
+:Relationship_Shape
+    a sh:NodeShape ;
+    rdfs:label "Relationship"@en ;
+    sh:property [
+        sh:minCount 1 ;
+        sh:path dct:relation ;
+        sh:severity sh:Violation ;
+        sh:message "A dct:relation for dcat:Relationship is required."
+    ], [
+        sh:minCount 1 ;
+        sh:path dcat:hadRole ;
+        sh:severity sh:Violation ;
+        sh:message "A dcat:hadRole for dcat:Relationship is required."
+    ] ;
+    sh:targetClass dcat:Relationship .
+
+:DatasetSeries_Shape
+    a sh:NodeShape ;
+    rdfs:label "Dataset Series"@en ;
+    sh:property [
+        sh:minCount 1;
+        sh:nodeKind sh:BlankNodeOrIRI;
+        sh:path [ sh:inversePath dcat:inSeries; ];
+        sh:severity sh:Warning ;
+        sh:message "A dcat:inSeries for dcat:DatasetSeries is required."
+    ], [
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI;
+        sh:path dcatap:applicableLegislation;
+        sh:severity sh:Violation ;
+        sh:message "A dcatap:applicableLegislation for dcat:DatasetSeries is required."
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI;
+        sh:path dcat:contactPoint;
+        sh:severity sh:Violation
+    ], [
+        sh:minCount 1;
+        sh:nodeKind sh:Literal;
+        sh:path dct:description;
+        sh:severity sh:Violation;
+        sh:message "A dct:description for dcat:DatasetSeries is required."
+    ], [
+        sh:maxCount 1;
+        sh:nodeKind sh:BlankNodeOrIRI;
+        sh:path dct:accrualPeriodicity;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI;
+        sh:path dct:spatial;
+        sh:severity sh:Violation
+    ], [
+        sh:node :DateOrDateTimeDataType_Shape ;
+        sh:maxCount 1;
+        sh:nodeKind sh:Literal;
+        sh:path dct:modified;
+        sh:severity sh:Violation
+    ], [
+        sh:maxCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI;
+        sh:path dct:publisher ;
+        sh:severity sh:Violation
+    ], [
+        sh:node :DateOrDateTimeDataType_Shape ;
+        sh:maxCount 1;
+        sh:nodeKind sh:Literal;
+        sh:path dct:issued;
+        sh:severity sh:Violation
+    ], [
+        sh:nodeKind sh:BlankNodeOrIRI;
+        sh:path dct:temporal;
+        sh:severity sh:Violation
+    ], [
+        sh:minCount 1;
+        sh:nodeKind sh:Literal;
+        sh:path dct:title;
+        sh:severity sh:Violation;
+        sh:message "A dct:title for dcat:DatasetSeries is required."
+    ] ;
+    sh:targetClass dcat:DatasetSeries .	

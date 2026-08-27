@@ -1,0 +1,22 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ex: <http://example.org/ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+ex:dataset-001-csv
+  a dcat:Distribution ;
+  dcterms:license <http://creativecommons.org/licenses/by/4.0/> ;
+  dcat:mediaType <http://www.iana.org/assignments/media-types/text/csv> ;      
+.
+
+# Use IANA registry URI for well-known media types
+<http://www.iana.org/assignments/media-types/text/csv>  a dcterms:MediaType .
+
+# Example of custom media type that does not exist in IANA
+
+ex:GeopackageDistribution a dcat:Distribution ;
+  dcterms:license <http://creativecommons.org/licenses/by/4.0/> ;
+  dcterms:format [ 
+    a dcterms:MediaType ;
+    rdfs:label "Geopackage" ] .
+

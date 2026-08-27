@@ -1,0 +1,14 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex: <http://www.example.com#> .
+
+ex:budget2018 a dcat:Dataset;  
+	dcterms:title "Budget for 2018";
+	dcterms:description "This dataset contains the budget for 2018";
+	dcterms:publisher <https://treasury.gov>;
+	dcterms:temporal [ 
+		a dcterms:PeriodOfTime ;
+		dcat:startDate "2018-01-01"^^xsd:date ;
+		dcat:endDate   "2018-12-31"^^xsd:date ;
+	] .

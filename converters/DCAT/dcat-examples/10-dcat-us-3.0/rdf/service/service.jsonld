@@ -1,0 +1,53 @@
+{
+  "@context": "https://raw.githubusercontent.com/DOI-DO/dcat-us/main/context/dcat-us-3.0.jsonld",
+  "@graph": [
+    {
+      "@id": "https://data.census.gov/",
+      "@type": "dcat:DataService",
+      "title": "US Census Data Service",
+      "endpointURL": "https://data.census.gov/",
+      "contactPoint": [
+        {
+          "@type": "vcard:Kind",
+          "fn": "US Census Bureau",
+          "hasEmail": "mailto:info@census.gov"
+        },
+        {
+          "@type": "vcard:Kind",
+          "fn": "Data Service Coordinator",
+          "hasEmail": "mailto:coordinator@census.gov"
+        }
+      ],
+      "publisher": "https://www.census.gov",
+      "endpointDescription": "https://data.census.gov/about.html",
+      "license": "http://www.usa.gov/publicdomain/label/1.0/",
+      "servesDataset": [
+        "https://data.census.gov/dataset/1",
+        "https://data.census.gov/dataset/2"
+      ]
+    },
+    {
+      "@id": "https://www.census.gov",
+      "@type": "foaf:Organization",
+      "name": "US Census Bureau"
+    },
+    {
+      "@id": "https://data.census.gov/dataset/1",
+      "@type": "dcat:Dataset",
+      "title": "Example Dataset 1",
+      "description": "This is an example dataset from the US Census Bureau",
+      "publisher": "https://www.census.gov",
+      "issued": "2020-01-01",
+      "modified": "2022-01-01"
+    },
+    {
+      "@id": "https://data.census.gov/dataset/2",
+      "@type": "dcat:Dataset",
+      "title": "Example Dataset 2",
+      "description": "This is another example dataset from the US Census Bureau",
+      "publisher": "https://www.census.gov",
+      "issued": "2020-01-01",
+      "modified": "2022-01-01"
+    }
+  ]
+}

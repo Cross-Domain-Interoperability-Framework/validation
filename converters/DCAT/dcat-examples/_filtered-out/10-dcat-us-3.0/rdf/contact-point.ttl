@@ -1,0 +1,26 @@
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix : <http://example.org/ns#> .
+
+# Define a vcard:Kind
+:vcard123 a vcard:Kind ;
+    vcard:fn "John Doe" ;   # Full name
+    vcard:hasEmail <mailto:john.doe@example.com> ;  # Email address
+    vcard:tel <tel:123456789> ;  # Phone number
+    vcard:family-name "Doe";  
+    vcard:given-name "John";
+    vcard:title "Data Manager"; #position role
+    vcard:hasAddress :address456; # address
+.    
+
+# Define a vcard:Address associated with the vcard:Kind
+
+:address456 a vcard:Address ;
+    vcard:street-address "123 Main Street" ;
+    vcard:locality "Anytown" ;
+    vcard:region "CA" ;
+    vcard:postal-code "12345" ;
+    vcard:country-name "USA" .
+
+
+
+

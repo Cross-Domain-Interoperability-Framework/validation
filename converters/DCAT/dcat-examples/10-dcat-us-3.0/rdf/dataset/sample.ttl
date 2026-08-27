@@ -1,0 +1,24 @@
+@prefix adms: <http://www.w3.org/ns/adms#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ex: <http://example.org/ns#> .
+@prefix adms: <http://www.w3.org/ns/adms#> .
+
+# Define the dataset
+ex:MyDataset a dcat:Dataset ;
+    dcterms:title "My Dataset" ;
+    dcterms:description "This is an example dataset." ;
+    dcterms:publisher ex:Publisher1;
+    adms:sample ex:MySample .
+
+# Define the distribution of the dataset
+ex:MyDistribution a dcat:Distribution ;
+    dcat:downloadURL <http://example.org/data/mydataset.csv> ;
+    dcterms:format <https://www.iana.org/assignments/media-types/text/csv>.
+
+# Define the sample of the dataset modeled also as a distribution
+ex:MySample a dcat:Distribution ;
+    dcterms:title "Sample of My Dataset" ;
+    dcterms:description "This is a sample from My Dataset." ;
+    dcat:downloadURL <http://example.org/data/mysample.csv> ;
+    dcterms:format <https://www.iana.org/assignments/media-types/text/csv>.

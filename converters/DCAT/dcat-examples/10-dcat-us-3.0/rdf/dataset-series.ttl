@@ -1,0 +1,61 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex: <http://example.org/ns#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix geonames: <http://www.geonames.org/ontology#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+# Define the DatasetSeries
+ex:populationCensus a dcat:DatasetSeries ;
+  dcterms:title "US Population Census Data" ;
+  dcterms:description "US Population Census Data from 1950 to 2020" ;
+  dcterms:publisher <http://census.gov> ;
+  dcterms:issued "1950"^^xsd:gYear ;
+  dcterms:modified "2020"^^xsd:gYear ;
+  dcterms:accrualPeriodicity <http://purl.org/cld/freq/decennial> ;
+  dcat:temporalResolution "P10Y"^^xsd:duration ;
+  dcterms:temporal [ a dcterms:PeriodOfTime ;
+    dcat:startDate "1950-01-01"^^xsd:date ;
+    dcat:endDate   "2020-12-31"^^xsd:date ;
+  ] ;  
+  dcterms:spatial <http://sws.geonames.org/6252001/> ; # URI for USA from GeoNames
+  .
+
+# Define individual datasets within the series
+ex:populationCensus-1950 a dcat:Dataset ;
+  dcterms:title "US Population Census Data for year 1950" ;
+  dcterms:description "US Population Census Data for year 1950" ;
+  dcterms:publisher <http://census.gov> ;
+  dcat:inSeries ex:populationCensus ;
+  dcterms:issued "1950"^^xsd:gYear ;
+  dcat:next ex:populationCensus-1960 ;
+  dcterms:accrualPeriodicity <http://purl.org/cld/freq/decennial> ;
+  dcat:temporalResolution "P10Y"^^xsd:duration ;
+  dcterms:temporal [ a dcterms:PeriodOfTime ;
+    dcat:startDate "1950-01-01"^^xsd:date ;
+    dcat:endDate   "1950-12-31"^^xsd:date ;
+  ] ;  
+  dcterms:spatial <http://sws.geonames.org/6252001/> ;
+  .
+
+ex:populationCensus-1960 a dcat:Dataset ;
+  dcterms:title "US Population Census Data for year 1960" ;
+  dcterms:description "US Population Census Data from 1960" ;
+  dcterms:publisher <http://census.gov> ;
+  dcat:inSeries ex:populationCensus ;
+  dcterms:issued "1960"^^xsd:gYear ;
+  dcat:next ex:populationCensus-1970 ;
+  dcterms:accrualPeriodicity <http://purl.org/cld/freq/decennial> ;
+  dcat:temporalResolution "P10Y"^^xsd:duration ;
+  dcterms:temporal [ a dcterms:PeriodOfTime ;
+    dcat:startDate "1960-01-01"^^xsd:date ;
+    dcat:endDate   "1960-12-31"^^xsd:date ;
+  ] ;  
+  dcterms:spatial <http://sws.geonames.org/6252001/> ;
+  .
+
+ <http://sws.geonames.org/6252001/> a dcterms:Location;
+    skos:prefLabel "United States";
+    .

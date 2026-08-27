@@ -1,0 +1,29 @@
+{
+  "@context": "https://raw.githubusercontent.com/DOI-DO/dcat-us/main/context/dcat-us-3.0.jsonld",
+  "@graph": [
+    {
+      "@id": "http://example.org/Distribution1",
+      "@type": "dcat:Distribution",
+      "dcterms:accessURL": {
+        "@id": "https://census.gov/data/1234/access"
+      },
+      "dcterms:availability": {
+        "@id": "http://data.gov/resource/authority/planned-availability/STABLE"
+      },
+      "description": "some description of the data",
+      "format": "http://data.gov/resource/authority/file-type/CSV",
+      "license": "http://data.gov/vocabulary/licenses/cc-by/4.0",
+      "modified": {
+        "@type": "http://www.w3.org/2001/XMLSchema#date",
+        "@value": "2019-04-26"
+      },
+      "rights": "http://example.org/census.gov-rights-statement",
+      "title": "some title of the distribution"
+    },
+    {
+      "@id": "http://example.org/census.gov-rights-statement",
+      "@type": "odrs:RightsStatement",
+      "odrs:attributionText": "Some census.gov organization rights statement"
+    }
+  ]
+}

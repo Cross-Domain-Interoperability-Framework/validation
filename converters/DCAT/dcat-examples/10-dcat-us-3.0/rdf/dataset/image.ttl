@@ -1,0 +1,17 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix schema: <http://schema.org/> .
+@prefix ex: <http://example.org/ns#> .
+
+# Define the dataset
+ex:WeatherDataset a dcat:Dataset ;
+    dcterms:title "Weather Information" ;
+    dcterms:description "This dataset contains weather information including temperature, humidity, and wind speed." ;
+    dcterms:publisher <https://noaa.gov> ;
+    dcat:distribution ex:WeatherDataDistribution ;
+    schema:image ex:WeatherThumbnail .
+
+# Define the thumbnail or representative image of the dataset
+ex:WeatherThumbnail a schema:ImageObject ;
+    schema:contentURL <http://example.org/images/weather-thumbnail.jpg> ;
+    schema:caption "Thumbnail image representing the Weather Information dataset" .

@@ -1,0 +1,15 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+
+<http://example.org/datasets/climate-temperature-data> a dcat:Dataset ;
+    dcterms:title "Climate Temperature Data: Global Temperature Trends" ;
+    dcterms:description "This dataset contains historical temperature measurements used for global climate analysis." ;
+    dcterms:publisher <http://example.org/organization/climate-research-institute> ;
+    # Custom provenance statement
+    dcterms:provenance [
+        a dcterms:ProvenanceStatement ;
+        rdfs:label "The temperature measurements were collected from weather stations worldwide over the past century."@en
+    ].
+
+        
