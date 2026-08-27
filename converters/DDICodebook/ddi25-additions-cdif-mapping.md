@@ -91,19 +91,34 @@ CDIF target: `prov:wasGeneratedBy` → `["schema:Action","prov:Activity"]`;
 | `dataFingerprint` | checksum / fingerprint of the data | `spdx:Checksum` |
 | `digitalFingerprintValue` | the fingerprint value | `spdx:checksumValue` |
 
-## 5. Sampling → schema.org additionalProperty / methodology
+## 5. Sampling → the analyzed-sample object + sampling-design properties
+
+CDIF represents **the analyzed sample as the `schema:object` of the
+`prov:wasGeneratedBy` activity**, with the sample's classification carried in
+**`schema:additionalType` on that object node** — the convention used by the CDIF
+**geochemistry building blocks** (an analyzed material sample is
+`schema:Thing` + a sample-type vocabulary IRI, with `schema:additionalType`
+giving the sample class). For DDI survey data the analyzed sample is the
+**population / unit of analysis**, so those elements map to the object; the
+sampling *design numbers* stay as properties of the collection activity / dataset.
 
 | DDI 2.5 | Meaning | CDIF target |
 |---------|---------|-------------|
-| `sampleFrame` | the sampling frame | `schema:description` / `schema:additionalProperty` |
+| `unitType` | type of unit of analysis | `prov:wasGeneratedBy` → `schema:object` `schema:additionalType` (sample/population class) |
+| `cohort` | population subgroup / cohort | `schema:object` `schema:additionalType` (or `schema:about` DefinedTerm) |
+| `participant` | study participant | `schema:object` / `schema:participant` on the Action |
+| `frameUnit` | unit of the sampling frame | `schema:object` `schema:additionalType` / `additionalProperty` |
+| `sampleFrame` | the sampling frame | `schema:description` on the collection activity (methodology) |
 | `sampleFrameName` | name of the sampling frame | `schema:name` |
-| `sampleSize` | achieved sample size | `schema:additionalProperty` (PropertyValue, numeric) |
+| `sampleSize` | achieved sample size | `schema:additionalProperty` (PropertyValue, numeric) on dataset/activity |
 | `sampleSizeFormula` | sample-size formula | `schema:description` / `additionalProperty` |
 | `targetSampleSize` | target sample size | `schema:additionalProperty` (PropertyValue) |
-| `cohort` | population subgroup / cohort | `schema:about` (DefinedTerm) / `additionalProperty` |
-| `frameUnit` | unit of the sampling frame | `additionalProperty` / `cdi` unit type |
-| `unitType` | type of unit of analysis | `schema:additionalProperty` / analysis-unit note |
-| `participant` | study participant | `schema:participant` (in an Action) / `prov` agent |
+
+> **Convention note.** The same `schema:object` + `schema:additionalType` pattern
+> is how the geochem building blocks represent the analyzed sample (see
+> `MetadataExamples/` and the ADA records under `testJSONMetadata/`); prefer it
+> over a loose `additionalProperty` whenever the DDI element denotes *what was
+> sampled/analyzed* rather than a design parameter.
 
 ## 6. Geographic bounding & detail → schema:spatialCoverage / geosparql
 
