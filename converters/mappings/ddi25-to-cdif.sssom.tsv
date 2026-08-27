@@ -1,0 +1,72 @@
+# mapping_set_id: https://w3id.org/cdif/mappings/ddi25-to-cdif
+# mapping_set_title: DDI Codebook 2.5 to CDIF
+# mapping_set_description: Property correspondences from DDI Codebook 2.5 XML to CDIF, as applied by the DDI 2.5 converters (DDI/ddi_to_cdif.py, Harvard Dataverse; and DDICodebook/ddi25_to_cdif.py, source-agnostic, which adds aggregate-cube, code-list and quality mappings).
+# license: https://creativecommons.org/publicdomain/zero/1.0/
+# mapping_provider: https://cross-domain-interoperability-framework.github.io/
+# mapping_tool: converters/DDICodebook/ddi25_to_cdif.py ; converters/DDI/ddi_to_cdif.py
+# mapping_date: 2026-08-24
+# subject_source: ddi:codebook:2_5
+# object_source: https://w3id.org/cdif/complete/1.1
+# mapping_justification: semapv:ManualMappingCuration
+# curie_map:
+#   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+#   cdif: https://w3id.org/cdif/
+#   cdifq: http://crossdomaininteroperability.org/cdifq/
+#   dcterms: http://purl.org/dc/terms/
+#   ddi: https://ddialliance.org/Specification/DDI-Codebook/2.5/element/
+#   dqv: http://www.w3.org/ns/dqv#
+#   prov: http://www.w3.org/ns/prov#
+#   schema: http://schema.org/
+#   semapv: https://w3id.org/semapv/vocab/
+#   skos: http://www.w3.org/2004/02/skos/core#
+# comment: |
+#   Structural transforms the converter performs that are not term-to-term
+#   mappings (so they have no TSV row):
+#   - ddi: subject ids are a minted CURIE convention: XPath-style DDI Codebook 2.5 element paths (element namespace ddi:codebook:2_5); @name / @intrvl denote XML attributes; code-list / quality items are named bare where DDI 2.5 has no single containing path.
+#   - A CDIF catalog record is ADDED; dcterms:conformsTo is derived from content by detect_conformance - variables yield data_description, cubes yield data_structure, code lists yield codelist/conceptscheme, quality yields DQV/provenance.
+#   - The aggregate-cube, code-list, and quality rows are implemented by the source-agnostic DDICodebook/ddi25_to_cdif.py; DDI/ddi_to_cdif.py covers the study/variable/file subset. See DDICodebook/ddi25-additions-cdif-mapping.md.
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	comment
+ddi:stdyDscr.citation.titlStmt.titl	titl	skos:exactMatch	schema:name	name	semapv:ManualMappingCuration	
+ddi:stdyDscr.citation.titlStmt.IDNo	IDNo	skos:exactMatch	schema:identifier	identifier	semapv:ManualMappingCuration	also fills @id
+ddi:stdyDscr.stdyInfo.abstract	abstract	skos:exactMatch	schema:description	description	semapv:ManualMappingCuration	
+ddi:stdyDscr.citation.rspStmt.AuthEnty	AuthEnty	skos:closeMatch	schema:creator	creator	semapv:ManualMappingCuration	-> schema:Person/Organization in @list
+ddi:stdyDscr.citation.distStmt.distrbtr	distrbtr	skos:closeMatch	schema:publisher	publisher	semapv:ManualMappingCuration	-> schema:Organization
+ddi:stdyDscr.stdyInfo.subject.keyword	keyword	skos:exactMatch	schema:keywords	keywords	semapv:ManualMappingCuration	
+ddi:stdyDscr.stdyInfo.subject.topcClas	topcClas	skos:exactMatch	schema:keywords	keywords	semapv:ManualMappingCuration	
+ddi:stdyDscr.dataAccs.useStmt.restrctn	restrctn	skos:closeMatch	schema:conditionsOfAccess	conditionsOfAccess	semapv:ManualMappingCuration	
+ddi:stdyDscr.dataAccs.setAvail.accsPlac	accsPlac	skos:closeMatch	schema:url	url	semapv:ManualMappingCuration	access location (@URI)
+ddi:stdyDscr.citation.distStmt.distDate	distDate	skos:exactMatch	schema:datePublished	datePublished	semapv:ManualMappingCuration	
+ddi:stdyDscr.citation.prodStmt.prodDate	prodDate	skos:exactMatch	schema:dateModified	dateModified	semapv:ManualMappingCuration	fallback distDate / version@date
+ddi:stdyDscr.stdyInfo.sumDscr.nation	nation	skos:closeMatch	schema:spatialCoverage	spatialCoverage	semapv:ManualMappingCuration	-> schema:Place by name
+ddi:stdyDscr.stdyInfo.sumDscr.geogCover	geogCover	skos:closeMatch	schema:spatialCoverage	spatialCoverage	semapv:ManualMappingCuration	-> schema:Place
+ddi:stdyDscr.stdyInfo.sumDscr.timePrd	timePrd	skos:closeMatch	schema:temporalCoverage	temporalCoverage	semapv:ManualMappingCuration	start/end -> ISO 8601 interval
+ddi:stdyDscr.method.dataColl.collMode	collMode	skos:exactMatch	schema:measurementTechnique	measurementTechnique	semapv:ManualMappingCuration	
+ddi:dataDscr.var	var	skos:closeMatch	schema:variableMeasured	variableMeasured	semapv:ManualMappingCuration	dual-typed schema:PropertyValue + cdi:InstanceVariable
+ddi:dataDscr.var@name	var/@name	skos:exactMatch	schema:name	name	semapv:ManualMappingCuration	on the variable
+ddi:dataDscr.var.labl	labl	skos:exactMatch	schema:description	description	semapv:ManualMappingCuration	on the variable
+ddi:dataDscr.var.varFormat	varFormat	skos:closeMatch	cdi:intendedDataType	intendedDataType	semapv:ManualMappingCuration	-> xsd type
+ddi:dataDscr.var.varFormat@intrvl	varFormat/@intrvl	skos:closeMatch	cdi:role	role	semapv:ManualMappingCuration	contin/discrete -> Measure/Attribute component
+ddi:dataDscr.var.sumStat.min	sumStat[min]	skos:exactMatch	schema:minValue	minValue	semapv:ManualMappingCuration	
+ddi:dataDscr.var.sumStat.max	sumStat[max]	skos:exactMatch	schema:maxValue	maxValue	semapv:ManualMappingCuration	
+ddi:dataDscr.var.catgry	catgry	skos:closeMatch	skos:Concept	code-list category	semapv:ManualMappingCuration	value/label -> code list concept (Codelist profile)
+ddi:fileDscr.fileTxt.fileName	fileName	skos:closeMatch	schema:DataDownload	DataDownload	semapv:ManualMappingCuration	-> cdi:TabularTextDataSet distribution; contentUrl nil:missing when no download URL
+ddi:fileDscr.fileTxt.dimensns.caseQnty	caseQnty	skos:closeMatch	cdifq:nRows	nRows	semapv:ManualMappingCuration	
+ddi:fileDscr.fileTxt.dimensns.varQnty	varQnty	skos:closeMatch	cdifq:nColumns	nColumns	semapv:ManualMappingCuration	
+ddi:fileDscr.fileTxt.tab-header	tab file column header	skos:narrowMatch	cdif:hasPhysicalMapping	hasPhysicalMapping	semapv:ManualMappingCuration	header -> cdi:index + cdi:formats_InstanceVariable link
+ddi:dataDscr.nCube	nCube	skos:closeMatch	cdi:DimensionalDataStructure	DimensionalDataStructure	semapv:ManualMappingCuration	N-dimensional aggregate data cube (data_structure profile)
+ddi:dataDscr.nCubeGrp	nCubeGrp	skos:closeMatch	schema:hasPart	hasPart	semapv:ManualMappingCuration	group of cube datasets
+ddi:dataDscr.nCube.dmns	dmns	skos:closeMatch	cdi:DimensionComponent	DimensionComponent	semapv:ManualMappingCuration	cdif:role = Dimension
+ddi:dataDscr.nCube.measure	measure	skos:closeMatch	cdi:MeasureComponent	MeasureComponent	semapv:ManualMappingCuration	cdif:role = Measure
+ddi:dataDscr.nCube.attribute	attribute	skos:closeMatch	cdi:AttributeComponent	AttributeComponent	semapv:ManualMappingCuration	cdif:role = Attribute
+ddi:dataDscr.nCube.CubeCoord	CubeCoord	skos:closeMatch	cdi:DataPoint	DataPoint	semapv:ManualMappingCuration	dimension-value coordinate of a cell
+ddi:dataDscr.nCube.dataItem	dataItem	skos:closeMatch	cdi:DataPoint	DataPoint	semapv:ManualMappingCuration	cell datum
+ddi:codeListName	codeListName	skos:closeMatch	skos:prefLabel	prefLabel	semapv:ManualMappingCuration	also schema:name of the ConceptScheme
+ddi:codeListID	codeListID	skos:closeMatch	schema:identifier	identifier	semapv:ManualMappingCuration	code-list identifier / @id
+ddi:codeListAgencyName	codeListAgencyName	skos:closeMatch	dcterms:publisher	publisher	semapv:ManualMappingCuration	maintaining agency
+ddi:controlledVocabUsed	controlledVocabUsed	skos:closeMatch	cdif:uses	uses	semapv:ManualMappingCuration	also dcterms:conformsTo / skos:inScheme
+ddi:standard	standard	skos:closeMatch	dcterms:conformsTo	conformsTo	semapv:ManualMappingCuration	classification / standard referenced
+ddi:codingInstructions	codingInstructions	skos:closeMatch	schema:description	description	semapv:ManualMappingCuration	on the variable (methodology)
+ddi:qualityStatement	qualityStatement	skos:closeMatch	dqv:QualityMeasurement	QualityMeasurement	semapv:ManualMappingCuration	also dqv:QualityAnnotation + schema:description
+ddi:standardsCompliance	standardsCompliance	skos:closeMatch	dcterms:conformsTo	conformsTo	semapv:ManualMappingCuration	+ dqv annotation
+ddi:evaluationProcess	evaluationProcess	skos:closeMatch	prov:Activity	Activity	semapv:ManualMappingCuration	evaluation activity (schema:Action + prov:Activity)
+ddi:evaluator	evaluator	skos:closeMatch	schema:agent	agent	semapv:ManualMappingCuration	evaluating agent (Role: evaluator; prov:wasAssociatedWith)

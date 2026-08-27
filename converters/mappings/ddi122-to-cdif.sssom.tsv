@@ -1,0 +1,47 @@
+# mapping_set_id: https://w3id.org/cdif/mappings/ddi122-to-cdif
+# mapping_set_title: DDI Codebook 1.2.2 (ICPSR) to CDIF
+# mapping_set_description: Property correspondences applied by ddi122_to_cdif.py (source-agnostic DDI Codebook 1.2.2 XML -> CDIF DataDescription; Nesstar/ICPSR survey metadata).
+# license: https://creativecommons.org/publicdomain/zero/1.0/
+# mapping_provider: https://cross-domain-interoperability-framework.github.io/
+# mapping_tool: converters/DDI/ddi122_to_cdif.py
+# mapping_date: 2026-08-24
+# subject_source: http://www.icpsr.umich.edu/DDI/Version1-2-2.xsd
+# object_source: https://w3id.org/cdif/data_description/1.1
+# mapping_justification: semapv:ManualMappingCuration
+# curie_map:
+#   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+#   cdif: https://w3id.org/cdif/
+#   ddi122: https://ddialliance.org/Specification/DDI-Codebook/1.2.2/element/
+#   schema: http://schema.org/
+#   semapv: https://w3id.org/semapv/vocab/
+#   skos: http://www.w3.org/2004/02/skos/core#
+# comment: |
+#   Structural transforms the converter performs that are not term-to-term
+#   mappings (so they have no TSV row):
+#   - ddi122: subject ids are a minted CURIE convention: XPath-style DDI Codebook 1.2.2 element paths; @name / @intrvl denote XML attributes.
+#   - Source-agnostic: makes no repository assumptions - dataset id from <IDNo>, access URL from <accsPlac>, and file distributions carry OGC nil:missing rather than a fabricated download URL.
+#   - A CDIF catalog record is ADDED (from <docDscr> producer/prodDate/version); dcterms:conformsTo is derived from content by detect_conformance.
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	comment
+ddi122:stdyDscr.citation.titlStmt.titl	titl	skos:exactMatch	schema:name	name	semapv:ManualMappingCuration	NOT docDscr/titl
+ddi122:stdyDscr.citation.titlStmt.IDNo	IDNo	skos:exactMatch	schema:identifier	identifier	semapv:ManualMappingCuration	+ @id fallback
+ddi122:stdyDscr.stdyInfo.abstract	abstract	skos:exactMatch	schema:description	description	semapv:ManualMappingCuration	
+ddi122:stdyDscr.citation.rspStmt.AuthEnty	AuthEnty	skos:closeMatch	schema:creator	creator	semapv:ManualMappingCuration	-> schema:Person/Organization in @list
+ddi122:stdyDscr.citation.distStmt.distrbtr	distrbtr	skos:closeMatch	schema:publisher	publisher	semapv:ManualMappingCuration	-> schema:Organization
+ddi122:stdyDscr.stdyInfo.subject.keyword	keyword	skos:exactMatch	schema:keywords	keywords	semapv:ManualMappingCuration	
+ddi122:stdyDscr.stdyInfo.subject.topcClas	topcClas	skos:exactMatch	schema:keywords	keywords	semapv:ManualMappingCuration	
+ddi122:stdyDscr.dataAccs.setAvail.accsPlac	accsPlac	skos:closeMatch	schema:url	url	semapv:ManualMappingCuration	access location (@URI)
+ddi122:stdyDscr.citation.prodStmt.prodDate	prodDate	skos:exactMatch	schema:datePublished	datePublished	semapv:ManualMappingCuration	fallback distDate / version@date
+ddi122:stdyDscr.citation.distStmt.distDate	distDate	skos:closeMatch	schema:dateModified	dateModified	semapv:ManualMappingCuration	
+ddi122:stdyDscr.stdyInfo.sumDscr.nation	nation	skos:closeMatch	schema:spatialCoverage	spatialCoverage	semapv:ManualMappingCuration	-> schema:Place by name
+ddi122:stdyDscr.stdyInfo.sumDscr.geogCover	geogCover	skos:closeMatch	schema:spatialCoverage	spatialCoverage	semapv:ManualMappingCuration	-> schema:Place
+ddi122:stdyDscr.stdyInfo.sumDscr.timePrd	timePrd	skos:closeMatch	schema:temporalCoverage	temporalCoverage	semapv:ManualMappingCuration	start/end -> ISO 8601 interval
+ddi122:dataDscr.var	var	skos:closeMatch	schema:variableMeasured	variableMeasured	semapv:ManualMappingCuration	dual-typed schema:PropertyValue + cdi:InstanceVariable
+ddi122:dataDscr.var@name	var/@name	skos:exactMatch	schema:name	name	semapv:ManualMappingCuration	on the variable
+ddi122:dataDscr.var.labl	labl	skos:exactMatch	schema:description	description	semapv:ManualMappingCuration	on the variable
+ddi122:dataDscr.var.varFormat	varFormat	skos:closeMatch	cdi:intendedDataType	intendedDataType	semapv:ManualMappingCuration	-> xsd type
+ddi122:dataDscr.var.varFormat@intrvl	varFormat/@intrvl	skos:closeMatch	cdi:role	role	semapv:ManualMappingCuration	contin/discrete -> Measure/Attribute component
+ddi122:dataDscr.var.sumStat.min	sumStat[min]	skos:exactMatch	schema:minValue	minValue	semapv:ManualMappingCuration	
+ddi122:dataDscr.var.sumStat.max	sumStat[max]	skos:exactMatch	schema:maxValue	maxValue	semapv:ManualMappingCuration	
+ddi122:fileDscr.fileTxt.fileName	fileName	skos:closeMatch	schema:DataDownload	DataDownload	semapv:ManualMappingCuration	contentUrl = OGC nil:missing when no resolvable download URL (no repository assumptions)
+ddi122:fileDscr.fileTxt.dimensns.caseQnty	caseQnty	skos:closeMatch	schema:additionalProperty	additionalProperty	semapv:ManualMappingCuration	row count PropertyValue
+ddi122:fileDscr.fileTxt.dimensns.varQnty	varQnty	skos:closeMatch	schema:additionalProperty	additionalProperty	semapv:ManualMappingCuration	column count PropertyValue

@@ -144,7 +144,7 @@ converters/
 ## Mappings (SSSOM)
 
 [`mappings/`](mappings/) holds an [SSSOM](https://mapping-commons.github.io/sssom/)
-mapping set for each direction (`cdif→soso`, `soso→cdif`, `cdif→croissant`,
-`croissant→cdif`, `dcat→cdif`, `ddi→cdif`) — the property-level correspondences
-each converter applies, hand-authored from the mapping docs and code. See
-[`mappings/README.md`](mappings/README.md).
+mapping set for each converter path (`cdif→soso`, `soso→cdif`, `cdif→croissant`,
+`croissant→cdif`, `dcat→cdif`, `ddi25→cdif`, `ddi122→cdif`) — the property-level
+correspondences each converter applies, hand-authored from the mapping docs and
+code. See [`mappings/README.md`](mappings/README.md).

@@ -14,7 +14,15 @@ header lines (mapping-set id/title, license, provider, `mapping_tool`,
 | [`cdif-to-croissant.sssom.tsv`](cdif-to-croissant.sssom.tsv) | CDIF → Croissant | `croissant/ConvertToCroissant.py` | 23 |
 | [`croissant-to-cdif.sssom.tsv`](croissant-to-cdif.sssom.tsv) | Croissant → CDIF | `croissant/ConvertFromCroissant.py` | 16 |
 | [`dcat-to-cdif.sssom.tsv`](dcat-to-cdif.sssom.tsv) | DCAT → CDIF | `DCAT/dcat_to_cdif.py` | 20 |
-| [`ddi-to-cdif.sssom.tsv`](ddi-to-cdif.sssom.tsv) | DDI Codebook 2.5 → CDIF | `DDI/ddi_to_cdif.py` | 23 |
+| [`ddi25-to-cdif.sssom.tsv`](ddi25-to-cdif.sssom.tsv) | DDI Codebook 2.5 → CDIF | `DDI/ddi_to_cdif.py`, `DDICodebook/ddi25_to_cdif.py` | 44 |
+| [`ddi122-to-cdif.sssom.tsv`](ddi122-to-cdif.sssom.tsv) | DDI Codebook 1.2.2 → CDIF | `DDI/ddi122_to_cdif.py` | 23 |
+
+Sets are keyed by **source vocabulary → target**, so the two DDI 2.5 converters
+(the Harvard-Dataverse `ddi_to_cdif.py` and the source-agnostic
+`DDICodebook/ddi25_to_cdif.py`) share one set — `ddi25-to-cdif` also carries that
+converter's aggregate-cube, code-list, and quality mappings (DataStructure /
+Codelist / DQV / Provenance targets). DDI 1.2.2 (ICPSR) is a distinct source
+version with its own set.
 
 ## Columns
 
