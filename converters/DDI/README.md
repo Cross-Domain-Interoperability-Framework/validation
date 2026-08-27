@@ -4,11 +4,19 @@ Converters from **DDI XML** to CDIF JSON-LD.
 
 | Converter | Input | Notes |
 |-----------|-------|-------|
-| [`ddi122_to_cdif.py`](ddi122_to_cdif.py) | DDI **1.2.2** (ICPSR, `http://www.icpsr.umich.edu/DDI/Version1-2-2.xsd`) — e.g. Nesstar-published DHS/MICS/PHIM/World Bank microdata | **source-agnostic** (no repository assumptions) |
+| [`ddi122_to_cdif.py`](ddi122_to_cdif.py) | DDI **1.2.2** (ICPSR, `http://www.icpsr.umich.edu/DDI/Version1-2-2.xsd`)[^xsd] — e.g. Nesstar-published DHS/MICS/PHIM/World Bank microdata | **source-agnostic** (no repository assumptions) |
 | [`ddi_to_cdif.py`](ddi_to_cdif.py) | DDI Codebook **2.5** | **Harvard Dataverse-specific** (identifiers + file-access URLs from the Dataverse API) |
 
-The DDI-Codebook **2.5** source-agnostic converter and the **DDI-CDI** converter
-live (or will live) elsewhere; this README documents `ddi122_to_cdif.py`.
+The DDI-Codebook **2.5** source-agnostic converter is
+[`../DDICodebook/ddi25_to_cdif.py`](../DDICodebook/ddi25_to_cdif.py) — a thin
+wrapper that reuses this converter's extraction engine (2.5 shares the Codebook
+element vocabulary with 1.2.2). The **DDI-CDI** converter will live elsewhere.
+This README documents `ddi122_to_cdif.py`.
+
+[^xsd]: Heads-up: that canonical 1.2.2 XSD URL is **not reliably accessible**
+(icpsr.umich.edu returns HTTP 403 behind Cloudflare, and the schema is not in the
+DDI Alliance GitHub repos). See [../DDICodebook/README.md](../DDICodebook/README.md#schema-availability-a-caution)
+for where to obtain it (a CESSDA mirror) and the 1.2.2-vs-2.5 element diff.
 
 ## `ddi122_to_cdif.py`
 

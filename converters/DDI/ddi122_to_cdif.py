@@ -247,7 +247,14 @@ def resolve_dates(stdy, docd):
 
     published = prod or dist or ver_date
     modified = published or dep or coll_end
-    return modified, published
+    # Truncate full datetimes (e.g. NADA's "2026-03-18T04:00:00.000Z") to a
+    # plain date; the CDIF date pattern accepts YYYY-MM[-DD[Thh:mm[:ss]]] but
+    # not fractional seconds.
+    return _date_only(modified), _date_only(published)
+
+
+def _date_only(value):
+    return value.split("T", 1)[0] if value and "T" in value else value
 
 
 def parse_measurement_technique(stdy):
@@ -378,7 +385,8 @@ def build_distributions(files):
 # Document assembly
 # ---------------------------------------------------------------------------
 
-def convert(xml_path, explicit_id=None, base_uri="urn:ddi", detect=True):
+def convert(xml_path, explicit_id=None, base_uri="urn:ddi", detect=True,
+            source_desc="DDI Codebook 1.2.2 (ICPSR)"):
     root = ET.parse(xml_path).getroot()
     stdy = find(root, "stdyDscr")
     docd = find(root, "docDscr")
@@ -470,7 +478,7 @@ def convert(xml_path, explicit_id=None, base_uri="urn:ddi", detect=True):
 
     doc["schema:subjectOf"] = build_catalog_record(
         docd, dataset_id, doc["schema:name"], id_no, coded_vars,
-        len(cdif_vars), len(distributions))
+        len(cdif_vars), len(distributions), source_desc)
 
     if detect and _HAVE_DETECT:
         try:
@@ -484,20 +492,20 @@ def convert(xml_path, explicit_id=None, base_uri="urn:ddi", detect=True):
 
 
 def build_catalog_record(docd, dataset_id, name, id_no, coded_vars,
-                         nvars, ndists):
+                         nvars, ndists, source_desc="DDI Codebook 1.2.2 (ICPSR)"):
     sd_date = None
     if docd is not None:
         pd = find(docd, "prodDate")
         if pd is not None:
-            sd_date = pd.attrib.get("date") or txt(pd)
+            sd_date = _date_only(pd.attrib.get("date") or txt(pd))
     doc_producer = first_text(docd, "producer") if docd is not None else None
 
     coded_note = (f" {coded_vars} variable(s) carry an inline DDI code list "
                   f"(<catgry>); these categories are not yet emitted as a CDIF "
                   f"code list.") if coded_vars else ""
     note = (
-        f"Metadata harvested from a DDI Codebook 1.2.2 (ICPSR) document "
-        f"(IDNo {id_no}) and converted to CDIF by ddi122_to_cdif.py. Study "
+        f"Metadata harvested from a {source_desc} document "
+        f"(IDNo {id_no}) and converted to CDIF by the CDIF DDI converter. Study "
         f"citation/title, abstract, agents, spatial/temporal coverage, and "
         f"access conditions mapped to discovery properties; {nvars} DDI <var> "
         f"mapped to schema:variableMeasured / cdi:InstanceVariable; {ndists} "

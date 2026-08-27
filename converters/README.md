@@ -15,6 +15,7 @@ expose their conversion as an importable function.
 | [`DCAT/dcat_to_cdif.py`](DCAT/dcat_to_cdif.py) | DCAT → CDIF | W3C DCAT |
 | [`DDI/ddi_to_cdif.py`](DDI/ddi_to_cdif.py) | DDI Codebook 2.5 (Harvard Dataverse) → CDIF | DDI Codebook XML |
 | [`DDI/ddi122_to_cdif.py`](DDI/ddi122_to_cdif.py) | DDI 1.2.2 (ICPSR, source-agnostic) → CDIF | DDI XML |
+| [`DDICodebook/ddi25_to_cdif.py`](DDICodebook/ddi25_to_cdif.py) | DDI Codebook 2.5 (source-agnostic) → CDIF | DDI Codebook XML |
 
 Related, but **not** in `converters/`: `../geocodes_harvester.py` harvests SOSO
 records from the EarthCube GeoCodes SPARQL catalog and converts them to CDIF —
@@ -34,9 +35,9 @@ beyond its base) gated by a content-SHACL validity check, and
 `detect_conformance` has a remote-SHACL fallback, so it works without a local
 building-blocks checkout.
 
-All five `format → CDIF` converters — **`ConvertFromSOSO.py`**,
-**`ConvertFromCroissant.py`**, **`dcat_to_cdif.py`**, **`ddi_to_cdif.py`**, and
-**`DDI/ddi122_to_cdif.py`** —
+All six `format → CDIF` converters — **`ConvertFromSOSO.py`**,
+**`ConvertFromCroissant.py`**, **`dcat_to_cdif.py`**, **`ddi_to_cdif.py`**,
+**`DDI/ddi122_to_cdif.py`**, and **`DDICodebook/ddi25_to_cdif.py`** —
 run `detect_conformance` by default and write the detected `conformsTo` into the
 catalog record. Each takes a **`--static-conformance`** flag that skips detection
 and keeps the converter's built-in default instead (and detection degrades to
