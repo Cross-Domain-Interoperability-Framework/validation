@@ -1,0 +1,171 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+  },
+  "@id": "urn:ddi-cdi:wideDataSet",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "SPSS_Example",
+  "schema:identifier": {
+    "@type": [
+      "schema:PropertyValue"
+    ],
+    "schema:value": "wideDataSet"
+  },
+  "schema:dateModified": "1900-01-01",
+  "schema:license": [
+    "http://www.opengis.net/def/nil/OGC/0/missing"
+  ],
+  "schema:variableMeasured": [
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#instanceVariable-idno",
+      "schema:name": "idno",
+      "schema:description": "Respondent's identification number",
+      "cdi:intendedDataType": "xsd:integer",
+      "cdi:role": "Identifier"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#instanceVariable-nwspol",
+      "schema:name": "nwspol",
+      "schema:description": "News about politics and current affairs, watching, reading or listening, in minutes",
+      "cdi:intendedDataType": "xsd:integer",
+      "cdi:role": "Measure"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#instanceVariable-netusoft",
+      "schema:name": "netusoft",
+      "schema:description": "Internet use, how often",
+      "cdi:intendedDataType": "xsd:integer",
+      "cdi:role": "Measure"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#instanceVariable-netustm",
+      "schema:name": "netustm",
+      "schema:description": "Internet use, how much time on typical day, in minutes",
+      "cdi:intendedDataType": "xsd:integer",
+      "cdi:role": "Measure"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#instanceVariable-ppltrst",
+      "schema:name": "ppltrst",
+      "schema:description": "Most people can be trusted or you can't be too careful",
+      "cdi:intendedDataType": "xsd:integer",
+      "cdi:role": "Measure"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#instanceVariable-pplfair",
+      "schema:name": "pplfair",
+      "schema:description": "Most people try to take advantage of you, or try to be fair",
+      "cdi:intendedDataType": "xsd:integer",
+      "cdi:role": "Measure"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#instanceVariable-pplhlp",
+      "schema:name": "pplhlp",
+      "schema:description": "Most of the time people helpful or mostly looking out for themselves",
+      "cdi:intendedDataType": "xsd:integer",
+      "cdi:role": "Measure"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#instanceVariable-polintr",
+      "schema:name": "polintr",
+      "schema:description": "How interested in politics",
+      "cdi:intendedDataType": "xsd:integer",
+      "cdi:role": "Measure"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#instanceVariable-maritalb",
+      "schema:name": "maritalb",
+      "schema:description": "Legal marital status, post coded",
+      "cdi:intendedDataType": "xsd:integer",
+      "cdi:role": "Measure"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "#instanceVariable-eisced",
+      "schema:name": "eisced",
+      "schema:description": "Highest level of education, ES - ISCED",
+      "cdi:intendedDataType": "xsd:integer",
+      "cdi:role": "Measure"
+    }
+  ],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:name": "SPSS_Example (data file)",
+      "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "urn:ddi-cdi:wideDataSet#cdif-catalog-record",
+    "schema:name": "Metadata record for: SPSS_Example",
+    "schema:about": {
+      "@id": "urn:ddi-cdi:wideDataSet"
+    },
+    "schema:description": "Metadata harvested from a DDI-CDI 1.0 XML instance (cdi:DDICDIModels) and converted to CDIF by ddicdi_to_cdif.py. DataStore/WideDataSet -> schema:Dataset; 10 cdi:InstanceVariable -> schema:variableMeasured (name, displayLabel, hasIntendedDataType, and cdi:role from the DataStructureComponent). Value domains, code lists, data structure, physical mappings, data and provenance are not yet carried over (walking skeleton).",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.1"
+      }
+    ]
+  }
+}

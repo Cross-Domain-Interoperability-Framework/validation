@@ -1,0 +1,56 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+  },
+  "@id": "urn:ddi-cdi:Process_Example_CDI",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Process_Example_CDI",
+  "schema:identifier": {
+    "@type": [
+      "schema:PropertyValue"
+    ],
+    "schema:value": "Process_Example_CDI"
+  },
+  "schema:dateModified": "1900-01-01",
+  "schema:license": [
+    "http://www.opengis.net/def/nil/OGC/0/missing"
+  ],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:name": "Process_Example_CDI (data file)",
+      "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "urn:ddi-cdi:Process_Example_CDI#cdif-catalog-record",
+    "schema:name": "Metadata record for: Process_Example_CDI",
+    "schema:about": {
+      "@id": "urn:ddi-cdi:Process_Example_CDI"
+    },
+    "schema:description": "Metadata harvested from a DDI-CDI 1.0 XML instance (cdi:DDICDIModels) and converted to CDIF by ddicdi_to_cdif.py. DataStore/WideDataSet -> schema:Dataset; 0 cdi:InstanceVariable -> schema:variableMeasured (name, displayLabel, hasIntendedDataType, and cdi:role from the DataStructureComponent). Value domains, code lists, data structure, physical mappings, data and provenance are not yet carried over (walking skeleton).",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      }
+    ]
+  }
+}
