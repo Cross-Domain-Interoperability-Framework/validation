@@ -8,6 +8,9 @@
 # subject_source: http://mlcommons.org/croissant/1.1
 # object_source: https://w3id.org/cdif/data_description/1.1
 # mapping_justification: semapv:ManualMappingCuration
+# extension_definitions:
+#   - slot: object_json_path
+#     property: https://w3id.org/cdif/mappings/objectJsonPath
 # curie_map:
 #   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
 #   cdif: https://w3id.org/cdif/
@@ -23,20 +26,20 @@
 #   - A CDIF catalog record is ADDED; dcterms:conformsTo is derived from content by detect_conformance.
 #   - Lossy: Croissant transform/format pipelines beyond column extraction are not represented in CDIF.
 #   - Field dataType (sc:Float/Integer/Date/Boolean/Text) is mapped back to the xsd: type on cdif:physicalDataType.
-subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	comment
-sc:name	name	skos:exactMatch	schema:name	name	semapv:ManualMappingCuration	schema.org term (CDIF uses http:// + schema: prefix)
-sc:description	description	skos:exactMatch	schema:description	description	semapv:ManualMappingCuration	
-sc:url	url	skos:exactMatch	schema:url	url	semapv:ManualMappingCuration	
-sc:license	license	skos:exactMatch	schema:license	license	semapv:ManualMappingCuration	
-sc:datePublished	datePublished	skos:exactMatch	schema:datePublished	datePublished	semapv:ManualMappingCuration	
-sc:creator	creator	skos:exactMatch	schema:creator	creator	semapv:ManualMappingCuration	wrapped in @list
-sc:keywords	keywords	skos:exactMatch	schema:keywords	keywords	semapv:ManualMappingCuration	
-sc:version	version	skos:exactMatch	schema:version	version	semapv:ManualMappingCuration	
-cr:FileObject	FileObject	skos:closeMatch	schema:DataDownload	DataDownload	semapv:ManualMappingCuration	containedIn -> archive schema:hasPart
-sc:contentUrl	contentUrl	skos:exactMatch	schema:contentUrl	contentUrl	semapv:ManualMappingCuration	
-sc:encodingFormat	encodingFormat	skos:exactMatch	schema:encodingFormat	encodingFormat	semapv:ManualMappingCuration	wrapped in array
-cr:sha256	sha256	skos:closeMatch	spdx:checksum	checksum	semapv:ManualMappingCuration	-> spdx:Checksum object (SHA-256)
-cr:RecordSet	RecordSet	skos:closeMatch	cdi:TabularTextDataSet	TabularTextDataSet distribution	semapv:ManualMappingCuration	-> distribution with cdif:hasPhysicalMapping
-cr:Field	Field	skos:closeMatch	cdi:InstanceVariable	InstanceVariable	semapv:ManualMappingCuration	dual-typed schema:PropertyValue + cdi:InstanceVariable
-cr:Field	Field.source.extract.column	skos:narrowMatch	cdif:hasPhysicalMapping	hasPhysicalMapping	semapv:ManualMappingCuration	column source -> physical mapping (cdif:index)
-cr:Field	Field.dataType	skos:closeMatch	cdif:physicalDataType	physicalDataType	semapv:ManualMappingCuration	sc:Float/Integer/Date/Boolean/Text -> xsd type
+subject_id	subject_label	predicate_id	object_id	object_label	object_json_path	mapping_justification	comment
+sc:name	name	skos:exactMatch	schema:name	name	$.schema:name	semapv:ManualMappingCuration	schema.org term (CDIF uses http:// + schema: prefix)
+sc:description	description	skos:exactMatch	schema:description	description	$.schema:description	semapv:ManualMappingCuration	
+sc:url	url	skos:exactMatch	schema:url	url	$.schema:url	semapv:ManualMappingCuration	
+sc:license	license	skos:exactMatch	schema:license	license	$.schema:license	semapv:ManualMappingCuration	
+sc:datePublished	datePublished	skos:exactMatch	schema:datePublished	datePublished	$.schema:datePublished	semapv:ManualMappingCuration	
+sc:creator	creator	skos:exactMatch	schema:creator	creator	$.schema:creator	semapv:ManualMappingCuration	wrapped in @list
+sc:keywords	keywords	skos:exactMatch	schema:keywords	keywords	$.schema:keywords	semapv:ManualMappingCuration	
+sc:version	version	skos:exactMatch	schema:version	version	$.schema:version	semapv:ManualMappingCuration	
+cr:FileObject	FileObject	skos:closeMatch	schema:DataDownload	DataDownload	$.schema:distribution[*]	semapv:ManualMappingCuration	containedIn -> archive schema:hasPart
+sc:contentUrl	contentUrl	skos:exactMatch	schema:contentUrl	contentUrl	$.schema:distribution[*].schema:contentUrl	semapv:ManualMappingCuration	
+sc:encodingFormat	encodingFormat	skos:exactMatch	schema:encodingFormat	encodingFormat	$.schema:distribution[*].schema:encodingFormat	semapv:ManualMappingCuration	wrapped in array
+cr:sha256	sha256	skos:closeMatch	spdx:checksum	checksum	$.schema:distribution[*].spdx:checksum	semapv:ManualMappingCuration	-> spdx:Checksum object (SHA-256)
+cr:RecordSet	RecordSet	skos:closeMatch	cdi:TabularTextDataSet	TabularTextDataSet distribution	$.schema:distribution[*]	semapv:ManualMappingCuration	-> distribution with cdif:hasPhysicalMapping
+cr:Field	Field	skos:closeMatch	cdi:InstanceVariable	InstanceVariable	$.schema:variableMeasured[*]	semapv:ManualMappingCuration	dual-typed schema:PropertyValue + cdi:InstanceVariable
+cr:Field	Field.source.extract.column	skos:narrowMatch	cdif:hasPhysicalMapping	hasPhysicalMapping	$.schema:distribution[*].cdif:hasPhysicalMapping[*]	semapv:ManualMappingCuration	column source -> physical mapping (cdif:index)
+cr:Field	Field.dataType	skos:closeMatch	cdif:physicalDataType	physicalDataType	$.schema:variableMeasured[*].cdif:physicalDataType	semapv:ManualMappingCuration	sc:Float/Integer/Date/Boolean/Text -> xsd type

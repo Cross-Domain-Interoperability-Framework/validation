@@ -27,8 +27,19 @@ version with its own set.
 ## Columns
 
 `subject_id` / `subject_label` (the source term), `predicate_id`, `object_id` /
-`object_label` (the target term), `mapping_justification`, and a `comment`
-carrying the per-mapping transform note.
+`object_label` (the target term), `object_json_path`, `mapping_justification`,
+and a `comment` carrying the per-mapping transform note.
+
+`object_json_path` is a **non-standard extension column** (declared in each
+file's `extension_definitions` header): a JSONPath *locator* for where the
+target term's value lands in the target JSON-LD document — e.g. `$.schema:name`
+(dataset root), `$.schema:variableMeasured[*].cdi:role` (a variable item),
+`$.schema:distribution[*].schema:contentUrl` (a distribution item),
+`$.schema:subjectOf.dcterms:conformsTo` (the catalog record). It complements
+`object_id` (which stays the resolvable term IRI so the file remains valid SSSOM)
+by showing *placement*, parallel to the XPath/JSONPath in `subject_id`. It is
+left blank where the target is a separate node/document (e.g. a code-list
+`skos:ConceptScheme`) rather than a location in the dataset tree.
 
 ## Conventions
 
