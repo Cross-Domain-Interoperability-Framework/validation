@@ -33,8 +33,13 @@ STATUS — phased build toward the "broadest end-to-end" goal. Mapped so far:
                                                prov:Activity, actionProcess/HowTo,
                                                agent, location, used, result)     (phase 5)
 
-Not yet mapped (planned): PhysicalSegmentLayout / ValueMapping (physical
-mappings), sentinel value domains, and DataPoint / InstanceValue (data). See README.md.
+  PhysicalSegmentLayout / ValueMapping / ValueMappingPosition
+                                            -> distribution cdi:isDelimited /
+                                               cdi:hasPhysicalMapping (index,
+                                               physicalDataType, formats var)   (phase 4)
+
+Not yet mapped (planned): sentinel value domains (missing-value codes) and
+DataPoint / InstanceValue (the data itself). See README.md.
 
 Usage:
     python ddicdi_to_cdif.py Examples/XML/SPSS_Example.xml -o out.json
@@ -400,6 +405,48 @@ def build_provenance(objects, index):
     return node
 
 
+def build_physical_mappings(objects, index):
+    """Map DDI-CDI physical layout to CDIF cdi:hasPhysicalMapping entries.
+
+        InstanceVariable_has_ValueMapping -> ValueMapping (the physical column)
+        ValueMappingPosition_indexes_ValueMapping, value -> column index
+        PhysicalSegmentLayout isDelimited / isFixedWidth -> distribution flags
+
+    Returns (mappings, isDelimited, isFixedWidth).
+    """
+    vm_index = {}
+    for o in objects:
+        if local(o) == "ValueMappingPosition":
+            vm = ref_target(child(o, "ValueMappingPosition_indexes_ValueMapping"))
+            val = text_at(o, "value")
+            if vm and val != "":
+                try:
+                    vm_index[vm] = int(val)
+                except ValueError:
+                    vm_index[vm] = val
+
+    psl = next((o for o in objects if local(o) == "PhysicalSegmentLayout"), None)
+    is_delim = text_at(psl, "isDelimited") if psl is not None else ""
+    is_fixed = text_at(psl, "isFixedWidth") if psl is not None else ""
+
+    mappings = []
+    for iv in objects:
+        if local(iv) != "InstanceVariable":
+            continue
+        vm = ref_target(child(iv, "InstanceVariable_has_ValueMapping"))
+        if not vm:
+            continue
+        entry = {"schema:name": text_at(iv, "name", "name"),
+                 "cdi:physicalDataType": map_intended_type(
+                     text_at(iv, "hasIntendedDataType", "name")),
+                 "cdi:formats_InstanceVariable": {"@id": as_id(object_id(iv))}}
+        if vm in vm_index:
+            entry["cdi:index"] = vm_index[vm]
+        mappings.append(entry)
+    mappings.sort(key=lambda m: m.get("cdi:index", 1_000_000))
+    return mappings, is_delim, is_fixed
+
+
 def dataset_name(objects, fallback):
     for tag in ("WideDataSet", "DataStore", "PhysicalDataSet", "LogicalRecord",
                 "Activity", "Sequence"):
@@ -490,6 +537,14 @@ def convert(xml_path, explicit_id=None, base_uri="urn:ddi-cdi", detect=True):
     if structure is not None:
         dist["@type"] = ["schema:DataDownload", dataset_type]
         dist["cdif:isStructuredBy"] = structure
+    # Phase 4 - physical mappings: variable -> column position/format.
+    mappings, is_delim, is_fixed = build_physical_mappings(objects, index)
+    if is_delim:
+        dist["cdi:isDelimited"] = (is_delim == "true")
+    if is_fixed:
+        dist["cdi:isFixedWidth"] = (is_fixed == "true")
+    if mappings:
+        dist["cdi:hasPhysicalMapping"] = mappings
     doc["schema:distribution"] = [dist]
 
     # Phase 5 - provenance: map the DDI-CDI process model (Activity/Step/...) to

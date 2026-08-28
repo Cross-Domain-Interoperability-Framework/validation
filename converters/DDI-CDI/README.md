@@ -88,13 +88,20 @@ deferred to a later pass.
 Lights up `Process_Example_CDI.xml` (58 steps, 13 inputs, agent, environment) →
 `detect_conformance` adds **`provenance/1.1`**.
 
+**Phase 4 (done — physical mappings):**
+
+| DDI-CDI | CDIF |
+|---------|------|
+| `PhysicalSegmentLayout` `isDelimited` / `isFixedWidth` | `cdi:isDelimited` / `cdi:isFixedWidth` on the distribution |
+| `InstanceVariable_has_ValueMapping` → `ValueMapping`, positioned by `ValueMappingPosition/value` | `cdi:hasPhysicalMapping` entry: `cdi:index` (column), `schema:name`, `cdi:physicalDataType`, `cdi:formats_InstanceVariable` → the variable |
+
 **Planned phases** (toward the "broadest end-to-end" goal):
 
-4. **Physical mappings** — `PhysicalSegmentLayout` / `ValueMapping` /
-   `ValueMappingPosition` → `cdi:hasPhysicalMapping` on the distribution.
 6. **Discovery enrichment** — titles, agents, dates where the instance carries
    them (DDI-CDI examples are often technical and lack a friendly title; the
-   dataset name currently falls back to the file stem).
+   dataset name currently falls back to the file stem), plus **sentinel value
+   domains** (missing-value codes) and `DataPoint`/`InstanceValue` (the data
+   itself).
 
 ## Test fixtures
 
