@@ -60,6 +60,50 @@ worksheets legible — the handful of data-bearing attributes that *do* map (e.g
 Because the unmapped rows have empty `predicate_id`/`object_id`, `sssom validate`
 will flag them — that is expected for these worksheets, not an error.
 
+## Why not just generate the converters from SSSOM?
+
+A natural question: if the mappings are captured as SSSOM, why are the converters
+hand-written Python rather than *generated from* (or *driven by*) these tables?
+Because **an SSSOM table is a flat list of term-to-term correspondences** —
+`subject_id → predicate → object_id`, plus (via our extension) a JSONPath for
+where the value lands. That is exactly the right shape for the **simple 1:1
+property renames** (`schema:name` here → `schema:name` there, `dct:title` →
+`schema:name`, an XDI header key → a glossary concept). It is *not* expressive
+enough for the structural work these conversions actually require:
+
+- **reference resolution** — DDI-CDI is a flat graph of objects linked by
+  `ddiReference`; the converter must index every object and walk those links to
+  reassemble a tree;
+- **reified associations** — `X_has_Y` / `X_isDefinedBy_Y` objects that must be
+  traversed and collapsed into a nested CDIF property;
+- **value-domain / structure reshaping** — turning a verbose DDI-CDI value domain
+  + `CodeList`/`Code`/`Category` into a `skos:ConceptScheme`, or a
+  `WideDataStructure` + components into `cdif:isStructuredBy`;
+- **synthesis with no source term** — the `schema:subjectOf` catalog record,
+  `dcterms:conformsTo` derived from content, `@context` rewrites, nil placeholders.
+
+None of those are term-to-term rows, so a purely declarative mapping either can't
+express them or needs a Turing-complete mapping language bolted on. The realistic
+pattern is therefore a **hybrid**: SSSOM captures (and can drive) the flat 1:1
+renames, while hand-written code does the graph traversal and structural
+assembly. The SSSOM set stays the human-readable, curatable, tool-checkable record
+of the *term alignments* (each row carrying its predicate and justification), and
+the structural transforms are recorded in each file's `# comment:` header instead
+of as rows. Updating a table documents an intended change; it does **not**
+regenerate a converter — the code is edited in step, and the table updated to match.
+
+**Precedent — the XAS → CDIF profile work.** That effort built the same transform
+two ways (see [`../../../XAS-CDIF/release/xasToCdifWorkflows.md`](../../../XAS-CDIF/release/xasToCdifWorkflows.md)).
+The original design was a **declarative RML mapping executed by a Java tool**
+(`rmlmapper`), packaged as an HTTP service
+([`cdif-xas`](https://github.com/smrgeoinfo/cdif-xas)). A later **Python emitter
+keyed off SSSOM crosswalks** ([`cdifnexmetadata`](https://github.com/usgin/cdifnexmetadata))
+turned out to be **easier to build and maintain**: a new input format becomes a
+*parser* rather than a new pipeline, and a new technique a *crosswalk edit* rather
+than a code change, while the SSSOM crosswalk still "licenses" each mapping (its
+predicate and confidence travel with the value). The converters here follow that
+same hybrid philosophy — SSSOM for the alignments, Python for the structure.
+
 ## Columns
 
 `subject_id` / `subject_label` (the source term), `predicate_id`, `object_id` /
