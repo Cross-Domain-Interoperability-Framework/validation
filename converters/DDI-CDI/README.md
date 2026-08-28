@@ -73,14 +73,25 @@ Coded (Nominal) variables get their full concept list (e.g. `maritalb`:
 classification level but no code list. Sentinel (missing-value) domains are
 deferred to a later pass.
 
+**Phase 5 (done — provenance):**
+
+| DDI-CDI | CDIF |
+|---------|------|
+| `Activity` (invoked by `Sequence`) + sub-activities | `prov:wasGeneratedBy` → `["schema:Action","prov:Activity"]` |
+| `name` / `description` | `schema:name` / `schema:description` |
+| `entityUsed/uri` (over the activity tree) | `prov:used` (`{@id}`) |
+| `entityProduced/uri` | `schema:result` (`{@id}`) |
+| `Activity_has_Step` → `Step` (name, description, script) | `schema:actionProcess` → `schema:HowTo` / `schema:step` (`schema:HowToStep`) |
+| `Organization/organizationName` | `schema:agent` |
+| `ProductionEnvironment/name` | `schema:location` |
+
+Lights up `Process_Example_CDI.xml` (58 steps, 13 inputs, agent, environment) →
+`detect_conformance` adds **`provenance/1.1`**.
+
 **Planned phases** (toward the "broadest end-to-end" goal):
 
 4. **Physical mappings** — `PhysicalSegmentLayout` / `ValueMapping` /
    `ValueMappingPosition` → `cdi:hasPhysicalMapping` on the distribution.
-5. **Provenance** — the process model (`Activity` / `Step` / `Parameter` /
-   `ProcessingAgent` / `ProductionEnvironment`, as in `Process_Example_CDI.xml`)
-   → **cdifProv** (`prov:wasGeneratedBy`). Parallels the `ddicdiProv` building
-   block.
 6. **Discovery enrichment** — titles, agents, dates where the instance carries
    them (DDI-CDI examples are often technical and lack a friendly title; the
    dataset name currently falls back to the file stem).
@@ -104,5 +115,6 @@ A larger `Stata_Example.xml` (2 MB) is available upstream.
   Discovery **and Complete** SHACL **0 violations** (warnings advisory:
   per-variable propertyID, physical data type, contacts). conformsTo:
   core + discovery + data_description + **data_structure**.
-- `cdif_Process_Example.json` — Discovery JSON Schema passes (0 variables until
-  phase 5 maps the provenance).
+- `cdif_Process_Example.json` — **Discovery + Provenance JSON Schema pass**;
+  Discovery and Provenance SHACL **0 violations**. conformsTo:
+  core + discovery + **provenance** (a pure process/workflow, 0 variables).

@@ -28,9 +28,13 @@ STATUS — phased build toward the "broadest end-to-end" goal. Mapped so far:
                                                cdif:isStructuredBy /
                                                cdi:has_DataStructureComponent  (phase 3)
 
+  Activity (Sequence-invoked) + Step/Parameter/Organization/ProductionEnvironment
+                                            -> prov:wasGeneratedBy (schema:Action/
+                                               prov:Activity, actionProcess/HowTo,
+                                               agent, location, used, result)     (phase 5)
+
 Not yet mapped (planned): PhysicalSegmentLayout / ValueMapping (physical
-mappings), sentinel value domains, DataPoint / InstanceValue (data), and the
-Activity / Step / Parameter provenance (cdifProv). See README.md.
+mappings), sentinel value domains, and DataPoint / InstanceValue (data). See README.md.
 
 Usage:
     python ddicdi_to_cdif.py Examples/XML/SPSS_Example.xml -o out.json
@@ -55,6 +59,7 @@ CDI_CTX = {
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "cdif": "https://w3id.org/cdif/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
+    "prov": "http://www.w3.org/ns/prov#",
 }
 
 # DDI-CDI DataStructureComponent type -> CDIF cdi:role.
@@ -282,8 +287,122 @@ def build_data_structure(objects, index):
     return node, DATASET_TYPE.get(stype, "cdi:StructuredDataSet")
 
 
+def _activity_tree(main, index):
+    """Main activity + all descendants reachable via hasSubActivity (BFS)."""
+    seen, queue, out = set(), [main], []
+    while queue:
+        act = queue.pop(0)
+        aid = object_id(act)
+        if aid in seen:
+            continue
+        seen.add(aid)
+        out.append(act)
+        for rel in children_named(act, "Activity_hasSubActivity_Activity"):
+            sub = index.get(ref_target(rel))
+            if sub is not None:
+                queue.append(sub)
+    return out
+
+
+def _pick_main_activity(objects, index):
+    activities = [o for o in objects if local(o) == "Activity"]
+    if not activities:
+        return None
+    for o in objects:
+        if local(o) == "Sequence":
+            inv = ref_target(child(o, "ControlLogic_invokes_Activity"))
+            if inv in index and local(index[inv]) == "Activity":
+                return index[inv]
+    sub_ids = {ref_target(r) for a in activities
+               for r in children_named(a, "Activity_hasSubActivity_Activity")}
+    roots = [a for a in activities if object_id(a) not in sub_ids]
+    return roots[0] if roots else activities[0]
+
+
+def build_step(step):
+    node = {"@type": ["schema:HowToStep"]}
+    nm = text_at(step, "name", "name")
+    if nm:
+        node["schema:name"] = nm
+    desc = text_at(step, "description")
+    lang = text_at(step, "scriptingLanguage", "entryValue")
+    if lang:
+        desc = (desc + f" [{lang}]").strip() if desc else lang
+    if desc:
+        node["schema:description"] = desc
+    uri = text_at(step, "script", "commandFile", "uri")
+    if uri:
+        node["schema:url"] = uri
+    return node
+
+
+def build_provenance(objects, index):
+    """Map the DDI-CDI process model to a cdifProv prov:wasGeneratedBy activity.
+
+        Activity (invoked by Sequence)      -> ["schema:Action","prov:Activity"]
+          name / description                ->   schema:name / schema:description
+          entityUsed/uri  (over the tree)   ->   prov:used ({@id})
+          entityProduced/uri                ->   schema:result ({@id})
+          Activity_has_Step -> Step         ->   schema:actionProcess (HowTo) / schema:step
+          Organization                      ->   schema:agent
+          ProductionEnvironment             ->   schema:location
+    """
+    main = _pick_main_activity(objects, index)
+    if main is None:
+        return None
+    tree = _activity_tree(main, index)
+
+    used, produced, steps = [], [], []
+    for act in tree:
+        for e in children_named(act, "entityUsed"):
+            u = text_at(e, "uri")
+            if u:
+                used.append({"@id": u})
+        for e in children_named(act, "entityProduced"):
+            u = text_at(e, "uri")
+            if u:
+                produced.append({"@id": u})
+        for rel in children_named(act, "Activity_has_Step"):
+            s = index.get(ref_target(rel))
+            if s is not None:
+                steps.append(build_step(s))
+
+    node = {"@type": ["schema:Action", "prov:Activity"]}
+    nm = text_at(main, "name", "name")
+    desc = text_at(main, "description") \
+        or text_at(main, "displayLabel", "languageSpecificString", "content")
+    if nm:
+        node["schema:name"] = nm
+    if desc:
+        node["schema:description"] = desc
+
+    org = next((o for o in objects if local(o) == "Organization"), None)
+    if org is not None:
+        org_name = text_at(org, "organizationName", "name")
+        if org_name:
+            node["schema:agent"] = {"@type": ["schema:Organization"],
+                                    "schema:name": org_name}
+    env = next((o for o in objects if local(o) == "ProductionEnvironment"), None)
+    if env is not None:
+        env_name = text_at(env, "name", "name")
+        if env_name:
+            node["schema:location"] = {"@type": ["schema:Place"],
+                                       "schema:name": env_name}
+    if used:
+        node["prov:used"] = used
+    if produced:
+        node["schema:result"] = produced if len(produced) > 1 else produced[0]
+    if steps:
+        howto = {"@type": ["schema:HowTo"], "schema:step": steps}
+        if nm:
+            howto["schema:name"] = nm
+        node["schema:actionProcess"] = howto
+    return node
+
+
 def dataset_name(objects, fallback):
-    for tag in ("WideDataSet", "DataStore", "PhysicalDataSet", "LogicalRecord"):
+    for tag in ("WideDataSet", "DataStore", "PhysicalDataSet", "LogicalRecord",
+                "Activity", "Sequence"):
         for obj in objects:
             if local(obj) == tag:
                 nm = (text_at(obj, "displayLabel", "languageSpecificString", "content")
@@ -372,6 +491,13 @@ def convert(xml_path, explicit_id=None, base_uri="urn:ddi-cdi", detect=True):
         dist["@type"] = ["schema:DataDownload", dataset_type]
         dist["cdif:isStructuredBy"] = structure
     doc["schema:distribution"] = [dist]
+
+    # Phase 5 - provenance: map the DDI-CDI process model (Activity/Step/...) to
+    # a cdifProv prov:wasGeneratedBy activity, when present.
+    provenance = build_provenance(objects, index)
+    if provenance is not None:
+        doc["prov:wasGeneratedBy"] = [provenance]
+
     doc["schema:subjectOf"] = build_catalog_record(iri, name, len(variables))
 
     if detect and _HAVE_DETECT:

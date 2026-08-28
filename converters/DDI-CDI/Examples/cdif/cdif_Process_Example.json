@@ -3,13 +3,16 @@
     "schema": "http://schema.org/",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
-    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "prov": "http://www.w3.org/ns/prov#"
   },
   "@id": "urn:ddi-cdi:Process_Example_CDI",
   "@type": [
     "schema:Dataset"
   ],
-  "schema:name": "Process_Example_CDI",
+  "schema:name": "Integrate climate data from Copernicus ERA5 and air quality data from the European Environmental Agency (EEA) with data from the European Social Survey (ESS) for Berlin, Oslo, Stockholm, Brussels, London, Paris, Vienna, Prague, Budapest, and Madrid",
   "schema:identifier": {
     "@type": [
       "schema:PropertyValue"
@@ -25,8 +28,569 @@
       "@type": [
         "schema:DataDownload"
       ],
-      "schema:name": "Process_Example_CDI (data file)",
+      "schema:name": "Integrate climate data from Copernicus ERA5 and air quality data from the European Environmental Agency (EEA) with data from the European Social Survey (ESS) for Berlin, Oslo, Stockholm, Brussels, London, Paris, Vienna, Prague, Budapest, and Madrid (data file)",
       "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "prov:wasGeneratedBy": [
+    {
+      "@type": [
+        "schema:Action",
+        "prov:Activity"
+      ],
+      "schema:name": "Integrate climate and air quality data with ESS",
+      "schema:description": "Integrate climate data from Copernicus ERA5 and air quality data from the European Environmental Agency (EEA) with data from the European Social Survey (ESS) for Berlin, Oslo, Stockholm, Brussels, London, Paris, Vienna, Prague, Budapest, and Madrid",
+      "schema:agent": {
+        "@type": [
+          "schema:Organization"
+        ],
+        "schema:name": "Sikt - Norwegian Agency for Shared Services in Education and Research"
+      },
+      "schema:location": {
+        "@type": [
+          "schema:Place"
+        ],
+        "schema:name": "ESS Dataportal"
+      },
+      "prov:used": [
+        {
+          "@id": "https://doi.org/10.24381/cds.adbb2d47"
+        },
+        {
+          "@id": "https://discomap.eea.europa.eu/map/fme/AirQualityExport.htm"
+        },
+        {
+          "@id": "https://gisco-services.ec.europa.eu/distribution/v2/nuts/geojson/NUTS_RG_01M_2016_4326_LEVL_1.geojson"
+        },
+        {
+          "@id": "https://gisco-services.ec.europa.eu/distribution/v2/nuts/geojson/NUTS_RG_01M_2016_4326_LEVL_2.geojson"
+        },
+        {
+          "@id": "https://gisco-services.ec.europa.eu/distribution/v2/nuts/geojson/NUTS_RG_01M_2016_4326_LEVL_3.geojson"
+        },
+        {
+          "@id": "https://doi.org/10.24381/cds.adbb2d47"
+        },
+        {
+          "@id": "https://ghsl.jrc.ec.europa.eu/datasets.php"
+        },
+        {
+          "@id": "https://doi.org/10.21338/era5-grids"
+        },
+        {
+          "@id": "https://gisco-services.ec.europa.eu/distribution/v2/nuts/geojson/NUTS_RG_01M_2016_4326_LEVL_1.geojson"
+        },
+        {
+          "@id": "https://gisco-services.ec.europa.eu/distribution/v2/nuts/geojson/NUTS_RG_01M_2016_4326_LEVL_2.geojson"
+        },
+        {
+          "@id": "https://gisco-services.ec.europa.eu/distribution/v2/nuts/geojson/NUTS_RG_01M_2016_4326_LEVL_3.geojson"
+        },
+        {
+          "@id": "https://discomap.eea.europa.eu/map/fme/metadata/PanEuropean_metadata.csv"
+        },
+        {
+          "@id": "https://doi.org/10.21338/eea-stations"
+        }
+      ],
+      "schema:result": [
+        {
+          "@id": "https://doi.org/10.21338/era5-grids"
+        },
+        {
+          "@id": "https://doi.org/10.21338/era5-regions"
+        },
+        {
+          "@id": "https://doi.org/10.21338/eea-stations"
+        },
+        {
+          "@id": "https://doi.org/10.21338/eea-regions"
+        },
+        {
+          "@id": "https://doi.org/10.21338/merged-EOSC-ESS8e02_2"
+        },
+        {
+          "@id": "https://doi.org/10.21338/merged-EOSC-ESS9e03_1"
+        },
+        {
+          "@id": "https://doi.org/10.21338/merged-EOSC-ESS10"
+        },
+        {
+          "@id": "https://doi.org/10.21338/merged-EOSC-ESS10SC"
+        }
+      ],
+      "schema:actionProcess": {
+        "@type": [
+          "schema:HowTo"
+        ],
+        "schema:step": [
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable date",
+            "schema:description": "Compute target variable 'date' based on variable 'time' and 'region' to convert from UTC to local time zones [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/era5-prepare.py#L14"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable tmpdca",
+            "schema:description": "Compute target variable 'tmpdca' based on variable 'tmpdc', 'region_id', 'date' and 'pop. Calculate average temperature by date for each grid cell to be included in the data. Temperature measured in Kelvin is converted to degrees Celsius (°C) by subtracting 273.15. Calculate temperature averages for each region, weighted by variable 'pop' that is based on global human settlements statistics. [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/era5-prepare.py#L41"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable tmpdcmx",
+            "schema:description": "Compute target variable 'tmpdcmx' based on variable 'tmpdc', 'region_id', 'date' and 'pop'. Calculate maximum temperature by date for each grid cell to be included in the data. Temperature measured in Kelvin is converted to degrees Celsius (°C) by subtracting 273.15. Calculate average maximums for each region, weighted by variable 'pop' that is based on global human settlements statistics. [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/era5-prepare.py#L42"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable tmpdcmn",
+            "schema:description": "Compute target variable 'tmpdcmn' based on variable 'tmpdc', 'region_id', 'date' and 'pop'. Calculate minimum temperature by date for each grid cell to be included in the data. Temperature measured in Kelvin converted to degrees Celsius (°C) by subtracting 273.15. Calculate average minimums for each region, weighted by variable 'pop' that is based on global human settlements statistics. [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/era5-prepare.py#L43"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable tmpdcaw",
+            "schema:description": "Calculate average temperature week (seven days) before the date, date included for each region, based on variables 'tmpdca', 'date' and 'region_id'. [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/era5-prepare.py#L60"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable tmpdcam",
+            "schema:description": "Calculate average temperature month (thirty days) before the date, date included for each region, date included, based on variables 'tmpdca', 'date' and 'region_id'. [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/era5-prepare.py#L61"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable tmpdca3m",
+            "schema:description": "Calculate average temperature three months (ninty days) before the date, date included for each region, date included, based on variables 'tmpdca', 'date' and 'region_id'. [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/era5-prepare.py#L62"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable tmpdcay",
+            "schema:description": "Calculate average temperature year (three hundred and sixty five days) before the date, date included for each region, based on variables 'tmpdca', 'date' and 'region_id'. [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/era5-prepare.py#L63"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable tmpdcacm",
+            "schema:description": "Compute target variable 'tmpdcacm' based on variables 'tmpdca', 'region_id' and 'date'. Calculate average temperature for each calendar month for each region. [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/era5-prepare.py#L101"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable tmpdcamb",
+            "schema:description": "Compute target variable 'tmpdcamb' based on variables 'tmpdca', 'region_id' and 'date'. Calculate average temperature for each calendar month for each region, across the baseline period 1991 - 2020. [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/era5-prepare.py#L89"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable tmp95pacmb",
+            "schema:description": "Compute target variable 'tmp95pacmb' based on variable 'tmpdc', 'date', 'region_id'.and 'pop' Calculate 95 percentile values for each calendar month for each grid cell as an average of the 1991 - 2020 baseline period values. Temperature measured in Kelvin converted to degrees Celsius (°C) by subtracting 273.15. Calculate calendar month averages for each region as an average of 95 the percentil values for each calendar month for each grid for the baseline period 1991 - 2020, weighted by variable 'pop' that is based on global human settlements statistics. [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/era5-prepare.py#L93"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable tmpanod",
+            "schema:description": "Compute target variable 'tmpanod' based on variables 'tmpdca', 'tmpdcamb', 'region_id' and 'date'. Calculate 'tmpanod' as day average for each region, minus calendar month average base value 1991 - 2020 (tmpdca - tmpdcamb). [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/era5-prepare.py#L97"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable tmpanocm",
+            "schema:description": "Compute target variable 'tmpanocm' based on variables 'tmpdcacm', 'tmpdcamb', 'region_id' and 'date'. Calculate 'tmpanocm' as calendar month average for each region, minus calendar month average base value 1991 - 2020 (tmpdcacm - tmpdcamb). [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/era5-prepare.py#L102"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable paccta",
+            "schema:description": "Compute target variable 'paccta' based on variable 'pac', 'region_id','date' and 'pop'. Calculate total precipitation by date in mm for each grid cell to be included in the data. The total precipitation over 24 hours is the sum of the individual total precipitation values for each hour. Precipitation measured in m converted to mm. Calculate total precipitation by date for each region as an average of the grid cell value, weighted by variable 'pop' that is based on global human settlements statistics. [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/era5-prepare.py#L44"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable pacctaw",
+            "schema:description": "Compute target variable 'pacctaw' based on variables 'paccta', 'date' and 'region_id'. Calculate average total precipitation for the week (seven days) before the date, date included, for each region. [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/era5-prepare.py#L64"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable pacctam",
+            "schema:description": "Compute target variable 'pacctam' based on variables 'paccta', 'date' and 'region_id'. Calculate average total precipitation for the month (thirty days) before the date, date included, for each region. [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/era5-prepare.py#L65"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable paccta3m",
+            "schema:description": "Compute target variable 'paccta3m' based on variables 'paccta', 'date' and 'region_id'. Calculate average total precipitation for the three months (ninty days) before the date, date included, for each region. [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/era5-prepare.py#L66"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable pacctay",
+            "schema:description": "Compute target variable 'pacctay' based on variables 'paccta', 'date' and 'region_id'. Calculate average total precipitation for the year (three hundred and sixty five days) before the date, date included, for each region. [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/era5-prepare.py#L67"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable pacctcm",
+            "schema:description": "Compute target variable 'pacctcm' based on variables 'paccta', 'date' and 'region_id'. Calculate 'pacctcm' as an average of total precipitation date values for the calendar month. [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/era5-prepare.py#L106"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable pacctmb",
+            "schema:description": "Compute target variable 'pacctmb' based on variables 'pacctm', 'region_id' and 'date'.Calculate accumulated precipitation averages for each calendar month for each region over the baseline period 1991 to 2020. [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/era5-prepare.py#L112"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable paccdcm",
+            "schema:description": "Compute target variable 'paccdcm' based on variables 'pacctcm', 'pacctmb', 'region_id' and 'date'.Compute variable for calendar month precipitation anomaly for each region as (current month/norml)*100. Using variables: (pacctcm/pacctmb)* 100 [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/era5-prepare.py#L116"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable iwg10mx",
+            "schema:description": "Compute target variable 'iwg10mx' based on variables 'iwg10', 'region_id' and 'date'. Calculate maximum wind gust value pr. date for each grid cell. The maximum wind gust value pr. date for a grid cell within the region becomes the value of the target variable. [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/era5-prepare.py#L45"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable iwg10mxaw",
+            "schema:description": "Compute target variable 'iwg10mxaw' based on variables 'iwg10mx', 'region_id' and 'date'. Calculate the average maximum wind gust value for the week (seven days) before the date, date included, for each region. [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/era5-prepare.py#L68"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable iwg10mxam",
+            "schema:description": "Compute target variable 'iwg10mxam' based on variables 'iwg10mx', 'region_id' and 'date'. Calculate the average maximum wind gust value for the month (thirty days) before the date, date included, for each region. [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/era5-prepare.py#L69"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable iwg10mxa3m",
+            "schema:description": "Compute target variable 'iwg10mxa3m' based on variables 'iwg10mx', 'region_id' and 'date'. Calculate the average maximum wind gust value for the three months (ninty days) before the date, date included, for each region. [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/era5-prepare.py#L70"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable iwg10mxay",
+            "schema:description": "Compute target variable 'iwg10mxay' based on variables 'iwg10mx', 'region_id' and 'date'. Calculate the average maximum wind gust value for the year (three hundred and sixty five days) before the date, date included, for each region. [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/era5-prepare.py#L71"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable iwg10mxamb",
+            "schema:description": "Compute target variable 'iwg10mxamb' based on variables 'iwg10mx', 'region_id' and 'date'. Calculate the average maximum wind gust for each calendar month for each region, across the baseline period 1991 - 2020. [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/era5-prepare.py#L119"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable date",
+            "schema:description": "Use variables 'DatetimeBegin' and 'DatetimeEnd' to create variable 'date'. [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L171"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable aqiwdpm10",
+            "schema:description": "Compute target variable 'aqiwdpm10' starting from variables 'Concentration' and 'AirPollutant = PM10' for each background station. Compute where 'AirQualityStation' has values for the pollutant. Find 'Concentration' value at the 99th percentile for the pollutant. Create EEA Air Quality Index where PM10: 0 to 20 eq 'Good' represented by value '0'; 20 to 40 eq 'Fair' represented by value '1'; 40 to 50 eq 'Moderate' represented by value '2'; 50 to 100 eq 'Poor' represented by value '3'; 100 to 150 eq 'Very Poor' represented by value '4'; 150 to 1200 eq 'Extremely poor' represented by value '5'. The worst air quality level measured on a specific date on one of the background stations in the region provides values to the variable. [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L71"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable aqiwdpm2_5",
+            "schema:description": "Compute target variable 'aqiwdpm2_5' starting from variables 'Concentration' and 'AirPollutant = PM2.5' for each background station. Compute where 'AirQualityStation' has values for the pollutant. Find 'Concentration' value at the 99th percentile for the pollutant. Create EEA Air Quality Index where PM2.5: 0 to 10 eq 'Good' represented by value '0'; 10 to 20 eq 'Fair' represented by value '1'; 20 to 25 eq 'Moderate' represented by value '2'; 25 to 50 eq 'Poor' represented by value '3'; 50 to 75 eq 'Very Poor' represented by value '4'; 75 to 800 eq 'Extremely poor' represented by value '5'. The worst air quality level measured on a specific day on one of the background stations in the region provides values to the variable. [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L72"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable aqiwdso2",
+            "schema:description": "Compute target variable 'aqiwdso2' starting from variables 'Concentration' and 'AirPollutant = SO2' for each background station. Compute where 'AirQualityStation' has values for the pollutant. Find 'Concentration' value at the 99th percentile for the pollutant. Create EEA Air Quality Index where SO2: 0 to 100 eq 'Good' represented by value '0'; 100 to 200 eq 'Fair' represented by value '1'; 200 to 350 eq 'Moderate' represented by value '2'; 350 to 500 eq 'Poor' represented by value '3'; 500 to 750 eq 'Very Poor' represented by value '4'; 750 to 1250 eq 'Extremely poor' represented by value '5'. The worst air quality level measured on a specific day on one of the background stations in the region provides values to the variable. [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L73"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable aqiwdno2",
+            "schema:description": "Compute target variable 'aqiwdno2' starting from variables 'Concentration' and 'AirPollutant = NO2' for each background station. Compute where 'AirQualityStation' has values for the pollutant. Find 'Concentration' value at the 99th percentile for the pollutant. Create EEA Air Quality Index where NO2: 0 to 40 eq 'Good' represented by value '0'; 40 to 90 eq 'Fair' represented by value '1'; 90 to 120 eq 'Moderate' represented by value '2'; 120 to 230 eq 'Poor' represented by value '3'; 230 to 340 eq 'Very Poor' represented by value '4'; 340 to 1000 eq 'Extremely Poor' represented by value '5'. The worst air quality level measured on a specific day on one of the background stations in the region provides values to the variable. [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L74"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable aqiwdo3",
+            "schema:description": "Compute target variable 'aqiwdo3' starting from variables 'Concentration' and 'AirPollutant = O3' for each background station. Compute where 'AirQualityStation' has values for the pollutant. Find 'Concentration' value at the 99th percentile for the pollutant. Create EEA Air Quality Index where O3: 0 to 50 eq 'Good' represented by value '0', 50 to 100 eq 'Fair' represented by value '1'; 100 to 130 eq 'Moderate' represented by value '2'; 130 to 240 eq 'Poor' represented by value '3'; 2040 to 380 eq 'Very poor' represented by value '4'; 380 to 800 eq 'Extremely poor' represented by value '5'. The average of the worst air quality level measured on a specific day on each of the background stations in the region provides values to the variable. [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L75"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable aqiwd",
+            "schema:description": "Compute target variable 'aqiwd' based on 'aqiwdpm10'; 'aqiwdpm2_5'; 'aqiwdso2'; 'aqiwdno2; 'aqiwdo3' by date and region. The maximum value across the source variables becomes the value of the target variable [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L80"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable aqiw2dpm10",
+            "schema:description": "Compute target variable 'aqiw2dpm10' based on 'aqiwdpm10' 'region' and 'date'. The worst value for the pollutant across a date and the date before becomes the value of the target variable [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L83"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable aqiw2dpm2_5",
+            "schema:description": "Compute target variable 'aqiw2dpm2_5' based on 'aqiwdpm2_5', 'region' and 'date'. The worst value for the pollutant across a date and the date before becomes the value of the target variable [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L83"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable aqiw2dso2",
+            "schema:description": "Compute target variable 'aqiw2dso2' based on 'aqiwdso2', 'region' and 'date'. The worst value for the pollutant across a date and the date before becomes the value of the target variable [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L83"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable aqiw2dno2",
+            "schema:description": "Compute target variable 'aqiw2dno2' based on 'aqiwdno2', 'region' and 'date'. The worst value for the pollutant across a date and the date before becomes the value of the target variable [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L83"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable aqiw2do3",
+            "schema:description": "Compute target variable 'aqiw2do3' based on 'aqiwdo3', 'region' and 'date'. The worst value for the pollutant across a date and the date before becomes the value of the target variable [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L83"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable aqiw2d",
+            "schema:description": "Compute target variable 'aqiw2d ' based on 'aqiw2dpm10'; 'aqiw2dpm2_5'; 'aqiw2dso2'; 'aqiwdno2'; 'aqiw2do3', 'region' and 'date'. The maximum value across the source variables becomes the value of the target variable [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L83"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable ndyprwpm10",
+            "schema:description": "Compute target variable 'ndyprwpm10' based on 'aqiwdpm10', 'region' and 'date'. The number of days during the last seven days from date, date included, where 'aqiwdpm10' = '3' 'Poor' or 'aqiwdpm10' = '4' 'Very poor' or 'aqiwdpm10' = '5' 'Extremely poor' becomes the value of the target variable [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L92"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable ndyprwpm2_5",
+            "schema:description": "Compute target variable 'ndyprwpm2_5' based on 'aqiwdpm2_5', 'region' and 'date'. The number of days during the last seven days from date, date included, where 'aqiwdpm2_5' = '3' 'Poor' or 'aqiwdpm2_5' = '4' 'Very poor' or 'aqiwdpm2_5' = '5' 'Extremely poor' becomes the value of the target variable [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L92"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable ndyprwso2",
+            "schema:description": "Compute target variable 'ndyprwso2' based on 'aqiwdso2', 'region' and 'date'. The number of days during the last seven days from date, date included, where 'aqiwdso2' = '3' 'Poor' or 'aqiwdso2' = '4' 'Very poor' or 'aqiwdso2' = '5' 'Extremely poor' becomes the value of the target variable [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L92"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable ndyprwno2",
+            "schema:description": "Compute target variable 'ndyprwno2' based on 'aqiwdno2', 'region'and 'date'. The number of days during the last seven days from date, date included, where 'aqiwdno2r' = '3' 'Poor' or 'aqiwdno2r' = '4' 'Very poor' or 'aqiwdno2r' = '5' 'Extremely poor' becomes the value of the target variable [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L92"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable ndyprwo3",
+            "schema:description": "Compute target variable 'ndyprwo3' based on 'aqiwdo3', 'region' and 'date'. The number of days during the last seven days from date, date included, where 'aqiwdo3r' = '3' 'Poor' or 'aqiwdo3r' = '4' 'Very poor' or 'aqiwdo3r' = '5' 'Extremely poor' becomes the value of the target variable [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L92"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable ndyprw",
+            "schema:description": "Compute target variable 'ndyprw' based on 'aqiwdpm10', 'aqiwdpm2_5', 'aqiwdso2', 'aqiwdno2', 'aqiwdo3', 'region' and 'date'. The number of days during the last seven days from date, date included, where one or more of variables 'aqiwdpm10', 'aqiwdpm2_5', 'aqiwdso2r', 'aqiwdno2', 'aqiwdo3' has value '3' 'Poor' or '4' 'Very poor' or '5' 'Extremely poor' becomes the value of the target variable [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L92"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable ndyprmpm10",
+            "schema:description": "Compute target variable 'ndyprmpm10' based on 'aqiwdpm10', 'region' and 'date'. The number of days during the last thirty days from date, date included, where 'aqiwdpm10' = '3' 'Poor' or 'aqiwdpm10' = '4' 'Very poor' or 'aqiwdpm10' = '5' 'Extremely poor' becomes the value of the target variable [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L95"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable ndyprmpm2_5",
+            "schema:description": "Compute target variable 'ndyprmpm2_5' based on ' aqiwdpm2_5 ' , 'region' and 'date'. The number of days during the last thirty days from date, date included, where 'aqiwdpm2_5' = '3' 'Poor' or 'aqiwdpm2_5' = '4' 'Very poor' or 'aqiwdpm2_5' = '5' 'Extremely poor' becomes the value of the target variable [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L95"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable ndyprmso2",
+            "schema:description": "Compute target variable ' ndyprmso2' based on 'aqiwdso2', 'region' and 'date'. The number of days during the last thirty days from date, date included, where 'aqiwdso2' = '3' 'Poor' or 'aqiwdso2' = '4' 'Very poor' or 'aqiwdso2' = '5' 'Extremely poor' becomes the value of the target variable [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L95"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable ndyprmno2",
+            "schema:description": "Compute target variable 'ndyprmno2' based on 'aqiwdno2', 'region' and 'date'. The number of days during the last thirty days from date, date included, where 'aqiwdno2' = '3' 'Poor' or 'aqiwdno2' = '4' 'Very poor' or 'aqiwdno2' = '5' 'Extremely poor' becomes the value of the target variable [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L95"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable ndyprmo3",
+            "schema:description": "Compute target variable 'ndyprmo3' based on 'aqiwdo3', 'region' and 'date'. The number of days during the last thirty days from date, date included, where 'aqiwdo3' = '3' 'Poor' or 'aqiwdo3' = '4' 'Very poor' or 'aqiwdo3' = '5' 'Extremely poor' becomes the value of the target variable [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L95"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable ndyprm",
+            "schema:description": "Compute target variable 'ndyprm' based on 'aqiwdpm10', 'aqiwdpm2_5', 'aqiwdso2', 'aqiwdno2', 'aqiwdo3', 'region' and 'date'. The number of days during the last thirty days from date, date included, where one or more of variables 'aqiwdpm10r', 'aqiwdpm2_5r', 'aqiwdso2r', 'aqiwdno2r', 'aqiwdo3r' has value '3' 'Poor' or '4' 'Very poor' or '5' 'Extremely poor' becomes the value of the target variable [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L95"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable ndyprypm10",
+            "schema:description": "Compute target variable 'ndyprypm10' based on 'aqiwdpm10', 'region' and 'date'. The number of days during the last three hundred and sixty five days from date, date included, where 'aqiwdpm10' = '3' 'Poor' or 'aqiwdpm10' = '4' 'Very poor' or 'aqiwdpm10' = '5' 'Extremely poor' becomes the value of the target variable [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L98"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable ndyprypm2_5",
+            "schema:description": "Compute target variable 'ndyprypm2_5' based on 'aqiwdpm2_5', 'region' and 'date'. The number of days during the last three hundred and sixty five days from date, date included, where 'aqiwdpm2_5' = '3' 'Poor' or 'aqiwdpm2_5' = '4' 'Very poor' or 'aqiwdpm2_5' = '5' 'Extremely poor' becomes the value of the target variable [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L98"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable ndypryso2",
+            "schema:description": "Compute target variable 'ndypryso2' based on 'aqiwdso2', 'region' and 'date'. The number of days during the last three hundred and sixty five days from date, date included, where 'aqiwdso2' = '3' 'Poor' or 'aqiwdso2' = '4' 'Very poor' or 'aqiwdso2' = '5' 'Extremely poor' becomes the value of the target variable [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L98"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable ndypryno2",
+            "schema:description": "Compute target variable 'ndypryno2' based on 'aqiwdno2', 'region' and 'date'. The number of days during the last three hundred and sixty five days from date, date included, where 'aqiwdno2' = '3' 'Poor' or 'aqiwdno2' = '4' 'Very poor' or 'aqiwdno2' = '5' 'Extremely poor' becomes the value of the target variable [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L98"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable ndypryo3",
+            "schema:description": "Compute target variable ' ndypryo3' based on 'aqiwdo3', 'region' and 'date'. The number of days during the last three hundred and sixty five days from date, date included, where 'aqiwdo3' = '3' 'Poor' or 'aqiwdo3' = '4' 'Very poor' or 'aqiwdo3' = '5' 'Extremely poor' becomes the value of the target variable [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L98"
+          },
+          {
+            "@type": [
+              "schema:HowToStep"
+            ],
+            "schema:name": "Create variable ndypry",
+            "schema:description": "Compute target variable 'ndypry ' based on 'aqiwdpm10', 'aqiwdpm2_5', 'aqiwdso2', 'aqiwdno2', 'aqiwdo3', 'region' and 'date'. The number of days during the last three hundred and sixty five days from date, date included, where one or more of variables 'aqiwdpm10', 'aqiwdpm2_5', 'aqiwdso2', 'aqiwdno2', 'aqiwdo3' has value '3' 'Poor' or '4' 'Very poor' or '5' 'Extremely poor' becomes the value of the target variable [Python3]",
+            "schema:url": "https://github.com/sikt-no/ess-labs-data-sp9/blob/master/eea-prepare.py#L98"
+          }
+        ],
+        "schema:name": "Integrate climate and air quality data with ESS"
+      }
     }
   ],
   "schema:subjectOf": {
@@ -39,7 +603,7 @@
       }
     ],
     "@id": "urn:ddi-cdi:Process_Example_CDI#cdif-catalog-record",
-    "schema:name": "Metadata record for: Process_Example_CDI",
+    "schema:name": "Metadata record for: Integrate climate data from Copernicus ERA5 and air quality data from the European Environmental Agency (EEA) with data ",
     "schema:about": {
       "@id": "urn:ddi-cdi:Process_Example_CDI"
     },
@@ -50,6 +614,9 @@
       },
       {
         "@id": "https://w3id.org/cdif/discovery/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/provenance/1.1"
       }
     ]
   }
