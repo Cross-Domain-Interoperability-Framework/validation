@@ -1,13 +1,16 @@
 # mapping_set_id: https://w3id.org/cdif/mappings/ddi25-to-cdif
-# mapping_set_title: DDI Codebook 2.5 to CDIF
-# mapping_set_description: Property correspondences from DDI Codebook 2.5 XML to CDIF, as applied by the DDI 2.5 converters (DDI/ddi_to_cdif.py, Harvard Dataverse; and DDICodebook/ddi25_to_cdif.py, source-agnostic, which adds aggregate-cube, code-list and quality mappings).
+# mapping_set_title: DDI Codebook 2.5 (extensions beyond common core) to CDIF
+# mapping_set_description: Literal fields present in DDI Codebook 2.5 (codebook.xsd) but NOT in 1.2.2 (chiefly the nCube aggregate-cube branch). Extends ddi-common-to-cdif; merge the two for the full 2.5 crosswalk. Applied by DDI/ddi_to_cdif.py and DDICodebook/ddi25_to_cdif.py.
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 # mapping_provider: https://cross-domain-interoperability-framework.github.io/
 # mapping_tool: converters/DDICodebook/ddi25_to_cdif.py ; converters/DDI/ddi_to_cdif.py
 # mapping_date: 2026-08-24
-# subject_source: ddi:codebook:2_5
+# subject_source: https://ddialliance.org/Specification/DDI-Codebook/2.5/XMLSchema/codebook.xsd
 # object_source: https://w3id.org/cdif/complete/1.1
 # mapping_justification: semapv:ManualMappingCuration
+# extension_definitions:
+#   - slot: object_json_path
+#     property: https://w3id.org/cdif/mappings/objectJsonPath
 # curie_map:
 #   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
 #   cdif: https://w3id.org/cdif/
@@ -15,58 +18,150 @@
 #   dcterms: http://purl.org/dc/terms/
 #   ddi: https://ddialliance.org/Specification/DDI-Codebook/2.5/element/
 #   dqv: http://www.w3.org/ns/dqv#
-#   prov: http://www.w3.org/ns/prov#
 #   schema: http://schema.org/
 #   semapv: https://w3id.org/semapv/vocab/
 #   skos: http://www.w3.org/2004/02/skos/core#
 # comment: |
-#   Structural transforms the converter performs that are not term-to-term
-#   mappings (so they have no TSV row):
-#   - ddi: subject ids are a minted CURIE convention: XPath-style DDI Codebook 2.5 element paths (element namespace ddi:codebook:2_5); @name / @intrvl denote XML attributes; code-list / quality items are named bare where DDI 2.5 has no single containing path.
-#   - A CDIF catalog record is ADDED; dcterms:conformsTo is derived from content by detect_conformance - variables yield data_description, cubes yield data_structure, code lists yield codelist/conceptscheme, quality yields DQV/provenance.
-#   - The aggregate-cube, code-list, and quality rows are implemented by the source-agnostic DDICodebook/ddi25_to_cdif.py; DDI/ddi_to_cdif.py covers the study/variable/file subset. See DDICodebook/ddi25-additions-cdif-mapping.md.
-subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	comment
-ddi:stdyDscr.citation.titlStmt.titl	titl	skos:exactMatch	schema:name	name	semapv:ManualMappingCuration	
-ddi:stdyDscr.citation.titlStmt.IDNo	IDNo	skos:exactMatch	schema:identifier	identifier	semapv:ManualMappingCuration	also fills @id
-ddi:stdyDscr.stdyInfo.abstract	abstract	skos:exactMatch	schema:description	description	semapv:ManualMappingCuration	
-ddi:stdyDscr.citation.rspStmt.AuthEnty	AuthEnty	skos:closeMatch	schema:creator	creator	semapv:ManualMappingCuration	-> schema:Person/Organization in @list
-ddi:stdyDscr.citation.distStmt.distrbtr	distrbtr	skos:closeMatch	schema:publisher	publisher	semapv:ManualMappingCuration	-> schema:Organization
-ddi:stdyDscr.stdyInfo.subject.keyword	keyword	skos:exactMatch	schema:keywords	keywords	semapv:ManualMappingCuration	
-ddi:stdyDscr.stdyInfo.subject.topcClas	topcClas	skos:exactMatch	schema:keywords	keywords	semapv:ManualMappingCuration	
-ddi:stdyDscr.dataAccs.useStmt.restrctn	restrctn	skos:closeMatch	schema:conditionsOfAccess	conditionsOfAccess	semapv:ManualMappingCuration	
-ddi:stdyDscr.dataAccs.setAvail.accsPlac	accsPlac	skos:closeMatch	schema:url	url	semapv:ManualMappingCuration	access location (@URI)
-ddi:stdyDscr.citation.distStmt.distDate	distDate	skos:exactMatch	schema:datePublished	datePublished	semapv:ManualMappingCuration	
-ddi:stdyDscr.citation.prodStmt.prodDate	prodDate	skos:exactMatch	schema:dateModified	dateModified	semapv:ManualMappingCuration	fallback distDate / version@date
-ddi:stdyDscr.stdyInfo.sumDscr.nation	nation	skos:closeMatch	schema:spatialCoverage	spatialCoverage	semapv:ManualMappingCuration	-> schema:Place by name
-ddi:stdyDscr.stdyInfo.sumDscr.geogCover	geogCover	skos:closeMatch	schema:spatialCoverage	spatialCoverage	semapv:ManualMappingCuration	-> schema:Place
-ddi:stdyDscr.stdyInfo.sumDscr.timePrd	timePrd	skos:closeMatch	schema:temporalCoverage	temporalCoverage	semapv:ManualMappingCuration	start/end -> ISO 8601 interval
-ddi:stdyDscr.method.dataColl.collMode	collMode	skos:exactMatch	schema:measurementTechnique	measurementTechnique	semapv:ManualMappingCuration	
-ddi:dataDscr.var	var	skos:closeMatch	schema:variableMeasured	variableMeasured	semapv:ManualMappingCuration	dual-typed schema:PropertyValue + cdi:InstanceVariable
-ddi:dataDscr.var@name	var/@name	skos:exactMatch	schema:name	name	semapv:ManualMappingCuration	on the variable
-ddi:dataDscr.var.labl	labl	skos:exactMatch	schema:description	description	semapv:ManualMappingCuration	on the variable
-ddi:dataDscr.var.varFormat	varFormat	skos:closeMatch	cdi:intendedDataType	intendedDataType	semapv:ManualMappingCuration	-> xsd type
-ddi:dataDscr.var.varFormat@intrvl	varFormat/@intrvl	skos:closeMatch	cdi:role	role	semapv:ManualMappingCuration	contin/discrete -> Measure/Attribute component
-ddi:dataDscr.var.sumStat.min	sumStat[min]	skos:exactMatch	schema:minValue	minValue	semapv:ManualMappingCuration	
-ddi:dataDscr.var.sumStat.max	sumStat[max]	skos:exactMatch	schema:maxValue	maxValue	semapv:ManualMappingCuration	
-ddi:dataDscr.var.catgry	catgry	skos:closeMatch	skos:Concept	code-list category	semapv:ManualMappingCuration	value/label -> code list concept (Codelist profile)
-ddi:fileDscr.fileTxt.fileName	fileName	skos:closeMatch	schema:DataDownload	DataDownload	semapv:ManualMappingCuration	-> cdi:TabularTextDataSet distribution; contentUrl nil:missing when no download URL
-ddi:fileDscr.fileTxt.dimensns.caseQnty	caseQnty	skos:closeMatch	cdifq:nRows	nRows	semapv:ManualMappingCuration	
-ddi:fileDscr.fileTxt.dimensns.varQnty	varQnty	skos:closeMatch	cdifq:nColumns	nColumns	semapv:ManualMappingCuration	
-ddi:fileDscr.fileTxt.tab-header	tab file column header	skos:narrowMatch	cdif:hasPhysicalMapping	hasPhysicalMapping	semapv:ManualMappingCuration	header -> cdi:index + cdi:formats_InstanceVariable link
-ddi:dataDscr.nCube	nCube	skos:closeMatch	cdi:DimensionalDataStructure	DimensionalDataStructure	semapv:ManualMappingCuration	N-dimensional aggregate data cube (data_structure profile)
-ddi:dataDscr.nCubeGrp	nCubeGrp	skos:closeMatch	schema:hasPart	hasPart	semapv:ManualMappingCuration	group of cube datasets
-ddi:dataDscr.nCube.dmns	dmns	skos:closeMatch	cdi:DimensionComponent	DimensionComponent	semapv:ManualMappingCuration	cdif:role = Dimension
-ddi:dataDscr.nCube.measure	measure	skos:closeMatch	cdi:MeasureComponent	MeasureComponent	semapv:ManualMappingCuration	cdif:role = Measure
-ddi:dataDscr.nCube.attribute	attribute	skos:closeMatch	cdi:AttributeComponent	AttributeComponent	semapv:ManualMappingCuration	cdif:role = Attribute
-ddi:dataDscr.nCube.CubeCoord	CubeCoord	skos:closeMatch	cdi:DataPoint	DataPoint	semapv:ManualMappingCuration	dimension-value coordinate of a cell
-ddi:dataDscr.nCube.dataItem	dataItem	skos:closeMatch	cdi:DataPoint	DataPoint	semapv:ManualMappingCuration	cell datum
-ddi:codeListName	codeListName	skos:closeMatch	skos:prefLabel	prefLabel	semapv:ManualMappingCuration	also schema:name of the ConceptScheme
-ddi:codeListID	codeListID	skos:closeMatch	schema:identifier	identifier	semapv:ManualMappingCuration	code-list identifier / @id
-ddi:codeListAgencyName	codeListAgencyName	skos:closeMatch	dcterms:publisher	publisher	semapv:ManualMappingCuration	maintaining agency
-ddi:controlledVocabUsed	controlledVocabUsed	skos:closeMatch	cdif:uses	uses	semapv:ManualMappingCuration	also dcterms:conformsTo / skos:inScheme
-ddi:standard	standard	skos:closeMatch	dcterms:conformsTo	conformsTo	semapv:ManualMappingCuration	classification / standard referenced
-ddi:codingInstructions	codingInstructions	skos:closeMatch	schema:description	description	semapv:ManualMappingCuration	on the variable (methodology)
-ddi:qualityStatement	qualityStatement	skos:closeMatch	dqv:QualityMeasurement	QualityMeasurement	semapv:ManualMappingCuration	also dqv:QualityAnnotation + schema:description
-ddi:standardsCompliance	standardsCompliance	skos:closeMatch	dcterms:conformsTo	conformsTo	semapv:ManualMappingCuration	+ dqv annotation
-ddi:evaluationProcess	evaluationProcess	skos:closeMatch	prov:Activity	Activity	semapv:ManualMappingCuration	evaluation activity (schema:Action + prov:Activity)
-ddi:evaluator	evaluator	skos:closeMatch	schema:agent	agent	semapv:ManualMappingCuration	evaluating agent (Role: evaluator; prov:wasAssociatedWith)
+#   VERSION EXTRAS for DDI 2.5: literal fields that exist in 2.5 but not 1.2.2.
+#   subject_id uses the `ddi:` (2.5) prefix. The shared core lives in
+#   ddi-common-to-cdif.sssom.tsv (ddicb:); for the complete 2.5 field inventory:
+#     sssom merge ddi-common-to-cdif.sssom.tsv ddi25-to-cdif.sssom.tsv
+#   Unmapped rows carry a blank object_id/predicate for review.
+subject_id	subject_label	predicate_id	object_id	object_label	object_json_path	mapping_justification	comment
+ddi:stdyDscr.citation.rspStmt.othId	othId						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.studyAuthorization.authorizingAgency	authorizingAgency						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.studyAuthorization.authorizationStatement	authorizationStatement						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.stdyInfo.studyBudget	studyBudget						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.stdyInfo.sumDscr.geoBndBox.westBL	westBL	skos:closeMatch	schema:box	box	$.schema:spatialCoverage[*].schema:geo.schema:box	semapv:ManualMappingCuration	west bound -> min longitude in schema:GeoShape box 'S W N E'
+ddi:stdyDscr.stdyInfo.sumDscr.geoBndBox.eastBL	eastBL	skos:closeMatch	schema:box	box	$.schema:spatialCoverage[*].schema:geo.schema:box	semapv:ManualMappingCuration	east bound -> max longitude in schema:GeoShape box
+ddi:stdyDscr.stdyInfo.sumDscr.geoBndBox.southBL	southBL	skos:closeMatch	schema:box	box	$.schema:spatialCoverage[*].schema:geo.schema:box	semapv:ManualMappingCuration	south bound -> min latitude in schema:GeoShape box
+ddi:stdyDscr.stdyInfo.sumDscr.geoBndBox.northBL	northBL	skos:closeMatch	schema:box	box	$.schema:spatialCoverage[*].schema:geo.schema:box	semapv:ManualMappingCuration	north bound -> max latitude in schema:GeoShape box
+ddi:stdyDscr.stdyInfo.sumDscr.boundPoly.polygon.point.gringLat	gringLat						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.stdyInfo.sumDscr.boundPoly.polygon.point.gringLon	gringLon						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.stdyInfo.qualityStatement.standardsCompliance.standard.standardName	standardName	skos:closeMatch	dcterms:conformsTo	conformsTo		semapv:ManualMappingCuration	data complies with a named standard
+ddi:stdyDscr.stdyInfo.qualityStatement.standardsCompliance.standard.producer	producer						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.stdyInfo.qualityStatement.standardsCompliance.complianceDescription	complianceDescription	skos:closeMatch	dqv:QualityAnnotation	QualityAnnotation		semapv:ManualMappingCuration	narrative of standards compliance -> DQV quality annotation body (separate node)
+ddi:stdyDscr.stdyInfo.qualityStatement.otherQualityStatement	otherQualityStatement	skos:closeMatch	dqv:QualityAnnotation	QualityAnnotation		semapv:ManualMappingCuration	free-text quality statement -> DQV quality annotation body (separate node)
+ddi:stdyDscr.stdyInfo.exPostEvaluation.evaluator	evaluator						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.stdyInfo.exPostEvaluation.evaluationProcess	evaluationProcess						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.stdyInfo.exPostEvaluation.outcomes	outcomes						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.studyDevelopment.developmentActivity.description	description						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.studyDevelopment.developmentActivity.participant	participant						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.studyDevelopment.developmentActivity.resource.dataSrc	dataSrc						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.studyDevelopment.developmentActivity.resource.srcOrig	srcOrig						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.studyDevelopment.developmentActivity.resource.srcChar	srcChar						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.studyDevelopment.developmentActivity.resource.srcDocu	srcDocu						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.studyDevelopment.developmentActivity.outcome	outcome						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.collectorTraining	collectorTraining						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sampleFrame.sampleFrameName	sampleFrameName						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sampleFrame.labl	labl						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sampleFrame.txt	txt						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sampleFrame.validPeriod	validPeriod						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sampleFrame.custodian	custodian						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.confDec	confDec						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.specPerm	specPerm						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.restrctn	restrctn						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.contact	contact						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.citReq	citReq						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.deposReq	deposReq						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.conditions	conditions						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.disclaimer	disclaimer						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sampleFrame.universe	universe						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sampleFrame.frameUnit.unitType	unitType						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sampleFrame.frameUnit.txt	txt						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sampleFrame.referencePeriod	referencePeriod						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sampleFrame.updateProcedure	updateProcedure						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.targetSampleSize.sampleSize	sampleSize						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.targetSampleSize.sampleSizeFormula	sampleSizeFormula						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.instrumentDevelopment	instrumentDevelopment						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.titlStmt.titl	titl						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.titlStmt.subTitl	subTitl						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.titlStmt.altTitl	altTitl						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.titlStmt.parTitl	parTitl						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.titlStmt.IDNo	IDNo						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.rspStmt.AuthEnty	AuthEnty						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.rspStmt.othId	othId						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.producer	producer						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.copyright	copyright						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.prodDate	prodDate						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.prodPlac	prodPlac						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.software	software						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.fundAg	fundAg						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.grantNo	grantNo						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.distStmt.distrbtr	distrbtr						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.distStmt.contact	contact						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.distStmt.depositr	depositr						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.distStmt.depDate	depDate						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.distStmt.distDate	distDate						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.serStmt.serName	serName						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.serStmt.serInfo	serInfo						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.verStmt.version	version						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.verStmt.verResp	verResp						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.verStmt.notes	notes						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.biblCit	biblCit						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.holdings	holdings						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.notes	notes						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.dataProcessing	dataProcessing						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.codingInstructions.txt	txt						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.method.codingInstructions.command	command						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.fileCitation.titlStmt.titl	titl						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.fileCitation.titlStmt.subTitl	subTitl						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.fileCitation.titlStmt.altTitl	altTitl						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.fileCitation.titlStmt.parTitl	parTitl						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.fileCitation.titlStmt.IDNo	IDNo						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.fileCitation.rspStmt.AuthEnty	AuthEnty						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.fileCitation.rspStmt.othId	othId						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.fileCitation.prodStmt.producer	producer						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.fileCitation.prodStmt.copyright	copyright						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.fileCitation.prodStmt.prodDate	prodDate						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.fileCitation.prodStmt.prodPlac	prodPlac						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.fileCitation.prodStmt.software	software						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.fileCitation.prodStmt.fundAg	fundAg						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.fileCitation.prodStmt.grantNo	grantNo						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.fileCitation.distStmt.distrbtr	distrbtr						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.fileCitation.distStmt.contact	contact						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.fileCitation.distStmt.depositr	depositr						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.fileCitation.distStmt.depDate	depDate						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.fileCitation.distStmt.distDate	distDate						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.fileCitation.serStmt.serName	serName						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.fileCitation.serStmt.serInfo	serInfo						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.fileCitation.verStmt.version	version						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.fileCitation.verStmt.verResp	verResp						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.fileCitation.verStmt.notes	notes						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.fileCitation.biblCit	biblCit						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.fileCitation.holdings	holdings						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.fileCitation.notes	notes						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.dataFingerprint.digitalFingerprintValue	digitalFingerprintValue						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.dataFingerprint.algorithmSpecification	algorithmSpecification						unmapped literal field (no CDIF target) - for review
+ddi:fileDscr.fileTxt.dataFingerprint.algorithmVersion	algorithmVersion						unmapped literal field (no CDIF target) - for review
+ddi:dataDscr.nCubeGrp.labl	labl						unmapped literal field (no CDIF target) - for review
+ddi:dataDscr.nCubeGrp.txt	txt						unmapped literal field (no CDIF target) - for review
+ddi:dataDscr.nCubeGrp.concept	concept						unmapped literal field (no CDIF target) - for review
+ddi:dataDscr.nCubeGrp.defntn	defntn						unmapped literal field (no CDIF target) - for review
+ddi:dataDscr.nCubeGrp.universe	universe						unmapped literal field (no CDIF target) - for review
+ddi:dataDscr.nCubeGrp.notes	notes						unmapped literal field (no CDIF target) - for review
+ddi:dataDscr.var.catgry.mrow.mi	mi						unmapped literal field (no CDIF target) - for review
+ddi:dataDscr.nCube.labl	labl						unmapped literal field (no CDIF target) - for review
+ddi:dataDscr.nCube.txt	txt						unmapped literal field (no CDIF target) - for review
+ddi:dataDscr.nCube.universe	universe						unmapped literal field (no CDIF target) - for review
+ddi:dataDscr.nCube.imputation	imputation						unmapped literal field (no CDIF target) - for review
+ddi:dataDscr.nCube.security	security						unmapped literal field (no CDIF target) - for review
+ddi:dataDscr.nCube.embargo	embargo						unmapped literal field (no CDIF target) - for review
+ddi:dataDscr.nCube.respUnit	respUnit						unmapped literal field (no CDIF target) - for review
+ddi:dataDscr.nCube.anlysUnit	anlysUnit						unmapped literal field (no CDIF target) - for review
+ddi:dataDscr.nCube.verStmt.version	version						unmapped literal field (no CDIF target) - for review
+ddi:dataDscr.nCube.verStmt.verResp	verResp						unmapped literal field (no CDIF target) - for review
+ddi:dataDscr.nCube.verStmt.notes	notes						unmapped literal field (no CDIF target) - for review
+ddi:dataDscr.nCube.purpose	purpose						unmapped literal field (no CDIF target) - for review
+ddi:dataDscr.nCube.notes	notes						unmapped literal field (no CDIF target) - for review
+ddi:docDscr.citation.rspStmt.othId	othId						unmapped literal field (no CDIF target) - for review
+ddi:docDscr.docSrc.rspStmt.othId	othId						unmapped literal field (no CDIF target) - for review
+ddi:docDscr.controlledVocabUsed.codeListID	codeListID						unmapped literal field (no CDIF target) - for review
+ddi:docDscr.controlledVocabUsed.codeListName	codeListName						unmapped literal field (no CDIF target) - for review
+ddi:docDscr.controlledVocabUsed.codeListAgencyName	codeListAgencyName						unmapped literal field (no CDIF target) - for review
+ddi:docDscr.controlledVocabUsed.codeListVersionID	codeListVersionID						unmapped literal field (no CDIF target) - for review
+ddi:docDscr.controlledVocabUsed.codeListURN	codeListURN						unmapped literal field (no CDIF target) - for review
+ddi:docDscr.controlledVocabUsed.codeListSchemeURN	codeListSchemeURN						unmapped literal field (no CDIF target) - for review
+ddi:docDscr.controlledVocabUsed.usage.selector	selector						unmapped literal field (no CDIF target) - for review
+ddi:docDscr.controlledVocabUsed.usage.attribute	attribute						unmapped literal field (no CDIF target) - for review
+ddi:dataDscr.nCube	nCube	skos:closeMatch	cdi:DimensionalDataStructure	DimensionalDataStructure	$.schema:distribution[*].cdif:isStructuredBy	semapv:ManualMappingCuration	aggregate data cube (2.5 only)

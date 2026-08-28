@@ -14,15 +14,51 @@ header lines (mapping-set id/title, license, provider, `mapping_tool`,
 | [`cdif-to-croissant.sssom.tsv`](cdif-to-croissant.sssom.tsv) | CDIF → Croissant | `croissant/ConvertToCroissant.py` | 23 |
 | [`croissant-to-cdif.sssom.tsv`](croissant-to-cdif.sssom.tsv) | Croissant → CDIF | `croissant/ConvertFromCroissant.py` | 16 |
 | [`dcat-to-cdif.sssom.tsv`](dcat-to-cdif.sssom.tsv) | DCAT → CDIF | `DCAT/dcat_to_cdif.py` | 20 |
-| [`ddi25-to-cdif.sssom.tsv`](ddi25-to-cdif.sssom.tsv) | DDI Codebook 2.5 → CDIF | `DDI/ddi_to_cdif.py`, `DDICodebook/ddi25_to_cdif.py` | 44 |
-| [`ddi122-to-cdif.sssom.tsv`](ddi122-to-cdif.sssom.tsv) | DDI Codebook 1.2.2 → CDIF | `DDI/ddi122_to_cdif.py` | 23 |
+| [`ddi-common-to-cdif.sssom.tsv`](ddi-common-to-cdif.sssom.tsv) | DDI Codebook (2.5 ∩ 1.2.2 common core) → CDIF | all three DDI converters | 202 (26 mapped) |
+| [`ddi25-to-cdif.sssom.tsv`](ddi25-to-cdif.sssom.tsv) | DDI Codebook 2.5 *extras* → CDIF | `DDI/ddi_to_cdif.py`, `DDICodebook/ddi25_to_cdif.py` | 137 (8 mapped) |
+| [`ddi122-to-cdif.sssom.tsv`](ddi122-to-cdif.sssom.tsv) | DDI Codebook 1.2.2 *extras* → CDIF | `DDI/ddi122_to_cdif.py` | 7 (0 mapped) |
 
 Sets are keyed by **source vocabulary → target**, so the two DDI 2.5 converters
 (the Harvard-Dataverse `ddi_to_cdif.py` and the source-agnostic
-`DDICodebook/ddi25_to_cdif.py`) share one set — `ddi25-to-cdif` also carries that
-converter's aggregate-cube, code-list, and quality mappings (DataStructure /
-Codelist / DQV / Provenance targets). DDI 1.2.2 (ICPSR) is a distinct source
-version with its own set.
+`DDICodebook/ddi25_to_cdif.py`) share one set.
+
+### The three DDI sets are comprehensive *worksheets*, factored common + version-specific
+
+Unlike the five converter-mapping sets above (which list only the property
+correspondences a converter applies), the DDI sets enumerate **every
+literal-valued element** the DDI Codebook XML Schema defines under the four main
+description branches (`stdyDscr`, `fileDscr`, `dataDscr`, `docDscr`) — whether or
+not CDIF has a target for it. Rows that *do* map carry a `predicate_id` +
+`object_id` + `object_json_path`; rows that **don't** are left with those cells
+blank and a `comment` of `unmapped literal field (no CDIF target) - for review`,
+so the full source field inventory is visible for crosswalk review. The field
+list is derived directly from the schemas (`codebook.xsd` for 2.5;
+ICPSR `Version1-2-2.xsd` for 1.2.2).
+
+**DDI 1.2.2 is almost a strict subset of 2.5**: of its 206 literal fields, 199
+share the identical XPath with 2.5; only 7 (deeper self-recursion of
+`othId`/`catgry`) are unique to it, while 136 fields (chiefly the `nCube`
+aggregate-cube branch) are unique to 2.5. So the shared **199** fields are
+factored once into `ddi-common-to-cdif.sssom.tsv` (subject prefix **`ddicb:`**,
+version-neutral), and each version set holds only that version's extras
+(prefix **`ddi:`** for 2.5, **`ddi122:`** for 1.2.2). To reconstruct a complete
+single-version crosswalk, compose the common set with the version extras:
+
+```bash
+sssom merge ddi-common-to-cdif.sssom.tsv ddi25-to-cdif.sssom.tsv   # full DDI 2.5
+sssom merge ddi-common-to-cdif.sssom.tsv ddi122-to-cdif.sssom.tsv  # full DDI 1.2.2
+```
+
+(`sssom merge` unions the rows and `curie_map`s; the sets carry no conflicting
+paths. Since these are plain TSVs, `pandas.concat` of the two tables read with
+`comment="#"` is an equivalent fallback if the toolkit isn't installed.)
+
+Universal qualifier attributes (`abbr`/`affiliation`/`role`/`URI`/date on many
+elements, and the `GLOBALS` attribute group) are **omitted** to keep the
+worksheets legible — the handful of data-bearing attributes that *do* map (e.g.
+`var/@name`, `var/@intrvl` via `varFormat/@type`) are included explicitly.
+Because the unmapped rows have empty `predicate_id`/`object_id`, `sssom validate`
+will flag them — that is expected for these worksheets, not an error.
 
 ## Columns
 
@@ -57,10 +93,13 @@ left blank where the target is a separate node/document (e.g. a code-list
   `@list` ordering) and in the mapping-set direction. Croissant uses the
   `https://schema.org/` (`sc:`) serialization; CDIF uses `http://schema.org/`
   (`schema:`) — treated as `exactMatch` of the same term.
-- **`ddi:` is a minted convention** — DDI Codebook 2.5 has no CURIEs for its
-  elements, so subject ids are XPath-style element paths under a `ddi:` prefix
-  (e.g. `ddi:stdyDscr.citation.titlStmt.titl`; `@name` / `@intrvl` denote XML
-  attributes). The underlying element namespace is `ddi:codebook:2_5`.
+- **`ddicb:` / `ddi:` / `ddi122:` are minted conventions** — DDI Codebook has no
+  CURIEs for its elements, so subject ids are XPath-style element paths under a
+  minted prefix (e.g. `ddicb:stdyDscr.citation.titlStmt.titl`; `@name` denotes an
+  XML attribute, and `varFormat@type` an attribute on a nested element).
+  `ddicb:` is the version-neutral prefix for elements common to both versions;
+  `ddi:` marks elements specific to DDI Codebook 2.5, `ddi122:` those specific to
+  1.2.2. All three resolve under `https://ddialliance.org/Specification/DDI-Codebook/…`.
 - **Structural transforms** the converter performs that are *not* term-to-term
   mappings — dropping/adding the `schema:subjectOf` catalog record, rewriting the
   `@context`, deriving `conformsTo` from content, emitting placeholders — have no
