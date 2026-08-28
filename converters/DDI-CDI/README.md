@@ -59,12 +59,22 @@ encoded in the sibling **`ucmism2m`** project
 
 `detect_conformance` now adds **`data_structure/1.1`** to the declared profiles.
 
+**Phase 2 (done — value domains + code lists):**
+
+| DDI-CDI | CDIF |
+|---------|------|
+| `InstanceVariable` -takesSubstantiveValuesFrom-> `SubstantiveValueDomain` | `cdif:hasValuesFrom` → `cdif:EnumerationDomain` (on the variable) |
+| `SubstantiveValueDomain` -takesValuesFrom-> `EnumerationDomain`/`CodeList` | `cdif:references` → `skos:ConceptScheme` |
+| `CodeList_has_Code` → `Code` -denotes-> `Category`, -uses-> `Notation` | `skos:hasTopConcept` → `skos:Concept` (`skos:notation` = notation, `skos:prefLabel` = category label) |
+| `ValueAndConceptDescription/classificationLevel` (Nominal/Continuous/…) | `cdif:classificationLevel` |
+
+Coded (Nominal) variables get their full concept list (e.g. `maritalb`:
+`1.0`→"Legally married", …); Continuous/identifier variables carry the
+classification level but no code list. Sentinel (missing-value) domains are
+deferred to a later pass.
+
 **Planned phases** (toward the "broadest end-to-end" goal):
 
-2. **Value domains + code lists** — `SubstantiveValueDomain` /
-   `SentinelValueDomain` / `ValueAndConceptDescription` / `CodeList` / `Code` /
-   `Category` / `Notation` → the CDIF **codelist / conceptscheme** profiles
-   (`skos:ConceptScheme`) and variable value ranges.
 4. **Physical mappings** — `PhysicalSegmentLayout` / `ValueMapping` /
    `ValueMappingPosition` → `cdi:hasPhysicalMapping` on the distribution.
 5. **Provenance** — the process model (`Activity` / `Step` / `Parameter` /

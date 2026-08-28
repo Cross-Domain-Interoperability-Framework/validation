@@ -15,19 +15,22 @@ resolves references to reassemble the graph, then maps the DDI-CDI structure ont
 CDIF using the class/attribute crosswalk encoded in the sibling ``ucmism2m``
 project (`configuration/ddi-cdi2cdif*_mapping.json`).
 
-STATUS — walking skeleton (phase 1 of the "broadest end-to-end" goal). Mapped:
+STATUS — phased build toward the "broadest end-to-end" goal. Mapped so far:
 
-  DataStore / WideDataSet / PhysicalDataSet -> schema:Dataset
-  InstanceVariable                          -> schema:variableMeasured / cdi:InstanceVariable
-    name/name                               ->   schema:name
-    displayLabel/.../content                ->   schema:description
-    hasIntendedDataType/name (SPSS/Stata fmt) -> cdi:intendedDataType (xsd:*)
-    <- Measure/Identifier/Dimension/Attribute Component -> cdi:role
+  DataStore / WideDataSet / PhysicalDataSet -> schema:Dataset                (phase 1)
+  InstanceVariable                          -> schema:variableMeasured        (phase 1)
+    name, displayLabel, hasIntendedDataType, cdi:role (from its Component)
+    SubstantiveValueDomain -> CodeList      -> cdif:hasValuesFrom /
+                                               cdif:EnumerationDomain ->
+                                               skos:ConceptScheme/skos:Concept (phase 2)
+    ValueAndConceptDescription/classificationLevel -> cdif:classificationLevel(phase 2)
+  WideDataStructure + components + PrimaryKey -> distribution cdi:*DataSet +
+                                               cdif:isStructuredBy /
+                                               cdi:has_DataStructureComponent  (phase 3)
 
-Not yet mapped (planned): value domains + CodeList/Code/Category (codelist
-profile), WideDataStructure / components (data_structure profile),
-PhysicalSegmentLayout / ValueMapping (physical mappings), DataPoint / InstanceValue
-(data), and the ProcessStep provenance (cdifProv). See README.md.
+Not yet mapped (planned): PhysicalSegmentLayout / ValueMapping (physical
+mappings), sentinel value domains, DataPoint / InstanceValue (data), and the
+Activity / Step / Parameter provenance (cdifProv). See README.md.
 
 Usage:
     python ddicdi_to_cdif.py Examples/XML/SPSS_Example.xml -o out.json
@@ -51,6 +54,7 @@ CDI_CTX = {
     "dcat": "http://www.w3.org/ns/dcat#",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "cdif": "https://w3id.org/cdif/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
 }
 
 # DDI-CDI DataStructureComponent type -> CDIF cdi:role.
@@ -166,7 +170,56 @@ def build_role_map(objects):
     return roles
 
 
-def build_variable(iv, roles):
+def build_concept_scheme(codelist, index):
+    """Map a DDI-CDI CodeList (CodeList_has_Code -> Code -> Category + Notation)
+    to a CDIF skos:ConceptScheme with skos:Concept entries."""
+    scheme_id = as_id(object_id(codelist))
+    scheme = {"@type": ["skos:ConceptScheme"], "@id": scheme_id}
+    label = text_at(codelist, "name", "name")
+    if label and not label.startswith("#"):
+        scheme["skos:prefLabel"] = label
+
+    concepts = []
+    for rel in children_named(codelist, "CodeList_has_Code"):
+        code = index.get(ref_target(rel))
+        if code is None:
+            continue
+        cat = index.get(ref_target(child(code, "Code_denotes_Category")))
+        notn = index.get(ref_target(child(code, "Code_uses_Notation")))
+        concept = {"@type": ["skos:Concept"],
+                   "@id": as_id(object_id(code)),
+                   "skos:inScheme": [{"@id": scheme_id}]}
+        notation = text_at(notn, "content", "content") if notn is not None else ""
+        if notation:
+            concept["skos:notation"] = notation
+        prefl = (text_at(cat, "displayLabel", "languageSpecificString", "content")
+                 or text_at(cat, "name", "name")) if cat is not None else ""
+        if prefl:
+            concept["skos:prefLabel"] = prefl
+        concepts.append(concept)
+    if concepts:
+        scheme["skos:hasTopConcept"] = concepts
+    return scheme
+
+
+def value_domain(iv, index):
+    """Resolve an InstanceVariable's substantive value domain -> (codelist_obj,
+    classificationLevel). InstanceVariable -takesSubstantiveValuesFrom->
+    SubstantiveValueDomain (-takesValuesFrom-> EnumerationDomain/CodeList,
+    -isDescribedBy-> ValueAndConceptDescription/classificationLevel)."""
+    svd = index.get(ref_target(
+        child(iv, "RepresentedVariable_takesSubstantiveValuesFrom_SubstantiveValueDomain")))
+    if svd is None:
+        return None, None
+    codelist = index.get(ref_target(
+        child(svd, "SubstantiveValueDomain_takesValuesFrom_EnumerationDomain")))
+    vacd = index.get(ref_target(
+        child(svd, "SubstantiveValueDomain_isDescribedBy_ValueAndConceptDescription")))
+    level = text_at(vacd, "classificationLevel") if vacd is not None else ""
+    return codelist, (level or None)
+
+
+def build_variable(iv, roles, index):
     var_id = object_id(iv)
     name = text_at(iv, "name", "name") or var_id.lstrip("#")
     vm = {"@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
@@ -178,6 +231,16 @@ def build_variable(iv, roles):
     vm["cdi:intendedDataType"] = map_intended_type(text_at(iv, "hasIntendedDataType", "name"))
     if var_id in roles:
         vm["cdi:role"] = roles[var_id]
+
+    # Phase 2 - value domain + code list.
+    codelist, level = value_domain(iv, index)
+    if level:
+        vm["cdif:classificationLevel"] = level
+    if codelist is not None:
+        vm["cdif:hasValuesFrom"] = {
+            "@type": ["cdif:EnumerationDomain"],
+            "cdif:references": build_concept_scheme(codelist, index),
+        }
     return vm
 
 
@@ -276,7 +339,7 @@ def convert(xml_path, explicit_id=None, base_uri="urn:ddi-cdi", detect=True):
     index = {object_id(o): o for o in objects if object_id(o)}
 
     roles = build_role_map(objects)
-    variables = [build_variable(o, roles) for o in objects
+    variables = [build_variable(o, roles, index) for o in objects
                  if local(o) == "InstanceVariable"]
 
     iri = dataset_id(objects, explicit_id, base_uri, stem)

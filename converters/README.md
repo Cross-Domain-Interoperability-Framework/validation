@@ -16,7 +16,7 @@ expose their conversion as an importable function.
 | [`DDI/ddi_to_cdif.py`](DDI/ddi_to_cdif.py) | DDI Codebook 2.5 (Harvard Dataverse) → CDIF | DDI Codebook XML |
 | [`DDI/ddi122_to_cdif.py`](DDI/ddi122_to_cdif.py) | DDI 1.2.2 (ICPSR, source-agnostic) → CDIF | DDI XML |
 | [`DDICodebook/ddi25_to_cdif.py`](DDICodebook/ddi25_to_cdif.py) | DDI Codebook 2.5 (source-agnostic) → CDIF | DDI Codebook XML |
-| [`DDI-CDI/ddicdi_to_cdif.py`](DDI-CDI/ddicdi_to_cdif.py) | DDI-CDI 1.0 → CDIF *(phased; dataset + variables + structure done)* | DDI-CDI XML |
+| [`DDI-CDI/ddicdi_to_cdif.py`](DDI-CDI/ddicdi_to_cdif.py) | DDI-CDI 1.0 → CDIF *(phased; dataset, variables, code lists, structure done)* | DDI-CDI XML |
 
 Related, but **not** in `converters/`: `../geocodes_harvester.py` harvests SOSO
 records from the EarthCube GeoCodes SPARQL catalog and converts them to CDIF —
