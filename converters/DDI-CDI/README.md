@@ -48,15 +48,23 @@ encoded in the sibling **`ucmism2m`** project
 | `Measure`/`Identifier`/`Dimension`/`AttributeComponent` `_isDefinedBy_` the variable | `cdi:role` |
 | `PhysicalDataSet` (no download URL) | `schema:distribution` (`DataDownload`, `nil:missing`) |
 
+**Phase 3 (done — data structure):**
+
+| DDI-CDI | CDIF |
+|---------|------|
+| `WideDataStructure` / `LongDataStructure` / `DimensionalDataStructure` | `cdif:isStructuredBy` → `cdi:<X>DataStructure` (distribution typed `cdi:StructuredDataSet` / `cdi:LongStructureDataSet` / `cdi:DimensionalDataSet`) |
+| `DataStructure_has_DataStructureComponent` → `Identifier`/`Measure`/`Dimension`/`AttributeComponent` | `cdi:has_DataStructureComponent` → `cdi:<Component>` |
+| `DataStructureComponent_isDefinedBy_RepresentedVariable` | `cdif:isDefinedBy_RepresentedVariable` → `{@id}` of the variable |
+| `DataStructure_has_PrimaryKey` | `cdi:has_PrimaryKey` |
+
+`detect_conformance` now adds **`data_structure/1.1`** to the declared profiles.
+
 **Planned phases** (toward the "broadest end-to-end" goal):
 
 2. **Value domains + code lists** — `SubstantiveValueDomain` /
    `SentinelValueDomain` / `ValueAndConceptDescription` / `CodeList` / `Code` /
    `Category` / `Notation` → the CDIF **codelist / conceptscheme** profiles
    (`skos:ConceptScheme`) and variable value ranges.
-3. **Data structure** — `WideDataStructure` / `DimensionalDataStructure` /
-   `LongDataStructure` + components + `PrimaryKey` → the CDIF **DataStructure**
-   profile (dimensional / wide / long).
 4. **Physical mappings** — `PhysicalSegmentLayout` / `ValueMapping` /
    `ValueMappingPosition` → `cdi:hasPhysicalMapping` on the distribution.
 5. **Provenance** — the process model (`Activity` / `Step` / `Parameter` /
@@ -83,7 +91,8 @@ A larger `Stata_Example.xml` (2 MB) is available upstream.
 ## Validation status
 
 - `cdif_SPSS_Example.json` — **Discovery + DataDescription JSON Schema pass**;
-  Discovery SHACL **0 violations** (warnings advisory: per-variable propertyID,
-  physical data type, contacts).
+  Discovery **and Complete** SHACL **0 violations** (warnings advisory:
+  per-variable propertyID, physical data type, contacts). conformsTo:
+  core + discovery + data_description + **data_structure**.
 - `cdif_Process_Example.json` — Discovery JSON Schema passes (0 variables until
   phase 5 maps the provenance).

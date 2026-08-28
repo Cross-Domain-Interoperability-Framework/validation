@@ -50,6 +50,7 @@ CDI_CTX = {
     "schema": "http://schema.org/", "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/",
 }
 
 # DDI-CDI DataStructureComponent type -> CDIF cdi:role.
@@ -58,6 +59,18 @@ COMPONENT_ROLE = {
     "MeasureComponent": "Measure",
     "DimensionComponent": "Dimension",
     "AttributeComponent": "Attribute",
+    "VariableDescriptorComponent": "Descriptor",
+    "VariableValueComponent": "Measure",
+}
+
+# DDI-CDI DataStructure subtype -> CDIF structured-dataset @type on the distribution.
+STRUCTURE_TYPES = ("WideDataStructure", "LongDataStructure",
+                   "DimensionalDataStructure", "DataStructure")
+DATASET_TYPE = {
+    "WideDataStructure": "cdi:StructuredDataSet",
+    "DataStructure": "cdi:StructuredDataSet",
+    "LongDataStructure": "cdi:LongStructureDataSet",
+    "DimensionalDataStructure": "cdi:DimensionalDataSet",
 }
 
 
@@ -78,6 +91,19 @@ def child(obj, name):
         if local(c) == name:
             return c
     return None
+
+
+def children_named(obj, name):
+    """All direct children of `obj` with the given local name."""
+    return [c for c in list(obj) if local(c) == name] if obj is not None else []
+
+
+def as_id(data_identifier):
+    """Normalize a DDI-CDI dataIdentifier to a JSON-LD @id fragment."""
+    if not data_identifier:
+        return None
+    return data_identifier if data_identifier.startswith(("#", "http", "urn", "ex:")) \
+        else "#" + data_identifier
 
 
 def text_at(obj, *path):
@@ -155,6 +181,44 @@ def build_variable(iv, roles):
     return vm
 
 
+def build_data_structure(objects, index):
+    """Map the DDI-CDI DataStructure + its components + primary key to a CDIF
+    cdif:isStructuredBy node. Returns (structure_node, dataset_type) or (None, None).
+
+    DDI-CDI:  <WideDataStructure> has DataStructure_has_DataStructureComponent ->
+              <MeasureComponent> isDefinedBy_RepresentedVariable -> <InstanceVariable>
+    CDIF:     cdi:<X>DataStructure { cdi:has_DataStructureComponent: [
+                  cdi:<Component> { cdif:isDefinedBy_RepresentedVariable: {@id: var} } ] }
+    """
+    struct = next((o for o in objects if local(o) in STRUCTURE_TYPES), None)
+    if struct is None:
+        return None, None
+    stype = local(struct)
+
+    components = []
+    for rel in children_named(struct, "DataStructure_has_DataStructureComponent"):
+        cid = ref_target(rel)
+        cobj = index.get(cid)
+        if cobj is None:
+            continue
+        comp = {"@type": ["cdi:" + local(cobj)], "@id": as_id(cid)}
+        var_id = ref_target(
+            child(cobj, "DataStructureComponent_isDefinedBy_RepresentedVariable"))
+        if var_id:
+            comp["cdif:isDefinedBy_RepresentedVariable"] = {"@id": as_id(var_id)}
+        components.append(comp)
+
+    node = {"@type": ["cdi:" + stype], "@id": as_id(object_id(struct))}
+    if components:
+        node["cdi:has_DataStructureComponent"] = components
+
+    pk_id = ref_target(child(struct, "DataStructure_has_PrimaryKey"))
+    if pk_id:
+        node["cdi:has_PrimaryKey"] = {"@id": as_id(pk_id)}
+
+    return node, DATASET_TYPE.get(stype, "cdi:StructuredDataSet")
+
+
 def dataset_name(objects, fallback):
     for tag in ("WideDataSet", "DataStore", "PhysicalDataSet", "LogicalRecord"):
         for obj in objects:
@@ -209,6 +273,7 @@ def convert(xml_path, explicit_id=None, base_uri="urn:ddi-cdi", detect=True):
               file=sys.stderr)
     objects = list(root)
     stem = Path(xml_path).stem
+    index = {object_id(o): o for o in objects if object_id(o)}
 
     roles = build_role_map(objects)
     variables = [build_variable(o, roles) for o in objects
@@ -230,13 +295,20 @@ def convert(xml_path, explicit_id=None, base_uri="urn:ddi-cdi", detect=True):
     if variables:
         doc["schema:variableMeasured"] = variables
     # DDI-CDI PhysicalDataSet is the data file, but carries no resolvable
-    # download URL; emit a plain DataDownload with the OGC nil value so the CDIF
+    # download URL; emit a DataDownload with the OGC nil value so the CDIF
     # url-or-distribution requirement is met honestly.
-    doc["schema:distribution"] = [{
+    dist = {
         "@type": ["schema:DataDownload"],
         "schema:name": f"{name} (data file)",
         "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/missing",
-    }]
+    }
+    # Phase 3 - data structure: type the distribution as a structured dataset and
+    # attach the DDI-CDI DataStructure + components via cdif:isStructuredBy.
+    structure, dataset_type = build_data_structure(objects, index)
+    if structure is not None:
+        dist["@type"] = ["schema:DataDownload", dataset_type]
+        dist["cdif:isStructuredBy"] = structure
+    doc["schema:distribution"] = [dist]
     doc["schema:subjectOf"] = build_catalog_record(iri, name, len(variables))
 
     if detect and _HAVE_DETECT:

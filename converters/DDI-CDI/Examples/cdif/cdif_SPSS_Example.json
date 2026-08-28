@@ -3,7 +3,8 @@
     "schema": "http://schema.org/",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
-    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/"
   },
   "@id": "urn:ddi-cdi:wideDataSet",
   "@type": [
@@ -135,10 +136,112 @@
   "schema:distribution": [
     {
       "@type": [
-        "schema:DataDownload"
+        "schema:DataDownload",
+        "cdi:StructuredDataSet"
       ],
       "schema:name": "SPSS_Example (data file)",
-      "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/missing"
+      "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/missing",
+      "cdif:isStructuredBy": {
+        "@type": [
+          "cdi:WideDataStructure"
+        ],
+        "@id": "#wideDataStructure",
+        "cdi:has_DataStructureComponent": [
+          {
+            "@type": [
+              "cdi:IdentifierComponent"
+            ],
+            "@id": "#identifierComponent-idno",
+            "cdif:isDefinedBy_RepresentedVariable": {
+              "@id": "#instanceVariable-idno"
+            }
+          },
+          {
+            "@type": [
+              "cdi:MeasureComponent"
+            ],
+            "@id": "#measureComponent-nwspol",
+            "cdif:isDefinedBy_RepresentedVariable": {
+              "@id": "#instanceVariable-nwspol"
+            }
+          },
+          {
+            "@type": [
+              "cdi:MeasureComponent"
+            ],
+            "@id": "#measureComponent-netusoft",
+            "cdif:isDefinedBy_RepresentedVariable": {
+              "@id": "#instanceVariable-netusoft"
+            }
+          },
+          {
+            "@type": [
+              "cdi:MeasureComponent"
+            ],
+            "@id": "#measureComponent-netustm",
+            "cdif:isDefinedBy_RepresentedVariable": {
+              "@id": "#instanceVariable-netustm"
+            }
+          },
+          {
+            "@type": [
+              "cdi:MeasureComponent"
+            ],
+            "@id": "#measureComponent-ppltrst",
+            "cdif:isDefinedBy_RepresentedVariable": {
+              "@id": "#instanceVariable-ppltrst"
+            }
+          },
+          {
+            "@type": [
+              "cdi:MeasureComponent"
+            ],
+            "@id": "#measureComponent-pplfair",
+            "cdif:isDefinedBy_RepresentedVariable": {
+              "@id": "#instanceVariable-pplfair"
+            }
+          },
+          {
+            "@type": [
+              "cdi:MeasureComponent"
+            ],
+            "@id": "#measureComponent-pplhlp",
+            "cdif:isDefinedBy_RepresentedVariable": {
+              "@id": "#instanceVariable-pplhlp"
+            }
+          },
+          {
+            "@type": [
+              "cdi:MeasureComponent"
+            ],
+            "@id": "#measureComponent-polintr",
+            "cdif:isDefinedBy_RepresentedVariable": {
+              "@id": "#instanceVariable-polintr"
+            }
+          },
+          {
+            "@type": [
+              "cdi:MeasureComponent"
+            ],
+            "@id": "#measureComponent-maritalb",
+            "cdif:isDefinedBy_RepresentedVariable": {
+              "@id": "#instanceVariable-maritalb"
+            }
+          },
+          {
+            "@type": [
+              "cdi:MeasureComponent"
+            ],
+            "@id": "#measureComponent-eisced",
+            "cdif:isDefinedBy_RepresentedVariable": {
+              "@id": "#instanceVariable-eisced"
+            }
+          }
+        ],
+        "cdi:has_PrimaryKey": {
+          "@id": "#primaryKey"
+        }
+      }
     }
   ],
   "schema:subjectOf": {
@@ -165,6 +268,9 @@
       },
       {
         "@id": "https://w3id.org/cdif/data_description/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_structure/1.1"
       }
     ]
   }
