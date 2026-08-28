@@ -15,7 +15,7 @@ header lines (mapping-set id/title, license, provider, `mapping_tool`,
 | [`croissant-to-cdif.sssom.tsv`](croissant-to-cdif.sssom.tsv) | Croissant → CDIF | `croissant/ConvertFromCroissant.py` | 16 |
 | [`dcat-to-cdif.sssom.tsv`](dcat-to-cdif.sssom.tsv) | DCAT → CDIF | `DCAT/dcat_to_cdif.py` | 20 |
 | [`ddi-common-to-cdif.sssom.tsv`](ddi-common-to-cdif.sssom.tsv) | DDI Codebook (2.5 ∩ 1.2.2 common core) → CDIF | all three DDI converters | 202 (26 mapped) |
-| [`ddi25-to-cdif.sssom.tsv`](ddi25-to-cdif.sssom.tsv) | DDI Codebook 2.5 *extras* → CDIF | `DDI/ddi_to_cdif.py`, `DDICodebook/ddi25_to_cdif.py` | 137 (8 mapped) |
+| [`ddi25-to-cdif.sssom.tsv`](ddi25-to-cdif.sssom.tsv) | DDI Codebook 2.5 *extras* → CDIF | `DDI/ddi_to_cdif.py`, `DDICodebook/ddi25_to_cdif.py` | 137 (10 mapped) |
 | [`ddi122-to-cdif.sssom.tsv`](ddi122-to-cdif.sssom.tsv) | DDI Codebook 1.2.2 *extras* → CDIF | `DDI/ddi122_to_cdif.py` | 7 (0 mapped) |
 
 Sets are keyed by **source vocabulary → target**, so the two DDI 2.5 converters

@@ -18,6 +18,7 @@
 #   dcterms: http://purl.org/dc/terms/
 #   ddi: https://ddialliance.org/Specification/DDI-Codebook/2.5/element/
 #   dqv: http://www.w3.org/ns/dqv#
+#   geo: http://www.opengis.net/ont/geosparql#
 #   schema: http://schema.org/
 #   semapv: https://w3id.org/semapv/vocab/
 #   skos: http://www.w3.org/2004/02/skos/core#
@@ -36,8 +37,8 @@ ddi:stdyDscr.stdyInfo.sumDscr.geoBndBox.westBL	westBL	skos:closeMatch	schema:box
 ddi:stdyDscr.stdyInfo.sumDscr.geoBndBox.eastBL	eastBL	skos:closeMatch	schema:box	box	$.schema:spatialCoverage[*].schema:geo.schema:box	semapv:ManualMappingCuration	east bound -> max longitude in schema:GeoShape box
 ddi:stdyDscr.stdyInfo.sumDscr.geoBndBox.southBL	southBL	skos:closeMatch	schema:box	box	$.schema:spatialCoverage[*].schema:geo.schema:box	semapv:ManualMappingCuration	south bound -> min latitude in schema:GeoShape box
 ddi:stdyDscr.stdyInfo.sumDscr.geoBndBox.northBL	northBL	skos:closeMatch	schema:box	box	$.schema:spatialCoverage[*].schema:geo.schema:box	semapv:ManualMappingCuration	north bound -> max latitude in schema:GeoShape box
-ddi:stdyDscr.stdyInfo.sumDscr.boundPoly.polygon.point.gringLat	gringLat						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.stdyInfo.sumDscr.boundPoly.polygon.point.gringLon	gringLon						unmapped literal field (no CDIF target) - for review
+ddi:stdyDscr.stdyInfo.sumDscr.boundPoly.polygon.point.gringLat	gringLat	skos:closeMatch	geo:asWKT	asWKT	$.schema:spatialCoverage[*].schema:geo.geo:asWKT	semapv:ManualMappingCuration	G-ring latitude -> vertex in GeoSPARQL WKT POLYGON (geo:wktLiteral)
+ddi:stdyDscr.stdyInfo.sumDscr.boundPoly.polygon.point.gringLon	gringLon	skos:closeMatch	geo:asWKT	asWKT	$.schema:spatialCoverage[*].schema:geo.geo:asWKT	semapv:ManualMappingCuration	G-ring longitude -> vertex in GeoSPARQL WKT POLYGON (geo:wktLiteral)
 ddi:stdyDscr.stdyInfo.qualityStatement.standardsCompliance.standard.standardName	standardName	skos:closeMatch	dcterms:conformsTo	conformsTo		semapv:ManualMappingCuration	data complies with a named standard
 ddi:stdyDscr.stdyInfo.qualityStatement.standardsCompliance.standard.producer	producer						unmapped literal field (no CDIF target) - for review
 ddi:stdyDscr.stdyInfo.qualityStatement.standardsCompliance.complianceDescription	complianceDescription	skos:closeMatch	dqv:QualityAnnotation	QualityAnnotation		semapv:ManualMappingCuration	narrative of standards compliance -> DQV quality annotation body (separate node)
