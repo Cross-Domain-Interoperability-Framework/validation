@@ -20,10 +20,11 @@ STATUS — phased build toward the "broadest end-to-end" goal. Mapped so far:
   DataStore / WideDataSet / PhysicalDataSet -> schema:Dataset                (phase 1)
   InstanceVariable                          -> schema:variableMeasured        (phase 1)
     name, displayLabel, hasIntendedDataType, cdi:role (from its Component)
-    SubstantiveValueDomain -> CodeList      -> cdif:hasValuesFrom /
-                                               cdif:EnumerationDomain ->
-                                               skos:ConceptScheme/skos:Concept (phase 2)
+    Substantive + Sentinel ValueDomain -> CodeList -> cdif:hasValuesFrom /
+                                               cdif:EnumerationDomain (valueType)
+                                               -> skos:ConceptScheme/Concept (phase 2, 6)
     ValueAndConceptDescription/classificationLevel -> cdif:classificationLevel(phase 2)
+    catalogDetails/title, physicalFileName, recordCount -> discovery enrichment (phase 6)
   WideDataStructure + components + PrimaryKey -> distribution cdi:*DataSet +
                                                cdif:isStructuredBy /
                                                cdi:has_DataStructureComponent  (phase 3)
@@ -38,8 +39,8 @@ STATUS — phased build toward the "broadest end-to-end" goal. Mapped so far:
                                                cdi:hasPhysicalMapping (index,
                                                physicalDataType, formats var)   (phase 4)
 
-Not yet mapped (planned): sentinel value domains (missing-value codes) and
-DataPoint / InstanceValue (the data itself). See README.md.
+Out of scope: DataPoint / InstanceValue (the actual data values) - CDIF is a
+metadata framework. See README.md.
 
 Usage:
     python ddicdi_to_cdif.py Examples/XML/SPSS_Example.xml -o out.json
@@ -212,21 +213,38 @@ def build_concept_scheme(codelist, index):
     return scheme
 
 
-def value_domain(iv, index):
-    """Resolve an InstanceVariable's substantive value domain -> (codelist_obj,
-    classificationLevel). InstanceVariable -takesSubstantiveValuesFrom->
-    SubstantiveValueDomain (-takesValuesFrom-> EnumerationDomain/CodeList,
-    -isDescribedBy-> ValueAndConceptDescription/classificationLevel)."""
-    svd = index.get(ref_target(
-        child(iv, "RepresentedVariable_takesSubstantiveValuesFrom_SubstantiveValueDomain")))
-    if svd is None:
-        return None, None
-    codelist = index.get(ref_target(
-        child(svd, "SubstantiveValueDomain_takesValuesFrom_EnumerationDomain")))
-    vacd = index.get(ref_target(
-        child(svd, "SubstantiveValueDomain_isDescribedBy_ValueAndConceptDescription")))
-    level = text_at(vacd, "classificationLevel") if vacd is not None else ""
-    return codelist, (level or None)
+# (InstanceVariable relation, ValueDomain type, ValueType) for the two domains.
+_VALUE_DOMAINS = [
+    ("RepresentedVariable_takesSubstantiveValuesFrom_SubstantiveValueDomain",
+     "SubstantiveValueDomain", "substantive"),
+    ("RepresentedVariable_takesSentinelValuesFrom_SentinelValueDomain",
+     "SentinelValueDomain", "sentinel"),
+]
+
+
+def value_domains(iv, index):
+    """Resolve an InstanceVariable's value domains. Returns a list of
+    (codelist_obj_or_None, value_type, classificationLevel_or_None) for the
+    substantive domain and (when present) the sentinel domain.
+
+    Per the CDIF value-domain guidance
+    (Cross-Domain-Interoperability-Framework/profile-datadescription#1): use the
+    substantive domain always; when the source distinguishes missing-value codes,
+    also emit the sentinel domain — each flagged by value type — so a processor
+    need not merge the two.
+    """
+    out = []
+    for iv_rel, vd_type, vtype in _VALUE_DOMAINS:
+        vd = index.get(ref_target(child(iv, iv_rel)))
+        if vd is None:
+            continue
+        codelist = index.get(ref_target(
+            child(vd, f"{vd_type}_takesValuesFrom_EnumerationDomain")))
+        vacd = index.get(ref_target(
+            child(vd, f"{vd_type}_isDescribedBy_ValueAndConceptDescription")))
+        level = text_at(vacd, "classificationLevel") if vacd is not None else ""
+        out.append((codelist, vtype, level or None))
+    return out
 
 
 def build_variable(iv, roles, index):
@@ -242,15 +260,19 @@ def build_variable(iv, roles, index):
     if var_id in roles:
         vm["cdi:role"] = roles[var_id]
 
-    # Phase 2 - value domain + code list.
-    codelist, level = value_domain(iv, index)
-    if level:
-        vm["cdif:classificationLevel"] = level
-    if codelist is not None:
-        vm["cdif:hasValuesFrom"] = {
-            "@type": ["cdif:EnumerationDomain"],
-            "cdif:references": build_concept_scheme(codelist, index),
-        }
+    # Phase 2 + 6 - substantive and sentinel value domains / code lists.
+    enumerations = []
+    for codelist, vtype, level in value_domains(iv, index):
+        if vtype == "substantive" and level:
+            vm["cdif:classificationLevel"] = level
+        if codelist is not None:
+            enumerations.append({
+                "@type": ["cdif:EnumerationDomain"],
+                "cdif:valueType": vtype,
+                "cdif:references": build_concept_scheme(codelist, index),
+            })
+    if enumerations:
+        vm["cdif:hasValuesFrom"] = enumerations
     return vm
 
 
@@ -447,6 +469,40 @@ def build_physical_mappings(objects, index):
     return mappings, is_delim, is_fixed
 
 
+_DATASET_LEVEL = ("DataStore", "WideDataSet", "PhysicalDataSet", "LogicalRecord",
+                  "Catalog")
+
+
+def catalog_title(objects):
+    """A human title from catalogDetails on any dataset-level object, if present."""
+    for o in objects:
+        if local(o) in _DATASET_LEVEL:
+            cd = child(o, "catalogDetails")
+            if cd is not None:
+                title = text_at(cd, "title", "languageSpecificString", "content")
+                if title:
+                    return title
+    return None
+
+
+def physical_file_name(objects):
+    for o in objects:
+        if local(o) == "PhysicalDataSet":
+            fn = text_at(o, "physicalFileName")
+            if fn:
+                return fn
+    return None
+
+
+def record_count(objects):
+    for o in objects:
+        if local(o) == "DataStore":
+            rc = text_at(o, "recordCount")
+            if rc:
+                return rc
+    return None
+
+
 def dataset_name(objects, fallback):
     for tag in ("WideDataSet", "DataStore", "PhysicalDataSet", "LogicalRecord",
                 "Activity", "Sequence"):
@@ -509,7 +565,8 @@ def convert(xml_path, explicit_id=None, base_uri="urn:ddi-cdi", detect=True):
                  if local(o) == "InstanceVariable"]
 
     iri = dataset_id(objects, explicit_id, base_uri, stem)
-    name = dataset_name(objects, stem)
+    # Phase 6 - discovery enrichment: prefer a real catalogDetails title.
+    name = catalog_title(objects) or dataset_name(objects, stem)
 
     doc = {
         "@context": dict(CDI_CTX),
@@ -528,9 +585,14 @@ def convert(xml_path, explicit_id=None, base_uri="urn:ddi-cdi", detect=True):
     # url-or-distribution requirement is met honestly.
     dist = {
         "@type": ["schema:DataDownload"],
-        "schema:name": f"{name} (data file)",
+        "schema:name": physical_file_name(objects) or f"{name} (data file)",
         "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/missing",
     }
+    rc = record_count(objects)
+    if rc:
+        dist["schema:additionalProperty"] = [{
+            "@type": ["schema:PropertyValue"],
+            "schema:name": "record count", "schema:value": rc}]
     # Phase 3 - data structure: type the distribution as a structured dataset and
     # attach the DDI-CDI DataStructure + components via cdif:isStructuredBy.
     structure, dataset_type = build_data_structure(objects, index)

@@ -47,17 +47,73 @@
       "cdi:intendedDataType": "xsd:integer",
       "cdi:role": "Measure",
       "cdif:classificationLevel": "Continuous",
-      "cdif:hasValuesFrom": {
-        "@type": [
-          "cdif:EnumerationDomain"
-        ],
-        "cdif:references": {
+      "cdif:hasValuesFrom": [
+        {
           "@type": [
-            "skos:ConceptScheme"
+            "cdif:EnumerationDomain"
           ],
-          "@id": "#substantiveCodelist-nwspol"
+          "cdif:valueType": "substantive",
+          "cdif:references": {
+            "@type": [
+              "skos:ConceptScheme"
+            ],
+            "@id": "#substantiveCodelist-nwspol"
+          }
+        },
+        {
+          "@type": [
+            "cdif:EnumerationDomain"
+          ],
+          "cdif:valueType": "sentinel",
+          "cdif:references": {
+            "@type": [
+              "skos:ConceptScheme"
+            ],
+            "@id": "#sentinelCodelist-nwspol",
+            "skos:hasTopConcept": [
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-7777.0-nwspol",
+                "skos:inScheme": [
+                  {
+                    "@id": "#sentinelCodelist-nwspol"
+                  }
+                ],
+                "skos:notation": "7777.0",
+                "skos:prefLabel": "Refusal"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-8888.0-nwspol",
+                "skos:inScheme": [
+                  {
+                    "@id": "#sentinelCodelist-nwspol"
+                  }
+                ],
+                "skos:notation": "8888.0",
+                "skos:prefLabel": "Don't know"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-9999.0-nwspol",
+                "skos:inScheme": [
+                  {
+                    "@id": "#sentinelCodelist-nwspol"
+                  }
+                ],
+                "skos:notation": "9999.0",
+                "skos:prefLabel": "No answer"
+              }
+            ]
+          }
         }
-      }
+      ]
     },
     {
       "@type": [
@@ -70,84 +126,140 @@
       "cdi:intendedDataType": "xsd:integer",
       "cdi:role": "Measure",
       "cdif:classificationLevel": "Nominal",
-      "cdif:hasValuesFrom": {
-        "@type": [
-          "cdif:EnumerationDomain"
-        ],
-        "cdif:references": {
+      "cdif:hasValuesFrom": [
+        {
           "@type": [
-            "skos:ConceptScheme"
+            "cdif:EnumerationDomain"
           ],
-          "@id": "#substantiveCodelist-netusoft",
-          "skos:hasTopConcept": [
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-1.0-netusoft",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-netusoft"
-                }
-              ],
-              "skos:notation": "1.0",
-              "skos:prefLabel": "Never"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-2.0-netusoft",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-netusoft"
-                }
-              ],
-              "skos:notation": "2.0",
-              "skos:prefLabel": "Only occasionally"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-3.0-netusoft",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-netusoft"
-                }
-              ],
-              "skos:notation": "3.0",
-              "skos:prefLabel": "A few times a week"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-4.0-netusoft",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-netusoft"
-                }
-              ],
-              "skos:notation": "4.0",
-              "skos:prefLabel": "Most days"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-5.0-netusoft",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-netusoft"
-                }
-              ],
-              "skos:notation": "5.0",
-              "skos:prefLabel": "Every day"
-            }
-          ]
+          "cdif:valueType": "substantive",
+          "cdif:references": {
+            "@type": [
+              "skos:ConceptScheme"
+            ],
+            "@id": "#substantiveCodelist-netusoft",
+            "skos:hasTopConcept": [
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-1.0-netusoft",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-netusoft"
+                  }
+                ],
+                "skos:notation": "1.0",
+                "skos:prefLabel": "Never"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-2.0-netusoft",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-netusoft"
+                  }
+                ],
+                "skos:notation": "2.0",
+                "skos:prefLabel": "Only occasionally"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-3.0-netusoft",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-netusoft"
+                  }
+                ],
+                "skos:notation": "3.0",
+                "skos:prefLabel": "A few times a week"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-4.0-netusoft",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-netusoft"
+                  }
+                ],
+                "skos:notation": "4.0",
+                "skos:prefLabel": "Most days"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-5.0-netusoft",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-netusoft"
+                  }
+                ],
+                "skos:notation": "5.0",
+                "skos:prefLabel": "Every day"
+              }
+            ]
+          }
+        },
+        {
+          "@type": [
+            "cdif:EnumerationDomain"
+          ],
+          "cdif:valueType": "sentinel",
+          "cdif:references": {
+            "@type": [
+              "skos:ConceptScheme"
+            ],
+            "@id": "#sentinelCodelist-netusoft",
+            "skos:hasTopConcept": [
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-7.0-netusoft",
+                "skos:inScheme": [
+                  {
+                    "@id": "#sentinelCodelist-netusoft"
+                  }
+                ],
+                "skos:notation": "7.0",
+                "skos:prefLabel": "Refusal"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-8.0-netusoft",
+                "skos:inScheme": [
+                  {
+                    "@id": "#sentinelCodelist-netusoft"
+                  }
+                ],
+                "skos:notation": "8.0",
+                "skos:prefLabel": "Don't know"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-9.0-netusoft",
+                "skos:inScheme": [
+                  {
+                    "@id": "#sentinelCodelist-netusoft"
+                  }
+                ],
+                "skos:notation": "9.0",
+                "skos:prefLabel": "No answer"
+              }
+            ]
+          }
         }
-      }
+      ]
     },
     {
       "@type": [
@@ -160,17 +272,86 @@
       "cdi:intendedDataType": "xsd:integer",
       "cdi:role": "Measure",
       "cdif:classificationLevel": "Continuous",
-      "cdif:hasValuesFrom": {
-        "@type": [
-          "cdif:EnumerationDomain"
-        ],
-        "cdif:references": {
+      "cdif:hasValuesFrom": [
+        {
           "@type": [
-            "skos:ConceptScheme"
+            "cdif:EnumerationDomain"
           ],
-          "@id": "#substantiveCodelist-netustm"
+          "cdif:valueType": "substantive",
+          "cdif:references": {
+            "@type": [
+              "skos:ConceptScheme"
+            ],
+            "@id": "#substantiveCodelist-netustm"
+          }
+        },
+        {
+          "@type": [
+            "cdif:EnumerationDomain"
+          ],
+          "cdif:valueType": "sentinel",
+          "cdif:references": {
+            "@type": [
+              "skos:ConceptScheme"
+            ],
+            "@id": "#sentinelCodelist-netustm",
+            "skos:hasTopConcept": [
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-6666.0-netustm",
+                "skos:inScheme": [
+                  {
+                    "@id": "#sentinelCodelist-netustm"
+                  }
+                ],
+                "skos:notation": "6666.0",
+                "skos:prefLabel": "Not applicable"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-7777.0-netustm",
+                "skos:inScheme": [
+                  {
+                    "@id": "#sentinelCodelist-netustm"
+                  }
+                ],
+                "skos:notation": "7777.0",
+                "skos:prefLabel": "Refusal"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-8888.0-netustm",
+                "skos:inScheme": [
+                  {
+                    "@id": "#sentinelCodelist-netustm"
+                  }
+                ],
+                "skos:notation": "8888.0",
+                "skos:prefLabel": "Don't know"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-9999.0-netustm",
+                "skos:inScheme": [
+                  {
+                    "@id": "#sentinelCodelist-netustm"
+                  }
+                ],
+                "skos:notation": "9999.0",
+                "skos:prefLabel": "No answer"
+              }
+            ]
+          }
         }
-      }
+      ]
     },
     {
       "@type": [
@@ -183,162 +364,218 @@
       "cdi:intendedDataType": "xsd:integer",
       "cdi:role": "Measure",
       "cdif:classificationLevel": "Nominal",
-      "cdif:hasValuesFrom": {
-        "@type": [
-          "cdif:EnumerationDomain"
-        ],
-        "cdif:references": {
+      "cdif:hasValuesFrom": [
+        {
           "@type": [
-            "skos:ConceptScheme"
+            "cdif:EnumerationDomain"
           ],
-          "@id": "#substantiveCodelist-ppltrst",
-          "skos:hasTopConcept": [
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-0.0-ppltrst",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-ppltrst"
-                }
-              ],
-              "skos:notation": "0.0",
-              "skos:prefLabel": "You can't be too careful"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-1.0-ppltrst",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-ppltrst"
-                }
-              ],
-              "skos:notation": "1.0",
-              "skos:prefLabel": "1"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-2.0-ppltrst",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-ppltrst"
-                }
-              ],
-              "skos:notation": "2.0",
-              "skos:prefLabel": "2"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-3.0-ppltrst",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-ppltrst"
-                }
-              ],
-              "skos:notation": "3.0",
-              "skos:prefLabel": "3"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-4.0-ppltrst",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-ppltrst"
-                }
-              ],
-              "skos:notation": "4.0",
-              "skos:prefLabel": "4"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-5.0-ppltrst",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-ppltrst"
-                }
-              ],
-              "skos:notation": "5.0",
-              "skos:prefLabel": "5"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-6.0-ppltrst",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-ppltrst"
-                }
-              ],
-              "skos:notation": "6.0",
-              "skos:prefLabel": "6"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-7.0-ppltrst",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-ppltrst"
-                }
-              ],
-              "skos:notation": "7.0",
-              "skos:prefLabel": "7"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-8.0-ppltrst",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-ppltrst"
-                }
-              ],
-              "skos:notation": "8.0",
-              "skos:prefLabel": "8"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-9.0-ppltrst",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-ppltrst"
-                }
-              ],
-              "skos:notation": "9.0",
-              "skos:prefLabel": "9"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-10.0-ppltrst",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-ppltrst"
-                }
-              ],
-              "skos:notation": "10.0",
-              "skos:prefLabel": "Most people can be trusted"
-            }
-          ]
+          "cdif:valueType": "substantive",
+          "cdif:references": {
+            "@type": [
+              "skos:ConceptScheme"
+            ],
+            "@id": "#substantiveCodelist-ppltrst",
+            "skos:hasTopConcept": [
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-0.0-ppltrst",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-ppltrst"
+                  }
+                ],
+                "skos:notation": "0.0",
+                "skos:prefLabel": "You can't be too careful"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-1.0-ppltrst",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-ppltrst"
+                  }
+                ],
+                "skos:notation": "1.0",
+                "skos:prefLabel": "1"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-2.0-ppltrst",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-ppltrst"
+                  }
+                ],
+                "skos:notation": "2.0",
+                "skos:prefLabel": "2"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-3.0-ppltrst",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-ppltrst"
+                  }
+                ],
+                "skos:notation": "3.0",
+                "skos:prefLabel": "3"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-4.0-ppltrst",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-ppltrst"
+                  }
+                ],
+                "skos:notation": "4.0",
+                "skos:prefLabel": "4"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-5.0-ppltrst",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-ppltrst"
+                  }
+                ],
+                "skos:notation": "5.0",
+                "skos:prefLabel": "5"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-6.0-ppltrst",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-ppltrst"
+                  }
+                ],
+                "skos:notation": "6.0",
+                "skos:prefLabel": "6"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-7.0-ppltrst",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-ppltrst"
+                  }
+                ],
+                "skos:notation": "7.0",
+                "skos:prefLabel": "7"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-8.0-ppltrst",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-ppltrst"
+                  }
+                ],
+                "skos:notation": "8.0",
+                "skos:prefLabel": "8"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-9.0-ppltrst",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-ppltrst"
+                  }
+                ],
+                "skos:notation": "9.0",
+                "skos:prefLabel": "9"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-10.0-ppltrst",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-ppltrst"
+                  }
+                ],
+                "skos:notation": "10.0",
+                "skos:prefLabel": "Most people can be trusted"
+              }
+            ]
+          }
+        },
+        {
+          "@type": [
+            "cdif:EnumerationDomain"
+          ],
+          "cdif:valueType": "sentinel",
+          "cdif:references": {
+            "@type": [
+              "skos:ConceptScheme"
+            ],
+            "@id": "#sentinelCodelist-ppltrst",
+            "skos:hasTopConcept": [
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-77.0-ppltrst",
+                "skos:inScheme": [
+                  {
+                    "@id": "#sentinelCodelist-ppltrst"
+                  }
+                ],
+                "skos:notation": "77.0",
+                "skos:prefLabel": "Refusal"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-88.0-ppltrst",
+                "skos:inScheme": [
+                  {
+                    "@id": "#sentinelCodelist-ppltrst"
+                  }
+                ],
+                "skos:notation": "88.0",
+                "skos:prefLabel": "Don't know"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-99.0-ppltrst",
+                "skos:inScheme": [
+                  {
+                    "@id": "#sentinelCodelist-ppltrst"
+                  }
+                ],
+                "skos:notation": "99.0",
+                "skos:prefLabel": "No answer"
+              }
+            ]
+          }
         }
-      }
+      ]
     },
     {
       "@type": [
@@ -351,162 +588,218 @@
       "cdi:intendedDataType": "xsd:integer",
       "cdi:role": "Measure",
       "cdif:classificationLevel": "Nominal",
-      "cdif:hasValuesFrom": {
-        "@type": [
-          "cdif:EnumerationDomain"
-        ],
-        "cdif:references": {
+      "cdif:hasValuesFrom": [
+        {
           "@type": [
-            "skos:ConceptScheme"
+            "cdif:EnumerationDomain"
           ],
-          "@id": "#substantiveCodelist-pplfair",
-          "skos:hasTopConcept": [
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-0.0-pplfair",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-pplfair"
-                }
-              ],
-              "skos:notation": "0.0",
-              "skos:prefLabel": "Most people try to take advantage of me"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-1.0-pplfair",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-pplfair"
-                }
-              ],
-              "skos:notation": "1.0",
-              "skos:prefLabel": "1"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-2.0-pplfair",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-pplfair"
-                }
-              ],
-              "skos:notation": "2.0",
-              "skos:prefLabel": "2"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-3.0-pplfair",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-pplfair"
-                }
-              ],
-              "skos:notation": "3.0",
-              "skos:prefLabel": "3"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-4.0-pplfair",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-pplfair"
-                }
-              ],
-              "skos:notation": "4.0",
-              "skos:prefLabel": "4"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-5.0-pplfair",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-pplfair"
-                }
-              ],
-              "skos:notation": "5.0",
-              "skos:prefLabel": "5"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-6.0-pplfair",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-pplfair"
-                }
-              ],
-              "skos:notation": "6.0",
-              "skos:prefLabel": "6"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-7.0-pplfair",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-pplfair"
-                }
-              ],
-              "skos:notation": "7.0",
-              "skos:prefLabel": "7"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-8.0-pplfair",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-pplfair"
-                }
-              ],
-              "skos:notation": "8.0",
-              "skos:prefLabel": "8"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-9.0-pplfair",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-pplfair"
-                }
-              ],
-              "skos:notation": "9.0",
-              "skos:prefLabel": "9"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-10.0-pplfair",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-pplfair"
-                }
-              ],
-              "skos:notation": "10.0",
-              "skos:prefLabel": "Most people try to be fair"
-            }
-          ]
+          "cdif:valueType": "substantive",
+          "cdif:references": {
+            "@type": [
+              "skos:ConceptScheme"
+            ],
+            "@id": "#substantiveCodelist-pplfair",
+            "skos:hasTopConcept": [
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-0.0-pplfair",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-pplfair"
+                  }
+                ],
+                "skos:notation": "0.0",
+                "skos:prefLabel": "Most people try to take advantage of me"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-1.0-pplfair",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-pplfair"
+                  }
+                ],
+                "skos:notation": "1.0",
+                "skos:prefLabel": "1"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-2.0-pplfair",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-pplfair"
+                  }
+                ],
+                "skos:notation": "2.0",
+                "skos:prefLabel": "2"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-3.0-pplfair",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-pplfair"
+                  }
+                ],
+                "skos:notation": "3.0",
+                "skos:prefLabel": "3"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-4.0-pplfair",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-pplfair"
+                  }
+                ],
+                "skos:notation": "4.0",
+                "skos:prefLabel": "4"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-5.0-pplfair",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-pplfair"
+                  }
+                ],
+                "skos:notation": "5.0",
+                "skos:prefLabel": "5"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-6.0-pplfair",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-pplfair"
+                  }
+                ],
+                "skos:notation": "6.0",
+                "skos:prefLabel": "6"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-7.0-pplfair",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-pplfair"
+                  }
+                ],
+                "skos:notation": "7.0",
+                "skos:prefLabel": "7"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-8.0-pplfair",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-pplfair"
+                  }
+                ],
+                "skos:notation": "8.0",
+                "skos:prefLabel": "8"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-9.0-pplfair",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-pplfair"
+                  }
+                ],
+                "skos:notation": "9.0",
+                "skos:prefLabel": "9"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-10.0-pplfair",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-pplfair"
+                  }
+                ],
+                "skos:notation": "10.0",
+                "skos:prefLabel": "Most people try to be fair"
+              }
+            ]
+          }
+        },
+        {
+          "@type": [
+            "cdif:EnumerationDomain"
+          ],
+          "cdif:valueType": "sentinel",
+          "cdif:references": {
+            "@type": [
+              "skos:ConceptScheme"
+            ],
+            "@id": "#sentinelCodelist-pplfair",
+            "skos:hasTopConcept": [
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-77.0-pplfair",
+                "skos:inScheme": [
+                  {
+                    "@id": "#sentinelCodelist-pplfair"
+                  }
+                ],
+                "skos:notation": "77.0",
+                "skos:prefLabel": "Refusal"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-88.0-pplfair",
+                "skos:inScheme": [
+                  {
+                    "@id": "#sentinelCodelist-pplfair"
+                  }
+                ],
+                "skos:notation": "88.0",
+                "skos:prefLabel": "Don't know"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-99.0-pplfair",
+                "skos:inScheme": [
+                  {
+                    "@id": "#sentinelCodelist-pplfair"
+                  }
+                ],
+                "skos:notation": "99.0",
+                "skos:prefLabel": "No answer"
+              }
+            ]
+          }
         }
-      }
+      ]
     },
     {
       "@type": [
@@ -519,162 +812,218 @@
       "cdi:intendedDataType": "xsd:integer",
       "cdi:role": "Measure",
       "cdif:classificationLevel": "Nominal",
-      "cdif:hasValuesFrom": {
-        "@type": [
-          "cdif:EnumerationDomain"
-        ],
-        "cdif:references": {
+      "cdif:hasValuesFrom": [
+        {
           "@type": [
-            "skos:ConceptScheme"
+            "cdif:EnumerationDomain"
           ],
-          "@id": "#substantiveCodelist-pplhlp",
-          "skos:hasTopConcept": [
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-0.0-pplhlp",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-pplhlp"
-                }
-              ],
-              "skos:notation": "0.0",
-              "skos:prefLabel": "People mostly look out for themselves"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-1.0-pplhlp",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-pplhlp"
-                }
-              ],
-              "skos:notation": "1.0",
-              "skos:prefLabel": "1"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-2.0-pplhlp",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-pplhlp"
-                }
-              ],
-              "skos:notation": "2.0",
-              "skos:prefLabel": "2"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-3.0-pplhlp",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-pplhlp"
-                }
-              ],
-              "skos:notation": "3.0",
-              "skos:prefLabel": "3"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-4.0-pplhlp",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-pplhlp"
-                }
-              ],
-              "skos:notation": "4.0",
-              "skos:prefLabel": "4"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-5.0-pplhlp",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-pplhlp"
-                }
-              ],
-              "skos:notation": "5.0",
-              "skos:prefLabel": "5"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-6.0-pplhlp",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-pplhlp"
-                }
-              ],
-              "skos:notation": "6.0",
-              "skos:prefLabel": "6"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-7.0-pplhlp",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-pplhlp"
-                }
-              ],
-              "skos:notation": "7.0",
-              "skos:prefLabel": "7"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-8.0-pplhlp",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-pplhlp"
-                }
-              ],
-              "skos:notation": "8.0",
-              "skos:prefLabel": "8"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-9.0-pplhlp",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-pplhlp"
-                }
-              ],
-              "skos:notation": "9.0",
-              "skos:prefLabel": "9"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-10.0-pplhlp",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-pplhlp"
-                }
-              ],
-              "skos:notation": "10.0",
-              "skos:prefLabel": "People mostly try to be helpful"
-            }
-          ]
+          "cdif:valueType": "substantive",
+          "cdif:references": {
+            "@type": [
+              "skos:ConceptScheme"
+            ],
+            "@id": "#substantiveCodelist-pplhlp",
+            "skos:hasTopConcept": [
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-0.0-pplhlp",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-pplhlp"
+                  }
+                ],
+                "skos:notation": "0.0",
+                "skos:prefLabel": "People mostly look out for themselves"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-1.0-pplhlp",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-pplhlp"
+                  }
+                ],
+                "skos:notation": "1.0",
+                "skos:prefLabel": "1"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-2.0-pplhlp",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-pplhlp"
+                  }
+                ],
+                "skos:notation": "2.0",
+                "skos:prefLabel": "2"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-3.0-pplhlp",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-pplhlp"
+                  }
+                ],
+                "skos:notation": "3.0",
+                "skos:prefLabel": "3"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-4.0-pplhlp",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-pplhlp"
+                  }
+                ],
+                "skos:notation": "4.0",
+                "skos:prefLabel": "4"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-5.0-pplhlp",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-pplhlp"
+                  }
+                ],
+                "skos:notation": "5.0",
+                "skos:prefLabel": "5"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-6.0-pplhlp",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-pplhlp"
+                  }
+                ],
+                "skos:notation": "6.0",
+                "skos:prefLabel": "6"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-7.0-pplhlp",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-pplhlp"
+                  }
+                ],
+                "skos:notation": "7.0",
+                "skos:prefLabel": "7"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-8.0-pplhlp",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-pplhlp"
+                  }
+                ],
+                "skos:notation": "8.0",
+                "skos:prefLabel": "8"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-9.0-pplhlp",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-pplhlp"
+                  }
+                ],
+                "skos:notation": "9.0",
+                "skos:prefLabel": "9"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-10.0-pplhlp",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-pplhlp"
+                  }
+                ],
+                "skos:notation": "10.0",
+                "skos:prefLabel": "People mostly try to be helpful"
+              }
+            ]
+          }
+        },
+        {
+          "@type": [
+            "cdif:EnumerationDomain"
+          ],
+          "cdif:valueType": "sentinel",
+          "cdif:references": {
+            "@type": [
+              "skos:ConceptScheme"
+            ],
+            "@id": "#sentinelCodelist-pplhlp",
+            "skos:hasTopConcept": [
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-77.0-pplhlp",
+                "skos:inScheme": [
+                  {
+                    "@id": "#sentinelCodelist-pplhlp"
+                  }
+                ],
+                "skos:notation": "77.0",
+                "skos:prefLabel": "Refusal"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-88.0-pplhlp",
+                "skos:inScheme": [
+                  {
+                    "@id": "#sentinelCodelist-pplhlp"
+                  }
+                ],
+                "skos:notation": "88.0",
+                "skos:prefLabel": "Don't know"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-99.0-pplhlp",
+                "skos:inScheme": [
+                  {
+                    "@id": "#sentinelCodelist-pplhlp"
+                  }
+                ],
+                "skos:notation": "99.0",
+                "skos:prefLabel": "No answer"
+              }
+            ]
+          }
         }
-      }
+      ]
     },
     {
       "@type": [
@@ -687,71 +1036,127 @@
       "cdi:intendedDataType": "xsd:integer",
       "cdi:role": "Measure",
       "cdif:classificationLevel": "Nominal",
-      "cdif:hasValuesFrom": {
-        "@type": [
-          "cdif:EnumerationDomain"
-        ],
-        "cdif:references": {
+      "cdif:hasValuesFrom": [
+        {
           "@type": [
-            "skos:ConceptScheme"
+            "cdif:EnumerationDomain"
           ],
-          "@id": "#substantiveCodelist-polintr",
-          "skos:hasTopConcept": [
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-1.0-polintr",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-polintr"
-                }
-              ],
-              "skos:notation": "1.0",
-              "skos:prefLabel": "Very interested"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-2.0-polintr",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-polintr"
-                }
-              ],
-              "skos:notation": "2.0",
-              "skos:prefLabel": "Quite interested"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-3.0-polintr",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-polintr"
-                }
-              ],
-              "skos:notation": "3.0",
-              "skos:prefLabel": "Hardly interested"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-4.0-polintr",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-polintr"
-                }
-              ],
-              "skos:notation": "4.0",
-              "skos:prefLabel": "Not at all interested"
-            }
-          ]
+          "cdif:valueType": "substantive",
+          "cdif:references": {
+            "@type": [
+              "skos:ConceptScheme"
+            ],
+            "@id": "#substantiveCodelist-polintr",
+            "skos:hasTopConcept": [
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-1.0-polintr",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-polintr"
+                  }
+                ],
+                "skos:notation": "1.0",
+                "skos:prefLabel": "Very interested"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-2.0-polintr",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-polintr"
+                  }
+                ],
+                "skos:notation": "2.0",
+                "skos:prefLabel": "Quite interested"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-3.0-polintr",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-polintr"
+                  }
+                ],
+                "skos:notation": "3.0",
+                "skos:prefLabel": "Hardly interested"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-4.0-polintr",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-polintr"
+                  }
+                ],
+                "skos:notation": "4.0",
+                "skos:prefLabel": "Not at all interested"
+              }
+            ]
+          }
+        },
+        {
+          "@type": [
+            "cdif:EnumerationDomain"
+          ],
+          "cdif:valueType": "sentinel",
+          "cdif:references": {
+            "@type": [
+              "skos:ConceptScheme"
+            ],
+            "@id": "#sentinelCodelist-polintr",
+            "skos:hasTopConcept": [
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-7.0-polintr",
+                "skos:inScheme": [
+                  {
+                    "@id": "#sentinelCodelist-polintr"
+                  }
+                ],
+                "skos:notation": "7.0",
+                "skos:prefLabel": "Refusal"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-8.0-polintr",
+                "skos:inScheme": [
+                  {
+                    "@id": "#sentinelCodelist-polintr"
+                  }
+                ],
+                "skos:notation": "8.0",
+                "skos:prefLabel": "Don't know"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-9.0-polintr",
+                "skos:inScheme": [
+                  {
+                    "@id": "#sentinelCodelist-polintr"
+                  }
+                ],
+                "skos:notation": "9.0",
+                "skos:prefLabel": "No answer"
+              }
+            ]
+          }
         }
-      }
+      ]
     },
     {
       "@type": [
@@ -764,97 +1169,153 @@
       "cdi:intendedDataType": "xsd:integer",
       "cdi:role": "Measure",
       "cdif:classificationLevel": "Nominal",
-      "cdif:hasValuesFrom": {
-        "@type": [
-          "cdif:EnumerationDomain"
-        ],
-        "cdif:references": {
+      "cdif:hasValuesFrom": [
+        {
           "@type": [
-            "skos:ConceptScheme"
+            "cdif:EnumerationDomain"
           ],
-          "@id": "#substantiveCodelist-maritalb",
-          "skos:hasTopConcept": [
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-1.0-maritalb",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-maritalb"
-                }
-              ],
-              "skos:notation": "1.0",
-              "skos:prefLabel": "Legally married"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-2.0-maritalb",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-maritalb"
-                }
-              ],
-              "skos:notation": "2.0",
-              "skos:prefLabel": "In a legally registered civil union"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-3.0-maritalb",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-maritalb"
-                }
-              ],
-              "skos:notation": "3.0",
-              "skos:prefLabel": "Legally separated"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-4.0-maritalb",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-maritalb"
-                }
-              ],
-              "skos:notation": "4.0",
-              "skos:prefLabel": "Legally divorced/Civil union dissolved"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-5.0-maritalb",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-maritalb"
-                }
-              ],
-              "skos:notation": "5.0",
-              "skos:prefLabel": "Widowed/Civil partner died"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-6.0-maritalb",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-maritalb"
-                }
-              ],
-              "skos:notation": "6.0",
-              "skos:prefLabel": "None of these (NEVER married or in legally registered civil union)"
-            }
-          ]
+          "cdif:valueType": "substantive",
+          "cdif:references": {
+            "@type": [
+              "skos:ConceptScheme"
+            ],
+            "@id": "#substantiveCodelist-maritalb",
+            "skos:hasTopConcept": [
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-1.0-maritalb",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-maritalb"
+                  }
+                ],
+                "skos:notation": "1.0",
+                "skos:prefLabel": "Legally married"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-2.0-maritalb",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-maritalb"
+                  }
+                ],
+                "skos:notation": "2.0",
+                "skos:prefLabel": "In a legally registered civil union"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-3.0-maritalb",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-maritalb"
+                  }
+                ],
+                "skos:notation": "3.0",
+                "skos:prefLabel": "Legally separated"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-4.0-maritalb",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-maritalb"
+                  }
+                ],
+                "skos:notation": "4.0",
+                "skos:prefLabel": "Legally divorced/Civil union dissolved"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-5.0-maritalb",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-maritalb"
+                  }
+                ],
+                "skos:notation": "5.0",
+                "skos:prefLabel": "Widowed/Civil partner died"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-6.0-maritalb",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-maritalb"
+                  }
+                ],
+                "skos:notation": "6.0",
+                "skos:prefLabel": "None of these (NEVER married or in legally registered civil union)"
+              }
+            ]
+          }
+        },
+        {
+          "@type": [
+            "cdif:EnumerationDomain"
+          ],
+          "cdif:valueType": "sentinel",
+          "cdif:references": {
+            "@type": [
+              "skos:ConceptScheme"
+            ],
+            "@id": "#sentinelCodelist-maritalb",
+            "skos:hasTopConcept": [
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-77.0-maritalb",
+                "skos:inScheme": [
+                  {
+                    "@id": "#sentinelCodelist-maritalb"
+                  }
+                ],
+                "skos:notation": "77.0",
+                "skos:prefLabel": "Refusal"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-88.0-maritalb",
+                "skos:inScheme": [
+                  {
+                    "@id": "#sentinelCodelist-maritalb"
+                  }
+                ],
+                "skos:notation": "88.0",
+                "skos:prefLabel": "Don't know"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-99.0-maritalb",
+                "skos:inScheme": [
+                  {
+                    "@id": "#sentinelCodelist-maritalb"
+                  }
+                ],
+                "skos:notation": "99.0",
+                "skos:prefLabel": "No answer"
+              }
+            ]
+          }
         }
-      }
+      ]
     },
     {
       "@type": [
@@ -867,136 +1328,192 @@
       "cdi:intendedDataType": "xsd:integer",
       "cdi:role": "Measure",
       "cdif:classificationLevel": "Nominal",
-      "cdif:hasValuesFrom": {
-        "@type": [
-          "cdif:EnumerationDomain"
-        ],
-        "cdif:references": {
+      "cdif:hasValuesFrom": [
+        {
           "@type": [
-            "skos:ConceptScheme"
+            "cdif:EnumerationDomain"
           ],
-          "@id": "#substantiveCodelist-eisced",
-          "skos:hasTopConcept": [
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-0.0-eisced",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-eisced"
-                }
-              ],
-              "skos:notation": "0.0",
-              "skos:prefLabel": "Not possible to harmonise into ES-ISCED"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-1.0-eisced",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-eisced"
-                }
-              ],
-              "skos:notation": "1.0",
-              "skos:prefLabel": "ES-ISCED I , less than lower secondary"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-2.0-eisced",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-eisced"
-                }
-              ],
-              "skos:notation": "2.0",
-              "skos:prefLabel": "ES-ISCED II, lower secondary"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-3.0-eisced",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-eisced"
-                }
-              ],
-              "skos:notation": "3.0",
-              "skos:prefLabel": "ES-ISCED IIIb, lower tier upper secondary"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-4.0-eisced",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-eisced"
-                }
-              ],
-              "skos:notation": "4.0",
-              "skos:prefLabel": "ES-ISCED IIIa, upper tier upper secondary"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-5.0-eisced",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-eisced"
-                }
-              ],
-              "skos:notation": "5.0",
-              "skos:prefLabel": "ES-ISCED IV, advanced vocational, sub-degree"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-6.0-eisced",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-eisced"
-                }
-              ],
-              "skos:notation": "6.0",
-              "skos:prefLabel": "ES-ISCED V1, lower tertiary education, BA level"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-7.0-eisced",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-eisced"
-                }
-              ],
-              "skos:notation": "7.0",
-              "skos:prefLabel": "ES-ISCED V2, higher tertiary education, >= MA level"
-            },
-            {
-              "@type": [
-                "skos:Concept"
-              ],
-              "@id": "#code-55.0-eisced",
-              "skos:inScheme": [
-                {
-                  "@id": "#substantiveCodelist-eisced"
-                }
-              ],
-              "skos:notation": "55.0",
-              "skos:prefLabel": "Other"
-            }
-          ]
+          "cdif:valueType": "substantive",
+          "cdif:references": {
+            "@type": [
+              "skos:ConceptScheme"
+            ],
+            "@id": "#substantiveCodelist-eisced",
+            "skos:hasTopConcept": [
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-0.0-eisced",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-eisced"
+                  }
+                ],
+                "skos:notation": "0.0",
+                "skos:prefLabel": "Not possible to harmonise into ES-ISCED"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-1.0-eisced",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-eisced"
+                  }
+                ],
+                "skos:notation": "1.0",
+                "skos:prefLabel": "ES-ISCED I , less than lower secondary"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-2.0-eisced",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-eisced"
+                  }
+                ],
+                "skos:notation": "2.0",
+                "skos:prefLabel": "ES-ISCED II, lower secondary"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-3.0-eisced",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-eisced"
+                  }
+                ],
+                "skos:notation": "3.0",
+                "skos:prefLabel": "ES-ISCED IIIb, lower tier upper secondary"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-4.0-eisced",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-eisced"
+                  }
+                ],
+                "skos:notation": "4.0",
+                "skos:prefLabel": "ES-ISCED IIIa, upper tier upper secondary"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-5.0-eisced",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-eisced"
+                  }
+                ],
+                "skos:notation": "5.0",
+                "skos:prefLabel": "ES-ISCED IV, advanced vocational, sub-degree"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-6.0-eisced",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-eisced"
+                  }
+                ],
+                "skos:notation": "6.0",
+                "skos:prefLabel": "ES-ISCED V1, lower tertiary education, BA level"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-7.0-eisced",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-eisced"
+                  }
+                ],
+                "skos:notation": "7.0",
+                "skos:prefLabel": "ES-ISCED V2, higher tertiary education, >= MA level"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-55.0-eisced",
+                "skos:inScheme": [
+                  {
+                    "@id": "#substantiveCodelist-eisced"
+                  }
+                ],
+                "skos:notation": "55.0",
+                "skos:prefLabel": "Other"
+              }
+            ]
+          }
+        },
+        {
+          "@type": [
+            "cdif:EnumerationDomain"
+          ],
+          "cdif:valueType": "sentinel",
+          "cdif:references": {
+            "@type": [
+              "skos:ConceptScheme"
+            ],
+            "@id": "#sentinelCodelist-eisced",
+            "skos:hasTopConcept": [
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-77.0-eisced",
+                "skos:inScheme": [
+                  {
+                    "@id": "#sentinelCodelist-eisced"
+                  }
+                ],
+                "skos:notation": "77.0",
+                "skos:prefLabel": "Refusal"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-88.0-eisced",
+                "skos:inScheme": [
+                  {
+                    "@id": "#sentinelCodelist-eisced"
+                  }
+                ],
+                "skos:notation": "88.0",
+                "skos:prefLabel": "Don't know"
+              },
+              {
+                "@type": [
+                  "skos:Concept"
+                ],
+                "@id": "#code-99.0-eisced",
+                "skos:inScheme": [
+                  {
+                    "@id": "#sentinelCodelist-eisced"
+                  }
+                ],
+                "skos:notation": "99.0",
+                "skos:prefLabel": "No answer"
+              }
+            ]
+          }
         }
-      }
+      ]
     }
   ],
   "schema:distribution": [
@@ -1005,8 +1522,17 @@
         "schema:DataDownload",
         "cdi:StructuredDataSet"
       ],
-      "schema:name": "SPSS_Example (data file)",
+      "schema:name": "SPSS_Example.sav",
       "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/missing",
+      "schema:additionalProperty": [
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:name": "record count",
+          "schema:value": "5"
+        }
+      ],
       "cdif:isStructuredBy": {
         "@type": [
           "cdi:WideDataStructure"

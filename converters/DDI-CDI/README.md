@@ -95,13 +95,25 @@ Lights up `Process_Example_CDI.xml` (58 steps, 13 inputs, agent, environment) �
 | `PhysicalSegmentLayout` `isDelimited` / `isFixedWidth` | `cdi:isDelimited` / `cdi:isFixedWidth` on the distribution |
 | `InstanceVariable_has_ValueMapping` → `ValueMapping`, positioned by `ValueMappingPosition/value` | `cdi:hasPhysicalMapping` entry: `cdi:index` (column), `schema:name`, `cdi:physicalDataType`, `cdi:formats_InstanceVariable` → the variable |
 
-**Planned phases** (toward the "broadest end-to-end" goal):
+**Phase 6 (done — discovery enrichment + sentinel value domains):**
 
-6. **Discovery enrichment** — titles, agents, dates where the instance carries
-   them (DDI-CDI examples are often technical and lack a friendly title; the
-   dataset name currently falls back to the file stem), plus **sentinel value
-   domains** (missing-value codes) and `DataPoint`/`InstanceValue` (the data
-   itself).
+| DDI-CDI | CDIF |
+|---------|------|
+| `catalogDetails/title` (dataset-level, when present) | `schema:name` (else the DDI-CDI name / activity name / file stem) |
+| `PhysicalDataSet/physicalFileName` | `schema:name` of the distribution |
+| `DataStore/recordCount` | `schema:additionalProperty` ("record count") on the distribution |
+| `InstanceVariable` -takesSentinelValuesFrom-> `SentinelValueDomain` → CodeList | a second `cdif:hasValuesFrom` → `cdif:EnumerationDomain` with `cdif:valueType: "sentinel"` |
+
+The substantive enumeration (phase 2) now also carries `cdif:valueType:
+"substantive"`, so each variable can list *both* domains, flagged by type — e.g.
+Continuous `nwspol` has an empty substantive list but a 3-code sentinel list
+(Refusal / Don't know / No answer). This follows the CDIF value-domain guidance in
+[profile-datadescription#1](https://github.com/Cross-Domain-Interoperability-Framework/profile-datadescription/issues/1#issuecomment-5255033824):
+substantive always, sentinel when the source distinguishes it, so a processor need
+not merge the two.
+
+**Out of scope:** `DataPoint` / `InstanceValue` (the actual data values) — CDIF is
+a *metadata* framework, so the data itself is not carried over.
 
 ## Test fixtures
 
