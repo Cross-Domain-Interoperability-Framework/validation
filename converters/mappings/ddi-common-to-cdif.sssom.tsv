@@ -1,5 +1,5 @@
 # mapping_set_id: https://w3id.org/cdif/mappings/ddi-common-to-cdif
-# mapping_set_title: DDI Codebook (common core, 2.5 ∩ 1.2.2) to CDIF
+# mapping_set_title: DDI Codebook (common core, 2.5 and 1.2.2) to CDIF
 # mapping_set_description: Shared literal-field crosswalk for the DDI Codebook elements common to both 2.5 and 1.2.2 (identical XPath under stdyDscr/fileDscr/dataDscr/docDscr). Imported by ddi25-to-cdif and ddi122-to-cdif via `sssom merge`.
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 # mapping_provider: https://cross-domain-interoperability-framework.github.io/
@@ -32,9 +32,9 @@
 #   are omitted; only data-bearing attributes that map are kept (var/@name, varFormat/@type).
 subject_id	subject_label	comment	predicate_id	object_id	object_label	object_json_path	mapping_justification
 ddicb:stdyDscr.citation.titlStmt.titl	titl		skos:exactMatch	schema:name	name	$.schema:name	semapv:ManualMappingCuration
-ddicb:stdyDscr.citation.titlStmt.subTitl	subTitl	DDI Codebook: subtitle of the study title. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.citation.titlStmt.altTitl	altTitl	DDI Codebook: alternative title by which the study is also known. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.citation.titlStmt.parTitl	parTitl	DDI Codebook: parallel title (the study title expressed in another language). Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.citation.titlStmt.subTitl	subTitl	DDI Codebook: subtitle of the study title. 	skos:closeMatch	schema:alternateName	alternateName	$.schema:alternateName	
+ddicb:stdyDscr.citation.titlStmt.altTitl	altTitl	DDI Codebook: alternative title by which the study is also known. 	skos:closeMatch	schema:alternateName	alternateName	$.schema:alternateName	
+ddicb:stdyDscr.citation.titlStmt.parTitl	parTitl	DDI Codebook: parallel title (the study title expressed in another language). 	skos:closeMatch	schema:alternateName	alternateName	$.schema:alternateName	
 ddicb:stdyDscr.citation.titlStmt.IDNo	IDNo	also fills @id	skos:exactMatch	schema:identifier	identifier	$.schema:identifier	semapv:ManualMappingCuration
 ddicb:stdyDscr.citation.rspStmt.AuthEnty	AuthEnty	-> schema:Person in @list	skos:closeMatch	schema:creator	creator	$.schema:creator	semapv:ManualMappingCuration
 ddicb:stdyDscr.citation.prodStmt.producer	producer	DDI Codebook: person/organization responsible for producing the study/dataset. Unmapped (no CDIF target) - for review					

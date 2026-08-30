@@ -55,8 +55,24 @@ def unquote_split(line):
     return next(csv.reader(io.StringIO(line), delimiter="\t"))
 
 
+def read_text(path):
+    """Decode a TSV that may have come back from Excel in any of its save
+    formats: UTF-16 ('Unicode Text'), UTF-8 (with or without BOM), or the
+    Windows-1252 codepage ('Text (Tab delimited)'). Output is always written
+    back as UTF-8/LF, so one round-trip converges the file to UTF-8."""
+    raw = open(path, "rb").read()
+    if raw[:2] in (b"\xff\xfe", b"\xfe\xff"):
+        return raw.decode("utf-16")
+    if raw[:3] == b"\xef\xbb\xbf":
+        return raw[3:].decode("utf-8")
+    try:
+        return raw.decode("utf-8")
+    except UnicodeDecodeError:
+        return raw.decode("cp1252")
+
+
 def load(path):
-    text = open(path, "rb").read().decode("utf-8")
+    text = read_text(path)
     lines = text.replace("\r\n", "\n").replace("\r", "\n").split("\n")
     while lines and lines[-1] == "":
         lines.pop()
