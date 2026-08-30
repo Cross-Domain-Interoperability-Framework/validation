@@ -1,31 +1,35 @@
 #!/usr/bin/env python3
 """Data-driven DDI Codebook -> CDIF converter.
 
-Unlike ddi_to_cdif.py (hand-coded), this engine reads the SSSOM mapping tables
-(via converters/mappings/ddi_mappings.json) and applies them generically, so the
-worksheets are the single source of truth: edit a TSV, run sync_ddi_mappings.py,
-and the new mapping takes effect here with no code change.
+Reads the SSSOM mapping tables (converters/mappings/ddi_mappings.json) and applies
+them generically, so the worksheets are the single source of truth: edit a TSV,
+run sync_ddi_mappings.py, and the mapping takes effect here with no code change.
 
 Contexts implemented
 --------------------
-* dataset singletons        -- $.schema:<prop>            (and nested, e.g. $.schema:subjectOf.<prop>)
-* per-variable              -- $.schema:variableMeasured[*].<leaf>   (one item per <var>)
-* per-distribution          -- $.schema:distribution[*].<leaf>       (one item per <fileDscr>)
+* dataset singletons        $.schema:<prop>                     (incl. nested)
+* per-variable              $.schema:variableMeasured[*].<leaf> (one item per <var>)
+* per-distribution          $.schema:distribution[*].<leaf>     (one per <fileDscr>)
+* provenance activity       $.prov:wasGeneratedBy[*].<leaf>     (one Action/Activity)
+* derived source            $.prov:wasDerivedFrom[*].<leaf>     (one prov:Entity)
+* related links             $.schema:relatedLink...             (one item per source field)
 
 Concatenation convention (from the worksheet)
 ---------------------------------------------
-When several DDI fields target the same scalar CDIF path, their values are joined
-with newlines, each line prefixed by that mapping's `object_label` ("label: value"),
-empty fields skipped. A lone contributor is placed as a plain value. List targets
-(keywords, spatialCoverage) collect instead of concatenating.
+Several DDI fields on one scalar target are joined with newlines, each line
+prefixed by that mapping's `object_label` ("label: value"), empties skipped,
+identical values de-duplicated. A lone contributor is placed as a plain value.
+List targets (keywords, spatialCoverage, additionalProperty, prov:used,
+relatedLink) collect items instead of concatenating.
 
-Deferred (skipped with a note; see --verbose): provenance contexts
-$.prov:wasGeneratedBy[*] and $.prov:wasDerivedFrom[*], and $.schema:relatedLink.
-These need multi-node assembly and land in a follow-up.
+Malformed object_json_path values (unbalanced brackets, embedded quotes/commas
+-- e.g. the sampleFrame pseudo-paths) are skipped and reported with --verbose;
+fix them in the worksheet and they light up here automatically.
 """
 import argparse
 import json
 import os
+import re
 import sys
 import xml.etree.ElementTree as ET
 
@@ -41,12 +45,11 @@ CONTEXT = {
     "dqv": "http://www.w3.org/ns/dqv#", "geo": "http://www.opengis.net/ont/geosparql#",
     "oa": "http://www.w3.org/ns/oa#", "bios": "https://bioschemas.org/",
 }
-# XSD type per DDI varFormat
 XSD_TYPE = {"numeric": "xsd:decimal", "character": "xsd:string"}
-# list-valued dataset targets: collect values instead of concatenating
 LIST_LEAF = {"schema:keywords"}
-# deferred target heads (skipped, reported)
-DEFER_HEADS = ("prov:wasGeneratedBy", "prov:wasDerivedFrom", "schema:relatedLink")
+# provenance / related-link target heads and the context key each builds
+PROV_HEADS = {"prov:wasGeneratedBy": "activity", "prov:wasDerivedFrom": "derived",
+              "schema:relatedLink": "related"}
 
 
 def strip_ns(tag):
@@ -64,8 +67,6 @@ def text_of(elem):
 
 
 def descend(elem, parts):
-    """Return the elements (or attribute-value strings) reached by a dotted
-    element path relative to `elem`. A final `@attr` segment yields attributes."""
     attr = None
     if parts and "@" in parts[-1]:
         parts = list(parts)
@@ -76,7 +77,7 @@ def descend(elem, parts):
     for p in parts:
         nxt = []
         for n in nodes:
-            nxt += [c for c in n.iter() if c is not n and strip_ns(c.tag) == p]
+            nxt += [c for c in list(n) if strip_ns(c.tag) == p]  # direct children only
         nodes = nxt
     if attr:
         return [n.get(attr) for n in nodes if n.get(attr)]
@@ -95,28 +96,43 @@ def values_at(elem, parts):
 # ---- target-path parsing -------------------------------------------------
 
 def split_target(jp):
-    """('$.schema:variableMeasured[*].schema:description')
-        -> (head, leaf) where head is the context container and leaf the rest.
-    head is one of: 'dataset', 'variable', 'distribution', or a deferred head."""
     body = jp[2:] if jp.startswith("$.") else jp.lstrip("$")
     if body.startswith("schema:variableMeasured[*]"):
         return "variable", body[len("schema:variableMeasured[*]"):].lstrip(".")
     if body.startswith("schema:distribution[*]"):
         return "distribution", body[len("schema:distribution[*]"):].lstrip(".")
-    for h in DEFER_HEADS:
-        if body == h or body.startswith(h + "[*]") or body.startswith(h + "."):
-            return "_defer", h
+    for head, ctx in PROV_HEADS.items():
+        if body == head or body.startswith(head + "[*]") or body.startswith(head + "."):
+            leaf = body[len(head):].lstrip("[*]").lstrip(".")
+            return ctx, leaf
     return "dataset", body
+
+
+def clean_leaf(leaf):
+    """Normalise a leaf path: drop [filter] segments (keep [*] as a list marker),
+    reject anything still malformed. Returns [(key, is_list), ...] or None."""
+    protected = leaf.replace("[*]", "\0")
+    protected = re.sub(r"\[[^\]]*\]", "", protected)          # drop [role = x] etc.
+    if any(c in protected for c in '[]",') or "  " in protected or " " in protected.strip():
+        return None
+    segs = []
+    for part in protected.split("."):
+        if not part:
+            continue
+        is_list = part.endswith("\0")
+        key = part.replace("\0", "")
+        if key:
+            segs.append((key, is_list))
+    return segs or None
 
 
 # ---- value shaping / concatenation --------------------------------------
 
 def concat(contribs):
-    """contribs: list of (label, value). Join per the worksheet convention,
-    de-duplicating identical values (so a field reachable by two paths, or a
-    label repeated verbatim, collapses to one entry)."""
     parts, seen = [], set()
     for lbl, v in contribs:
+        if isinstance(v, list):
+            v = " ".join(v)
         if v and v not in seen:
             seen.add(v)
             parts.append((lbl, v))
@@ -127,11 +143,14 @@ def concat(contribs):
     return "\n".join(f"{lbl}: {v}" for lbl, v in parts)
 
 
+def flat_values(contribs):
+    return [v for _, vs in contribs for v in (vs if isinstance(vs, list) else [vs]) if v]
+
+
 def shape_dataset(leaf, object_id, contribs):
-    """Turn gathered contributions into the value placed at a dataset leaf."""
-    flat = [v for _, vs in contribs for v in (vs if isinstance(vs, list) else [vs]) if v]
+    flat = flat_values(contribs)
     if leaf in LIST_LEAF:
-        seen, out = set(), []
+        out, seen = [], set()
         for v in flat:
             if v not in seen:
                 seen.add(v); out.append(v)
@@ -142,20 +161,105 @@ def shape_dataset(leaf, object_id, contribs):
         return {"@list": [{"@type": ["schema:Person"], "schema:name": v} for v in flat]} if flat else None
     if object_id in ("schema:publisher", "schema:provider", "schema:maintainer", "schema:funder"):
         return {"@type": ["schema:Organization"], "schema:name": flat[0]} if flat else None
-    # scalar string target -> concatenate with labels
     return concat([(lbl, " ".join(vs) if isinstance(vs, list) else vs) for lbl, vs in contribs])
 
 
-def set_path(container, leaf, value):
-    """Place value at a (possibly nested, colon-keyed) leaf path on a dict."""
-    if value is None or leaf == "":
+def set_nested(container, keys, value):
+    if value is None or not keys:
         return
-    keys = leaf.split(".")
     d = container
     for k in keys[:-1]:
-        k = k.replace("[*]", "")
         d = d.setdefault(k, {})
-    d[keys[-1].replace("[*]", "")] = value
+    d[keys[-1]] = value
+
+
+# ---- data extraction helpers --------------------------------------------
+
+def gather(elem, subj_paths, mapping, anchor=""):
+    """Collect (label, values) for each subject, relative to a DDI anchor path.
+    anchor is a string prefix (e.g. 'dataDscr.var'); the remainder -- including a
+    trailing '@attr' on the anchor element itself -- is navigated within elem."""
+    contribs = []
+    for path in subj_paths:
+        rel = path[len(anchor):].lstrip(".") if anchor else path
+        parts = rel.split(".") if rel else []
+        label = mapping[path]["object_label"] or (parts[-1] if parts else path.split(".")[-1])
+        contribs.append((label, values_at(elem, parts)))
+    return contribs
+
+
+# ---- provenance / related-link builders ---------------------------------
+
+def build_activity(root, items, maps, skipped):
+    """items: list of subject paths whose target head is prov:wasGeneratedBy."""
+    act = {"@type": ["schema:Action", "prov:Activity"]}
+    groups = {}
+    for path in items:
+        _, leaf = split_target(maps[path]["object_json_path"])
+        segs = clean_leaf(leaf)
+        if segs is None:
+            skipped.append(path); continue
+        groups.setdefault(tuple(s[0] for s in segs), []).append(path)
+    for keys, paths in groups.items():
+        contribs = gather(root, paths, maps)
+        vals = flat_values(contribs)
+        leafstr = ".".join(keys)
+        if leafstr == "schema:additionalProperty":
+            for lbl, vs in [(maps[p]["object_label"], values_at(root, p.split("."))) for p in paths]:
+                for v in vs:
+                    act.setdefault("schema:additionalProperty", []).append(
+                        {"@type": ["schema:PropertyValue"], "schema:name": lbl, "schema:value": v})
+        elif keys and keys[0] == "prov:used":
+            for v in vals:
+                if keys[-1] == "schema:name" and "computationalTool" in keys:
+                    act.setdefault("prov:used", []).append(
+                        {"bios:computationalTool": {"schema:name": v}})
+                else:
+                    act.setdefault("prov:used", []).append(
+                        {"schema:instrument": {"@type": ["schema:Thing"], "schema:name": v}})
+        elif keys and keys[0] == "schema:actionProcess":
+            hp = act.setdefault("schema:actionProcess", {"@type": ["schema:HowTo"]})
+            sub = "schema:step" if keys[-1] == "schema:step" else "schema:description"
+            val = concat(contribs)
+            if val:
+                hp[sub] = (hp[sub] + "\n" + val) if hp.get(sub) else val
+        elif leafstr == "schema:agent":
+            val = concat(contribs)
+            if val:
+                act["schema:agent"] = {"@type": ["schema:Organization"], "schema:name": val}
+        else:
+            val = concat(contribs)
+            set_nested(act, list(keys), val)
+    return act
+
+
+def build_derived(root, items, maps, skipped):
+    node = {"@type": ["prov:Entity"]}
+    groups = {}
+    for path in items:
+        _, leaf = split_target(maps[path]["object_json_path"])
+        segs = clean_leaf(leaf)
+        if segs is None:
+            skipped.append(path); continue
+        groups.setdefault(tuple(s[0] for s in segs), []).append(path)
+    for keys, paths in groups.items():
+        contribs = gather(root, paths, maps)
+        val = concat(contribs)
+        set_nested(node, list(keys), val)
+    return node if len(node) > 1 else None
+
+
+def build_related(root, items, maps, skipped):
+    links = []
+    for path in items:
+        m = maps[path]
+        segs = clean_leaf(split_target(m["object_json_path"])[1])
+        if segs is None:
+            skipped.append(path); continue
+        for v in values_at(root, path.split(".")):
+            links.append({"schema:linkRelationship": m["object_label"],
+                          "schema:target": {"schema:name": v}})
+    return links
 
 
 # ---- conversion ----------------------------------------------------------
@@ -165,7 +269,6 @@ def load_mappings(version):
     merged = {}
     merged.update(allm.get("ddi-common-to-cdif", {}))
     merged.update(allm.get(f"ddi{version}-to-cdif", {}))
-    # strip the CURIE prefix from each subject -> dotted DDI path
     out = {}
     for subj, m in merged.items():
         path = subj.split(":", 1)[1] if ":" in subj else subj
@@ -173,44 +276,35 @@ def load_mappings(version):
     return out
 
 
-def gather(elem, subj_paths, mapping, anchor_len=0):
-    """For a set of DDI paths sharing one target, collect (label, values)."""
-    contribs = []
-    for path in subj_paths:
-        parts = path.split(".")[anchor_len:]
-        vals = values_at(elem, parts)
-        contribs.append((mapping[path]["object_label"] or parts[-1], vals))
-    return contribs
-
-
 def convert(xml_path, doi_url, version, detect=True, verbose=False):
     root = ET.parse(xml_path).getroot()
     maps = load_mappings(version)
 
-    # bucket mapped paths by context/target
-    ds_by_leaf, var_by_leaf, dist_by_leaf, deferred = {}, {}, {}, []
+    ds_by_leaf, var_by_leaf, dist_by_leaf = {}, {}, {}
+    prov = {"activity": [], "derived": [], "related": []}
     for path, m in maps.items():
         if not m["object_id"].strip():
             continue
         ctx, leaf = split_target(m["object_json_path"])
-        if ctx == "_defer":
-            deferred.append(path); continue
-        bucket = {"dataset": ds_by_leaf, "variable": var_by_leaf, "distribution": dist_by_leaf}[ctx]
-        bucket.setdefault((leaf, m["object_id"]), []).append(path)
+        if ctx in prov:
+            prov[ctx].append(path)
+        elif ctx == "dataset":
+            ds_by_leaf.setdefault((leaf, m["object_id"]), []).append(path)
+        elif ctx == "variable":
+            var_by_leaf.setdefault((leaf, m["object_id"]), []).append(path)
+        elif ctx == "distribution":
+            dist_by_leaf.setdefault((leaf, m["object_id"]), []).append(path)
 
     doc = {"@context": CONTEXT, "@id": doi_url, "@type": ["schema:Dataset"]}
 
-    # dataset singletons
     for (leaf, oid), paths in ds_by_leaf.items():
-        contribs = gather(root, paths, maps)
-        val = shape_dataset(leaf, oid, contribs)
+        val = shape_dataset(leaf, oid, gather(root, paths, maps))
         if val is not None:
-            set_path(doc, leaf, val)
-    doc.setdefault("@id", doi_url)
+            set_nested(doc, leaf.split("."), val)
     doc["schema:identifier"] = doc.get("schema:identifier", doi_url)
     doc["schema:url"] = doi_url
 
-    # per-variable
+    # variables
     vitems = []
     for var in iter_local(root, "var"):
         item = {"@type": ["schema:PropertyValue", "cdi:InstanceVariable"]}
@@ -218,48 +312,57 @@ def convert(xml_path, doi_url, version, detect=True, verbose=False):
         if nm:
             item["@id"] = "#" + nm.replace(" ", "_")
         for (leaf, oid), paths in var_by_leaf.items():
-            contribs = gather(var, paths, maps, anchor_len=2)  # drop dataDscr.var
             if oid == "cdi:role":
-                fmt = var.get("intrvl", "")
-                item["cdi:role"] = {"contin": "MeasureComponent",
-                                    "discrete": "AttributeComponent"}.get(fmt) or None
-                if item["cdi:role"] is None:
-                    del item["cdi:role"]
+                role = {"contin": "MeasureComponent", "discrete": "AttributeComponent"}.get(var.get("intrvl", ""))
+                if role:
+                    item["cdi:role"] = role
                 continue
             if oid == "cdi:intendedDataType":
-                vf = (values_at(var, ["varFormat"]) or [""])
                 item["cdi:intendedDataType"] = XSD_TYPE.get(var.get("intrvl", ""), "xsd:string")
                 continue
-            val = shape_dataset(leaf, oid, contribs)
+            val = shape_dataset(leaf, oid, gather(var, paths, maps, anchor="dataDscr.var"))
             if val is not None:
-                set_path(item, leaf, val)
+                set_nested(item, leaf.split("."), val)
         vitems.append(item)
     if vitems:
         doc["schema:variableMeasured"] = vitems
 
-    # per-distribution
+    # distributions
     ditems = []
     for fd in iter_local(root, "fileDscr"):
         item = {"@type": ["schema:DataDownload", "cdi:TabularTextDataSet"]}
         for (leaf, oid), paths in dist_by_leaf.items():
-            contribs = gather(fd, paths, maps, anchor_len=1)  # drop fileDscr
-            val = shape_dataset(leaf, oid, contribs)
+            val = shape_dataset(leaf, oid, gather(fd, paths, maps, anchor="fileDscr"))
             if val is not None:
-                set_path(item, leaf, val)
+                set_nested(item, leaf.split("."), val)
         ditems.append(item)
     if ditems:
         doc["schema:distribution"] = ditems
 
-    if verbose and deferred:
-        print(f"  [deferred] {len(deferred)} provenance/relatedLink mapping(s) not yet "
-              f"applied: {sorted(deferred)[:4]}...", file=sys.stderr)
+    # provenance + related links
+    skipped = []
+    if prov["activity"]:
+        act = build_activity(root, prov["activity"], maps, skipped)
+        if len(act) > 1:
+            doc["prov:wasGeneratedBy"] = [act]
+    if prov["derived"]:
+        der = build_derived(root, prov["derived"], maps, skipped)
+        if der:
+            doc["prov:wasDerivedFrom"] = [der]
+    if prov["related"]:
+        links = build_related(root, prov["related"], maps, skipped)
+        if links:
+            doc["schema:relatedLink"] = links
+
+    if verbose and skipped:
+        print(f"  [skipped] {len(skipped)} mapping(s) with a malformed object_json_path "
+              f"(fix in the worksheet): {sorted(skipped)[:3]}...", file=sys.stderr)
 
     if detect:
         try:
             sys.path.insert(0, os.path.normpath(os.path.join(HERE, "..", "..")))
             from detect_conformance import detect_conformance, apply_conformance
-            uris = detect_conformance(doc)
-            apply_conformance(doc, uris)
+            apply_conformance(doc, detect_conformance(doc))
         except Exception as e:
             if verbose:
                 print(f"  (conformance detection skipped: {e})", file=sys.stderr)
@@ -270,8 +373,7 @@ def main():
     ap = argparse.ArgumentParser(description="Data-driven DDI Codebook -> CDIF converter")
     ap.add_argument("xml")
     ap.add_argument("--doi", required=True, help="dataset DOI/landing-page URL (@id)")
-    ap.add_argument("--version", choices=["25", "122"], default="25",
-                    help="DDI Codebook version of the input (default 25)")
+    ap.add_argument("--version", choices=["25", "122"], default="25")
     ap.add_argument("-o", "--output")
     ap.add_argument("--no-detect", action="store_true")
     ap.add_argument("-v", "--verbose", action="store_true")
