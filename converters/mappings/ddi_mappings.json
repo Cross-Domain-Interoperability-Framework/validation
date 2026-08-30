@@ -65,9 +65,9 @@
     },
     "ddicb:stdyDscr.citation.prodStmt.software": {
       "predicate_id": "skos:closeMatch",
-      "object_id": "schema:used",
+      "object_id": "prov:used",
       "object_label": "software",
-      "object_json_path": "$.prov:wasGeneratedBy.skos:used.bios:computationalTool.schema:name",
+      "object_json_path": "$.prov:wasGeneratedBy.prov:used.bios:computationalTool.schema:name",
       "comment": "DDI Codebook: software used to produce the study/dataset. "
     },
     "ddicb:stdyDscr.citation.prodStmt.fundAg": {
@@ -578,14 +578,14 @@
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:DataDownload",
       "object_label": "additionalType",
-      "object_json_path": "schema:DataDownload.schema:additionalType",
+      "object_json_path": "$.schema:distribution[*].schema:additionalType",
       "comment": "DDI Codebook: the type of data file (e.g. raw, rectangular, relational). "
     },
     "ddicb:fileDscr.fileTxt.format": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:DataDownload",
       "object_label": "encodingFormat",
-      "object_json_path": "schema:DataDownload.schema:encodingFormat",
+      "object_json_path": "$.schema:distribution[*].schema:encodingFormat",
       "comment": "DDI Codebook: the physical format of the data file. Unmapped "
     },
     "ddicb:dataDscr.var.labl": {

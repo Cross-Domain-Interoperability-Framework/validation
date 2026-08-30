@@ -41,7 +41,7 @@ ddicb:stdyDscr.citation.prodStmt.producer	producer	DDI Codebook: person/organiza
 ddicb:stdyDscr.citation.prodStmt.copyright	copyright	DDI Codebook: copyright statement for the study/dataset. 	skos:exactMatch	schema:copyrightNotice	copyright	$.schema:copyrightNotice	
 ddicb:stdyDscr.citation.prodStmt.prodDate	prodDate	fallback distDate	skos:exactMatch	schema:dateModified	dateModified	$.schema:dateModified	semapv:ManualMappingCuration
 ddicb:stdyDscr.citation.prodStmt.prodPlac	prodPlac	DDI Codebook: place where the study/dataset was produced. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.citation.prodStmt.software	software	DDI Codebook: software used to produce the study/dataset. 	skos:closeMatch	schema:used	software	$.prov:wasGeneratedBy.skos:used.bios:computationalTool.schema:name	
+ddicb:stdyDscr.citation.prodStmt.software	software	DDI Codebook: software used to produce the study/dataset. 	skos:closeMatch	prov:used	software	$.prov:wasGeneratedBy.prov:used.bios:computationalTool.schema:name	
 ddicb:stdyDscr.citation.prodStmt.fundAg	fundAg	DDI Codebook: funding agency/sponsor of the study. Unmapped (no CDIF target) - for review	skos:exactMatch	schema:funder	fundingAgency	$.schema:funding.schema:funder	
 ddicb:stdyDscr.citation.prodStmt.grantNo	grantNo	DDI Codebook: grant/contract number under which the study was funded. 	skos:exactMatch	schema:identifier	grantID	$.schema:funding.schema:identifier	
 ddicb:stdyDscr.citation.distStmt.distrbtr	distrbtr	-> schema:Organization	skos:closeMatch	schema:publisher	publisher	$.schema:publisher	semapv:ManualMappingCuration
@@ -124,8 +124,8 @@ ddicb:fileDscr.fileTxt.dimensns.varQnty	varQnty		skos:closeMatch	schema:DataDown
 ddicb:fileDscr.fileTxt.dimensns.logRecL	logRecL	DDI Codebook: the logical record length of the file. Unmapped (no CDIF target) - for review					
 ddicb:fileDscr.fileTxt.dimensns.recPrCas	recPrCas	DDI Codebook: the number of records per case in the file. Unmapped (no CDIF target) - for review					
 ddicb:fileDscr.fileTxt.dimensns.recNumTot	recNumTot	DDI Codebook: the total number of records in the file. Unmapped (no CDIF target) - for review					
-ddicb:fileDscr.fileTxt.fileType	fileType	DDI Codebook: the type of data file (e.g. raw, rectangular, relational). 	skos:closeMatch	schema:DataDownload	additionalType	schema:DataDownload.schema:additionalType	
-ddicb:fileDscr.fileTxt.format	format	DDI Codebook: the physical format of the data file. Unmapped 	skos:closeMatch	schema:DataDownload	encodingFormat	schema:DataDownload.schema:encodingFormat	
+ddicb:fileDscr.fileTxt.fileType	fileType	DDI Codebook: the type of data file (e.g. raw, rectangular, relational). 	skos:closeMatch	schema:DataDownload	additionalType	$.schema:distribution[*].schema:additionalType	
+ddicb:fileDscr.fileTxt.format	format	DDI Codebook: the physical format of the data file. Unmapped 	skos:closeMatch	schema:DataDownload	encodingFormat	$.schema:distribution[*].schema:encodingFormat	
 ddicb:fileDscr.fileTxt.filePlac	filePlac	DDI Codebook: the place where the data file was produced. Unmapped (no CDIF target) - for review					
 ddicb:fileDscr.fileTxt.dataChck	dataChck	DDI Codebook: the extent/type of data checking performed on the file. Unmapped (no CDIF target) - for review					
 ddicb:fileDscr.fileTxt.ProcStat	ProcStat	DDI Codebook: the processing status of the file (e.g. raw, cleaned, final). Unmapped (no CDIF target) - for review					
