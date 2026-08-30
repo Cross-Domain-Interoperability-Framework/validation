@@ -6,6 +6,21 @@ Converters from **DDI XML** to CDIF JSON-LD.
 |-----------|-------|-------|
 | [`ddi122_to_cdif.py`](ddi122_to_cdif.py) | DDI **1.2.2** (ICPSR, `http://www.icpsr.umich.edu/DDI/Version1-2-2.xsd`)[^xsd] — e.g. Nesstar-published DHS/MICS/PHIM/World Bank microdata | **source-agnostic** (no repository assumptions) |
 | [`ddi_to_cdif.py`](ddi_to_cdif.py) | DDI Codebook **2.5** | **Harvard Dataverse-specific** (identifiers + file-access URLs from the Dataverse API) |
+| [`ddi_sssom_to_cdif.py`](ddi_sssom_to_cdif.py) | DDI Codebook **2.5** / **1.2.2** | **data-driven** — applies the SSSOM mapping tables in [`../mappings`](../mappings) (via `ddi_mappings.json`); edit a worksheet, run `sync_ddi_mappings.py`, and the mapping takes effect with no code change |
+
+`ddi_sssom_to_cdif.py` is the mapping-driven engine (dataset, variables,
+distributions, and the `prov:wasGeneratedBy`/`prov:wasDerivedFrom` provenance
+contexts). A worked example is
+[`Examples/cdif/cdif_MWI_2015_DHS_v01_M_sssom.json`](Examples/cdif/cdif_MWI_2015_DHS_v01_M_sssom.json)
+— its output for [`Examples/XML/MWI_2015_DHS_v01_M.xml`](Examples/XML/MWI_2015_DHS_v01_M.xml)
+(2497 variables, 47 distributions), which frames and validates against
+`CDIFDataDescriptionSchema.json`. Run it with:
+
+```bash
+python ddi_sssom_to_cdif.py Examples/XML/MWI_2015_DHS_v01_M.xml \
+    --doi http://dhsprogram.com/data/available-datasets.cfm --version 25 \
+    -o Examples/cdif/cdif_MWI_2015_DHS_v01_M_sssom.json
+```
 
 The DDI-Codebook **2.5** source-agnostic converter is
 [`../DDICodebook/ddi25_to_cdif.py`](../DDICodebook/ddi25_to_cdif.py) — a thin

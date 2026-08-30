@@ -173,6 +173,22 @@ def set_nested(container, keys, value):
     d[keys[-1]] = value
 
 
+def shape_place(v):
+    """A spatialCoverage value -> schema:Place. A long string keeps a short
+    derived name (text before the first ':' or the first few words) and carries
+    the full text as schema:description."""
+    place = {"@type": ["schema:Place"]}
+    if ":" in v:
+        place["schema:name"] = v.split(":", 1)[0].strip()
+        place["schema:description"] = v
+    elif len(v.split()) > 6:
+        place["schema:name"] = " ".join(v.split()[:5]) + "…"
+        place["schema:description"] = v
+    else:
+        place["schema:name"] = v
+    return place
+
+
 # ---- data extraction helpers --------------------------------------------
 
 def gather(elem, subj_paths, mapping, anchor=""):
@@ -307,10 +323,35 @@ def convert(xml_path, doi_url, version, detect=True, verbose=False):
 
     doc = {"@context": CONTEXT, "@id": doi_url, "@type": ["schema:Dataset"]}
 
+    desc_overflow, kw_terms = [], []
     for (leaf, oid), paths in ds_by_leaf.items():
+        if leaf == "schema:keywords":
+            # >4 words -> concatenate onto the dataset description; else a keyword
+            # DefinedTerm whose schema:about names the DDI source element.
+            for p in paths:
+                src = p.split(".")[-1]
+                label = maps[p]["object_label"] or src
+                for v in values_at(root, p.split(".")):
+                    if len(v.split()) > 4:
+                        desc_overflow.append((src if label == "keywords" else label, v))
+                    else:
+                        kw_terms.append({"@type": ["schema:DefinedTerm"],
+                                         "schema:name": v, "schema:about": src})
+            continue
+        if oid == "schema:spatialCoverage" or leaf == "schema:spatialCoverage":
+            places = [shape_place(v) for v in flat_values(gather(root, paths, maps))]
+            if places:
+                doc["schema:spatialCoverage"] = places
+            continue
         val = shape_dataset(leaf, oid, gather(root, paths, maps))
         if val is not None:
             set_nested(doc, leaf.split("."), val)
+    if kw_terms:
+        doc["schema:keywords"] = kw_terms
+    if desc_overflow:
+        extra = concat(desc_overflow)
+        base = doc.get("schema:description")
+        doc["schema:description"] = (base + "\n" + extra) if (base and extra) else (extra or base)
     doc["schema:identifier"] = doc.get("schema:identifier", doi_url)
     doc["schema:url"] = doi_url
 
