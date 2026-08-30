@@ -14,7 +14,7 @@
 # curie_map:
 #   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
 #   cdif: https://w3id.org/cdif/
-#   cdifq: http://crossdomaininteroperability.org/cdifq/
+#   dcterms: http://purl.org/dc/terms/
 #   ddicb: https://ddialliance.org/Specification/DDI-Codebook/element/
 #   prov: http://www.w3.org/ns/prov#
 #   schema: http://schema.org/
@@ -37,95 +37,95 @@ ddicb:stdyDscr.citation.titlStmt.altTitl	altTitl	DDI Codebook: alternative title
 ddicb:stdyDscr.citation.titlStmt.parTitl	parTitl	DDI Codebook: parallel title (the study title expressed in another language). 	skos:closeMatch	schema:alternateName	alternateName	$.schema:alternateName	
 ddicb:stdyDscr.citation.titlStmt.IDNo	IDNo	also fills @id	skos:exactMatch	schema:identifier	identifier	$.schema:identifier	semapv:ManualMappingCuration
 ddicb:stdyDscr.citation.rspStmt.AuthEnty	AuthEnty	-> schema:Person in @list	skos:closeMatch	schema:creator	creator	$.schema:creator	semapv:ManualMappingCuration
-ddicb:stdyDscr.citation.prodStmt.producer	producer	DDI Codebook: person/organization responsible for producing the study/dataset. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.citation.prodStmt.copyright	copyright	DDI Codebook: copyright statement for the study/dataset. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.citation.prodStmt.producer	producer	DDI Codebook: person/organization responsible for producing the study/dataset. Schema:contributor[role = 'producer']	skos:closeMatch	schema:contributor	producer	$.schema:contributor	
+ddicb:stdyDscr.citation.prodStmt.copyright	copyright	DDI Codebook: copyright statement for the study/dataset. 	skos:exactMatch	schema:copyrightNotice	copyright	$.schema:copyrightNotice	
 ddicb:stdyDscr.citation.prodStmt.prodDate	prodDate	fallback distDate	skos:exactMatch	schema:dateModified	dateModified	$.schema:dateModified	semapv:ManualMappingCuration
 ddicb:stdyDscr.citation.prodStmt.prodPlac	prodPlac	DDI Codebook: place where the study/dataset was produced. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.citation.prodStmt.software	software	DDI Codebook: software used to produce the study/dataset. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.citation.prodStmt.fundAg	fundAg	DDI Codebook: funding agency/sponsor of the study. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.citation.prodStmt.grantNo	grantNo	DDI Codebook: grant/contract number under which the study was funded. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.citation.prodStmt.software	software	DDI Codebook: software used to produce the study/dataset. 	skos:closeMatch	schema:used	software	$.prov:wasGeneratedBy.skos:used.bios:computationalTool.schema:name	
+ddicb:stdyDscr.citation.prodStmt.fundAg	fundAg	DDI Codebook: funding agency/sponsor of the study. Unmapped (no CDIF target) - for review	skos:exactMatch	schema:funder	fundingAgency	$.schema:funding.schema:funder	
+ddicb:stdyDscr.citation.prodStmt.grantNo	grantNo	DDI Codebook: grant/contract number under which the study was funded. 	skos:exactMatch	schema:identifier	grantID	$.schema:funding.schema:identifier	
 ddicb:stdyDscr.citation.distStmt.distrbtr	distrbtr	-> schema:Organization	skos:closeMatch	schema:publisher	publisher	$.schema:publisher	semapv:ManualMappingCuration
-ddicb:stdyDscr.citation.distStmt.contact	contact	DDI Codebook: contact person(s) for questions about the study/dataset. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.citation.distStmt.depositr	depositr	DDI Codebook: person/institution who deposited the study/dataset with the distributor. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.citation.distStmt.depDate	depDate	DDI Codebook: date the study/dataset was deposited. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.citation.distStmt.contact	contact	DDI Codebook: contact person(s) for questions about the study/dataset. -->contributor[role=pointOfContact]	skos:closeMatch	schema:contributor	pointOfContact	$.schema:contributor	
+ddicb:stdyDscr.citation.distStmt.depositr	depositr	DDI Codebook: person/institution who deposited the study/dataset with the distributor. 	skos:closeMatch	schema:publisher	depositor	$.schema:publisher	
+ddicb:stdyDscr.citation.distStmt.depDate	depDate	DDI Codebook: date the study/dataset was deposited.	skos:closeMatch	schema:dateModified	dateDeposited	$.schema:dateModified	
 ddicb:stdyDscr.citation.distStmt.distDate	distDate		skos:exactMatch	schema:datePublished	datePublished	$.schema:datePublished	semapv:ManualMappingCuration
 ddicb:stdyDscr.citation.serStmt.serName	serName	DDI Codebook: name of the series to which the study belongs. Unmapped (no CDIF target) - for review					
 ddicb:stdyDscr.citation.serStmt.serInfo	serInfo	DDI Codebook: history/information about the study series. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.citation.verStmt.version	version	DDI Codebook: version number/description of the study/dataset. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.citation.verStmt.verResp	verResp	DDI Codebook: person/organization responsible for this version of the study. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.citation.verStmt.notes	notes	DDI Codebook: notes about this version of the study. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.citation.biblCit	biblCit	DDI Codebook: complete bibliographic citation for the study as a single formatted string. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.citation.holdings	holdings	DDI Codebook: information on where copies of the study/dataset are held. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.citation.notes	notes	DDI Codebook: general notes about the study citation. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.citation.verStmt.version	version	DDI Codebook: version number/description of the study/dataset. 	skos:exactMatch	schema:version	version	$.schema:version	
+ddicb:stdyDscr.citation.verStmt.verResp	verResp	DDI Codebook: person/organization responsible for this version of the study. Add to list of publishers	skos:closeMatch	schema:publisher	versionPublisher	$.schema:publisher	
+ddicb:stdyDscr.citation.verStmt.notes	notes	DDI Codebook: notes about this version of the study. Concatenate on dataset description	skos:closeMatch	schema:description	versionDescription	$.schema:description	
+ddicb:stdyDscr.citation.biblCit	biblCit	DDI Codebook: complete bibliographic citation for the study as a single formatted string. 	skos:exactMatch	dcterms:bibliographicCitation	bibliographicCitation	$.dcterms:bibliographicCitation	
+ddicb:stdyDscr.citation.holdings	holdings	DDI Codebook: information on where copies of the study/dataset are held. Concatenate on distribution description	skos:closeMatch	schema:description	distributionDescription	$.schema:distribution.schema:description	
+ddicb:stdyDscr.citation.notes	notes	DDI Codebook: general notes about the study citation. Concatenate on dataset description	skos:closeMatch	schema:description	notes	$.schema:description	
 ddicb:stdyDscr.stdyInfo.subject.keyword	keyword		skos:exactMatch	schema:keywords	keywords	$.schema:keywords	semapv:ManualMappingCuration
 ddicb:stdyDscr.stdyInfo.subject.topcClas	topcClas		skos:exactMatch	schema:keywords	keywords	$.schema:keywords	semapv:ManualMappingCuration
-ddicb:stdyDscr.stdyInfo.abstract	abstract		skos:exactMatch	schema:description	description	$.schema:description	semapv:ManualMappingCuration
+ddicb:stdyDscr.stdyInfo.abstract	abstract	concatenate on dataset description	skos:exactMatch	schema:description	description	$.schema:description	semapv:ManualMappingCuration
 ddicb:stdyDscr.stdyInfo.sumDscr.timePrd	timePrd	start/end -> ISO 8601 interval	skos:closeMatch	schema:temporalCoverage	temporalCoverage	$.schema:temporalCoverage	semapv:ManualMappingCuration
 ddicb:stdyDscr.stdyInfo.sumDscr.collDate	collDate	DDI: date(s) of data collection -> collection Activity start/end time (NOT temporalCoverage; timePrd is coverage)	skos:closeMatch	schema:startTime	startTime	$.prov:wasGeneratedBy[*].schema:startTime	semapv:ManualMappingCuration
 ddicb:stdyDscr.stdyInfo.sumDscr.nation	nation	-> schema:Place	skos:closeMatch	schema:spatialCoverage	spatialCoverage	$.schema:spatialCoverage[*]	semapv:ManualMappingCuration
 ddicb:stdyDscr.stdyInfo.sumDscr.geogCover	geogCover	-> schema:Place	skos:closeMatch	schema:spatialCoverage	spatialCoverage	$.schema:spatialCoverage[*]	semapv:ManualMappingCuration
-ddicb:stdyDscr.stdyInfo.sumDscr.geogUnit	geogUnit	DDI Codebook: the lowest geographic level at which the data are aggregated. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.stdyInfo.sumDscr.anlyUnit	anlyUnit	DDI Codebook: the unit of analysis/observation the data describe. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.stdyInfo.sumDscr.universe	universe	DDI Codebook: the universe - the population of persons/objects the data refer to. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.stdyInfo.sumDscr.dataKind	dataKind	DDI Codebook: the kind of data (e.g. survey, census, aggregate, event/transaction). Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.stdyInfo.notes	notes	DDI Codebook: general notes about the study-information section. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.method.dataColl.timeMeth	timeMeth	DDI Codebook: the time method/dimension of data collection (e.g. longitudinal, cross-section, panel, time-series). Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.stdyInfo.sumDscr.geogUnit	geogUnit	DDI Codebook: the lowest geographic level at which the data are aggregated. -->DefinedTerm. schema:about="Geographic Unit"	skos:closeMatch	schema:keywords	keywords	$.schema:keywords	
+ddicb:stdyDscr.stdyInfo.sumDscr.anlyUnit	anlyUnit	DDI Codebook: the unit of analysis/observation the data describe.  -->DefinedTerm. schema:about="Analysis Unit"	skos:closeMatch	schema:keywords	keywords	$.schema:keywords	
+ddicb:stdyDscr.stdyInfo.sumDscr.universe	universe	DDI Codebook: the universe - the population of persons/objects the data refer to.  -->DefinedTerm. schema:about="Universe"	skos:closeMatch	schema:keywords	keywords	$.schema:keywords	
+ddicb:stdyDscr.stdyInfo.sumDscr.dataKind	dataKind	DDI Codebook: the kind of data (e.g. survey, census, aggregate, event/transaction).   -->DefinedTerm. schema:about="Data Kind"	skos:closeMatch	schema:keywords	keywords	$.schema:keywords	
+ddicb:stdyDscr.stdyInfo.notes	notes	DDI Codebook: general notes about the study-information section. -->concatenate on Dataset description	skos:closeMatch	schema:description	notes	$.schema:description	
+ddicb:stdyDscr.method.dataColl.timeMeth	timeMeth	DDI Codebook: the time method/dimension of data collection (e.g. longitudinal, cross-section, panel, time-series).   -->DefinedTerm. schema:about="Data Collection Time Method"	skos:closeMatch	schema:keywords	keywords	$.schema:keywords	
 ddicb:stdyDscr.method.dataColl.dataCollector	dataCollector	DDI: data collector -> agent of the collection Activity	skos:closeMatch	schema:agent	agent	$.prov:wasGeneratedBy[*].schema:agent	semapv:ManualMappingCuration
 ddicb:stdyDscr.method.dataColl.frequenc	frequenc	DDI Codebook: the frequency of data collection for repeated collection. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.method.dataColl.sampProc	sampProc	DDI Codebook: the sampling procedure - type of sample and sample design used. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.method.dataColl.deviat	deviat	DDI Codebook: major deviations from the sample design encountered during collection. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.method.dataColl.sampProc	sampProc	DDI Codebook: the sampling procedure - type of sample and sample design used. -->concatenate on schema:HowTo.schema:description	skos:closeMatch	schema:description	samplingProcedure	$.prov:wasGeneratedBy[*].schema:actionProcess.schema:description	
+ddicb:stdyDscr.method.dataColl.deviat	deviat	DDI Codebook: major deviations from the sample design encountered during collection. -->concatenate on schema:HowTo.schema:description	skos:closeMatch	schema:description	samplingProcedure	$.prov:wasGeneratedBy[*].schema:actionProcess.schema:description	
 ddicb:stdyDscr.method.dataColl.collMode	collMode		skos:exactMatch	schema:measurementTechnique	measurementTechnique	$.schema:measurementTechnique	semapv:ManualMappingCuration
-ddicb:stdyDscr.method.dataColl.resInstru	resInstru	DDI: research instrument -> prov:used instrument on the collection Activity	skos:closeMatch	schema:instrument	instrument	$.prov:wasGeneratedBy[*].prov:used[*].schema:instrument	semapv:ManualMappingCuration
-ddicb:stdyDscr.method.dataColl.sources.dataSrc	dataSrc	DDI: data source for aggregate data -> derived-from source	skos:closeMatch	prov:wasDerivedFrom	wasDerivedFrom	$.prov:wasDerivedFrom	semapv:ManualMappingCuration
-ddicb:stdyDscr.method.dataColl.sources.srcOrig	srcOrig	DDI Codebook: origin of the source materials. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.method.dataColl.sources.srcChar	srcChar	DDI Codebook: characteristics/quality of the source materials noted. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.method.dataColl.sources.srcDocu	srcDocu	DDI Codebook: documentation and access to the source materials. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.method.dataColl.sources.sources	sources	DDI Codebook: general sources statement describing the sources of the data. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.method.dataColl.resInstru	resInstru	DDI: research instrument -> prov:used instrument on the collection Activity	skos:closeMatch	schema:instrument	dataCollectionInstrument	$.prov:wasGeneratedBy[*].prov:used[*].schema:instrument	semapv:ManualMappingCuration
+ddicb:stdyDscr.method.dataColl.sources.dataSrc	dataSrc	DDI: data source for aggregate data -> derived-from source.schema:CreativeWork.schema:name	skos:closeMatch	prov:wasDerivedFrom	source	$.prov:wasDerivedFrom[*].schema:name	semapv:ManualMappingCuration
+ddicb:stdyDscr.method.dataColl.sources.srcOrig	srcOrig	DDI Codebook: origin of the source materials. --> concatenate on  wasDerivedFrom.schema:CreativeWork.schema:description	skos:closeMatch	prov:wasDerivedFrom	sourceMaterialOrigin	$.prov:wasDerivedFrom[*].schema:description	
+ddicb:stdyDscr.method.dataColl.sources.srcChar	srcChar	DDI Codebook: characteristics/quality of the source materials noted. --> concatenate on  wasDerivedFrom.schema:CreativeWork.schema:description	skos:closeMatch	prov:wasDerivedFrom	sourceMaterialCharacteristics	$.prov:wasDerivedFrom[*].schema:description	
+ddicb:stdyDscr.method.dataColl.sources.srcDocu	srcDocu	DDI Codebook: documentation and access to the source materials. --> concatenate on  wasDerivedFrom.schema:CreativeWork.schema:description	skos:closeMatch	prov:wasDerivedFrom	sourceMaterialCharacteristics	$.prov:wasDerivedFrom[*].schema:description	
+ddicb:stdyDscr.method.dataColl.sources.sources	sources	DDI Codebook: general sources statement describing the sources of the data. --> concatenate on  wasDerivedFrom.schema:CreativeWork.schema:description	skos:closeMatch	prov:wasDerivedFrom	sourceMaterialStatement	$.prov:wasDerivedFrom[*].schema:description	
 ddicb:stdyDscr.method.dataColl.collSitu	collSitu	DDI Codebook: characteristics of the data-collection situation/setting. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.method.dataColl.actMin	actMin	DDI Codebook: actions taken to minimize data loss (e.g. call-backs, follow-ups). Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.method.dataColl.ConOps	ConOps	DDI Codebook: control operations - methods used to control the quality of data collection. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.method.dataColl.weight	weight	DDI: weighting -> additionalProperty on the collection Activity	skos:closeMatch	schema:additionalProperty	additionalProperty	$.prov:wasGeneratedBy[*].schema:additionalProperty[*]	semapv:ManualMappingCuration
-ddicb:stdyDscr.method.dataColl.cleanOps	cleanOps	DDI: cleaning operations -> additionalProperty (or a distinct processing Activity)	skos:closeMatch	schema:additionalProperty	additionalProperty	$.prov:wasGeneratedBy[*].schema:additionalProperty[*]	semapv:ManualMappingCuration
-ddicb:stdyDscr.method.notes	notes	DDI Codebook: general notes about the methodology section. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.method.anlyInfo.respRate	respRate	DDI Codebook: the response rate - percentage of the sample that responded. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.method.anlyInfo.EstSmpErr	EstSmpErr	DDI Codebook: estimates of sampling error for the data. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.method.anlyInfo.dataAppr	dataAppr	DDI Codebook: other forms of data appraisal / data-quality assessment. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.method.stdyClas	stdyClas	DDI Codebook: the class/type of the study (e.g. whether it is official statistics). Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.dataAccs.setAvail.accsPlac	accsPlac	access location	skos:closeMatch	schema:url	url	$.schema:url	semapv:ManualMappingCuration
+ddicb:stdyDscr.method.dataColl.actMin	actMin	DDI Codebook: actions taken to minimize data loss (e.g. call-backs, follow-ups). -> concatenate on  wasGeneratedBy.actionProcess string	skos:closeMatch	schema:actionProcess	minimizeDataLoss	$.prov:wasGeneratedBy[*].schema:actionProcess	
+ddicb:stdyDscr.method.dataColl.ConOps	ConOps	DDI Codebook: control operations - methods used to control the quality of data collection. -> concatenate on  wasGeneratedBy.actionProcess string	skos:closeMatch	schema:actionProcess	qualityControl	$.prov:wasGeneratedBy[*].schema:actionProcess	
+ddicb:stdyDscr.method.dataColl.weight	weight	DDI: weighting -> additionalProperty on the collection Activity	skos:closeMatch	schema:actionProcess	weight	$.prov:wasGeneratedBy[*].schema:additionalProperty[*]	semapv:ManualMappingCuration
+ddicb:stdyDscr.method.dataColl.cleanOps	cleanOps	DDI: cleaning operations -> actionaProcess.step[additionalType = 'data cleaning']	skos:closeMatch	schema:additionalProperty	cleaningOperations	$.prov:wasGeneratedBy[*].schema:actionProcess.schema:step	semapv:ManualMappingCuration
+ddicb:stdyDscr.method.notes	notes	DDI Codebook: general notes about the methodology section.  -> concatenate on  wasGeneratedBy.actionProcess string	skos:closeMatch	schema:actionProcess	methodologyNotes	$.prov:wasGeneratedBy[*].schema:actionProcess	
+ddicb:stdyDscr.method.anlyInfo.respRate	respRate	DDI Codebook: the response rate - percentage of the sample that responded. -->concatenate on Dataset description	skos:closeMatch	schema:description	responseRate	$.schema:description	
+ddicb:stdyDscr.method.anlyInfo.EstSmpErr	EstSmpErr	DDI Codebook: estimates of sampling error for the data. -->concatenate on Dataset description	skos:closeMatch	schema:description	estimatedSamplingError	$.schema:description	
+ddicb:stdyDscr.method.anlyInfo.dataAppr	dataAppr	DDI Codebook: other forms of data appraisal / data-quality assessment. -->concatenate on Dataset description	skos:closeMatch	schema:description	dataAppraisal	$.schema:description	
+ddicb:stdyDscr.method.stdyClas	stdyClas	DDI Codebook: the class/type of the study (e.g. whether it is official statistics). -- schema:DefinedTerm[about = "Study Class"]	skos:closeMatch	schema:keywords	keywords	$.schema:keywords.schema:name	
+ddicb:stdyDscr.dataAccs.setAvail.accsPlac	accsPlac	access location	skos:closeMatch	schema:contentUrl	accessLocation	$.schema:distribution.schema:contentUrl	semapv:ManualMappingCuration
 ddicb:stdyDscr.dataAccs.setAvail.origArch	origArch	DDI Codebook: the archive where the original data are stored. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.dataAccs.setAvail.avlStatus	avlStatus	DDI Codebook: the availability status of the data collection. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.dataAccs.setAvail.collSize	collSize	DDI Codebook: the size/extent of the data collection. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.dataAccs.setAvail.avlStatus	avlStatus	DDI Codebook: the availability status of the data collection. -->concatenate on schema:conditionsOfAccess	skos:closeMatch	schema:conditionsOfAccess	availabilityStatus	$.schema:conditionsOfAccess	
+ddicb:stdyDscr.dataAccs.setAvail.collSize	collSize	DDI Codebook: the size/extent of the data collection. Unmapped (no CDIF target) - for review	skos:closeMatch	schema:contentSize	collectionSize	$.schema:distribution.schema:contentSize	
 ddicb:stdyDscr.dataAccs.setAvail.complete	complete	DDI Codebook: the completeness of the study stored relative to the total collection. Unmapped (no CDIF target) - for review					
 ddicb:stdyDscr.dataAccs.setAvail.fileQnty	fileQnty	DDI Codebook: the number of files that make up the data collection. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.dataAccs.setAvail.notes	notes	DDI Codebook: notes about data availability. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.dataAccs.useStmt.confDec	confDec	DDI Codebook: use statement - whether a confidentiality declaration must be signed to access the data. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.dataAccs.useStmt.specPerm	specPerm	DDI Codebook: use statement - whether special permissions are required to access the data. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.dataAccs.useStmt.restrctn	restrctn		skos:closeMatch	schema:conditionsOfAccess	conditionsOfAccess	$.schema:conditionsOfAccess	semapv:ManualMappingCuration
-ddicb:stdyDscr.dataAccs.useStmt.contact	contact	DDI Codebook: use statement - contact person(s) for access questions. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.dataAccs.useStmt.citReq	citReq	DDI Codebook: use statement - the citation requirement for using the data. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.dataAccs.useStmt.deposReq	deposReq	DDI Codebook: use statement - requirement to deposit derived works. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.dataAccs.useStmt.conditions	conditions	DDI Codebook: use statement - general conditions of use. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.dataAccs.useStmt.disclaimer	disclaimer	DDI Codebook: use statement - disclaimer of liability. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.dataAccs.notes	notes	DDI Codebook: general notes about data access. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.othrStdyMat.relMat	relMat	DDI Codebook: related materials associated with the study. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.othrStdyMat.relStdy	relStdy	DDI Codebook: related studies. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.othrStdyMat.relPubl	relPubl	DDI Codebook: related publications based on or about the study. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.othrStdyMat.othRefs	othRefs	DDI Codebook: other references of use in understanding the study. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.notes	notes	DDI Codebook: general notes about the study description. Unmapped (no CDIF target) - for review					
-ddicb:fileDscr.fileTxt.fileName	fileName	-> cdi:TabularTextDataSet distribution + schema:name	skos:closeMatch	schema:DataDownload	DataDownload	$.schema:distribution[*]	semapv:ManualMappingCuration
-ddicb:fileDscr.fileTxt.fileCont	fileCont	DDI Codebook: a description of the contents of the data file. Unmapped (no CDIF target) - for review					
-ddicb:fileDscr.fileTxt.fileStrc.recGrp.labl	labl	DDI Codebook: a label for the record group in the file structure. Unmapped (no CDIF target) - for review					
-ddicb:fileDscr.fileTxt.fileStrc.recGrp.recDimnsn.varQnty	varQnty	DDI Codebook: the number of variables in the record group. Unmapped (no CDIF target) - for review					
-ddicb:fileDscr.fileTxt.fileStrc.recGrp.recDimnsn.caseQnty	caseQnty	DDI Codebook: the number of cases in the record group. Unmapped (no CDIF target) - for review					
-ddicb:fileDscr.fileTxt.fileStrc.recGrp.recDimnsn.logRecL	logRecL	DDI Codebook: the logical record length of the record group. Unmapped (no CDIF target) - for review					
-ddicb:fileDscr.fileTxt.fileStrc.notes	notes	DDI Codebook: notes about the file structure. Unmapped (no CDIF target) - for review					
-ddicb:fileDscr.fileTxt.dimensns.caseQnty	caseQnty		skos:closeMatch	cdifq:nRows	nRows	$.schema:distribution[*].cdifq:nRows	semapv:ManualMappingCuration
-ddicb:fileDscr.fileTxt.dimensns.varQnty	varQnty		skos:closeMatch	cdifq:nColumns	nColumns	$.schema:distribution[*].cdifq:nColumns	semapv:ManualMappingCuration
+ddicb:stdyDscr.dataAccs.setAvail.notes	notes	DDI Codebook: notes about data availability. -->concatenate on schema:conditionsOfAccess	skos:closeMatch	schema:conditionsOfAccess	availabilityStatus	$.schema:conditionsOfAccess	
+ddicb:stdyDscr.dataAccs.useStmt.confDec	confDec	DDI Codebook: use statement - whether a confidentiality declaration must be signed to access the data. -->concatenate on schema:conditionsOfAccess	skos:closeMatch	schema:conditionsOfAccess	confidentialityDeclaration	$.schema:conditionsOfAccess	
+ddicb:stdyDscr.dataAccs.useStmt.specPerm	specPerm	DDI Codebook: use statement - whether special permissions are required to access the data. -->concatenate on schema:conditionsOfAccess	skos:closeMatch	schema:conditionsOfAccess	specialPermissions	$.schema:conditionsOfAccess	
+ddicb:stdyDscr.dataAccs.useStmt.restrctn	restrctn		skos:closeMatch	schema:conditionsOfAccess	useRestrictions	$.schema:conditionsOfAccess	semapv:ManualMappingCuration
+ddicb:stdyDscr.dataAccs.useStmt.contact	contact	DDI Codebook: use statement - contact person(s) for access questions. --> contributor[role = 'Access Point of Contact']	skos:closeMatch	schema:contributor	accessPointOfContact	$.schema:contributor	
+ddicb:stdyDscr.dataAccs.useStmt.citReq	citReq	DDI Codebook: use statement - the citation requirement for using the data. -->concatenate on schema:conditionsOfAccess	skos:closeMatch	schema:conditionsOfAccess	citationRequirements	$.schema:conditionsOfAccess	
+ddicb:stdyDscr.dataAccs.useStmt.deposReq	deposReq	DDI Codebook: use statement - requirement to deposit derived works. -->concatenate on schema:conditionsOfAccess	skos:closeMatch	schema:conditionsOfAccess	derivedWorkRequirements	$.schema:conditionsOfAccess	
+ddicb:stdyDscr.dataAccs.useStmt.conditions	conditions	DDI Codebook: use statement - general conditions of use. -->concatenate on schema:conditionsOfAccess	skos:closeMatch	schema:conditionsOfAccess	conditionsOfUse	$.schema:conditionsOfAccess	
+ddicb:stdyDscr.dataAccs.useStmt.disclaimer	disclaimer	DDI Codebook: use statement - disclaimer of liability. -->concatenate on schema:conditionsOfAccess	skos:closeMatch	schema:conditionsOfAccess	liabilityDisclaimer	$.schema:conditionsOfAccess	
+ddicb:stdyDscr.dataAccs.notes	notes	DDI Codebook: general notes about data access. -->concatenate on schema:conditionsOfAccess	skos:closeMatch	schema:conditionsOfAccess	dataAccessNotes	$.schema:conditionsOfAccess	
+ddicb:stdyDscr.othrStdyMat.relMat	relMat	DDI Codebook: related materials associated with the study. -->schema:linkRelationship = "relatedMaterial"	skos:closeMatch	schema:name	relatedMaterial	$.schema:relatedLink.schema:target.schema:name	
+ddicb:stdyDscr.othrStdyMat.relStdy	relStdy	DDI Codebook: related studies. -->schema:linkRelationship = "relatedStudy"	skos:closeMatch	schema:name	relatedStudy	$.schema:relatedLink.schema:target.schema:name	
+ddicb:stdyDscr.othrStdyMat.relPubl	relPubl	DDI Codebook: related publications based on or about the study. -->schema:linkRelationship = "relatedPublication"	skos:closeMatch	schema:name	relatedPublication	$.schema:relatedLink.schema:target.schema:name	
+ddicb:stdyDscr.othrStdyMat.othRefs	othRefs	DDI Codebook: other references of use in understanding the study. -->schema:linkRelationship = "otherReference"	skos:closeMatch	schema:name	otherReferences	$.schema:relatedLink.schema:target.schema:name	
+ddicb:stdyDscr.notes	notes	DDI Codebook: general notes about the study description. --> concatenate on Dataset description	skos:closeMatch	schema:description	generalNotes	$.schema:description	
+ddicb:fileDscr.fileTxt.fileName	fileName	 schema:name @type = cdi:TabularTextDataSet	skos:closeMatch	schema:DataDownload	fileName	$.schema:distribution[*].schema:name	semapv:ManualMappingCuration
+ddicb:fileDscr.fileTxt.fileCont	fileCont	DDI Codebook: a description of the contents of the data file. --> concatenate on @type = cdi:TabularTextDataSet schema:distribution.schema:description	skos:closeMatch	schema:DataDownload	fileContent	$.schema:distribution[*].schema:description	
+ddicb:fileDscr.fileTxt.fileStrc.recGrp.labl	labl	DDI Codebook: a label for the record group in the file structure. --> concatenate on @type = cdi:TabularTextDataSet schema:distribution.schema:description	skos:closeMatch	schema:DataDownload	recordGroup	$.schema:distribution[*].schema:description	
+ddicb:fileDscr.fileTxt.fileStrc.recGrp.recDimnsn.varQnty	varQnty	DDI Codebook: the number of variables in the record group. --> @type = cdi:TabularTextDataSet   .countColumns	skos:closeMatch	schema:DataDownload	countVariables	$.schema:distribution[*].countColumns	
+ddicb:fileDscr.fileTxt.fileStrc.recGrp.recDimnsn.caseQnty	caseQnty	DDI Codebook: the number of cases in the record group. --> concatenate on @type = cdi:TabularTextDataSet schema:distribution.schema:description	skos:closeMatch	schema:DataDownload	casesInGroup	$.schema:distribution[*].schema:description	
+ddicb:fileDscr.fileTxt.fileStrc.recGrp.recDimnsn.logRecL	logRecL	DDI Codebook: the logical record length of the record group.  --> concatenate on @type = cdi:TabularTextDataSet schema:distribution.schema:description	skos:closeMatch	schema:DataDownload	logicalLengthGroup	$.schema:distribution[*].schema:description	
+ddicb:fileDscr.fileTxt.fileStrc.notes	notes	DDI Codebook: notes about the file structure.  --> concatenate on @type = cdi:TabularTextDataSet schema:distribution.schema:description	skos:closeMatch	schema:DataDownload	fileStructureNotes	$.schema:distribution[*].schema:description	
+ddicb:fileDscr.fileTxt.dimensns.caseQnty	caseQnty		skos:closeMatch	schema:DataDownload	countrows	$.schema:distribution[*].countRows	semapv:ManualMappingCuration
+ddicb:fileDscr.fileTxt.dimensns.varQnty	varQnty		skos:closeMatch	schema:DataDownload	countVariables	$.schema:distribution[*].countColumns	semapv:ManualMappingCuration
 ddicb:fileDscr.fileTxt.dimensns.logRecL	logRecL	DDI Codebook: the logical record length of the file. Unmapped (no CDIF target) - for review					
 ddicb:fileDscr.fileTxt.dimensns.recPrCas	recPrCas	DDI Codebook: the number of records per case in the file. Unmapped (no CDIF target) - for review					
 ddicb:fileDscr.fileTxt.dimensns.recNumTot	recNumTot	DDI Codebook: the total number of records in the file. Unmapped (no CDIF target) - for review					
-ddicb:fileDscr.fileTxt.fileType	fileType	DDI Codebook: the type of data file (e.g. raw, rectangular, relational). Unmapped (no CDIF target) - for review					
-ddicb:fileDscr.fileTxt.format	format	DDI Codebook: the physical format of the data file. Unmapped (no CDIF target) - for review					
+ddicb:fileDscr.fileTxt.fileType	fileType	DDI Codebook: the type of data file (e.g. raw, rectangular, relational). 	skos:closeMatch	schema:DataDownload	additionalType	schema:DataDownload.schema:additionalType	
+ddicb:fileDscr.fileTxt.format	format	DDI Codebook: the physical format of the data file. Unmapped 	skos:closeMatch	schema:DataDownload	encodingFormat	schema:DataDownload.schema:encodingFormat	
 ddicb:fileDscr.fileTxt.filePlac	filePlac	DDI Codebook: the place where the data file was produced. Unmapped (no CDIF target) - for review					
 ddicb:fileDscr.fileTxt.dataChck	dataChck	DDI Codebook: the extent/type of data checking performed on the file. Unmapped (no CDIF target) - for review					
 ddicb:fileDscr.fileTxt.ProcStat	ProcStat	DDI Codebook: the processing status of the file (e.g. raw, cleaned, final). Unmapped (no CDIF target) - for review					
@@ -141,66 +141,66 @@ ddicb:dataDscr.varGrp.concept	concept	DDI Codebook: the concept represented by t
 ddicb:dataDscr.varGrp.defntn	defntn	DDI Codebook: a definition of the variable group. Unmapped (no CDIF target) - for review					
 ddicb:dataDscr.varGrp.universe	universe	DDI Codebook: the universe (population) covered by the variable group. Unmapped (no CDIF target) - for review					
 ddicb:dataDscr.varGrp.notes	notes	DDI Codebook: notes about the variable group. Unmapped (no CDIF target) - for review					
-ddicb:dataDscr.var.labl	labl	on the variable	skos:exactMatch	schema:description	description	$.schema:variableMeasured[*].schema:description	semapv:ManualMappingCuration
-ddicb:dataDscr.var.imputation	imputation	DDI Codebook: description of any imputation performed on the variable. Unmapped (no CDIF target) - for review					
-ddicb:dataDscr.var.security	security	DDI Codebook: the security/access-restriction level of the variable. Unmapped (no CDIF target) - for review					
-ddicb:dataDscr.var.embargo	embargo	DDI Codebook: embargo information - date/event until which the variable is restricted. Unmapped (no CDIF target) - for review					
-ddicb:dataDscr.var.respUnit	respUnit	DDI Codebook: response unit - who provided the information in the variable (e.g. head of household, proxy). Unmapped (no CDIF target) - for review					
-ddicb:dataDscr.var.anlysUnit	anlysUnit	DDI Codebook: analysis unit - the unit of analysis the variable describes. Unmapped (no CDIF target) - for review					
-ddicb:dataDscr.var.qstn	qstn	DDI Codebook: the survey question associated with the variable. Unmapped (no CDIF target) - for review					
-ddicb:dataDscr.var.valrng.key	key	DDI Codebook: a key describing the valid range/values of the variable. Unmapped (no CDIF target) - for review					
-ddicb:dataDscr.var.valrng.notes	notes	DDI Codebook: notes about the valid range of the variable. Unmapped (no CDIF target) - for review					
-ddicb:dataDscr.var.invalrng.key	key	DDI Codebook: a key describing the invalid (missing) range/values of the variable. Unmapped (no CDIF target) - for review					
-ddicb:dataDscr.var.invalrng.notes	notes	DDI Codebook: notes about the invalid range of the variable. Unmapped (no CDIF target) - for review					
-ddicb:dataDscr.var.undocCod	undocCod	DDI Codebook: undocumented codes present in the variable's data. Unmapped (no CDIF target) - for review					
-ddicb:dataDscr.var.universe	universe	DDI Codebook: the universe (population) the variable describes. Unmapped (no CDIF target) - for review					
-ddicb:dataDscr.var.TotlResp	TotlResp	DDI Codebook: the total number of responses recorded for the variable. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.labl	labl	on the variable	skos:exactMatch	schema:name	name	$.schema:variableMeasured[*].schema:name	semapv:ManualMappingCuration
+ddicb:dataDscr.var.imputation	imputation	DDI Codebook: description of any imputation performed on the variable. --> concatenate on variable description	skos:closeMatch	schema:description	imputation	$.schema:variableMeasured[*].schema:description	
+ddicb:dataDscr.var.security	security	DDI Codebook: the security/access-restriction level of the variable.  --> concatenate on variable description	skos:closeMatch	schema:description	accessConstraints	$.schema:variableMeasured[*].schema:description	
+ddicb:dataDscr.var.embargo	embargo	DDI Codebook: embargo information - date/event until which the variable is restricted.  --> concatenate on variable description	skos:closeMatch	schema:description	embargo	$.schema:variableMeasured[*].schema:description	
+ddicb:dataDscr.var.respUnit	respUnit	DDI Codebook: response unit - who provided the information in the variable (e.g. head of household, proxy). --> concatenate on variable description	skos:closeMatch	schema:description	responseUnit	$.schema:variableMeasured[*].schema:description	
+ddicb:dataDscr.var.anlysUnit	anlysUnit	DDI Codebook: analysis unit - the unit of analysis the variable describes. --> concatenate on variable description	skos:closeMatch	schema:description	unitOfAnalysis	$.schema:variableMeasured[*].schema:description	
+ddicb:dataDscr.var.qstn	qstn	DDI Codebook: the survey question associated with the variable. --> concatenate on variable description	skos:closeMatch	schema:description	surveyQuestion	$.schema:variableMeasured[*].schema:description	
+ddicb:dataDscr.var.valrng.key	key	DDI Codebook: a key describing the valid range/values of the variable. --> concatenate on variable description	skos:closeMatch	schema:description	validRange	$.schema:variableMeasured[*].schema:description	
+ddicb:dataDscr.var.valrng.notes	notes	DDI Codebook: notes about the valid range of the variable. --> concatenate on variable description	skos:closeMatch	schema:description	validRangeNotes	$.schema:variableMeasured[*].schema:description	
+ddicb:dataDscr.var.invalrng.key	key	DDI Codebook: a key describing the invalid (missing) range/values of the variable. --> concatenate on variable description	skos:closeMatch	schema:description	invalidRange	$.schema:variableMeasured[*].schema:description	
+ddicb:dataDscr.var.invalrng.notes	notes	DDI Codebook: notes about the invalid range of the variable. --> concatenate on variable description	skos:closeMatch	schema:description	invalidRangeNotes	$.schema:variableMeasured[*].schema:description	
+ddicb:dataDscr.var.undocCod	undocCod	DDI Codebook: undocumented codes present in the variable's data. --> concatenate on variable description	skos:closeMatch	schema:description	undocumentedCodes	$.schema:variableMeasured[*].schema:description	
+ddicb:dataDscr.var.universe	universe	DDI Codebook: the universe (population) the variable describes. --> concatenate on variable description	skos:closeMatch	schema:description	variableUniverse	$.schema:variableMeasured[*].schema:description	
+ddicb:dataDscr.var.TotlResp	TotlResp	DDI Codebook: the total number of responses recorded for the variable. --> concatenate on variable description	skos:closeMatch	schema:description	countResponses	$.schema:variableMeasured[*].schema:description	
 ddicb:dataDscr.var.sumStat	sumStat	sumStat @type=min/max -> min/maxValue	skos:closeMatch	schema:minValue	minValue	$.schema:variableMeasured[*].schema:minValue	semapv:ManualMappingCuration
-ddicb:dataDscr.var.txt	txt	DDI Codebook: descriptive text about the variable. Unmapped (no CDIF target) - for review					
-ddicb:dataDscr.var.stdCatgry	stdCatgry	DDI Codebook: standard categories (a reference categorization) used by the variable. Unmapped (no CDIF target) - for review					
-ddicb:dataDscr.var.catgryGrp.labl	labl	DDI Codebook: a label for the category group. Unmapped (no CDIF target) - for review					
-ddicb:dataDscr.var.catgryGrp.catStat	catStat	DDI Codebook: category-group statistics (e.g. frequency across grouped categories). Unmapped (no CDIF target) - for review					
-ddicb:dataDscr.var.catgryGrp.txt	txt	DDI Codebook: descriptive text about the category group. Unmapped (no CDIF target) - for review					
-ddicb:dataDscr.var.catgry.catValu	catValu	DDI Codebook: the category value/code for a response category. Unmapped (no CDIF target) - for review					
-ddicb:dataDscr.var.catgry.labl	labl	DDI Codebook: the label for a response category. Unmapped (no CDIF target) - for review					
-ddicb:dataDscr.var.catgry.txt	txt	DDI Codebook: descriptive text about a response category. Unmapped (no CDIF target) - for review					
-ddicb:dataDscr.var.catgry.catStat	catStat	DDI Codebook: category statistics - frequency/count for the category (@type qualifies). Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.txt	txt	DDI Codebook: descriptive text about the variable. --> concatenate on variable description	skos:closeMatch	schema:description	variableDescription	$.schema:variableMeasured[*].schema:description	
+ddicb:dataDscr.var.stdCatgry	stdCatgry	DDI Codebook: standard categories (a reference categorization) used by the variable. Unmapped (no CDIF target) - these should be a conceptScheme references for a valueDomain					
+ddicb:dataDscr.var.catgryGrp.labl	labl	DDI Codebook: a label for the category group. Unmapped (no CDIF target). --should be a conceptScheme					
+ddicb:dataDscr.var.catgryGrp.catStat	catStat	DDI Codebook: category-group statistics (e.g. frequency across grouped categories). Unmapped (no CDIF target). --should be a conceptScheme					
+ddicb:dataDscr.var.catgryGrp.txt	txt	DDI Codebook: descriptive text about the category group. Unmapped (no CDIF target) . --should be a conceptScheme					
+ddicb:dataDscr.var.catgry.catValu	catValu	DDI Codebook: the category value/code for a response category. Unmapped (no CDIF target). --should be a conceptScheme					
+ddicb:dataDscr.var.catgry.labl	labl	DDI Codebook: the label for a response category. Unmapped (no CDIF target) . --should be a conceptScheme					
+ddicb:dataDscr.var.catgry.txt	txt	DDI Codebook: descriptive text about a response category. Unmapped (no CDIF target). --should be a conceptScheme					
+ddicb:dataDscr.var.catgry.catStat	catStat	DDI Codebook: category statistics - frequency/count for the category (@type qualifies). Unmapped (no CDIF target) - -- tbd--map to cdif:isDescribedBy_StatisticsCollection					
 ddicb:dataDscr.var.codInstr	codInstr	DDI Codebook: coding instructions for the variable. Unmapped (no CDIF target) - for review					
 ddicb:dataDscr.var.verStmt.version	version	DDI Codebook: version number/description of the variable. Unmapped (no CDIF target) - for review					
 ddicb:dataDscr.var.verStmt.verResp	verResp	DDI Codebook: person/organization responsible for this version of the variable. Unmapped (no CDIF target) - for review					
 ddicb:dataDscr.var.verStmt.notes	notes	DDI Codebook: notes about this version of the variable. Unmapped (no CDIF target) - for review					
-ddicb:dataDscr.var.concept	concept	DDI Codebook: the concept measured by the variable. Unmapped (no CDIF target) - for review					
-ddicb:dataDscr.var.derivation.drvdesc	drvdesc	DDI Codebook: derivation description - how the derived variable was computed. Unmapped (no CDIF target) - for review					
-ddicb:dataDscr.var.derivation.drvcmd	drvcmd	DDI Codebook: derivation command - the command/script used to derive the variable. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.concept	concept	DDI Codebook: the concept measured by the variable. --> schema:PropertyValue.schema:propertyID	skos:closeMatch	schema:propertyID	conceptID	$.schema:variableMeasured[*].schema:propertyID	
+ddicb:dataDscr.var.derivation.drvdesc	drvdesc	DDI Codebook: derivation description - how the derived variable was computed. --> schema:PropertyValue.schema:measurementTechnique	skos:closeMatch	schema:measurementTechnique	variableMeasurementTechnique	$.schema:variableMeasured[*].schema:measurementTechnique	
+ddicb:dataDscr.var.derivation.drvcmd	drvcmd	DDI Codebook: derivation command - the command/script used to derive the variable. --> concatenate on variable description	skos:closeMatch	schema:description	softwareUsed	$.schema:variableMeasured[*].schema:description	
 ddicb:dataDscr.var.varFormat	varFormat	-> xsd type	skos:closeMatch	cdi:intendedDataType	intendedDataType	$.schema:variableMeasured[*].cdi:intendedDataType	semapv:ManualMappingCuration
-ddicb:dataDscr.var.notes	notes	DDI Codebook: general notes about the variable. Unmapped (no CDIF target) - for review					
-ddicb:dataDscr.notes	notes	DDI Codebook: general notes about the data description. Unmapped (no CDIF target) - for review					
-ddicb:docDscr.citation.titlStmt.titl	titl	metadata record title	skos:closeMatch	schema:name	name	$.schema:subjectOf.schema:name	semapv:ManualMappingCuration
-ddicb:docDscr.citation.titlStmt.subTitl	subTitl	DDI Codebook: subtitle of the DDI/metadata document title. Unmapped (no CDIF target) - for review					
-ddicb:docDscr.citation.titlStmt.altTitl	altTitl	DDI Codebook: alternative title of the DDI/metadata document. Unmapped (no CDIF target) - for review					
-ddicb:docDscr.citation.titlStmt.parTitl	parTitl	DDI Codebook: parallel title (another language) of the DDI/metadata document. Unmapped (no CDIF target) - for review					
-ddicb:docDscr.citation.titlStmt.IDNo	IDNo	DDI Codebook: identifier of the DDI/metadata document. Unmapped (no CDIF target) - for review					
-ddicb:docDscr.citation.rspStmt.AuthEnty	AuthEnty	DDI Codebook: authoring entity/person responsible for the DDI/metadata document. Unmapped (no CDIF target) - for review					
-ddicb:docDscr.citation.prodStmt.producer	producer	DDI Codebook: producer of the DDI/metadata document. Unmapped (no CDIF target) - for review					
-ddicb:docDscr.citation.prodStmt.copyright	copyright	DDI Codebook: copyright statement for the DDI/metadata document. Unmapped (no CDIF target) - for review					
-ddicb:docDscr.citation.prodStmt.prodDate	prodDate	metadata date	skos:closeMatch	schema:sdDatePublished	sdDatePublished	$.schema:subjectOf.schema:sdDatePublished	semapv:ManualMappingCuration
+ddicb:dataDscr.var.notes	notes	DDI Codebook: general notes about the variable.  --> concatenate on variable description	skos:closeMatch	schema:description	variableNotes	$.schema:variableMeasured[*].schema:description	
+ddicb:dataDscr.notes	notes	DDI Codebook: general notes about the data description. --> concatenate on Dataset description	skos:closeMatch	schema:description	dataDescriptionNotes	$.schema:description	
+ddicb:docDscr.citation.titlStmt.titl	titl	metadata record title -->concatenate on schema:subjectOf[additionalType = "dcat:CatalogRecord"].schema.name	skos:closeMatch	schema:name	metadataName	$.schema:subjectOf.schema:name	semapv:ManualMappingCuration
+ddicb:docDscr.citation.titlStmt.subTitl	subTitl	DDI Codebook: subtitle of the DDI/metadata document title. -->concatenate on schema:subjectOf[additionalType = "dcat:CatalogRecord"].schema:name	skos:closeMatch	schema:name	metadataName	$.schema:subjectOf.schema:name	
+ddicb:docDscr.citation.titlStmt.altTitl	altTitl	DDI Codebook: alternative title of the DDI/metadata document. --> schema:subjectOf[additionalType = "dcat:CatalogRecord"].schema:alternateName	skos:closeMatch	schema:alternateName	metadataAlternateName	$.schema:subjectOf.schema:alternateName	
+ddicb:docDscr.citation.titlStmt.parTitl	parTitl	DDI Codebook: parallel title (another language) of the DDI/metadata document. --> schema:subjectOf[additionalType = "dcat:CatalogRecord"].schema:alternateName	skos:closeMatch	schema:alternateName	metadataAlternateName	$.schema:subjectOf.schema:alternateName	
+ddicb:docDscr.citation.titlStmt.IDNo	IDNo	DDI Codebook: identifier of the DDI/metadata document. --> schema:subjectOf[additionalType = "dcat:CatalogRecord"].schema:identifier	skos:exactMatch	schema:identifier	metadataIdentifier	$.schema:subjectOf.schema:identifier	
+ddicb:docDscr.citation.rspStmt.AuthEnty	AuthEnty	DDI Codebook: authoring entity/person responsible for the DDI/metadata document. --> schema:subjectOf[additionalType = "dcat:CatalogRecord"].schema:provider	skos:exactMatch	schema:maintainer	metadataMaintainer	$.schema:subjectOf.schema:maintainer	
+ddicb:docDscr.citation.prodStmt.producer	producer	DDI Codebook: --> schema:subjectOf[additionalType = "dcat:CatalogRecord"].schema:maintainer	skos:closeMatch	schema:maintainer	metadataProducer	$.schema:subjectOf.schema:maintainer	
+ddicb:docDscr.citation.prodStmt.copyright	copyright	DDI Codebook: copyright statement for the DDI/metadata document. --> schema:subjectOf[additionalType = "dcat:CatalogRecord"].schema:provider	skos:closeMatch	schema:copyrightNotice	metadataCopyright	$.schema:subjectOf.schema:copyrightNotice	
+ddicb:docDscr.citation.prodStmt.prodDate	prodDate	metadata date --> schema:subjectOf[additionalType = "dcat:CatalogRecord"].schema:sdDatePublished	skos:closeMatch	schema:sdDatePublished	sdDatePublished	$.schema:subjectOf.schema:sdDatePublished	semapv:ManualMappingCuration
 ddicb:docDscr.citation.prodStmt.prodPlac	prodPlac	DDI Codebook: place where the DDI/metadata document was produced. Unmapped (no CDIF target) - for review					
 ddicb:docDscr.citation.prodStmt.software	software	DDI Codebook: software used to produce the DDI/metadata document. Unmapped (no CDIF target) - for review					
 ddicb:docDscr.citation.prodStmt.fundAg	fundAg	DDI Codebook: funding agency for producing the DDI/metadata document. Unmapped (no CDIF target) - for review					
 ddicb:docDscr.citation.prodStmt.grantNo	grantNo	DDI Codebook: grant/contract number for the DDI/metadata document. Unmapped (no CDIF target) - for review					
-ddicb:docDscr.citation.distStmt.distrbtr	distrbtr	DDI Codebook: distributor of the DDI/metadata document. Unmapped (no CDIF target) - for review					
-ddicb:docDscr.citation.distStmt.contact	contact	DDI Codebook: contact person(s) for the DDI/metadata document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.citation.distStmt.distrbtr	distrbtr	DDI Codebook: distributor of the DDI/metadata document. --> schema:subjectOf[additionalType = "dcat:CatalogRecord"].schema:provider	skos:closeMatch	schema:provider	metadataProvider	$.schema:subjectOf.schema:provider	
+ddicb:docDscr.citation.distStmt.contact	contact	DDI Codebook: contact person(s) for the DDI/metadata document.--> schema:subjectOf[additionalType = "dcat:CatalogRecord"].schema:contributor[role = 'point of contact']	skos:closeMatch	schema:provider	metadataPointOfContact	$.schema:subjectOf.schema:contributor	
 ddicb:docDscr.citation.distStmt.depositr	depositr	DDI Codebook: depositor of the DDI/metadata document. Unmapped (no CDIF target) - for review					
-ddicb:docDscr.citation.distStmt.depDate	depDate	DDI Codebook: date the DDI/metadata document was deposited. Unmapped (no CDIF target) - for review					
-ddicb:docDscr.citation.distStmt.distDate	distDate	DDI Codebook: date the DDI/metadata document was distributed. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.citation.distStmt.depDate	depDate	DDI Codebook: date the DDI/metadata document was deposited. --> schema:subjectOf[additionalType = "dcat:CatalogRecord"].schema:dateModified	skos:closeMatch	schema:dateModified	metadataModified	$.schema:subjectOf.schema:dateModified	
+ddicb:docDscr.citation.distStmt.distDate	distDate	DDI Codebook: date the DDI/metadata document was distributed. --> schema:subjectOf[additionalType = "dcat:CatalogRecord"].schema:datePublished	skos:closeMatch	schema:datePublished	metadataModified	$.schema:subjectOf.schema:datePublished	
 ddicb:docDscr.citation.serStmt.serName	serName	DDI Codebook: series name of the DDI/metadata document. Unmapped (no CDIF target) - for review					
 ddicb:docDscr.citation.serStmt.serInfo	serInfo	DDI Codebook: series information of the DDI/metadata document. Unmapped (no CDIF target) - for review					
 ddicb:docDscr.citation.verStmt.version	version	DDI Codebook: version of the DDI/metadata document. Unmapped (no CDIF target) - for review					
 ddicb:docDscr.citation.verStmt.verResp	verResp	DDI Codebook: person/organization responsible for this version of the DDI/metadata document. Unmapped (no CDIF target) - for review					
-ddicb:docDscr.citation.verStmt.notes	notes	DDI Codebook: notes about this version of the DDI/metadata document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.citation.verStmt.notes	notes	DDI Codebook: notes about this version of the DDI/metadata document. --> concatenate on  schema:subjectOf[additionalType = "dcat:CatalogRecord"].schema:description	skos:closeMatch	schema:description	metadataVersionNotes	$.schema:subjectOf.schema:description	
 ddicb:docDscr.citation.biblCit	biblCit	DDI Codebook: complete bibliographic citation for the DDI/metadata document. Unmapped (no CDIF target) - for review					
-ddicb:docDscr.citation.holdings	holdings	DDI Codebook: information on where copies of the DDI/metadata document are held. Unmapped (no CDIF target) - for review					
-ddicb:docDscr.citation.notes	notes	DDI Codebook: general notes about the DDI/metadata document citation. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.citation.holdings	holdings	DDI Codebook: information on where copies of the DDI/metadata document are held. --> concatenate on  schema:subjectOf[additionalType = "dcat:CatalogRecord"].schema:description	skos:closeMatch	schema:description	metadataCopies	$.schema:subjectOf.schema:description	
+ddicb:docDscr.citation.notes	notes	DDI Codebook: general notes about the DDI/metadata document citation. --> concatenate on  schema:subjectOf[additionalType = "dcat:CatalogRecord"].schema:description	skos:closeMatch	schema:description	metadataNotes	$.schema:subjectOf.schema:description	
 ddicb:docDscr.guide	guide	DDI Codebook: a guide to the documentation - list of terms/conventions used. Unmapped (no CDIF target) - for review					
 ddicb:docDscr.docStatus	docStatus	DDI Codebook: the status of the documentation (e.g. draft, final). Unmapped (no CDIF target) - for review					
 ddicb:docDscr.docSrc.titlStmt.titl	titl	DDI Codebook: full authoritative title of the source document from which the DDI record was derived. Unmapped (no CDIF target) - for review					

@@ -18,9 +18,17 @@ and everything else derived. Per file it:
 and finally emits `ddi_mappings.json` -- the machine-readable MAP (mapped rows
 only) that the generator / converters consume instead of a hand-kept dict.
 
+The completeness check walks both DDI Codebook XSDs (auto-found in
+../DDICodebook, or given with --xsd), partitions their text-bearing leaf
+elements into the sets each worksheet owns -- common = 2.5 n 1.2.2, ddi25 = only
+2.5, ddi122 = only 1.2.2 -- and reports any schema field missing from a
+worksheet and any subject that is not in the schema (a likely typo).
+
 Usage:
-    python sync_ddi_mappings.py                 # process + write JSON
+    python sync_ddi_mappings.py                 # process + completeness + write JSON
     python sync_ddi_mappings.py --check         # report only, no writes
+    python sync_ddi_mappings.py --add-missing   # append any missing schema field as a blank row
+    python sync_ddi_mappings.py --no-xsd        # skip the schema completeness check
     python sync_ddi_mappings.py --xsd ddi25=/path/codebook.xsd --xsd ddi122=/path/Version1-2-2.xsd
 """
 import csv, io, json, os, sys, glob, re
@@ -120,7 +128,12 @@ def rebuild_header(header_lines, used):
     return out
 
 
-def process(basename, check=False, xsd_leaves=None):
+# subjects that are legitimately in a worksheet but are not leaf elements:
+# mapped container elements (var, nCube) and any @attribute row.
+NONLEAF_SUBJECTS = {"dataDscr.var", "dataDscr.nCube"}
+
+
+def process(basename, check=False, expected=None, add_missing=False):
     path = os.path.join(HERE, basename + ".sssom.tsv")
     header_lines, hdr, rows = load(path)
     idx = {n: i for i, n in enumerate(hdr)} if hdr else {}
@@ -143,17 +156,26 @@ def process(basename, check=False, xsd_leaves=None):
         if p not in PREFIXES:
             warn.append(f"prefix '{p}' has no IRI in registry")
 
-    # optional schema completeness check
-    if xsd_leaves is not None:
+    # optional schema completeness check (expected = leaf paths this set should carry)
+    if expected is not None:
         prefix = recs[0]["subject_id"].split(":", 1)[0] + ":" if recs else ""
-        want = {prefix + p for p in xsd_leaves}
-        have = subjects
-        missing = sorted(want - have)
-        extra = sorted(s for s in have - want if "@" not in s and not s.endswith(("var", "nCube")))
+        present = {r["subject_id"] for r in recs}
+        missing = [p for p in sorted(expected) if prefix + p not in present]
+        leaf_present = {s[len(prefix):] for s in present
+                        if "@" not in s and s[len(prefix):] not in NONLEAF_SUBJECTS}
+        extra = sorted(leaf_present - set(expected))
         if missing:
-            warn.append(f"{len(missing)} schema field(s) missing from worksheet (first 5: {missing[:5]})")
+            warn.append(f"{len(missing)} schema leaf field(s) missing from worksheet"
+                        + (" -- adding as blank rows" if (add_missing and not check)
+                           else f" (e.g. {missing[:3]})"))
         if extra:
-            warn.append(f"{len(extra)} subject(s) not in schema -- possible typos (first 5: {extra[:5]})")
+            warn.append(f"{len(extra)} subject(s) not in the schema -- possible typos (e.g. {extra[:3]})")
+        if add_missing and not check:
+            for p in missing:
+                recs.append({"subject_id": prefix + p, "subject_label": p.split(".")[-1],
+                             "comment": "unmapped literal field (no CDIF target) - for review",
+                             "predicate_id": "", "object_id": "", "object_label": "",
+                             "object_json_path": "", "mapping_justification": ""})
 
     n_map = sum(1 for r in recs if r["object_id"].strip())
     print(f"  {basename}: {len(recs)} rows, {n_map} mapped, prefixes={sorted(used)}")
@@ -175,36 +197,67 @@ def process(basename, check=False, xsd_leaves=None):
     return mp, warn
 
 
+DDICODEBOOK = os.path.normpath(os.path.join(HERE, "..", "DDICodebook"))
+
+
+def find_xsds(override):
+    """Locate the two DDI Codebook XSDs (2.5 and 1.2.2) in ../DDICodebook,
+    or take explicit --xsd overrides. Returns (path_2.5, path_1.2.2)."""
+    def find(patterns):
+        for pat in patterns:
+            hits = sorted(glob.glob(os.path.join(DDICODEBOOK, pat)))
+            if hits:
+                return hits[0]
+        return None
+    p25 = override.get("ddi25") or find(["*2.5*odebook*.xsd", "*2_5*.xsd", "*codebook*.xsd"])
+    p122 = override.get("ddi122") or find(["*1-2-2*.xsd", "*Version1-2-2*.xsd", "*1_2_2*.xsd"])
+    return p25, p122
+
+
 def main():
-    check = "--check" in sys.argv
-    xsds = {}
-    for a in sys.argv:
-        if a.startswith("--xsd="):
-            k, v = a[len("--xsd="):].split("=", 1) if "=" in a[len("--xsd="):] else (None, None)
-    # parse --xsd key=path pairs
-    xsd_map = {}
-    it = iter(sys.argv[1:])
+    args = sys.argv[1:]
+    check = "--check" in args
+    add_missing = "--add-missing" in args
+    no_xsd = "--no-xsd" in args
+    override = {}
+    it = iter(args)
     for a in it:
+        kv = None
         if a == "--xsd":
             kv = next(it, "")
-            if "=" in kv:
-                k, p = kv.split("=", 1)
-                xsd_map[k] = p
+        elif a.startswith("--xsd="):
+            kv = a[len("--xsd="):]
+        if kv and "=" in kv:
+            k, p = kv.split("=", 1)
+            override[k] = p
 
-    xsd_leaves = {}
-    if xsd_map:
+    # Schema completeness: walk both XSDs, partition leaves into the sets each
+    # worksheet is responsible for (common = 2.5 n 1.2.2; version files = the
+    # difference), and hand each set its expected leaves.
+    expected = {}
+    if not no_xsd:
         sys.path.insert(0, HERE)
-        try:
-            import ddiwalk_lib as W  # optional; only if bundled
-            for key, p in xsd_map.items():
-                xsd_leaves[key] = W.leaf_fields(p)
-        except Exception as e:
-            print(f"  (schema check skipped: {e})")
+        p25, p122 = find_xsds(override)
+        if p25 and p122:
+            try:
+                import ddiwalk_lib as W
+                l25, l122 = set(W.leaf_fields(p25)), set(W.leaf_fields(p122))
+                expected = {"ddi-common-to-cdif": l25 & l122,
+                            "ddi25-to-cdif": l25 - l122,
+                            "ddi122-to-cdif": l122 - l25}
+                print(f"  schema check vs XSD: 2.5={len(l25)} 1.2.2={len(l122)} "
+                      f"common={len(l25 & l122)} only2.5={len(l25 - l122)} "
+                      f"only1.2.2={len(l122 - l25)}")
+            except Exception as e:
+                print(f"  (schema check skipped: {e})")
+        else:
+            print("  (schema check skipped: DDI XSD(s) not found in DDICodebook/; "
+                  "pass --xsd ddi25=PATH --xsd ddi122=PATH, or --no-xsd)")
 
     allmap = {}
     for f in FILES:
-        key = "ddi25" if f.startswith("ddi25") else ("ddi122" if f.startswith("ddi122") else None)
-        allmap[f], _ = process(f, check=check, xsd_leaves=xsd_leaves.get(key))
+        allmap[f], _ = process(f, check=check, expected=expected.get(f),
+                               add_missing=add_missing)
     if not check:
         jp = os.path.join(HERE, "ddi_mappings.json")
         json.dump(allmap, open(jp, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
