@@ -5,924 +5,924 @@
       "object_id": "schema:name",
       "object_label": "name",
       "object_json_path": "$.schema:name",
-      "comment": ""
+      "comment": "DDI 2.5 <titl>: Full authoritative title for the work at the appropriate level."
     },
     "ddicb:stdyDscr.citation.titlStmt.subTitl": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:alternateName",
       "object_label": "alternateName",
       "object_json_path": "$.schema:alternateName[*]",
-      "comment": "DDI Codebook: subtitle of the study title. "
+      "comment": "DDI 2.5 <subTitl>: A secondary title used to amplify or state certain limitations on the main title. | DDI Codebook: subtitle of the study title."
     },
     "ddicb:stdyDscr.citation.titlStmt.altTitl": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:alternateName",
       "object_label": "alternateName",
       "object_json_path": "$.schema:alternateName[*]",
-      "comment": "DDI Codebook: alternative title by which the study is also known. "
+      "comment": "DDI 2.5 <altTitl>: A title by which the work is commonly referred to, or an abbreviation of the title. | DDI Codebook: alternative title by which the study is also known."
     },
     "ddicb:stdyDscr.citation.titlStmt.parTitl": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:alternateName",
       "object_label": "alternateName",
       "object_json_path": "$.schema:alternateName[*]",
-      "comment": "DDI Codebook: parallel title (the study title expressed in another language). "
+      "comment": "DDI 2.5 <parTitl>: Title translated into another language. | DDI Codebook: parallel title (the study title expressed in another language)."
     },
     "ddicb:stdyDscr.citation.titlStmt.IDNo": {
       "predicate_id": "skos:exactMatch",
       "object_id": "schema:identifier",
       "object_label": "identifier",
       "object_json_path": "$.schema:identifier",
-      "comment": "also fills @id"
+      "comment": "DDI 2.5 <IDNo>: Unique string or number assigned by a producer or archive to identify a data collection. | also fills @id"
     },
     "ddicb:stdyDscr.citation.rspStmt.AuthEnty": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:creator",
       "object_label": "creator",
       "object_json_path": "$.schema:creator",
-      "comment": "-> schema:Person in @list"
+      "comment": "DDI 2.5 <AuthEnty>: The person, corporate body, or agency responsible for the work's substantive and intellectual content. | -> schema:Person in @list"
     },
     "ddicb:stdyDscr.citation.prodStmt.producer": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:contributor",
       "object_label": "producer",
       "object_json_path": "$.schema:contributor",
-      "comment": "DDI Codebook: person/organization responsible for producing the study/dataset. Schema:contributor[role = 'producer']"
+      "comment": "DDI 2.5 <producer>: The person or organization with financial or administrative responsibility for the physical processes whereby the document was brought into existence. | DDI Codebook: person/organization responsible for producing the study/dataset. Schema:contributor[role = 'producer']"
     },
     "ddicb:stdyDscr.citation.prodStmt.copyright": {
       "predicate_id": "skos:exactMatch",
       "object_id": "schema:copyrightNotice",
       "object_label": "copyright",
       "object_json_path": "$.schema:copyrightNotice",
-      "comment": "DDI Codebook: copyright statement for the study/dataset. "
+      "comment": "DDI 2.5 <copyright>: Copyright statement for the work at the appropriate level. | DDI Codebook: copyright statement for the study/dataset."
     },
     "ddicb:stdyDscr.citation.prodStmt.prodDate": {
       "predicate_id": "skos:exactMatch",
       "object_id": "schema:dateCreated",
       "object_label": "dateProduced",
       "object_json_path": "$.schema:dateCreated",
-      "comment": "fallback distDate"
+      "comment": "DDI 2.5 <prodDate>: Date when the marked-up document, data collection, or other materials were produced. | fallback distDate"
     },
     "ddicb:stdyDscr.citation.prodStmt.software": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:name",
       "object_label": "software",
       "object_json_path": "$.prov:wasGeneratedBy.prov:used.bios:computationalTool.schema:name",
-      "comment": "DDI Codebook: software used to produce the study/dataset. "
+      "comment": "DDI 2.5 <software>: Software used to produce the work. | DDI Codebook: software used to produce the study/dataset."
     },
     "ddicb:stdyDscr.citation.prodStmt.fundAg": {
       "predicate_id": "skos:exactMatch",
       "object_id": "schema:funder",
       "object_label": "fundingAgency",
       "object_json_path": "$.schema:funding.schema:funder",
-      "comment": "DDI Codebook: funding agency/sponsor of the study. Unmapped (no CDIF target) - for review"
+      "comment": "DDI 2.5 <fundAg>: The source(s) of funds for production of the work. | DDI Codebook: funding agency/sponsor of the study. Unmapped (no CDIF target) - for review"
     },
     "ddicb:stdyDscr.citation.prodStmt.grantNo": {
       "predicate_id": "skos:exactMatch",
       "object_id": "schema:identifier",
       "object_label": "grantID",
       "object_json_path": "$.schema:funding.schema:identifier",
-      "comment": "DDI Codebook: grant/contract number under which the study was funded. "
+      "comment": "DDI 2.5 <grantNo>: The grant or contract number of the project that sponsored the effort. | DDI Codebook: grant/contract number under which the study was funded."
     },
     "ddicb:stdyDscr.citation.distStmt.distrbtr": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:publisher",
       "object_label": "publisher",
       "object_json_path": "$.schema:publisher",
-      "comment": "-> schema:Organization"
+      "comment": "DDI 2.5 <distrbtr>: The organization designated by the author or producer to generate and distribute copies of the work. | -> schema:Organization"
     },
     "ddicb:stdyDscr.citation.distStmt.contact": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:contributor",
       "object_label": "pointOfContact",
       "object_json_path": "$.schema:contributor",
-      "comment": "DDI Codebook: contact person(s) for questions about the study/dataset. -->contributor[role=pointOfContact]"
+      "comment": "DDI 2.5 <contact>: Names and addresses of individuals responsible for the work who serve as resource persons for user inquiries. | DDI Codebook: contact person(s) for questions about the study/dataset. -->contributor[role=pointOfContact]"
     },
     "ddicb:stdyDscr.citation.distStmt.depositr": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:publisher",
       "object_label": "depositor",
       "object_json_path": "$.schema:publisher",
-      "comment": "DDI Codebook: person/institution who deposited the study/dataset with the distributor. "
+      "comment": "DDI 2.5 <depositr>: The name of the person or institution who provided the work to the archive storing it. | DDI Codebook: person/institution who deposited the study/dataset with the distributor."
     },
     "ddicb:stdyDscr.citation.distStmt.depDate": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:dateModified",
       "object_label": "dateDeposited",
       "object_json_path": "$.schema:dateModified",
-      "comment": "DDI Codebook: date the study/dataset was deposited."
+      "comment": "DDI 2.5 <depDate>: The date that the work was deposited with the archive that originally received it. | DDI Codebook: date the study/dataset was deposited."
     },
     "ddicb:stdyDscr.citation.distStmt.distDate": {
       "predicate_id": "skos:exactMatch",
       "object_id": "schema:datePublished",
       "object_label": "datePublished",
       "object_json_path": "$.schema:datePublished",
-      "comment": ""
+      "comment": "DDI 2.5 <distDate>: Date that the work was made available for distribution or presentation."
     },
     "ddicb:stdyDscr.citation.serStmt.serName": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:name",
       "object_label": "partOfSeries",
       "object_json_path": "$.schema:isPartOf.schema:name",
-      "comment": "DDI Codebook: name of the series to which the study belongs. --> isPartOf @type = schema:CreativeWorkSeries"
+      "comment": "DDI 2.5 <serName>: The name of the series to which the work belongs. | DDI Codebook: name of the series to which the study belongs. --> isPartOf @type = schema:CreativeWorkSeries"
     },
     "ddicb:stdyDscr.citation.serStmt.serInfo": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "seriesDescription",
       "object_json_path": "$.schema:isPartOf.schema:description",
-      "comment": "DDI Codebook: history/information about the study series. --> isPartOf @type = schema:CreativeWorkSeries"
+      "comment": "DDI 2.5 <serInfo>: Contains a history of the series and a summary of features that apply to the series as a whole. | DDI Codebook: history/information about the study series. --> isPartOf @type = schema:CreativeWorkSeries"
     },
     "ddicb:stdyDscr.citation.verStmt.version": {
       "predicate_id": "skos:exactMatch",
       "object_id": "schema:version",
       "object_label": "version",
       "object_json_path": "$.schema:version",
-      "comment": "DDI Codebook: version number/description of the study/dataset. "
+      "comment": "DDI 2.5 <version>: Also known as release or edition, used to note substantive changes in the data or documentation since their creation. | DDI Codebook: version number/description of the study/dataset."
     },
     "ddicb:stdyDscr.citation.verStmt.verResp": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:publisher",
       "object_label": "versionPublisher",
       "object_json_path": "$.schema:publisher",
-      "comment": "DDI Codebook: person/organization responsible for this version of the study. Add to list of publishers"
+      "comment": "DDI 2.5 <verResp>: The organization or person responsible for the version of the work. | DDI Codebook: person/organization responsible for this version of the study. Add to list of publishers"
     },
     "ddicb:stdyDscr.citation.verStmt.notes": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "versionDescription",
       "object_json_path": "$.schema:description",
-      "comment": "DDI Codebook: notes about this version of the study. Concatenate on dataset description"
+      "comment": "DDI 2.5 <notes>: Clarifying information and annotations regarding the parent element. | DDI Codebook: notes about this version of the study. Concatenate on dataset description"
     },
     "ddicb:stdyDscr.citation.biblCit": {
       "predicate_id": "skos:exactMatch",
       "object_id": "dcterms:bibliographicCitation",
       "object_label": "bibliographicCitation",
       "object_json_path": "$.dcterms:bibliographicCitation",
-      "comment": "DDI Codebook: complete bibliographic citation for the study as a single formatted string. "
+      "comment": "DDI 2.5 <biblCit>: A complete bibliographic reference containing all standard elements of a citation used to cite a work. | DDI Codebook: complete bibliographic citation for the study as a single formatted string."
     },
     "ddicb:stdyDscr.citation.holdings": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "distributionDescription",
       "object_json_path": "$.schema:distribution.schema:description",
-      "comment": "DDI Codebook: information on where copies of the study/dataset are held. Concatenate on distribution description"
+      "comment": "DDI 2.5 <holdings>: Information concerning either the physical or electronic holdings of the cited work. | DDI Codebook: information on where copies of the study/dataset are held. Concatenate on distribution description"
     },
     "ddicb:stdyDscr.citation.notes": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "notes",
       "object_json_path": "$.schema:description",
-      "comment": "DDI Codebook: general notes about the study citation. Concatenate on dataset description"
+      "comment": "DDI 2.5 <notes>: Clarifying information and annotations regarding the parent element. | DDI Codebook: general notes about the study citation. Concatenate on dataset description"
     },
     "ddicb:stdyDscr.stdyInfo.subject.keyword": {
       "predicate_id": "skos:exactMatch",
       "object_id": "schema:keywords",
       "object_label": "keywords",
       "object_json_path": "$.schema:keywords",
-      "comment": ""
+      "comment": "DDI 2.5 <keyword>: Words or phrases describing salient aspects of a data collection's content, used for building keyword indexes."
     },
     "ddicb:stdyDscr.stdyInfo.subject.topcClas": {
       "predicate_id": "skos:exactMatch",
       "object_id": "schema:keywords",
       "object_label": "keywords",
       "object_json_path": "$.schema:keywords",
-      "comment": "schema:DefinedTerm[schema:about='Topic Classification']"
+      "comment": "DDI 2.5 <topcClas>: The broad substantive topic(s) that the data cover. | schema:DefinedTerm[schema:about='Topic Classification']"
     },
     "ddicb:stdyDscr.stdyInfo.abstract": {
       "predicate_id": "skos:exactMatch",
       "object_id": "schema:description",
       "object_label": "description",
       "object_json_path": "$.schema:description",
-      "comment": "concatenate on dataset description"
+      "comment": "DDI 2.5 <abstract>: An unformatted summary describing the purpose, nature, and scope of a data collection. | concatenate on dataset description"
     },
     "ddicb:stdyDscr.stdyInfo.sumDscr.timePrd": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:temporalCoverage",
       "object_label": "temporalCoverage",
       "object_json_path": "$.schema:temporalCoverage",
-      "comment": "start/end -> ISO 8601 interval"
+      "comment": "DDI 2.5 <timePrd>: The time period to which the data refer. | start/end -> ISO 8601 interval"
     },
     "ddicb:stdyDscr.stdyInfo.sumDscr.collDate": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:startTime",
       "object_label": "startTime",
       "object_json_path": "$.prov:wasGeneratedBy[*].schema:startTime",
-      "comment": "DDI: date(s) of data collection -> collection Activity start/end time (NOT temporalCoverage; timePrd is coverage)"
+      "comment": "DDI 2.5 <collDate>: The date(s) when the data were collected. | DDI: date(s) of data collection -> collection Activity start/end time (NOT temporalCoverage; timePrd is coverage)"
     },
     "ddicb:stdyDscr.stdyInfo.sumDscr.nation": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:name",
       "object_label": "spatialCoverage",
       "object_json_path": "$.schema:spatialCoverage[*].schema:name",
-      "comment": " schema:Place[schema:additionalType = 'Nation']"
+      "comment": "DDI 2.5 <nation>: Indicates the country or countries covered in the file. | schema:Place[schema:additionalType = 'Nation']"
     },
     "ddicb:stdyDscr.stdyInfo.sumDscr.geogCover": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:spatialCoverage",
       "object_label": "spatialCoverage",
       "object_json_path": "$.schema:spatialCoverage[*]",
-      "comment": "-> schema:Place"
+      "comment": "DDI 2.5 <geogCover>: Information on the geographic coverage of the data, including total geographic scope and levels of geographic coding. | -> schema:Place"
     },
     "ddicb:stdyDscr.stdyInfo.sumDscr.geogUnit": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:keywords",
       "object_label": "keywords",
       "object_json_path": "$.schema:keywords",
-      "comment": "DDI Codebook: the lowest geographic level at which the data are aggregated. -->DefinedTerm. schema:about=\"Geographic Unit\""
+      "comment": "DDI 2.5 <geogUnit>: Lowest level of geographic aggregation covered by the data. | DDI Codebook: the lowest geographic level at which the data are aggregated. -->DefinedTerm. schema:about=\"Geographic Unit\""
     },
     "ddicb:stdyDscr.stdyInfo.sumDscr.anlyUnit": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:keywords",
       "object_label": "keywords",
       "object_json_path": "$.schema:keywords",
-      "comment": "DDI Codebook: the unit of analysis/observation the data describe.  -->DefinedTerm. schema:about=\"Analysis Unit\""
+      "comment": "DDI 2.5 <anlyUnit>: The basic unit of analysis or observation that the file describes. | DDI Codebook: the unit of analysis/observation the data describe.  -->DefinedTerm. schema:about=\"Analysis Unit\""
     },
     "ddicb:stdyDscr.stdyInfo.sumDscr.universe": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:keywords",
       "object_label": "keywords",
       "object_json_path": "$.schema:keywords",
-      "comment": "DDI Codebook: the universe - the population of persons/objects the data refer to.  -->DefinedTerm. schema:about=\"Universe\""
+      "comment": "DDI 2.5 <universe>: The group of persons or other elements that are the object of research and to which any analytic results refer. | DDI Codebook: the universe - the population of persons/objects the data refer to.  -->DefinedTerm. schema:about=\"Universe\""
     },
     "ddicb:stdyDscr.stdyInfo.sumDscr.dataKind": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:keywords",
       "object_label": "keywords",
       "object_json_path": "$.schema:keywords",
-      "comment": "DDI Codebook: the kind of data (e.g. survey, census, aggregate, event/transaction).   -->DefinedTerm. schema:about=\"Data Kind\""
+      "comment": "DDI 2.5 <dataKind>: The type of data included in the file, such as survey, census, aggregate, or clinical data. | DDI Codebook: the kind of data (e.g. survey, census, aggregate, event/transaction).   -->DefinedTerm. schema:about=\"Data Kind\""
     },
     "ddicb:stdyDscr.stdyInfo.notes": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "notes",
       "object_json_path": "$.schema:description",
-      "comment": "DDI Codebook: general notes about the study-information section. -->concatenate on Dataset description"
+      "comment": "DDI 2.5 <notes>: Clarifying information and annotations regarding the parent element. | DDI Codebook: general notes about the study-information section. -->concatenate on Dataset description"
     },
     "ddicb:stdyDscr.method.dataColl.timeMeth": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:keywords",
       "object_label": "keywords",
       "object_json_path": "$.schema:keywords",
-      "comment": "DDI Codebook: the time method/dimension of data collection (e.g. longitudinal, cross-section, panel, time-series).   -->DefinedTerm. schema:about=\"Data Collection Time Method\""
+      "comment": "DDI 2.5 <timeMeth>: The time method or time dimension of the data collection. | DDI Codebook: the time method/dimension of data collection (e.g. longitudinal, cross-section, panel, time-series).   -->DefinedTerm. schema:about=\"Data Collection Time Method\""
     },
     "ddicb:stdyDscr.method.dataColl.dataCollector": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:agent",
       "object_label": "agent",
       "object_json_path": "$.prov:wasGeneratedBy[*].schema:agent",
-      "comment": "DDI: data collector -> agent of the collection Activity"
+      "comment": "DDI 2.5 <dataCollector>: The entity responsible for administering the questionnaire or interview or compiling the data. | DDI: data collector -> agent of the collection Activity"
     },
     "ddicb:stdyDscr.method.dataColl.sampProc": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "samplingProcedure",
       "object_json_path": "$.prov:wasGeneratedBy[*].schema:actionProcess.schema:description",
-      "comment": "DDI Codebook: the sampling procedure - type of sample and sample design used. -->concatenate on schema:HowTo.schema:description"
+      "comment": "DDI 2.5 <sampProc>: The type of sample and sample design used to select the survey respondents. | DDI Codebook: the sampling procedure - type of sample and sample design used. -->concatenate on schema:HowTo.schema:description"
     },
     "ddicb:stdyDscr.method.dataColl.deviat": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "samplingProcedure",
       "object_json_path": "$.prov:wasGeneratedBy[*].schema:actionProcess.schema:description",
-      "comment": "DDI Codebook: major deviations from the sample design encountered during collection. -->concatenate on schema:HowTo.schema:description"
+      "comment": "DDI 2.5 <deviat>: Information indicating correspondence and discrepancies between the sampled units obtained and available statistics for the population as a whole. | DDI Codebook: major deviations from the sample design encountered during collection. -->concatenate on schema:HowTo.schema:description"
     },
     "ddicb:stdyDscr.method.dataColl.collMode": {
       "predicate_id": "skos:exactMatch",
       "object_id": "schema:measurementTechnique",
       "object_label": "measurementTechnique",
       "object_json_path": "$.schema:measurementTechnique",
-      "comment": ""
+      "comment": "DDI 2.5 <collMode>: The method used to collect the data; instrumentation characteristics."
     },
     "ddicb:stdyDscr.method.dataColl.resInstru": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:instrument",
       "object_label": "dataCollectionInstrument",
       "object_json_path": "$.prov:wasGeneratedBy[*].prov:used[*].schema:instrument",
-      "comment": "DDI: research instrument -> prov:used instrument on the collection Activity"
+      "comment": "DDI 2.5 <resInstru>: The type of data collection instrument used (Structured, Semi-structured, or Unstructured). | DDI: research instrument -> prov:used instrument on the collection Activity"
     },
     "ddicb:stdyDscr.method.dataColl.sources.dataSrc": {
       "predicate_id": "skos:closeMatch",
       "object_id": "prov:wasDerivedFrom",
       "object_label": "source",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:name",
-      "comment": "DDI: data source for aggregate data -> derived-from source.schema:CreativeWork.schema:name"
+      "comment": "DDI 2.5 <dataSrc>: Lists the books, articles, serials, and/or machine-readable data files that served as the source(s) of the data collection. | DDI: data source for aggregate data -> derived-from source.schema:CreativeWork.schema:name"
     },
     "ddicb:stdyDscr.method.dataColl.sources.srcOrig": {
       "predicate_id": "skos:closeMatch",
       "object_id": "prov:wasDerivedFrom",
       "object_label": "sourceMaterialOrigin",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:description",
-      "comment": "DDI Codebook: origin of the source materials. --> concatenate on  wasDerivedFrom.schema:CreativeWork.schema:description"
+      "comment": "DDI 2.5 <srcOrig>: For historical materials, information about the origin(s) of the sources and the rules followed in establishing them. | DDI Codebook: origin of the source materials. --> concatenate on  wasDerivedFrom.schema:CreativeWork.schema:description"
     },
     "ddicb:stdyDscr.method.dataColl.sources.srcChar": {
       "predicate_id": "skos:closeMatch",
       "object_id": "prov:wasDerivedFrom",
       "object_label": "sourceMaterialCharacteristics",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:description",
-      "comment": "DDI Codebook: characteristics/quality of the source materials noted. --> concatenate on  wasDerivedFrom.schema:CreativeWork.schema:description"
+      "comment": "DDI 2.5 <srcChar>: Assessment of the characteristics and quality of source material. | DDI Codebook: characteristics/quality of the source materials noted. --> concatenate on  wasDerivedFrom.schema:CreativeWork.schema:description"
     },
     "ddicb:stdyDscr.method.dataColl.sources.srcDocu": {
       "predicate_id": "skos:closeMatch",
       "object_id": "prov:wasDerivedFrom",
       "object_label": "sourceMaterialCharacteristics",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:description",
-      "comment": "DDI Codebook: documentation and access to the source materials. --> concatenate on  wasDerivedFrom.schema:CreativeWork.schema:description"
+      "comment": "DDI 2.5 <srcDocu>: Level of documentation of the original sources. | DDI Codebook: documentation and access to the source materials. --> concatenate on  wasDerivedFrom.schema:CreativeWork.schema:description"
     },
     "ddicb:stdyDscr.method.dataColl.sources.sources": {
       "predicate_id": "skos:closeMatch",
       "object_id": "prov:wasDerivedFrom",
       "object_label": "sourceMaterialStatement",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:description",
-      "comment": "DDI Codebook: general sources statement describing the sources of the data. --> concatenate on  wasDerivedFrom.schema:CreativeWork.schema:description"
+      "comment": "DDI 2.5 <sources>: Sources statement -- description of the sources used for a data collection (books, articles, serials, or machine-readable data files), used mainly for aggregate/summary data. | DDI Codebook: general sources statement describing the sources of the data. --> concatenate on  wasDerivedFrom.schema:CreativeWork.schema:description"
     },
     "ddicb:stdyDscr.method.dataColl.actMin": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:actionProcess",
       "object_label": "minimizeDataLoss",
       "object_json_path": "$.prov:wasGeneratedBy[*].schema:actionProcess",
-      "comment": "DDI Codebook: actions taken to minimize data loss (e.g. call-backs, follow-ups). -> concatenate on  wasGeneratedBy.actionProcess string"
+      "comment": "DDI 2.5 <actMin>: Summary of actions taken to minimize data loss during the data collection process. | DDI Codebook: actions taken to minimize data loss (e.g. call-backs, follow-ups). -> concatenate on  wasGeneratedBy.actionProcess string"
     },
     "ddicb:stdyDscr.method.dataColl.ConOps": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:actionProcess",
       "object_label": "qualityControl",
       "object_json_path": "$.prov:wasGeneratedBy[*].schema:actionProcess",
-      "comment": "DDI Codebook: control operations - methods used to control the quality of data collection. -> concatenate on  wasGeneratedBy.actionProcess string"
+      "comment": "DDI 2.5 <ConOps>: Methods to facilitate data control performed by the primary investigator or by the data archive, with specification of any special programs used for such operations. | DDI Codebook: control operations - methods used to control the quality of data collection. -> concatenate on  wasGeneratedBy.actionProcess string"
     },
     "ddicb:stdyDscr.method.dataColl.weight": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:actionProcess",
       "object_label": "weight",
       "object_json_path": "$.prov:wasGeneratedBy[*].schema:additionalProperty[*]",
-      "comment": "DDI: weighting -> additionalProperty on the collection Activity"
+      "comment": "DDI 2.5 <weight>: Describes the criteria for using weights in analysis of a collection, including any weighting formula and how it is applied. | DDI: weighting -> additionalProperty on the collection Activity"
     },
     "ddicb:stdyDscr.method.dataColl.cleanOps": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:additionalProperty",
       "object_label": "cleaningOperations",
       "object_json_path": "$.prov:wasGeneratedBy[*].schema:actionProcess.schema:step",
-      "comment": "DDI: cleaning operations -> actionaProcess.step[additionalType = 'data cleaning']"
+      "comment": "DDI 2.5 <cleanOps>: Methods used to clean the data collection, such as consistency checking and wild code checking. | DDI: cleaning operations -> actionaProcess.step[additionalType = 'data cleaning']"
     },
     "ddicb:stdyDscr.method.notes": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:actionProcess",
       "object_label": "methodologyNotes",
       "object_json_path": "$.prov:wasGeneratedBy[*].schema:actionProcess",
-      "comment": "DDI Codebook: general notes about the methodology section.  -> concatenate on  wasGeneratedBy.actionProcess string"
+      "comment": "DDI 2.5 <notes>: Clarifying information and annotations regarding the parent element. | DDI Codebook: general notes about the methodology section.  -> concatenate on  wasGeneratedBy.actionProcess string"
     },
     "ddicb:stdyDscr.method.anlyInfo.respRate": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "responseRate",
       "object_json_path": "$.schema:description",
-      "comment": "DDI Codebook: the response rate - percentage of the sample that responded. -->concatenate on Dataset description"
+      "comment": "DDI 2.5 <respRate>: The percentage of sample members who provided information. | DDI Codebook: the response rate - percentage of the sample that responded. -->concatenate on Dataset description"
     },
     "ddicb:stdyDscr.method.anlyInfo.EstSmpErr": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "estimatedSamplingError",
       "object_json_path": "$.schema:description",
-      "comment": "DDI Codebook: estimates of sampling error for the data. -->concatenate on Dataset description"
+      "comment": "DDI 2.5 <EstSmpErr>: Measure of how precisely one can estimate a population value from a given sample. | DDI Codebook: estimates of sampling error for the data. -->concatenate on Dataset description"
     },
     "ddicb:stdyDscr.method.anlyInfo.dataAppr": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "dataAppraisal",
       "object_json_path": "$.schema:description",
-      "comment": "DDI Codebook: other forms of data appraisal / data-quality assessment. -->concatenate on Dataset description"
+      "comment": "DDI 2.5 <dataAppr>: Other issues pertaining to data appraisal, such as response variance, nonresponse rate, and testing for bias. | DDI Codebook: other forms of data appraisal / data-quality assessment. -->concatenate on Dataset description"
     },
     "ddicb:stdyDscr.method.stdyClas": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:keywords",
       "object_label": "keywords",
       "object_json_path": "$.schema:keywords.schema:name",
-      "comment": "DDI Codebook: the class/type of the study (e.g. whether it is official statistics). -- schema:DefinedTerm[about = \"Study Class\"]"
+      "comment": "DDI 2.5 <stdyClas>: The data archive's class or study status number, indicating the processing status of the study. | DDI Codebook: the class/type of the study (e.g. whether it is official statistics). -- schema:DefinedTerm[about = \"Study Class\"]"
     },
     "ddicb:stdyDscr.dataAccs.setAvail.accsPlac": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:contentUrl",
       "object_label": "accessLocation",
       "object_json_path": "$.schema:distribution.schema:contentUrl",
-      "comment": "access location"
+      "comment": "DDI 2.5 <accsPlac>: Location where the data collection is currently stored. | access location"
     },
     "ddicb:stdyDscr.dataAccs.setAvail.avlStatus": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:conditionsOfAccess",
       "object_label": "availabilityStatus",
       "object_json_path": "$.schema:conditionsOfAccess",
-      "comment": "DDI Codebook: the availability status of the data collection. -->concatenate on schema:conditionsOfAccess"
+      "comment": "DDI 2.5 <avlStatus>: Statement of collection availability, indicating whether a dataset is embargoed, superseded, or otherwise unavailable. | DDI Codebook: the availability status of the data collection. -->concatenate on schema:conditionsOfAccess"
     },
     "ddicb:stdyDscr.dataAccs.setAvail.collSize": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:contentSize",
       "object_label": "collectionSize",
       "object_json_path": "$.schema:distribution.schema:contentSize",
-      "comment": "DDI Codebook: the size/extent of the data collection. Unmapped (no CDIF target) - for review"
+      "comment": "DDI 2.5 <collSize>: Summarizes the number of physical files in a collection. | DDI Codebook: the size/extent of the data collection. Unmapped (no CDIF target) - for review"
     },
     "ddicb:stdyDscr.dataAccs.setAvail.notes": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:conditionsOfAccess",
       "object_label": "availabilityStatus",
       "object_json_path": "$.schema:conditionsOfAccess",
-      "comment": "DDI Codebook: notes about data availability. -->concatenate on schema:conditionsOfAccess"
+      "comment": "DDI 2.5 <notes>: Clarifying information and annotations regarding the parent element. | DDI Codebook: notes about data availability. -->concatenate on schema:conditionsOfAccess"
     },
     "ddicb:stdyDscr.dataAccs.useStmt.confDec": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:conditionsOfAccess",
       "object_label": "confidentialityDeclaration",
       "object_json_path": "$.schema:conditionsOfAccess",
-      "comment": "DDI Codebook: use statement - whether a confidentiality declaration must be signed to access the data. -->concatenate on schema:conditionsOfAccess"
+      "comment": "DDI 2.5 <confDec>: Determines whether signing of a confidentiality declaration is needed to access a resource. | DDI Codebook: use statement - whether a confidentiality declaration must be signed to access the data. -->concatenate on schema:conditionsOfAccess"
     },
     "ddicb:stdyDscr.dataAccs.useStmt.specPerm": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:conditionsOfAccess",
       "object_label": "specialPermissions",
       "object_json_path": "$.schema:conditionsOfAccess",
-      "comment": "DDI Codebook: use statement - whether special permissions are required to access the data. -->concatenate on schema:conditionsOfAccess"
+      "comment": "DDI 2.5 <specPerm>: Determines whether any special permissions are required to access a resource. | DDI Codebook: use statement - whether special permissions are required to access the data. -->concatenate on schema:conditionsOfAccess"
     },
     "ddicb:stdyDscr.dataAccs.useStmt.restrctn": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:conditionsOfAccess",
       "object_label": "useRestrictions",
       "object_json_path": "$.schema:conditionsOfAccess",
-      "comment": ""
+      "comment": "DDI 2.5 <restrctn>: Any restrictions on access to or use of the collection."
     },
     "ddicb:stdyDscr.dataAccs.useStmt.contact": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:contributor",
       "object_label": "accessPointOfContact",
       "object_json_path": "$.schema:contributor",
-      "comment": "DDI Codebook: use statement - contact person(s) for access questions. --> contributor[role = 'Access Point of Contact']"
+      "comment": "DDI 2.5 <contact>: Names and addresses of individuals responsible for the work who serve as resource persons for user inquiries. | DDI Codebook: use statement - contact person(s) for access questions. --> contributor[role = 'Access Point of Contact']"
     },
     "ddicb:stdyDscr.dataAccs.useStmt.citReq": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:conditionsOfAccess",
       "object_label": "citationRequirements",
       "object_json_path": "$.schema:conditionsOfAccess",
-      "comment": "DDI Codebook: use statement - the citation requirement for using the data. -->concatenate on schema:conditionsOfAccess"
+      "comment": "DDI 2.5 <citReq>: Text of the requirement that a data collection be cited properly in works based on it. | DDI Codebook: use statement - the citation requirement for using the data. -->concatenate on schema:conditionsOfAccess"
     },
     "ddicb:stdyDscr.dataAccs.useStmt.deposReq": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:conditionsOfAccess",
       "object_label": "derivedWorkRequirements",
       "object_json_path": "$.schema:conditionsOfAccess",
-      "comment": "DDI Codebook: use statement - requirement to deposit derived works. -->concatenate on schema:conditionsOfAccess"
+      "comment": "DDI 2.5 <deposReq>: Information regarding user responsibility for informing archives of their use of the data. | DDI Codebook: use statement - requirement to deposit derived works. -->concatenate on schema:conditionsOfAccess"
     },
     "ddicb:stdyDscr.dataAccs.useStmt.conditions": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:conditionsOfAccess",
       "object_label": "conditionsOfUse",
       "object_json_path": "$.schema:conditionsOfAccess",
-      "comment": "DDI Codebook: use statement - general conditions of use. -->concatenate on schema:conditionsOfAccess"
+      "comment": "DDI 2.5 <conditions>: Indicates any additional information that will assist users in understanding the access and use conditions of a data collection. | DDI Codebook: use statement - general conditions of use. -->concatenate on schema:conditionsOfAccess"
     },
     "ddicb:stdyDscr.dataAccs.useStmt.disclaimer": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:conditionsOfAccess",
       "object_label": "liabilityDisclaimer",
       "object_json_path": "$.schema:conditionsOfAccess",
-      "comment": "DDI Codebook: use statement - disclaimer of liability. -->concatenate on schema:conditionsOfAccess"
+      "comment": "DDI 2.5 <disclaimer>: Information regarding responsibility for uses of the data collection. | DDI Codebook: use statement - disclaimer of liability. -->concatenate on schema:conditionsOfAccess"
     },
     "ddicb:stdyDscr.dataAccs.notes": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:conditionsOfAccess",
       "object_label": "dataAccessNotes",
       "object_json_path": "$.schema:conditionsOfAccess",
-      "comment": "DDI Codebook: general notes about data access. -->concatenate on schema:conditionsOfAccess"
+      "comment": "DDI 2.5 <notes>: Clarifying information and annotations regarding the parent element. | DDI Codebook: general notes about data access. -->concatenate on schema:conditionsOfAccess"
     },
     "ddicb:stdyDscr.othrStdyMat.relMat": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:name",
       "object_label": "relatedMaterial",
       "object_json_path": "$.schema:relatedLink.schema:target.schema:name",
-      "comment": "DDI Codebook: related materials associated with the study. -->schema:linkRelationship = \"relatedMaterial\""
+      "comment": "DDI 2.5 <relMat>: Describes materials related to the study description, such as appendices and additional sampling information. | DDI Codebook: related materials associated with the study. -->schema:linkRelationship = \"relatedMaterial\""
     },
     "ddicb:stdyDscr.othrStdyMat.relStdy": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:name",
       "object_label": "relatedStudy",
       "object_json_path": "$.schema:relatedLink.schema:target.schema:name",
-      "comment": "DDI Codebook: related studies. -->schema:linkRelationship = \"relatedStudy\""
+      "comment": "DDI 2.5 <relStdy>: Information on the relationship of the current data collection to others, such as predecessors, successors, or other waves. | DDI Codebook: related studies. -->schema:linkRelationship = \"relatedStudy\""
     },
     "ddicb:stdyDscr.othrStdyMat.relPubl": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:name",
       "object_label": "relatedPublication",
       "object_json_path": "$.schema:relatedLink.schema:target.schema:name",
-      "comment": "DDI Codebook: related publications based on or about the study. -->schema:linkRelationship = \"relatedPublication\""
+      "comment": "DDI 2.5 <relPubl>: Bibliographic and access information about articles and reports based on the data in a collection. | DDI Codebook: related publications based on or about the study. -->schema:linkRelationship = \"relatedPublication\""
     },
     "ddicb:stdyDscr.othrStdyMat.othRefs": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:name",
       "object_label": "otherReferences",
       "object_json_path": "$.schema:relatedLink.schema:target.schema:name",
-      "comment": "DDI Codebook: other references of use in understanding the study. -->schema:linkRelationship = \"otherReference\""
+      "comment": "DDI 2.5 <othRefs>: Indicates other pertinent references, which can take the form of bibliographic citations. | DDI Codebook: other references of use in understanding the study. -->schema:linkRelationship = \"otherReference\""
     },
     "ddicb:stdyDscr.notes": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "generalNotes",
       "object_json_path": "$.schema:description",
-      "comment": "DDI Codebook: general notes about the study description. --> concatenate on Dataset description"
+      "comment": "DDI 2.5 <notes>: Clarifying information and annotations regarding the parent element. | DDI Codebook: general notes about the study description. --> concatenate on Dataset description"
     },
     "ddicb:fileDscr.fileTxt.fileName": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:DataDownload",
       "object_label": "fileName",
       "object_json_path": "$.schema:distribution[*].schema:name",
-      "comment": " schema:name @type = cdi:TabularTextDataSet"
+      "comment": "DDI 2.5 <fileName>: A short title used to distinguish a particular file/part from other files/parts in the data collection. | schema:name @type = cdi:TabularTextDataSet"
     },
     "ddicb:fileDscr.fileTxt.fileCont": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:DataDownload",
       "object_label": "fileContent",
       "object_json_path": "$.schema:distribution[*].schema:description",
-      "comment": "DDI Codebook: a description of the contents of the data file. --> concatenate on @type = cdi:TabularTextDataSet schema:distribution.schema:description"
+      "comment": "DDI 2.5 <fileCont>: Abstract or description of the file summarizing its purpose, nature, scope, and major subject areas. | DDI Codebook: a description of the contents of the data file. --> concatenate on @type = cdi:TabularTextDataSet schema:distribution.schema:description"
     },
     "ddicb:fileDscr.fileTxt.fileStrc.recGrp.labl": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:DataDownload",
       "object_label": "recordGroup",
       "object_json_path": "$.schema:distribution[*].schema:description",
-      "comment": "DDI Codebook: a label for the record group in the file structure. --> concatenate on @type = cdi:TabularTextDataSet schema:distribution.schema:description"
+      "comment": "DDI 2.5 <labl>: A short description or label for the parent element. | DDI Codebook: a label for the record group in the file structure. --> concatenate on @type = cdi:TabularTextDataSet schema:distribution.schema:description"
     },
     "ddicb:fileDscr.fileTxt.fileStrc.recGrp.recDimnsn.varQnty": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:DataDownload",
       "object_label": "countVariables",
       "object_json_path": "$.schema:distribution[*].countColumns",
-      "comment": "DDI Codebook: the number of variables in the record group. --> @type = cdi:TabularTextDataSet   .countColumns"
+      "comment": "DDI 2.5 <varQnty>: Number of variables. | DDI Codebook: the number of variables in the record group. --> @type = cdi:TabularTextDataSet   .countColumns"
     },
     "ddicb:fileDscr.fileTxt.fileStrc.recGrp.recDimnsn.caseQnty": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:DataDownload",
       "object_label": "casesInGroup",
       "object_json_path": "$.schema:distribution[*].schema:description",
-      "comment": "DDI Codebook: the number of cases in the record group. --> concatenate on @type = cdi:TabularTextDataSet schema:distribution.schema:description"
+      "comment": "DDI 2.5 <caseQnty>: Number of cases or observations in a dataset. | DDI Codebook: the number of cases in the record group. --> concatenate on @type = cdi:TabularTextDataSet schema:distribution.schema:description"
     },
     "ddicb:fileDscr.fileTxt.fileStrc.recGrp.recDimnsn.logRecL": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:DataDownload",
       "object_label": "logicalLengthGroup",
       "object_json_path": "$.schema:distribution[*].schema:description",
-      "comment": "DDI Codebook: the logical record length of the record group.  --> concatenate on @type = cdi:TabularTextDataSet schema:distribution.schema:description"
+      "comment": "DDI 2.5 <logRecL>: Logical record length, i.e., the number of characters of data in the record. | DDI Codebook: the logical record length of the record group.  --> concatenate on @type = cdi:TabularTextDataSet schema:distribution.schema:description"
     },
     "ddicb:fileDscr.fileTxt.fileStrc.notes": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:DataDownload",
       "object_label": "fileStructureNotes",
       "object_json_path": "$.schema:distribution[*].schema:description",
-      "comment": "DDI Codebook: notes about the file structure.  --> concatenate on @type = cdi:TabularTextDataSet schema:distribution.schema:description"
+      "comment": "DDI 2.5 <notes>: Clarifying information and annotations regarding the parent element. | DDI Codebook: notes about the file structure.  --> concatenate on @type = cdi:TabularTextDataSet schema:distribution.schema:description"
     },
     "ddicb:fileDscr.fileTxt.dimensns.caseQnty": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:DataDownload",
       "object_label": "countrows",
       "object_json_path": "$.schema:distribution[*].countRows",
-      "comment": ""
+      "comment": "DDI 2.5 <caseQnty>: Number of cases or observations in a dataset."
     },
     "ddicb:fileDscr.fileTxt.dimensns.varQnty": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:DataDownload",
       "object_label": "countVariables",
       "object_json_path": "$.schema:distribution[*].countColumns",
-      "comment": ""
+      "comment": "DDI 2.5 <varQnty>: Number of variables."
     },
     "ddicb:fileDscr.fileTxt.fileType": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:DataDownload",
       "object_label": "additionalType",
       "object_json_path": "$.schema:distribution[*].schema:additionalType",
-      "comment": "DDI Codebook: the type of data file (e.g. raw, rectangular, relational). "
+      "comment": "DDI 2.5 <fileType>: The type of data file, such as raw ASCII/EBCDIC or software-dependent formats like SAS or SPSS files. | DDI Codebook: the type of data file (e.g. raw, rectangular, relational)."
     },
     "ddicb:fileDscr.fileTxt.format": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:DataDownload",
       "object_label": "encodingFormat",
       "object_json_path": "$.schema:distribution[*].schema:encodingFormat",
-      "comment": "DDI Codebook: the physical format of the data file. Unmapped "
+      "comment": "DDI 2.5 <format>: The physical format of the data file, such as logical record length, card-image, delimited, or free format. | DDI Codebook: the physical format of the data file. Unmapped"
     },
     "ddicb:dataDscr.var.labl": {
       "predicate_id": "skos:exactMatch",
       "object_id": "schema:alternateName",
       "object_label": "label",
       "object_json_path": "$.schema:variableMeasured[*].schema:alternateName",
-      "comment": "on the variable"
+      "comment": "DDI 2.5 <labl>: A short description or label for the parent element. | on the variable"
     },
     "ddicb:dataDscr.var.imputation": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "imputation",
       "object_json_path": "$.schema:variableMeasured[*].schema:description",
-      "comment": "DDI Codebook: description of any imputation performed on the variable. --> concatenate on variable description"
+      "comment": "DDI 2.5 <imputation>: Describes the process of estimating missing survey response values. | DDI Codebook: description of any imputation performed on the variable. --> concatenate on variable description"
     },
     "ddicb:dataDscr.var.security": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "accessConstraints",
       "object_json_path": "$.schema:variableMeasured[*].schema:description",
-      "comment": "DDI Codebook: the security/access-restriction level of the variable.  --> concatenate on variable description"
+      "comment": "DDI 2.5 <security>: Provides information regarding levels of access, e.g., public, subscriber, or need to know. | DDI Codebook: the security/access-restriction level of the variable.  --> concatenate on variable description"
     },
     "ddicb:dataDscr.var.embargo": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "embargo",
       "object_json_path": "$.schema:variableMeasured[*].schema:description",
-      "comment": "DDI Codebook: embargo information - date/event until which the variable is restricted.  --> concatenate on variable description"
+      "comment": "DDI 2.5 <embargo>: Provides information on variables/nCubes which are not currently available because of policies established by the principal investigators and/or data producers. | DDI Codebook: embargo information - date/event until which the variable is restricted.  --> concatenate on variable description"
     },
     "ddicb:dataDscr.var.respUnit": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "responseUnit",
       "object_json_path": "$.schema:variableMeasured[*].schema:description",
-      "comment": "DDI Codebook: response unit - who provided the information in the variable (e.g. head of household, proxy). --> concatenate on variable description"
+      "comment": "DDI 2.5 <respUnit>: Provides information regarding who provided the information contained within the variable/nCube, e.g., respondent, proxy, or interviewer. | DDI Codebook: response unit - who provided the information in the variable (e.g. head of household, proxy). --> concatenate on variable description"
     },
     "ddicb:dataDscr.var.anlysUnit": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "unitOfAnalysis",
       "object_json_path": "$.schema:variableMeasured[*].schema:description",
-      "comment": "DDI Codebook: analysis unit - the unit of analysis the variable describes. --> concatenate on variable description"
+      "comment": "DDI 2.5 <anlysUnit>: Provides information regarding whom or what the variable or nCube describes. | DDI Codebook: analysis unit - the unit of analysis the variable describes. --> concatenate on variable description"
     },
     "ddicb:dataDscr.var.qstn": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "surveyQuestion",
       "object_json_path": "$.schema:variableMeasured[*].schema:description",
-      "comment": "DDI Codebook: the survey question associated with the variable. --> concatenate on variable description"
+      "comment": "DDI 2.5 <qstn>: The survey or interview question associated with a variable. | DDI Codebook: the survey question associated with the variable. --> concatenate on variable description"
     },
     "ddicb:dataDscr.var.valrng.key": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "validRange",
       "object_json_path": "$.schema:variableMeasured[*].schema:description",
-      "comment": "DDI Codebook: a key describing the valid range/values of the variable. --> concatenate on variable description"
+      "comment": "DDI 2.5 <key>: A listing of the category values and labels associated with valid or invalid value ranges. | DDI Codebook: a key describing the valid range/values of the variable. --> concatenate on variable description"
     },
     "ddicb:dataDscr.var.valrng.notes": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "validRangeNotes",
       "object_json_path": "$.schema:variableMeasured[*].schema:description",
-      "comment": "DDI Codebook: notes about the valid range of the variable. --> concatenate on variable description"
+      "comment": "DDI 2.5 <notes>: Clarifying information and annotations regarding the parent element. | DDI Codebook: notes about the valid range of the variable. --> concatenate on variable description"
     },
     "ddicb:dataDscr.var.invalrng.key": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "invalidRange",
       "object_json_path": "$.schema:variableMeasured[*].schema:description",
-      "comment": "DDI Codebook: a key describing the invalid (missing) range/values of the variable. --> concatenate on variable description"
+      "comment": "DDI 2.5 <key>: A listing of the category values and labels associated with valid or invalid value ranges. | DDI Codebook: a key describing the invalid (missing) range/values of the variable. --> concatenate on variable description"
     },
     "ddicb:dataDscr.var.invalrng.notes": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "invalidRangeNotes",
       "object_json_path": "$.schema:variableMeasured[*].schema:description",
-      "comment": "DDI Codebook: notes about the invalid range of the variable. --> concatenate on variable description"
+      "comment": "DDI 2.5 <notes>: Clarifying information and annotations regarding the parent element. | DDI Codebook: notes about the invalid range of the variable. --> concatenate on variable description"
     },
     "ddicb:dataDscr.var.undocCod": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "undocumentedCodes",
       "object_json_path": "$.schema:variableMeasured[*].schema:description",
-      "comment": "DDI Codebook: undocumented codes present in the variable's data. --> concatenate on variable description"
+      "comment": "DDI 2.5 <undocCod>: Values whose meaning is unknown (undocumented codes). | DDI Codebook: undocumented codes present in the variable's data. --> concatenate on variable description"
     },
     "ddicb:dataDscr.var.universe": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "variableUniverse",
       "object_json_path": "$.schema:variableMeasured[*].schema:description",
-      "comment": "DDI Codebook: the universe (population) the variable describes. --> concatenate on variable description"
+      "comment": "DDI 2.5 <universe>: The group of persons or other elements that are the object of research and to which any analytic results refer. | DDI Codebook: the universe (population) the variable describes. --> concatenate on variable description"
     },
     "ddicb:dataDscr.var.TotlResp": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "countResponses",
       "object_json_path": "$.schema:variableMeasured[*].schema:description",
-      "comment": "DDI Codebook: the total number of responses recorded for the variable. --> concatenate on variable description"
+      "comment": "DDI 2.5 <TotlResp>: The number of responses to a particular variable. | DDI Codebook: the total number of responses recorded for the variable. --> concatenate on variable description"
     },
     "ddicb:dataDscr.var.sumStat": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:minValue",
       "object_label": "minValue",
       "object_json_path": "$.schema:variableMeasured[*].schema:minValue",
-      "comment": "sumStat @type=min/max -> min/maxValue"
+      "comment": "DDI 2.5 <sumStat>: One or more statistical measures describing the responses to a particular variable. | sumStat @type=min/max -> min/maxValue"
     },
     "ddicb:dataDscr.var.txt": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "variableDescription",
       "object_json_path": "$.schema:variableMeasured[*].schema:description",
-      "comment": "DDI Codebook: descriptive text about the variable. --> concatenate on variable description"
+      "comment": "DDI 2.5 <txt>: Lengthier description of the parent element. | DDI Codebook: descriptive text about the variable. --> concatenate on variable description"
     },
     "ddicb:dataDscr.var.concept": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:propertyID",
       "object_label": "conceptID",
       "object_json_path": "$.schema:variableMeasured[*].schema:propertyID",
-      "comment": "DDI Codebook: the concept measured by the variable. --> schema:PropertyValue.schema:propertyID"
+      "comment": "DDI 2.5 <concept>: The general subject to which the parent element may be seen as pertaining. | DDI Codebook: the concept measured by the variable. --> schema:PropertyValue.schema:propertyID"
     },
     "ddicb:dataDscr.var.derivation.drvdesc": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:measurementTechnique",
       "object_label": "variableMeasurementTechnique",
       "object_json_path": "$.schema:variableMeasured[*].schema:measurementTechnique",
-      "comment": "DDI Codebook: derivation description - how the derived variable was computed. --> schema:PropertyValue.schema:measurementTechnique"
+      "comment": "DDI 2.5 <drvdesc>: A textual description of the way in which a variable was derived. | DDI Codebook: derivation description - how the derived variable was computed. --> schema:PropertyValue.schema:measurementTechnique"
     },
     "ddicb:dataDscr.var.derivation.drvcmd": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "softwareUsed",
       "object_json_path": "$.schema:variableMeasured[*].schema:description",
-      "comment": "DDI Codebook: derivation command - the command/script used to derive the variable. --> concatenate on variable description"
+      "comment": "DDI 2.5 <drvcmd>: The command used to generate a derived variable. | DDI Codebook: derivation command - the command/script used to derive the variable. --> concatenate on variable description"
     },
     "ddicb:dataDscr.var.varFormat": {
       "predicate_id": "skos:closeMatch",
       "object_id": "cdi:intendedDataType",
       "object_label": "intendedDataType",
       "object_json_path": "$.schema:variableMeasured[*].cdi:intendedDataType",
-      "comment": "-> xsd type"
+      "comment": "DDI 2.5 <varFormat>: The technical format of the variable in question. | -> xsd type"
     },
     "ddicb:dataDscr.var.notes": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "variableNotes",
       "object_json_path": "$.schema:variableMeasured[*].schema:description",
-      "comment": "DDI Codebook: general notes about the variable.  --> concatenate on variable description"
+      "comment": "DDI 2.5 <notes>: Clarifying information and annotations regarding the parent element. | DDI Codebook: general notes about the variable.  --> concatenate on variable description"
     },
     "ddicb:dataDscr.notes": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "dataDescriptionNotes",
       "object_json_path": "$.schema:description",
-      "comment": "DDI Codebook: general notes about the data description. --> concatenate on Dataset description"
+      "comment": "DDI 2.5 <notes>: Clarifying information and annotations regarding the parent element. | DDI Codebook: general notes about the data description. --> concatenate on Dataset description"
     },
     "ddicb:docDscr.citation.titlStmt.titl": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:name",
       "object_label": "metadataName",
       "object_json_path": "$.schema:subjectOf.schema:name",
-      "comment": "metadata record title -->concatenate on schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema.name"
+      "comment": "DDI 2.5 <titl>: Full authoritative title for the work at the appropriate level. | metadata record title -->concatenate on schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema.name"
     },
     "ddicb:docDscr.citation.titlStmt.subTitl": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:name",
       "object_label": "metadataName",
       "object_json_path": "$.schema:subjectOf.schema:name",
-      "comment": "DDI Codebook: subtitle of the DDI/metadata document title. -->concatenate on schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:name"
+      "comment": "DDI 2.5 <subTitl>: A secondary title used to amplify or state certain limitations on the main title. | DDI Codebook: subtitle of the DDI/metadata document title. -->concatenate on schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:name"
     },
     "ddicb:docDscr.citation.titlStmt.altTitl": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:alternateName",
       "object_label": "metadataAlternateName",
       "object_json_path": "$.schema:subjectOf.schema:alternateName",
-      "comment": "DDI Codebook: alternative title of the DDI/metadata document. --> schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:alternateName"
+      "comment": "DDI 2.5 <altTitl>: A title by which the work is commonly referred to, or an abbreviation of the title. | DDI Codebook: alternative title of the DDI/metadata document. --> schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:alternateName"
     },
     "ddicb:docDscr.citation.titlStmt.parTitl": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:alternateName",
       "object_label": "metadataAlternateName",
       "object_json_path": "$.schema:subjectOf.schema:alternateName",
-      "comment": "DDI Codebook: parallel title (another language) of the DDI/metadata document. --> schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:alternateName"
+      "comment": "DDI 2.5 <parTitl>: Title translated into another language. | DDI Codebook: parallel title (another language) of the DDI/metadata document. --> schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:alternateName"
     },
     "ddicb:docDscr.citation.titlStmt.IDNo": {
       "predicate_id": "skos:exactMatch",
       "object_id": "schema:identifier",
       "object_label": "metadataIdentifier",
       "object_json_path": "$.schema:subjectOf.schema:identifier",
-      "comment": "DDI Codebook: identifier of the DDI/metadata document. --> schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:identifier"
+      "comment": "DDI 2.5 <IDNo>: Unique string or number assigned by a producer or archive to identify a data collection. | DDI Codebook: identifier of the DDI/metadata document. --> schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:identifier"
     },
     "ddicb:docDscr.citation.rspStmt.AuthEnty": {
       "predicate_id": "skos:exactMatch",
       "object_id": "schema:maintainer",
       "object_label": "metadataMaintainer",
       "object_json_path": "$.schema:subjectOf.schema:maintainer",
-      "comment": "DDI Codebook: authoring entity/person responsible for the DDI/metadata document. --> schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:provider"
+      "comment": "DDI 2.5 <AuthEnty>: The person, corporate body, or agency responsible for the work's substantive and intellectual content. | DDI Codebook: authoring entity/person responsible for the DDI/metadata document. --> schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:provider"
     },
     "ddicb:docDscr.citation.prodStmt.producer": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:maintainer",
       "object_label": "metadataProducer",
       "object_json_path": "$.schema:subjectOf.schema:maintainer",
-      "comment": "DDI Codebook: --> schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:maintainer"
+      "comment": "DDI 2.5 <producer>: The person or organization with financial or administrative responsibility for the physical processes whereby the document was brought into existence. | DDI Codebook: --> schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:maintainer"
     },
     "ddicb:docDscr.citation.prodStmt.copyright": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:copyrightNotice",
       "object_label": "metadataCopyright",
       "object_json_path": "$.schema:subjectOf.schema:copyrightNotice",
-      "comment": "DDI Codebook: copyright statement for the DDI/metadata document. --> schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:provider"
+      "comment": "DDI 2.5 <copyright>: Copyright statement for the work at the appropriate level. | DDI Codebook: copyright statement for the DDI/metadata document. --> schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:provider"
     },
     "ddicb:docDscr.citation.prodStmt.prodDate": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:sdDatePublished",
       "object_label": "sdDatePublished",
       "object_json_path": "$.schema:subjectOf.schema:sdDatePublished",
-      "comment": "metadata date --> schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:sdDatePublished"
+      "comment": "DDI 2.5 <prodDate>: Date when the marked-up document, data collection, or other materials were produced. | metadata date --> schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:sdDatePublished"
     },
     "ddicb:docDscr.citation.distStmt.distrbtr": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:provider",
       "object_label": "metadataProvider",
       "object_json_path": "$.schema:subjectOf.schema:provider",
-      "comment": "DDI Codebook: distributor of the DDI/metadata document. --> schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:provider"
+      "comment": "DDI 2.5 <distrbtr>: The organization designated by the author or producer to generate and distribute copies of the work. | DDI Codebook: distributor of the DDI/metadata document. --> schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:provider"
     },
     "ddicb:docDscr.citation.distStmt.contact": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:provider",
       "object_label": "metadataPointOfContact",
       "object_json_path": "$.schema:subjectOf.schema:contributor",
-      "comment": "DDI Codebook: contact person(s) for the DDI/metadata document.--> schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:contributor[role = 'point of contact']"
+      "comment": "DDI 2.5 <contact>: Names and addresses of individuals responsible for the work who serve as resource persons for user inquiries. | DDI Codebook: contact person(s) for the DDI/metadata document.--> schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:contributor[role = 'point of contact']"
     },
     "ddicb:docDscr.citation.distStmt.depDate": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:dateModified",
       "object_label": "metadataModified",
       "object_json_path": "$.schema:subjectOf.schema:dateModified",
-      "comment": "DDI Codebook: date the DDI/metadata document was deposited. --> schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:dateModified"
+      "comment": "DDI 2.5 <depDate>: The date that the work was deposited with the archive that originally received it. | DDI Codebook: date the DDI/metadata document was deposited. --> schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:dateModified"
     },
     "ddicb:docDscr.citation.distStmt.distDate": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:datePublished",
       "object_label": "metadataModified",
       "object_json_path": "$.schema:subjectOf.schema:datePublished",
-      "comment": "DDI Codebook: date the DDI/metadata document was distributed. --> schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:datePublished"
+      "comment": "DDI 2.5 <distDate>: Date that the work was made available for distribution or presentation. | DDI Codebook: date the DDI/metadata document was distributed. --> schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:datePublished"
     },
     "ddicb:docDscr.citation.verStmt.notes": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "metadataVersionNotes",
       "object_json_path": "$.schema:subjectOf.schema:description",
-      "comment": "DDI Codebook: notes about this version of the DDI/metadata document. --> concatenate on  schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:description"
+      "comment": "DDI 2.5 <notes>: Clarifying information and annotations regarding the parent element. | DDI Codebook: notes about this version of the DDI/metadata document. --> concatenate on  schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:description"
     },
     "ddicb:docDscr.citation.holdings": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "metadataCopies",
       "object_json_path": "$.schema:subjectOf.schema:description",
-      "comment": "DDI Codebook: information on where copies of the DDI/metadata document are held. --> concatenate on  schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:description"
+      "comment": "DDI 2.5 <holdings>: Information concerning either the physical or electronic holdings of the cited work. | DDI Codebook: information on where copies of the DDI/metadata document are held. --> concatenate on  schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:description"
     },
     "ddicb:docDscr.citation.notes": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "metadataNotes",
       "object_json_path": "$.schema:subjectOf.schema:description",
-      "comment": "DDI Codebook: general notes about the DDI/metadata document citation. --> concatenate on  schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:description"
+      "comment": "DDI 2.5 <notes>: Clarifying information and annotations regarding the parent element. | DDI Codebook: general notes about the DDI/metadata document citation. --> concatenate on  schema:subjectOf[additionalType = \"dcat:CatalogRecord\"].schema:description"
     },
     "ddicb:dataDscr.var": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:variableMeasured",
       "object_label": "variableMeasured",
       "object_json_path": "$.schema:variableMeasured[*]",
-      "comment": "container -> dual-typed schema:PropertyValue + cdi:InstanceVariable"
+      "comment": "DDI 2.5 <var>: Describes all of the features of a single variable in a social science data file. | container -> dual-typed schema:PropertyValue + cdi:InstanceVariable"
     },
     "ddicb:dataDscr.var@name": {
       "predicate_id": "skos:exactMatch",
       "object_id": "schema:name",
       "object_label": "name",
       "object_json_path": "$.schema:variableMeasured[*].schema:name",
-      "comment": "variable name (attribute)"
+      "comment": "DDI 2.5 <name>: Usually contains the 'short label' for the variable, limited to eight characters in many statistical analysis systems such as SAS or SPSS. | variable name (attribute)"
     },
     "ddicb:dataDscr.var.varFormat@type": {
       "predicate_id": "skos:closeMatch",
       "object_id": "cdi:role",
       "object_label": "role",
       "object_json_path": "$.schema:variableMeasured[*].cdi:role",
-      "comment": "numeric/character -> Measure/Attribute component"
+      "comment": "DDI 2.5 <type>: Classifies or further defines the parent element. | numeric/character -> Measure/Attribute component"
     },
     "ddicb:dataDscr.var.location@StartPos": {
       "predicate_id": "skos:closeMatch",
       "object_id": "cdif:hasPhysicalMapping",
       "object_label": "startColumn",
       "object_json_path": "$.schema:distribution[*].cdif:hasPhysicalMapping[*].cdif:startColumn",
-      "comment": "start column position of the variable in a fixed-format file"
+      "comment": "DDI 2.5 <StartPos>: The starting position of a variable within a data file. | start column position of the variable in a fixed-format file"
     },
     "ddicb:dataDscr.var.location@EndPos": {
       "predicate_id": "skos:closeMatch",
       "object_id": "cdif:hasPhysicalMapping",
       "object_label": "endColumn",
       "object_json_path": "$.schema:distribution[*].cdif:hasPhysicalMapping[*].cdif:endColumn",
-      "comment": "end column position of the variable in a fixed-format file"
+      "comment": "DDI 2.5 <EndPos>: The ending position of a variable within a data file. | end column position of the variable in a fixed-format file"
     },
     "ddicb:dataDscr.var.location@width": {
       "predicate_id": "skos:closeMatch",
       "object_id": "cdif:hasPhysicalMapping",
       "object_label": "width",
       "object_json_path": "$.schema:distribution[*].cdif:hasPhysicalMapping[*].cdif:fieldWidth",
-      "comment": "field width (character count) of the variable"
+      "comment": "DDI 2.5 <width>: The number of columns the variable occupies. | field width (character count) of the variable"
     },
     "ddicb:dataDscr.var.location@RecSegNo": {
       "predicate_id": "skos:closeMatch",
       "object_id": "cdif:hasPhysicalMapping",
       "object_label": "recordSegment",
       "object_json_path": "$.schema:distribution[*].cdif:hasPhysicalMapping[*]",
-      "comment": "record segment / deck / card number holding the variable"
+      "comment": "DDI 2.5 <RecSegNo>: The record segment number, deck, or card number on which the variable is located. | record segment / deck / card number holding the variable"
     },
     "ddicb:dataDscr.var.location@fileid": {
       "predicate_id": "skos:closeMatch",
       "object_id": "cdif:hasPhysicalMapping",
       "object_label": "distribution",
       "object_json_path": "$.schema:distribution[*]",
-      "comment": "IDREF to the fileDscr that holds this variable's values"
+      "comment": "DDI 2.5 <fileid>: An IDREF link to the fileDscr element for the file that a location is within. | IDREF to the fileDscr that holds this variable's values"
     }
   },
   "ddi25-to-cdif": {
@@ -931,455 +931,455 @@
       "object_id": "schema:identifier",
       "object_label": "contributorID",
       "object_json_path": "$.schema:contributor",
-      "comment": "DDI 2.5: responsibility statement - other contributors/acknowledgements for the study whose role is secondary to the primary author (AuthEnty), e.g. editors, sponsors -->schema:contributor[role='contributor'].schema:Person.identifier"
+      "comment": "DDI 2.5 <othId>: Statements of responsibility not recorded in the title and statement of responsibility areas. | DDI 2.5: responsibility statement - other contributors/acknowledgements for the study whose role is secondary to the primary author (AuthEnty), e.g. editors, sponsors -->schema:contributor[role='contributor'].schema:Person.identifier"
     },
     "ddi:stdyDscr.studyAuthorization.authorizingAgency": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:name",
       "object_label": "authorizingOrganization",
       "object_json_path": "$.schema:contributor",
-      "comment": "DDI 2.5 (imported from DDI Lifecycle): the agency or person that authorized/approved the study-->schema:contributor[role='Authorization'].schema:Organization"
+      "comment": "DDI 2.5 <authorizingAgency>: Name of the agent or agency that authorized the study. | DDI 2.5 (imported from DDI Lifecycle): the agency or person that authorized/approved the study-->schema:contributor[role='Authorization'].schema:Organization"
     },
     "ddi:stdyDscr.studyAuthorization.authorizationStatement": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:conditionsOfAccess",
       "object_label": "AuthorizationStatement",
       "object_json_path": "$.schema:conditionsOfAccess.schema:string",
-      "comment": "DDI 2.5 (imported from DDI Lifecycle): the text of the authorization granted for the study"
+      "comment": "DDI 2.5 <authorizationStatement>: The text of the authorization to make the material available. | DDI 2.5 (imported from DDI Lifecycle): the text of the authorization granted for the study"
     },
     "ddi:stdyDscr.stdyInfo.studyBudget": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:funding",
       "object_label": "studyBudget",
       "object_json_path": "$.schema:funding.schema:description",
-      "comment": "DDI 2.5 (imported from DDI Lifecycle): description of the budget for the study/data collection"
+      "comment": "DDI 2.5 <studyBudget>: Describes the budget of the project in as much detail as needed. | DDI 2.5 (imported from DDI Lifecycle): description of the budget for the study/data collection"
     },
     "ddi:stdyDscr.stdyInfo.sumDscr.geoBndBox.westBL": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:box",
       "object_label": "box",
       "object_json_path": "$.schema:spatialCoverage[*].schema:geo.schema:box",
-      "comment": "west bound -> min longitude in schema:GeoShape box 'S W N E'"
+      "comment": "DDI 2.5 <westBL>: The westernmost coordinate delimiting the geographic extent of the dataset, in decimal degrees (-180.0 to 180.0). | west bound -> min longitude in schema:GeoShape box 'S W N E'"
     },
     "ddi:stdyDscr.stdyInfo.sumDscr.geoBndBox.eastBL": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:box",
       "object_label": "box",
       "object_json_path": "$.schema:spatialCoverage[*].schema:geo.schema:box",
-      "comment": "east bound -> max longitude in schema:GeoShape box"
+      "comment": "DDI 2.5 <eastBL>: The easternmost coordinate delimiting the geographic extent of the dataset. | east bound -> max longitude in schema:GeoShape box"
     },
     "ddi:stdyDscr.stdyInfo.sumDscr.geoBndBox.southBL": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:box",
       "object_label": "box",
       "object_json_path": "$.schema:spatialCoverage[*].schema:geo.schema:box",
-      "comment": "south bound -> min latitude in schema:GeoShape box"
+      "comment": "DDI 2.5 <southBL>: The southernmost coordinate delimiting the geographic extent of the dataset, in decimal degrees (-90.0 to 90.0). | south bound -> min latitude in schema:GeoShape box"
     },
     "ddi:stdyDscr.stdyInfo.sumDscr.geoBndBox.northBL": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:box",
       "object_label": "box",
       "object_json_path": "$.schema:spatialCoverage[*].schema:geo.schema:box",
-      "comment": "north bound -> max latitude in schema:GeoShape box"
+      "comment": "DDI 2.5 <northBL>: The northernmost coordinate delimiting the geographic extent of the dataset, in decimal degrees (-90.0 to 90.0). | north bound -> max latitude in schema:GeoShape box"
     },
     "ddi:stdyDscr.stdyInfo.sumDscr.boundPoly.polygon.point.gringLat": {
       "predicate_id": "skos:closeMatch",
       "object_id": "geo:asWKT",
       "object_label": "asWKT",
       "object_json_path": "$.schema:spatialCoverage[*].schema:geo.geo:asWKT",
-      "comment": "G-ring latitude -> vertex in GeoSPARQL WKT POLYGON (geo:wktLiteral)"
+      "comment": "DDI 2.5 <gringLat>: Latitude (y coordinate) of a point, expressed in decimal degrees within a range of -90.0 to 90.0. | G-ring latitude -> vertex in GeoSPARQL WKT POLYGON (geo:wktLiteral)"
     },
     "ddi:stdyDscr.stdyInfo.sumDscr.boundPoly.polygon.point.gringLon": {
       "predicate_id": "skos:closeMatch",
       "object_id": "geo:asWKT",
       "object_label": "asWKT",
       "object_json_path": "$.schema:spatialCoverage[*].schema:geo.geo:asWKT",
-      "comment": "G-ring longitude -> vertex in GeoSPARQL WKT POLYGON (geo:wktLiteral)"
+      "comment": "DDI 2.5 <gringLon>: Longitude (x coordinate) of a point, expressed in decimal degrees within a range of -180.0 to 180.0. | G-ring longitude -> vertex in GeoSPARQL WKT POLYGON (geo:wktLiteral)"
     },
     "ddi:stdyDscr.stdyInfo.qualityStatement.standardsCompliance.standard.standardName": {
       "predicate_id": "skos:closeMatch",
       "object_id": "dcterms:conformsTo",
       "object_label": "conformsTo",
       "object_json_path": "$.dcterms:conformsTo",
-      "comment": "DDI 2.5: name of a standard the data complies with -> dcterms:conformsTo"
+      "comment": "DDI 2.5 <standardName>: The name of the standard with which the study complies. | DDI 2.5: name of a standard the data complies with -> dcterms:conformsTo"
     },
     "ddi:stdyDscr.stdyInfo.qualityStatement.standardsCompliance.complianceDescription": {
       "predicate_id": "skos:closeMatch",
       "object_id": "dqv:QualityAnnotation",
       "object_label": "QualityAnnotation",
       "object_json_path": "",
-      "comment": "DDI 2.5: narrative of standards compliance -> DQV quality annotation body (separate node)"
+      "comment": "DDI 2.5 <complianceDescription>: Text describing compliance with a standard. | DDI 2.5: narrative of standards compliance -> DQV quality annotation body (separate node)"
     },
     "ddi:stdyDscr.stdyInfo.qualityStatement.otherQualityStatement": {
       "predicate_id": "skos:closeMatch",
       "object_id": "dqv:QualityAnnotation",
       "object_label": "QualityAnnotation",
       "object_json_path": "",
-      "comment": "DDI 2.5: free-text quality statement -> DQV quality annotation body (separate node)"
+      "comment": "DDI 2.5 <otherQualityStatement>: Documents quality-related information that does not fit into standard quality statement categories. | DDI 2.5: free-text quality statement -> DQV quality annotation body (separate node)"
     },
     "ddi:stdyDscr.stdyInfo.exPostEvaluation.evaluator": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:name",
       "object_label": "evaluatorName",
       "object_json_path": "$.schema:contributor[role=evaluator].person.name",
-      "comment": "DDI 2.5 (imported from DDI Lifecycle; GSBPM Evaluate phase): the organization or individual (by reference) that performed the post-completion evaluation, with an optional controlled-vocabulary role"
+      "comment": "DDI 2.5 <evaluator>: Identifies persons or organizations involved in the evaluation. | DDI 2.5 (imported from DDI Lifecycle; GSBPM Evaluate phase): the organization or individual (by reference) that performed the post-completion evaluation, with an optional controlled-vocabulary role"
     },
     "ddi:stdyDscr.stdyInfo.exPostEvaluation.evaluationProcess": {
       "predicate_id": "skos:closeMatch",
       "object_id": "dqv:hasQualityMeasurement",
       "object_label": "PostEvaluationProcess",
       "object_json_path": "$.dqv:hasQualityMeasurement.dqv:isMeasurementOf.schema:DefinedTerm.schema:name",
-      "comment": "DDI 2.5 (imported from DDI Lifecycle): description of how the ex-post evaluation was carried out (methods, criteria, procedure)"
+      "comment": "DDI 2.5 <evaluationProcess>: Describes the evaluation process followed. | DDI 2.5 (imported from DDI Lifecycle): description of how the ex-post evaluation was carried out (methods, criteria, procedure)"
     },
     "ddi:stdyDscr.stdyInfo.exPostEvaluation.outcomes": {
       "predicate_id": "skos:closeMatch",
       "object_id": "dqv:hasQualityMeasurement",
       "object_label": "PostEvaluationOutcome",
       "object_json_path": "$.dqv:hasQualityMeasurement[dqv:isMeasurementOf='PostEvaluation.outcomes'].dqv:value",
-      "comment": "DDI 2.5 (imported from DDI Lifecycle): the results/findings of the ex-post evaluation - conclusions, lessons learned, recommendations for a future cycle"
+      "comment": "DDI 2.5 <outcomes>: Describes the outcomes of the evaluation. | DDI 2.5 (imported from DDI Lifecycle): the results/findings of the ex-post evaluation - conclusions, lessons learned, recommendations for a future cycle"
     },
     "ddi:stdyDscr.method.dataColl.sampleFrame.sampleFrameName": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:name",
       "object_label": "sampleFrameName",
       "object_json_path": "$.prov:wasGeneratedBy[*].prov:used[*].schema:name",
-      "comment": "DDI 2.5 (imported from DDI Lifecycle): the name of the sampling frame from which the sample was drawn --> prov:used value is @type [\"schema:CreativeWork\", \"prov:Entity\"], and has schema:additionalType = \"sampleFrame\""
+      "comment": "DDI 2.5 <sampleFrameName>: Name of the sample frame. | DDI 2.5 (imported from DDI Lifecycle): the name of the sampling frame from which the sample was drawn --> prov:used value is @type [\"schema:CreativeWork\", \"prov:Entity\"], and has schema:additionalType = \"sampleFrame\""
     },
     "ddi:stdyDscr.method.dataColl.sampleFrame.labl": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:alternateName",
       "object_label": "sampleFrameLabel",
       "object_json_path": "$.prov:wasGeneratedBy[*].prov:used[*].schema:alternateName",
-      "comment": "DDI 2.5: a label for the sampling frame --> prov:Entity[schema:additionalType = \"samplingFrame\"].schema:alternateName"
+      "comment": "DDI 2.5 <labl>: A short description or label for the parent element. | DDI 2.5: a label for the sampling frame --> prov:Entity[schema:additionalType = \"samplingFrame\"].schema:alternateName"
     },
     "ddi:stdyDscr.method.dataColl.sampleFrame.txt": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "sampleFrameDescription",
       "object_json_path": "$.prov:wasGeneratedBy[*].prov:used[*].schema:description",
-      "comment": "DDI 2.5: descriptive text about the sampling frame --> concatenate on prov:Entity[schema:additionalType = \"samplingFrame\"].schema:description"
+      "comment": "DDI 2.5 <txt>: Lengthier description of the parent element. | DDI 2.5: descriptive text about the sampling frame --> concatenate on prov:Entity[schema:additionalType = \"samplingFrame\"].schema:description"
     },
     "ddi:stdyDscr.method.dataColl.sampleFrame.validPeriod": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "sampleFrameValidPeriod",
       "object_json_path": "$.prov:wasGeneratedBy[*].prov:used[*].schema:description",
-      "comment": "DDI 2.5: the period during which the sampling frame is valid  --> concatenate on prov:Entity[schema:additionalType = \"samplingFrame\"].description"
+      "comment": "DDI 2.5 <validPeriod>: Defines a time period for the validity of the sampling frame. | DDI 2.5: the period during which the sampling frame is valid  --> concatenate on prov:Entity[schema:additionalType = \"samplingFrame\"].description"
     },
     "ddi:stdyDscr.method.dataColl.sampleFrame.custodian": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:owner",
       "object_label": "sampleFrameCustodian",
       "object_json_path": "$.prov:wasGeneratedBy[*].prov:used[*].schema:owner",
-      "comment": "DDI 2.5: the agency or person that maintains/holds the sampling frame -->prov:Entity[schema:additionalType = \"samplingFrame\"].schema:owner"
+      "comment": "DDI 2.5 <custodian>: The agency or individual responsible for creating or maintaining the sample frame. | DDI 2.5: the agency or person that maintains/holds the sampling frame -->prov:Entity[schema:additionalType = \"samplingFrame\"].schema:owner"
     },
     "ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.confDec": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:conditionsOfAccess",
       "object_label": "sampleFrameConfidentiality",
       "object_json_path": "$.prov:wasGeneratedBy[*].prov:used[*].schema:conditionsOfAccess",
-      "comment": "DDI 2.5: use statement - whether a confidentiality declaration must be signed to access the sampling frame  -->prov:Entity[schema:additionalType = \"samplingFrame\"].schema:conditionsOfAccess[*]"
+      "comment": "DDI 2.5 <confDec>: Determines whether signing of a confidentiality declaration is needed to access a resource. | DDI 2.5: use statement - whether a confidentiality declaration must be signed to access the sampling frame  -->prov:Entity[schema:additionalType = \"samplingFrame\"].schema:conditionsOfAccess[*]"
     },
     "ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.specPerm": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:conditionsOfAccess",
       "object_label": "sampleFrameSpecialPermissions",
       "object_json_path": "$.prov:wasGeneratedBy[*].prov:used[*].schema:conditionsOfAccess",
-      "comment": "DDI 2.5: use statement - whether special permissions are required to access the sampling frame -->prov:Entity[schema:additionalType = \"samplingFrame\"].schema:conditionsOfAccess[*]"
+      "comment": "DDI 2.5 <specPerm>: Determines whether any special permissions are required to access a resource. | DDI 2.5: use statement - whether special permissions are required to access the sampling frame -->prov:Entity[schema:additionalType = \"samplingFrame\"].schema:conditionsOfAccess[*]"
     },
     "ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.restrctn": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:conditionsOfAccess",
       "object_label": "sampleFrameRestrictions",
       "object_json_path": "$.prov:wasGeneratedBy[*].prov:used[*].schema:conditionsOfAccess",
-      "comment": "DDI 2.5: use statement - restrictions on access to or use of the sampling frame  -->prov:Entity[schema:additionalType = \"samplingFrame\"].schema:conditionsOfAccess[*]"
+      "comment": "DDI 2.5 <restrctn>: Any restrictions on access to or use of the collection. | DDI 2.5: use statement - restrictions on access to or use of the sampling frame  -->prov:Entity[schema:additionalType = \"samplingFrame\"].schema:conditionsOfAccess[*]"
     },
     "ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.contact": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:contributor",
       "object_label": "sampleFrameContact",
       "object_json_path": "$.prov:wasGeneratedBy[*].prov:used[*].schema:contributor",
-      "comment": "DDI 2.5: use statement - contact person(s) for questions about accessing/using the sampling frame  -->prov:Entity[schema:additionalType = \"samplingFrame\"].schema:contributor[role = \"Point of Contact\"]"
+      "comment": "DDI 2.5 <contact>: Names and addresses of individuals responsible for the work who serve as resource persons for user inquiries. | DDI 2.5: use statement - contact person(s) for questions about accessing/using the sampling frame  -->prov:Entity[schema:additionalType = \"samplingFrame\"].schema:contributor[role = \"Point of Contact\"]"
     },
     "ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.citReq": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:conditionsOfAccess",
       "object_label": "sampleFrameCitationRequirements",
       "object_json_path": "$.prov:wasGeneratedBy[*].prov:used[*].schema:conditionsOfAccess",
-      "comment": "DDI 2.5: use statement - the citation requirement for using the sampling frame"
+      "comment": "DDI 2.5 <citReq>: Text of the requirement that a data collection be cited properly in works based on it. | DDI 2.5: use statement - the citation requirement for using the sampling frame"
     },
     "ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.deposReq": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:conditionsOfAccess",
       "object_label": "sampleFrameDepositRequirements",
       "object_json_path": "$.prov:wasGeneratedBy[*].prov:used[*].schema:conditionsOfAccess",
-      "comment": "DDI 2.5: use statement - requirement to deposit derived works/results based on the sampling frame -->prov:Entity[schema:additionalType = \"samplingFrame\"].schema:conditionsOfAccess[*]"
+      "comment": "DDI 2.5 <deposReq>: Information regarding user responsibility for informing archives of their use of the data. | DDI 2.5: use statement - requirement to deposit derived works/results based on the sampling frame -->prov:Entity[schema:additionalType = \"samplingFrame\"].schema:conditionsOfAccess[*]"
     },
     "ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.conditions": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:conditionsOfAccess",
       "object_label": "sampleFrameGeneralRestrictions",
       "object_json_path": "$.prov:wasGeneratedBy[*].prov:used[*].schema:conditionsOfAccess",
-      "comment": "DDI 2.5: use statement - general conditions under which the sampling frame may be used -->prov:Entity[schema:additionalType = \"samplingFrame\"].schema:conditionsOfAccess[*]"
+      "comment": "DDI 2.5 <conditions>: Indicates any additional information that will assist users in understanding the access and use conditions of a data collection. | DDI 2.5: use statement - general conditions under which the sampling frame may be used -->prov:Entity[schema:additionalType = \"samplingFrame\"].schema:conditionsOfAccess[*]"
     },
     "ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.disclaimer": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:conditionsOfAccess",
       "object_label": "sampleFrameDisclaimer",
       "object_json_path": "$.prov:wasGeneratedBy[*].prov:used[*].schema:conditionsOfAccess",
-      "comment": "DDI 2.5: use statement - disclaimer of liability for use of the sampling frame -->prov:Entity[schema:additionalType = \"samplingFrame\"].schema:conditionsOfAccess[*]"
+      "comment": "DDI 2.5 <disclaimer>: Information regarding responsibility for uses of the data collection. | DDI 2.5: use statement - disclaimer of liability for use of the sampling frame -->prov:Entity[schema:additionalType = \"samplingFrame\"].schema:conditionsOfAccess[*]"
     },
     "ddi:stdyDscr.method.dataColl.sampleFrame.universe": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:DefinedTerm",
       "object_label": "sampleFrameUniverse",
       "object_json_path": "$.schema:keywords[*]",
-      "comment": "DDI 2.5: the universe (target population) represented by the sampling frame --> DefinedTerm[about = 'Sample Frame Universe']"
+      "comment": "DDI 2.5 <universe>: The group of persons or other elements that are the object of research and to which any analytic results refer. | DDI 2.5: the universe (target population) represented by the sampling frame --> DefinedTerm[about = 'Sample Frame Universe']"
     },
     "ddi:stdyDscr.method.dataColl.sampleFrame.frameUnit.unitType": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:DefinedTerm",
       "object_label": "sampleFrameUnitType",
       "object_json_path": "$.schema:keywords[*]",
-      "comment": "DDI 2.5: the type of unit contained in the sampling frame (@isPrimary flags primary sampling units) --> DefinedTerm[about = 'Sample Frame Unit Type']"
+      "comment": "DDI 2.5 <unitType>: Describes the type of sampling frame unit. | DDI 2.5: the type of unit contained in the sampling frame (@isPrimary flags primary sampling units) --> DefinedTerm[about = 'Sample Frame Unit Type']"
     },
     "ddi:stdyDscr.method.dataColl.sampleFrame.frameUnit.txt": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:DefinedTerm",
       "object_label": "sampleFrameUnit",
       "object_json_path": "$.schema:keywords[*]",
-      "comment": "DDI 2.5: descriptive text about the sampling-frame unit --> DefinedTerm[about = 'Sample Frame Unit']"
+      "comment": "DDI 2.5 <txt>: Lengthier description of the parent element. | DDI 2.5: descriptive text about the sampling-frame unit --> DefinedTerm[about = 'Sample Frame Unit']"
     },
     "ddi:stdyDscr.method.dataColl.sampleFrame.referencePeriod": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "sampleFrameReferencePeriod",
       "object_json_path": "$.prov:wasGeneratedBy[*].prov:used[*].schema:description",
-      "comment": "DDI 2.5: the reference period (point or range in time) to which the sampling frame applies -->concatenate on prov:Entity[schema:additionalType = \"samplingFrame\"].schema:description"
+      "comment": "DDI 2.5 <referencePeriod>: Indicates the period of time in which the sampling frame was actually used for the study. | DDI 2.5: the reference period (point or range in time) to which the sampling frame applies -->concatenate on prov:Entity[schema:additionalType = \"samplingFrame\"].schema:description"
     },
     "ddi:stdyDscr.method.dataColl.sampleFrame.updateProcedure": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "sampleFrameUpdateProcedure",
       "object_json_path": "$.prov:wasGeneratedBy[*].prov:used[*].schema:description",
-      "comment": "DDI 2.5: the procedure used to update/maintain the sampling frame->concatenate on prov:Entity[schema:additionalType = \"samplingFrame\"].schema:description"
+      "comment": "DDI 2.5 <updateProcedure>: Description of how and with what frequency the sample frame is updated. | DDI 2.5: the procedure used to update/maintain the sampling frame->concatenate on prov:Entity[schema:additionalType = \"samplingFrame\"].schema:description"
     },
     "ddi:stdyDscr.method.dataColl.sources.sourceCitation.titlStmt.titl": {
       "predicate_id": "skos:closeMatch",
       "object_id": "prov:wasDerivedFrom",
       "object_label": "sourceCitationTitle",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:CreativeWork.schema:name",
-      "comment": "DDI 2.5: full authoritative title of a data source the study drew on (sources/sourceCitation is a complete citation for that source; this titl is the source's own title, distinct from the study title in stdyDscr/citation/titlStmt/titl)"
+      "comment": "DDI 2.5 <titl>: Full authoritative title for the work at the appropriate level. | DDI 2.5: full authoritative title of a data source the study drew on (sources/sourceCitation is a complete citation for that source; this titl is the source's own title, distinct from the study title in stdyDscr/citation/titlStmt/titl)"
     },
     "ddi:stdyDscr.method.dataColl.sources.sourceCitation.titlStmt.subTitl": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:alternateName",
       "object_label": "sourceSubTitle",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:alternateName[*]",
-      "comment": "DDI 2.5: subtitle of the cited data source"
+      "comment": "DDI 2.5 <subTitl>: A secondary title used to amplify or state certain limitations on the main title. | DDI 2.5: subtitle of the cited data source"
     },
     "ddi:stdyDscr.method.dataColl.sources.sourceCitation.titlStmt.altTitl": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:alternateName",
       "object_label": "sourceAlternateTitle",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:alternateName[*]",
-      "comment": "DDI 2.5: alternative title (a title by which the source is also known) of the cited data source"
+      "comment": "DDI 2.5 <altTitl>: A title by which the work is commonly referred to, or an abbreviation of the title. | DDI 2.5: alternative title (a title by which the source is also known) of the cited data source"
     },
     "ddi:stdyDscr.method.dataColl.sources.sourceCitation.titlStmt.parTitl": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:alternateName",
       "object_label": "sourceParallelTitle",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:alternateName[*]",
-      "comment": "DDI 2.5: parallel title (the source title expressed in another language) of the cited data source"
+      "comment": "DDI 2.5 <parTitl>: Title translated into another language. | DDI 2.5: parallel title (the source title expressed in another language) of the cited data source"
     },
     "ddi:stdyDscr.method.dataColl.sources.sourceCitation.titlStmt.IDNo": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:identifier",
       "object_label": "sourceIdentifier",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:identifier",
-      "comment": "DDI 2.5: identifier (e.g. DOI/handle) of the cited data source, optionally with an agency attribute"
+      "comment": "DDI 2.5 <IDNo>: Unique string or number assigned by a producer or archive to identify a data collection. | DDI 2.5: identifier (e.g. DOI/handle) of the cited data source, optionally with an agency attribute"
     },
     "ddi:stdyDscr.method.dataColl.sources.sourceCitation.rspStmt.AuthEnty": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:creator",
       "object_label": "sourceAuthor",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:creator",
-      "comment": "DDI 2.5: responsibility statement - authoring entity/person legally responsible for the cited data source"
+      "comment": "DDI 2.5 <AuthEnty>: The person, corporate body, or agency responsible for the work's substantive and intellectual content. | DDI 2.5: responsibility statement - authoring entity/person legally responsible for the cited data source"
     },
     "ddi:stdyDscr.method.dataColl.sources.sourceCitation.rspStmt.othId": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:contributor",
       "object_label": "sourceContributor",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:contributor",
-      "comment": "DDI 2.5: responsibility statement - other contributors to the cited source (e.g. editors, translators) not credited as primary author -->contributor[role='contributor']"
+      "comment": "DDI 2.5 <othId>: Statements of responsibility not recorded in the title and statement of responsibility areas. | DDI 2.5: responsibility statement - other contributors to the cited source (e.g. editors, translators) not credited as primary author -->contributor[role='contributor']"
     },
     "ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.producer": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:contributor",
       "object_label": "sourceProducer",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:contributor",
-      "comment": "DDI 2.5: production statement - person/organization responsible for producing the cited data source  -->contributor[role='producer']"
+      "comment": "DDI 2.5 <producer>: The person or organization with financial or administrative responsibility for the physical processes whereby the document was brought into existence. | DDI 2.5: production statement - person/organization responsible for producing the cited data source  -->contributor[role='producer']"
     },
     "ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.copyright": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:copyrightNotice",
       "object_label": "sourceCopyright",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:copyrightNotice",
-      "comment": "DDI 2.5: production statement - copyright statement for the cited data source"
+      "comment": "DDI 2.5 <copyright>: Copyright statement for the work at the appropriate level. | DDI 2.5: production statement - copyright statement for the cited data source"
     },
     "ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.prodDate": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:dateCreated",
       "object_label": "sourceDateProduced",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:dateCreated",
-      "comment": "DDI 2.5: production statement - date the cited data source was produced"
+      "comment": "DDI 2.5 <prodDate>: Date when the marked-up document, data collection, or other materials were produced. | DDI 2.5: production statement - date the cited data source was produced"
     },
     "ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.prodPlac": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:locationCreated",
       "object_label": "sourceProductionPlace",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:locationCreated",
-      "comment": "DDI 2.5: production statement - place where the cited data source was produced "
+      "comment": "DDI 2.5 <prodPlac>: Address of the archive or organization that produced the work. | DDI 2.5: production statement - place where the cited data source was produced"
     },
     "ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.software": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "sourceSoftwareUsed",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:description",
-      "comment": "DDI 2.5: production statement - software used to produce the cited data source-->concatenate on prov.wasDerivedFrom[*][@type = 'schema:CreativeWork'].schema:description"
+      "comment": "DDI 2.5 <software>: Software used to produce the work. | DDI 2.5: production statement - software used to produce the cited data source-->concatenate on prov.wasDerivedFrom[*][@type = 'schema:CreativeWork'].schema:description"
     },
     "ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.fundAg": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:funder",
       "object_label": "sourceFunder",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:funding.schema:funder",
-      "comment": "DDI 2.5: production statement - funding agency/sponsor of the cited data source"
+      "comment": "DDI 2.5 <fundAg>: The source(s) of funds for production of the work. | DDI 2.5: production statement - funding agency/sponsor of the cited data source"
     },
     "ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.grantNo": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:identifier",
       "object_label": "sourceFundingIdentifier",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:funding.schema:identifier",
-      "comment": "DDI 2.5: production statement - grant/contract number under which the cited data source was produced"
+      "comment": "DDI 2.5 <grantNo>: The grant or contract number of the project that sponsored the effort. | DDI 2.5: production statement - grant/contract number under which the cited data source was produced"
     },
     "ddi:stdyDscr.method.dataColl.sources.sourceCitation.distStmt.distrbtr": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "sourceDistribution",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:description",
-      "comment": "DDI 2.5: distribution statement - agency/person distributing the cited data source  -->concatenate on prov.wasDerivedFrom[*][@type = 'schema:CreativeWork'].schema:description"
+      "comment": "DDI 2.5 <distrbtr>: The organization designated by the author or producer to generate and distribute copies of the work. | DDI 2.5: distribution statement - agency/person distributing the cited data source  -->concatenate on prov.wasDerivedFrom[*][@type = 'schema:CreativeWork'].schema:description"
     },
     "ddi:stdyDscr.method.dataColl.sources.sourceCitation.distStmt.contact": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:provider",
       "object_label": "sourceProvider",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:provider",
-      "comment": "DDI 2.5: distribution statement - contact person(s) for questions about the cited data source"
+      "comment": "DDI 2.5 <contact>: Names and addresses of individuals responsible for the work who serve as resource persons for user inquiries. | DDI 2.5: distribution statement - contact person(s) for questions about the cited data source"
     },
     "ddi:stdyDscr.method.dataColl.sources.sourceCitation.distStmt.depositr": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:publisher",
       "object_label": "sourcePublisher",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:publisher",
-      "comment": "DDI 2.5: distribution statement - person/institution who deposited the cited data source with the distributor"
+      "comment": "DDI 2.5 <depositr>: The name of the person or institution who provided the work to the archive storing it. | DDI 2.5: distribution statement - person/institution who deposited the cited data source with the distributor"
     },
     "ddi:stdyDscr.method.dataColl.sources.sourceCitation.distStmt.depDate": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:dateModified",
       "object_label": "sourceDateDeposited",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:dateModified",
-      "comment": "DDI 2.5: distribution statement - date the cited data source was deposited"
+      "comment": "DDI 2.5 <depDate>: The date that the work was deposited with the archive that originally received it. | DDI 2.5: distribution statement - date the cited data source was deposited"
     },
     "ddi:stdyDscr.method.dataColl.sources.sourceCitation.distStmt.distDate": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:datePublished",
       "object_label": "sourceDateReleased",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:datePublished",
-      "comment": "DDI 2.5: distribution statement - date the cited data source was distributed/released"
+      "comment": "DDI 2.5 <distDate>: Date that the work was made available for distribution or presentation. | DDI 2.5: distribution statement - date the cited data source was distributed/released"
     },
     "ddi:stdyDscr.method.dataColl.sources.sourceCitation.serStmt.serName": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:name",
       "object_label": "sourceIsSeriesName",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:isPartOf.schema:name",
-      "comment": "DDI 2.5: series statement - name of the series to which the cited data source belongs --> CreativeWork isPartOf CreativeWorkSeries  schema.name"
+      "comment": "DDI 2.5 <serName>: The name of the series to which the work belongs. | DDI 2.5: series statement - name of the series to which the cited data source belongs --> CreativeWork isPartOf CreativeWorkSeries  schema.name"
     },
     "ddi:stdyDscr.method.dataColl.sources.sourceCitation.serStmt.serInfo": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "sourceSeriesDescription",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:description",
-      "comment": "DDI 2.5: series statement - history/information about the series of the cited data source --> CreativeWork isPartOf CreativeWorkSeries  schema.description"
+      "comment": "DDI 2.5 <serInfo>: Contains a history of the series and a summary of features that apply to the series as a whole. | DDI 2.5: series statement - history/information about the series of the cited data source --> CreativeWork isPartOf CreativeWorkSeries  schema.description"
     },
     "ddi:stdyDscr.method.dataColl.sources.sourceCitation.verStmt.version": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:version",
       "object_label": "sourceVersion",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:version",
-      "comment": "DDI 2.5: version statement - version number/description of the cited data source"
+      "comment": "DDI 2.5 <version>: Also known as release or edition, used to note substantive changes in the data or documentation since their creation. | DDI 2.5: version statement - version number/description of the cited data source"
     },
     "ddi:stdyDscr.method.dataColl.sources.sourceCitation.verStmt.verResp": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "sourceVersionStatement",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:description",
-      "comment": "DDI 2.5: version statement - person/organization responsible for this version of the cited data source -->concatenate on prov.wasDerivedFrom[*][@type = 'schema:CreativeWork'].schema:description"
+      "comment": "DDI 2.5 <verResp>: The organization or person responsible for the version of the work. | DDI 2.5: version statement - person/organization responsible for this version of the cited data source -->concatenate on prov.wasDerivedFrom[*][@type = 'schema:CreativeWork'].schema:description"
     },
     "ddi:stdyDscr.method.dataColl.sources.sourceCitation.verStmt.notes": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "sourceVersionNotes",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:description",
-      "comment": "DDI 2.5: version statement - notes about this version of the cited data source"
+      "comment": "DDI 2.5 <notes>: Clarifying information and annotations regarding the parent element. | DDI 2.5: version statement - notes about this version of the cited data source"
     },
     "ddi:stdyDscr.method.dataColl.sources.sourceCitation.biblCit": {
       "predicate_id": "skos:closeMatch",
       "object_id": "dcterms:bibliographicCitation",
       "object_label": "sourceBibliographicCitation",
       "object_json_path": "$.prov:wasDerivedFrom[*].dcterms:bibliographicCitation",
-      "comment": "DDI 2.5: complete bibliographic citation for the cited data source as a single formatted string"
+      "comment": "DDI 2.5 <biblCit>: A complete bibliographic reference containing all standard elements of a citation used to cite a work. | DDI 2.5: complete bibliographic citation for the cited data source as a single formatted string"
     },
     "ddi:stdyDscr.method.dataColl.sources.sourceCitation.holdings": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:url",
       "object_label": "sourceDistribution",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:url",
-      "comment": "DDI 2.5: holdings - information on the location/URI where copies of the cited data source are held --> if is url, put in schema:url, else concatenate on ][@type = 'schema:CreativeWork'].schema:description"
+      "comment": "DDI 2.5 <holdings>: Information concerning either the physical or electronic holdings of the cited work. | DDI 2.5: holdings - information on the location/URI where copies of the cited data source are held --> if is url, put in schema:url, else concatenate on ][@type = 'schema:CreativeWork'].schema:description"
     },
     "ddi:stdyDscr.method.dataColl.sources.sourceCitation.notes": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:description",
       "object_label": "sourceCitationNotes",
       "object_json_path": "$.prov:wasDerivedFrom[*].schema:CreativeWork.schema:description",
-      "comment": "DDI 2.5: general notes about the citation of the data source -->concatenate on prov.wasDerivedFrom[*][@type = 'schema:CreativeWork'].schema:description"
+      "comment": "DDI 2.5 <notes>: Clarifying information and annotations regarding the parent element. | DDI 2.5: general notes about the citation of the data source -->concatenate on prov.wasDerivedFrom[*][@type = 'schema:CreativeWork'].schema:description"
     },
     "ddi:stdyDscr.method.dataProcessing": {
       "predicate_id": "skos:closeMatch",
       "object_id": "prov:wasGeneratedBy",
       "object_label": "dataProcessing",
       "object_json_path": "$.prov:wasGeneratedBy[*].schema:actionProcess.schema:description",
-      "comment": "DDI 2.5 (imported from DDI Lifecycle): description of data processing performed on the collected data (@type qualifies the processing kind)"
+      "comment": "DDI 2.5 <dataProcessing>: Describes data processing procedures not captured elsewhere, such as topcoding, recoding, suppression, and tabulation. | DDI 2.5 (imported from DDI Lifecycle): description of data processing performed on the collected data (@type qualifies the processing kind)"
     },
     "ddi:docDscr.citation.rspStmt.othId": {
       "predicate_id": "",
       "object_id": "schema:subjectOf",
       "object_label": "CatalogRecordResponsibleParty",
       "object_json_path": "$.schema:subjectOf[schema:additionalType = dcat:DataCatalog].schema:maintainer",
-      "comment": "DDI 2.5: responsibility statement (document description citation) - other contributors/acknowledgements for the DDI document itself, secondary to the primary author"
+      "comment": "DDI 2.5 <othId>: Statements of responsibility not recorded in the title and statement of responsibility areas. | DDI 2.5: responsibility statement (document description citation) - other contributors/acknowledgements for the DDI document itself, secondary to the primary author"
     },
     "ddi:docDscr.docSrc.rspStmt.othId": {
       "predicate_id": "",
       "object_id": "schema:subjectOf",
       "object_label": "CatalogRecordResponsibleParty",
       "object_json_path": "$.schema:subjectOf[schema:additionalType = dcat:DataCatalog].schema:maintainer",
-      "comment": "DDI 2.5: responsibility statement (source of the DDI document) - other contributors/acknowledgements for the source document the DDI record was derived from"
+      "comment": "DDI 2.5 <othId>: Statements of responsibility not recorded in the title and statement of responsibility areas. | DDI 2.5: responsibility statement (source of the DDI document) - other contributors/acknowledgements for the source document the DDI record was derived from"
     },
     "ddi:dataDscr.nCube": {
       "predicate_id": "skos:closeMatch",
       "object_id": "cdi:DimensionalDataStructure",
       "object_label": "DimensionalDataStructure",
       "object_json_path": "$.schema:distribution[*].cdif:isStructuredBy",
-      "comment": "aggregate data cube (2.5 only)"
+      "comment": "DDI 2.5 <nCube>: Describes the logical structure of an n-dimensional array for the markup of aggregate data. | aggregate data cube (2.5 only)"
     }
   },
   "ddi122-to-cdif": {}
