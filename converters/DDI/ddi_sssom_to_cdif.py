@@ -259,19 +259,52 @@ def build_activity(root, items, maps, skipped):
     return act
 
 
+def parse_role(leaf):
+    """Return the role named in a schema:contributor[role = X] filter, or None."""
+    m = re.search(r"\[\s*role\s*=\s*([^\]]+)\]", leaf)
+    return m.group(1).strip() if m else None
+
+
 def build_derived(root, items, maps, skipped):
-    node = {"@type": ["prov:Entity"]}
+    # The value on prov:wasDerivedFrom is a cdifReference typed schema:CreativeWork,
+    # so the entity carries that type and the source-citation properties sit
+    # directly on it (a leading schema:CreativeWork path segment is the type, not
+    # a key, and is dropped).
+    node = {"@type": ["prov:Entity", "schema:CreativeWork"]}
     groups = {}
     for path in items:
         _, leaf = split_target(maps[path]["object_json_path"])
+        role = parse_role(leaf)
         segs = clean_leaf(leaf)
         if segs is None:
             skipped.append(path); continue
-        groups.setdefault(tuple(s[0] for s in segs), []).append(path)
-    for keys, paths in groups.items():
+        if segs and segs[0][0] == "schema:CreativeWork":
+            segs = segs[1:]
+        if not segs:
+            continue
+        keys = tuple(s[0] for s in segs)
+        groups.setdefault((keys, segs[-1][1], role), []).append(path)
+    for (keys, is_list, role), paths in groups.items():
         contribs = gather(root, paths, maps)
-        val = concat(contribs)
-        set_nested(node, list(keys), val)
+        if role and keys and keys[-1] in ("schema:contributor", "schema:creator"):
+            vals = flat_values(contribs)
+            if not vals:
+                continue
+            arr = node.setdefault(keys[-1], [])
+            if not isinstance(arr, list):
+                arr = node[keys[-1]] = [arr]
+            for v in vals:
+                arr.append({"@type": ["schema:Person"], "schema:name": v,
+                            "schema:roleName": role})
+        elif is_list:                                  # [*] -> an array of distinct values
+            vals, seen = [], set()
+            for v in flat_values(contribs):
+                if v not in seen:
+                    seen.add(v); vals.append(v)
+            if vals:
+                set_nested(node, list(keys), vals)
+        else:
+            set_nested(node, list(keys), concat(contribs))
     return node if len(node) > 1 else None
 
 
