@@ -186,7 +186,11 @@ def process(basename, check=False, expected=None, add_missing=False):
         out = rebuild_header(header_lines, used) + ["\t".join(CANON)]
         for r in recs:
             out.append("\t".join(r.get(c, "") for c in CANON))
-        open(path, "w", encoding="utf-8", newline="\n").write("\n".join(out) + "\n")
+        try:
+            open(path, "w", encoding="utf-8", newline="\n").write("\n".join(out) + "\n")
+        except PermissionError:
+            print(f"      ! could not rewrite {basename}.sssom.tsv (open in another "
+                  f"program?) -- ddi_mappings.json still updated from its current content")
 
     # derived MAP: mapped rows only
     mp = {}
