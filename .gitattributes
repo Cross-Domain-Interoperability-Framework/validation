@@ -1,2 +1,7 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# SSSOM mapping tables are LF-only regardless of platform/editor, so a
+# spreadsheet round-trip (CRLF) never shows up as a whole-file diff.
+converters/mappings/*.sssom.tsv text eol=lf
+

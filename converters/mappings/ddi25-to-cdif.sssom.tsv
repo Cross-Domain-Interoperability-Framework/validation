@@ -13,12 +13,11 @@
 #     property: https://w3id.org/cdif/mappings/objectJsonPath
 # curie_map:
 #   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
-#   cdif: https://w3id.org/cdif/
-#   cdifq: http://crossdomaininteroperability.org/cdifq/
 #   dcterms: http://purl.org/dc/terms/
 #   ddi: https://ddialliance.org/Specification/DDI-Codebook/2.5/element/
 #   dqv: http://www.w3.org/ns/dqv#
 #   geo: http://www.opengis.net/ont/geosparql#
+#   prov: http://www.w3.org/ns/prov#
 #   schema: http://schema.org/
 #   semapv: https://w3id.org/semapv/vocab/
 #   skos: http://www.w3.org/2004/02/skos/core#
@@ -28,141 +27,141 @@
 #   ddi-common-to-cdif.sssom.tsv (ddicb:); for the complete 2.5 field inventory:
 #     sssom merge ddi-common-to-cdif.sssom.tsv ddi25-to-cdif.sssom.tsv
 #   Unmapped rows carry a blank object_id/predicate for review.
-subject_id	subject_label	predicate_id	object_id	object_label	object_json_path	mapping_justification	comment
-ddi:stdyDscr.citation.rspStmt.othId	othId						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.studyAuthorization.authorizingAgency	authorizingAgency						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.studyAuthorization.authorizationStatement	authorizationStatement						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.stdyInfo.studyBudget	studyBudget						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.stdyInfo.sumDscr.geoBndBox.westBL	westBL	skos:closeMatch	schema:box	box	$.schema:spatialCoverage[*].schema:geo.schema:box	semapv:ManualMappingCuration	west bound -> min longitude in schema:GeoShape box 'S W N E'
-ddi:stdyDscr.stdyInfo.sumDscr.geoBndBox.eastBL	eastBL	skos:closeMatch	schema:box	box	$.schema:spatialCoverage[*].schema:geo.schema:box	semapv:ManualMappingCuration	east bound -> max longitude in schema:GeoShape box
-ddi:stdyDscr.stdyInfo.sumDscr.geoBndBox.southBL	southBL	skos:closeMatch	schema:box	box	$.schema:spatialCoverage[*].schema:geo.schema:box	semapv:ManualMappingCuration	south bound -> min latitude in schema:GeoShape box
-ddi:stdyDscr.stdyInfo.sumDscr.geoBndBox.northBL	northBL	skos:closeMatch	schema:box	box	$.schema:spatialCoverage[*].schema:geo.schema:box	semapv:ManualMappingCuration	north bound -> max latitude in schema:GeoShape box
-ddi:stdyDscr.stdyInfo.sumDscr.boundPoly.polygon.point.gringLat	gringLat	skos:closeMatch	geo:asWKT	asWKT	$.schema:spatialCoverage[*].schema:geo.geo:asWKT	semapv:ManualMappingCuration	G-ring latitude -> vertex in GeoSPARQL WKT POLYGON (geo:wktLiteral)
-ddi:stdyDscr.stdyInfo.sumDscr.boundPoly.polygon.point.gringLon	gringLon	skos:closeMatch	geo:asWKT	asWKT	$.schema:spatialCoverage[*].schema:geo.geo:asWKT	semapv:ManualMappingCuration	G-ring longitude -> vertex in GeoSPARQL WKT POLYGON (geo:wktLiteral)
-ddi:stdyDscr.stdyInfo.qualityStatement.standardsCompliance.standard.standardName	standardName	skos:closeMatch	dcterms:conformsTo	conformsTo		semapv:ManualMappingCuration	data complies with a named standard
-ddi:stdyDscr.stdyInfo.qualityStatement.standardsCompliance.standard.producer	producer						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.stdyInfo.qualityStatement.standardsCompliance.complianceDescription	complianceDescription	skos:closeMatch	dqv:QualityAnnotation	QualityAnnotation		semapv:ManualMappingCuration	narrative of standards compliance -> DQV quality annotation body (separate node)
-ddi:stdyDscr.stdyInfo.qualityStatement.otherQualityStatement	otherQualityStatement	skos:closeMatch	dqv:QualityAnnotation	QualityAnnotation		semapv:ManualMappingCuration	free-text quality statement -> DQV quality annotation body (separate node)
-ddi:stdyDscr.stdyInfo.exPostEvaluation.evaluator	evaluator						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.stdyInfo.exPostEvaluation.evaluationProcess	evaluationProcess						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.stdyInfo.exPostEvaluation.outcomes	outcomes						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.studyDevelopment.developmentActivity.description	description						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.studyDevelopment.developmentActivity.participant	participant						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.studyDevelopment.developmentActivity.resource.dataSrc	dataSrc						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.studyDevelopment.developmentActivity.resource.srcOrig	srcOrig						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.studyDevelopment.developmentActivity.resource.srcChar	srcChar						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.studyDevelopment.developmentActivity.resource.srcDocu	srcDocu						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.studyDevelopment.developmentActivity.outcome	outcome						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.collectorTraining	collectorTraining						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sampleFrame.sampleFrameName	sampleFrameName						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sampleFrame.labl	labl						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sampleFrame.txt	txt						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sampleFrame.validPeriod	validPeriod						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sampleFrame.custodian	custodian						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.confDec	confDec						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.specPerm	specPerm						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.restrctn	restrctn						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.contact	contact						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.citReq	citReq						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.deposReq	deposReq						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.conditions	conditions						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.disclaimer	disclaimer						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sampleFrame.universe	universe						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sampleFrame.frameUnit.unitType	unitType						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sampleFrame.frameUnit.txt	txt						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sampleFrame.referencePeriod	referencePeriod						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sampleFrame.updateProcedure	updateProcedure						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.targetSampleSize.sampleSize	sampleSize						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.targetSampleSize.sampleSizeFormula	sampleSizeFormula						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.instrumentDevelopment	instrumentDevelopment						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sources.sourceCitation.titlStmt.titl	titl						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sources.sourceCitation.titlStmt.subTitl	subTitl						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sources.sourceCitation.titlStmt.altTitl	altTitl						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sources.sourceCitation.titlStmt.parTitl	parTitl						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sources.sourceCitation.titlStmt.IDNo	IDNo						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sources.sourceCitation.rspStmt.AuthEnty	AuthEnty						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sources.sourceCitation.rspStmt.othId	othId						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.producer	producer						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.copyright	copyright						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.prodDate	prodDate						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.prodPlac	prodPlac						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.software	software						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.fundAg	fundAg						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.grantNo	grantNo						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sources.sourceCitation.distStmt.distrbtr	distrbtr						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sources.sourceCitation.distStmt.contact	contact						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sources.sourceCitation.distStmt.depositr	depositr						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sources.sourceCitation.distStmt.depDate	depDate						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sources.sourceCitation.distStmt.distDate	distDate						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sources.sourceCitation.serStmt.serName	serName						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sources.sourceCitation.serStmt.serInfo	serInfo						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sources.sourceCitation.verStmt.version	version						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sources.sourceCitation.verStmt.verResp	verResp						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sources.sourceCitation.verStmt.notes	notes						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sources.sourceCitation.biblCit	biblCit						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sources.sourceCitation.holdings	holdings						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataColl.sources.sourceCitation.notes	notes						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.dataProcessing	dataProcessing						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.codingInstructions.txt	txt						unmapped literal field (no CDIF target) - for review
-ddi:stdyDscr.method.codingInstructions.command	command						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.fileCitation.titlStmt.titl	titl						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.fileCitation.titlStmt.subTitl	subTitl						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.fileCitation.titlStmt.altTitl	altTitl						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.fileCitation.titlStmt.parTitl	parTitl						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.fileCitation.titlStmt.IDNo	IDNo						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.fileCitation.rspStmt.AuthEnty	AuthEnty						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.fileCitation.rspStmt.othId	othId						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.fileCitation.prodStmt.producer	producer						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.fileCitation.prodStmt.copyright	copyright						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.fileCitation.prodStmt.prodDate	prodDate						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.fileCitation.prodStmt.prodPlac	prodPlac						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.fileCitation.prodStmt.software	software						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.fileCitation.prodStmt.fundAg	fundAg						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.fileCitation.prodStmt.grantNo	grantNo						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.fileCitation.distStmt.distrbtr	distrbtr						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.fileCitation.distStmt.contact	contact						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.fileCitation.distStmt.depositr	depositr						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.fileCitation.distStmt.depDate	depDate						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.fileCitation.distStmt.distDate	distDate						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.fileCitation.serStmt.serName	serName						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.fileCitation.serStmt.serInfo	serInfo						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.fileCitation.verStmt.version	version						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.fileCitation.verStmt.verResp	verResp						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.fileCitation.verStmt.notes	notes						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.fileCitation.biblCit	biblCit						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.fileCitation.holdings	holdings						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.fileCitation.notes	notes						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.dataFingerprint.digitalFingerprintValue	digitalFingerprintValue						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.dataFingerprint.algorithmSpecification	algorithmSpecification						unmapped literal field (no CDIF target) - for review
-ddi:fileDscr.fileTxt.dataFingerprint.algorithmVersion	algorithmVersion						unmapped literal field (no CDIF target) - for review
-ddi:dataDscr.nCubeGrp.labl	labl						unmapped literal field (no CDIF target) - for review
-ddi:dataDscr.nCubeGrp.txt	txt						unmapped literal field (no CDIF target) - for review
-ddi:dataDscr.nCubeGrp.concept	concept						unmapped literal field (no CDIF target) - for review
-ddi:dataDscr.nCubeGrp.defntn	defntn						unmapped literal field (no CDIF target) - for review
-ddi:dataDscr.nCubeGrp.universe	universe						unmapped literal field (no CDIF target) - for review
-ddi:dataDscr.nCubeGrp.notes	notes						unmapped literal field (no CDIF target) - for review
-ddi:dataDscr.var.catgry.mrow.mi	mi						unmapped literal field (no CDIF target) - for review
-ddi:dataDscr.nCube.labl	labl						unmapped literal field (no CDIF target) - for review
-ddi:dataDscr.nCube.txt	txt						unmapped literal field (no CDIF target) - for review
-ddi:dataDscr.nCube.universe	universe						unmapped literal field (no CDIF target) - for review
-ddi:dataDscr.nCube.imputation	imputation						unmapped literal field (no CDIF target) - for review
-ddi:dataDscr.nCube.security	security						unmapped literal field (no CDIF target) - for review
-ddi:dataDscr.nCube.embargo	embargo						unmapped literal field (no CDIF target) - for review
-ddi:dataDscr.nCube.respUnit	respUnit						unmapped literal field (no CDIF target) - for review
-ddi:dataDscr.nCube.anlysUnit	anlysUnit						unmapped literal field (no CDIF target) - for review
-ddi:dataDscr.nCube.verStmt.version	version						unmapped literal field (no CDIF target) - for review
-ddi:dataDscr.nCube.verStmt.verResp	verResp						unmapped literal field (no CDIF target) - for review
-ddi:dataDscr.nCube.verStmt.notes	notes						unmapped literal field (no CDIF target) - for review
-ddi:dataDscr.nCube.purpose	purpose						unmapped literal field (no CDIF target) - for review
-ddi:dataDscr.nCube.notes	notes						unmapped literal field (no CDIF target) - for review
-ddi:docDscr.citation.rspStmt.othId	othId						unmapped literal field (no CDIF target) - for review
-ddi:docDscr.docSrc.rspStmt.othId	othId						unmapped literal field (no CDIF target) - for review
-ddi:docDscr.controlledVocabUsed.codeListID	codeListID						unmapped literal field (no CDIF target) - for review
-ddi:docDscr.controlledVocabUsed.codeListName	codeListName						unmapped literal field (no CDIF target) - for review
-ddi:docDscr.controlledVocabUsed.codeListAgencyName	codeListAgencyName						unmapped literal field (no CDIF target) - for review
-ddi:docDscr.controlledVocabUsed.codeListVersionID	codeListVersionID						unmapped literal field (no CDIF target) - for review
-ddi:docDscr.controlledVocabUsed.codeListURN	codeListURN						unmapped literal field (no CDIF target) - for review
-ddi:docDscr.controlledVocabUsed.codeListSchemeURN	codeListSchemeURN						unmapped literal field (no CDIF target) - for review
-ddi:docDscr.controlledVocabUsed.usage.selector	selector						unmapped literal field (no CDIF target) - for review
-ddi:docDscr.controlledVocabUsed.usage.attribute	attribute						unmapped literal field (no CDIF target) - for review
-ddi:dataDscr.nCube	nCube	skos:closeMatch	cdi:DimensionalDataStructure	DimensionalDataStructure	$.schema:distribution[*].cdif:isStructuredBy	semapv:ManualMappingCuration	aggregate data cube (2.5 only)
+subject_id	subject_label	comment	predicate_id	object_id	object_label	object_json_path	mapping_justification
+ddi:stdyDscr.citation.rspStmt.othId	othId	DDI 2.5: responsibility statement - other contributors/acknowledgements for the study whose role is secondary to the primary author (AuthEnty), e.g. editors, sponsors	skos:closeMatch	schema:identifier	contributorID	$.schema:contributor[role=contributor].person.identifier	semapv:ManualMappingCuration
+ddi:stdyDscr.studyAuthorization.authorizingAgency	authorizingAgency	DDI 2.5 (imported from DDI Lifecycle): the agency or person that authorized/approved the study	skos:closeMatch	schema:name	authorizingOrganization	$.schema:contributor[role=Authorization].organization.name	semapv:ManualMappingCuration
+ddi:stdyDscr.studyAuthorization.authorizationStatement	authorizationStatement	DDI 2.5 (imported from DDI Lifecycle): the text of the authorization granted for the study	skos:closeMatch	schema:conditionsOfAccess	AuthorizationStatement	$.schema:conditionsOfAccess.schema:string	semapv:ManualMappingCuration
+ddi:stdyDscr.stdyInfo.studyBudget	studyBudget	DDI 2.5 (imported from DDI Lifecycle): description of the budget for the study/data collection	skos:closeMatch	schema:funding	studyBudget	$.schema:funding.schema:description	semapv:ManualMappingCuration
+ddi:stdyDscr.stdyInfo.sumDscr.geoBndBox.westBL	westBL	west bound -> min longitude in schema:GeoShape box 'S W N E'	skos:closeMatch	schema:box	box	$.schema:spatialCoverage[*].schema:geo.schema:box	semapv:ManualMappingCuration
+ddi:stdyDscr.stdyInfo.sumDscr.geoBndBox.eastBL	eastBL	east bound -> max longitude in schema:GeoShape box	skos:closeMatch	schema:box	box	$.schema:spatialCoverage[*].schema:geo.schema:box	semapv:ManualMappingCuration
+ddi:stdyDscr.stdyInfo.sumDscr.geoBndBox.southBL	southBL	south bound -> min latitude in schema:GeoShape box	skos:closeMatch	schema:box	box	$.schema:spatialCoverage[*].schema:geo.schema:box	semapv:ManualMappingCuration
+ddi:stdyDscr.stdyInfo.sumDscr.geoBndBox.northBL	northBL	north bound -> max latitude in schema:GeoShape box	skos:closeMatch	schema:box	box	$.schema:spatialCoverage[*].schema:geo.schema:box	semapv:ManualMappingCuration
+ddi:stdyDscr.stdyInfo.sumDscr.boundPoly.polygon.point.gringLat	gringLat	G-ring latitude -> vertex in GeoSPARQL WKT POLYGON (geo:wktLiteral)	skos:closeMatch	geo:asWKT	asWKT	$.schema:spatialCoverage[*].schema:geo.geo:asWKT	semapv:ManualMappingCuration
+ddi:stdyDscr.stdyInfo.sumDscr.boundPoly.polygon.point.gringLon	gringLon	G-ring longitude -> vertex in GeoSPARQL WKT POLYGON (geo:wktLiteral)	skos:closeMatch	geo:asWKT	asWKT	$.schema:spatialCoverage[*].schema:geo.geo:asWKT	semapv:ManualMappingCuration
+ddi:stdyDscr.stdyInfo.qualityStatement.standardsCompliance.standard.standardName	standardName	DDI 2.5: name of a standard the data complies with -> dcterms:conformsTo	skos:closeMatch	dcterms:conformsTo	conformsTo	$.dcterms:conformsTo	semapv:ManualMappingCuration
+ddi:stdyDscr.stdyInfo.qualityStatement.standardsCompliance.standard.producer	producer	DDI 2.5: producer/authority of the compliance standard - no clean dataset-level target, for review					
+ddi:stdyDscr.stdyInfo.qualityStatement.standardsCompliance.complianceDescription	complianceDescription	DDI 2.5: narrative of standards compliance -> DQV quality annotation body (separate node)	skos:closeMatch	dqv:QualityAnnotation	QualityAnnotation		semapv:ManualMappingCuration
+ddi:stdyDscr.stdyInfo.qualityStatement.otherQualityStatement	otherQualityStatement	DDI 2.5: free-text quality statement -> DQV quality annotation body (separate node)	skos:closeMatch	dqv:QualityAnnotation	QualityAnnotation		semapv:ManualMappingCuration
+ddi:stdyDscr.stdyInfo.exPostEvaluation.evaluator	evaluator	DDI 2.5 (imported from DDI Lifecycle; GSBPM Evaluate phase): the organization or individual (by reference) that performed the post-completion evaluation, with an optional controlled-vocabulary role	skos:closeMatch	schema:name	evaluatorName	$.schema:contributor[role=evaluator].person.name	semapv:ManualMappingCuration
+ddi:stdyDscr.stdyInfo.exPostEvaluation.evaluationProcess	evaluationProcess	DDI 2.5 (imported from DDI Lifecycle): description of how the ex-post evaluation was carried out (methods, criteria, procedure)	skos:closeMatch	dqv:hasQualityMeasurement	PostEvaluationProcess	$.dqv:hasQualityMeasurement.dqv:isMeasurementOf.schema:DefinedTerm.schema:name	semapv:ManualMappingCuration
+ddi:stdyDscr.stdyInfo.exPostEvaluation.outcomes	outcomes	DDI 2.5 (imported from DDI Lifecycle): the results/findings of the ex-post evaluation - conclusions, lessons learned, recommendations for a future cycle	skos:closeMatch	dqv:hasQualityMeasurement	PostEvaluationOutcome	$.dqv:hasQualityMeasurement[dqv:isMeasurementOf='PostEvaluation.outcomes'].dqv:value	semapv:ManualMappingCuration
+ddi:stdyDscr.studyDevelopment.developmentActivity.description	description	DDI 2.5 (imported from DDI Lifecycle): description of a development activity performed while designing/building the study. Out of scope for CDIF					
+ddi:stdyDscr.studyDevelopment.developmentActivity.participant	participant	DDI 2.5 (imported from DDI Lifecycle): a person or organization that participated in the development activity. Out of scope for CDIF					
+ddi:stdyDscr.studyDevelopment.developmentActivity.resource.dataSrc	dataSrc	DDI 2.5: a data source (book, article, dataset) used as a resource in the development activity. Out of scope for CDIF					
+ddi:stdyDscr.studyDevelopment.developmentActivity.resource.srcOrig	srcOrig	DDI 2.5: origin of the source - for historical materials, information about where the source resource came from. Out of scope for CDIF					
+ddi:stdyDscr.studyDevelopment.developmentActivity.resource.srcChar	srcChar	DDI 2.5: characteristics of source noted - assessment of the characteristics/quality of the source resource. Out of scope for CDIF					
+ddi:stdyDscr.studyDevelopment.developmentActivity.resource.srcDocu	srcDocu	DDI 2.5: documentation and access to the source resource. Out of scope for CDIF					
+ddi:stdyDscr.studyDevelopment.developmentActivity.outcome	outcome	DDI 2.5 (imported from DDI Lifecycle): the outcome/result of the development activity. Out of scope for CDIF					
+ddi:stdyDscr.method.dataColl.collectorTraining	collectorTraining	DDI 2.5 (imported from DDI Lifecycle): description of the training given to data collectors/interviewers (@type qualifies the training kind). Out of scope for CDIF					
+ddi:stdyDscr.method.dataColl.sampleFrame.sampleFrameName	sampleFrameName	DDI 2.5 (imported from DDI Lifecycle): the name of the sampling frame from which the sample was drawn		prov:used	sampleFrameName	$.prov:wasGeneratedBy.prov:used[@type="prov:Entity", schema:Thing], schema:additionalType[,"ddi:sampleFrame"].schema:name	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sampleFrame.labl	labl	DDI 2.5: a label for the sampling frame		prov:used	sampleFrameLabel	$.prov:wasGeneratedBy.prov:used[@type="prov:Entity", schema:Thing], schema:additionalType[,"ddi:sampleFrame"].schema:alternateName	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sampleFrame.txt	txt	DDI 2.5: descriptive text about the sampling frame		prov:used	sampleFrameDescription	$.prov:wasGeneratedBy.prov:used[@type="prov:Entity", schema:Thing], schema:additionalType[,"ddi:sampleFrame"].schema:description	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sampleFrame.validPeriod	validPeriod	DDI 2.5: the period during which the sampling frame is valid		prov:used	sampleFrameDescription	$.prov:wasGeneratedBy.prov:used[@type="prov:Entity", schema:Thing], schema:additionalType[,"ddi:sampleFrame"].schema:description	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sampleFrame.custodian	custodian	DDI 2.5: the agency or person that maintains/holds the sampling frame		prov:used	sampleFrameCustodian	$.prov:wasGeneratedBy.prov:used[@type="prov:Entity", schema:Thing], schema:additionalType[,"ddi:sampleFrame"].schema:owner	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.confDec	confDec	DDI 2.5: use statement - whether a confidentiality declaration must be signed to access the sampling frame		prov:used	sampleFrameDescription	$.prov:wasGeneratedBy.prov:used[@type="prov:Entity", schema:Thing], schema:additionalType[,"ddi:sampleFrame"].schema:description	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.specPerm	specPerm	DDI 2.5: use statement - whether special permissions are required to access the sampling frame		prov:used	sampleFrameDescription	$.prov:wasGeneratedBy.prov:used[@type="prov:Entity", schema:Thing], schema:additionalType[,"ddi:sampleFrame"].schema:description	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.restrctn	restrctn	DDI 2.5: use statement - restrictions on access to or use of the sampling frame		prov:used	sampleFrameDescription	$.prov:wasGeneratedBy.prov:used[@type="prov:Entity", schema:Thing], schema:additionalType[,"ddi:sampleFrame"].schema:description	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.contact	contact	DDI 2.5: use statement - contact person(s) for questions about accessing/using the sampling frame		prov:used	sampleFrameContact	$.prov:wasGeneratedBy.prov:used[@type="prov:Entity", schema:Thing], schema:additionalType[,"ddi:sampleFrame"].schema:contactPoint	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.citReq	citReq	DDI 2.5: use statement - the citation requirement for using the sampling frame		prov:used	sampleFrameDescription	$.prov:wasGeneratedBy.prov:used[@type="prov:Entity", schema:Thing], schema:additionalType[,"ddi:sampleFrame"].schema:description	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.deposReq	deposReq	DDI 2.5: use statement - requirement to deposit derived works/results based on the sampling frame		prov:used	sampleFrameDescription	$.prov:wasGeneratedBy.prov:used[@type="prov:Entity", schema:Thing], schema:additionalType[,"ddi:sampleFrame"].schema:description	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.conditions	conditions	DDI 2.5: use statement - general conditions under which the sampling frame may be used		prov:used	sampleFrameDescription	$.prov:wasGeneratedBy.prov:used[@type="prov:Entity", schema:Thing], schema:additionalType[,"ddi:sampleFrame"].schema:description	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.disclaimer	disclaimer	DDI 2.5: use statement - disclaimer of liability for use of the sampling frame		prov:used	sampleFrameDescription	$.prov:wasGeneratedBy.prov:used[@type="prov:Entity", schema:Thing], schema:additionalType[,"ddi:sampleFrame"].schema:description	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sampleFrame.universe	universe	DDI 2.5: the universe (target population) represented by the sampling frame	skos:closeMatch	schema:DefinedTerm	samplingFrameUniverse	$.schema:keywords[*]	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sampleFrame.frameUnit.unitType	unitType	DDI 2.5: the type of unit contained in the sampling frame (@isPrimary flags primary sampling units)	skos:closeMatch	schema:DefinedTerm	samplingFrameUnitType	$.schema:keywords[*]	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sampleFrame.frameUnit.txt	txt	DDI 2.5: descriptive text about the sampling-frame unit	skos:closeMatch	schema:DefinedTerm	samplingFrameUnitType	$.schema:keywords[*].schema:description	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sampleFrame.referencePeriod	referencePeriod	DDI 2.5: the reference period (point or range in time) to which the sampling frame applies		prov:used	sampleFrameDescription	$.prov:wasGeneratedBy.prov:used[@type="prov:Entity", schema:Thing], schema:additionalType[,"ddi:sampleFrame"].schema:description	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sampleFrame.updateProcedure	updateProcedure	DDI 2.5: the procedure used to update/maintain the sampling frame		prov:used	sampleFrameDescription	$.prov:wasGeneratedBy.prov:used[@type="prov:Entity", schema:Thing], schema:additionalType[,"ddi:sampleFrame"].schema:description	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.targetSampleSize.sampleSize	sampleSize	DDI 2.5 (imported from DDI Lifecycle): the planned/target number of sampling units (integer). Out of scope for CDIF					
+ddi:stdyDscr.method.dataColl.targetSampleSize.sampleSizeFormula	sampleSizeFormula	DDI 2.5 (imported from DDI Lifecycle): the formula used to compute the target sample size. Out of scope for CDIF					
+ddi:stdyDscr.method.dataColl.instrumentDevelopment	instrumentDevelopment	DDI 2.5 (imported from DDI Lifecycle): description of the development of the data-collection instrument (@type qualifies the kind). Out of scope for CDIF					
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.titlStmt.titl	titl	DDI 2.5: full authoritative title of a data source the study drew on (sources/sourceCitation is a complete citation for that source; this titl is the source's own title, distinct from the study title in stdyDscr/citation/titlStmt/titl)		prov:wasDerivedFrom	sourceCitationTitle	$.prov:wasDerivedFrom.schema:CreativeWork.schema:name	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.titlStmt.subTitl	subTitl	DDI 2.5: subtitle of the cited data source		prov:wasDerivedFrom	sourceAdditionalTitle	$.prov:wasDerivedFrom.schema:CreativeWork.schema:alternateName	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.titlStmt.altTitl	altTitl	DDI 2.5: alternative title (a title by which the source is also known) of the cited data source		prov:wasDerivedFrom	sourceAdditionalTitle	$.prov:wasDerivedFrom.schema:CreativeWork.schema:alternateName	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.titlStmt.parTitl	parTitl	DDI 2.5: parallel title (the source title expressed in another language) of the cited data source		prov:wasDerivedFrom	sourceAdditionalTitle	$.prov:wasDerivedFrom.schema:CreativeWork.schema:alternateName	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.titlStmt.IDNo	IDNo	DDI 2.5: identifier (e.g. DOI/handle) of the cited data source, optionally with an agency attribute		prov:wasDerivedFrom	sourceIdentifier	$.prov:wasDerivedFrom.schema:CreativeWork.schema:identifier	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.rspStmt.AuthEnty	AuthEnty	DDI 2.5: responsibility statement - authoring entity/person legally responsible for the cited data source		prov:wasDerivedFrom	sourceAuthor	$.prov:wasDerivedFrom.schema:CreativeWork.schema:creator	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.rspStmt.othId	othId	DDI 2.5: responsibility statement - other contributors to the cited source (e.g. editors, translators) not credited as primary author		prov:wasDerivedFrom	sourceContributor	$.prov:wasDerivedFrom.schema:CreativeWork.schema:contributor[role = contributor]	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.producer	producer	DDI 2.5: production statement - person/organization responsible for producing the cited data source		prov:wasDerivedFrom	sourceProducer	$.prov:wasDerivedFrom.schema:CreativeWork.schema:contributor[role = producer]	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.copyright	copyright	DDI 2.5: production statement - copyright statement for the cited data source		prov:wasDerivedFrom	sourceCopyright	$.prov:wasDerivedFrom.schema:CreativeWork.schema:copyrightNotice	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.prodDate	prodDate	DDI 2.5: production statement - date the cited data source was produced		prov:wasDerivedFrom	sourceDateProduced	$.prov:wasDerivedFrom.schema:CreativeWork.schema:dateCreated	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.prodPlac	prodPlac	DDI 2.5: production statement - place where the cited data source was produced		prov:wasDerivedFrom	sourceDescription	$.prov:wasDerivedFrom.schema:CreativeWork.schema:description	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.software	software	DDI 2.5: production statement - software used to produce the cited data source		prov:wasDerivedFrom	sourceDescription	$.prov:wasDerivedFrom.schema:CreativeWork.schema:description	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.fundAg	fundAg	DDI 2.5: production statement - funding agency/sponsor of the cited data source		prov:wasDerivedFrom	sourceFunder	$.prov:wasDerivedFrom.schema:CreativeWork.schema:funding.schema:funder	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.grantNo	grantNo	DDI 2.5: production statement - grant/contract number under which the cited data source was produced		prov:wasDerivedFrom	sourceFundingIdentifier	$.prov:wasDerivedFrom.schema:CreativeWork.schema:funding.schema:identifier	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.distStmt.distrbtr	distrbtr	DDI 2.5: distribution statement - agency/person distributing the cited data source		prov:wasDerivedFrom	sourceDescription	$.prov:wasDerivedFrom.schema:CreativeWork.schema:description	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.distStmt.contact	contact	DDI 2.5: distribution statement - contact person(s) for questions about the cited data source		prov:wasDerivedFrom	sourceDescription	$.prov:wasDerivedFrom.schema:CreativeWork.schema:description	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.distStmt.depositr	depositr	DDI 2.5: distribution statement - person/institution who deposited the cited data source with the distributor		prov:wasDerivedFrom	sourcePublisher	$.prov:wasDerivedFrom.schema:CreativeWork.schema:publisher	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.distStmt.depDate	depDate	DDI 2.5: distribution statement - date the cited data source was deposited		prov:wasDerivedFrom	sourceDateDeposited	$.prov:wasDerivedFrom.schema:CreativeWork.schema:dateModified	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.distStmt.distDate	distDate	DDI 2.5: distribution statement - date the cited data source was distributed/released		prov:wasDerivedFrom	sourceDateReleased	$.prov:wasDerivedFrom.schema:CreativeWork.schema:datePublished	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.serStmt.serName	serName	DDI 2.5: series statement - name of the series to which the cited data source belongs		prov:wasDerivedFrom	sourceDescription	$.prov:wasDerivedFrom.schema:CreativeWork.schema:description	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.serStmt.serInfo	serInfo	DDI 2.5: series statement - history/information about the series of the cited data source		prov:wasDerivedFrom	sourceDescription	$.prov:wasDerivedFrom.schema:CreativeWork.schema:description	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.verStmt.version	version	DDI 2.5: version statement - version number/description of the cited data source		prov:wasDerivedFrom	sourceDescription	$.prov:wasDerivedFrom.schema:CreativeWork.schema:description	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.verStmt.verResp	verResp	DDI 2.5: version statement - person/organization responsible for this version of the cited data source		prov:wasDerivedFrom	sourceDescription	$.prov:wasDerivedFrom.schema:CreativeWork.schema:description	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.verStmt.notes	notes	DDI 2.5: version statement - notes about this version of the cited data source		prov:wasDerivedFrom	sourceDescription	$.prov:wasDerivedFrom.schema:CreativeWork.schema:description	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.biblCit	biblCit	DDI 2.5: complete bibliographic citation for the cited data source as a single formatted string		prov:wasDerivedFrom	sourceDescription	$.prov:wasDerivedFrom.schema:CreativeWork.dcterms:bibliographicCitation	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.holdings	holdings	DDI 2.5: holdings - information on the location/URI where copies of the cited data source are held		prov:wasDerivedFrom	sourceDescription	$.prov:wasDerivedFrom.schema:CreativeWork.schema:description	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataColl.sources.sourceCitation.notes	notes	DDI 2.5: general notes about the citation of the data source		prov:wasDerivedFrom	sourceDescription	$.prov:wasDerivedFrom.schema:CreativeWork.schema:description	semapv:ManualMappingCuration
+ddi:stdyDscr.method.dataProcessing	dataProcessing	DDI 2.5 (imported from DDI Lifecycle): description of data processing performed on the collected data (@type qualifies the processing kind)		prov:wasGeneratedBy	dataProcessing	$.prov:wasGeneratedBy.schema:actionProcess[	semapv:ManualMappingCuration
+ddi:stdyDscr.method.codingInstructions.txt	txt	DDI 2.5 (imported from DDI Lifecycle): the text of the instructions used to code the data. Unmapped (no CDIF target) - for review					
+ddi:stdyDscr.method.codingInstructions.command	command	DDI 2.5: a coding command/script implementing the coding instructions (@formalLanguage names the language). Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.fileCitation.titlStmt.titl	titl	DDI 2.5: full authoritative title of the data file itself (fileTxt/fileCitation is a complete citation for one physical data file; this titl is the file's own title, distinct from the study title in stdyDscr/citation/titlStmt/titl). Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.fileCitation.titlStmt.subTitl	subTitl	DDI 2.5: subtitle of the data file. Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.fileCitation.titlStmt.altTitl	altTitl	DDI 2.5: alternative title (a title by which the data file is also known). Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.fileCitation.titlStmt.parTitl	parTitl	DDI 2.5: parallel title (the data file title expressed in another language). Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.fileCitation.titlStmt.IDNo	IDNo	DDI 2.5: identifier (e.g. DOI/handle) of the data file, optionally with an agency attribute. Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.fileCitation.rspStmt.AuthEnty	AuthEnty	DDI 2.5: responsibility statement - authoring entity/person legally responsible for the data file. Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.fileCitation.rspStmt.othId	othId	DDI 2.5: responsibility statement - other contributors to the data file (e.g. editors) not credited as primary author. Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.fileCitation.prodStmt.producer	producer	DDI 2.5: production statement - person/organization responsible for producing the data file. Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.fileCitation.prodStmt.copyright	copyright	DDI 2.5: production statement - copyright statement for the data file. Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.fileCitation.prodStmt.prodDate	prodDate	DDI 2.5: production statement - date the data file was produced. Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.fileCitation.prodStmt.prodPlac	prodPlac	DDI 2.5: production statement - place where the data file was produced. Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.fileCitation.prodStmt.software	software	DDI 2.5: production statement - software used to produce the data file. Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.fileCitation.prodStmt.fundAg	fundAg	DDI 2.5: production statement - funding agency/sponsor of the data file. Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.fileCitation.prodStmt.grantNo	grantNo	DDI 2.5: production statement - grant/contract number under which the data file was produced. Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.fileCitation.distStmt.distrbtr	distrbtr	DDI 2.5: distribution statement - agency/person distributing the data file. Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.fileCitation.distStmt.contact	contact	DDI 2.5: distribution statement - contact person(s) for questions about the data file. Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.fileCitation.distStmt.depositr	depositr	DDI 2.5: distribution statement - person/institution who deposited the data file with the distributor. Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.fileCitation.distStmt.depDate	depDate	DDI 2.5: distribution statement - date the data file was deposited. Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.fileCitation.distStmt.distDate	distDate	DDI 2.5: distribution statement - date the data file was distributed/released. Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.fileCitation.serStmt.serName	serName	DDI 2.5: series statement - name of the series to which the data file belongs. Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.fileCitation.serStmt.serInfo	serInfo	DDI 2.5: series statement - history/information about the series of the data file. Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.fileCitation.verStmt.version	version	DDI 2.5: version statement - version number/description of the data file. Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.fileCitation.verStmt.verResp	verResp	DDI 2.5: version statement - person/organization responsible for this version of the data file. Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.fileCitation.verStmt.notes	notes	DDI 2.5: version statement - notes about this version of the data file. Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.fileCitation.biblCit	biblCit	DDI 2.5: complete bibliographic citation for the data file as a single formatted string. Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.fileCitation.holdings	holdings	DDI 2.5: holdings - information on the location/URI where copies of the data file are held. Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.fileCitation.notes	notes	DDI 2.5: general notes about the citation of the data file. Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.dataFingerprint.digitalFingerprintValue	digitalFingerprintValue	DDI 2.5 (imported from DDI Lifecycle): the checksum/digital-fingerprint value computed over the data file (e.g. a UNF or hash value). Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.dataFingerprint.algorithmSpecification	algorithmSpecification	DDI 2.5: specification of the algorithm used to compute the data fingerprint (e.g. UNF, MD5, SHA-256). Unmapped (no CDIF target) - for review					
+ddi:fileDscr.fileTxt.dataFingerprint.algorithmVersion	algorithmVersion	DDI 2.5: the version of the fingerprint algorithm used. Unmapped (no CDIF target) - for review					
+ddi:dataDscr.nCubeGrp.labl	labl	DDI 2.5: a label for the nCube group (a group of related aggregate data cubes). Unmapped (no CDIF target) - for review					
+ddi:dataDscr.nCubeGrp.txt	txt	DDI 2.5: descriptive text about the nCube group. Unmapped (no CDIF target) - for review					
+ddi:dataDscr.nCubeGrp.concept	concept	DDI 2.5: the concept measured/represented by the nCube group. Unmapped (no CDIF target) - for review					
+ddi:dataDscr.nCubeGrp.defntn	defntn	DDI 2.5: a definition of the nCube group. Unmapped (no CDIF target) - for review					
+ddi:dataDscr.nCubeGrp.universe	universe	DDI 2.5: the universe (population) covered by the nCube group. Unmapped (no CDIF target) - for review					
+ddi:dataDscr.nCubeGrp.notes	notes	DDI 2.5: notes about the nCube group. Unmapped (no CDIF target) - for review					
+ddi:dataDscr.var.catgry.mrow.mi	mi	DDI 2.5: a MathML presentation-markup identifier token (mi within mrow) expressing a category value as mathematical notation. Unmapped (no CDIF target) - for review					
+ddi:dataDscr.nCube.labl	labl	DDI 2.5: a label for the nCube (aggregate data cube). Unmapped (no CDIF target) - for review					
+ddi:dataDscr.nCube.txt	txt	DDI 2.5: descriptive text about the nCube. Unmapped (no CDIF target) - for review					
+ddi:dataDscr.nCube.universe	universe	DDI 2.5: the universe (population) the nCube describes. Unmapped (no CDIF target) - for review					
+ddi:dataDscr.nCube.imputation	imputation	DDI 2.5: description of any imputation performed on the nCube's cell values. Unmapped (no CDIF target) - for review					
+ddi:dataDscr.nCube.security	security	DDI 2.5: the security/access-restriction level for the nCube (@date qualifies). Unmapped (no CDIF target) - for review					
+ddi:dataDscr.nCube.embargo	embargo	DDI 2.5: embargo information - the date/event until which the nCube data is restricted. Unmapped (no CDIF target) - for review					
+ddi:dataDscr.nCube.respUnit	respUnit	DDI 2.5: response unit - who or what provided the information in the nCube (e.g. head of household, respondent, proxy). Unmapped (no CDIF target) - for review					
+ddi:dataDscr.nCube.anlysUnit	anlysUnit	DDI 2.5: analysis unit - the unit of analysis the nCube describes (whom or what each cell is about). Unmapped (no CDIF target) - for review					
+ddi:dataDscr.nCube.verStmt.version	version	DDI 2.5: version statement - version number/description of the nCube. Unmapped (no CDIF target) - for review					
+ddi:dataDscr.nCube.verStmt.verResp	verResp	DDI 2.5: version statement - person/organization responsible for this version of the nCube. Unmapped (no CDIF target) - for review					
+ddi:dataDscr.nCube.verStmt.notes	notes	DDI 2.5: version statement - notes about this version of the nCube. Unmapped (no CDIF target) - for review					
+ddi:dataDscr.nCube.purpose	purpose	DDI 2.5: the purpose for which the nCube was created. Unmapped (no CDIF target) - for review					
+ddi:dataDscr.nCube.notes	notes	DDI 2.5: general notes about the nCube. Unmapped (no CDIF target) - for review					
+ddi:docDscr.citation.rspStmt.othId	othId	DDI 2.5: responsibility statement (document description citation) - other contributors/acknowledgements for the DDI document itself, secondary to the primary author		schema:subjectOf	CatalogRecordResponsibleParty	$.schema:subjectOf[schema:additionalType = dcat:DataCatalog].schema:maintainer	semapv:ManualMappingCuration
+ddi:docDscr.docSrc.rspStmt.othId	othId	DDI 2.5: responsibility statement (source of the DDI document) - other contributors/acknowledgements for the source document the DDI record was derived from		schema:subjectOf	CatalogRecordResponsibleParty	$.schema:subjectOf[schema:additionalType = dcat:DataCatalog].schema:maintainer	semapv:ManualMappingCuration
+ddi:docDscr.controlledVocabUsed.codeListID	codeListID	DDI 2.5 (SDMX-aligned): identifier of a controlled vocabulary/code list used in the document. Unmapped (no CDIF target) - for review					
+ddi:docDscr.controlledVocabUsed.codeListName	codeListName	DDI 2.5 (SDMX-aligned): human-readable name of the controlled vocabulary/code list. Unmapped (no CDIF target) - for review					
+ddi:docDscr.controlledVocabUsed.codeListAgencyName	codeListAgencyName	DDI 2.5 (SDMX-aligned): name of the agency that maintains the controlled vocabulary/code list. Unmapped (no CDIF target) - for review					
+ddi:docDscr.controlledVocabUsed.codeListVersionID	codeListVersionID	DDI 2.5 (SDMX-aligned): version identifier of the controlled vocabulary/code list. Unmapped (no CDIF target) - for review					
+ddi:docDscr.controlledVocabUsed.codeListURN	codeListURN	DDI 2.5 (SDMX-aligned): URN uniquely identifying the controlled vocabulary/code list. Unmapped (no CDIF target) - for review					
+ddi:docDscr.controlledVocabUsed.codeListSchemeURN	codeListSchemeURN	DDI 2.5 (SDMX-aligned): URN of the scheme/agency scheme that contains the code list. Unmapped (no CDIF target) - for review					
+ddi:docDscr.controlledVocabUsed.usage.selector	selector	DDI 2.5: an XPath selector identifying where in the document the controlled vocabulary is applied. Unmapped (no CDIF target) - for review					
+ddi:docDscr.controlledVocabUsed.usage.attribute	attribute	DDI 2.5: the attribute (at the selected location) to which the controlled vocabulary applies. Unmapped (no CDIF target) - for review					
+ddi:dataDscr.nCube	nCube	aggregate data cube (2.5 only)	skos:closeMatch	cdi:DimensionalDataStructure	DimensionalDataStructure	$.schema:distribution[*].cdif:isStructuredBy	semapv:ManualMappingCuration

@@ -16,6 +16,7 @@
 #   cdif: https://w3id.org/cdif/
 #   cdifq: http://crossdomaininteroperability.org/cdifq/
 #   ddicb: https://ddialliance.org/Specification/DDI-Codebook/element/
+#   prov: http://www.w3.org/ns/prov#
 #   schema: http://schema.org/
 #   semapv: https://w3id.org/semapv/vocab/
 #   skos: http://www.w3.org/2004/02/skos/core#
@@ -29,206 +30,211 @@
 #     sssom merge ddi-common-to-cdif.sssom.tsv ddi122-to-cdif.sssom.tsv
 #   Universal qualifier attributes (abbr/affiliation/role/URI/date; GLOBALS group)
 #   are omitted; only data-bearing attributes that map are kept (var/@name, varFormat/@type).
-subject_id	subject_label	predicate_id	object_id	object_label	object_json_path	mapping_justification	comment
-ddicb:stdyDscr.citation.titlStmt.titl	titl	skos:exactMatch	schema:name	name	$.schema:name	semapv:ManualMappingCuration	
-ddicb:stdyDscr.citation.titlStmt.subTitl	subTitl						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.citation.titlStmt.altTitl	altTitl						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.citation.titlStmt.parTitl	parTitl						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.citation.titlStmt.IDNo	IDNo	skos:exactMatch	schema:identifier	identifier	$.schema:identifier	semapv:ManualMappingCuration	also fills @id
-ddicb:stdyDscr.citation.rspStmt.AuthEnty	AuthEnty	skos:closeMatch	schema:creator	creator	$.schema:creator	semapv:ManualMappingCuration	-> schema:Person in @list
-ddicb:stdyDscr.citation.prodStmt.producer	producer						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.citation.prodStmt.copyright	copyright						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.citation.prodStmt.prodDate	prodDate	skos:exactMatch	schema:dateModified	dateModified	$.schema:dateModified	semapv:ManualMappingCuration	fallback distDate
-ddicb:stdyDscr.citation.prodStmt.prodPlac	prodPlac						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.citation.prodStmt.software	software						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.citation.prodStmt.fundAg	fundAg						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.citation.prodStmt.grantNo	grantNo						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.citation.distStmt.distrbtr	distrbtr	skos:closeMatch	schema:publisher	publisher	$.schema:publisher	semapv:ManualMappingCuration	-> schema:Organization
-ddicb:stdyDscr.citation.distStmt.contact	contact						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.citation.distStmt.depositr	depositr						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.citation.distStmt.depDate	depDate						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.citation.distStmt.distDate	distDate	skos:exactMatch	schema:datePublished	datePublished	$.schema:datePublished	semapv:ManualMappingCuration	
-ddicb:stdyDscr.citation.serStmt.serName	serName						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.citation.serStmt.serInfo	serInfo						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.citation.verStmt.version	version						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.citation.verStmt.verResp	verResp						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.citation.verStmt.notes	notes						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.citation.biblCit	biblCit						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.citation.holdings	holdings						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.citation.notes	notes						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.stdyInfo.subject.keyword	keyword	skos:exactMatch	schema:keywords	keywords	$.schema:keywords	semapv:ManualMappingCuration	
-ddicb:stdyDscr.stdyInfo.subject.topcClas	topcClas	skos:exactMatch	schema:keywords	keywords	$.schema:keywords	semapv:ManualMappingCuration	
-ddicb:stdyDscr.stdyInfo.abstract	abstract	skos:exactMatch	schema:description	description	$.schema:description	semapv:ManualMappingCuration	
-ddicb:stdyDscr.stdyInfo.sumDscr.timePrd	timePrd	skos:closeMatch	schema:temporalCoverage	temporalCoverage	$.schema:temporalCoverage	semapv:ManualMappingCuration	start/end -> ISO 8601 interval
-ddicb:stdyDscr.stdyInfo.sumDscr.collDate	collDate						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.stdyInfo.sumDscr.nation	nation	skos:closeMatch	schema:spatialCoverage	spatialCoverage	$.schema:spatialCoverage[*]	semapv:ManualMappingCuration	-> schema:Place
-ddicb:stdyDscr.stdyInfo.sumDscr.geogCover	geogCover	skos:closeMatch	schema:spatialCoverage	spatialCoverage	$.schema:spatialCoverage[*]	semapv:ManualMappingCuration	-> schema:Place
-ddicb:stdyDscr.stdyInfo.sumDscr.geogUnit	geogUnit						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.stdyInfo.sumDscr.anlyUnit	anlyUnit						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.stdyInfo.sumDscr.universe	universe						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.stdyInfo.sumDscr.dataKind	dataKind						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.stdyInfo.notes	notes						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.method.dataColl.timeMeth	timeMeth						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.method.dataColl.dataCollector	dataCollector						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.method.dataColl.frequenc	frequenc						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.method.dataColl.sampProc	sampProc						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.method.dataColl.deviat	deviat						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.method.dataColl.collMode	collMode	skos:exactMatch	schema:measurementTechnique	measurementTechnique	$.schema:measurementTechnique	semapv:ManualMappingCuration	
-ddicb:stdyDscr.method.dataColl.resInstru	resInstru						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.method.dataColl.sources.dataSrc	dataSrc						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.method.dataColl.sources.srcOrig	srcOrig						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.method.dataColl.sources.srcChar	srcChar						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.method.dataColl.sources.srcDocu	srcDocu						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.method.dataColl.sources.sources	sources						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.method.dataColl.collSitu	collSitu						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.method.dataColl.actMin	actMin						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.method.dataColl.ConOps	ConOps						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.method.dataColl.weight	weight						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.method.dataColl.cleanOps	cleanOps						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.method.notes	notes						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.method.anlyInfo.respRate	respRate						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.method.anlyInfo.EstSmpErr	EstSmpErr						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.method.anlyInfo.dataAppr	dataAppr						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.method.stdyClas	stdyClas						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.dataAccs.setAvail.accsPlac	accsPlac	skos:closeMatch	schema:url	url	$.schema:url	semapv:ManualMappingCuration	access location
-ddicb:stdyDscr.dataAccs.setAvail.origArch	origArch						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.dataAccs.setAvail.avlStatus	avlStatus						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.dataAccs.setAvail.collSize	collSize						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.dataAccs.setAvail.complete	complete						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.dataAccs.setAvail.fileQnty	fileQnty						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.dataAccs.setAvail.notes	notes						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.dataAccs.useStmt.confDec	confDec						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.dataAccs.useStmt.specPerm	specPerm						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.dataAccs.useStmt.restrctn	restrctn	skos:closeMatch	schema:conditionsOfAccess	conditionsOfAccess	$.schema:conditionsOfAccess	semapv:ManualMappingCuration	
-ddicb:stdyDscr.dataAccs.useStmt.contact	contact						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.dataAccs.useStmt.citReq	citReq						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.dataAccs.useStmt.deposReq	deposReq						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.dataAccs.useStmt.conditions	conditions						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.dataAccs.useStmt.disclaimer	disclaimer						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.dataAccs.notes	notes						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.othrStdyMat.relMat	relMat						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.othrStdyMat.relStdy	relStdy						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.othrStdyMat.relPubl	relPubl						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.othrStdyMat.othRefs	othRefs						unmapped literal field (no CDIF target) - for review
-ddicb:stdyDscr.notes	notes						unmapped literal field (no CDIF target) - for review
-ddicb:fileDscr.fileTxt.fileName	fileName	skos:closeMatch	schema:DataDownload	DataDownload	$.schema:distribution[*]	semapv:ManualMappingCuration	-> cdi:TabularTextDataSet distribution + schema:name
-ddicb:fileDscr.fileTxt.fileCont	fileCont						unmapped literal field (no CDIF target) - for review
-ddicb:fileDscr.fileTxt.fileStrc.recGrp.labl	labl						unmapped literal field (no CDIF target) - for review
-ddicb:fileDscr.fileTxt.fileStrc.recGrp.recDimnsn.varQnty	varQnty						unmapped literal field (no CDIF target) - for review
-ddicb:fileDscr.fileTxt.fileStrc.recGrp.recDimnsn.caseQnty	caseQnty						unmapped literal field (no CDIF target) - for review
-ddicb:fileDscr.fileTxt.fileStrc.recGrp.recDimnsn.logRecL	logRecL						unmapped literal field (no CDIF target) - for review
-ddicb:fileDscr.fileTxt.fileStrc.notes	notes						unmapped literal field (no CDIF target) - for review
-ddicb:fileDscr.fileTxt.dimensns.caseQnty	caseQnty	skos:closeMatch	cdifq:nRows	nRows	$.schema:distribution[*].cdifq:nRows	semapv:ManualMappingCuration	
-ddicb:fileDscr.fileTxt.dimensns.varQnty	varQnty	skos:closeMatch	cdifq:nColumns	nColumns	$.schema:distribution[*].cdifq:nColumns	semapv:ManualMappingCuration	
-ddicb:fileDscr.fileTxt.dimensns.logRecL	logRecL						unmapped literal field (no CDIF target) - for review
-ddicb:fileDscr.fileTxt.dimensns.recPrCas	recPrCas						unmapped literal field (no CDIF target) - for review
-ddicb:fileDscr.fileTxt.dimensns.recNumTot	recNumTot						unmapped literal field (no CDIF target) - for review
-ddicb:fileDscr.fileTxt.fileType	fileType						unmapped literal field (no CDIF target) - for review
-ddicb:fileDscr.fileTxt.format	format						unmapped literal field (no CDIF target) - for review
-ddicb:fileDscr.fileTxt.filePlac	filePlac						unmapped literal field (no CDIF target) - for review
-ddicb:fileDscr.fileTxt.dataChck	dataChck						unmapped literal field (no CDIF target) - for review
-ddicb:fileDscr.fileTxt.ProcStat	ProcStat						unmapped literal field (no CDIF target) - for review
-ddicb:fileDscr.fileTxt.dataMsng	dataMsng						unmapped literal field (no CDIF target) - for review
-ddicb:fileDscr.fileTxt.software	software						unmapped literal field (no CDIF target) - for review
-ddicb:fileDscr.fileTxt.verStmt.version	version						unmapped literal field (no CDIF target) - for review
-ddicb:fileDscr.fileTxt.verStmt.verResp	verResp						unmapped literal field (no CDIF target) - for review
-ddicb:fileDscr.fileTxt.verStmt.notes	notes						unmapped literal field (no CDIF target) - for review
-ddicb:fileDscr.notes	notes						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.varGrp.labl	labl						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.varGrp.txt	txt						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.varGrp.concept	concept						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.varGrp.defntn	defntn						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.varGrp.universe	universe						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.varGrp.notes	notes						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.labl	labl	skos:exactMatch	schema:description	description	$.schema:variableMeasured[*].schema:description	semapv:ManualMappingCuration	on the variable
-ddicb:dataDscr.var.imputation	imputation						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.security	security						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.embargo	embargo						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.respUnit	respUnit						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.anlysUnit	anlysUnit						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.qstn	qstn						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.valrng.key	key						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.valrng.notes	notes						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.invalrng.key	key						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.invalrng.notes	notes						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.undocCod	undocCod						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.universe	universe						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.TotlResp	TotlResp						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.sumStat	sumStat	skos:closeMatch	schema:minValue	minValue	$.schema:variableMeasured[*].schema:minValue	semapv:ManualMappingCuration	sumStat @type=min/max -> min/maxValue
-ddicb:dataDscr.var.txt	txt						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.stdCatgry	stdCatgry						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.catgryGrp.labl	labl						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.catgryGrp.catStat	catStat						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.catgryGrp.txt	txt						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.catgry.catValu	catValu						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.catgry.labl	labl						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.catgry.txt	txt						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.catgry.catStat	catStat						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.codInstr	codInstr						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.verStmt.version	version						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.verStmt.verResp	verResp						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.verStmt.notes	notes						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.concept	concept						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.derivation.drvdesc	drvdesc						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.derivation.drvcmd	drvcmd						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var.varFormat	varFormat	skos:closeMatch	cdi:intendedDataType	intendedDataType	$.schema:variableMeasured[*].cdi:intendedDataType	semapv:ManualMappingCuration	-> xsd type
-ddicb:dataDscr.var.notes	notes						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.notes	notes						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.citation.titlStmt.titl	titl	skos:closeMatch	schema:name	name	$.schema:subjectOf.schema:name	semapv:ManualMappingCuration	metadata record title
-ddicb:docDscr.citation.titlStmt.subTitl	subTitl						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.citation.titlStmt.altTitl	altTitl						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.citation.titlStmt.parTitl	parTitl						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.citation.titlStmt.IDNo	IDNo						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.citation.rspStmt.AuthEnty	AuthEnty						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.citation.prodStmt.producer	producer						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.citation.prodStmt.copyright	copyright						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.citation.prodStmt.prodDate	prodDate	skos:closeMatch	schema:sdDatePublished	sdDatePublished	$.schema:subjectOf.schema:sdDatePublished	semapv:ManualMappingCuration	metadata date
-ddicb:docDscr.citation.prodStmt.prodPlac	prodPlac						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.citation.prodStmt.software	software						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.citation.prodStmt.fundAg	fundAg						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.citation.prodStmt.grantNo	grantNo						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.citation.distStmt.distrbtr	distrbtr						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.citation.distStmt.contact	contact						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.citation.distStmt.depositr	depositr						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.citation.distStmt.depDate	depDate						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.citation.distStmt.distDate	distDate						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.citation.serStmt.serName	serName						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.citation.serStmt.serInfo	serInfo						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.citation.verStmt.version	version						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.citation.verStmt.verResp	verResp						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.citation.verStmt.notes	notes						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.citation.biblCit	biblCit						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.citation.holdings	holdings						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.citation.notes	notes						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.guide	guide						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.docStatus	docStatus						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.docSrc.titlStmt.titl	titl						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.docSrc.titlStmt.subTitl	subTitl						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.docSrc.titlStmt.altTitl	altTitl						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.docSrc.titlStmt.parTitl	parTitl						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.docSrc.titlStmt.IDNo	IDNo						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.docSrc.rspStmt.AuthEnty	AuthEnty						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.docSrc.prodStmt.producer	producer						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.docSrc.prodStmt.copyright	copyright						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.docSrc.prodStmt.prodDate	prodDate						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.docSrc.prodStmt.prodPlac	prodPlac						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.docSrc.prodStmt.software	software						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.docSrc.prodStmt.fundAg	fundAg						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.docSrc.prodStmt.grantNo	grantNo						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.docSrc.distStmt.distrbtr	distrbtr						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.docSrc.distStmt.contact	contact						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.docSrc.distStmt.depositr	depositr						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.docSrc.distStmt.depDate	depDate						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.docSrc.distStmt.distDate	distDate						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.docSrc.serStmt.serName	serName						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.docSrc.serStmt.serInfo	serInfo						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.docSrc.verStmt.version	version						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.docSrc.verStmt.verResp	verResp						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.docSrc.verStmt.notes	notes						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.docSrc.biblCit	biblCit						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.docSrc.holdings	holdings						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.docSrc.notes	notes						unmapped literal field (no CDIF target) - for review
-ddicb:docDscr.notes	notes						unmapped literal field (no CDIF target) - for review
-ddicb:dataDscr.var	var	skos:closeMatch	schema:variableMeasured	variableMeasured	$.schema:variableMeasured[*]	semapv:ManualMappingCuration	container -> dual-typed schema:PropertyValue + cdi:InstanceVariable
-ddicb:dataDscr.var@name	var@name	skos:exactMatch	schema:name	name	$.schema:variableMeasured[*].schema:name	semapv:ManualMappingCuration	variable name (attribute)
-ddicb:dataDscr.var.varFormat@type	varFormat@type	skos:closeMatch	cdi:role	role	$.schema:variableMeasured[*].cdi:role	semapv:ManualMappingCuration	numeric/character -> Measure/Attribute component
+subject_id	subject_label	comment	predicate_id	object_id	object_label	object_json_path	mapping_justification
+ddicb:stdyDscr.citation.titlStmt.titl	titl		skos:exactMatch	schema:name	name	$.schema:name	semapv:ManualMappingCuration
+ddicb:stdyDscr.citation.titlStmt.subTitl	subTitl	DDI Codebook: subtitle of the study title. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.citation.titlStmt.altTitl	altTitl	DDI Codebook: alternative title by which the study is also known. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.citation.titlStmt.parTitl	parTitl	DDI Codebook: parallel title (the study title expressed in another language). Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.citation.titlStmt.IDNo	IDNo	also fills @id	skos:exactMatch	schema:identifier	identifier	$.schema:identifier	semapv:ManualMappingCuration
+ddicb:stdyDscr.citation.rspStmt.AuthEnty	AuthEnty	-> schema:Person in @list	skos:closeMatch	schema:creator	creator	$.schema:creator	semapv:ManualMappingCuration
+ddicb:stdyDscr.citation.prodStmt.producer	producer	DDI Codebook: person/organization responsible for producing the study/dataset. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.citation.prodStmt.copyright	copyright	DDI Codebook: copyright statement for the study/dataset. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.citation.prodStmt.prodDate	prodDate	fallback distDate	skos:exactMatch	schema:dateModified	dateModified	$.schema:dateModified	semapv:ManualMappingCuration
+ddicb:stdyDscr.citation.prodStmt.prodPlac	prodPlac	DDI Codebook: place where the study/dataset was produced. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.citation.prodStmt.software	software	DDI Codebook: software used to produce the study/dataset. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.citation.prodStmt.fundAg	fundAg	DDI Codebook: funding agency/sponsor of the study. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.citation.prodStmt.grantNo	grantNo	DDI Codebook: grant/contract number under which the study was funded. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.citation.distStmt.distrbtr	distrbtr	-> schema:Organization	skos:closeMatch	schema:publisher	publisher	$.schema:publisher	semapv:ManualMappingCuration
+ddicb:stdyDscr.citation.distStmt.contact	contact	DDI Codebook: contact person(s) for questions about the study/dataset. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.citation.distStmt.depositr	depositr	DDI Codebook: person/institution who deposited the study/dataset with the distributor. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.citation.distStmt.depDate	depDate	DDI Codebook: date the study/dataset was deposited. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.citation.distStmt.distDate	distDate		skos:exactMatch	schema:datePublished	datePublished	$.schema:datePublished	semapv:ManualMappingCuration
+ddicb:stdyDscr.citation.serStmt.serName	serName	DDI Codebook: name of the series to which the study belongs. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.citation.serStmt.serInfo	serInfo	DDI Codebook: history/information about the study series. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.citation.verStmt.version	version	DDI Codebook: version number/description of the study/dataset. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.citation.verStmt.verResp	verResp	DDI Codebook: person/organization responsible for this version of the study. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.citation.verStmt.notes	notes	DDI Codebook: notes about this version of the study. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.citation.biblCit	biblCit	DDI Codebook: complete bibliographic citation for the study as a single formatted string. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.citation.holdings	holdings	DDI Codebook: information on where copies of the study/dataset are held. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.citation.notes	notes	DDI Codebook: general notes about the study citation. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.stdyInfo.subject.keyword	keyword		skos:exactMatch	schema:keywords	keywords	$.schema:keywords	semapv:ManualMappingCuration
+ddicb:stdyDscr.stdyInfo.subject.topcClas	topcClas		skos:exactMatch	schema:keywords	keywords	$.schema:keywords	semapv:ManualMappingCuration
+ddicb:stdyDscr.stdyInfo.abstract	abstract		skos:exactMatch	schema:description	description	$.schema:description	semapv:ManualMappingCuration
+ddicb:stdyDscr.stdyInfo.sumDscr.timePrd	timePrd	start/end -> ISO 8601 interval	skos:closeMatch	schema:temporalCoverage	temporalCoverage	$.schema:temporalCoverage	semapv:ManualMappingCuration
+ddicb:stdyDscr.stdyInfo.sumDscr.collDate	collDate	DDI: date(s) of data collection -> collection Activity start/end time (NOT temporalCoverage; timePrd is coverage)	skos:closeMatch	schema:startTime	startTime	$.prov:wasGeneratedBy[*].schema:startTime	semapv:ManualMappingCuration
+ddicb:stdyDscr.stdyInfo.sumDscr.nation	nation	-> schema:Place	skos:closeMatch	schema:spatialCoverage	spatialCoverage	$.schema:spatialCoverage[*]	semapv:ManualMappingCuration
+ddicb:stdyDscr.stdyInfo.sumDscr.geogCover	geogCover	-> schema:Place	skos:closeMatch	schema:spatialCoverage	spatialCoverage	$.schema:spatialCoverage[*]	semapv:ManualMappingCuration
+ddicb:stdyDscr.stdyInfo.sumDscr.geogUnit	geogUnit	DDI Codebook: the lowest geographic level at which the data are aggregated. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.stdyInfo.sumDscr.anlyUnit	anlyUnit	DDI Codebook: the unit of analysis/observation the data describe. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.stdyInfo.sumDscr.universe	universe	DDI Codebook: the universe - the population of persons/objects the data refer to. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.stdyInfo.sumDscr.dataKind	dataKind	DDI Codebook: the kind of data (e.g. survey, census, aggregate, event/transaction). Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.stdyInfo.notes	notes	DDI Codebook: general notes about the study-information section. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.method.dataColl.timeMeth	timeMeth	DDI Codebook: the time method/dimension of data collection (e.g. longitudinal, cross-section, panel, time-series). Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.method.dataColl.dataCollector	dataCollector	DDI: data collector -> agent of the collection Activity	skos:closeMatch	schema:agent	agent	$.prov:wasGeneratedBy[*].schema:agent	semapv:ManualMappingCuration
+ddicb:stdyDscr.method.dataColl.frequenc	frequenc	DDI Codebook: the frequency of data collection for repeated collection. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.method.dataColl.sampProc	sampProc	DDI Codebook: the sampling procedure - type of sample and sample design used. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.method.dataColl.deviat	deviat	DDI Codebook: major deviations from the sample design encountered during collection. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.method.dataColl.collMode	collMode		skos:exactMatch	schema:measurementTechnique	measurementTechnique	$.schema:measurementTechnique	semapv:ManualMappingCuration
+ddicb:stdyDscr.method.dataColl.resInstru	resInstru	DDI: research instrument -> prov:used instrument on the collection Activity	skos:closeMatch	schema:instrument	instrument	$.prov:wasGeneratedBy[*].prov:used[*].schema:instrument	semapv:ManualMappingCuration
+ddicb:stdyDscr.method.dataColl.sources.dataSrc	dataSrc	DDI: data source for aggregate data -> derived-from source	skos:closeMatch	prov:wasDerivedFrom	wasDerivedFrom	$.prov:wasDerivedFrom	semapv:ManualMappingCuration
+ddicb:stdyDscr.method.dataColl.sources.srcOrig	srcOrig	DDI Codebook: origin of the source materials. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.method.dataColl.sources.srcChar	srcChar	DDI Codebook: characteristics/quality of the source materials noted. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.method.dataColl.sources.srcDocu	srcDocu	DDI Codebook: documentation and access to the source materials. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.method.dataColl.sources.sources	sources	DDI Codebook: general sources statement describing the sources of the data. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.method.dataColl.collSitu	collSitu	DDI Codebook: characteristics of the data-collection situation/setting. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.method.dataColl.actMin	actMin	DDI Codebook: actions taken to minimize data loss (e.g. call-backs, follow-ups). Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.method.dataColl.ConOps	ConOps	DDI Codebook: control operations - methods used to control the quality of data collection. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.method.dataColl.weight	weight	DDI: weighting -> additionalProperty on the collection Activity	skos:closeMatch	schema:additionalProperty	additionalProperty	$.prov:wasGeneratedBy[*].schema:additionalProperty[*]	semapv:ManualMappingCuration
+ddicb:stdyDscr.method.dataColl.cleanOps	cleanOps	DDI: cleaning operations -> additionalProperty (or a distinct processing Activity)	skos:closeMatch	schema:additionalProperty	additionalProperty	$.prov:wasGeneratedBy[*].schema:additionalProperty[*]	semapv:ManualMappingCuration
+ddicb:stdyDscr.method.notes	notes	DDI Codebook: general notes about the methodology section. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.method.anlyInfo.respRate	respRate	DDI Codebook: the response rate - percentage of the sample that responded. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.method.anlyInfo.EstSmpErr	EstSmpErr	DDI Codebook: estimates of sampling error for the data. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.method.anlyInfo.dataAppr	dataAppr	DDI Codebook: other forms of data appraisal / data-quality assessment. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.method.stdyClas	stdyClas	DDI Codebook: the class/type of the study (e.g. whether it is official statistics). Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.dataAccs.setAvail.accsPlac	accsPlac	access location	skos:closeMatch	schema:url	url	$.schema:url	semapv:ManualMappingCuration
+ddicb:stdyDscr.dataAccs.setAvail.origArch	origArch	DDI Codebook: the archive where the original data are stored. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.dataAccs.setAvail.avlStatus	avlStatus	DDI Codebook: the availability status of the data collection. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.dataAccs.setAvail.collSize	collSize	DDI Codebook: the size/extent of the data collection. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.dataAccs.setAvail.complete	complete	DDI Codebook: the completeness of the study stored relative to the total collection. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.dataAccs.setAvail.fileQnty	fileQnty	DDI Codebook: the number of files that make up the data collection. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.dataAccs.setAvail.notes	notes	DDI Codebook: notes about data availability. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.dataAccs.useStmt.confDec	confDec	DDI Codebook: use statement - whether a confidentiality declaration must be signed to access the data. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.dataAccs.useStmt.specPerm	specPerm	DDI Codebook: use statement - whether special permissions are required to access the data. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.dataAccs.useStmt.restrctn	restrctn		skos:closeMatch	schema:conditionsOfAccess	conditionsOfAccess	$.schema:conditionsOfAccess	semapv:ManualMappingCuration
+ddicb:stdyDscr.dataAccs.useStmt.contact	contact	DDI Codebook: use statement - contact person(s) for access questions. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.dataAccs.useStmt.citReq	citReq	DDI Codebook: use statement - the citation requirement for using the data. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.dataAccs.useStmt.deposReq	deposReq	DDI Codebook: use statement - requirement to deposit derived works. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.dataAccs.useStmt.conditions	conditions	DDI Codebook: use statement - general conditions of use. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.dataAccs.useStmt.disclaimer	disclaimer	DDI Codebook: use statement - disclaimer of liability. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.dataAccs.notes	notes	DDI Codebook: general notes about data access. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.othrStdyMat.relMat	relMat	DDI Codebook: related materials associated with the study. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.othrStdyMat.relStdy	relStdy	DDI Codebook: related studies. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.othrStdyMat.relPubl	relPubl	DDI Codebook: related publications based on or about the study. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.othrStdyMat.othRefs	othRefs	DDI Codebook: other references of use in understanding the study. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.notes	notes	DDI Codebook: general notes about the study description. Unmapped (no CDIF target) - for review					
+ddicb:fileDscr.fileTxt.fileName	fileName	-> cdi:TabularTextDataSet distribution + schema:name	skos:closeMatch	schema:DataDownload	DataDownload	$.schema:distribution[*]	semapv:ManualMappingCuration
+ddicb:fileDscr.fileTxt.fileCont	fileCont	DDI Codebook: a description of the contents of the data file. Unmapped (no CDIF target) - for review					
+ddicb:fileDscr.fileTxt.fileStrc.recGrp.labl	labl	DDI Codebook: a label for the record group in the file structure. Unmapped (no CDIF target) - for review					
+ddicb:fileDscr.fileTxt.fileStrc.recGrp.recDimnsn.varQnty	varQnty	DDI Codebook: the number of variables in the record group. Unmapped (no CDIF target) - for review					
+ddicb:fileDscr.fileTxt.fileStrc.recGrp.recDimnsn.caseQnty	caseQnty	DDI Codebook: the number of cases in the record group. Unmapped (no CDIF target) - for review					
+ddicb:fileDscr.fileTxt.fileStrc.recGrp.recDimnsn.logRecL	logRecL	DDI Codebook: the logical record length of the record group. Unmapped (no CDIF target) - for review					
+ddicb:fileDscr.fileTxt.fileStrc.notes	notes	DDI Codebook: notes about the file structure. Unmapped (no CDIF target) - for review					
+ddicb:fileDscr.fileTxt.dimensns.caseQnty	caseQnty		skos:closeMatch	cdifq:nRows	nRows	$.schema:distribution[*].cdifq:nRows	semapv:ManualMappingCuration
+ddicb:fileDscr.fileTxt.dimensns.varQnty	varQnty		skos:closeMatch	cdifq:nColumns	nColumns	$.schema:distribution[*].cdifq:nColumns	semapv:ManualMappingCuration
+ddicb:fileDscr.fileTxt.dimensns.logRecL	logRecL	DDI Codebook: the logical record length of the file. Unmapped (no CDIF target) - for review					
+ddicb:fileDscr.fileTxt.dimensns.recPrCas	recPrCas	DDI Codebook: the number of records per case in the file. Unmapped (no CDIF target) - for review					
+ddicb:fileDscr.fileTxt.dimensns.recNumTot	recNumTot	DDI Codebook: the total number of records in the file. Unmapped (no CDIF target) - for review					
+ddicb:fileDscr.fileTxt.fileType	fileType	DDI Codebook: the type of data file (e.g. raw, rectangular, relational). Unmapped (no CDIF target) - for review					
+ddicb:fileDscr.fileTxt.format	format	DDI Codebook: the physical format of the data file. Unmapped (no CDIF target) - for review					
+ddicb:fileDscr.fileTxt.filePlac	filePlac	DDI Codebook: the place where the data file was produced. Unmapped (no CDIF target) - for review					
+ddicb:fileDscr.fileTxt.dataChck	dataChck	DDI Codebook: the extent/type of data checking performed on the file. Unmapped (no CDIF target) - for review					
+ddicb:fileDscr.fileTxt.ProcStat	ProcStat	DDI Codebook: the processing status of the file (e.g. raw, cleaned, final). Unmapped (no CDIF target) - for review					
+ddicb:fileDscr.fileTxt.dataMsng	dataMsng	DDI Codebook: how missing data are represented in the file. Unmapped (no CDIF target) - for review					
+ddicb:fileDscr.fileTxt.software	software	DDI Codebook: the software used to produce or read the data file. Unmapped (no CDIF target) - for review					
+ddicb:fileDscr.fileTxt.verStmt.version	version	DDI Codebook: version number/description of the data file. Unmapped (no CDIF target) - for review					
+ddicb:fileDscr.fileTxt.verStmt.verResp	verResp	DDI Codebook: person/organization responsible for this version of the file. Unmapped (no CDIF target) - for review					
+ddicb:fileDscr.fileTxt.verStmt.notes	notes	DDI Codebook: notes about this version of the file. Unmapped (no CDIF target) - for review					
+ddicb:fileDscr.notes	notes	DDI Codebook: general notes about the file description. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.varGrp.labl	labl	DDI Codebook: a label for the variable group. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.varGrp.txt	txt	DDI Codebook: descriptive text about the variable group. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.varGrp.concept	concept	DDI Codebook: the concept represented by the variable group. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.varGrp.defntn	defntn	DDI Codebook: a definition of the variable group. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.varGrp.universe	universe	DDI Codebook: the universe (population) covered by the variable group. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.varGrp.notes	notes	DDI Codebook: notes about the variable group. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.labl	labl	on the variable	skos:exactMatch	schema:description	description	$.schema:variableMeasured[*].schema:description	semapv:ManualMappingCuration
+ddicb:dataDscr.var.imputation	imputation	DDI Codebook: description of any imputation performed on the variable. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.security	security	DDI Codebook: the security/access-restriction level of the variable. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.embargo	embargo	DDI Codebook: embargo information - date/event until which the variable is restricted. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.respUnit	respUnit	DDI Codebook: response unit - who provided the information in the variable (e.g. head of household, proxy). Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.anlysUnit	anlysUnit	DDI Codebook: analysis unit - the unit of analysis the variable describes. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.qstn	qstn	DDI Codebook: the survey question associated with the variable. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.valrng.key	key	DDI Codebook: a key describing the valid range/values of the variable. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.valrng.notes	notes	DDI Codebook: notes about the valid range of the variable. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.invalrng.key	key	DDI Codebook: a key describing the invalid (missing) range/values of the variable. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.invalrng.notes	notes	DDI Codebook: notes about the invalid range of the variable. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.undocCod	undocCod	DDI Codebook: undocumented codes present in the variable's data. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.universe	universe	DDI Codebook: the universe (population) the variable describes. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.TotlResp	TotlResp	DDI Codebook: the total number of responses recorded for the variable. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.sumStat	sumStat	sumStat @type=min/max -> min/maxValue	skos:closeMatch	schema:minValue	minValue	$.schema:variableMeasured[*].schema:minValue	semapv:ManualMappingCuration
+ddicb:dataDscr.var.txt	txt	DDI Codebook: descriptive text about the variable. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.stdCatgry	stdCatgry	DDI Codebook: standard categories (a reference categorization) used by the variable. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.catgryGrp.labl	labl	DDI Codebook: a label for the category group. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.catgryGrp.catStat	catStat	DDI Codebook: category-group statistics (e.g. frequency across grouped categories). Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.catgryGrp.txt	txt	DDI Codebook: descriptive text about the category group. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.catgry.catValu	catValu	DDI Codebook: the category value/code for a response category. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.catgry.labl	labl	DDI Codebook: the label for a response category. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.catgry.txt	txt	DDI Codebook: descriptive text about a response category. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.catgry.catStat	catStat	DDI Codebook: category statistics - frequency/count for the category (@type qualifies). Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.codInstr	codInstr	DDI Codebook: coding instructions for the variable. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.verStmt.version	version	DDI Codebook: version number/description of the variable. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.verStmt.verResp	verResp	DDI Codebook: person/organization responsible for this version of the variable. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.verStmt.notes	notes	DDI Codebook: notes about this version of the variable. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.concept	concept	DDI Codebook: the concept measured by the variable. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.derivation.drvdesc	drvdesc	DDI Codebook: derivation description - how the derived variable was computed. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.derivation.drvcmd	drvcmd	DDI Codebook: derivation command - the command/script used to derive the variable. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var.varFormat	varFormat	-> xsd type	skos:closeMatch	cdi:intendedDataType	intendedDataType	$.schema:variableMeasured[*].cdi:intendedDataType	semapv:ManualMappingCuration
+ddicb:dataDscr.var.notes	notes	DDI Codebook: general notes about the variable. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.notes	notes	DDI Codebook: general notes about the data description. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.citation.titlStmt.titl	titl	metadata record title	skos:closeMatch	schema:name	name	$.schema:subjectOf.schema:name	semapv:ManualMappingCuration
+ddicb:docDscr.citation.titlStmt.subTitl	subTitl	DDI Codebook: subtitle of the DDI/metadata document title. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.citation.titlStmt.altTitl	altTitl	DDI Codebook: alternative title of the DDI/metadata document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.citation.titlStmt.parTitl	parTitl	DDI Codebook: parallel title (another language) of the DDI/metadata document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.citation.titlStmt.IDNo	IDNo	DDI Codebook: identifier of the DDI/metadata document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.citation.rspStmt.AuthEnty	AuthEnty	DDI Codebook: authoring entity/person responsible for the DDI/metadata document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.citation.prodStmt.producer	producer	DDI Codebook: producer of the DDI/metadata document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.citation.prodStmt.copyright	copyright	DDI Codebook: copyright statement for the DDI/metadata document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.citation.prodStmt.prodDate	prodDate	metadata date	skos:closeMatch	schema:sdDatePublished	sdDatePublished	$.schema:subjectOf.schema:sdDatePublished	semapv:ManualMappingCuration
+ddicb:docDscr.citation.prodStmt.prodPlac	prodPlac	DDI Codebook: place where the DDI/metadata document was produced. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.citation.prodStmt.software	software	DDI Codebook: software used to produce the DDI/metadata document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.citation.prodStmt.fundAg	fundAg	DDI Codebook: funding agency for producing the DDI/metadata document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.citation.prodStmt.grantNo	grantNo	DDI Codebook: grant/contract number for the DDI/metadata document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.citation.distStmt.distrbtr	distrbtr	DDI Codebook: distributor of the DDI/metadata document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.citation.distStmt.contact	contact	DDI Codebook: contact person(s) for the DDI/metadata document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.citation.distStmt.depositr	depositr	DDI Codebook: depositor of the DDI/metadata document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.citation.distStmt.depDate	depDate	DDI Codebook: date the DDI/metadata document was deposited. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.citation.distStmt.distDate	distDate	DDI Codebook: date the DDI/metadata document was distributed. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.citation.serStmt.serName	serName	DDI Codebook: series name of the DDI/metadata document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.citation.serStmt.serInfo	serInfo	DDI Codebook: series information of the DDI/metadata document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.citation.verStmt.version	version	DDI Codebook: version of the DDI/metadata document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.citation.verStmt.verResp	verResp	DDI Codebook: person/organization responsible for this version of the DDI/metadata document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.citation.verStmt.notes	notes	DDI Codebook: notes about this version of the DDI/metadata document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.citation.biblCit	biblCit	DDI Codebook: complete bibliographic citation for the DDI/metadata document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.citation.holdings	holdings	DDI Codebook: information on where copies of the DDI/metadata document are held. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.citation.notes	notes	DDI Codebook: general notes about the DDI/metadata document citation. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.guide	guide	DDI Codebook: a guide to the documentation - list of terms/conventions used. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.docStatus	docStatus	DDI Codebook: the status of the documentation (e.g. draft, final). Unmapped (no CDIF target) - for review					
+ddicb:docDscr.docSrc.titlStmt.titl	titl	DDI Codebook: full authoritative title of the source document from which the DDI record was derived. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.docSrc.titlStmt.subTitl	subTitl	DDI Codebook: subtitle of the source document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.docSrc.titlStmt.altTitl	altTitl	DDI Codebook: alternative title of the source document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.docSrc.titlStmt.parTitl	parTitl	DDI Codebook: parallel title (another language) of the source document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.docSrc.titlStmt.IDNo	IDNo	DDI Codebook: identifier of the source document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.docSrc.rspStmt.AuthEnty	AuthEnty	DDI Codebook: authoring entity/person of the source document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.docSrc.prodStmt.producer	producer	DDI Codebook: producer of the source document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.docSrc.prodStmt.copyright	copyright	DDI Codebook: copyright statement for the source document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.docSrc.prodStmt.prodDate	prodDate	DDI Codebook: date the source document was produced. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.docSrc.prodStmt.prodPlac	prodPlac	DDI Codebook: place the source document was produced. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.docSrc.prodStmt.software	software	DDI Codebook: software used to produce the source document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.docSrc.prodStmt.fundAg	fundAg	DDI Codebook: funding agency for the source document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.docSrc.prodStmt.grantNo	grantNo	DDI Codebook: grant/contract number for the source document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.docSrc.distStmt.distrbtr	distrbtr	DDI Codebook: distributor of the source document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.docSrc.distStmt.contact	contact	DDI Codebook: contact person(s) for the source document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.docSrc.distStmt.depositr	depositr	DDI Codebook: depositor of the source document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.docSrc.distStmt.depDate	depDate	DDI Codebook: date the source document was deposited. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.docSrc.distStmt.distDate	distDate	DDI Codebook: date the source document was distributed. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.docSrc.serStmt.serName	serName	DDI Codebook: series name of the source document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.docSrc.serStmt.serInfo	serInfo	DDI Codebook: series information of the source document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.docSrc.verStmt.version	version	DDI Codebook: version of the source document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.docSrc.verStmt.verResp	verResp	DDI Codebook: person/organization responsible for this version of the source document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.docSrc.verStmt.notes	notes	DDI Codebook: notes about this version of the source document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.docSrc.biblCit	biblCit	DDI Codebook: complete bibliographic citation for the source document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.docSrc.holdings	holdings	DDI Codebook: information on where copies of the source document are held. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.docSrc.notes	notes	DDI Codebook: general notes about the source document. Unmapped (no CDIF target) - for review					
+ddicb:docDscr.notes	notes	DDI Codebook: general notes about the document description. Unmapped (no CDIF target) - for review					
+ddicb:dataDscr.var	var	container -> dual-typed schema:PropertyValue + cdi:InstanceVariable	skos:closeMatch	schema:variableMeasured	variableMeasured	$.schema:variableMeasured[*]	semapv:ManualMappingCuration
+ddicb:dataDscr.var@name	var@name	variable name (attribute)	skos:exactMatch	schema:name	name	$.schema:variableMeasured[*].schema:name	semapv:ManualMappingCuration
+ddicb:dataDscr.var.varFormat@type	varFormat@type	numeric/character -> Measure/Attribute component	skos:closeMatch	cdi:role	role	$.schema:variableMeasured[*].cdi:role	semapv:ManualMappingCuration
+ddicb:dataDscr.var.location@StartPos	StartPos	start column position of the variable in a fixed-format file	skos:closeMatch	cdif:hasPhysicalMapping	startColumn	$.schema:distribution[*].cdif:hasPhysicalMapping[*].cdif:startColumn	semapv:ManualMappingCuration
+ddicb:dataDscr.var.location@EndPos	EndPos	end column position of the variable in a fixed-format file	skos:closeMatch	cdif:hasPhysicalMapping	endColumn	$.schema:distribution[*].cdif:hasPhysicalMapping[*].cdif:endColumn	semapv:ManualMappingCuration
+ddicb:dataDscr.var.location@width	width	field width (character count) of the variable	skos:closeMatch	cdif:hasPhysicalMapping	width	$.schema:distribution[*].cdif:hasPhysicalMapping[*].cdif:fieldWidth	semapv:ManualMappingCuration
+ddicb:dataDscr.var.location@RecSegNo	RecSegNo	record segment / deck / card number holding the variable	skos:closeMatch	cdif:hasPhysicalMapping	recordSegment	$.schema:distribution[*].cdif:hasPhysicalMapping[*]	semapv:ManualMappingCuration
+ddicb:dataDscr.var.location@fileid	fileid	IDREF to the fileDscr that holds this variable's values	skos:closeMatch	cdif:hasPhysicalMapping	distribution	$.schema:distribution[*]	semapv:ManualMappingCuration

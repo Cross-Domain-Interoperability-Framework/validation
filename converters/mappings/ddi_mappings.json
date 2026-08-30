@@ -1,0 +1,721 @@
+{
+  "ddi-common-to-cdif": {
+    "ddicb:stdyDscr.citation.titlStmt.titl": {
+      "predicate_id": "skos:exactMatch",
+      "object_id": "schema:name",
+      "object_label": "name",
+      "object_json_path": "$.schema:name",
+      "comment": ""
+    },
+    "ddicb:stdyDscr.citation.titlStmt.IDNo": {
+      "predicate_id": "skos:exactMatch",
+      "object_id": "schema:identifier",
+      "object_label": "identifier",
+      "object_json_path": "$.schema:identifier",
+      "comment": "also fills @id"
+    },
+    "ddicb:stdyDscr.citation.rspStmt.AuthEnty": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:creator",
+      "object_label": "creator",
+      "object_json_path": "$.schema:creator",
+      "comment": "-> schema:Person in @list"
+    },
+    "ddicb:stdyDscr.citation.prodStmt.prodDate": {
+      "predicate_id": "skos:exactMatch",
+      "object_id": "schema:dateModified",
+      "object_label": "dateModified",
+      "object_json_path": "$.schema:dateModified",
+      "comment": "fallback distDate"
+    },
+    "ddicb:stdyDscr.citation.distStmt.distrbtr": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:publisher",
+      "object_label": "publisher",
+      "object_json_path": "$.schema:publisher",
+      "comment": "-> schema:Organization"
+    },
+    "ddicb:stdyDscr.citation.distStmt.distDate": {
+      "predicate_id": "skos:exactMatch",
+      "object_id": "schema:datePublished",
+      "object_label": "datePublished",
+      "object_json_path": "$.schema:datePublished",
+      "comment": ""
+    },
+    "ddicb:stdyDscr.stdyInfo.subject.keyword": {
+      "predicate_id": "skos:exactMatch",
+      "object_id": "schema:keywords",
+      "object_label": "keywords",
+      "object_json_path": "$.schema:keywords",
+      "comment": ""
+    },
+    "ddicb:stdyDscr.stdyInfo.subject.topcClas": {
+      "predicate_id": "skos:exactMatch",
+      "object_id": "schema:keywords",
+      "object_label": "keywords",
+      "object_json_path": "$.schema:keywords",
+      "comment": ""
+    },
+    "ddicb:stdyDscr.stdyInfo.abstract": {
+      "predicate_id": "skos:exactMatch",
+      "object_id": "schema:description",
+      "object_label": "description",
+      "object_json_path": "$.schema:description",
+      "comment": ""
+    },
+    "ddicb:stdyDscr.stdyInfo.sumDscr.timePrd": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:temporalCoverage",
+      "object_label": "temporalCoverage",
+      "object_json_path": "$.schema:temporalCoverage",
+      "comment": "start/end -> ISO 8601 interval"
+    },
+    "ddicb:stdyDscr.stdyInfo.sumDscr.collDate": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:startTime",
+      "object_label": "startTime",
+      "object_json_path": "$.prov:wasGeneratedBy[*].schema:startTime",
+      "comment": "DDI: date(s) of data collection -> collection Activity start/end time (NOT temporalCoverage; timePrd is coverage)"
+    },
+    "ddicb:stdyDscr.stdyInfo.sumDscr.nation": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:spatialCoverage",
+      "object_label": "spatialCoverage",
+      "object_json_path": "$.schema:spatialCoverage[*]",
+      "comment": "-> schema:Place"
+    },
+    "ddicb:stdyDscr.stdyInfo.sumDscr.geogCover": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:spatialCoverage",
+      "object_label": "spatialCoverage",
+      "object_json_path": "$.schema:spatialCoverage[*]",
+      "comment": "-> schema:Place"
+    },
+    "ddicb:stdyDscr.method.dataColl.dataCollector": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:agent",
+      "object_label": "agent",
+      "object_json_path": "$.prov:wasGeneratedBy[*].schema:agent",
+      "comment": "DDI: data collector -> agent of the collection Activity"
+    },
+    "ddicb:stdyDscr.method.dataColl.collMode": {
+      "predicate_id": "skos:exactMatch",
+      "object_id": "schema:measurementTechnique",
+      "object_label": "measurementTechnique",
+      "object_json_path": "$.schema:measurementTechnique",
+      "comment": ""
+    },
+    "ddicb:stdyDscr.method.dataColl.resInstru": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:instrument",
+      "object_label": "instrument",
+      "object_json_path": "$.prov:wasGeneratedBy[*].prov:used[*].schema:instrument",
+      "comment": "DDI: research instrument -> prov:used instrument on the collection Activity"
+    },
+    "ddicb:stdyDscr.method.dataColl.sources.dataSrc": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "prov:wasDerivedFrom",
+      "object_label": "wasDerivedFrom",
+      "object_json_path": "$.prov:wasDerivedFrom",
+      "comment": "DDI: data source for aggregate data -> derived-from source"
+    },
+    "ddicb:stdyDscr.method.dataColl.weight": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:additionalProperty",
+      "object_label": "additionalProperty",
+      "object_json_path": "$.prov:wasGeneratedBy[*].schema:additionalProperty[*]",
+      "comment": "DDI: weighting -> additionalProperty on the collection Activity"
+    },
+    "ddicb:stdyDscr.method.dataColl.cleanOps": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:additionalProperty",
+      "object_label": "additionalProperty",
+      "object_json_path": "$.prov:wasGeneratedBy[*].schema:additionalProperty[*]",
+      "comment": "DDI: cleaning operations -> additionalProperty (or a distinct processing Activity)"
+    },
+    "ddicb:stdyDscr.dataAccs.setAvail.accsPlac": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:url",
+      "object_label": "url",
+      "object_json_path": "$.schema:url",
+      "comment": "access location"
+    },
+    "ddicb:stdyDscr.dataAccs.useStmt.restrctn": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:conditionsOfAccess",
+      "object_label": "conditionsOfAccess",
+      "object_json_path": "$.schema:conditionsOfAccess",
+      "comment": ""
+    },
+    "ddicb:fileDscr.fileTxt.fileName": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:DataDownload",
+      "object_label": "DataDownload",
+      "object_json_path": "$.schema:distribution[*]",
+      "comment": "-> cdi:TabularTextDataSet distribution + schema:name"
+    },
+    "ddicb:fileDscr.fileTxt.dimensns.caseQnty": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "cdifq:nRows",
+      "object_label": "nRows",
+      "object_json_path": "$.schema:distribution[*].cdifq:nRows",
+      "comment": ""
+    },
+    "ddicb:fileDscr.fileTxt.dimensns.varQnty": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "cdifq:nColumns",
+      "object_label": "nColumns",
+      "object_json_path": "$.schema:distribution[*].cdifq:nColumns",
+      "comment": ""
+    },
+    "ddicb:dataDscr.var.labl": {
+      "predicate_id": "skos:exactMatch",
+      "object_id": "schema:description",
+      "object_label": "description",
+      "object_json_path": "$.schema:variableMeasured[*].schema:description",
+      "comment": "on the variable"
+    },
+    "ddicb:dataDscr.var.sumStat": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:minValue",
+      "object_label": "minValue",
+      "object_json_path": "$.schema:variableMeasured[*].schema:minValue",
+      "comment": "sumStat @type=min/max -> min/maxValue"
+    },
+    "ddicb:dataDscr.var.varFormat": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "cdi:intendedDataType",
+      "object_label": "intendedDataType",
+      "object_json_path": "$.schema:variableMeasured[*].cdi:intendedDataType",
+      "comment": "-> xsd type"
+    },
+    "ddicb:docDscr.citation.titlStmt.titl": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:name",
+      "object_label": "name",
+      "object_json_path": "$.schema:subjectOf.schema:name",
+      "comment": "metadata record title"
+    },
+    "ddicb:docDscr.citation.prodStmt.prodDate": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:sdDatePublished",
+      "object_label": "sdDatePublished",
+      "object_json_path": "$.schema:subjectOf.schema:sdDatePublished",
+      "comment": "metadata date"
+    },
+    "ddicb:dataDscr.var": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:variableMeasured",
+      "object_label": "variableMeasured",
+      "object_json_path": "$.schema:variableMeasured[*]",
+      "comment": "container -> dual-typed schema:PropertyValue + cdi:InstanceVariable"
+    },
+    "ddicb:dataDscr.var@name": {
+      "predicate_id": "skos:exactMatch",
+      "object_id": "schema:name",
+      "object_label": "name",
+      "object_json_path": "$.schema:variableMeasured[*].schema:name",
+      "comment": "variable name (attribute)"
+    },
+    "ddicb:dataDscr.var.varFormat@type": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "cdi:role",
+      "object_label": "role",
+      "object_json_path": "$.schema:variableMeasured[*].cdi:role",
+      "comment": "numeric/character -> Measure/Attribute component"
+    },
+    "ddicb:dataDscr.var.location@StartPos": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "cdif:hasPhysicalMapping",
+      "object_label": "startColumn",
+      "object_json_path": "$.schema:distribution[*].cdif:hasPhysicalMapping[*].cdif:startColumn",
+      "comment": "start column position of the variable in a fixed-format file"
+    },
+    "ddicb:dataDscr.var.location@EndPos": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "cdif:hasPhysicalMapping",
+      "object_label": "endColumn",
+      "object_json_path": "$.schema:distribution[*].cdif:hasPhysicalMapping[*].cdif:endColumn",
+      "comment": "end column position of the variable in a fixed-format file"
+    },
+    "ddicb:dataDscr.var.location@width": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "cdif:hasPhysicalMapping",
+      "object_label": "width",
+      "object_json_path": "$.schema:distribution[*].cdif:hasPhysicalMapping[*].cdif:fieldWidth",
+      "comment": "field width (character count) of the variable"
+    },
+    "ddicb:dataDscr.var.location@RecSegNo": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "cdif:hasPhysicalMapping",
+      "object_label": "recordSegment",
+      "object_json_path": "$.schema:distribution[*].cdif:hasPhysicalMapping[*]",
+      "comment": "record segment / deck / card number holding the variable"
+    },
+    "ddicb:dataDscr.var.location@fileid": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "cdif:hasPhysicalMapping",
+      "object_label": "distribution",
+      "object_json_path": "$.schema:distribution[*]",
+      "comment": "IDREF to the fileDscr that holds this variable's values"
+    }
+  },
+  "ddi25-to-cdif": {
+    "ddi:stdyDscr.citation.rspStmt.othId": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:identifier",
+      "object_label": "contributorID",
+      "object_json_path": "$.schema:contributor[role=contributor].person.identifier",
+      "comment": "DDI 2.5: responsibility statement - other contributors/acknowledgements for the study whose role is secondary to the primary author (AuthEnty), e.g. editors, sponsors"
+    },
+    "ddi:stdyDscr.studyAuthorization.authorizingAgency": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:name",
+      "object_label": "authorizingOrganization",
+      "object_json_path": "$.schema:contributor[role=Authorization].organization.name",
+      "comment": "DDI 2.5 (imported from DDI Lifecycle): the agency or person that authorized/approved the study"
+    },
+    "ddi:stdyDscr.studyAuthorization.authorizationStatement": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:conditionsOfAccess",
+      "object_label": "AuthorizationStatement",
+      "object_json_path": "$.schema:conditionsOfAccess.schema:string",
+      "comment": "DDI 2.5 (imported from DDI Lifecycle): the text of the authorization granted for the study"
+    },
+    "ddi:stdyDscr.stdyInfo.studyBudget": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:funding",
+      "object_label": "studyBudget",
+      "object_json_path": "$.schema:funding.schema:description",
+      "comment": "DDI 2.5 (imported from DDI Lifecycle): description of the budget for the study/data collection"
+    },
+    "ddi:stdyDscr.stdyInfo.sumDscr.geoBndBox.westBL": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:box",
+      "object_label": "box",
+      "object_json_path": "$.schema:spatialCoverage[*].schema:geo.schema:box",
+      "comment": "west bound -> min longitude in schema:GeoShape box 'S W N E'"
+    },
+    "ddi:stdyDscr.stdyInfo.sumDscr.geoBndBox.eastBL": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:box",
+      "object_label": "box",
+      "object_json_path": "$.schema:spatialCoverage[*].schema:geo.schema:box",
+      "comment": "east bound -> max longitude in schema:GeoShape box"
+    },
+    "ddi:stdyDscr.stdyInfo.sumDscr.geoBndBox.southBL": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:box",
+      "object_label": "box",
+      "object_json_path": "$.schema:spatialCoverage[*].schema:geo.schema:box",
+      "comment": "south bound -> min latitude in schema:GeoShape box"
+    },
+    "ddi:stdyDscr.stdyInfo.sumDscr.geoBndBox.northBL": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:box",
+      "object_label": "box",
+      "object_json_path": "$.schema:spatialCoverage[*].schema:geo.schema:box",
+      "comment": "north bound -> max latitude in schema:GeoShape box"
+    },
+    "ddi:stdyDscr.stdyInfo.sumDscr.boundPoly.polygon.point.gringLat": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "geo:asWKT",
+      "object_label": "asWKT",
+      "object_json_path": "$.schema:spatialCoverage[*].schema:geo.geo:asWKT",
+      "comment": "G-ring latitude -> vertex in GeoSPARQL WKT POLYGON (geo:wktLiteral)"
+    },
+    "ddi:stdyDscr.stdyInfo.sumDscr.boundPoly.polygon.point.gringLon": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "geo:asWKT",
+      "object_label": "asWKT",
+      "object_json_path": "$.schema:spatialCoverage[*].schema:geo.geo:asWKT",
+      "comment": "G-ring longitude -> vertex in GeoSPARQL WKT POLYGON (geo:wktLiteral)"
+    },
+    "ddi:stdyDscr.stdyInfo.qualityStatement.standardsCompliance.standard.standardName": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "dcterms:conformsTo",
+      "object_label": "conformsTo",
+      "object_json_path": "$.dcterms:conformsTo",
+      "comment": "DDI 2.5: name of a standard the data complies with -> dcterms:conformsTo"
+    },
+    "ddi:stdyDscr.stdyInfo.qualityStatement.standardsCompliance.complianceDescription": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "dqv:QualityAnnotation",
+      "object_label": "QualityAnnotation",
+      "object_json_path": "",
+      "comment": "DDI 2.5: narrative of standards compliance -> DQV quality annotation body (separate node)"
+    },
+    "ddi:stdyDscr.stdyInfo.qualityStatement.otherQualityStatement": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "dqv:QualityAnnotation",
+      "object_label": "QualityAnnotation",
+      "object_json_path": "",
+      "comment": "DDI 2.5: free-text quality statement -> DQV quality annotation body (separate node)"
+    },
+    "ddi:stdyDscr.stdyInfo.exPostEvaluation.evaluator": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:name",
+      "object_label": "evaluatorName",
+      "object_json_path": "$.schema:contributor[role=evaluator].person.name",
+      "comment": "DDI 2.5 (imported from DDI Lifecycle; GSBPM Evaluate phase): the organization or individual (by reference) that performed the post-completion evaluation, with an optional controlled-vocabulary role"
+    },
+    "ddi:stdyDscr.stdyInfo.exPostEvaluation.evaluationProcess": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "dqv:hasQualityMeasurement",
+      "object_label": "PostEvaluationProcess",
+      "object_json_path": "$.dqv:hasQualityMeasurement.dqv:isMeasurementOf.schema:DefinedTerm.schema:name",
+      "comment": "DDI 2.5 (imported from DDI Lifecycle): description of how the ex-post evaluation was carried out (methods, criteria, procedure)"
+    },
+    "ddi:stdyDscr.stdyInfo.exPostEvaluation.outcomes": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "dqv:hasQualityMeasurement",
+      "object_label": "PostEvaluationOutcome",
+      "object_json_path": "$.dqv:hasQualityMeasurement[dqv:isMeasurementOf='PostEvaluation.outcomes'].dqv:value",
+      "comment": "DDI 2.5 (imported from DDI Lifecycle): the results/findings of the ex-post evaluation - conclusions, lessons learned, recommendations for a future cycle"
+    },
+    "ddi:stdyDscr.method.dataColl.sampleFrame.sampleFrameName": {
+      "predicate_id": "",
+      "object_id": "prov:used",
+      "object_label": "sampleFrameName",
+      "object_json_path": "$.prov:wasGeneratedBy.prov:used[@type=\"prov:Entity\", schema:Thing], schema:additionalType[,\"ddi:sampleFrame\"].schema:name",
+      "comment": "DDI 2.5 (imported from DDI Lifecycle): the name of the sampling frame from which the sample was drawn"
+    },
+    "ddi:stdyDscr.method.dataColl.sampleFrame.labl": {
+      "predicate_id": "",
+      "object_id": "prov:used",
+      "object_label": "sampleFrameLabel",
+      "object_json_path": "$.prov:wasGeneratedBy.prov:used[@type=\"prov:Entity\", schema:Thing], schema:additionalType[,\"ddi:sampleFrame\"].schema:alternateName",
+      "comment": "DDI 2.5: a label for the sampling frame"
+    },
+    "ddi:stdyDscr.method.dataColl.sampleFrame.txt": {
+      "predicate_id": "",
+      "object_id": "prov:used",
+      "object_label": "sampleFrameDescription",
+      "object_json_path": "$.prov:wasGeneratedBy.prov:used[@type=\"prov:Entity\", schema:Thing], schema:additionalType[,\"ddi:sampleFrame\"].schema:description",
+      "comment": "DDI 2.5: descriptive text about the sampling frame"
+    },
+    "ddi:stdyDscr.method.dataColl.sampleFrame.validPeriod": {
+      "predicate_id": "",
+      "object_id": "prov:used",
+      "object_label": "sampleFrameDescription",
+      "object_json_path": "$.prov:wasGeneratedBy.prov:used[@type=\"prov:Entity\", schema:Thing], schema:additionalType[,\"ddi:sampleFrame\"].schema:description",
+      "comment": "DDI 2.5: the period during which the sampling frame is valid"
+    },
+    "ddi:stdyDscr.method.dataColl.sampleFrame.custodian": {
+      "predicate_id": "",
+      "object_id": "prov:used",
+      "object_label": "sampleFrameCustodian",
+      "object_json_path": "$.prov:wasGeneratedBy.prov:used[@type=\"prov:Entity\", schema:Thing], schema:additionalType[,\"ddi:sampleFrame\"].schema:owner",
+      "comment": "DDI 2.5: the agency or person that maintains/holds the sampling frame"
+    },
+    "ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.confDec": {
+      "predicate_id": "",
+      "object_id": "prov:used",
+      "object_label": "sampleFrameDescription",
+      "object_json_path": "$.prov:wasGeneratedBy.prov:used[@type=\"prov:Entity\", schema:Thing], schema:additionalType[,\"ddi:sampleFrame\"].schema:description",
+      "comment": "DDI 2.5: use statement - whether a confidentiality declaration must be signed to access the sampling frame"
+    },
+    "ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.specPerm": {
+      "predicate_id": "",
+      "object_id": "prov:used",
+      "object_label": "sampleFrameDescription",
+      "object_json_path": "$.prov:wasGeneratedBy.prov:used[@type=\"prov:Entity\", schema:Thing], schema:additionalType[,\"ddi:sampleFrame\"].schema:description",
+      "comment": "DDI 2.5: use statement - whether special permissions are required to access the sampling frame"
+    },
+    "ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.restrctn": {
+      "predicate_id": "",
+      "object_id": "prov:used",
+      "object_label": "sampleFrameDescription",
+      "object_json_path": "$.prov:wasGeneratedBy.prov:used[@type=\"prov:Entity\", schema:Thing], schema:additionalType[,\"ddi:sampleFrame\"].schema:description",
+      "comment": "DDI 2.5: use statement - restrictions on access to or use of the sampling frame"
+    },
+    "ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.contact": {
+      "predicate_id": "",
+      "object_id": "prov:used",
+      "object_label": "sampleFrameContact",
+      "object_json_path": "$.prov:wasGeneratedBy.prov:used[@type=\"prov:Entity\", schema:Thing], schema:additionalType[,\"ddi:sampleFrame\"].schema:contactPoint",
+      "comment": "DDI 2.5: use statement - contact person(s) for questions about accessing/using the sampling frame"
+    },
+    "ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.citReq": {
+      "predicate_id": "",
+      "object_id": "prov:used",
+      "object_label": "sampleFrameDescription",
+      "object_json_path": "$.prov:wasGeneratedBy.prov:used[@type=\"prov:Entity\", schema:Thing], schema:additionalType[,\"ddi:sampleFrame\"].schema:description",
+      "comment": "DDI 2.5: use statement - the citation requirement for using the sampling frame"
+    },
+    "ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.deposReq": {
+      "predicate_id": "",
+      "object_id": "prov:used",
+      "object_label": "sampleFrameDescription",
+      "object_json_path": "$.prov:wasGeneratedBy.prov:used[@type=\"prov:Entity\", schema:Thing], schema:additionalType[,\"ddi:sampleFrame\"].schema:description",
+      "comment": "DDI 2.5: use statement - requirement to deposit derived works/results based on the sampling frame"
+    },
+    "ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.conditions": {
+      "predicate_id": "",
+      "object_id": "prov:used",
+      "object_label": "sampleFrameDescription",
+      "object_json_path": "$.prov:wasGeneratedBy.prov:used[@type=\"prov:Entity\", schema:Thing], schema:additionalType[,\"ddi:sampleFrame\"].schema:description",
+      "comment": "DDI 2.5: use statement - general conditions under which the sampling frame may be used"
+    },
+    "ddi:stdyDscr.method.dataColl.sampleFrame.useStmt.disclaimer": {
+      "predicate_id": "",
+      "object_id": "prov:used",
+      "object_label": "sampleFrameDescription",
+      "object_json_path": "$.prov:wasGeneratedBy.prov:used[@type=\"prov:Entity\", schema:Thing], schema:additionalType[,\"ddi:sampleFrame\"].schema:description",
+      "comment": "DDI 2.5: use statement - disclaimer of liability for use of the sampling frame"
+    },
+    "ddi:stdyDscr.method.dataColl.sampleFrame.universe": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:DefinedTerm",
+      "object_label": "samplingFrameUniverse",
+      "object_json_path": "$.schema:keywords[*]",
+      "comment": "DDI 2.5: the universe (target population) represented by the sampling frame"
+    },
+    "ddi:stdyDscr.method.dataColl.sampleFrame.frameUnit.unitType": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:DefinedTerm",
+      "object_label": "samplingFrameUnitType",
+      "object_json_path": "$.schema:keywords[*]",
+      "comment": "DDI 2.5: the type of unit contained in the sampling frame (@isPrimary flags primary sampling units)"
+    },
+    "ddi:stdyDscr.method.dataColl.sampleFrame.frameUnit.txt": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:DefinedTerm",
+      "object_label": "samplingFrameUnitType",
+      "object_json_path": "$.schema:keywords[*].schema:description",
+      "comment": "DDI 2.5: descriptive text about the sampling-frame unit"
+    },
+    "ddi:stdyDscr.method.dataColl.sampleFrame.referencePeriod": {
+      "predicate_id": "",
+      "object_id": "prov:used",
+      "object_label": "sampleFrameDescription",
+      "object_json_path": "$.prov:wasGeneratedBy.prov:used[@type=\"prov:Entity\", schema:Thing], schema:additionalType[,\"ddi:sampleFrame\"].schema:description",
+      "comment": "DDI 2.5: the reference period (point or range in time) to which the sampling frame applies"
+    },
+    "ddi:stdyDscr.method.dataColl.sampleFrame.updateProcedure": {
+      "predicate_id": "",
+      "object_id": "prov:used",
+      "object_label": "sampleFrameDescription",
+      "object_json_path": "$.prov:wasGeneratedBy.prov:used[@type=\"prov:Entity\", schema:Thing], schema:additionalType[,\"ddi:sampleFrame\"].schema:description",
+      "comment": "DDI 2.5: the procedure used to update/maintain the sampling frame"
+    },
+    "ddi:stdyDscr.method.dataColl.sources.sourceCitation.titlStmt.titl": {
+      "predicate_id": "",
+      "object_id": "prov:wasDerivedFrom",
+      "object_label": "sourceCitationTitle",
+      "object_json_path": "$.prov:wasDerivedFrom.schema:CreativeWork.schema:name",
+      "comment": "DDI 2.5: full authoritative title of a data source the study drew on (sources/sourceCitation is a complete citation for that source; this titl is the source's own title, distinct from the study title in stdyDscr/citation/titlStmt/titl)"
+    },
+    "ddi:stdyDscr.method.dataColl.sources.sourceCitation.titlStmt.subTitl": {
+      "predicate_id": "",
+      "object_id": "prov:wasDerivedFrom",
+      "object_label": "sourceAdditionalTitle",
+      "object_json_path": "$.prov:wasDerivedFrom.schema:CreativeWork.schema:alternateName",
+      "comment": "DDI 2.5: subtitle of the cited data source"
+    },
+    "ddi:stdyDscr.method.dataColl.sources.sourceCitation.titlStmt.altTitl": {
+      "predicate_id": "",
+      "object_id": "prov:wasDerivedFrom",
+      "object_label": "sourceAdditionalTitle",
+      "object_json_path": "$.prov:wasDerivedFrom.schema:CreativeWork.schema:alternateName",
+      "comment": "DDI 2.5: alternative title (a title by which the source is also known) of the cited data source"
+    },
+    "ddi:stdyDscr.method.dataColl.sources.sourceCitation.titlStmt.parTitl": {
+      "predicate_id": "",
+      "object_id": "prov:wasDerivedFrom",
+      "object_label": "sourceAdditionalTitle",
+      "object_json_path": "$.prov:wasDerivedFrom.schema:CreativeWork.schema:alternateName",
+      "comment": "DDI 2.5: parallel title (the source title expressed in another language) of the cited data source"
+    },
+    "ddi:stdyDscr.method.dataColl.sources.sourceCitation.titlStmt.IDNo": {
+      "predicate_id": "",
+      "object_id": "prov:wasDerivedFrom",
+      "object_label": "sourceIdentifier",
+      "object_json_path": "$.prov:wasDerivedFrom.schema:CreativeWork.schema:identifier",
+      "comment": "DDI 2.5: identifier (e.g. DOI/handle) of the cited data source, optionally with an agency attribute"
+    },
+    "ddi:stdyDscr.method.dataColl.sources.sourceCitation.rspStmt.AuthEnty": {
+      "predicate_id": "",
+      "object_id": "prov:wasDerivedFrom",
+      "object_label": "sourceAuthor",
+      "object_json_path": "$.prov:wasDerivedFrom.schema:CreativeWork.schema:creator",
+      "comment": "DDI 2.5: responsibility statement - authoring entity/person legally responsible for the cited data source"
+    },
+    "ddi:stdyDscr.method.dataColl.sources.sourceCitation.rspStmt.othId": {
+      "predicate_id": "",
+      "object_id": "prov:wasDerivedFrom",
+      "object_label": "sourceContributor",
+      "object_json_path": "$.prov:wasDerivedFrom.schema:CreativeWork.schema:contributor[role = contributor]",
+      "comment": "DDI 2.5: responsibility statement - other contributors to the cited source (e.g. editors, translators) not credited as primary author"
+    },
+    "ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.producer": {
+      "predicate_id": "",
+      "object_id": "prov:wasDerivedFrom",
+      "object_label": "sourceProducer",
+      "object_json_path": "$.prov:wasDerivedFrom.schema:CreativeWork.schema:contributor[role = producer]",
+      "comment": "DDI 2.5: production statement - person/organization responsible for producing the cited data source"
+    },
+    "ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.copyright": {
+      "predicate_id": "",
+      "object_id": "prov:wasDerivedFrom",
+      "object_label": "sourceCopyright",
+      "object_json_path": "$.prov:wasDerivedFrom.schema:CreativeWork.schema:copyrightNotice",
+      "comment": "DDI 2.5: production statement - copyright statement for the cited data source"
+    },
+    "ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.prodDate": {
+      "predicate_id": "",
+      "object_id": "prov:wasDerivedFrom",
+      "object_label": "sourceDateProduced",
+      "object_json_path": "$.prov:wasDerivedFrom.schema:CreativeWork.schema:dateCreated",
+      "comment": "DDI 2.5: production statement - date the cited data source was produced"
+    },
+    "ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.prodPlac": {
+      "predicate_id": "",
+      "object_id": "prov:wasDerivedFrom",
+      "object_label": "sourceDescription",
+      "object_json_path": "$.prov:wasDerivedFrom.schema:CreativeWork.schema:description",
+      "comment": "DDI 2.5: production statement - place where the cited data source was produced"
+    },
+    "ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.software": {
+      "predicate_id": "",
+      "object_id": "prov:wasDerivedFrom",
+      "object_label": "sourceDescription",
+      "object_json_path": "$.prov:wasDerivedFrom.schema:CreativeWork.schema:description",
+      "comment": "DDI 2.5: production statement - software used to produce the cited data source"
+    },
+    "ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.fundAg": {
+      "predicate_id": "",
+      "object_id": "prov:wasDerivedFrom",
+      "object_label": "sourceFunder",
+      "object_json_path": "$.prov:wasDerivedFrom.schema:CreativeWork.schema:funding.schema:funder",
+      "comment": "DDI 2.5: production statement - funding agency/sponsor of the cited data source"
+    },
+    "ddi:stdyDscr.method.dataColl.sources.sourceCitation.prodStmt.grantNo": {
+      "predicate_id": "",
+      "object_id": "prov:wasDerivedFrom",
+      "object_label": "sourceFundingIdentifier",
+      "object_json_path": "$.prov:wasDerivedFrom.schema:CreativeWork.schema:funding.schema:identifier",
+      "comment": "DDI 2.5: production statement - grant/contract number under which the cited data source was produced"
+    },
+    "ddi:stdyDscr.method.dataColl.sources.sourceCitation.distStmt.distrbtr": {
+      "predicate_id": "",
+      "object_id": "prov:wasDerivedFrom",
+      "object_label": "sourceDescription",
+      "object_json_path": "$.prov:wasDerivedFrom.schema:CreativeWork.schema:description",
+      "comment": "DDI 2.5: distribution statement - agency/person distributing the cited data source"
+    },
+    "ddi:stdyDscr.method.dataColl.sources.sourceCitation.distStmt.contact": {
+      "predicate_id": "",
+      "object_id": "prov:wasDerivedFrom",
+      "object_label": "sourceDescription",
+      "object_json_path": "$.prov:wasDerivedFrom.schema:CreativeWork.schema:description",
+      "comment": "DDI 2.5: distribution statement - contact person(s) for questions about the cited data source"
+    },
+    "ddi:stdyDscr.method.dataColl.sources.sourceCitation.distStmt.depositr": {
+      "predicate_id": "",
+      "object_id": "prov:wasDerivedFrom",
+      "object_label": "sourcePublisher",
+      "object_json_path": "$.prov:wasDerivedFrom.schema:CreativeWork.schema:publisher",
+      "comment": "DDI 2.5: distribution statement - person/institution who deposited the cited data source with the distributor"
+    },
+    "ddi:stdyDscr.method.dataColl.sources.sourceCitation.distStmt.depDate": {
+      "predicate_id": "",
+      "object_id": "prov:wasDerivedFrom",
+      "object_label": "sourceDateDeposited",
+      "object_json_path": "$.prov:wasDerivedFrom.schema:CreativeWork.schema:dateModified",
+      "comment": "DDI 2.5: distribution statement - date the cited data source was deposited"
+    },
+    "ddi:stdyDscr.method.dataColl.sources.sourceCitation.distStmt.distDate": {
+      "predicate_id": "",
+      "object_id": "prov:wasDerivedFrom",
+      "object_label": "sourceDateReleased",
+      "object_json_path": "$.prov:wasDerivedFrom.schema:CreativeWork.schema:datePublished",
+      "comment": "DDI 2.5: distribution statement - date the cited data source was distributed/released"
+    },
+    "ddi:stdyDscr.method.dataColl.sources.sourceCitation.serStmt.serName": {
+      "predicate_id": "",
+      "object_id": "prov:wasDerivedFrom",
+      "object_label": "sourceDescription",
+      "object_json_path": "$.prov:wasDerivedFrom.schema:CreativeWork.schema:description",
+      "comment": "DDI 2.5: series statement - name of the series to which the cited data source belongs"
+    },
+    "ddi:stdyDscr.method.dataColl.sources.sourceCitation.serStmt.serInfo": {
+      "predicate_id": "",
+      "object_id": "prov:wasDerivedFrom",
+      "object_label": "sourceDescription",
+      "object_json_path": "$.prov:wasDerivedFrom.schema:CreativeWork.schema:description",
+      "comment": "DDI 2.5: series statement - history/information about the series of the cited data source"
+    },
+    "ddi:stdyDscr.method.dataColl.sources.sourceCitation.verStmt.version": {
+      "predicate_id": "",
+      "object_id": "prov:wasDerivedFrom",
+      "object_label": "sourceDescription",
+      "object_json_path": "$.prov:wasDerivedFrom.schema:CreativeWork.schema:description",
+      "comment": "DDI 2.5: version statement - version number/description of the cited data source"
+    },
+    "ddi:stdyDscr.method.dataColl.sources.sourceCitation.verStmt.verResp": {
+      "predicate_id": "",
+      "object_id": "prov:wasDerivedFrom",
+      "object_label": "sourceDescription",
+      "object_json_path": "$.prov:wasDerivedFrom.schema:CreativeWork.schema:description",
+      "comment": "DDI 2.5: version statement - person/organization responsible for this version of the cited data source"
+    },
+    "ddi:stdyDscr.method.dataColl.sources.sourceCitation.verStmt.notes": {
+      "predicate_id": "",
+      "object_id": "prov:wasDerivedFrom",
+      "object_label": "sourceDescription",
+      "object_json_path": "$.prov:wasDerivedFrom.schema:CreativeWork.schema:description",
+      "comment": "DDI 2.5: version statement - notes about this version of the cited data source"
+    },
+    "ddi:stdyDscr.method.dataColl.sources.sourceCitation.biblCit": {
+      "predicate_id": "",
+      "object_id": "prov:wasDerivedFrom",
+      "object_label": "sourceDescription",
+      "object_json_path": "$.prov:wasDerivedFrom.schema:CreativeWork.dcterms:bibliographicCitation",
+      "comment": "DDI 2.5: complete bibliographic citation for the cited data source as a single formatted string"
+    },
+    "ddi:stdyDscr.method.dataColl.sources.sourceCitation.holdings": {
+      "predicate_id": "",
+      "object_id": "prov:wasDerivedFrom",
+      "object_label": "sourceDescription",
+      "object_json_path": "$.prov:wasDerivedFrom.schema:CreativeWork.schema:description",
+      "comment": "DDI 2.5: holdings - information on the location/URI where copies of the cited data source are held"
+    },
+    "ddi:stdyDscr.method.dataColl.sources.sourceCitation.notes": {
+      "predicate_id": "",
+      "object_id": "prov:wasDerivedFrom",
+      "object_label": "sourceDescription",
+      "object_json_path": "$.prov:wasDerivedFrom.schema:CreativeWork.schema:description",
+      "comment": "DDI 2.5: general notes about the citation of the data source"
+    },
+    "ddi:stdyDscr.method.dataProcessing": {
+      "predicate_id": "",
+      "object_id": "prov:wasGeneratedBy",
+      "object_label": "dataProcessing",
+      "object_json_path": "$.prov:wasGeneratedBy.schema:actionProcess[",
+      "comment": "DDI 2.5 (imported from DDI Lifecycle): description of data processing performed on the collected data (@type qualifies the processing kind)"
+    },
+    "ddi:docDscr.citation.rspStmt.othId": {
+      "predicate_id": "",
+      "object_id": "schema:subjectOf",
+      "object_label": "CatalogRecordResponsibleParty",
+      "object_json_path": "$.schema:subjectOf[schema:additionalType = dcat:DataCatalog].schema:maintainer",
+      "comment": "DDI 2.5: responsibility statement (document description citation) - other contributors/acknowledgements for the DDI document itself, secondary to the primary author"
+    },
+    "ddi:docDscr.docSrc.rspStmt.othId": {
+      "predicate_id": "",
+      "object_id": "schema:subjectOf",
+      "object_label": "CatalogRecordResponsibleParty",
+      "object_json_path": "$.schema:subjectOf[schema:additionalType = dcat:DataCatalog].schema:maintainer",
+      "comment": "DDI 2.5: responsibility statement (source of the DDI document) - other contributors/acknowledgements for the source document the DDI record was derived from"
+    },
+    "ddi:dataDscr.nCube": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "cdi:DimensionalDataStructure",
+      "object_label": "DimensionalDataStructure",
+      "object_json_path": "$.schema:distribution[*].cdif:isStructuredBy",
+      "comment": "aggregate data cube (2.5 only)"
+    }
+  },
+  "ddi122-to-cdif": {}
+}
