@@ -193,6 +193,7 @@ def gather(elem, subj_paths, mapping, anchor=""):
 def build_activity(root, items, maps, skipped):
     """items: list of subject paths whose target head is prov:wasGeneratedBy."""
     act = {"@type": ["schema:Action", "prov:Activity"]}
+    frame = {}  # the single "used" entity assembled from direct prov:used subfields (sample frame)
     groups = {}
     for path in items:
         _, leaf = split_target(maps[path]["object_json_path"])
@@ -210,13 +211,18 @@ def build_activity(root, items, maps, skipped):
                     act.setdefault("schema:additionalProperty", []).append(
                         {"@type": ["schema:PropertyValue"], "schema:name": lbl, "schema:value": v})
         elif keys and keys[0] == "prov:used":
-            for v in vals:
-                if keys[-1] == "schema:name" and "computationalTool" in keys:
-                    act.setdefault("prov:used", []).append(
-                        {"bios:computationalTool": {"schema:name": v}})
-                else:
+            if "schema:instrument" in keys:                       # instrument wrapper, one per value
+                for v in vals:
                     act.setdefault("prov:used", []).append(
                         {"schema:instrument": {"@type": ["schema:Thing"], "schema:name": v}})
+            elif "bios:computationalTool" in keys:                # software/tool, one per value
+                for v in vals:
+                    act.setdefault("prov:used", []).append(
+                        {"bios:computationalTool": {"schema:name": v}})
+            else:                                                 # direct subfield of the used entity
+                val = concat(contribs)
+                if val is not None:
+                    frame[keys[-1]] = val
         elif keys and keys[0] == "schema:actionProcess":
             hp = act.setdefault("schema:actionProcess", {"@type": ["schema:HowTo"]})
             sub = "schema:step" if keys[-1] == "schema:step" else "schema:description"
@@ -230,6 +236,10 @@ def build_activity(root, items, maps, skipped):
         else:
             val = concat(contribs)
             set_nested(act, list(keys), val)
+    if frame:
+        act.setdefault("prov:used", []).append(
+            {"@type": ["prov:Entity", "schema:Thing"],
+             "schema:additionalType": "ddi:sampleFrame", **frame})
     return act
 
 
