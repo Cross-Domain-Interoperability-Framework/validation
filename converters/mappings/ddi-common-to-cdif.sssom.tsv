@@ -32,16 +32,16 @@
 #   are omitted; only data-bearing attributes that map are kept (var/@name, varFormat/@type).
 subject_id	subject_label	comment	predicate_id	object_id	object_label	object_json_path	mapping_justification
 ddicb:stdyDscr.citation.titlStmt.titl	titl		skos:exactMatch	schema:name	name	$.schema:name	semapv:ManualMappingCuration
-ddicb:stdyDscr.citation.titlStmt.subTitl	subTitl	DDI Codebook: subtitle of the study title. 	skos:closeMatch	schema:alternateName	alternateName	$.schema:alternateName	
-ddicb:stdyDscr.citation.titlStmt.altTitl	altTitl	DDI Codebook: alternative title by which the study is also known. 	skos:closeMatch	schema:alternateName	alternateName	$.schema:alternateName	
-ddicb:stdyDscr.citation.titlStmt.parTitl	parTitl	DDI Codebook: parallel title (the study title expressed in another language). 	skos:closeMatch	schema:alternateName	alternateName	$.schema:alternateName	
+ddicb:stdyDscr.citation.titlStmt.subTitl	subTitl	DDI Codebook: subtitle of the study title. 	skos:closeMatch	schema:alternateName	alternateName	$.schema:alternateName[*]	
+ddicb:stdyDscr.citation.titlStmt.altTitl	altTitl	DDI Codebook: alternative title by which the study is also known. 	skos:closeMatch	schema:alternateName	alternateName	$.schema:alternateName[*]	
+ddicb:stdyDscr.citation.titlStmt.parTitl	parTitl	DDI Codebook: parallel title (the study title expressed in another language). 	skos:closeMatch	schema:alternateName	alternateName	$.schema:alternateName[*]	
 ddicb:stdyDscr.citation.titlStmt.IDNo	IDNo	also fills @id	skos:exactMatch	schema:identifier	identifier	$.schema:identifier	semapv:ManualMappingCuration
 ddicb:stdyDscr.citation.rspStmt.AuthEnty	AuthEnty	-> schema:Person in @list	skos:closeMatch	schema:creator	creator	$.schema:creator	semapv:ManualMappingCuration
 ddicb:stdyDscr.citation.prodStmt.producer	producer	DDI Codebook: person/organization responsible for producing the study/dataset. Schema:contributor[role = 'producer']	skos:closeMatch	schema:contributor	producer	$.schema:contributor	
 ddicb:stdyDscr.citation.prodStmt.copyright	copyright	DDI Codebook: copyright statement for the study/dataset. 	skos:exactMatch	schema:copyrightNotice	copyright	$.schema:copyrightNotice	
-ddicb:stdyDscr.citation.prodStmt.prodDate	prodDate	fallback distDate	skos:exactMatch	schema:dateModified	dateModified	$.schema:dateModified	semapv:ManualMappingCuration
+ddicb:stdyDscr.citation.prodStmt.prodDate	prodDate	fallback distDate	skos:exactMatch	schema:dateCreated	dateProduced	$.schema:dateCreated	semapv:ManualMappingCuration
 ddicb:stdyDscr.citation.prodStmt.prodPlac	prodPlac	DDI Codebook: place where the study/dataset was produced. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.citation.prodStmt.software	software	DDI Codebook: software used to produce the study/dataset. 	skos:closeMatch	prov:used	software	$.prov:wasGeneratedBy.prov:used.bios:computationalTool.schema:name	
+ddicb:stdyDscr.citation.prodStmt.software	software	DDI Codebook: software used to produce the study/dataset. 	skos:closeMatch	schema:name	software	$.prov:wasGeneratedBy.prov:used.bios:computationalTool.schema:name	
 ddicb:stdyDscr.citation.prodStmt.fundAg	fundAg	DDI Codebook: funding agency/sponsor of the study. Unmapped (no CDIF target) - for review	skos:exactMatch	schema:funder	fundingAgency	$.schema:funding.schema:funder	
 ddicb:stdyDscr.citation.prodStmt.grantNo	grantNo	DDI Codebook: grant/contract number under which the study was funded. 	skos:exactMatch	schema:identifier	grantID	$.schema:funding.schema:identifier	
 ddicb:stdyDscr.citation.distStmt.distrbtr	distrbtr	-> schema:Organization	skos:closeMatch	schema:publisher	publisher	$.schema:publisher	semapv:ManualMappingCuration
@@ -49,8 +49,8 @@ ddicb:stdyDscr.citation.distStmt.contact	contact	DDI Codebook: contact person(s)
 ddicb:stdyDscr.citation.distStmt.depositr	depositr	DDI Codebook: person/institution who deposited the study/dataset with the distributor. 	skos:closeMatch	schema:publisher	depositor	$.schema:publisher	
 ddicb:stdyDscr.citation.distStmt.depDate	depDate	DDI Codebook: date the study/dataset was deposited.	skos:closeMatch	schema:dateModified	dateDeposited	$.schema:dateModified	
 ddicb:stdyDscr.citation.distStmt.distDate	distDate		skos:exactMatch	schema:datePublished	datePublished	$.schema:datePublished	semapv:ManualMappingCuration
-ddicb:stdyDscr.citation.serStmt.serName	serName	DDI Codebook: name of the series to which the study belongs. Unmapped (no CDIF target) - for review					
-ddicb:stdyDscr.citation.serStmt.serInfo	serInfo	DDI Codebook: history/information about the study series. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.citation.serStmt.serName	serName	DDI Codebook: name of the series to which the study belongs. --> isPartOf @type = schema:CreativeWorkSeries	skos:closeMatch	schema:name	partOfSeries	$.schema:isPartOf.schema:name	
+ddicb:stdyDscr.citation.serStmt.serInfo	serInfo	DDI Codebook: history/information about the study series. --> isPartOf @type = schema:CreativeWorkSeries	skos:closeMatch	schema:description	seriesDescription	$.schema:isPartOf.schema:description	
 ddicb:stdyDscr.citation.verStmt.version	version	DDI Codebook: version number/description of the study/dataset. 	skos:exactMatch	schema:version	version	$.schema:version	
 ddicb:stdyDscr.citation.verStmt.verResp	verResp	DDI Codebook: person/organization responsible for this version of the study. Add to list of publishers	skos:closeMatch	schema:publisher	versionPublisher	$.schema:publisher	
 ddicb:stdyDscr.citation.verStmt.notes	notes	DDI Codebook: notes about this version of the study. Concatenate on dataset description	skos:closeMatch	schema:description	versionDescription	$.schema:description	
@@ -58,11 +58,11 @@ ddicb:stdyDscr.citation.biblCit	biblCit	DDI Codebook: complete bibliographic cit
 ddicb:stdyDscr.citation.holdings	holdings	DDI Codebook: information on where copies of the study/dataset are held. Concatenate on distribution description	skos:closeMatch	schema:description	distributionDescription	$.schema:distribution.schema:description	
 ddicb:stdyDscr.citation.notes	notes	DDI Codebook: general notes about the study citation. Concatenate on dataset description	skos:closeMatch	schema:description	notes	$.schema:description	
 ddicb:stdyDscr.stdyInfo.subject.keyword	keyword		skos:exactMatch	schema:keywords	keywords	$.schema:keywords	semapv:ManualMappingCuration
-ddicb:stdyDscr.stdyInfo.subject.topcClas	topcClas		skos:exactMatch	schema:keywords	keywords	$.schema:keywords	semapv:ManualMappingCuration
+ddicb:stdyDscr.stdyInfo.subject.topcClas	topcClas	schema:DefinedTerm[schema:about='Topic Classification']	skos:exactMatch	schema:keywords	keywords	$.schema:keywords	semapv:ManualMappingCuration
 ddicb:stdyDscr.stdyInfo.abstract	abstract	concatenate on dataset description	skos:exactMatch	schema:description	description	$.schema:description	semapv:ManualMappingCuration
 ddicb:stdyDscr.stdyInfo.sumDscr.timePrd	timePrd	start/end -> ISO 8601 interval	skos:closeMatch	schema:temporalCoverage	temporalCoverage	$.schema:temporalCoverage	semapv:ManualMappingCuration
 ddicb:stdyDscr.stdyInfo.sumDscr.collDate	collDate	DDI: date(s) of data collection -> collection Activity start/end time (NOT temporalCoverage; timePrd is coverage)	skos:closeMatch	schema:startTime	startTime	$.prov:wasGeneratedBy[*].schema:startTime	semapv:ManualMappingCuration
-ddicb:stdyDscr.stdyInfo.sumDscr.nation	nation	-> schema:Place	skos:closeMatch	schema:spatialCoverage	spatialCoverage	$.schema:spatialCoverage[*]	semapv:ManualMappingCuration
+ddicb:stdyDscr.stdyInfo.sumDscr.nation	nation	 schema:Place[schema:additionalType = 'Nation']	skos:closeMatch	schema:name	spatialCoverage	$.schema:spatialCoverage[*].schema:name	semapv:ManualMappingCuration
 ddicb:stdyDscr.stdyInfo.sumDscr.geogCover	geogCover	-> schema:Place	skos:closeMatch	schema:spatialCoverage	spatialCoverage	$.schema:spatialCoverage[*]	semapv:ManualMappingCuration
 ddicb:stdyDscr.stdyInfo.sumDscr.geogUnit	geogUnit	DDI Codebook: the lowest geographic level at which the data are aggregated. -->DefinedTerm. schema:about="Geographic Unit"	skos:closeMatch	schema:keywords	keywords	$.schema:keywords	
 ddicb:stdyDscr.stdyInfo.sumDscr.anlyUnit	anlyUnit	DDI Codebook: the unit of analysis/observation the data describe.  -->DefinedTerm. schema:about="Analysis Unit"	skos:closeMatch	schema:keywords	keywords	$.schema:keywords	
@@ -71,7 +71,7 @@ ddicb:stdyDscr.stdyInfo.sumDscr.dataKind	dataKind	DDI Codebook: the kind of data
 ddicb:stdyDscr.stdyInfo.notes	notes	DDI Codebook: general notes about the study-information section. -->concatenate on Dataset description	skos:closeMatch	schema:description	notes	$.schema:description	
 ddicb:stdyDscr.method.dataColl.timeMeth	timeMeth	DDI Codebook: the time method/dimension of data collection (e.g. longitudinal, cross-section, panel, time-series).   -->DefinedTerm. schema:about="Data Collection Time Method"	skos:closeMatch	schema:keywords	keywords	$.schema:keywords	
 ddicb:stdyDscr.method.dataColl.dataCollector	dataCollector	DDI: data collector -> agent of the collection Activity	skos:closeMatch	schema:agent	agent	$.prov:wasGeneratedBy[*].schema:agent	semapv:ManualMappingCuration
-ddicb:stdyDscr.method.dataColl.frequenc	frequenc	DDI Codebook: the frequency of data collection for repeated collection. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.method.dataColl.frequenc	frequenc	DDI Codebook: the frequency of data collection for repeated collection. Unmapped (no CDIF target)					
 ddicb:stdyDscr.method.dataColl.sampProc	sampProc	DDI Codebook: the sampling procedure - type of sample and sample design used. -->concatenate on schema:HowTo.schema:description	skos:closeMatch	schema:description	samplingProcedure	$.prov:wasGeneratedBy[*].schema:actionProcess.schema:description	
 ddicb:stdyDscr.method.dataColl.deviat	deviat	DDI Codebook: major deviations from the sample design encountered during collection. -->concatenate on schema:HowTo.schema:description	skos:closeMatch	schema:description	samplingProcedure	$.prov:wasGeneratedBy[*].schema:actionProcess.schema:description	
 ddicb:stdyDscr.method.dataColl.collMode	collMode		skos:exactMatch	schema:measurementTechnique	measurementTechnique	$.schema:measurementTechnique	semapv:ManualMappingCuration
@@ -81,7 +81,7 @@ ddicb:stdyDscr.method.dataColl.sources.srcOrig	srcOrig	DDI Codebook: origin of t
 ddicb:stdyDscr.method.dataColl.sources.srcChar	srcChar	DDI Codebook: characteristics/quality of the source materials noted. --> concatenate on  wasDerivedFrom.schema:CreativeWork.schema:description	skos:closeMatch	prov:wasDerivedFrom	sourceMaterialCharacteristics	$.prov:wasDerivedFrom[*].schema:description	
 ddicb:stdyDscr.method.dataColl.sources.srcDocu	srcDocu	DDI Codebook: documentation and access to the source materials. --> concatenate on  wasDerivedFrom.schema:CreativeWork.schema:description	skos:closeMatch	prov:wasDerivedFrom	sourceMaterialCharacteristics	$.prov:wasDerivedFrom[*].schema:description	
 ddicb:stdyDscr.method.dataColl.sources.sources	sources	DDI Codebook: general sources statement describing the sources of the data. --> concatenate on  wasDerivedFrom.schema:CreativeWork.schema:description	skos:closeMatch	prov:wasDerivedFrom	sourceMaterialStatement	$.prov:wasDerivedFrom[*].schema:description	
-ddicb:stdyDscr.method.dataColl.collSitu	collSitu	DDI Codebook: characteristics of the data-collection situation/setting. Unmapped (no CDIF target) - for review					
+ddicb:stdyDscr.method.dataColl.collSitu	collSitu	DDI Codebook: characteristics of the data-collection situation/setting. Unmapped (no CDIF target)					
 ddicb:stdyDscr.method.dataColl.actMin	actMin	DDI Codebook: actions taken to minimize data loss (e.g. call-backs, follow-ups). -> concatenate on  wasGeneratedBy.actionProcess string	skos:closeMatch	schema:actionProcess	minimizeDataLoss	$.prov:wasGeneratedBy[*].schema:actionProcess	
 ddicb:stdyDscr.method.dataColl.ConOps	ConOps	DDI Codebook: control operations - methods used to control the quality of data collection. -> concatenate on  wasGeneratedBy.actionProcess string	skos:closeMatch	schema:actionProcess	qualityControl	$.prov:wasGeneratedBy[*].schema:actionProcess	
 ddicb:stdyDscr.method.dataColl.weight	weight	DDI: weighting -> additionalProperty on the collection Activity	skos:closeMatch	schema:actionProcess	weight	$.prov:wasGeneratedBy[*].schema:additionalProperty[*]	semapv:ManualMappingCuration
@@ -141,7 +141,7 @@ ddicb:dataDscr.varGrp.concept	concept	DDI Codebook: the concept represented by t
 ddicb:dataDscr.varGrp.defntn	defntn	DDI Codebook: a definition of the variable group. Unmapped (no CDIF target) - for review					
 ddicb:dataDscr.varGrp.universe	universe	DDI Codebook: the universe (population) covered by the variable group. Unmapped (no CDIF target) - for review					
 ddicb:dataDscr.varGrp.notes	notes	DDI Codebook: notes about the variable group. Unmapped (no CDIF target) - for review					
-ddicb:dataDscr.var.labl	labl	on the variable	skos:exactMatch	schema:description	label	$.schema:variableMeasured[*].schema:description	semapv:ManualMappingCuration
+ddicb:dataDscr.var.labl	labl	on the variable	skos:exactMatch	schema:alternateName	label	$.schema:variableMeasured[*].schema:alternateName	semapv:ManualMappingCuration
 ddicb:dataDscr.var.imputation	imputation	DDI Codebook: description of any imputation performed on the variable. --> concatenate on variable description	skos:closeMatch	schema:description	imputation	$.schema:variableMeasured[*].schema:description	
 ddicb:dataDscr.var.security	security	DDI Codebook: the security/access-restriction level of the variable.  --> concatenate on variable description	skos:closeMatch	schema:description	accessConstraints	$.schema:variableMeasured[*].schema:description	
 ddicb:dataDscr.var.embargo	embargo	DDI Codebook: embargo information - date/event until which the variable is restricted.  --> concatenate on variable description	skos:closeMatch	schema:description	embargo	$.schema:variableMeasured[*].schema:description	

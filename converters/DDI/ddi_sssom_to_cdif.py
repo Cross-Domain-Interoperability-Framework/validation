@@ -147,6 +147,28 @@ def flat_values(contribs):
     return [v for _, vs in contribs for v in (vs if isinstance(vs, list) else [vs]) if v]
 
 
+def array_distinct(contribs):
+    """[*] target -> array of distinct values."""
+    out, seen = [], set()
+    for v in flat_values(contribs):
+        if v not in seen:
+            seen.add(v); out.append(v)
+    return out or None
+
+
+def shape_conditions(contribs):
+    """schema:conditionsOfAccess -> an array of References (schema:CreativeWork):
+    each contributing DDI field becomes {schema:name: <object_label>,
+    schema:description: <value>}."""
+    out = []
+    for lbl, vs in contribs:
+        for v in (vs if isinstance(vs, list) else [vs]):
+            if v:
+                out.append({"@type": ["schema:CreativeWork"],
+                            "schema:name": lbl, "schema:description": v})
+    return out or None
+
+
 def shape_dataset(leaf, object_id, contribs):
     flat = flat_values(contribs)
     if leaf in LIST_LEAF:
@@ -236,9 +258,16 @@ def build_activity(root, items, maps, skipped):
                     act.setdefault("prov:used", []).append(
                         {"bios:computationalTool": {"schema:name": v}})
             else:                                                 # direct subfield of the used entity
-                val = concat(contribs)
+                prop = keys[-1]
+                if prop == "schema:conditionsOfAccess":
+                    val = shape_conditions(contribs)
+                elif prop == "schema:contributor":
+                    val = [{"@type": ["schema:Person"], "schema:name": x}
+                           for x in flat_values(contribs)] or None
+                else:
+                    val = concat(contribs)
                 if val is not None:
-                    frame[keys[-1]] = val
+                    frame[prop] = val
         elif keys and keys[0] == "schema:actionProcess":
             hp = act.setdefault("schema:actionProcess", {"@type": ["schema:HowTo"]})
             sub = "schema:step" if keys[-1] == "schema:step" else "schema:description"
@@ -254,8 +283,8 @@ def build_activity(root, items, maps, skipped):
             set_nested(act, list(keys), val)
     if frame:
         act.setdefault("prov:used", []).append(
-            {"@type": ["prov:Entity", "schema:Thing"],
-             "schema:additionalType": "ddi:sampleFrame", **frame})
+            {"@type": ["schema:CreativeWork", "prov:Entity"],
+             "schema:additionalType": "sampleFrame", **frame})
     return act
 
 
@@ -356,7 +385,7 @@ def convert(xml_path, doi_url, version, detect=True, verbose=False):
 
     doc = {"@context": CONTEXT, "@id": doi_url, "@type": ["schema:Dataset"]}
 
-    desc_overflow, kw_terms = [], []
+    desc_overflow, kw_terms, places = [], [], []
     for (leaf, oid), paths in ds_by_leaf.items():
         if leaf == "schema:keywords":
             # >4 words -> concatenate onto the dataset description; else a keyword
@@ -371,14 +400,29 @@ def convert(xml_path, doi_url, version, detect=True, verbose=False):
                         kw_terms.append({"@type": ["schema:DefinedTerm"],
                                          "schema:name": v, "schema:about": src})
             continue
-        if oid == "schema:spatialCoverage" or leaf == "schema:spatialCoverage":
-            places = [shape_place(v) for v in flat_values(gather(root, paths, maps))]
-            if places:
-                doc["schema:spatialCoverage"] = places
+        if leaf.startswith("schema:spatialCoverage"):
+            sub = leaf[len("schema:spatialCoverage"):].lstrip("[*]").lstrip(".")
+            for p in paths:
+                for v in values_at(root, p.split(".")):
+                    if not sub:
+                        places.append(shape_place(v))
+                    else:
+                        pl = {"@type": ["schema:Place"]}
+                        set_nested(pl, [k.replace("[*]", "") for k in sub.split(".")], v)
+                        places.append(pl)
             continue
-        val = shape_dataset(leaf, oid, gather(root, paths, maps))
+        contribs = gather(root, paths, maps)
+        prop = leaf.split(".")[-1].replace("[*]", "")
+        if prop == "schema:conditionsOfAccess":
+            val = shape_conditions(contribs)
+        elif leaf.endswith("[*]"):
+            val = array_distinct(contribs)
+        else:
+            val = shape_dataset(leaf.replace("[*]", ""), oid, contribs)
         if val is not None:
-            set_nested(doc, leaf.split("."), val)
+            set_nested(doc, [k.replace("[*]", "") for k in leaf.split(".")], val)
+    if places:
+        doc["schema:spatialCoverage"] = places
     if kw_terms:
         doc["schema:keywords"] = kw_terms
     if desc_overflow:
