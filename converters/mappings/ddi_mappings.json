@@ -63,6 +63,13 @@
       "object_json_path": "$.schema:dateCreated",
       "comment": "DDI 2.5 <prodDate>: Date when the marked-up document, data collection, or other materials were produced. | fallback distDate"
     },
+    "ddicb:stdyDscr.citation.prodStmt.prodPlac": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:name",
+      "object_label": "productionPlace",
+      "object_json_path": "$.schema:locationCreated.schema:name",
+      "comment": "DDI 2.5 <prodPlac>: Address of the archive or organization that produced the work. | DDI Codebook: place where the study/dataset was produced.  --> schema:locationCreated[@type = schema:Place].schema.name"
+    },
     "ddicb:stdyDscr.citation.prodStmt.software": {
       "predicate_id": "skos:closeMatch",
       "object_id": "schema:name",
@@ -1382,5 +1389,13 @@
       "comment": "DDI 2.5 <nCube>: Describes the logical structure of an n-dimensional array for the markup of aggregate data. | aggregate data cube (2.5 only)"
     }
   },
-  "ddi122-to-cdif": {}
+  "ddi122-to-cdif": {
+    "ddi122:stdyDscr.citation.rspStmt.othId.othId": {
+      "predicate_id": "skos:closeMatch",
+      "object_id": "schema:contributor",
+      "object_label": "responseContributor",
+      "object_json_path": "$.schema:contributor",
+      "comment": "DDI 1.2.2: a nested <othId> within <othId> in the study citation responsibility statement (1.2.2's content model lets othId self-nest). othId = Other Identifications and Acknowledgments: responsibility not recorded in the main title/author area. --> contributor[role = 'Response Contributor']"
+    }
+  }
 }

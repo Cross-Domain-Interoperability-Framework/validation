@@ -35,7 +35,8 @@ import csv, io, json, os, sys, glob, re
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 CANON = ["subject_id", "subject_label", "comment", "predicate_id",
-         "object_id", "object_label", "object_json_path", "mapping_justification"]
+         "object_id", "object_label", "object_json_path", "mapping_justification",
+         "author_id", "reviewer_id"]
 SKOS = {"skos:exactMatch", "skos:closeMatch", "skos:narrowMatch",
         "skos:broadMatch", "skos:relatedMatch"}
 FILES = ["ddi-common-to-cdif", "ddi25-to-cdif", "ddi122-to-cdif"]

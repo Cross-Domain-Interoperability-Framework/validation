@@ -108,7 +108,35 @@ same hybrid philosophy — SSSOM for the alignments, Python for the structure.
 
 `subject_id` / `subject_label` (the source term), `predicate_id`, `object_id` /
 `object_label` (the target term), `object_json_path`, `mapping_justification`,
-and a `comment` carrying the per-mapping transform note.
+a `comment` carrying the per-mapping transform note, and `author_id` /
+`reviewer_id` (who authored / reviewed the mapping).
+
+### `mapping_justification` vs `author_id` / `reviewer_id`
+
+These answer different questions and should not be conflated:
+
+- **`mapping_justification`** is a [SEMAPV](https://mapping-commons.github.io/semapv/)
+  term describing *how* the correspondence was determined, **not who made it**.
+  `semapv:ManualMappingCuration` = "established by a curator through manual
+  inspection" — the correct value for a hand-assigned mapping (its siblings are
+  `semapv:LexicalMatching`, `semapv:LogicalReasoning`, `semapv:UnspecifiedMatching`, …).
+- **`author_id`** / **`reviewer_id`** record *who* authored and reviewed the
+  mapping — the SSSOM provenance slots for attribution. This is where a
+  human-curated mapping is distinguished from a tool-suggested one.
+
+**Convention here:** every current mapping is attributed to the human curator
+(`author_id` = `reviewer_id` = **`https://w3id.org/cdif/agents/SMR`**, a
+placeholder). A tool-suggested mapping awaiting review would carry the tool as
+`author_id` (e.g. `https://w3id.org/cdif/agents/claude`) with an empty
+`reviewer_id` until a curator vets it and stamps their own id. Unmapped candidate
+rows (no `object_id`) leave both empty — no mapping has been authored yet.
+
+Replace the `SMR` placeholder with the curator's ORCID once available, e.g.:
+
+```bash
+sed -i 's#https://w3id.org/cdif/agents/SMR#https://orcid.org/0000-0000-0000-0000#g' \
+    converters/mappings/ddi*-to-cdif.sssom.tsv
+```
 
 `object_json_path` is a **non-standard extension column** (declared in each
 file's `extension_definitions` header): a JSONPath *locator* for where the
