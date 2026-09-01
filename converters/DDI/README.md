@@ -1,45 +1,39 @@
-# DDI → CDIF converters
+# DDI 1.2.2 → CDIF
 
-Converters from **DDI XML** to CDIF JSON-LD.
+Converts **DDI 1.2.2 XML** (ICPSR, `http://www.icpsr.umich.edu/DDI/Version1-2-2.xsd`)[^xsd]
+— e.g. Nesstar-published DHS / MICS / PHIM / World Bank microdata — to CDIF
+JSON-LD. Both engines here are **source-agnostic** (no repository assumptions).
 
-| Converter | Input | Notes |
-|-----------|-------|-------|
-| [`ddi122_to_cdif.py`](ddi122_to_cdif.py) | DDI **1.2.2** (ICPSR, `http://www.icpsr.umich.edu/DDI/Version1-2-2.xsd`)[^xsd] — e.g. Nesstar-published DHS/MICS/PHIM/World Bank microdata | **source-agnostic** (no repository assumptions) |
-| [`ddi_to_cdif.py`](ddi_to_cdif.py) | DDI Codebook **2.5** | **Harvard Dataverse-specific** (identifiers + file-access URLs from the Dataverse API) |
-| [`ddi_sssom_to_cdif.py`](ddi_sssom_to_cdif.py) | DDI Codebook **2.5** / **1.2.2** | **data-driven + structured** — applies *every* SSSOM mapping table in [`../mappings`](../mappings) (via `ddi_mappings.json`) and delegates the constructs a flat mapping cannot build (value domains, code lists, statistics) to `ddi122_to_cdif.py`. Edit a worksheet, run `sync_ddi_mappings.py`, and scalar/description mappings take effect with no code change |
+| Engine | What it does |
+|--------|--------------|
+| [`ddi122_to_cdif.py`](ddi122_to_cdif.py) | Hand-coded 1.2.2 → CDIF converter. Builds the full study + variable + file structure, including the enumerated value domains, shared code lists, and statistics described below. |
+| [`ddi_sssom_to_cdif.py`](ddi_sssom_to_cdif.py) `--version 122` | Data-driven: applies *every* mapping in the SSSOM worksheets ([`../mappings`](../mappings), via `ddi_mappings.json`) and delegates the value-domain / code-list / statistics build back to `ddi122_to_cdif.py`. Edit a worksheet, run `sync_ddi_mappings.py`, and scalar/description mappings take effect with no code change. |
 
-`ddi_sssom_to_cdif.py` is the **complete** engine: it applies the full SSSOM
-crosswalk data-driven (dataset, variables, distributions,
-`prov:wasGeneratedBy`/`prov:wasDerivedFrom` provenance) **and** reuses
-`ddi122_to_cdif.py`'s hand-coded builders for the structured content a flat
-path cannot produce — the enumerated value domains and per-variable statistics
-described below. A worked example is
-[`Examples/cdif/cdif_MWI_2015_DHS_v01_M_sssom.json`](Examples/cdif/cdif_MWI_2015_DHS_v01_M_sssom.json)
-— its output for [`Examples/XML/MWI_2015_DHS_v01_M.xml`](Examples/XML/MWI_2015_DHS_v01_M.xml)
-(2430 deduplicated variables + 451 code lists, 47 distributions), which
-validates 0-error against `CDIFDataDescriptionSchema.json`. Run it with:
+Run the data-driven engine on the bundled DHS example (a 1.2.2 file):
 
 ```bash
 python ddi_sssom_to_cdif.py Examples/XML/MWI_2015_DHS_v01_M.xml \
-    --doi http://dhsprogram.com/data/available-datasets.cfm --version 25 \
+    --doi http://dhsprogram.com/data/available-datasets.cfm --version 122 \
     -o Examples/cdif/cdif_MWI_2015_DHS_v01_M_sssom.json
 ```
 
-The DDI-Codebook **2.5** source-agnostic converter is
-[`../DDICodebook/ddi25_to_cdif.py`](../DDICodebook/ddi25_to_cdif.py) — a thin
-wrapper that reuses this converter's extraction engine (2.5 shares the Codebook
-element vocabulary with 1.2.2). The **DDI-CDI** (Lifecycle) converter will live
-elsewhere.
+Its output ([`cdif_MWI_2015_DHS_v01_M_sssom.json`](Examples/cdif/cdif_MWI_2015_DHS_v01_M_sssom.json)
+— 2430 deduplicated variables + 451 code lists, 47 distributions) validates
+0-error against `CDIFDataDescriptionSchema.json`, and matches the hand-coded
+engine's structured variable content exactly.
 
-The element→CDIF mapping below is the single source for all three DDI Codebook
-engines: `ddi122_to_cdif.py` (hand-coded), `ddi25_to_cdif.py` (its 2.5 wrapper),
-and `ddi_sssom_to_cdif.py` (data-driven from the same crosswalk, delegating the
-structured value-domain/statistics build back to `ddi122_to_cdif.py`).
+> **DDI Codebook 2.5** is documented separately in
+> [`../DDICodebook/README.md`](../DDICodebook/README.md). 2.5 is an element-level
+> superset of 1.2.2, so `ddi25_to_cdif.py` reuses this engine and `ddi_sssom_to_cdif.py`
+> handles it with `--version 25`; a Harvard-Dataverse-specific 2.5 variant is
+> `ddi_to_cdif.py`. The DDI-CDI (Lifecycle) converter will live elsewhere.
 
 [^xsd]: Heads-up: that canonical 1.2.2 XSD URL is **not reliably accessible**
 (icpsr.umich.edu returns HTTP 403 behind Cloudflare, and the schema is not in the
-DDI Alliance GitHub repos). See [../DDICodebook/README.md](../DDICodebook/README.md#schema-availability-a-caution)
-for where to obtain it (a CESSDA mirror) and the 1.2.2-vs-2.5 element diff.
+DDI Alliance GitHub repos). A working copy can be sourced from the CESSDA
+Metadata Validator mirror
+([`cessda/cessda.cmv.console`](https://github.com/cessda/cessda.cmv.console),
+`src/main/resources/schemas/nesstar/Version1-2-2.xsd`).
 
 ## `ddi122_to_cdif.py`
 
@@ -129,15 +123,14 @@ fully emitted:
   reconcile with the valid count.
 
 Both engines build these identically — `ddi122_to_cdif.py` in code, and
-`ddi_sssom_to_cdif.py` by delegating to it. `nCube` **aggregate/dimensional**
-data (a different data structure) is still not emitted; see
-[`../DDICodebook/README.md`](../DDICodebook/README.md).
+`ddi_sssom_to_cdif.py` by delegating to it.
 
 ### The SSSOM worksheets are the source of truth
 
-The DDI→CDIF crosswalk lives in the SSSOM worksheets under
-[`../mappings`](../mappings) (`ddi-common-to-cdif`, `ddi25-to-cdif`,
-`ddi122-to-cdif`). To change a mapping: edit the TSV in a **text editor**, then
+The 1.2.2 → CDIF crosswalk lives in the SSSOM worksheets under
+[`../mappings`](../mappings): `ddi-common-to-cdif` (the Codebook core shared with
+2.5) plus `ddi122-to-cdif` (the 1.2.2-only fields). To change a mapping: edit the
+TSV in a **text editor**, then
 run [`../mappings/sync_ddi_mappings.py`](../mappings/sync_ddi_mappings.py). It
 canonicalizes the worksheets (undoing spreadsheet round-trip damage), checks
 them against the DDI XSDs, and regenerates `ddi_mappings.json`, which
