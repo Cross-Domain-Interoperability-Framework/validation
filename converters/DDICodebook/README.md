@@ -69,34 +69,6 @@ the CDIF **DataStructure — Dimensional Data** profile. Best-guess targets for
 the full set are catalogued in
 **[`ddi25-additions-cdif-mapping.md`](ddi25-additions-cdif-mapping.md)**.
 
-## The analyzed-sample convention (geochem building blocks)
-
-When the "sample" a dataset describes is mapped, it should follow the CDIF
-geochemistry building-block pattern: **the analyzed sample is the `schema:object`
-of the `prov:wasGeneratedBy` activity, and the sample's descriptive
-classification is carried in `schema:additionalType` on that object node** — not
-in a loose `schema:additionalProperty`. In geochem this looks like:
-
-```jsonc
-"prov:wasGeneratedBy": [{
-  "@type": ["schema:Action", "prov:Activity"],
-  "schema:object": [{
-    "@type": ["schema:Thing", "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"],
-    "schema:additionalType": ["MaterialSample"],   // sample-type classification
-    "schema:identifier": ["OREX-803034-0"]
-  }]
-}]
-```
-
-For DDI survey data the analogue is the **analyzed population / unit of
-analysis** — `universe`, `unitType`, `cohort`, `participant`, and the sampling
-frame. When these are eventually mapped they should populate
-`prov:wasGeneratedBy` → `schema:object` (with the population/sample class as
-`schema:additionalType`), rather than the placeholder `additionalProperty`
-targets currently noted in the mapping table. (The sampling *design* numbers —
-`sampleSize`, `sampleSizeFormula`, `targetSampleSize` — remain properties of the
-collection activity / dataset, not of the sample object.)
-
 ## Coded variables → value domains + statistics
 
 `<var><catgry>` code lists and `<sumStat>`/`<catStat>` are now fully emitted:
