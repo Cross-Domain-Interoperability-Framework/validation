@@ -14,6 +14,16 @@ Contexts implemented
 * derived source            $.prov:wasDerivedFrom[*].<leaf>     (one prov:Entity)
 * related links             $.schema:relatedLink...             (one item per source field)
 
+Structured constructions (NOT flat-mappable) are delegated to the hand-coded
+engine ddi122_to_cdif.py so they are built identically and never re-implemented:
+the enumerated value domains from <catgry> (cdi:takesSubstantiveValuesFrom /
+takesSentinelValuesFrom referencing deduplicated skos:ConceptScheme code lists
+emitted as sibling @graph nodes) and the per-variable statistics from
+<sumStat>/<catStat> (cdif:isDescribedBy_StatisticsCollection). Every OTHER
+mapping in the worksheets is still applied data-driven; only these deep targets
+(cdi:takesSubstantiveValuesFrom, cdi:takesSentinelValuesFrom,
+cdif:isDescribedBy_StatisticsCollection, schema:min/maxValue) are delegated.
+
 Concatenation convention (from the worksheet)
 ---------------------------------------------
 Several DDI fields on one scalar target are joined with newlines, each line
@@ -36,10 +46,21 @@ import xml.etree.ElementTree as ET
 HERE = os.path.dirname(os.path.abspath(__file__))
 MAPPINGS_JSON = os.path.normpath(os.path.join(HERE, "..", "mappings", "ddi_mappings.json"))
 
+# Reuse the hand-coded engine's structured builders verbatim, so the
+# value-domain / code-list / statistics construction is preserved exactly rather
+# than re-implemented. The data-driven pass below still applies every other
+# SSSOM mapping; only these structured targets are delegated to ddi122.
+sys.path.insert(0, HERE)
+from ddi122_to_cdif import (  # noqa: E402
+    parse_variables as _parse_vars_struct, CodeListRegistry,
+    _value_domains, _statistics_collection, NIL_MISSING,
+)
+
 CONTEXT = {
     "schema": "http://schema.org/", "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#", "prov": "http://www.w3.org/ns/prov#",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/", "skos": "http://www.w3.org/2004/02/skos/core#",
     "csvw": "http://www.w3.org/ns/csvw#", "spdx": "http://spdx.org/rdf/terms#",
     "cdifq": "http://crossdomaininteroperability.org/cdifq/",
     "dqv": "http://www.w3.org/ns/dqv#", "geo": "http://www.opengis.net/ont/geosparql#",
@@ -432,14 +453,29 @@ def convert(xml_path, doi_url, version, detect=True, verbose=False):
     doc["schema:identifier"] = doc.get("schema:identifier", doi_url)
     doc["schema:url"] = doi_url
 
-    # variables
+    # variables -- data-driven flat mappings for scalar/description fields, plus
+    # the structured value-domain / statistics construction delegated to ddi122.
+    struct = {pv["name"] or pv["id"]: pv for pv in _parse_vars_struct(root)}
+    registry = CodeListRegistry(doc.get("schema:license") or [NIL_MISSING],
+                                doc.get("schema:dateModified") or "1900-01-01")
+    # leafs the structured builder owns -- skip them in the flat pass so it does
+    # not try to set the deep value-domain/statistics paths (or mis-read sumStat).
+    struct_leaf = ("cdi:takesSubstantiveValuesFrom", "cdi:takesSentinelValuesFrom",
+                   "cdif:isDescribedBy_StatisticsCollection", "schema:minValue",
+                   "schema:maxValue")
+
     vitems = []
     for var in iter_local(root, "var"):
         item = {"@type": ["schema:PropertyValue", "cdi:InstanceVariable"]}
         nm = var.get("name") or (values_at(var, ["labl"]) or [""])[0]
-        if nm:
-            item["@id"] = "#" + nm.replace(" ", "_")
+        base = (nm.replace(" ", "_") if nm else var.get("ID") or "")
+        if base:
+            item["@id"] = "#" + base
         for (leaf, oid), paths in var_by_leaf.items():
+            # skip leafs the structured builder owns (match the first segment,
+            # stripped of any [*], so e.g. cdi:takesSentinelValuesFrom[*] is caught)
+            if leaf.split(".")[0].replace("[*]", "") in struct_leaf:
+                continue
             if oid == "cdi:role":
                 role = {"contin": "MeasureComponent", "discrete": "AttributeComponent"}.get(var.get("intrvl", ""))
                 if role:
@@ -450,7 +486,27 @@ def convert(xml_path, doi_url, version, detect=True, verbose=False):
                 continue
             val = shape_dataset(leaf, oid, gather(var, paths, maps, anchor="dataDscr.var"))
             if val is not None:
-                set_nested(item, leaf.split("."), val)
+                set_nested(item, [k.replace("[*]", "") for k in leaf.split(".")], val)
+        # variable-context array properties must be arrays even when the SSSOM
+        # path did not mark them [*] (framing would otherwise wrap them).
+        for arr_key in ("schema:alternateName", "schema:propertyID"):
+            if arr_key in item and not isinstance(item[arr_key], list):
+                item[arr_key] = [item[arr_key]]
+        # structured min/max + enumerated value domains + statistics (from ddi122)
+        pv = struct.get(nm) or struct.get(var.get("ID"))
+        if pv:
+            for sk, jk in (("min", "schema:minValue"), ("max", "schema:maxValue")):
+                if sk in pv["stats"]:
+                    try:
+                        item[jk] = float(pv["stats"][sk])
+                    except ValueError:
+                        pass
+            vdoms, idmap = _value_domains(base, pv["cats"], registry)
+            item.update(vdoms)
+            coll = _statistics_collection(base, item.get("@id", "#" + base),
+                                          pv["stats"], pv["cats"], idmap)
+            if coll is not None:
+                item["cdif:isDescribedBy_StatisticsCollection"] = coll
         vitems.append(item)
     if vitems:
         doc["schema:variableMeasured"] = vitems
@@ -494,6 +550,13 @@ def convert(xml_path, doi_url, version, detect=True, verbose=False):
         except Exception as e:
             if verbose:
                 print(f"  (conformance detection skipped: {e})", file=sys.stderr)
+
+    # When coded variables produced shared code lists, emit a flattened @graph
+    # with the dataset first and each distinct code list as a sibling node
+    # (preserved from ddi122).
+    if registry.nodes:
+        ctx = doc.pop("@context")
+        doc = {"@context": ctx, "@graph": [doc] + registry.nodes}
     return doc
 
 
