@@ -19,8 +19,9 @@ decides profile scope per content via ``detect_conformance``. Full-datetime
 production dates (e.g. NADA's ``2026-03-18T04:00:00.000Z``) are truncated to a
 plain date by the shared engine.
 
-Coded variables (``<var><catgry>`` code lists) are not yet emitted as CDIF /
-DDI-CDI code lists — the same deferral as the 1.2.2 converter.
+Coded variables (``<var><catgry>`` code lists) are emitted as CDIF enumerated
+value domains (skos:ConceptScheme under a cdif:EnumerationDomain) with category
+and summary statistics — see the 1.2.2 converter engine.
 
 Usage:
     python ddi25_to_cdif.py input.xml [-o output.json] [--id IRI] [--base-uri BASE]
@@ -60,9 +61,13 @@ def main():
     out = json.dumps(doc, indent=2, ensure_ascii=False) + "\n"
     if args.output:
         Path(args.output).write_text(out, encoding="utf-8")
-        nv = len(doc.get("schema:variableMeasured", []))
-        nd = len(doc.get("schema:distribution", []))
-        print(f"Written: {args.output} ({nv} vars, {nd} dists)")
+        # Coded variables produce a {@graph:[dataset, ...codelists]} wrapper.
+        ds = doc["@graph"][0] if "@graph" in doc else doc
+        ncl = len(doc["@graph"]) - 1 if "@graph" in doc else 0
+        nv = len(ds.get("schema:variableMeasured", []))
+        nd = len(ds.get("schema:distribution", []))
+        extra = f", {ncl} code lists" if ncl else ""
+        print(f"Written: {args.output} ({nv} vars, {nd} dists{extra})")
     else:
         print(out)
 

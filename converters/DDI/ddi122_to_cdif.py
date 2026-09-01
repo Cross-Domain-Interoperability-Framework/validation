@@ -36,9 +36,16 @@ Mapping highlights (all element text is whitespace-trimmed):
   fileDscr                             -> schema:distribution / cdi:TabularTextDataSet
   docDscr (producer/prodDate/version)  -> schema:subjectOf catalog record
 
-Known deferral: coded variables (<var><catgry>) carry an inline code list; these
-are not yet emitted as a CDIF/DDI-CDI code list (that belongs with the codelist
-profile). The variable is still mapped; its categories are counted in a note.
+Coded variables (<var><catgry>) are emitted as CDIF enumerated value domains:
+the valid categories become a shared skos:ConceptScheme code list referenced
+(cdif:references, by @id) from a cdif:EnumerationDomain under
+cdi:takesSubstantiveValuesFrom, missing categories (missing="Y") become a
+SentinelValueDomain under cdi:takesSentinelValuesFrom, and the
+<sumStat>/<catStat> counts become a cdif:isDescribedBy_StatisticsCollection
+(cdi:Statistics split by cdi:computationBase, plus per-category
+cdi:CategoryStatistics whose cdi:for points at the shared code-list concept).
+When any code list is emitted the document is a flattened @graph with the
+dataset first and each distinct (deduplicated) code list as a sibling node.
 
 Usage:
     python ddi122_to_cdif.py input.xml [-o output.json] [--id IRI] [--base-uri BASE]
@@ -300,20 +307,193 @@ def parse_variables(root):
             val = txt(s)
             if val and val != ".":
                 stats[s.attrib.get("type", "")] = val
-        ncat = len(find_all(var, "catgry"))
+        cats = []
+        for c in find_all(var, "catgry"):
+            freq = None
+            for cs in find_all(c, "catStat"):
+                # unlabelled catStat defaults to a frequency count
+                if cs.attrib.get("type", "freq") in ("freq", ""):
+                    fv = txt(cs)
+                    if fv:
+                        freq = fv
+            cats.append({
+                "value": first_text(c, "catValu"),
+                "label": first_text(c, "labl"),
+                "text": first_text(c, "txt"),
+                "freq": freq,
+                "missing": c.attrib.get("missing", "").upper() == "Y",
+            })
         out.append({"name": name, "id": vid, "intrvl": intrvl, "format": fmt,
                     "label": first_text(var, "labl"), "stats": stats,
-                    "ncat": ncat})
+                    "cats": cats, "ncat": len(cats)})
     return out
 
 
-def build_variables(variables):
+def _num(s):
+    """DDI stat value string -> int if integral, float otherwise, None if not numeric."""
+    try:
+        f = float(s)
+    except (TypeError, ValueError):
+        return None
+    return int(f) if f.is_integer() else f
+
+
+# DDI sumStat @type -> CDIF single-value statistic kind. vald/invd are handled
+# separately: they combine into one 'count' statistic split by computationBase.
+_SUMSTAT_KIND = {"min": "minimum", "max": "maximum", "mean": "mean",
+                 "stdev": "standardDeviation", "medn": "median", "mode": "mode"}
+
+
+class CodeListRegistry:
+    """Deduplicates <catgry> code lists into shared skos:ConceptScheme nodes.
+
+    A code list is emitted once per distinct (kind, categories) signature and
+    referenced by @id from every variable that uses it; the emitted nodes carry
+    the discovery metadata the cdifCodelist profile requires (skos:prefLabel,
+    schema:identifier, schema:dateModified, schema:license).
+    """
+
+    def __init__(self, license_val, date_modified):
+        self._by_sig = {}   # signature -> (codelist_id, {notation: concept_id})
+        self.nodes = []     # emitted skos:ConceptScheme nodes, in creation order
+        self._license = license_val
+        self._date = date_modified
+
+    def get(self, cats, kind):
+        """Return (codelist_id, {notation: concept_id}) for a category list.
+
+        kind is 'subst' or 'sent' so substantive and sentinel lists with the
+        same content never share a scheme. Returns (None, {}) for no usable
+        categories.
+        """
+        usable = [c for c in cats if c["value"] is not None]
+        if not usable:
+            return None, {}
+        sig = (kind, tuple(sorted((c["value"], c["label"] or "", c["text"] or "")
+                                  for c in usable)))
+        if sig in self._by_sig:
+            return self._by_sig[sig]
+        n = len(self.nodes) + 1
+        clid = f"#codelist/{n}"
+        concepts, idmap = [], {}
+        for c in usable:
+            cid = f"{clid}/{c['value']}"
+            idmap[c["value"]] = cid
+            node = {"@id": cid, "@type": ["skos:Concept", "cdi:Category"],
+                    "skos:inScheme": [{"@id": clid}],
+                    "skos:prefLabel": c["label"] or str(c["value"]),
+                    "skos:notation": c["value"]}
+            if c["text"]:
+                node["skos:definition"] = c["text"]
+            concepts.append(node)
+        labels = [c["label"] for c in usable if c["label"]]
+        scheme = {
+            "@id": clid, "@type": ["skos:ConceptScheme"],
+            "skos:prefLabel": ("; ".join(labels)[:120] if labels else f"code list {n}"),
+            "schema:identifier": clid.lstrip("#"),
+            "schema:dateModified": self._date,
+            "schema:license": self._license,
+            "skos:hasTopConcept": concepts,
+        }
+        self.nodes.append(scheme)
+        self._by_sig[sig] = (clid, idmap)
+        return clid, idmap
+
+
+def _value_domains(base, cats, registry):
+    """Inline substantive/sentinel value domains that reference a shared code list.
+
+    Returns (properties, {notation: concept_id}) -- the concept-id map lets the
+    statistics link each cdi:CategoryStatistics to the shared code-list concept.
+    """
+    props, idmap = {}, {}
+    valid = [c for c in cats if not c["missing"]]
+    missing = [c for c in cats if c["missing"]]
+    clid, m = registry.get(valid, "subst")
+    if clid:
+        props["cdi:takesSubstantiveValuesFrom"] = {
+            "@id": f"#{base}/valueDomain/substantive",
+            "@type": ["cdif:SubstantiveValueDomain"],
+            "cdif:takesValuesFrom": {
+                "@id": f"#{base}/enumerationDomain",
+                "@type": ["cdif:EnumerationDomain"],
+                "cdif:references": {"@id": clid}}}
+        idmap.update(m)
+    sclid, sm = registry.get(missing, "sent")
+    if sclid:
+        props["cdi:takesSentinelValuesFrom"] = [{
+            "@id": f"#{base}/valueDomain/sentinel",
+            "@type": ["cdif:SentinelValueDomain"],
+            "cdif:takesValuesFrom": {
+                "@id": f"#{base}/sentinelEnumerationDomain",
+                "@type": ["cdif:EnumerationDomain"],
+                "cdif:references": {"@id": sclid}}}]
+        idmap.update(sm)
+    return props, idmap
+
+
+def _statistics_collection(base, var_id, stats, cats, idmap):
+    """cdif:isDescribedBy_StatisticsCollection from <sumStat> and <catStat>."""
+    has = []
+    vald, invd = _num(stats.get("vald")), _num(stats.get("invd"))
+    if vald is not None or invd is not None:
+        entries = []
+        if vald is not None:
+            entries.append({"cdi:computationBase": "ValidOnly", "cdi:content": vald,
+                            "cdi:typeOfNumericValue": "decimal"})
+        if invd is not None:
+            entries.append({"cdi:computationBase": "MissingOnly", "cdi:content": invd,
+                            "cdi:typeOfNumericValue": "decimal"})
+        if vald is not None and invd is not None:
+            entries.append({"cdi:computationBase": "Total", "cdi:content": vald + invd,
+                            "cdi:typeOfNumericValue": "decimal"})
+        has.append({"@id": f"#{base}/stats/count", "@type": ["cdi:Statistics"],
+                    "cdi:typeOfStatistic": "count", "cdi:statistic": entries})
+    for sk, kind in _SUMSTAT_KIND.items():
+        val = _num(stats.get(sk))
+        if val is not None:
+            has.append({"@id": f"#{base}/stats/{kind}", "@type": ["cdi:Statistics"],
+                        "cdi:typeOfStatistic": kind,
+                        "cdi:statistic": [{"cdi:computationBase": "ValidOnly",
+                                           "cdi:content": val,
+                                           "cdi:typeOfNumericValue": "decimal"}]})
+    cat_entries = []
+    for c in cats:
+        f = _num(c["freq"])
+        if f is None or c["value"] is None:
+            continue
+        concept_id = idmap.get(c["value"], f"#{base}/code/{c['value']}")
+        cat_entries.append({
+            "@type": ["cdi:CategoryStatistics"],
+            "cdi:for": {"@id": concept_id},
+            "cdi:typeOfStatistic": "frequency",
+            "cdi:statistic": [{
+                "cdi:computationBase": "MissingOnly" if c["missing"] else "ValidOnly",
+                "cdi:content": f, "cdi:typeOfNumericValue": "decimal"}],
+        })
+    if cat_entries:
+        total = sum(e["cdi:statistic"][0]["cdi:content"] for e in cat_entries)
+        has.append({"@id": f"#{base}/stats/frequencies", "@type": ["cdi:Statistics"],
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [{"cdi:computationBase": "Total",
+                                       "cdi:content": total,
+                                       "cdi:typeOfNumericValue": "decimal"}],
+                    "cdif:has_CategoryStatistics": cat_entries})
+    if not has:
+        return None
+    return {"@id": f"#{base}/statistics", "@type": ["cdi:StatisticsCollection"],
+            "cdif:indexedBy": [{"@id": var_id}], "cdif:has_Statistics": has}
+
+
+def build_variables(variables, registry):
     out = []
     for v in variables:
         if not v["name"]:
             continue
+        base = v["id"] or v["name"]
+        var_id = f"#{base}"
         vm = {"@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
-              "@id": f"#{v['id'] or v['name']}", "schema:name": v["name"]}
+              "@id": var_id, "schema:name": v["name"]}
         if v["label"]:
             vm["schema:description"] = v["label"]
         vm["cdi:intendedDataType"] = XSD_TYPE_MAP.get(v["format"], "xsd:string")
@@ -327,6 +507,13 @@ def build_variables(variables):
                     vm[jk] = float(v["stats"][sk])
                 except ValueError:
                     pass
+        # Enumerated value domain(s) referencing a shared code list, and the
+        # per-variable statistics from <sumStat> / <catStat>.
+        vdoms, idmap = _value_domains(base, v["cats"], registry)
+        vm.update(vdoms)
+        coll = _statistics_collection(base, var_id, v["stats"], v["cats"], idmap)
+        if coll is not None:
+            vm["cdif:isDescribedBy_StatisticsCollection"] = coll
         out.append(vm)
     return out
 
@@ -404,6 +591,8 @@ def convert(xml_path, explicit_id=None, base_uri="urn:ddi", detect=True,
         "schema": "http://schema.org/", "dcterms": "http://purl.org/dc/terms/",
         "dcat": "http://www.w3.org/ns/dcat#",
         "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "cdif": "https://w3id.org/cdif/",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
     }, "@id": dataset_id, "@type": ["schema:Dataset"]}
 
     # Title / description — scoped to the STUDY description.
@@ -468,7 +657,11 @@ def convert(xml_path, explicit_id=None, base_uri="urn:ddi", detect=True,
 
     variables = parse_variables(root)
     coded_vars = sum(1 for v in variables if v["ncat"] > 0)
-    cdif_vars = build_variables(variables)
+    # Shared, deduplicated <catgry> code lists become sibling @graph nodes;
+    # they inherit the dataset's license and modification date.
+    registry = CodeListRegistry(doc.get("schema:license") or [NIL_MISSING],
+                                doc.get("schema:dateModified") or "1900-01-01")
+    cdif_vars = build_variables(variables, registry)
     if cdif_vars:
         doc["schema:variableMeasured"] = cdif_vars
 
@@ -488,6 +681,11 @@ def convert(xml_path, explicit_id=None, base_uri="urn:ddi", detect=True,
         except Exception:
             pass
 
+    # When coded variables produced shared code lists, emit a flattened @graph
+    # with the dataset first and each distinct code list as a sibling node.
+    if registry.nodes:
+        context = doc.pop("@context")
+        return {"@context": context, "@graph": [doc] + registry.nodes}
     return doc
 
 
@@ -500,9 +698,15 @@ def build_catalog_record(docd, dataset_id, name, id_no, coded_vars,
             sd_date = _date_only(pd.attrib.get("date") or txt(pd))
     doc_producer = first_text(docd, "producer") if docd is not None else None
 
-    coded_note = (f" {coded_vars} variable(s) carry an inline DDI code list "
-                  f"(<catgry>); these categories are not yet emitted as a CDIF "
-                  f"code list.") if coded_vars else ""
+    coded_note = (f" {coded_vars} variable(s) carry a DDI code list "
+                  f"(<catgry>), emitted as CDIF enumerated value domains "
+                  f"(cdi:takesSubstantiveValuesFrom -> cdif:EnumerationDomain -> "
+                  f"cdif:references a shared skos:ConceptScheme code list; "
+                  f"missing categories -> cdi:takesSentinelValuesFrom) with "
+                  f"category and summary statistics "
+                  f"(cdif:isDescribedBy_StatisticsCollection). Distinct code "
+                  f"lists are deduplicated into sibling @graph nodes.") \
+        if coded_vars else ""
     note = (
         f"Metadata harvested from a {source_desc} document "
         f"(IDNo {id_no}) and converted to CDIF by the CDIF DDI converter. Study "
@@ -557,9 +761,14 @@ def main():
     out = json.dumps(doc, indent=2, ensure_ascii=False) + "\n"
     if args.output:
         Path(args.output).write_text(out, encoding="utf-8")
-        nv = len(doc.get("schema:variableMeasured", []))
-        nd = len(doc.get("schema:distribution", []))
-        print(f"Written: {args.output} ({nv} vars, {nd} dists)")
+        # With coded variables the document is a {@graph:[dataset, ...codelists]}
+        # wrapper; count from the dataset node in that case.
+        ds = doc["@graph"][0] if "@graph" in doc else doc
+        ncl = len(doc["@graph"]) - 1 if "@graph" in doc else 0
+        nv = len(ds.get("schema:variableMeasured", []))
+        nd = len(ds.get("schema:distribution", []))
+        extra = f", {ncl} code lists" if ncl else ""
+        print(f"Written: {args.output} ({nv} vars, {nd} dists{extra})")
     else:
         print(out)
 
