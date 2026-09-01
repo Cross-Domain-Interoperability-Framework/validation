@@ -2,15 +2,36 @@
 
 The 84 element names present in **DDI Codebook 2.5** but **not** in **DDI 1.2.2**
 (a strict superset — see [README.md](README.md#schema-availability-a-caution)).
-Neither `ddi122_to_cdif.py` nor `ddi25_to_cdif.py` maps these today; this table
-records the **best-guess CDIF target** for each so a future codebook enhancement
-can pick them up. Confidence is noted where a mapping is speculative.
+This document is the **design rationale** for their CDIF targets; the **live,
+authoritative mappings** are the SSSOM worksheets under
+[`../mappings`](../mappings) (`ddi-common-to-cdif`, `ddi25-to-cdif`), applied by
+`ddi_sssom_to_cdif.py`. Where a target below differs from the worksheet, the
+worksheet wins.
+
+**Most of these are now mapped.** The tables' "CDIF target" was originally a
+best guess; the great majority have since been implemented (see the status
+summary below). What remains genuinely outstanding is small.
 
 CDIF profiles referenced: **Discovery** (schema.org), **DataDescription**
 (`cdi:InstanceVariable`), **DataStructure** (`data_structure/1.1` — dimensional /
 tabular / long, DDI-CDI `*DataStructure`), **Provenance** (`cdifProv`:
 `schema:Action`+`prov:Activity`), **Codelist / ConceptScheme** (`skos`), plus
 **DQV** (`dqv:*`) and **geosparql**/`schema:GeoShape` for geometry.
+
+## Status (current)
+
+| Group | Status |
+|-------|--------|
+| 1. `nCube` aggregate/dimensional data | **Outstanding.** `nCube` is tagged (`cdi:DimensionalDataStructure`) and its descriptive leaves concatenate to `schema:description`, but the **cube data structure is not built** (dimensions/measures/cells). Not present in the Malawi examples. |
+| 2. Code lists / controlled vocabularies | **Mapped.** `codeList*` → ConceptScheme metadata (`skos:prefLabel`, `schema:identifier`, `schema:publisher`, `schema:version`); `<catgry>` code lists → enumerated value domains + shared `skos:ConceptScheme` code lists (see [../DDI/README.md](../DDI/README.md#coded-variables--enumerated-value-domains--statistics)). |
+| 3. Quality / compliance / evaluation | **Mapped.** `standardName` → `dcterms:conformsTo`; `complianceDescription`/`otherQualityStatement` → `dqv:QualityAnnotation`; `evaluationProcess`/`outcomes` → `dqv:hasQualityMeasurement`. |
+| 4. Study lifecycle / processing / provenance | **Mapped.** `dataProcessing` → `prov:wasGeneratedBy`; `dataFingerprint.*` → `spdx:checksum`; `collectorTraining`/`instrumentDevelopment`/`command`/`updateProcedure` → `schema:description`. |
+| 5. Sampling | **Mapped.** `sampleFrameName` → `schema:name`, `unitType` → `schema:DefinedTerm`, `sampleSize` → `schema:additionalProperty`, formulas → `schema:description`. |
+| 6. Geometry | **Mapped.** `westBL/eastBL/southBL/northBL` → `schema:box`; `gringLat/gringLon` → `geo:asWKT`. |
+| 7. Agents / custody / citations | **Mostly mapped.** `custodian` → `schema:owner`, `authorizingAgency`/`studyBudget` → agents/`schema:funding`. **Outstanding:** `sourceCitation` / `fileCitation` (metadata-provenance citations — absent from the Malawi data). |
+| 8. Rich-text markup (XHTML/MathML) | **Flatten-only** by design; the MathML `mi`/`mrow` carry no CDIF concept. |
+
+The tables below keep the per-element target rationale.
 
 ## 1. Aggregate / cube data → DataStructure (Dimensional / Cube)
 
@@ -163,13 +184,16 @@ surrounding `schema:description` / label. **No first-class CDIF mapping.**
 
 ---
 
-### Priority for implementation
+### Remaining work
 
-1. **`nCube` / dimensional data** (group 1) — genuinely unmapped *data structure*;
-   silently dropped today. Ties into the **DataStructure — Dimensional Data**
-   profile and would make `ddi25` diverge from the shared 1.2.2 engine.
-2. **Code lists** (group 2, incl. the existing `<catgry>` deferral) — ties into
-   the **codelist / conceptscheme** profiles.
-3. Quality (3) and provenance/lifecycle (4) — additive discovery/provenance value.
-4. Geometry (6), sampling (5), agents (7) — incremental discovery enrichment.
-5. Markup (8) — flatten only; nothing to model.
+Groups 2–7 are largely implemented in the worksheets (status table above). What
+is left:
+
+1. **`nCube` / dimensional data** (group 1) — the one genuinely unmapped *data
+   structure*: still silently dropped (only tagged + described). Ties into the
+   **DataStructure — Dimensional Data** profile. Not present in the Malawi
+   examples, so no conversion impact today.
+2. **`sourceCitation` / `fileCitation`** (group 7) — metadata-provenance
+   citations; a candidate `prov:wasDerivedFrom` node, but absent from the Malawi
+   data so deferred.
+3. **Markup** (group 8) — flatten only; nothing to model.
