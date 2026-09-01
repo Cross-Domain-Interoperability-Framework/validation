@@ -3,465 +3,3373 @@
     "schema": "http://schema.org/",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
-    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/",
+    "skos": "http://www.w3.org/2004/02/skos/core#"
   },
-  "@id": "urn:ddi:MWI-PHIM-CAC-2026-v01",
-  "@type": [
-    "schema:Dataset"
-  ],
-  "schema:name": "The Clinical Epidemiologic Audit of Cholera in Malawi: A Medical Record Review of the 2022 Outbreak",
-  "schema:description": "The study evaluated the mortality burden of cholera and the quality of patient treatment in cholera treatment units in Lilongwe, Blantyre, Mangochi and Nkhata-Bay districts in Malawi. The purpose of this study was to better understand the factors contributing to the high cholera mortality burden in these districts and to identify areas for improvement in patient treatment.",
-  "schema:identifier": {
-    "@type": [
-      "schema:PropertyValue"
-    ],
-    "schema:value": "MWI-PHIM-CAC-2026-v01"
-  },
-  "schema:dateModified": "2026-02-05",
-  "schema:datePublished": "2026-02-05",
-  "schema:version": "v0.1: Raw data from data entry",
-  "schema:creator": {
-    "@list": [
-      {
+  "@graph": [
+    {
+      "@id": "urn:ddi:MWI-PHIM-CAC-2026-v01",
+      "@type": [
+        "schema:Dataset"
+      ],
+      "schema:name": "The Clinical Epidemiologic Audit of Cholera in Malawi: A Medical Record Review of the 2022 Outbreak",
+      "schema:description": "The study evaluated the mortality burden of cholera and the quality of patient treatment in cholera treatment units in Lilongwe, Blantyre, Mangochi and Nkhata-Bay districts in Malawi. The purpose of this study was to better understand the factors contributing to the high cholera mortality burden in these districts and to identify areas for improvement in patient treatment.",
+      "schema:identifier": {
         "@type": [
-          "schema:Person"
+          "schema:PropertyValue"
         ],
-        "schema:name": "Ronald Chitatata"
-      }
-    ]
-  },
-  "schema:spatialCoverage": [
-    {
-      "@type": [
-        "schema:Place"
-      ],
-      "schema:name": "Malawi"
-    },
-    {
-      "@type": [
-        "schema:Place"
-      ],
-      "schema:name": "Lilongwe, Blantyre, Mangochi and Nkhata-Bay"
-    }
-  ],
-  "schema:measurementTechnique": [
-    "Sample survey data [ssd]"
-  ],
-  "schema:license": [
-    "http://www.opengis.net/def/nil/OGC/0/missing"
-  ],
-  "schema:variableMeasured": [
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V1",
-      "schema:name": "Participant_ID",
-      "schema:description": "Participant ID",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V2",
-      "schema:name": "Age_of_Participant",
-      "schema:description": "Age of Participant",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V3",
-      "schema:name": "Sex",
-      "schema:description": "Sex",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V4",
-      "schema:name": "District",
-      "schema:description": "District",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V5",
-      "schema:name": "Participant_Type",
-      "schema:description": "Participant Type",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V6",
-      "schema:name": "Marital_Status",
-      "schema:description": "Marital Status",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V7",
-      "schema:name": "Employment_Status",
-      "schema:description": "Employment Status",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V8",
-      "schema:name": "Date_of_Admission",
-      "schema:description": "Date of Admission",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V9",
-      "schema:name": "Residential_LocationTraditional",
-      "schema:description": "Residential Location (Traditional Authority)",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V10",
-      "schema:name": "location",
-      "schema:description": "location",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V11",
-      "schema:name": "location_latitude",
-      "schema:description": "Latitude",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V12",
-      "schema:name": "location_longitude",
-      "schema:description": "Longitude",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V13",
-      "schema:name": "location_altitude",
-      "schema:description": "Altitude",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V14",
-      "schema:name": "location_precision",
-      "schema:description": "Location precision",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V15",
-      "schema:name": "Vaccine_Status",
-      "schema:description": "Vaccine Status",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V16",
-      "schema:name": "Time_to_Presentation",
-      "schema:description": "Time to Presentation",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V17",
-      "schema:name": "Diagnosis",
-      "schema:description": "Diagnosis",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V18",
-      "schema:name": "Status_on_Arrival",
-      "schema:description": "Status on Arrival",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V19",
-      "schema:name": "HIV_Status",
-      "schema:description": "HIV Status",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V20",
-      "schema:name": "Hydration_Status",
-      "schema:description": "Hydration Status",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V21",
-      "schema:name": "Vital_Signs",
-      "schema:description": "Vital Signs",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V22",
-      "schema:name": "Fluid_Management",
-      "schema:description": "Fluid Management",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V23",
-      "schema:name": "Antibiotic_Management",
-      "schema:description": "Antibiotic Management",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V24",
-      "schema:name": "Other_Comorbidity",
-      "schema:description": "Other Comorbidity",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V25",
-      "schema:name": "Outcome",
-      "schema:description": "Outcome",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V26",
-      "schema:name": "Time_in_ward",
-      "schema:description": "Time in ward",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V27",
-      "schema:name": "Time_of_Discharge",
-      "schema:description": "Time of Discharge",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V28",
-      "schema:name": "Primary_COD",
-      "schema:description": "Primary cause of death",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V29",
-      "schema:name": "Other_COD",
-      "schema:description": "Other cause of Death",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V30",
-      "schema:name": "Time_of_Death",
-      "schema:description": "Time of Death",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V31",
-      "schema:name": "uuid",
-      "schema:description": "_uuid",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "#V32",
-      "schema:name": "submitted_by",
-      "schema:description": "_submitted_by",
-      "cdi:intendedDataType": "xsd:string",
-      "cdi:role": "AttributeComponent"
-    }
-  ],
-  "schema:distribution": [
-    {
-      "@type": [
-        "schema:DataDownload"
-      ],
-      "schema:name": "The Clinical Epidemiologic Audit of Cholera in Malawi.NSDstat",
-      "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/missing",
-      "schema:description": "Source file type: Nesstar 200801",
-      "schema:additionalProperty": [
+        "schema:value": "MWI-PHIM-CAC-2026-v01"
+      },
+      "schema:dateModified": "2026-02-05",
+      "schema:datePublished": "2026-02-05",
+      "schema:version": "v0.1: Raw data from data entry",
+      "schema:creator": {
+        "@list": [
+          {
+            "@type": [
+              "schema:Person"
+            ],
+            "schema:name": "Ronald Chitatata"
+          }
+        ]
+      },
+      "schema:spatialCoverage": [
         {
           "@type": [
-            "schema:PropertyValue"
+            "schema:Place"
           ],
-          "schema:name": "row count",
-          "schema:value": 245
+          "schema:name": "Malawi"
         },
         {
           "@type": [
-            "schema:PropertyValue"
+            "schema:Place"
           ],
-          "schema:name": "column count",
-          "schema:value": 32
+          "schema:name": "Lilongwe, Blantyre, Mangochi and Nkhata-Bay"
+        }
+      ],
+      "schema:measurementTechnique": [
+        "Sample survey data [ssd]"
+      ],
+      "schema:license": [
+        "http://www.opengis.net/def/nil/OGC/0/missing"
+      ],
+      "schema:variableMeasured": [
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V1",
+          "schema:name": "Participant_ID",
+          "schema:description": "Participant ID",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V2",
+          "schema:name": "Age_of_Participant",
+          "schema:description": "Age of Participant",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent",
+          "cdi:takesSubstantiveValuesFrom": {
+            "@id": "#V2/valueDomain/substantive",
+            "@type": [
+              "cdif:SubstantiveValueDomain"
+            ],
+            "cdif:takesValuesFrom": {
+              "@id": "#V2/enumerationDomain",
+              "@type": [
+                "cdif:EnumerationDomain"
+              ],
+              "cdif:references": {
+                "@id": "#codelist/1"
+              }
+            }
+          },
+          "cdif:isDescribedBy_StatisticsCollection": {
+            "@id": "#V2/statistics",
+            "@type": [
+              "cdi:StatisticsCollection"
+            ],
+            "cdif:indexedBy": [
+              {
+                "@id": "#V2"
+              }
+            ],
+            "cdif:has_Statistics": [
+              {
+                "@id": "#V2/stats/count",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "count",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "ValidOnly",
+                    "cdi:content": 240,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "MissingOnly",
+                    "cdi:content": 0,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 240,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ]
+              },
+              {
+                "@id": "#V2/stats/frequencies",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "frequency",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 240,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ],
+                "cdif:has_CategoryStatistics": [
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/1/1"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 50,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/1/2"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 42,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/1/3"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 45,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/1/4"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 42,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/1/5"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 20,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/1/6"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 17,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/1/7"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 24,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V3",
+          "schema:name": "Sex",
+          "schema:description": "Sex",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent",
+          "cdi:takesSubstantiveValuesFrom": {
+            "@id": "#V3/valueDomain/substantive",
+            "@type": [
+              "cdif:SubstantiveValueDomain"
+            ],
+            "cdif:takesValuesFrom": {
+              "@id": "#V3/enumerationDomain",
+              "@type": [
+                "cdif:EnumerationDomain"
+              ],
+              "cdif:references": {
+                "@id": "#codelist/2"
+              }
+            }
+          },
+          "cdif:isDescribedBy_StatisticsCollection": {
+            "@id": "#V3/statistics",
+            "@type": [
+              "cdi:StatisticsCollection"
+            ],
+            "cdif:indexedBy": [
+              {
+                "@id": "#V3"
+              }
+            ],
+            "cdif:has_Statistics": [
+              {
+                "@id": "#V3/stats/count",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "count",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "ValidOnly",
+                    "cdi:content": 240,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "MissingOnly",
+                    "cdi:content": 0,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 240,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ]
+              },
+              {
+                "@id": "#V3/stats/frequencies",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "frequency",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 240,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ],
+                "cdif:has_CategoryStatistics": [
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/2/1"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 127,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/2/2"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 111,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/2/3"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 2,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V4",
+          "schema:name": "District",
+          "schema:description": "District",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent",
+          "cdi:takesSubstantiveValuesFrom": {
+            "@id": "#V4/valueDomain/substantive",
+            "@type": [
+              "cdif:SubstantiveValueDomain"
+            ],
+            "cdif:takesValuesFrom": {
+              "@id": "#V4/enumerationDomain",
+              "@type": [
+                "cdif:EnumerationDomain"
+              ],
+              "cdif:references": {
+                "@id": "#codelist/3"
+              }
+            }
+          },
+          "cdif:isDescribedBy_StatisticsCollection": {
+            "@id": "#V4/statistics",
+            "@type": [
+              "cdi:StatisticsCollection"
+            ],
+            "cdif:indexedBy": [
+              {
+                "@id": "#V4"
+              }
+            ],
+            "cdif:has_Statistics": [
+              {
+                "@id": "#V4/stats/count",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "count",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "ValidOnly",
+                    "cdi:content": 240,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "MissingOnly",
+                    "cdi:content": 0,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 240,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ]
+              },
+              {
+                "@id": "#V4/stats/frequencies",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "frequency",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 240,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ],
+                "cdif:has_CategoryStatistics": [
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/3/1"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 78,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/3/2"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 26,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/3/3"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 18,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/3/4"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 118,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V5",
+          "schema:name": "Participant_Type",
+          "schema:description": "Participant Type",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent",
+          "cdi:takesSubstantiveValuesFrom": {
+            "@id": "#V5/valueDomain/substantive",
+            "@type": [
+              "cdif:SubstantiveValueDomain"
+            ],
+            "cdif:takesValuesFrom": {
+              "@id": "#V5/enumerationDomain",
+              "@type": [
+                "cdif:EnumerationDomain"
+              ],
+              "cdif:references": {
+                "@id": "#codelist/4"
+              }
+            }
+          },
+          "cdif:isDescribedBy_StatisticsCollection": {
+            "@id": "#V5/statistics",
+            "@type": [
+              "cdi:StatisticsCollection"
+            ],
+            "cdif:indexedBy": [
+              {
+                "@id": "#V5"
+              }
+            ],
+            "cdif:has_Statistics": [
+              {
+                "@id": "#V5/stats/count",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "count",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "ValidOnly",
+                    "cdi:content": 240,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "MissingOnly",
+                    "cdi:content": 0,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 240,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ]
+              },
+              {
+                "@id": "#V5/stats/frequencies",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "frequency",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 240,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ],
+                "cdif:has_CategoryStatistics": [
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/4/1"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 85,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/4/2"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 155,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V6",
+          "schema:name": "Marital_Status",
+          "schema:description": "Marital Status",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent",
+          "cdi:takesSubstantiveValuesFrom": {
+            "@id": "#V6/valueDomain/substantive",
+            "@type": [
+              "cdif:SubstantiveValueDomain"
+            ],
+            "cdif:takesValuesFrom": {
+              "@id": "#V6/enumerationDomain",
+              "@type": [
+                "cdif:EnumerationDomain"
+              ],
+              "cdif:references": {
+                "@id": "#codelist/5"
+              }
+            }
+          },
+          "cdif:isDescribedBy_StatisticsCollection": {
+            "@id": "#V6/statistics",
+            "@type": [
+              "cdi:StatisticsCollection"
+            ],
+            "cdif:indexedBy": [
+              {
+                "@id": "#V6"
+              }
+            ],
+            "cdif:has_Statistics": [
+              {
+                "@id": "#V6/stats/count",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "count",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "ValidOnly",
+                    "cdi:content": 239,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "MissingOnly",
+                    "cdi:content": 0,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 239,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ]
+              },
+              {
+                "@id": "#V6/stats/frequencies",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "frequency",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 239,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ],
+                "cdif:has_CategoryStatistics": [
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/5/1"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 104,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/5/2"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 115,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/5/3"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 20,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V7",
+          "schema:name": "Employment_Status",
+          "schema:description": "Employment Status",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent",
+          "cdi:takesSubstantiveValuesFrom": {
+            "@id": "#V7/valueDomain/substantive",
+            "@type": [
+              "cdif:SubstantiveValueDomain"
+            ],
+            "cdif:takesValuesFrom": {
+              "@id": "#V7/enumerationDomain",
+              "@type": [
+                "cdif:EnumerationDomain"
+              ],
+              "cdif:references": {
+                "@id": "#codelist/6"
+              }
+            }
+          },
+          "cdif:isDescribedBy_StatisticsCollection": {
+            "@id": "#V7/statistics",
+            "@type": [
+              "cdi:StatisticsCollection"
+            ],
+            "cdif:indexedBy": [
+              {
+                "@id": "#V7"
+              }
+            ],
+            "cdif:has_Statistics": [
+              {
+                "@id": "#V7/stats/count",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "count",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "ValidOnly",
+                    "cdi:content": 240,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "MissingOnly",
+                    "cdi:content": 0,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 240,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ]
+              },
+              {
+                "@id": "#V7/stats/frequencies",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "frequency",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 240,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ],
+                "cdif:has_CategoryStatistics": [
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/6/1"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 9,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/6/2"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 21,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/6/3"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 39,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/6/4"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 46,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/6/5"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 125,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V8",
+          "schema:name": "Date_of_Admission",
+          "schema:description": "Date of Admission",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V9",
+          "schema:name": "Residential_LocationTraditional",
+          "schema:description": "Residential Location (Traditional Authority)",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V10",
+          "schema:name": "location",
+          "schema:description": "location",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V11",
+          "schema:name": "location_latitude",
+          "schema:description": "Latitude",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V12",
+          "schema:name": "location_longitude",
+          "schema:description": "Longitude",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V13",
+          "schema:name": "location_altitude",
+          "schema:description": "Altitude",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V14",
+          "schema:name": "location_precision",
+          "schema:description": "Location precision",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V15",
+          "schema:name": "Vaccine_Status",
+          "schema:description": "Vaccine Status",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent",
+          "cdi:takesSubstantiveValuesFrom": {
+            "@id": "#V15/valueDomain/substantive",
+            "@type": [
+              "cdif:SubstantiveValueDomain"
+            ],
+            "cdif:takesValuesFrom": {
+              "@id": "#V15/enumerationDomain",
+              "@type": [
+                "cdif:EnumerationDomain"
+              ],
+              "cdif:references": {
+                "@id": "#codelist/7"
+              }
+            }
+          },
+          "cdif:isDescribedBy_StatisticsCollection": {
+            "@id": "#V15/statistics",
+            "@type": [
+              "cdi:StatisticsCollection"
+            ],
+            "cdif:indexedBy": [
+              {
+                "@id": "#V15"
+              }
+            ],
+            "cdif:has_Statistics": [
+              {
+                "@id": "#V15/stats/count",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "count",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "ValidOnly",
+                    "cdi:content": 240,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "MissingOnly",
+                    "cdi:content": 0,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 240,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ]
+              },
+              {
+                "@id": "#V15/stats/frequencies",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "frequency",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 240,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ],
+                "cdif:has_CategoryStatistics": [
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/7/1"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 2,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/7/2"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 135,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/7/3"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 103,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V16",
+          "schema:name": "Time_to_Presentation",
+          "schema:description": "Time to Presentation",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent",
+          "cdi:takesSubstantiveValuesFrom": {
+            "@id": "#V16/valueDomain/substantive",
+            "@type": [
+              "cdif:SubstantiveValueDomain"
+            ],
+            "cdif:takesValuesFrom": {
+              "@id": "#V16/enumerationDomain",
+              "@type": [
+                "cdif:EnumerationDomain"
+              ],
+              "cdif:references": {
+                "@id": "#codelist/8"
+              }
+            }
+          },
+          "cdif:isDescribedBy_StatisticsCollection": {
+            "@id": "#V16/statistics",
+            "@type": [
+              "cdi:StatisticsCollection"
+            ],
+            "cdif:indexedBy": [
+              {
+                "@id": "#V16"
+              }
+            ],
+            "cdif:has_Statistics": [
+              {
+                "@id": "#V16/stats/count",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "count",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "ValidOnly",
+                    "cdi:content": 240,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "MissingOnly",
+                    "cdi:content": 0,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 240,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ]
+              },
+              {
+                "@id": "#V16/stats/frequencies",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "frequency",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 240,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ],
+                "cdif:has_CategoryStatistics": [
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/8/"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 2,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/8/1"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 16,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/8/2"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 58,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/8/3"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 115,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/8/4"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 49,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V17",
+          "schema:name": "Diagnosis",
+          "schema:description": "Diagnosis",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V18",
+          "schema:name": "Status_on_Arrival",
+          "schema:description": "Status on Arrival",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent",
+          "cdi:takesSubstantiveValuesFrom": {
+            "@id": "#V18/valueDomain/substantive",
+            "@type": [
+              "cdif:SubstantiveValueDomain"
+            ],
+            "cdif:takesValuesFrom": {
+              "@id": "#V18/enumerationDomain",
+              "@type": [
+                "cdif:EnumerationDomain"
+              ],
+              "cdif:references": {
+                "@id": "#codelist/9"
+              }
+            }
+          },
+          "cdif:isDescribedBy_StatisticsCollection": {
+            "@id": "#V18/statistics",
+            "@type": [
+              "cdi:StatisticsCollection"
+            ],
+            "cdif:indexedBy": [
+              {
+                "@id": "#V18"
+              }
+            ],
+            "cdif:has_Statistics": [
+              {
+                "@id": "#V18/stats/count",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "count",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "ValidOnly",
+                    "cdi:content": 239,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "MissingOnly",
+                    "cdi:content": 0,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 239,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ]
+              },
+              {
+                "@id": "#V18/stats/frequencies",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "frequency",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 239,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ],
+                "cdif:has_CategoryStatistics": [
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/9/1"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 70,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/9/2"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 169,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V19",
+          "schema:name": "HIV_Status",
+          "schema:description": "HIV Status",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent",
+          "cdi:takesSubstantiveValuesFrom": {
+            "@id": "#V19/valueDomain/substantive",
+            "@type": [
+              "cdif:SubstantiveValueDomain"
+            ],
+            "cdif:takesValuesFrom": {
+              "@id": "#V19/enumerationDomain",
+              "@type": [
+                "cdif:EnumerationDomain"
+              ],
+              "cdif:references": {
+                "@id": "#codelist/10"
+              }
+            }
+          },
+          "cdif:isDescribedBy_StatisticsCollection": {
+            "@id": "#V19/statistics",
+            "@type": [
+              "cdi:StatisticsCollection"
+            ],
+            "cdif:indexedBy": [
+              {
+                "@id": "#V19"
+              }
+            ],
+            "cdif:has_Statistics": [
+              {
+                "@id": "#V19/stats/count",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "count",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "ValidOnly",
+                    "cdi:content": 239,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "MissingOnly",
+                    "cdi:content": 0,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 239,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ]
+              },
+              {
+                "@id": "#V19/stats/frequencies",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "frequency",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 239,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ],
+                "cdif:has_CategoryStatistics": [
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/10/1"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 12,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/10/2"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 3,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/10/3"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 0,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/10/4"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 224,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V20",
+          "schema:name": "Hydration_Status",
+          "schema:description": "Hydration Status",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent",
+          "cdi:takesSubstantiveValuesFrom": {
+            "@id": "#V20/valueDomain/substantive",
+            "@type": [
+              "cdif:SubstantiveValueDomain"
+            ],
+            "cdif:takesValuesFrom": {
+              "@id": "#V20/enumerationDomain",
+              "@type": [
+                "cdif:EnumerationDomain"
+              ],
+              "cdif:references": {
+                "@id": "#codelist/11"
+              }
+            }
+          },
+          "cdif:isDescribedBy_StatisticsCollection": {
+            "@id": "#V20/statistics",
+            "@type": [
+              "cdi:StatisticsCollection"
+            ],
+            "cdif:indexedBy": [
+              {
+                "@id": "#V20"
+              }
+            ],
+            "cdif:has_Statistics": [
+              {
+                "@id": "#V20/stats/count",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "count",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "ValidOnly",
+                    "cdi:content": 239,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "MissingOnly",
+                    "cdi:content": 0,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 239,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ]
+              },
+              {
+                "@id": "#V20/stats/frequencies",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "frequency",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 239,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ],
+                "cdif:has_CategoryStatistics": [
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/11/1"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 9,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/11/2"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 90,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/11/3"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 135,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/11/4"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 5,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V21",
+          "schema:name": "Vital_Signs",
+          "schema:description": "Vital Signs",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent",
+          "cdi:takesSubstantiveValuesFrom": {
+            "@id": "#V21/valueDomain/substantive",
+            "@type": [
+              "cdif:SubstantiveValueDomain"
+            ],
+            "cdif:takesValuesFrom": {
+              "@id": "#V21/enumerationDomain",
+              "@type": [
+                "cdif:EnumerationDomain"
+              ],
+              "cdif:references": {
+                "@id": "#codelist/12"
+              }
+            }
+          },
+          "cdif:isDescribedBy_StatisticsCollection": {
+            "@id": "#V21/statistics",
+            "@type": [
+              "cdi:StatisticsCollection"
+            ],
+            "cdif:indexedBy": [
+              {
+                "@id": "#V21"
+              }
+            ],
+            "cdif:has_Statistics": [
+              {
+                "@id": "#V21/stats/count",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "count",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "ValidOnly",
+                    "cdi:content": 239,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "MissingOnly",
+                    "cdi:content": 0,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 239,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ]
+              },
+              {
+                "@id": "#V21/stats/frequencies",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "frequency",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 239,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ],
+                "cdif:has_CategoryStatistics": [
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/12/"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 239,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V22",
+          "schema:name": "Fluid_Management",
+          "schema:description": "Fluid Management",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent",
+          "cdi:takesSubstantiveValuesFrom": {
+            "@id": "#V22/valueDomain/substantive",
+            "@type": [
+              "cdif:SubstantiveValueDomain"
+            ],
+            "cdif:takesValuesFrom": {
+              "@id": "#V22/enumerationDomain",
+              "@type": [
+                "cdif:EnumerationDomain"
+              ],
+              "cdif:references": {
+                "@id": "#codelist/13"
+              }
+            }
+          },
+          "cdif:isDescribedBy_StatisticsCollection": {
+            "@id": "#V22/statistics",
+            "@type": [
+              "cdi:StatisticsCollection"
+            ],
+            "cdif:indexedBy": [
+              {
+                "@id": "#V22"
+              }
+            ],
+            "cdif:has_Statistics": [
+              {
+                "@id": "#V22/stats/count",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "count",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "ValidOnly",
+                    "cdi:content": 239,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "MissingOnly",
+                    "cdi:content": 0,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 239,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ]
+              },
+              {
+                "@id": "#V22/stats/frequencies",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "frequency",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 239,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ],
+                "cdif:has_CategoryStatistics": [
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/13/1"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 193,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/13/2"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 46,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V23",
+          "schema:name": "Antibiotic_Management",
+          "schema:description": "Antibiotic Management",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent",
+          "cdi:takesSubstantiveValuesFrom": {
+            "@id": "#V23/valueDomain/substantive",
+            "@type": [
+              "cdif:SubstantiveValueDomain"
+            ],
+            "cdif:takesValuesFrom": {
+              "@id": "#V23/enumerationDomain",
+              "@type": [
+                "cdif:EnumerationDomain"
+              ],
+              "cdif:references": {
+                "@id": "#codelist/14"
+              }
+            }
+          },
+          "cdif:isDescribedBy_StatisticsCollection": {
+            "@id": "#V23/statistics",
+            "@type": [
+              "cdi:StatisticsCollection"
+            ],
+            "cdif:indexedBy": [
+              {
+                "@id": "#V23"
+              }
+            ],
+            "cdif:has_Statistics": [
+              {
+                "@id": "#V23/stats/count",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "count",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "ValidOnly",
+                    "cdi:content": 239,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "MissingOnly",
+                    "cdi:content": 0,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 239,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ]
+              },
+              {
+                "@id": "#V23/stats/frequencies",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "frequency",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 239,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ],
+                "cdif:has_CategoryStatistics": [
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/14/1"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 16,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/14/2"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 223,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V24",
+          "schema:name": "Other_Comorbidity",
+          "schema:description": "Other Comorbidity",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V25",
+          "schema:name": "Outcome",
+          "schema:description": "Outcome",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent",
+          "cdi:takesSubstantiveValuesFrom": {
+            "@id": "#V25/valueDomain/substantive",
+            "@type": [
+              "cdif:SubstantiveValueDomain"
+            ],
+            "cdif:takesValuesFrom": {
+              "@id": "#V25/enumerationDomain",
+              "@type": [
+                "cdif:EnumerationDomain"
+              ],
+              "cdif:references": {
+                "@id": "#codelist/15"
+              }
+            }
+          },
+          "cdif:isDescribedBy_StatisticsCollection": {
+            "@id": "#V25/statistics",
+            "@type": [
+              "cdi:StatisticsCollection"
+            ],
+            "cdif:indexedBy": [
+              {
+                "@id": "#V25"
+              }
+            ],
+            "cdif:has_Statistics": [
+              {
+                "@id": "#V25/stats/count",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "count",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "ValidOnly",
+                    "cdi:content": 239,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "MissingOnly",
+                    "cdi:content": 0,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 239,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ]
+              },
+              {
+                "@id": "#V25/stats/frequencies",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "frequency",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 239,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ],
+                "cdif:has_CategoryStatistics": [
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/15/1"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 152,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/15/2"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 87,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V26",
+          "schema:name": "Time_in_ward",
+          "schema:description": "Time in ward",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent",
+          "cdi:takesSubstantiveValuesFrom": {
+            "@id": "#V26/valueDomain/substantive",
+            "@type": [
+              "cdif:SubstantiveValueDomain"
+            ],
+            "cdif:takesValuesFrom": {
+              "@id": "#V26/enumerationDomain",
+              "@type": [
+                "cdif:EnumerationDomain"
+              ],
+              "cdif:references": {
+                "@id": "#codelist/16"
+              }
+            }
+          },
+          "cdif:isDescribedBy_StatisticsCollection": {
+            "@id": "#V26/statistics",
+            "@type": [
+              "cdi:StatisticsCollection"
+            ],
+            "cdif:indexedBy": [
+              {
+                "@id": "#V26"
+              }
+            ],
+            "cdif:has_Statistics": [
+              {
+                "@id": "#V26/stats/count",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "count",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "ValidOnly",
+                    "cdi:content": 239,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "MissingOnly",
+                    "cdi:content": 0,
+                    "cdi:typeOfNumericValue": "decimal"
+                  },
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 239,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ]
+              },
+              {
+                "@id": "#V26/stats/frequencies",
+                "@type": [
+                  "cdi:Statistics"
+                ],
+                "cdi:typeOfStatistic": "frequency",
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "Total",
+                    "cdi:content": 239,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ],
+                "cdif:has_CategoryStatistics": [
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/16/1"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 19,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/16/2"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 87,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/16/3"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 103,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": [
+                      "cdi:CategoryStatistics"
+                    ],
+                    "cdi:for": {
+                      "@id": "#codelist/16/4"
+                    },
+                    "cdi:typeOfStatistic": "frequency",
+                    "cdi:statistic": [
+                      {
+                        "cdi:computationBase": "ValidOnly",
+                        "cdi:content": 30,
+                        "cdi:typeOfNumericValue": "decimal"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V27",
+          "schema:name": "Time_of_Discharge",
+          "schema:description": "Time of Discharge",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V28",
+          "schema:name": "Primary_COD",
+          "schema:description": "Primary cause of death",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V29",
+          "schema:name": "Other_COD",
+          "schema:description": "Other cause of Death",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V30",
+          "schema:name": "Time_of_Death",
+          "schema:description": "Time of Death",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V31",
+          "schema:name": "uuid",
+          "schema:description": "_uuid",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue",
+            "cdi:InstanceVariable"
+          ],
+          "@id": "#V32",
+          "schema:name": "submitted_by",
+          "schema:description": "_submitted_by",
+          "cdi:intendedDataType": "xsd:string",
+          "cdi:role": "AttributeComponent"
+        }
+      ],
+      "schema:distribution": [
+        {
+          "@type": [
+            "schema:DataDownload"
+          ],
+          "schema:name": "The Clinical Epidemiologic Audit of Cholera in Malawi.NSDstat",
+          "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/missing",
+          "schema:description": "Source file type: Nesstar 200801",
+          "schema:additionalProperty": [
+            {
+              "@type": [
+                "schema:PropertyValue"
+              ],
+              "schema:name": "row count",
+              "schema:value": 245
+            },
+            {
+              "@type": [
+                "schema:PropertyValue"
+              ],
+              "schema:name": "column count",
+              "schema:value": 32
+            }
+          ]
+        }
+      ],
+      "schema:subjectOf": {
+        "@type": [
+          "schema:Dataset"
+        ],
+        "schema:additionalType": [
+          {
+            "@id": "dcat:CatalogRecord"
+          }
+        ],
+        "@id": "urn:ddi:MWI-PHIM-CAC-2026-v01#cdif-catalog-record",
+        "schema:name": "Metadata record for: The Clinical Epidemiologic Audit of Cholera in Malawi: A Medical Record Review of the 2022 Outbreak",
+        "schema:about": {
+          "@id": "urn:ddi:MWI-PHIM-CAC-2026-v01"
+        },
+        "schema:description": "Metadata harvested from a DDI Codebook 1.2.2 (ICPSR) document (IDNo MWI-PHIM-CAC-2026-v01) and converted to CDIF by the CDIF DDI converter. Study citation/title, abstract, agents, spatial/temporal coverage, and access conditions mapped to discovery properties; 32 DDI <var> mapped to schema:variableMeasured / cdi:InstanceVariable; 1 <fileDscr> mapped to schema:distribution (schema:DataDownload; contentUrl set to the OGC nil 'missing' value where the source provides no resolvable download URL). 16 variable(s) carry a DDI code list (<catgry>), emitted as CDIF enumerated value domains (cdi:takesSubstantiveValuesFrom -> cdif:EnumerationDomain -> cdif:references a shared skos:ConceptScheme code list; missing categories -> cdi:takesSentinelValuesFrom) with category and summary statistics (cdif:isDescribedBy_StatisticsCollection). Distinct code lists are deduplicated into sibling @graph nodes.",
+        "dcterms:conformsTo": [
+          {
+            "@id": "https://w3id.org/cdif/core/1.1"
+          },
+          {
+            "@id": "https://w3id.org/cdif/discovery/1.1"
+          },
+          {
+            "@id": "https://w3id.org/cdif/data_description/1.1"
+          }
+        ],
+        "schema:sdDatePublished": "2026-02-05",
+        "schema:maintainer": {
+          "@type": [
+            "schema:Organization"
+          ],
+          "schema:name": "Moses Kamzati"
+        }
+      }
+    },
+    {
+      "@id": "#codelist/1",
+      "@type": [
+        "skos:ConceptScheme"
+      ],
+      "skos:prefLabel": "<10; 10-19; 20-29; 30-39; 40-49; 50-59; >60",
+      "schema:identifier": "codelist/1",
+      "schema:dateModified": "2026-02-05",
+      "schema:license": [
+        "http://www.opengis.net/def/nil/OGC/0/missing"
+      ],
+      "skos:hasTopConcept": [
+        {
+          "@id": "#codelist/1/1",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/1"
+            }
+          ],
+          "skos:prefLabel": "<10",
+          "skos:notation": "1"
+        },
+        {
+          "@id": "#codelist/1/2",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/1"
+            }
+          ],
+          "skos:prefLabel": "10-19",
+          "skos:notation": "2"
+        },
+        {
+          "@id": "#codelist/1/3",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/1"
+            }
+          ],
+          "skos:prefLabel": "20-29",
+          "skos:notation": "3"
+        },
+        {
+          "@id": "#codelist/1/4",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/1"
+            }
+          ],
+          "skos:prefLabel": "30-39",
+          "skos:notation": "4"
+        },
+        {
+          "@id": "#codelist/1/5",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/1"
+            }
+          ],
+          "skos:prefLabel": "40-49",
+          "skos:notation": "5"
+        },
+        {
+          "@id": "#codelist/1/6",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/1"
+            }
+          ],
+          "skos:prefLabel": "50-59",
+          "skos:notation": "6"
+        },
+        {
+          "@id": "#codelist/1/7",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/1"
+            }
+          ],
+          "skos:prefLabel": ">60",
+          "skos:notation": "7"
+        }
+      ]
+    },
+    {
+      "@id": "#codelist/2",
+      "@type": [
+        "skos:ConceptScheme"
+      ],
+      "skos:prefLabel": "Male; Female; Unknown",
+      "schema:identifier": "codelist/2",
+      "schema:dateModified": "2026-02-05",
+      "schema:license": [
+        "http://www.opengis.net/def/nil/OGC/0/missing"
+      ],
+      "skos:hasTopConcept": [
+        {
+          "@id": "#codelist/2/1",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/2"
+            }
+          ],
+          "skos:prefLabel": "Male",
+          "skos:notation": "1"
+        },
+        {
+          "@id": "#codelist/2/2",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/2"
+            }
+          ],
+          "skos:prefLabel": "Female",
+          "skos:notation": "2"
+        },
+        {
+          "@id": "#codelist/2/3",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/2"
+            }
+          ],
+          "skos:prefLabel": "Unknown",
+          "skos:notation": "3"
+        }
+      ]
+    },
+    {
+      "@id": "#codelist/3",
+      "@type": [
+        "skos:ConceptScheme"
+      ],
+      "skos:prefLabel": "Central(Lilongwe); Northen(Nkhatabay); Southern (Blantyre); Southern(Mangochi)",
+      "schema:identifier": "codelist/3",
+      "schema:dateModified": "2026-02-05",
+      "schema:license": [
+        "http://www.opengis.net/def/nil/OGC/0/missing"
+      ],
+      "skos:hasTopConcept": [
+        {
+          "@id": "#codelist/3/1",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/3"
+            }
+          ],
+          "skos:prefLabel": "Central(Lilongwe)",
+          "skos:notation": "1"
+        },
+        {
+          "@id": "#codelist/3/2",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/3"
+            }
+          ],
+          "skos:prefLabel": "Northen(Nkhatabay)",
+          "skos:notation": "2"
+        },
+        {
+          "@id": "#codelist/3/3",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/3"
+            }
+          ],
+          "skos:prefLabel": "Southern (Blantyre)",
+          "skos:notation": "3"
+        },
+        {
+          "@id": "#codelist/3/4",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/3"
+            }
+          ],
+          "skos:prefLabel": "Southern(Mangochi)",
+          "skos:notation": "4"
+        }
+      ]
+    },
+    {
+      "@id": "#codelist/4",
+      "@type": [
+        "skos:ConceptScheme"
+      ],
+      "skos:prefLabel": "Case(Death); Control(Discharged)",
+      "schema:identifier": "codelist/4",
+      "schema:dateModified": "2026-02-05",
+      "schema:license": [
+        "http://www.opengis.net/def/nil/OGC/0/missing"
+      ],
+      "skos:hasTopConcept": [
+        {
+          "@id": "#codelist/4/1",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/4"
+            }
+          ],
+          "skos:prefLabel": "Case(Death)",
+          "skos:notation": "1"
+        },
+        {
+          "@id": "#codelist/4/2",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/4"
+            }
+          ],
+          "skos:prefLabel": "Control(Discharged)",
+          "skos:notation": "2"
+        }
+      ]
+    },
+    {
+      "@id": "#codelist/5",
+      "@type": [
+        "skos:ConceptScheme"
+      ],
+      "skos:prefLabel": "Married; Single; Option 3",
+      "schema:identifier": "codelist/5",
+      "schema:dateModified": "2026-02-05",
+      "schema:license": [
+        "http://www.opengis.net/def/nil/OGC/0/missing"
+      ],
+      "skos:hasTopConcept": [
+        {
+          "@id": "#codelist/5/1",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/5"
+            }
+          ],
+          "skos:prefLabel": "Married",
+          "skos:notation": "1"
+        },
+        {
+          "@id": "#codelist/5/2",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/5"
+            }
+          ],
+          "skos:prefLabel": "Single",
+          "skos:notation": "2"
+        },
+        {
+          "@id": "#codelist/5/3",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/5"
+            }
+          ],
+          "skos:prefLabel": "Option 3",
+          "skos:notation": "3"
+        }
+      ]
+    },
+    {
+      "@id": "#codelist/6",
+      "@type": [
+        "skos:ConceptScheme"
+      ],
+      "skos:prefLabel": "Fully Employed; PieceWorker; Self-Employed; Student; Unknown",
+      "schema:identifier": "codelist/6",
+      "schema:dateModified": "2026-02-05",
+      "schema:license": [
+        "http://www.opengis.net/def/nil/OGC/0/missing"
+      ],
+      "skos:hasTopConcept": [
+        {
+          "@id": "#codelist/6/1",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/6"
+            }
+          ],
+          "skos:prefLabel": "Fully Employed",
+          "skos:notation": "1"
+        },
+        {
+          "@id": "#codelist/6/2",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/6"
+            }
+          ],
+          "skos:prefLabel": "PieceWorker",
+          "skos:notation": "2"
+        },
+        {
+          "@id": "#codelist/6/3",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/6"
+            }
+          ],
+          "skos:prefLabel": "Self-Employed",
+          "skos:notation": "3"
+        },
+        {
+          "@id": "#codelist/6/4",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/6"
+            }
+          ],
+          "skos:prefLabel": "Student",
+          "skos:notation": "4"
+        },
+        {
+          "@id": "#codelist/6/5",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/6"
+            }
+          ],
+          "skos:prefLabel": "Unknown",
+          "skos:notation": "5"
+        }
+      ]
+    },
+    {
+      "@id": "#codelist/7",
+      "@type": [
+        "skos:ConceptScheme"
+      ],
+      "skos:prefLabel": "Vaccinated; Unvaccinated; Unknown",
+      "schema:identifier": "codelist/7",
+      "schema:dateModified": "2026-02-05",
+      "schema:license": [
+        "http://www.opengis.net/def/nil/OGC/0/missing"
+      ],
+      "skos:hasTopConcept": [
+        {
+          "@id": "#codelist/7/1",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/7"
+            }
+          ],
+          "skos:prefLabel": "Vaccinated",
+          "skos:notation": "1"
+        },
+        {
+          "@id": "#codelist/7/2",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/7"
+            }
+          ],
+          "skos:prefLabel": "Unvaccinated",
+          "skos:notation": "2"
+        },
+        {
+          "@id": "#codelist/7/3",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/7"
+            }
+          ],
+          "skos:prefLabel": "Unknown",
+          "skos:notation": "3"
+        }
+      ]
+    },
+    {
+      "@id": "#codelist/8",
+      "@type": [
+        "skos:ConceptScheme"
+      ],
+      "skos:prefLabel": "<6 Hours; > 6 Hours; >24 Hours; > 48 Hours",
+      "schema:identifier": "codelist/8",
+      "schema:dateModified": "2026-02-05",
+      "schema:license": [
+        "http://www.opengis.net/def/nil/OGC/0/missing"
+      ],
+      "skos:hasTopConcept": [
+        {
+          "@id": "#codelist/8/",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/8"
+            }
+          ],
+          "skos:prefLabel": "",
+          "skos:notation": ""
+        },
+        {
+          "@id": "#codelist/8/1",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/8"
+            }
+          ],
+          "skos:prefLabel": "<6 Hours",
+          "skos:notation": "1"
+        },
+        {
+          "@id": "#codelist/8/2",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/8"
+            }
+          ],
+          "skos:prefLabel": "> 6 Hours",
+          "skos:notation": "2"
+        },
+        {
+          "@id": "#codelist/8/3",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/8"
+            }
+          ],
+          "skos:prefLabel": ">24 Hours",
+          "skos:notation": "3"
+        },
+        {
+          "@id": "#codelist/8/4",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/8"
+            }
+          ],
+          "skos:prefLabel": "> 48 Hours",
+          "skos:notation": "4"
+        }
+      ]
+    },
+    {
+      "@id": "#codelist/9",
+      "@type": [
+        "skos:ConceptScheme"
+      ],
+      "skos:prefLabel": "Stable; Critical",
+      "schema:identifier": "codelist/9",
+      "schema:dateModified": "2026-02-05",
+      "schema:license": [
+        "http://www.opengis.net/def/nil/OGC/0/missing"
+      ],
+      "skos:hasTopConcept": [
+        {
+          "@id": "#codelist/9/1",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/9"
+            }
+          ],
+          "skos:prefLabel": "Stable",
+          "skos:notation": "1"
+        },
+        {
+          "@id": "#codelist/9/2",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/9"
+            }
+          ],
+          "skos:prefLabel": "Critical",
+          "skos:notation": "2"
+        }
+      ]
+    },
+    {
+      "@id": "#codelist/10",
+      "@type": [
+        "skos:ConceptScheme"
+      ],
+      "skos:prefLabel": "Non-Reactive; Reactive(On Treatment); Reactive-defaulted; Unknown",
+      "schema:identifier": "codelist/10",
+      "schema:dateModified": "2026-02-05",
+      "schema:license": [
+        "http://www.opengis.net/def/nil/OGC/0/missing"
+      ],
+      "skos:hasTopConcept": [
+        {
+          "@id": "#codelist/10/1",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/10"
+            }
+          ],
+          "skos:prefLabel": "Non-Reactive",
+          "skos:notation": "1"
+        },
+        {
+          "@id": "#codelist/10/2",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/10"
+            }
+          ],
+          "skos:prefLabel": "Reactive(On Treatment)",
+          "skos:notation": "2"
+        },
+        {
+          "@id": "#codelist/10/3",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/10"
+            }
+          ],
+          "skos:prefLabel": "Reactive-defaulted",
+          "skos:notation": "3"
+        },
+        {
+          "@id": "#codelist/10/4",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/10"
+            }
+          ],
+          "skos:prefLabel": "Unknown",
+          "skos:notation": "4"
+        }
+      ]
+    },
+    {
+      "@id": "#codelist/11",
+      "@type": [
+        "skos:ConceptScheme"
+      ],
+      "skos:prefLabel": "Well hydrated; Some Dehydration; Severe Dehydration; Unknown",
+      "schema:identifier": "codelist/11",
+      "schema:dateModified": "2026-02-05",
+      "schema:license": [
+        "http://www.opengis.net/def/nil/OGC/0/missing"
+      ],
+      "skos:hasTopConcept": [
+        {
+          "@id": "#codelist/11/1",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/11"
+            }
+          ],
+          "skos:prefLabel": "Well hydrated",
+          "skos:notation": "1"
+        },
+        {
+          "@id": "#codelist/11/2",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/11"
+            }
+          ],
+          "skos:prefLabel": "Some Dehydration",
+          "skos:notation": "2"
+        },
+        {
+          "@id": "#codelist/11/3",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/11"
+            }
+          ],
+          "skos:prefLabel": "Severe Dehydration",
+          "skos:notation": "3"
+        },
+        {
+          "@id": "#codelist/11/4",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/11"
+            }
+          ],
+          "skos:prefLabel": "Unknown",
+          "skos:notation": "4"
+        }
+      ]
+    },
+    {
+      "@id": "#codelist/12",
+      "@type": [
+        "skos:ConceptScheme"
+      ],
+      "skos:prefLabel": "code list 12",
+      "schema:identifier": "codelist/12",
+      "schema:dateModified": "2026-02-05",
+      "schema:license": [
+        "http://www.opengis.net/def/nil/OGC/0/missing"
+      ],
+      "skos:hasTopConcept": [
+        {
+          "@id": "#codelist/12/",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/12"
+            }
+          ],
+          "skos:prefLabel": "",
+          "skos:notation": ""
+        }
+      ]
+    },
+    {
+      "@id": "#codelist/13",
+      "@type": [
+        "skos:ConceptScheme"
+      ],
+      "skos:prefLabel": "Adequate MGT; Inadequate MGT",
+      "schema:identifier": "codelist/13",
+      "schema:dateModified": "2026-02-05",
+      "schema:license": [
+        "http://www.opengis.net/def/nil/OGC/0/missing"
+      ],
+      "skos:hasTopConcept": [
+        {
+          "@id": "#codelist/13/1",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/13"
+            }
+          ],
+          "skos:prefLabel": "Adequate MGT",
+          "skos:notation": "1"
+        },
+        {
+          "@id": "#codelist/13/2",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/13"
+            }
+          ],
+          "skos:prefLabel": "Inadequate MGT",
+          "skos:notation": "2"
+        }
+      ]
+    },
+    {
+      "@id": "#codelist/14",
+      "@type": [
+        "skos:ConceptScheme"
+      ],
+      "skos:prefLabel": "Not Given; GIVEN(DOXYCYCLINE/ AZITHROMYCIN/CIPROFLOXACIN",
+      "schema:identifier": "codelist/14",
+      "schema:dateModified": "2026-02-05",
+      "schema:license": [
+        "http://www.opengis.net/def/nil/OGC/0/missing"
+      ],
+      "skos:hasTopConcept": [
+        {
+          "@id": "#codelist/14/1",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/14"
+            }
+          ],
+          "skos:prefLabel": "Not Given",
+          "skos:notation": "1"
+        },
+        {
+          "@id": "#codelist/14/2",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/14"
+            }
+          ],
+          "skos:prefLabel": "GIVEN(DOXYCYCLINE/ AZITHROMYCIN/CIPROFLOXACIN",
+          "skos:notation": "2"
+        }
+      ]
+    },
+    {
+      "@id": "#codelist/15",
+      "@type": [
+        "skos:ConceptScheme"
+      ],
+      "skos:prefLabel": "Alive; Deseased",
+      "schema:identifier": "codelist/15",
+      "schema:dateModified": "2026-02-05",
+      "schema:license": [
+        "http://www.opengis.net/def/nil/OGC/0/missing"
+      ],
+      "skos:hasTopConcept": [
+        {
+          "@id": "#codelist/15/1",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/15"
+            }
+          ],
+          "skos:prefLabel": "Alive",
+          "skos:notation": "1"
+        },
+        {
+          "@id": "#codelist/15/2",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/15"
+            }
+          ],
+          "skos:prefLabel": "Deseased",
+          "skos:notation": "2"
+        }
+      ]
+    },
+    {
+      "@id": "#codelist/16",
+      "@type": [
+        "skos:ConceptScheme"
+      ],
+      "skos:prefLabel": ">6 Hours; >24 Hours; >48 Hours; > 7 Days",
+      "schema:identifier": "codelist/16",
+      "schema:dateModified": "2026-02-05",
+      "schema:license": [
+        "http://www.opengis.net/def/nil/OGC/0/missing"
+      ],
+      "skos:hasTopConcept": [
+        {
+          "@id": "#codelist/16/1",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/16"
+            }
+          ],
+          "skos:prefLabel": ">6 Hours",
+          "skos:notation": "1"
+        },
+        {
+          "@id": "#codelist/16/2",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/16"
+            }
+          ],
+          "skos:prefLabel": ">24 Hours",
+          "skos:notation": "2"
+        },
+        {
+          "@id": "#codelist/16/3",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/16"
+            }
+          ],
+          "skos:prefLabel": ">48 Hours",
+          "skos:notation": "3"
+        },
+        {
+          "@id": "#codelist/16/4",
+          "@type": [
+            "skos:Concept",
+            "cdi:Category"
+          ],
+          "skos:inScheme": [
+            {
+              "@id": "#codelist/16"
+            }
+          ],
+          "skos:prefLabel": "> 7 Days",
+          "skos:notation": "4"
         }
       ]
     }
-  ],
-  "schema:subjectOf": {
-    "@type": [
-      "schema:Dataset"
-    ],
-    "schema:additionalType": [
-      {
-        "@id": "dcat:CatalogRecord"
-      }
-    ],
-    "@id": "urn:ddi:MWI-PHIM-CAC-2026-v01#cdif-catalog-record",
-    "schema:name": "Metadata record for: The Clinical Epidemiologic Audit of Cholera in Malawi: A Medical Record Review of the 2022 Outbreak",
-    "schema:about": {
-      "@id": "urn:ddi:MWI-PHIM-CAC-2026-v01"
-    },
-    "schema:description": "Metadata harvested from a DDI Codebook 1.2.2 (ICPSR) document (IDNo MWI-PHIM-CAC-2026-v01) and converted to CDIF by the CDIF DDI converter. Study citation/title, abstract, agents, spatial/temporal coverage, and access conditions mapped to discovery properties; 32 DDI <var> mapped to schema:variableMeasured / cdi:InstanceVariable; 1 <fileDscr> mapped to schema:distribution (schema:DataDownload; contentUrl set to the OGC nil 'missing' value where the source provides no resolvable download URL). 16 variable(s) carry an inline DDI code list (<catgry>); these categories are not yet emitted as a CDIF code list.",
-    "dcterms:conformsTo": [
-      {
-        "@id": "https://w3id.org/cdif/core/1.1"
-      },
-      {
-        "@id": "https://w3id.org/cdif/discovery/1.1"
-      },
-      {
-        "@id": "https://w3id.org/cdif/data_description/1.1"
-      }
-    ],
-    "schema:sdDatePublished": "2026-02-05",
-    "schema:maintainer": {
-      "@type": [
-        "schema:Organization"
-      ],
-      "schema:name": "Moses Kamzati"
-    }
-  }
+  ]
 }
