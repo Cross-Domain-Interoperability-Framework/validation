@@ -56,15 +56,18 @@ truncates to a plain date (the CDIF date pattern rejects fractional seconds).
 
 ### The 84 elements 2.5 adds
 
-These are real capabilities neither converter maps today — most are additive
-discovery/quality/provenance detail, but a few reflect model differences (above
-all **`nCube`**, aggregate *cube* data — a different data structure from the
-`var`/`fileDscr` microdata both converters assume, and thus **silently dropped**).
-Their best-guess CDIF targets are catalogued in
-**[`ddi25-additions-cdif-mapping.md`](ddi25-additions-cdif-mapping.md)**. The
-highest-value follow-ups are `nCube` → the CDIF **DataStructure — Dimensional
-Data** profile, and the `codeList*` / `<catgry>` code lists → the **codelist /
-conceptscheme** profiles.
+Most are additive discovery/quality/provenance detail. **Many now map** via the
+SSSOM worksheets under [`../mappings`](../mappings) — e.g. `dataFingerprint` →
+`spdx:checksum`, `controlledVocabUsed` → code-list metadata, `studyDevelopment`
+/ `sampleFrame` / `collectorTraining` → dataset description, and the `<catgry>`
+code lists → enumerated value domains + shared `skos:ConceptScheme` code lists
+(see [`../DDI/README.md`](../DDI/README.md#coded-variables--enumerated-value-domains--statistics)).
+A few reflect model differences the converters do **not** yet build — above all
+**`nCube`** aggregate *cube* data, a different data structure from the
+`var`/`fileDscr` microdata both converters assume, whose best-guess target is
+the CDIF **DataStructure — Dimensional Data** profile. Best-guess targets for
+the full set are catalogued in
+**[`ddi25-additions-cdif-mapping.md`](ddi25-additions-cdif-mapping.md)**.
 
 ## The analyzed-sample convention (geochem building blocks)
 
@@ -94,23 +97,45 @@ targets currently noted in the mapping table. (The sampling *design* numbers —
 `sampleSize`, `sampleSizeFormula`, `targetSampleSize` — remain properties of the
 collection activity / dataset, not of the sample object.)
 
+## Coded variables → value domains + statistics
+
+`<var><catgry>` code lists and `<sumStat>`/`<catStat>` are now fully emitted:
+each variable's categories become an enumerated value domain referencing a
+shared, deduplicated `skos:ConceptScheme` code list (a sibling `@graph` node),
+missing categories become a sentinel value domain, and the summary /
+per-category statistics become a `cdif:isDescribedBy_StatisticsCollection`. The
+construction is documented once in
+[`../DDI/README.md`](../DDI/README.md#coded-variables--enumerated-value-domains--statistics)
+and applies identically here (the shared engine).
+
 ## Known deferrals
 
-- **`nCube` dimensional data** and the other 83 additions — see the mapping doc.
-- **Coded variables** (`<var><catgry>` inline code lists) are not yet emitted as
-  CDIF / DDI-CDI code lists — the same deferral as the 1.2.2 converter.
+- **`nCube` dimensional data** (aggregate *cube* data — a different data
+  structure from the `var`/`fileDscr` microdata both converters assume) is still
+  **silently dropped**; its best-guess target is the CDIF **DataStructure —
+  Dimensional Data** profile. It does not appear in the Malawi example files.
+- The remaining unmapped 2.5 additions — see
+  [`ddi25-additions-cdif-mapping.md`](ddi25-additions-cdif-mapping.md) and the
+  SSSOM worksheets under [`../mappings`](../mappings).
 
 ## Validation status (2 example files)
 
-`Examples/XML/` holds the two v2.5 inputs; they convert to `Examples/cdif/`:
+`Examples/XML/` holds the two v2.5 inputs; they convert to `Examples/cdif/`
+(variables are deduplicated by signature, so counts are below the raw `<var>`
+totals):
 
-| File | vars | files | conformsTo |
-|------|-----:|------:|------------|
-| `MWI_2019_MICS_v01_M` | 1942 | 8 | core + discovery + data_description |
-| `MWI_2024_DHS_v01_M` | 2679 | 53 | core + discovery + data_description |
+| File | vars | dists | code lists | value domains | statistics | conformsTo |
+|------|-----:|------:|-----------:|--------------:|-----------:|------------|
+| `MWI_2019_MICS_v01_M` | 1793 | 8 | 478 | 1600 | 1793 | core + discovery + data_description |
+| `MWI_2024_DHS_v01_M` | 2605 | 53 | 502 | 2292 | 18 | core + discovery + data_description |
 
-- **JSON Schema** (`CDIFDiscoverySchema.json` + `CDIFDataDescriptionSchema.json`
-  via `../../tools/FrameAndValidate.py`): **2/2 pass** both.
+(The DHS file carries `<catgry>` for most variables but `<sumStat>`/`<catStat>`
+for only a few, hence few statistics; the MICS file carries both throughout.)
+
+- **JSON Schema:** each dataset validates 0-error against the
+  `cdifDataDescription` profile, and every emitted code list validates against
+  the `cdifCodelist` profile; all `cdi:for` / `cdif:references` cross-references
+  resolve within the `@graph`.
 - **SHACL** (`../../ShaclValidation/CDIF-Discovery-Shapes.ttl`): **0 violations**;
   warnings are advisory (per-variable `propertyID`/physical data type, contacts).
 
