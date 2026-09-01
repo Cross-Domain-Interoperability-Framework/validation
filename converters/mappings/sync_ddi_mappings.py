@@ -49,6 +49,7 @@ PREFIXES = {
  "cdifq": "http://crossdomaininteroperability.org/cdifq/",
  "dcterms": "http://purl.org/dc/terms/",
  "dqv": "http://www.w3.org/ns/dqv#",
+ "spdx": "http://spdx.org/rdf/terms#",
  "prov": "http://www.w3.org/ns/prov#",
  "geo": "http://www.opengis.net/ont/geosparql#",
  "skos": "http://www.w3.org/2004/02/skos/core#",
