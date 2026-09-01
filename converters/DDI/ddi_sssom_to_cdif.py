@@ -52,8 +52,9 @@ MAPPINGS_JSON = os.path.normpath(os.path.join(HERE, "..", "mappings", "ddi_mappi
 # SSSOM mapping; only these structured targets are delegated to ddi122.
 sys.path.insert(0, HERE)
 from ddi122_to_cdif import (  # noqa: E402
-    parse_variables as _parse_vars_struct, CodeListRegistry,
-    _value_domains, _statistics_collection, NIL_MISSING,
+    parse_variables as _parse_vars_struct, dedup_variables as _dedup_vars,
+    _var_signature, CodeListRegistry, _value_domains, _statistics_collection,
+    NIL_MISSING,
 )
 
 CONTEXT = {
@@ -455,7 +456,12 @@ def convert(xml_path, doi_url, version, detect=True, verbose=False):
 
     # variables -- data-driven flat mappings for scalar/description fields, plus
     # the structured value-domain / statistics construction delegated to ddi122.
-    struct = {pv["name"] or pv["id"]: pv for pv in _parse_vars_struct(root)}
+    # <var> elements (document order) pair one-to-one with the parsed dicts;
+    # dedup by ddi122's signature so a variable repeated across a study's per-file
+    # <dataDscr> (e.g. DHS hhid/caseid) is one InstanceVariable, and same-name /
+    # different-definition variables keep distinct #var/<name>[~N] @ids.
+    parsed = _parse_vars_struct(root)
+    sig_to_ivid = {_var_signature(v): v["ivid"] for v in _dedup_vars(parsed)[0]}
     registry = CodeListRegistry(doc.get("schema:license") or [NIL_MISSING],
                                 doc.get("schema:dateModified") or "1900-01-01")
     # leafs the structured builder owns -- skip them in the flat pass so it does
@@ -464,13 +470,18 @@ def convert(xml_path, doi_url, version, detect=True, verbose=False):
                    "cdif:isDescribedBy_StatisticsCollection", "schema:minValue",
                    "schema:maxValue")
 
-    vitems = []
-    for var in iter_local(root, "var"):
-        item = {"@type": ["schema:PropertyValue", "cdi:InstanceVariable"]}
-        nm = var.get("name") or (values_at(var, ["labl"]) or [""])[0]
-        base = (nm.replace(" ", "_") if nm else var.get("ID") or "")
-        if base:
-            item["@id"] = "#" + base
+    vitems, seen_sig = [], set()
+    for var, pv in zip(iter_local(root, "var"), parsed):
+        if not pv["name"]:
+            continue                       # skip unnamed <var> stubs
+        sig = _var_signature(pv)
+        if sig in seen_sig:
+            continue                       # skip duplicate definitions
+        seen_sig.add(sig)
+        ivid = sig_to_ivid[sig]
+        base = ivid.lstrip("#")
+        item = {"@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+                "@id": ivid}
         for (leaf, oid), paths in var_by_leaf.items():
             # skip leafs the structured builder owns (match the first segment,
             # stripped of any [*], so e.g. cdi:takesSentinelValuesFrom[*] is caught)
@@ -493,20 +504,17 @@ def convert(xml_path, doi_url, version, detect=True, verbose=False):
             if arr_key in item and not isinstance(item[arr_key], list):
                 item[arr_key] = [item[arr_key]]
         # structured min/max + enumerated value domains + statistics (from ddi122)
-        pv = struct.get(nm) or struct.get(var.get("ID"))
-        if pv:
-            for sk, jk in (("min", "schema:minValue"), ("max", "schema:maxValue")):
-                if sk in pv["stats"]:
-                    try:
-                        item[jk] = float(pv["stats"][sk])
-                    except ValueError:
-                        pass
-            vdoms, idmap = _value_domains(base, pv["cats"], registry)
-            item.update(vdoms)
-            coll = _statistics_collection(base, item.get("@id", "#" + base),
-                                          pv["stats"], pv["cats"], idmap)
-            if coll is not None:
-                item["cdif:isDescribedBy_StatisticsCollection"] = coll
+        for sk, jk in (("min", "schema:minValue"), ("max", "schema:maxValue")):
+            if sk in pv["stats"]:
+                try:
+                    item[jk] = float(pv["stats"][sk])
+                except ValueError:
+                    pass
+        vdoms, idmap = _value_domains(base, pv["cats"], registry)
+        item.update(vdoms)
+        coll = _statistics_collection(base, item["@id"], pv["stats"], pv["cats"], idmap)
+        if coll is not None:
+            item["cdif:isDescribedBy_StatisticsCollection"] = coll
         vitems.append(item)
     if vitems:
         doc["schema:variableMeasured"] = vitems
