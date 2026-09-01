@@ -323,10 +323,53 @@ def parse_variables(root):
                 "freq": freq,
                 "missing": c.attrib.get("missing", "").upper() == "Y",
             })
+        loc = child(var, "location")
         out.append({"name": name, "id": vid, "intrvl": intrvl, "format": fmt,
                     "label": first_text(var, "labl"), "stats": stats,
-                    "cats": cats, "ncat": len(cats)})
+                    "cats": cats, "ncat": len(cats),
+                    # physical-mapping context: which distribution file this column
+                    # is in, and its field width. Document order (list order) is the
+                    # column position.
+                    "files": var.attrib.get("files", "").strip(),
+                    "width": loc.attrib.get("width") if loc is not None else None})
     return out
+
+
+def _var_signature(v):
+    """Identity of the InstanceVariable a <var> instance realizes: name +
+    label + datatype + interval + the enumerated category set. <var> instances
+    that share this signature across files are the same InstanceVariable (a DHS
+    identifier column like hhid recurs in ~40 files); they collapse to one node
+    referenced by each file's physical mapping."""
+    cats = tuple(sorted((c["value"] or "", c["label"] or "", c["text"] or "",
+                         bool(c["missing"])) for c in v["cats"]))
+    return (v["name"], v["label"] or "", v["format"], v["intrvl"], cats)
+
+
+def dedup_variables(variables):
+    """Collapse <var> instances with the same signature into one InstanceVariable.
+
+    Returns (unique, sig_to_id): `unique` is the list of representative var dicts
+    (each tagged with the assigned @id under key 'ivid'); `sig_to_id` maps a
+    signature to that @id so physical mappings can point at the shared node.
+    A name carrying more than one distinct definition (e.g. hhid) is
+    disambiguated with a ~N suffix.
+    """
+    sig_to_id, name_seen, unique = {}, {}, []
+    for v in variables:
+        if not v["name"]:
+            continue
+        sig = _var_signature(v)
+        if sig in sig_to_id:
+            continue
+        k = name_seen.get(v["name"], 0)
+        name_seen[v["name"]] = k + 1
+        ivid = f"#var/{v['name']}" if k == 0 else f"#var/{v['name']}~{k + 1}"
+        sig_to_id[sig] = ivid
+        rep = dict(v)
+        rep["ivid"] = ivid
+        unique.append(rep)
+    return unique, sig_to_id
 
 
 def _num(s):
@@ -485,13 +528,15 @@ def _statistics_collection(base, var_id, stats, cats, idmap):
             "cdif:indexedBy": [{"@id": var_id}], "cdif:has_Statistics": has}
 
 
-def build_variables(variables, registry):
+def build_variables(unique, registry):
+    """Build one InstanceVariable per deduplicated variable (see dedup_variables).
+    `unique` items carry their assigned @id under 'ivid'."""
     out = []
-    for v in variables:
+    for v in unique:
         if not v["name"]:
             continue
-        base = v["id"] or v["name"]
-        var_id = f"#{base}"
+        var_id = v["ivid"]
+        base = var_id.lstrip("#")   # e.g. "var/hhid" -> child @ids "#var/hhid/..."
         vm = {"@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
               "@id": var_id, "schema:name": v["name"]}
         if v["label"]:
@@ -539,18 +584,26 @@ def parse_files(root):
     return out
 
 
-def build_distributions(files):
-    """Map <fileDscr> to plain schema:DataDownload.
+def build_distributions(files, variables, sig_to_id):
+    """Map each <fileDscr> to a delimited tabular schema:DataDownload whose
+    cdif:hasPhysicalMapping lists its columns.
 
-    The distributions are NOT typed cdi:TabularTextDataSet: DDI 1.2.2 gives no
-    resolvable download URL and no column-to-variable physical mapping, so
-    claiming the tabular data-structure profile (which then requires
-    cdi:hasPhysicalMapping and cdi:isDelimited) would be over-claiming. Row and
-    column counts are kept as descriptive additionalProperty values instead.
+    DDI scopes each <var> to one file via the `files` attribute, and the vars
+    appear in column order; <location> carries only a field width (no byte
+    offsets), so the layout is treated as delimited rather than fixed-width.
+    DDI states no explicit column->variable link, so each column's
+    cdif:formats_InstanceVariable is recovered from the var's identity: it
+    points at the deduplicated InstanceVariable (sig_to_id) the column realizes.
     """
+    by_file = {}
+    for v in variables:
+        if v["name"]:
+            by_file.setdefault(v["files"], []).append(v)  # preserves column order
     out = []
     for fi in files:
-        dist = {"@type": ["schema:DataDownload"],
+        cols = by_file.get(fi["id"], [])
+        dtype = ["schema:DataDownload"] + (["cdi:TabularTextDataSet"] if cols else [])
+        dist = {"@type": dtype,
                 "schema:name": fi["name"] or fi["id"] or "data file",
                 "schema:contentUrl": NIL_MISSING}
         if fi["fileType"]:
@@ -564,6 +617,18 @@ def build_distributions(files):
                           "schema:name": "column count", "schema:value": fi["cols"]})
         if props:
             dist["schema:additionalProperty"] = props
+        if cols:
+            # assume delimited (no fixed-width offsets are present in DDI)
+            dist["cdi:isDelimited"] = True
+            mappings = []
+            for idx, v in enumerate(cols):
+                m = {"@type": ["cdif:PhysicalMapping"], "cdif:index": idx,
+                     "cdif:physicalDataType": XSD_TYPE_MAP.get(v["format"], "xsd:string")}
+                ivid = sig_to_id.get(_var_signature(v))
+                if ivid:
+                    m["cdif:formats_InstanceVariable"] = {"@id": ivid}
+                mappings.append(m)
+            dist["cdif:hasPhysicalMapping"] = mappings
         out.append(dist)
     return out
 
@@ -656,16 +721,20 @@ def convert(xml_path, explicit_id=None, base_uri="urn:ddi", detect=True,
         doc["dcterms:bibliographicCitation"] = citation
 
     variables = parse_variables(root)
-    coded_vars = sum(1 for v in variables if v["ncat"] > 0)
+    # Collapse <var> instances that realize the same InstanceVariable (same
+    # name+datatype+enumeration) across files into one node; each file's column
+    # points back at it via a physical mapping.
+    unique_vars, sig_to_id = dedup_variables(variables)
+    coded_vars = sum(1 for v in unique_vars if v["ncat"] > 0)
     # Shared, deduplicated <catgry> code lists become sibling @graph nodes;
     # they inherit the dataset's license and modification date.
     registry = CodeListRegistry(doc.get("schema:license") or [NIL_MISSING],
                                 doc.get("schema:dateModified") or "1900-01-01")
-    cdif_vars = build_variables(variables, registry)
+    cdif_vars = build_variables(unique_vars, registry)
     if cdif_vars:
         doc["schema:variableMeasured"] = cdif_vars
 
-    distributions = build_distributions(parse_files(root))
+    distributions = build_distributions(parse_files(root), variables, sig_to_id)
     if distributions:
         doc["schema:distribution"] = distributions
 
@@ -711,11 +780,15 @@ def build_catalog_record(docd, dataset_id, name, id_no, coded_vars,
         f"Metadata harvested from a {source_desc} document "
         f"(IDNo {id_no}) and converted to CDIF by the CDIF DDI converter. Study "
         f"citation/title, abstract, agents, spatial/temporal coverage, and "
-        f"access conditions mapped to discovery properties; {nvars} DDI <var> "
-        f"mapped to schema:variableMeasured / cdi:InstanceVariable; {ndists} "
-        f"<fileDscr> mapped to schema:distribution (schema:DataDownload; "
-        f"contentUrl set to the OGC nil 'missing' value where the source "
-        f"provides no resolvable download URL).{coded_note}"
+        f"access conditions mapped to discovery properties; DDI <var> elements "
+        f"deduplicated (by name + datatype + enumeration) to {nvars} "
+        f"schema:variableMeasured / cdi:InstanceVariable node(s); {ndists} "
+        f"<fileDscr> mapped to schema:distribution (schema:DataDownload, treated "
+        f"as delimited cdi:TabularTextDataSet; contentUrl set to the OGC nil "
+        f"'missing' value where the source provides no resolvable download URL) "
+        f"with cdif:hasPhysicalMapping columns whose cdif:formats_InstanceVariable "
+        f"links each column (by the DDI `files` attribute + var identity) to its "
+        f"shared InstanceVariable.{coded_note}"
     )
     rec = {
         "@type": ["schema:Dataset"],
