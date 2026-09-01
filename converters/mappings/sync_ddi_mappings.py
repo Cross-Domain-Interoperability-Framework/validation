@@ -204,19 +204,20 @@ def process(basename, check=False, expected=None, add_missing=False):
 
 
 DDICODEBOOK = os.path.normpath(os.path.join(HERE, "..", "DDICodebook"))
+DDI = os.path.normpath(os.path.join(HERE, "..", "DDI"))
 
 
 def find_xsds(override):
-    """Locate the two DDI Codebook XSDs (2.5 and 1.2.2) in ../DDICodebook,
+    """Locate the DDI Codebook XSDs (2.5 under ../DDICodebook, 1.2.2 under ../DDI),
     or take explicit --xsd overrides. Returns (path_2.5, path_1.2.2)."""
-    def find(patterns):
+    def find(base, patterns):
         for pat in patterns:
-            hits = sorted(glob.glob(os.path.join(DDICODEBOOK, pat)))
+            hits = sorted(glob.glob(os.path.join(base, pat)))
             if hits:
                 return hits[0]
         return None
-    p25 = override.get("ddi25") or find(["*2.5*odebook*.xsd", "*2_5*.xsd", "*codebook*.xsd"])
-    p122 = override.get("ddi122") or find(["*1-2-2*.xsd", "*Version1-2-2*.xsd", "*1_2_2*.xsd"])
+    p25 = override.get("ddi25") or find(DDICODEBOOK, ["*2.5*odebook*.xsd", "*2_5*.xsd", "*codebook*.xsd"])
+    p122 = override.get("ddi122") or find(DDI, ["*1-2-2*.xsd", "*Version1-2-2*.xsd", "*1_2_2*.xsd"])
     return p25, p122
 
 

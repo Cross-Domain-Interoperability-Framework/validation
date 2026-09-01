@@ -28,10 +28,12 @@ engine's structured variable content exactly.
 > handles it with `--version 25`; a Harvard-Dataverse-specific 2.5 variant is
 > `ddi_to_cdif.py`. The DDI-CDI (Lifecycle) converter will live elsewhere.
 
-[^xsd]: Heads-up: that canonical 1.2.2 XSD URL is **not reliably accessible**
-(icpsr.umich.edu returns HTTP 403 behind Cloudflare, and the schema is not in the
-DDI Alliance GitHub repos). A working copy can be sourced from the CESSDA
-Metadata Validator mirror
+[^xsd]: A working copy of the schema is **bundled here** as
+[`Version1-2-2.xsd`](Version1-2-2.xsd) (the `sync_ddi_mappings.py` completeness
+check reads it from this directory). Heads-up: the canonical URL is **not
+reliably accessible** — icpsr.umich.edu returns HTTP 403 behind Cloudflare, and
+the schema is not in the DDI Alliance GitHub repos; the bundled copy was sourced
+from the CESSDA Metadata Validator mirror
 ([`cessda/cessda.cmv.console`](https://github.com/cessda/cessda.cmv.console),
 `src/main/resources/schemas/nesstar/Version1-2-2.xsd`).
 

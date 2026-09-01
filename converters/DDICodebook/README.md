@@ -151,7 +151,8 @@ for anyone reproducing the comparison:
   `http://www.icpsr.umich.edu/DDI/Version1-2-2.xsd` is **not reliably
   accessible**: the host answers HTTP 403 behind a Cloudflare challenge, and the
   schema is **not** in the DDI Alliance GitHub repos (which cover the 2.x line
-  only). The copy used for the diff had to be sourced from a **third-party
-  mirror** bundled with the CESSDA Metadata Validator
-  ([`cessda/cessda.cmv.console`](https://github.com/cessda/cessda.cmv.console),
+  only). A working copy is **bundled with the 1.2.2 converter** at
+  [`../DDI/Version1-2-2.xsd`](../DDI/Version1-2-2.xsd) (sourced from a
+  **third-party mirror** — the CESSDA Metadata Validator,
+  [`cessda/cessda.cmv.console`](https://github.com/cessda/cessda.cmv.console),
   `src/main/resources/schemas/nesstar/Version1-2-2.xsd`).
