@@ -8,20 +8,20 @@ http://www.ddialliance.org/Specification/DDI-Codebook/2.5/XMLSchema/codebook.xsd
 see also the 2.6 documentation at
 https://docs.ddialliance.org/DDI-Codebook/2.6/xmlschema/) shares the Codebook
 element vocabulary with DDI 1.2.2 — the same study/citation, sumDscr, method,
-dataAccs, ``var`` and ``fileDscr`` element names. This converter therefore
-**reuses the extraction engine of** ``../DDI/ddi122_to_cdif.py`` verbatim
-(namespaces are stripped, so ``ddi:codebook:2_5`` is handled transparently) and
-only supplies the 2.5 source label for the catalog-record note.
+dataAccs, ``var`` and ``fileDscr`` element names.
 
-Like its 1.2.2 sibling it is source-agnostic (identifier from ``IDNo``, access
-URL from ``dataAccs/accsPlac``, ``nil:missing`` for absent download URLs) and
-decides profile scope per content via ``detect_conformance``. Full-datetime
-production dates (e.g. NADA's ``2026-03-18T04:00:00.000Z``) are truncated to a
-plain date by the shared engine.
+**This is a thin convenience wrapper.** 2.5 and 1.2.2 are handled by the one
+data-driven engine, ``../DDI/ddi_sssom_to_cdif.py``, which applies the full SSSOM
+crosswalk and delegates the structured value-domain / statistics / code-list /
+contributor / catalog-record / physical-mapping construction to
+``../DDI/ddi122_to_cdif.py``. This shim just calls that engine with
+``version="25"`` (namespaces are stripped, so ``ddi:codebook:2_5`` is handled
+transparently) and keeps a 2.5-named entry point for the DDICodebook directory.
+Running ``python ../DDI/ddi_sssom_to_cdif.py <file> --version 25`` is equivalent.
 
-Coded variables (``<var><catgry>`` code lists) are emitted as CDIF enumerated
-value domains (skos:ConceptScheme under a cdif:EnumerationDomain) with category
-and summary statistics — see the 1.2.2 converter engine.
+Like its 1.2.2 sibling it is source-agnostic: the ``@id`` is the access URL
+(``dataAccs/accsPlac/@URI``) when present, else a urn minted from ``IDNo`` (or
+pass ``--id``); profile scope is decided per content via ``detect_conformance``.
 
 Usage:
     python ddi25_to_cdif.py input.xml [-o output.json] [--id IRI] [--base-uri BASE]
@@ -32,16 +32,15 @@ import json
 import sys
 from pathlib import Path
 
-# Reuse the DDI-Codebook extraction engine from the 1.2.2 converter.
+# The single DDI -> CDIF engine lives in the sibling DDI directory.
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "DDI"))
-from ddi122_to_cdif import convert  # noqa: E402
-
-SOURCE_DESC = "DDI Codebook 2.5"
+from ddi_sssom_to_cdif import convert  # noqa: E402
 
 
 def main():
     ap = argparse.ArgumentParser(
-        description="Convert DDI Codebook 2.5 XML to CDIF JSON-LD")
+        description="Convert DDI Codebook 2.5 XML to CDIF JSON-LD "
+                    "(wrapper over the data-driven engine, --version 25)")
     ap.add_argument("input", help="Input DDI Codebook 2.5 XML file")
     ap.add_argument("-o", "--output", help="Output JSON file (default: stdout)")
     ap.add_argument("--id", dest="explicit_id",
@@ -50,17 +49,17 @@ def main():
                     help="Base for minting @id from IDNo when no access URL is "
                          "present (default: urn:ddi)")
     ap.add_argument("--static-conformance", action="store_true",
-                    help="Keep the built-in conformsTo instead of deriving it "
-                         "from content via detect_conformance")
+                    help="Skip content-derived conformsTo (detect_conformance)")
     args = ap.parse_args()
 
-    doc = convert(args.input, explicit_id=args.explicit_id,
-                  base_uri=args.base_uri, detect=not args.static_conformance,
-                  source_desc=SOURCE_DESC)
+    doc = convert(args.input, args.explicit_id, "25",
+                  detect=not args.static_conformance, base_uri=args.base_uri)
 
-    out = json.dumps(doc, indent=2, ensure_ascii=False) + "\n"
+    # Write exactly as ddi_sssom_to_cdif.py's own main() does, so this shim and
+    # the engine produce byte-identical files.
     if args.output:
-        Path(args.output).write_text(out, encoding="utf-8")
+        json.dump(doc, open(args.output, "w", encoding="utf-8"),
+                  indent=2, ensure_ascii=False)
         # Coded variables produce a {@graph:[dataset, ...codelists]} wrapper.
         ds = doc["@graph"][0] if "@graph" in doc else doc
         ncl = len(doc["@graph"]) - 1 if "@graph" in doc else 0
@@ -69,7 +68,7 @@ def main():
         extra = f", {ncl} code lists" if ncl else ""
         print(f"Written: {args.output} ({nv} vars, {nd} dists{extra})")
     else:
-        print(out)
+        print(json.dumps(doc, indent=2, ensure_ascii=False))
 
 
 if __name__ == "__main__":

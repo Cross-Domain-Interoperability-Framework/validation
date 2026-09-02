@@ -26,9 +26,10 @@ delegates the structured value-domain/statistics build to.
 
 > **DDI Codebook 2.5** is documented separately in
 > [`../DDICodebook/README.md`](../DDICodebook/README.md). 2.5 is an element-level
-> superset of 1.2.2, so `ddi25_to_cdif.py` reuses this engine and `ddi_sssom_to_cdif.py`
-> handles it with `--version 25`; a Harvard-Dataverse-specific 2.5 variant is
-> `ddi_to_cdif.py`. The DDI-CDI (Lifecycle) converter will live elsewhere.
+> superset of 1.2.2, so this same engine handles it with `--version 25`;
+> `../DDICodebook/ddi25_to_cdif.py` is a thin shim that just calls it that way.
+> A Harvard-Dataverse-specific 2.5 variant is `ddi_to_cdif.py`. The DDI-CDI
+> (Lifecycle) converter will live elsewhere.
 
 [^xsd]: A working copy of the schema is **bundled here** as
 [`Version1-2-2.xsd`](Version1-2-2.xsd) (the `sync_ddi_mappings.py` completeness

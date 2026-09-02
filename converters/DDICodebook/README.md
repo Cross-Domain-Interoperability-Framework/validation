@@ -42,12 +42,15 @@ removed or renamed. The two also share the same document skeleton
 namespace (`ddi:codebook:2_5` vs the ICPSR `http://www.icpsr.umich.edu/DDI`),
 which this converter neutralizes by stripping namespaces.
 
-**Consequence — this converter is a thin wrapper.** Because 2.5 ⊇ 1.2.2, the
-extraction engine written for 1.2.2 finds every element it looks for in a 2.5
-document. `ddi25_to_cdif.py` therefore imports and reuses
-[`../DDI/ddi122_to_cdif.py`](../DDI/ddi122_to_cdif.py) verbatim and only supplies
-the 2.5 source label (`"DDI Codebook 2.5"`) for the catalog-record note. **The
-full element → CDIF mapping is documented once, in
+**Consequence — 2.5 and 1.2.2 share one engine.** Because 2.5 ⊇ 1.2.2, the
+extractor written for 1.2.2 finds every element it looks for in a 2.5 document,
+so there is a **single** DDI → CDIF converter — the data-driven
+[`../DDI/ddi_sssom_to_cdif.py`](../DDI/ddi_sssom_to_cdif.py), which takes
+`--version 25` (namespaces are stripped, so `ddi:codebook:2_5` is transparent).
+`ddi25_to_cdif.py` here is just a **thin shim** that calls that engine with
+`version="25"`, keeping a 2.5-named entry point in this directory; it produces
+byte-identical output to `python ../DDI/ddi_sssom_to_cdif.py <file> --version 25`.
+**The full element → CDIF mapping is documented once, in
 [`../DDI/README.md`](../DDI/README.md)** — it applies identically here.
 
 The shared engine also handles the one 2.5-flavoured quirk seen in the wild:

@@ -56,6 +56,7 @@ from ddi122_to_cdif import (  # noqa: E402
     parse_variables as _parse_vars_struct, dedup_variables as _dedup_vars,
     _var_signature, CodeListRegistry, _value_domains, _statistics_collection,
     parse_files as _parse_files, build_distributions as _build_dists,
+    parse_access as _parse_access, first_text as _first_text, find as _find,
     NIL_MISSING,
 )
 
@@ -464,8 +465,23 @@ def load_mappings(version):
     return out
 
 
-def convert(xml_path, doi_url, version, detect=True, verbose=False):
+def derive_dataset_id(root, xml_path, base_uri="urn:ddi"):
+    """Dataset @id, source-agnostically, the same way ddi122_to_cdif.py does:
+    the access-location URL (dataAccs/accsPlac/@URI) when present, else a urn
+    minted from the study IDNo (or the filename as a last resort)."""
+    stdy = _find(root, "stdyDscr")
+    cite = _find(stdy, "citation") if stdy is not None else None
+    id_no = (_first_text(cite, "IDNo") or _first_text(root, "IDNo")
+             or os.path.splitext(os.path.basename(xml_path))[0])
+    access_url = _parse_access(stdy)[0] if stdy is not None else None
+    return access_url or f"{base_uri}:{id_no}"
+
+
+def convert(xml_path, doi_url=None, version="25", detect=True, verbose=False,
+            base_uri="urn:ddi"):
     root = ET.parse(xml_path).getroot()
+    if not doi_url:
+        doi_url = derive_dataset_id(root, xml_path, base_uri)
     maps = load_mappings(version)
 
     ds_by_leaf, var_by_leaf, dist_by_leaf = {}, {}, {}
@@ -715,13 +731,18 @@ def convert(xml_path, doi_url, version, detect=True, verbose=False):
 def main():
     ap = argparse.ArgumentParser(description="Data-driven DDI Codebook -> CDIF converter")
     ap.add_argument("xml")
-    ap.add_argument("--doi", required=True, help="dataset DOI/landing-page URL (@id)")
+    ap.add_argument("--doi", help="dataset DOI/landing-page URL (@id); when "
+                    "omitted it is derived from accsPlac/@URI or the study IDNo")
     ap.add_argument("--version", choices=["25", "122"], default="25")
+    ap.add_argument("--base-uri", default="urn:ddi",
+                    help="base for minting @id from IDNo when no --doi/access URL "
+                         "is present (default: urn:ddi)")
     ap.add_argument("-o", "--output")
     ap.add_argument("--no-detect", action="store_true")
     ap.add_argument("-v", "--verbose", action="store_true")
     a = ap.parse_args()
-    doc = convert(a.xml, a.doi, a.version, detect=not a.no_detect, verbose=a.verbose)
+    doc = convert(a.xml, a.doi, a.version, detect=not a.no_detect,
+                  verbose=a.verbose, base_uri=a.base_uri)
     out = a.output or (os.path.splitext(a.xml)[0] + "-cdif.json")
     json.dump(doc, open(out, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
     print(f"wrote {out}")
