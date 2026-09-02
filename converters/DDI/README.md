@@ -129,6 +129,31 @@ fully emitted:
 Both engines build these identically — `ddi122_to_cdif.py` in code, and
 `ddi_sssom_to_cdif.py` by delegating to it.
 
+### Contributors → Role / Organization / ContactPoint
+
+DDI encodes contributing agents in element *attributes* that a flat value
+crosswalk would drop, so the data-driven engine builds `schema:contributor`
+structurally (`build_contributors`) from the elements the SSSOM rows tag as
+contributors (`prodStmt/producer`, `distStmt/contact`, `dataAccs/useStmt/contact`
+— the `object_label` supplies the `schema:roleName`):
+
+- **`<producer role="…" affiliation="…">Name</producer>`** — each producer
+  becomes its own `schema:Role` → `schema:Organization` (`schema:name` = text,
+  `schema:description` = `@role`, `schema:affiliation` = `@affiliation`).
+- **`<contact affiliation="Org" email="…" URI="…">Purpose</contact>`**
+  (distStmt form) — contacts are grouped by organization into one
+  `schema:Organization` (`schema:name` = `@affiliation`) carrying one
+  `schema:ContactPoint` per contact (`schema:description` = text,
+  `schema:email` = `@email`, `schema:url` = `@URI`).
+- **`<contact affiliation="" URI="…">Org name</contact>`** (useStmt form) —
+  with no `@affiliation` the element text *is* the organization, so it names the
+  `schema:Organization` and `@URI` becomes its `schema:url`.
+
+The SSSOM rows *declare* which elements are contributors and their role; the
+Role/Organization/ContactPoint grammar — a nesting a flat subject→object table
+can't express — is code, like the value domains above. (`ddi122_to_cdif.py`'s
+hand-coded path keeps its simpler `dataCollector` → contributor mapping.)
+
 ### The SSSOM worksheets are the source of truth
 
 The 1.2.2 → CDIF crosswalk lives in the SSSOM worksheets under

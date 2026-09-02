@@ -47,7 +47,7 @@
       "object_id": "schema:contributor",
       "object_label": "producer",
       "object_json_path": "$.schema:contributor",
-      "comment": "DDI 2.5 <producer>: The person or organization with financial or administrative responsibility for the physical processes whereby the document was brought into existence. | DDI Codebook: person/organization responsible for producing the study/dataset. Schema:contributor[role = 'producer']"
+      "comment": "DDI 2.5 <producer>: The person or organization with financial or administrative responsibility for the physical processes whereby the document was brought into existence. | DDI Codebook: person/organization responsible for producing the study/dataset. Schema:contributor[role = 'producer']. | code-built (build_contributors): each <producer> -> schema:Role{roleName=producer}/schema:Organization{name=text, description=@role, affiliation=@affiliation}; the flat crosswalk cannot express this nesting."
     },
     "ddicb:stdyDscr.citation.prodStmt.copyright": {
       "predicate_id": "skos:exactMatch",
@@ -103,7 +103,7 @@
       "object_id": "schema:contributor",
       "object_label": "pointOfContact",
       "object_json_path": "$.schema:contributor",
-      "comment": "DDI 2.5 <contact>: Names and addresses of individuals responsible for the work who serve as resource persons for user inquiries. | DDI Codebook: contact person(s) for questions about the study/dataset. -->contributor[role=pointOfContact]"
+      "comment": "DDI 2.5 <contact>: Names and addresses of individuals responsible for the work who serve as resource persons for user inquiries. | DDI Codebook: contact person(s) for questions about the study/dataset. -->contributor[role=pointOfContact]. | code-built (build_contributors): <contact> elements grouped by organization -> schema:Role{roleName=pointOfContact}/schema:Organization{name=@affiliation} with one schema:ContactPoint{description=text, email=@email, url=@URI} per contact."
     },
     "ddicb:stdyDscr.citation.distStmt.depositr": {
       "predicate_id": "skos:closeMatch",
@@ -495,7 +495,7 @@
       "object_id": "schema:contributor",
       "object_label": "accessPointOfContact",
       "object_json_path": "$.schema:contributor",
-      "comment": "DDI 2.5 <contact>: Names and addresses of individuals responsible for the work who serve as resource persons for user inquiries. | DDI Codebook: use statement - contact person(s) for access questions. --> contributor[role = 'Access Point of Contact']"
+      "comment": "DDI 2.5 <contact>: Names and addresses of individuals responsible for the work who serve as resource persons for user inquiries. | DDI Codebook: use statement - contact person(s) for access questions. --> contributor[role = 'Access Point of Contact']. | code-built (build_contributors): with no @affiliation the <contact> text is the organization name -> schema:Role{roleName=accessPointOfContact}/schema:Organization{name=text, url=@URI}."
     },
     "ddicb:stdyDscr.dataAccs.useStmt.citReq": {
       "predicate_id": "skos:closeMatch",

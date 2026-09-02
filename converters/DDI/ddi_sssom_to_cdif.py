@@ -208,6 +208,79 @@ def shape_dataset(leaf, object_id, contribs):
     return concat([(lbl, " ".join(vs) if isinstance(vs, list) else vs) for lbl, vs in contribs])
 
 
+def build_contributors(root, maps, paths):
+    """Structured schema:contributor from DDI <producer>/<contact> elements,
+    preserving the XML attributes (role, affiliation, URI, email) that the flat
+    value pipeline would otherwise drop. The SSSOM rows declare which elements
+    are contributors and their roleName (object_label); the Role / Organization /
+    ContactPoint grammar -- which a flat crosswalk cannot express -- is built here.
+
+      <producer role="R" affiliation="A">Name</producer>
+        -> Role{roleName} / Organization{name=Name, description=R, affiliation=A};
+           each producer is its own organization.
+      <contact affiliation="Org" email="E" URI="U">Purpose</contact>   (distStmt form)
+        -> Role{roleName} / Organization{name=Org} carrying one ContactPoint
+           {description=Purpose, email=E, url=U} per contact; contacts that share
+           an organization merge into a single Organization.
+      <contact affiliation="" URI="U" email="E">Org name</contact>     (useStmt form)
+        -> Organization{name=Org name, url=U}: with no affiliation the element
+           text *is* the organization, so it names the org rather than a purpose.
+    """
+    roles = []
+    for p in paths:
+        role_name = maps[p]["object_label"] or "contributor"
+        tag = p.split(".")[-1]
+        elems = [n for n in descend(root, p.split(".")) if not isinstance(n, str)]
+        if tag == "producer":
+            for e in elems:
+                name = text_of(e)
+                if not name:
+                    continue
+                org = {"@type": ["schema:Organization"], "schema:name": name}
+                if (e.get("role") or "").strip():
+                    org["schema:description"] = e.get("role").strip()
+                if (e.get("affiliation") or "").strip():
+                    org["schema:affiliation"] = {"@type": ["schema:Organization"],
+                                                 "schema:name": e.get("affiliation").strip()}
+                roles.append({"@type": ["schema:Role"], "schema:roleName": role_name,
+                              "schema:contributor": org})
+        else:  # <contact>
+            by_org, order = {}, []
+            for e in elems:
+                text = text_of(e)
+                aff = (e.get("affiliation") or "").strip()
+                email = (e.get("email") or "").strip()
+                uri = (e.get("URI") or "").strip()
+                org_name = aff or text
+                if not org_name:
+                    continue
+                if org_name not in by_org:
+                    by_org[org_name] = {"@type": ["schema:Organization"],
+                                        "schema:name": org_name}
+                    order.append(org_name)
+                org = by_org[org_name]
+                if aff:
+                    cp = {"@type": ["schema:ContactPoint"]}
+                    if text:
+                        cp["schema:description"] = text
+                    if email:
+                        cp["schema:email"] = email
+                    if uri:
+                        cp["schema:url"] = uri
+                    if len(cp) > 1:
+                        org.setdefault("schema:contactPoint", []).append(cp)
+                else:
+                    if uri:
+                        org["schema:url"] = uri
+                    if email:
+                        org.setdefault("schema:contactPoint", []).append(
+                            {"@type": ["schema:ContactPoint"], "schema:email": email})
+            for org_name in order:
+                roles.append({"@type": ["schema:Role"], "schema:roleName": role_name,
+                              "schema:contributor": by_org[org_name]})
+    return roles or None
+
+
 def set_nested(container, keys, value):
     if value is None or not keys:
         return
@@ -438,6 +511,13 @@ def convert(xml_path, doi_url, version, detect=True, verbose=False):
                         pl = {"@type": ["schema:Place"]}
                         set_nested(pl, [k.replace("[*]", "") for k in sub.split(".")], v)
                         places.append(pl)
+            continue
+        if leaf == "schema:contributor":
+            # <producer>/<contact> agents: structured Role/Organization/
+            # ContactPoint (attributes preserved), not a flattened string.
+            val = build_contributors(root, maps, paths)
+            if val is not None:
+                doc["schema:contributor"] = val
             continue
         contribs = gather(root, paths, maps)
         prop = leaf.split(".")[-1].replace("[*]", "")
