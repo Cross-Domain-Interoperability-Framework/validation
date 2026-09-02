@@ -370,10 +370,10 @@ def build_activity(root, items, maps, skipped):
                 if val is not None:
                     frame[prop] = val
         elif keys and keys[0] == "schema:actionProcess":
-            hp = act.setdefault("schema:actionProcess", {"@type": ["schema:HowTo"]})
             sub = "schema:step" if keys[-1] == "schema:step" else "schema:description"
             val = concat(contribs)
-            if val:
+            if val:  # only create the HowTo when there is content to put in it
+                hp = act.setdefault("schema:actionProcess", {"@type": ["schema:HowTo"]})
                 hp[sub] = (hp[sub] + "\n" + val) if hp.get(sub) else val
         elif leafstr == "schema:agent":
             val = concat(contribs)
