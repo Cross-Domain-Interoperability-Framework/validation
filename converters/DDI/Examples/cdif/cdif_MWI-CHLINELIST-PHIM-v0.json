@@ -3,9 +3,17 @@
     "schema": "http://schema.org/",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "cdif": "https://w3id.org/cdif/",
-    "skos": "http://www.w3.org/2004/02/skos/core#"
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "cdifq": "http://crossdomaininteroperability.org/cdifq/",
+    "dqv": "http://www.w3.org/ns/dqv#",
+    "geo": "http://www.opengis.net/ont/geosparql#",
+    "oa": "http://www.w3.org/ns/oa#",
+    "bios": "https://bioschemas.org/"
   },
   "@graph": [
     {
@@ -14,16 +22,10 @@
         "schema:Dataset"
       ],
       "schema:name": "MALAWI CHOLERA LINELIST FROM AUGUST 2023 - 2025",
-      "schema:alternateName": "CHLINELIST 2024-2025",
-      "schema:identifier": {
-        "@type": [
-          "schema:PropertyValue"
-        ],
-        "schema:value": "MWI-CHLINELIST-PHIM-v0.1"
-      },
-      "schema:dateModified": "2024-08-01",
-      "schema:datePublished": "2024-08-01",
-      "schema:version": "V0.1 : Basic raw data, obtained from data entry",
+      "schema:alternateName": [
+        "CHLINELIST 2024-2025"
+      ],
+      "schema:identifier": "MWI-CHLINELIST-PHIM-v0.1",
       "schema:creator": {
         "@list": [
           {
@@ -34,26 +36,48 @@
           }
         ]
       },
-      "schema:publisher": {
-        "@type": [
-          "schema:Organization"
-        ],
-        "schema:name": "District Health management information system officers"
+      "schema:contributor": "District Health management information system officers Health facility data clerks",
+      "schema:copyrightNotice": "TBT",
+      "schema:isPartOf": {
+        "schema:name": "Other Household Health Survey [hh/hea]",
+        "schema:description": "A line list is a working table that contains essential information about each reported case. Each row represents a case. Each column represents a variable informing on specific characteristic about that case. Variables contains the characteristics of each case such as demographic, epidemiologic, clinical and laboratory information. This line list can be used to support the collection and reporting of the minimum standard case-based data to be recorded at the health facility level on all suspected cholera cases."
       },
-      "schema:contributor": [
+      "schema:version": "V0.1 : Basic raw data, obtained from data entry",
+      "schema:description": "notes: GENERAL INFORMATION: date of reporting, reporting health facility, Patient unique identifier PATIENT INFORMATION: demographics (name, age, sex), administrative residence details (Admin 1 to Admin 4, address), date of visit to health facility EPIDEMIOLOGICAL INFORMATION: epidemiological linkage (yes/no), vaccination status and number of doses, risk factors (water, food, travel, contact) TREATMENT AND OUTCOME DETAILS: treatment administered (e.g., Ringers lactate, ORS, antibiotics), place of outcome (facility, community), occupation of patient, additional comments for case context CHOLERA TESTING INFORMATION: Specimen collection details and dates, RDT results (serogroup identification), Laboratory testing (culture, PCR for serogroup and toxigenicity),Antimicrobial susceptibility testing results for multiple antibiotics (Azithromycin, Ciprofloxacin, Pefloxacin, Tetracycline, Doxycycline, Erythromycin)\ndescription: They use case based reporting form to collect this data\nall cholera cases in Malawi from 2023 - 2024",
+      "schema:measurementTechnique": "Face-to-face [f2f]",
+      "schema:conditionsOfAccess": [
         {
           "@type": [
-            "schema:Person"
+            "schema:CreativeWork"
           ],
-          "schema:name": "Health facility data clerks",
-          "schema:affiliation": {
-            "@type": [
-              "schema:Organization"
-            ],
-            "schema:name": "ministry of health"
-          }
+          "schema:name": "liabilityDisclaimer",
+          "schema:description": "\"This dataset is based on the IDSR Case Based Reporting Form used to record Cholera cases and tests by the Ministry of Health in Malawi. The form can be found in the archive for the dataset. This form is based on the general IDSR Case Based form in use in Malaw. Thisa data is the actual Dataset so it containsa does contain any sensitive information.This dataset is based on the IDSR Case Based Reporting Form used to record COVID-19 cases and tests by the Ministry of Health in Malawi. The form can be found in the archive for the dataset. This form is based on the general IDSR Case Based form in use in Malawi by adding COVID-19 specific fields from the WHO CRF for COVID-19. When developing this dataset we did not have access to the real data collected in Malawi. Hence this data does not contain any sensitive information.\""
         }
       ],
+      "schema:subjectOf": {
+        "schema:name": "MWI-CHLINELIST-PHIM-v0.1",
+        "schema:identifier": "DDI-MWI-CHLINELIST-PHIM-v0.1",
+        "schema:maintainer": {
+          "@type": [
+            "schema:Organization"
+          ],
+          "schema:name": "Francis Makina"
+        },
+        "schema:sdDatePublished": "2024-08-01",
+        "schema:description": "Nesstar Publisher",
+        "schema:version": "v0.1",
+        "dcterms:conformsTo": [
+          {
+            "@id": "https://w3id.org/cdif/core/1.1"
+          },
+          {
+            "@id": "https://w3id.org/cdif/discovery/1.1"
+          },
+          {
+            "@id": "https://w3id.org/cdif/data_description/1.1"
+          }
+        ]
+      },
       "schema:spatialCoverage": [
         {
           "@type": [
@@ -62,16 +86,23 @@
           "schema:name": "Malawi"
         }
       ],
-      "schema:temporalCoverage": [
-        "2023-08-01/2025-08-01"
+      "schema:keywords": [
+        {
+          "@type": [
+            "schema:DefinedTerm"
+          ],
+          "schema:name": "individual cholera case",
+          "schema:about": "Analysis Unit"
+        },
+        {
+          "@type": [
+            "schema:DefinedTerm"
+          ],
+          "schema:name": "Observation data/ratings [obs]",
+          "schema:about": "Data Kind"
+        }
       ],
-      "schema:measurementTechnique": [
-        "Face-to-face [f2f]",
-        "Observation data/ratings [obs]"
-      ],
-      "schema:license": [
-        "http://www.opengis.net/def/nil/OGC/0/missing"
-      ],
+      "schema:url": "urn:ddi:MWI-CHLINELIST-PHIM-v0.1",
       "schema:variableMeasured": [
         {
           "@type": [
@@ -79,9 +110,13 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/V1",
-          "schema:name": "V1",
           "schema:description": "Serial Number",
-          "cdi:intendedDataType": "xsd:decimal",
+          "schema:alternateName": [
+            "Serial Number"
+          ],
+          "": "Serial Number Serial Number 350 0 1 350 175.5 101.181",
+          "schema:name": "V1",
+          "cdi:intendedDataType": "xsd:string",
           "cdi:role": "MeasureComponent",
           "schema:minValue": 1.0,
           "schema:maxValue": 350.0,
@@ -185,8 +220,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/DISTRICT",
+          "schema:description": "surveyQuestion: District of Case Residence\nresponseUnit: Patient\nvariableDescription: The administrative district in Malawi where the patient resides",
+          "schema:alternateName": [
+            "District of Case Residence"
+          ],
+          "": "District of Case Residence Patient District of Case Residence 350 0 The administrative district in Malawi where the patient resides 1 Balaka 93 10 Thyolo 2 11 Zomba 7 2 Chitipa 78 3 Karonga 67 4 Lilongwe 1 5 Machinga 61 6 Mangochi 1 7 Mulanje 3 8 Mzimba North 34 9 Rumphi 3",
           "schema:name": "DISTRICT",
-          "schema:description": "District of Case Residence",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -440,8 +479,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/HEALTHFACILITYCTC",
+          "schema:description": "surveyQuestion: Name of the reporting health facility\nresponseUnit: Data clerk\nvariableDescription: The name of the health facility or Cholera Treatment Centre (CTC) where the patient was seen and reported.",
+          "schema:alternateName": [
+            "Name of the reporting health facility Name of the reporting health facility Name of the reporting health facility"
+          ],
+          "": "Name of the reporting health facility Name of the reporting health facility Name of the reporting health facility Data clerk Name of the reporting health facility 350 0 The name of the health facility or Cholera Treatment Centre (CTC) where the patient was seen and reported. 1 Atupele community hospital 8 10 Kameme 2 11 Kamwe Health Center 6 12 Kapenda 37 13 Kaporo rural hospital 11 14 Karonga district Hospital 15 15 Kaseye CH 3 16 Kasoba Health center 1 17 Kayelekera 2 18 Lumbadzi 1 19 MDH 101 2 Balaka DH 1 20 Machinga D H 2 21 Mahowe 1 22 Mlare Health Center 1 23 Mpata health center 13 24 Mulanje District Hospital 1 25 Mulanje Mission Hospital 2 26 Mwima 1 27 Namanolo 6 28 Nandumbo 12 29 Ngokwe 2 3 Chitipa D Hospital 17 30 Ntaja 2 31 Ntcheu 1 32 Nthalire 9 33 Nyungwe Health center 1 34 Rumphi DHO 31 35 Sadzi 4 36 Thekerani 1 37 Thondwe 1 38 Thyolo District Hospital 1 39 Utale 1 1 4 Comfort 1 40 Zilindo 1 41 comfort 1 5 Dziwe 25 6 Fulirwa 1 7 Fulirwa health center 1 8 Ifumbo 9 9 Iponga Health center 13",
           "schema:name": "HEALTHFACILITYCTC",
-          "schema:description": "Name of the reporting health facility Name of the reporting health facility Name of the reporting health facility",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -1175,8 +1218,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/SEX",
+          "schema:description": "surveyQuestion: Sex at birth\nresponseUnit: Patient\nvariableDescription: The biological sex of the patient.",
+          "schema:alternateName": [
+            "Sex at birth"
+          ],
+          "": "Sex at birth Patient Sex at birth 350 0 The biological sex of the patient. 1 Male 167 2 Female 183",
           "schema:name": "SEX",
-          "schema:description": "Sex at birth",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -1286,9 +1333,13 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/AGE",
+          "schema:description": "surveyQuestion: Age in years\nresponseUnit: Patient\nvariableDescription: The age of the patient at the time of reporting",
+          "schema:alternateName": [
+            "Age in years"
+          ],
+          "": "Age in years Patient Age in years 0 90 28.461 20.4 The age of the patient at the time of reporting",
           "schema:name": "AGE",
-          "schema:description": "Age in years",
-          "cdi:intendedDataType": "xsd:decimal",
+          "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "schema:minValue": 0.0,
           "schema:maxValue": 90.0,
@@ -1368,9 +1419,13 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/AGEGROUP",
+          "schema:description": "surveyQuestion: A standardized categorization of the individual's age\nresponseUnit: System\nvariableDescription: The age category of the patient",
+          "schema:alternateName": [
+            "A standardized categorization of the individual's age"
+          ],
+          "": "A standardized categorization of the individual's age System A standardized categorization of the individual's age 60 60 60 The age category of the patient",
           "schema:name": "AGEGROUP",
-          "schema:description": "A standardized categorization of the individual's age",
-          "cdi:intendedDataType": "xsd:decimal",
+          "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "schema:minValue": 60.0,
           "schema:maxValue": 60.0,
@@ -1436,8 +1491,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/VILLAGE",
+          "schema:description": "surveyQuestion: The specific village or community where the case is coming from\nresponseUnit: Patient\nvariableDescription: The village or local community of residence for the patient.",
+          "schema:alternateName": [
+            "The specific village or community where the case is coming from"
+          ],
+          "": "The specific village or community where the case is coming from Patient The specific village or community where the case is coming from The village or local community of residence for the patient.",
           "schema:name": "VILLAGE",
-          "schema:description": "The specific village or community where the case is coming from",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent"
         },
@@ -1447,8 +1506,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/TA",
+          "schema:description": "surveyQuestion: Admin level (e.g.,traitional authority, ward, municipality sector) of residence\nresponseUnit: Patient\nvariableDescription: The Traditional Authority area within the district where the patient resides. This is a key local administrative unit in Malawi.",
+          "schema:alternateName": [
+            "Admin level (e.g.,traitional authority, ward, municipality sector) of residence"
+          ],
+          "": "Admin level (e.g.,traitional authority, ward, municipality sector) of residence Patient Admin level (e.g.,traitional authority, ward, municipality sector) of residence 350 0 The Traditional Authority area within the district where the patient resides. This is a key local administrative unit in Malawi. 1 Amidu 25 10 Kilupula 11 11 Kyungu 32 12 Liwonde 2 13 Makwangwala 1 14 Mbawera 1 15 Mbesa 1 16 Mlomba 1 17 Mlumbe 3 18 Mtwalo 32 19 Mwakaboko 21 2 Chikowi 4 20 Mwaulambia 4 21 Mwaulambya 58 22 Mwirang'ombe 1 23 Ngokwe 3 24 Njema 1 25 Nkaya 2 26 Nkokwe 1 27 Nkoola 1 28 Nkula 1 29 Nsamala 53 3 Chikumbu 1 30 Nsanama 6 31 Nthalire 8 32 Nthengatenga 1 33 Sale 1 34 Samala 2 35 Sitola 33 36 Tanzania 4 37 Wasambo 2 38 Zambia 1 39 chikulamayembe 3 4 Chikweo 2 40 jalavikuwa 1 41 kalembo 12 42 mtwalo 1 5 Chimaliro/SubTA Chidothe 1 6 Chitukula 1 7 Kameme 2 8 Kapoloma 1 9 Kawinga 8",
           "schema:name": "TA",
-          "schema:description": "Admin level (e.g.,traitional authority, ward, municipality sector) of residence",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -2198,8 +2261,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/COUNTRYOFORIGIN",
+          "schema:description": "surveyQuestion: The country/district of permanent residence\nresponseUnit: Patient\nvariableDescription: The country of permanent residence of the patient",
+          "schema:alternateName": [
+            "The country/district of permanent residence"
+          ],
+          "": "The country/district of permanent residence Patient The country/district of permanent residence 350 0 The country of permanent residence of the patient 1 malawi 344 2 Mozambique 1 3 Tanzania 4 4 Zambia 1",
           "schema:name": "COUNTRYOFORIGIN",
-          "schema:description": "The country/district of permanent residence",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -2341,8 +2408,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/RDTNegativepositive",
+          "schema:description": "surveyQuestion: the Rapid Diagnostic Test (RDT)\nresponseUnit: Lab Technicians",
+          "schema:alternateName": [
+            "the Rapid Diagnostic Test (RDT)"
+          ],
+          "": "the Rapid Diagnostic Test (RDT) Lab Technicians the Rapid Diagnostic Test (RDT) 0 0 the Rapid Diagnostic Test (RDT)",
           "schema:name": "RDTNegativepositive",
-          "schema:description": "the Rapid Diagnostic Test (RDT)",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdif:isDescribedBy_StatisticsCollection": {
@@ -2389,8 +2460,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/CULTURENegativepositive",
+          "schema:description": "surveyQuestion: Culture and seroagglutination result\nresponseUnit: Lab Technician",
+          "schema:alternateName": [
+            "Culture and seroagglutination result"
+          ],
+          "": "Culture and seroagglutination result Lab Technician Culture and seroagglutination result 332 0 Culture and seroagglutination result 1 NA 73 2 Negative 8 3 Not done 71 4 Positive 180",
           "schema:name": "CULTURENegativepositive",
-          "schema:description": "Culture and seroagglutination result",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -2532,8 +2607,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/EPILINKYesNo",
+          "schema:description": "surveyQuestion: epidemiological link to another confirmed or probable case\nresponseUnit: System\nvariableDescription: Indicates whether the case is epidemiologically linked to another confirmed case",
+          "schema:alternateName": [
+            "epidemiological link to another confirmed or probable case"
+          ],
+          "": "epidemiological link to another confirmed or probable case System epidemiological link to another confirmed or probable case 346 0 Indicates whether the case is epidemiologically linked to another confirmed case 1 Index 1 2 NA 10 4 No 136 5 Unknown 1 6 yes 198",
           "schema:name": "EPILINKYesNo",
-          "schema:description": "epidemiological link to another confirmed or probable case",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -2691,8 +2770,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/STATUSSuspectConfirmed",
+          "schema:description": "surveyQuestion: classification of the case based on case definition, indicating whether the individual is a suspected case or a confirmed case\nresponseUnit: Lab Technicians\nvariableDescription: The case classification based on laboratory results or clinical",
+          "schema:alternateName": [
+            "classification of the case based on case definition, indicating whether the individual is a suspected case or a confirmed case"
+          ],
+          "": "classification of the case based on case definition, indicating whether the individual is a suspected case or a confirmed case Lab Technicians classification of the case based on case definition, indicating whether the individual is a suspected case or a confirmed case 347 0 The case classification based on laboratory results or clinical 1 Suspected 16 2 confirmed 331",
           "schema:name": "STATUSSuspectConfirmed",
-          "schema:description": "classification of the case based on case definition, indicating whether the individual is a suspected case or a confirmed case",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -2802,8 +2885,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/OUTBREAKCASES",
+          "schema:description": "surveyQuestion: The number of confirmed or suspected outbreak-related cases reported from a specific location\nresponseUnit: Lab Technicians",
+          "schema:alternateName": [
+            "The number of confirmed or suspected outbreak-related cases reported from a specific location"
+          ],
+          "": "The number of confirmed or suspected outbreak-related cases reported from a specific location Lab Technicians The number of confirmed or suspected outbreak-related cases reported from a specific location 350 0 The number of confirmed or suspected outbreak-related cases reported from a specific location 1 NA 14 2 No 30 3 Yes 306",
           "schema:name": "OUTBREAKCASES",
-          "schema:description": "The number of confirmed or suspected outbreak-related cases reported from a specific location",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -2929,8 +3016,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/OUTCOMEDeadAlive",
+          "schema:description": "surveyQuestion: The final status of the patient after the illness or treatment\nresponseUnit: Nurses, Clinicians",
+          "schema:alternateName": [
+            "The final status of the patient after the illness or treatment"
+          ],
+          "": "The final status of the patient after the illness or treatment Nurses, Clinicians The final status of the patient after the illness or treatment The final status of the patient after the illness or treatment",
           "schema:name": "OUTCOMEDeadAlive",
-          "schema:description": "The final status of the patient after the illness or treatment",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent"
         },
@@ -2940,8 +3031,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/PLACEOFOUTCOME",
+          "schema:description": "surveyQuestion: The location where the patient is alive or died\nresponseUnit: Data Clerks",
+          "schema:alternateName": [
+            "The location where the patient is alive or died"
+          ],
+          "": "The location where the patient is alive or died Data Clerks The location where the patient is alive or died The location where the patient is alive or died",
           "schema:name": "PLACEOFOUTCOME",
-          "schema:description": "The location where the patient is alive or died",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent"
         },
@@ -2951,8 +3046,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/VACCINATIONSTATUS",
+          "schema:description": "surveyQuestion: The vaccination status of the case\nresponseUnit: Health Assistant Surveillance",
+          "schema:alternateName": [
+            "The vaccination status of the case"
+          ],
+          "": "The vaccination status of the case Health Assistant Surveillance The vaccination status of the case 344 0 The vaccination status of the case 1 25-Jan-25 2 3 Not received 5 5 Unknown 60 6 Unvaccinated 274 7 Vaccinated 3",
           "schema:name": "VACCINATIONSTATUS",
-          "schema:description": "The vaccination status of the case",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -3110,8 +3209,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/NUMBEROFDOSESOFVACCINE",
+          "schema:description": "surveyQuestion: Number of vaccination doses the case received\nresponseUnit: Health Surveillance Assistant",
+          "schema:alternateName": [
+            "Number of vaccination doses the case received"
+          ],
+          "": "Number of vaccination doses the case received Health Surveillance Assistant Number of vaccination doses the case received 344 0 Number of vaccination doses the case received 1 First dose 4 3 NA 339 4 Unknown 1",
           "schema:name": "NUMBEROFDOSESOFVACCINE",
-          "schema:description": "Number of vaccination doses the case received",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -3237,8 +3340,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/INPATIENTOUTPATIENT",
+          "schema:description": "surveyQuestion: IN-the type of healthcare encounter — whether the individual was admitted as an inpatient or received care without admission (outpatient)\nresponseUnit: Nurses, Clinicians",
+          "schema:alternateName": [
+            "IN-the type of healthcare encounter — whether the individual was admitted as an inpatient or received care without admission (outpatient)"
+          ],
+          "": "IN-the type of healthcare encounter — whether the individual was admitted as an inpatient or received care without admission (outpatient) Nurses, Clinicians IN-the type of healthcare encounter — whether the individual was admitted as an inpatient or received care without admission (outpatient) 344 0 IN-the type of healthcare encounter — whether the individual was admitted as an inpatient or received care without admission (outpatient) 1 Inpatient 316 2 NA 18 3 Outpatient 10",
           "schema:name": "INPATIENTOUTPATIENT",
-          "schema:description": "IN-the type of healthcare encounter — whether the individual was admitted as an inpatient or received care without admission (outpatient)",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -3364,8 +3471,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/COMMENTS",
-          "schema:name": "COMMENTS",
           "schema:description": "Any other comment",
+          "schema:alternateName": [
+            "Any other comment"
+          ],
+          "": "Any other comment Any other comment",
+          "schema:name": "COMMENTS",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent"
         },
@@ -3375,9 +3486,13 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/SERIALNO",
+          "schema:description": "surveyQuestion: This is a case' Unique Indentifier\nvariableDescription: This is a case' Unique Indentifier of the case",
+          "schema:alternateName": [
+            "This is a case' Unique Indentifier"
+          ],
+          "": "This is a case' Unique Indentifier This is a case' Unique Indentifier 708 0 1 704 353.072 202.678 This is a case' Unique Indentifier of the case",
           "schema:name": "SERIALNO",
-          "schema:description": "This is a case' Unique Indentifier",
-          "cdi:intendedDataType": "xsd:decimal",
+          "cdi:intendedDataType": "xsd:string",
           "cdi:role": "MeasureComponent",
           "schema:minValue": 1.0,
           "schema:maxValue": 704.0,
@@ -3481,8 +3596,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/DISTRICT~2",
+          "schema:description": "surveyQuestion: District of Case Residence\nvariableDescription: District of Case Patient reside",
+          "schema:alternateName": [
+            "District of Case Residence"
+          ],
+          "": "District of Case Residence District of Case Residence 708 0 District of Case Patient reside 1 BLANTYRE 64 10 Mulanje 127 11 Mwanza 46 12 Mzimba South 13 13 Nsanje 105 14 Ntcheu 7 15 Phalombe 1 16 Thyolo 25 2 Balaka 2 3 Blantyre 13 4 Chikwawa 54 5 Chitipa 1 6 Dedza 3 7 Karonga 20 8 Lilongwe 186 9 Mangochi 41",
           "schema:name": "DISTRICT",
-          "schema:description": "District of Case Residence",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -3816,8 +3935,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/HEALTHFACILITYCTC~2",
+          "schema:description": "surveyQuestion: Name of the reporting health facility Name of the reporting health facility Name of the reporting health facility\nvariableDescription: Name of the reporting health facility",
+          "schema:alternateName": [
+            "Name of the reporting health facility Name of the reporting health facility Name of the reporting health facility"
+          ],
+          "": "Name of the reporting health facility Name of the reporting health facility Name of the reporting health facility Name of the reporting health facility Name of the reporting health facility Name of the reporting health facility 708 0 Name of the reporting health facility 1 Bwaila 186 10 Dzenje Health Centre 1 11 Gaga 4 12 Jenda RH 13 13 Kakoma 22 14 Kalemba 4 15 Kaporo rural hospital 1 16 Karonga District Hospital 9 17 Kasinje 4 18 Kayelekera health center 3 19 L 1 2 Chabvala 1 20 Lake View 2 21 Lundu 1 22 M'biza Health Centre 2 23 Maganga 2 24 Majete 2 11 25 Makanjira 39 26 Mapanga 1 27 Milonde Health Centre 1 28 Mimosa Health Centre 1 29 Misomali 1 3 Chapananga 11 30 Mitengo 3 31 Mpala Health Centre 2 32 Mulanje District Hospital 10 33 Mulomba Health Centre 98 34 Muloza Health Centre 1 35 Mwanza DHO 44 36 Mwenilondo 1 37 NDH 10 38 Namanolo 1 39 Namulenga Health Centre 1 4 Chikwawa District Hospital 4 40 Ndamera 2 41 Nkhataombere 10 42 Nkumaniza 1 43 Nsanje District Hospital 1 44 Ntcheu 1 45 Nthalire 1 46 Nyamithuthu 14 47 Nyungwe health center 1 48 Osiyana 2 49 Phalombe district hospital 1 5 Chileka 6 50 Phokera 37 51 QECH 64 52 QUEENS 1 53 Sangiro health center 4 54 Sankhulani 14 55 Sorgin 2 56 SouthLunzu 3 57 Tengani 18 58 Thambani H/C 2 59 Thekerani 2 6 Chilomoni 2 60 Thyolo District Hospital 9 61 Wiliro health center 1 62 mbera 1 7 Chinyama Health Centre 7 8 Community Death 2 9 Dedza disrict hospital 3",
           "schema:name": "HEALTHFACILITYCTC",
-          "schema:description": "Name of the reporting health facility Name of the reporting health facility Name of the reporting health facility",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -4887,8 +5010,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/SEX~2",
+          "schema:description": "surveyQuestion: Sex at birth\nvariableDescription: Sex at birth of the petient",
+          "schema:alternateName": [
+            "Sex at birth"
+          ],
+          "": "Sex at birth Sex at birth 708 0 Sex at birth of the petient 1 FEMALE 379 2 MALE 329",
           "schema:name": "SEX",
-          "schema:description": "Sex at birth",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -4998,8 +5125,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/AGE~2",
+          "schema:description": "surveyQuestion: Age in years\nvariableDescription: Age of the patient in years",
+          "schema:alternateName": [
+            "Age in years"
+          ],
+          "": "Age in years Age in years Age of the patient in years",
           "schema:name": "AGE",
-          "schema:description": "Age in years",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent"
         },
@@ -5009,8 +5140,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/AGEGROUP~2",
+          "schema:description": "surveyQuestion: A standardized categorization of the individual's age\nvariableDescription: A standardized categorization of the Patientl's age",
+          "schema:alternateName": [
+            "A standardized categorization of the individual's age"
+          ],
+          "": "A standardized categorization of the individual's age A standardized categorization of the individual's age A standardized categorization of the Patientl's age",
           "schema:name": "AGEGROUP",
-          "schema:description": "A standardized categorization of the individual's age",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent"
         },
@@ -5020,8 +5155,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/TA~2",
-          "schema:name": "TA",
           "schema:description": "Admin level (e.g.,traitional authority, ward, municipality sector) of residence",
+          "schema:alternateName": [
+            "Admin level (e.g.,traitional authority, ward, municipality sector) of residence"
+          ],
+          "": "Admin level (e.g.,traitional authority, ward, municipality sector) of residence Admin level (e.g.,traitional authority, ward, municipality sector) of residence 708 0 Admin level (e.g.,traitional authority, ward, municipality sector) of residence 1 Aluvado 1 10 Chitukula 26 11 Elenewo 2 12 Ganya 4 13 Govati 1 15 JUMA 1 16 KAPENI 50 17 KUNTAJA 1 18 Kaledzere 6 19 Kalumba 1 2 CHIKUMBU 2 20 Kalumbu 1 21 Kanduku 5 22 Kangula 1 23 Kapeni 1 24 Kaphuka-Salima 1 25 Kapichi 4 26 Kasisi 1 27 Khwethemule 1 28 Kuntaja 4 29 Kunthembwe 3 3 Chadza 1 30 Kyungu 15 31 Liwonde 1 32 Lulanga 2 33 Lundu 1 34 MACHINJIRI 10 35 Mabilabo 13 36 Mabuka 2 37 Machinjiri 4 38 Makanjira 39 39 Makwangwala 1 4 Chapananga 48 40 Malemia 5 41 Malili 29 42 Maseya 1 43 Mbawera 1 44 Mbenje 25 45 Mboola 2 46 Mlilima 2 47 Mlolo 1 48 Mlonyeni 2 49 Moatiz 3 5 Chilombe 2 50 Mozambique 63 51 Mphuka 2 52 Mwirang'ombe 1 53 NSOMBA 3 54 Nanchidwa 1 55 Nchilamwera 4 56 Ndakwera 1 57 Ndamera 1 58 Ngewa 1 59 Njema 1 6 Chimalizen 1 60 Njewa 5 61 Njolomole 2 62 Nkalo 1 63 Nkanda 90 64 Nkhumba 4 65 Nsabwe 7 66 Nsamala 2 67 Nthache 27 68 Nthalire 1 69 Nyachikadza 1 7 Chimutu 4 70 Phweremwe 1 71 SUNGANIMZERU 1 72 Tengani 8 73 Thamanda 1 74 Tombondiya 6 75 Tsabango 115 76 Wasambo 4 77 Zalimba 5 78 Zobue 5 8 Chindio 6 9 Chindiyo 6",
+          "schema:name": "TA",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -6331,8 +6470,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/COUNTRYDISTRICTOFORIGIN",
+          "schema:description": "surveyQuestion: The country/district of permanent residence\nvariableDescription: The country/district of permanent residence of the Patient",
+          "schema:alternateName": [
+            "The country/district of permanent residence"
+          ],
+          "": "The country/district of permanent residence The country/district of permanent residence 708 0 The country/district of permanent residence of the Patient 1 Malawi 608 2 Mozambique 100",
           "schema:name": "COUNTRYDISTRICTOFORIGIN",
-          "schema:description": "The country/district of permanent residence",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -6442,8 +6585,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/RDTNegativepositive~2",
+          "schema:description": "surveyQuestion: This refers to the result of the Rapid Diagnostic Test (RDT)\nresponseUnit: Lab technicians",
+          "schema:alternateName": [
+            "This refers to the result of the Rapid Diagnostic Test (RDT)"
+          ],
+          "": "This refers to the result of the Rapid Diagnostic Test (RDT) Lab technicians This refers to the result of the Rapid Diagnostic Test (RDT) 704 0 This refers to the result of the Rapid Diagnostic Test (RDT) 1 Negative 180 2 Not done 185 3 RDT positive 1 4 positive 338",
           "schema:name": "RDTNegativepositive",
-          "schema:description": "This refers to the result of the Rapid Diagnostic Test (RDT)",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -6585,8 +6732,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/CULTURENegativepositive~2",
+          "schema:description": "surveyQuestion: Culture and seroagglutination result\nresponseUnit: Lab techinicians",
+          "schema:alternateName": [
+            "Culture and seroagglutination result"
+          ],
+          "": "Culture and seroagglutination result Lab techinicians Culture and seroagglutination result 704 0 Culture and seroagglutination result 1 Culture not done 1 2 negative 34 3 Not done 501 4 positive 141 5 Sample not taken 7 6 Waiting for culture results 18 7 Waiting for results 2",
           "schema:name": "CULTURENegativepositive",
-          "schema:description": "Culture and seroagglutination result",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -6776,8 +6927,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/EPILINKYesNo~2",
+          "schema:description": "surveyQuestion: epidemiological link to another confirmed or probable case\nresponseUnit: system",
+          "schema:alternateName": [
+            "epidemiological link to another confirmed or probable case"
+          ],
+          "": "epidemiological link to another confirmed or probable case system epidemiological link to another confirmed or probable case 707 0 epidemiological link to another confirmed or probable case 1 No 475 2 yes 232",
           "schema:name": "EPILINKYesNo",
-          "schema:description": "epidemiological link to another confirmed or probable case",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -6887,8 +7042,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/STATUSSuspectConfirmed~2",
+          "schema:description": "surveyQuestion: classification of the case based on case definition, indicating whether the individual is a suspected case or a confirmed case\nresponseUnit: system",
+          "schema:alternateName": [
+            "classification of the case based on case definition, indicating whether the individual is a suspected case or a confirmed case"
+          ],
+          "": "classification of the case based on case definition, indicating whether the individual is a suspected case or a confirmed case system classification of the case based on case definition, indicating whether the individual is a suspected case or a confirmed case 708 0 classification of the case based on case definition, indicating whether the individual is a suspected case or a confirmed case 1 Suspect 369 2 confirmed 339",
           "schema:name": "STATUSSuspectConfirmed",
-          "schema:description": "classification of the case based on case definition, indicating whether the individual is a suspected case or a confirmed case",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -6998,8 +7157,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/OUTCOMEDeadAlive~2",
+          "schema:description": "surveyQuestion: The final status of the patient after the illness or treatment\nresponseUnit: Nurses, Clinicians",
+          "schema:alternateName": [
+            "The final status of the patient after the illness or treatment"
+          ],
+          "": "The final status of the patient after the illness or treatment Nurses, Clinicians The final status of the patient after the illness or treatment 707 0 The final status of the patient after the illness or treatment 1 Died 7 2 alive 700",
           "schema:name": "OUTCOMEDeadAlive",
-          "schema:description": "The final status of the patient after the illness or treatment",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -7109,8 +7272,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/PLACEOFDEATH",
+          "schema:description": "surveyQuestion: The location where the patient died\nresponseUnit: Data clerks",
+          "schema:alternateName": [
+            "The location where the patient died"
+          ],
+          "": "The location where the patient died Data clerks The location where the patient died 704 0 The location where the patient died 1 Community 3 2 Health facility 2 3 N/A 698 4 Unknown 1",
           "schema:name": "PLACEOFDEATH",
-          "schema:description": "The location where the patient died",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -7252,8 +7419,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/OUTCOMEDATE",
+          "schema:description": "surveyQuestion: The date on which the final outcome\nresponseUnit: Data clerks",
+          "schema:alternateName": [
+            "The date on which the final outcome"
+          ],
+          "": "The date on which the final outcome Data clerks The date on which the final outcome The date on which the final outcome",
           "schema:name": "OUTCOMEDATE",
-          "schema:description": "The date on which the final outcome",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent"
         },
@@ -7263,8 +7434,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/VACCINATIONSTATUS~2",
+          "schema:description": "surveyQuestion: The vaccination status of the case\nresponseUnit: Health Surveillance Assistant",
+          "schema:alternateName": [
+            "The vaccination status of the case"
+          ],
+          "": "The vaccination status of the case Health Surveillance Assistant The vaccination status of the case 708 0 The vaccination status of the case 1 Unknown 300 2 Unvaccinated 362 3 vaccinated 46",
           "schema:name": "VACCINATIONSTATUS",
-          "schema:description": "The vaccination status of the case",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -7390,8 +7565,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/NUMBEROFDOSESOFVACCINE~2",
+          "schema:description": "surveyQuestion: Number of vaccination doses the case received\nresponseUnit: Health Surveillance Assitant",
+          "schema:alternateName": [
+            "Number of vaccination doses the case received"
+          ],
+          "": "Number of vaccination doses the case received Health Surveillance Assitant Number of vaccination doses the case received 708 0 Number of vaccination doses the case received 1 N/A 673 2 Unknown 29 3 nil 6",
           "schema:name": "NUMBEROFDOSESOFVACCINE",
-          "schema:description": "Number of vaccination doses the case received",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -7517,8 +7696,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/TypeofCase",
+          "schema:description": "surveyQuestion: A department where the case was captured\nresponseUnit: Nurses, Clinicians",
+          "schema:alternateName": [
+            "A department where the case was captured"
+          ],
+          "": "A department where the case was captured Nurses, Clinicians A department where the case was captured 681 0 A department where the case was captured 1 N/A 3 2 Outpatient 93 3 inpatient 585",
           "schema:name": "TypeofCase",
-          "schema:description": "A department where the case was captured",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -7644,8 +7827,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/V29",
+          "schema:description": "surveyQuestion: SERIAL NO\nresponseUnit: System",
+          "schema:alternateName": [
+            "SERIAL NO"
+          ],
+          "": "SERIAL NO System SERIAL NO 27 0 1 AGE 1 10 DISTRICT 1 12 EPI LINK Yes/No 1 13 HEALTH FACILITY/CTC 1 14 NAME 1 15 NUMBER OF DOSES OF VACCINE 1 16 OCCUPATION 1 17 OUTCOME (Dead/Alive) 1 18 OUTCOME DATE 1 2 AGE GROUP 1 20 PLACE OF DEATH 1 21 RDT Negative/positive 1 22 RISK FACTORS 1 23 SEX 1 24 SPECIMEN DATE 1 25 STATUS (Suspect/Confirmed 1 26 TA 1 27 TREATMENT 1 28 Type of Case 1 29 VACCINATION STATUS 1 3 COMMENTS 1 30 VILLAGE 1 4 COUNTRY/DISTRICT OF ORIGIN 1 5 CULTURE Negative/positive 1 6 DATE OF LAST VACCINE DOSE 1 7 DATE OF ONSET 1 8 DATE SEEN AT HEALTH FACILITY 1",
           "schema:name": "V29",
-          "schema:description": "SERIAL NO",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -8157,227 +8344,10 @@
             "cdi:TabularTextDataSet"
           ],
           "schema:name": "Malawi Cholera Linelist from August 2024-2025(Cholera cases from Aug_2024 to ).NSDstat",
-          "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/missing",
-          "schema:description": "Source file type: Nesstar 200801",
-          "schema:additionalProperty": [
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:name": "row count",
-              "schema:value": 350
-            },
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:name": "column count",
-              "schema:value": 20
-            }
-          ],
-          "cdi:isDelimited": true,
-          "cdif:hasPhysicalMapping": [
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 0,
-              "cdif:physicalDataType": "xsd:decimal",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/V1"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 1,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/DISTRICT"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 2,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/HEALTHFACILITYCTC"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 3,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/SEX"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 4,
-              "cdif:physicalDataType": "xsd:decimal",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/AGE"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 5,
-              "cdif:physicalDataType": "xsd:decimal",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/AGEGROUP"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 6,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/VILLAGE"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 7,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/TA"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 8,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/COUNTRYOFORIGIN"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 9,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/RDTNegativepositive"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 10,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/CULTURENegativepositive"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 11,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/EPILINKYesNo"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 12,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/STATUSSuspectConfirmed"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 13,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/OUTBREAKCASES"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 14,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/OUTCOMEDeadAlive"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 15,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/PLACEOFOUTCOME"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 16,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/VACCINATIONSTATUS"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 17,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/NUMBEROFDOSESOFVACCINE"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 18,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/INPATIENTOUTPATIENT"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 19,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/COMMENTS"
-              }
-            }
-          ]
+          "schema:description": "distributionDescription: Public Health Institute of Malawi\ndistributionDescription: v0.1",
+          "countColumns": "20",
+          "countRows": "350",
+          "schema:additionalType": "Nesstar 200801"
         },
         {
           "@type": [
@@ -8385,273 +8355,38 @@
             "cdi:TabularTextDataSet"
           ],
           "schema:name": "Malawi Cholera Linelist 2023_2024(2023-2024).NSDstat",
-          "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/missing",
-          "schema:description": "Source file type: Nesstar 200801",
-          "schema:additionalProperty": [
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:name": "row count",
-              "schema:value": 708
-            },
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:name": "column count",
-              "schema:value": 21
-            }
-          ],
-          "cdi:isDelimited": true,
-          "cdif:hasPhysicalMapping": [
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 0,
-              "cdif:physicalDataType": "xsd:decimal",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/SERIALNO"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 1,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/DISTRICT~2"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 2,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/HEALTHFACILITYCTC~2"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 3,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/SEX~2"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 4,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/AGE~2"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 5,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/AGEGROUP~2"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 6,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/VILLAGE"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 7,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/TA~2"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 8,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/COUNTRYDISTRICTOFORIGIN"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 9,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/RDTNegativepositive~2"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 10,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/CULTURENegativepositive~2"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 11,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/EPILINKYesNo~2"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 12,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/STATUSSuspectConfirmed~2"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 13,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/OUTCOMEDeadAlive~2"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 14,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/PLACEOFDEATH"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 15,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/OUTCOMEDATE"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 16,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/VACCINATIONSTATUS~2"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 17,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/NUMBEROFDOSESOFVACCINE~2"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 18,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/TypeofCase"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 19,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/COMMENTS"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 20,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/V29"
-              }
-            }
-          ]
+          "schema:description": "distributionDescription: Public Health Institute of Malawi\ndistributionDescription: v0.1",
+          "countColumns": "21",
+          "countRows": "708",
+          "schema:additionalType": "Nesstar 200801"
         }
       ],
-      "schema:subjectOf": {
-        "@type": [
-          "schema:Dataset"
-        ],
-        "schema:additionalType": [
-          {
-            "@id": "dcat:CatalogRecord"
-          }
-        ],
-        "@id": "urn:ddi:MWI-CHLINELIST-PHIM-v0.1#cdif-catalog-record",
-        "schema:name": "Metadata record for: MALAWI CHOLERA LINELIST FROM AUGUST 2023 - 2025",
-        "schema:about": {
-          "@id": "urn:ddi:MWI-CHLINELIST-PHIM-v0.1"
-        },
-        "schema:description": "Metadata harvested from a DDI Codebook 1.2.2 (ICPSR) document (IDNo MWI-CHLINELIST-PHIM-v0.1) and converted to CDIF by the CDIF DDI converter. Study citation/title, abstract, agents, spatial/temporal coverage, and access conditions mapped to discovery properties; DDI <var> elements deduplicated (by name + datatype + enumeration) to 39 schema:variableMeasured / cdi:InstanceVariable node(s); 2 <fileDscr> mapped to schema:distribution (schema:DataDownload, treated as delimited cdi:TabularTextDataSet; contentUrl set to the OGC nil 'missing' value where the source provides no resolvable download URL) with cdif:hasPhysicalMapping columns whose cdif:formats_InstanceVariable links each column (by the DDI `files` attribute + var identity) to its shared InstanceVariable. 27 variable(s) carry a DDI code list (<catgry>), emitted as CDIF enumerated value domains (cdi:takesSubstantiveValuesFrom -> cdif:EnumerationDomain -> cdif:references a shared skos:ConceptScheme code list; missing categories -> cdi:takesSentinelValuesFrom) with category and summary statistics (cdif:isDescribedBy_StatisticsCollection). Distinct code lists are deduplicated into sibling @graph nodes.",
-        "dcterms:conformsTo": [
-          {
-            "@id": "https://w3id.org/cdif/core/1.1"
-          },
-          {
-            "@id": "https://w3id.org/cdif/discovery/1.1"
-          },
-          {
-            "@id": "https://w3id.org/cdif/data_description/1.1"
-          }
-        ],
-        "schema:sdDatePublished": "2024-08-01",
-        "schema:maintainer": {
+      "prov:wasGeneratedBy": [
+        {
           "@type": [
-            "schema:Organization"
+            "schema:Action",
+            "prov:Activity"
           ],
-          "schema:name": "Francis Makina"
+          "prov:used": [
+            {
+              "bios:computationalTool": {
+                "schema:name": "Nesstar Publisher"
+              }
+            }
+          ],
+          "schema:agent": {
+            "@type": [
+              "schema:Organization"
+            ],
+            "schema:name": "Health facility data clerks"
+          },
+          "schema:actionProcess": {
+            "@type": [
+              "schema:HowTo"
+            ]
+          }
         }
-      }
+      ]
     },
     {
       "@id": "#codelist/1",
@@ -8660,7 +8395,7 @@
       ],
       "skos:prefLabel": "Balaka; Thyolo; Zomba; Chitipa; Karonga; Lilongwe; Machinga; Mangochi; Mulanje; Mzimba North; Rumphi",
       "schema:identifier": "codelist/1",
-      "schema:dateModified": "2024-08-01",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -8828,7 +8563,7 @@
       ],
       "skos:prefLabel": "Atupele community hospital; Kameme; Kamwe Health Center; Kapenda; Kaporo rural hospital; Karonga district Hospital; Kase",
       "schema:identifier": "codelist/2",
-      "schema:dateModified": "2024-08-01",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -9416,7 +9151,7 @@
       ],
       "skos:prefLabel": "Male; Female",
       "schema:identifier": "codelist/3",
-      "schema:dateModified": "2024-08-01",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -9458,7 +9193,7 @@
       ],
       "skos:prefLabel": "Amidu; Kilupula; Kyungu; Liwonde; Makwangwala; Mbawera; Mbesa; Mlomba; Mlumbe; Mtwalo; Mwakaboko; Chikowi; Mwaulambia; M",
       "schema:identifier": "codelist/4",
-      "schema:dateModified": "2024-08-01",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -10060,7 +9795,7 @@
       ],
       "skos:prefLabel": "malawi; Mozambique; Tanzania; Zambia",
       "schema:identifier": "codelist/5",
-      "schema:dateModified": "2024-08-01",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -10130,7 +9865,7 @@
       ],
       "skos:prefLabel": "NA; Negative; Not done; Positive",
       "schema:identifier": "codelist/6",
-      "schema:dateModified": "2024-08-01",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -10200,7 +9935,7 @@
       ],
       "skos:prefLabel": "Index; NA; No; Unknown; yes",
       "schema:identifier": "codelist/7",
-      "schema:dateModified": "2024-08-01",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -10284,7 +10019,7 @@
       ],
       "skos:prefLabel": "Suspected; confirmed",
       "schema:identifier": "codelist/8",
-      "schema:dateModified": "2024-08-01",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -10326,7 +10061,7 @@
       ],
       "skos:prefLabel": "NA; No; Yes",
       "schema:identifier": "codelist/9",
-      "schema:dateModified": "2024-08-01",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -10382,7 +10117,7 @@
       ],
       "skos:prefLabel": "25-Jan-25; Not received; Unknown; Unvaccinated; Vaccinated",
       "schema:identifier": "codelist/10",
-      "schema:dateModified": "2024-08-01",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -10466,7 +10201,7 @@
       ],
       "skos:prefLabel": "First dose; NA; Unknown",
       "schema:identifier": "codelist/11",
-      "schema:dateModified": "2024-08-01",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -10522,7 +10257,7 @@
       ],
       "skos:prefLabel": "Inpatient; NA; Outpatient",
       "schema:identifier": "codelist/12",
-      "schema:dateModified": "2024-08-01",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -10578,7 +10313,7 @@
       ],
       "skos:prefLabel": "BLANTYRE; Mulanje; Mwanza; Mzimba South; Nsanje; Ntcheu; Phalombe; Thyolo; Balaka; Blantyre; Chikwawa; Chitipa; Dedza; K",
       "schema:identifier": "codelist/13",
-      "schema:dateModified": "2024-08-01",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -10816,7 +10551,7 @@
       ],
       "skos:prefLabel": "Bwaila; Dzenje Health Centre; Gaga; Jenda RH; Kakoma; Kalemba; Kaporo rural hospital; Karonga District Hospital; Kasinje",
       "schema:identifier": "codelist/14",
-      "schema:dateModified": "2024-08-01",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -11698,7 +11433,7 @@
       ],
       "skos:prefLabel": "FEMALE; MALE",
       "schema:identifier": "codelist/15",
-      "schema:dateModified": "2024-08-01",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -11740,7 +11475,7 @@
       ],
       "skos:prefLabel": "Aluvado; Chitukula; Elenewo; Ganya; Govati; JUMA; KAPENI; KUNTAJA; Kaledzere; Kalumba; CHIKUMBU; Kalumbu; Kanduku; Kangu",
       "schema:identifier": "codelist/16",
-      "schema:dateModified": "2024-08-01",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -12832,7 +12567,7 @@
       ],
       "skos:prefLabel": "Malawi; Mozambique",
       "schema:identifier": "codelist/17",
-      "schema:dateModified": "2024-08-01",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -12874,7 +12609,7 @@
       ],
       "skos:prefLabel": "Negative; Not done; RDT positive; positive",
       "schema:identifier": "codelist/18",
-      "schema:dateModified": "2024-08-01",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -12944,7 +12679,7 @@
       ],
       "skos:prefLabel": "Culture not done; negative; Not done; positive; Sample not taken; Waiting for culture results; Waiting for results",
       "schema:identifier": "codelist/19",
-      "schema:dateModified": "2024-08-01",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -13056,7 +12791,7 @@
       ],
       "skos:prefLabel": "No; yes",
       "schema:identifier": "codelist/20",
-      "schema:dateModified": "2024-08-01",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -13098,7 +12833,7 @@
       ],
       "skos:prefLabel": "Suspect; confirmed",
       "schema:identifier": "codelist/21",
-      "schema:dateModified": "2024-08-01",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -13140,7 +12875,7 @@
       ],
       "skos:prefLabel": "Died; alive",
       "schema:identifier": "codelist/22",
-      "schema:dateModified": "2024-08-01",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -13182,7 +12917,7 @@
       ],
       "skos:prefLabel": "Community; Health facility; N/A; Unknown",
       "schema:identifier": "codelist/23",
-      "schema:dateModified": "2024-08-01",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -13252,7 +12987,7 @@
       ],
       "skos:prefLabel": "Unknown; Unvaccinated; vaccinated",
       "schema:identifier": "codelist/24",
-      "schema:dateModified": "2024-08-01",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -13308,7 +13043,7 @@
       ],
       "skos:prefLabel": "N/A; Unknown; nil",
       "schema:identifier": "codelist/25",
-      "schema:dateModified": "2024-08-01",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -13364,7 +13099,7 @@
       ],
       "skos:prefLabel": "N/A; Outpatient; inpatient",
       "schema:identifier": "codelist/26",
-      "schema:dateModified": "2024-08-01",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -13420,7 +13155,7 @@
       ],
       "skos:prefLabel": "AGE; DISTRICT; EPI LINK Yes/No; HEALTH FACILITY/CTC; NAME; NUMBER OF DOSES OF VACCINE; OCCUPATION; OUTCOME (Dead/Alive);",
       "schema:identifier": "codelist/27",
-      "schema:dateModified": "2024-08-01",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],

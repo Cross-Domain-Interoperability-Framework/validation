@@ -3,9 +3,17 @@
     "schema": "http://schema.org/",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "cdif": "https://w3id.org/cdif/",
-    "skos": "http://www.w3.org/2004/02/skos/core#"
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "cdifq": "http://crossdomaininteroperability.org/cdifq/",
+    "dqv": "http://www.w3.org/ns/dqv#",
+    "geo": "http://www.opengis.net/ont/geosparql#",
+    "oa": "http://www.w3.org/ns/oa#",
+    "bios": "https://bioschemas.org/"
   },
   "@graph": [
     {
@@ -14,16 +22,7 @@
         "schema:Dataset"
       ],
       "schema:name": "The Clinical Epidemiologic Audit of Cholera in Malawi: A Medical Record Review of the 2022 Outbreak",
-      "schema:description": "The study evaluated the mortality burden of cholera and the quality of patient treatment in cholera treatment units in Lilongwe, Blantyre, Mangochi and Nkhata-Bay districts in Malawi. The purpose of this study was to better understand the factors contributing to the high cholera mortality burden in these districts and to identify areas for improvement in patient treatment.",
-      "schema:identifier": {
-        "@type": [
-          "schema:PropertyValue"
-        ],
-        "schema:value": "MWI-PHIM-CAC-2026-v01"
-      },
-      "schema:dateModified": "2026-02-05",
-      "schema:datePublished": "2026-02-05",
-      "schema:version": "v0.1: Raw data from data entry",
+      "schema:identifier": "MWI-PHIM-CAC-2026-v01",
       "schema:creator": {
         "@list": [
           {
@@ -31,6 +30,32 @@
               "schema:Person"
             ],
             "schema:name": "Ronald Chitatata"
+          }
+        ]
+      },
+      "schema:version": "v0.1: Raw data from data entry",
+      "schema:description": "The study evaluated the mortality burden of cholera and the quality of patient treatment in cholera treatment units in Lilongwe, Blantyre, Mangochi and Nkhata-Bay districts in Malawi. The purpose of this study was to better understand the factors contributing to the high cholera mortality burden in these districts and to identify areas for improvement in patient treatment.",
+      "schema:subjectOf": {
+        "schema:name": "The Clinical Epidemiologic Audit of Cholera in Malawi: A Medical Record Review of the 2022 Outbreak",
+        "schema:identifier": "MWI-PHIM-CAC-2026-v01",
+        "schema:maintainer": {
+          "@type": [
+            "schema:Organization"
+          ],
+          "schema:name": "Moses Kamzati"
+        },
+        "schema:sdDatePublished": "2026-02-05",
+        "schema:description": "Nesstar Publisher",
+        "schema:version": "1.0",
+        "dcterms:conformsTo": [
+          {
+            "@id": "https://w3id.org/cdif/core/1.1"
+          },
+          {
+            "@id": "https://w3id.org/cdif/discovery/1.1"
+          },
+          {
+            "@id": "https://w3id.org/cdif/data_description/1.1"
           }
         ]
       },
@@ -48,12 +73,16 @@
           "schema:name": "Lilongwe, Blantyre, Mangochi and Nkhata-Bay"
         }
       ],
-      "schema:measurementTechnique": [
-        "Sample survey data [ssd]"
+      "schema:keywords": [
+        {
+          "@type": [
+            "schema:DefinedTerm"
+          ],
+          "schema:name": "Sample survey data [ssd]",
+          "schema:about": "Data Kind"
+        }
       ],
-      "schema:license": [
-        "http://www.opengis.net/def/nil/OGC/0/missing"
-      ],
+      "schema:url": "urn:ddi:MWI-PHIM-CAC-2026-v01",
       "schema:variableMeasured": [
         {
           "@type": [
@@ -61,8 +90,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/Participant_ID",
+          "schema:description": "Participants unique identification code ( nambala yomudziwila otenga mbali)",
+          "schema:alternateName": [
+            "Participant ID"
+          ],
+          "": "Participant ID Participants unique identification code ( nambala yomudziwila otenga mbali)",
           "schema:name": "Participant_ID",
-          "schema:description": "Participant ID",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent"
         },
@@ -72,8 +105,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/Age_of_Participant",
+          "schema:description": "Which Age group does the Participants Belong to?( ali ndi zaka zingat zakubadwa)",
+          "schema:alternateName": [
+            "Age of Participant"
+          ],
+          "": "Age of Participant Which Age group does the Participants Belong to?( ali ndi zaka zingat zakubadwa) 240 0 1 <10 50 2 10-19 42 3 20-29 45 4 30-39 42 5 40-49 20 6 50-59 17 7 >60 24",
           "schema:name": "Age_of_Participant",
-          "schema:description": "Age of Participant",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -263,8 +300,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/Sex",
+          "schema:description": "Sex of the Participants ( kodi wamuna or wankazi)",
+          "schema:alternateName": [
+            "Sex"
+          ],
+          "": "Sex Sex of the Participants ( kodi wamuna or wankazi) 240 0 1 Male 127 2 Female 111 3 Unknown 2",
           "schema:name": "Sex",
-          "schema:description": "Sex",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -390,8 +431,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/District",
+          "schema:description": "Which district is the participant from?(akuchokela boma lanji)",
+          "schema:alternateName": [
+            "District"
+          ],
+          "": "District Which district is the participant from?(akuchokela boma lanji) 240 0 1 Central(Lilongwe) 78 2 Northen(Nkhatabay) 26 3 Southern (Blantyre) 18 4 Southern(Mangochi) 118",
           "schema:name": "District",
-          "schema:description": "District",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -533,8 +578,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/Participant_Type",
+          "schema:description": "What is the type of the participant( kodi munthuyu ali gulu liti pamagulu ali musiwa)",
+          "schema:alternateName": [
+            "Participant Type"
+          ],
+          "": "Participant Type What is the type of the participant( kodi munthuyu ali gulu liti pamagulu ali musiwa) 240 0 1 Case(Death) 85 2 Control(Discharged) 155",
           "schema:name": "Participant_Type",
-          "schema:description": "Participant Type",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -644,8 +693,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/Marital_Status",
+          "schema:description": "What is the Marital Status of the Participant?( munthuyi ndiokwatila kapena ayi?)",
+          "schema:alternateName": [
+            "Marital Status"
+          ],
+          "": "Marital Status What is the Marital Status of the Participant?( munthuyi ndiokwatila kapena ayi?) 239 0 1 Married 104 2 Single 115 3 Option 3 20",
           "schema:name": "Marital_Status",
-          "schema:description": "Marital Status",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -771,8 +824,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/Employment_Status",
+          "schema:description": "What is the participants employment status(kodi munthuyi amagwila ntundu wa ntchito ntchito yanji)",
+          "schema:alternateName": [
+            "Employment Status"
+          ],
+          "": "Employment Status What is the participants employment status(kodi munthuyi amagwila ntundu wa ntchito ntchito yanji) 240 0 1 Fully Employed 9 2 PieceWorker 21 3 Self-Employed 39 4 Student 46 5 Unknown 125",
           "schema:name": "Employment_Status",
-          "schema:description": "Employment Status",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -930,8 +987,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/Date_of_Admission",
-          "schema:name": "Date_of_Admission",
           "schema:description": "Date of Admission",
+          "schema:alternateName": [
+            "Date of Admission"
+          ],
+          "": "Date of Admission Date of Admission",
+          "schema:name": "Date_of_Admission",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent"
         },
@@ -941,8 +1002,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/Residential_LocationTraditional",
-          "schema:name": "Residential_LocationTraditional",
           "schema:description": "Residential Location (Traditional Authority)",
+          "schema:alternateName": [
+            "Residential Location (Traditional Authority)"
+          ],
+          "": "Residential Location (Traditional Authority) Residential Location (Traditional Authority)",
+          "schema:name": "Residential_LocationTraditional",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent"
         },
@@ -952,8 +1017,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/location",
+          "schema:description": "This is system generated variable when collecting GPS",
+          "schema:alternateName": [
+            "location"
+          ],
+          "": "location This is system generated variable when collecting GPS",
           "schema:name": "location",
-          "schema:description": "location",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent"
         },
@@ -963,8 +1032,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/location_latitude",
+          "schema:description": "This is system generated variable when collecting GPS",
+          "schema:alternateName": [
+            "Latitude"
+          ],
+          "": "Latitude This is system generated variable when collecting GPS",
           "schema:name": "location_latitude",
-          "schema:description": "Latitude",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent"
         },
@@ -974,8 +1047,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/location_longitude",
+          "schema:description": "This is system generated variable when collecting GPS",
+          "schema:alternateName": [
+            "Longitude"
+          ],
+          "": "Longitude This is system generated variable when collecting GPS",
           "schema:name": "location_longitude",
-          "schema:description": "Longitude",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent"
         },
@@ -985,8 +1062,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/location_altitude",
+          "schema:description": "This is system generated variable when collecting GPS",
+          "schema:alternateName": [
+            "Altitude"
+          ],
+          "": "Altitude This is system generated variable when collecting GPS",
           "schema:name": "location_altitude",
-          "schema:description": "Altitude",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent"
         },
@@ -996,8 +1077,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/location_precision",
+          "schema:description": "This is system generated variable when collecting GPS",
+          "schema:alternateName": [
+            "Location precision"
+          ],
+          "": "Location precision This is system generated variable when collecting GPS",
           "schema:name": "location_precision",
-          "schema:description": "Location precision",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent"
         },
@@ -1007,8 +1092,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/Vaccine_Status",
+          "schema:description": "What is the Cholera vaccination status of the participant?( kodi analandila katemera wa cholera)",
+          "schema:alternateName": [
+            "Vaccine Status"
+          ],
+          "": "Vaccine Status What is the Cholera vaccination status of the participant?( kodi analandila katemera wa cholera) 240 0 1 Vaccinated 2 2 Unvaccinated 135 3 Unknown 103",
           "schema:name": "Vaccine_Status",
-          "schema:description": "Vaccine Status",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -1134,8 +1223,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/Time_to_Presentation",
+          "schema:description": "After how long from noticing the first signs and symptoms did the participant come to the facility?(munthuyi ataona zizindikilo za cholera, panatenga nthawi yayitali bwanji kuti abwele ku chipatala)",
+          "schema:alternateName": [
+            "Time to Presentation"
+          ],
+          "": "Time to Presentation After how long from noticing the first signs and symptoms did the participant come to the facility?(munthuyi ataona zizindikilo za cholera, panatenga nthawi yayitali bwanji kuti abwele ku chipatala) 240 0 \" 2 1 <6 Hours 16 2 > 6 Hours 58 3 >24 Hours 115 4 > 48 Hours 49",
           "schema:name": "Time_to_Presentation",
-          "schema:description": "Time to Presentation",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -1293,8 +1386,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/Diagnosis",
+          "schema:description": "What was the diagnosis for this participant(kodi munthuyi kuchipatala anampeza ndi chani)",
+          "schema:alternateName": [
+            "Diagnosis"
+          ],
+          "": "Diagnosis What was the diagnosis for this participant(kodi munthuyi kuchipatala anampeza ndi chani)",
           "schema:name": "Diagnosis",
-          "schema:description": "Diagnosis",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent"
         },
@@ -1304,8 +1401,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/Status_on_Arrival",
+          "schema:description": "What the health status for the participant, at the time they arrived at the hospital?(kodi matendewa anali akulu bwanji mene amafika ku chipatala)",
+          "schema:alternateName": [
+            "Status on Arrival"
+          ],
+          "": "Status on Arrival What the health status for the participant, at the time they arrived at the hospital?(kodi matendewa anali akulu bwanji mene amafika ku chipatala) 239 0 1 Stable 70 2 Critical 169",
           "schema:name": "Status_on_Arrival",
-          "schema:description": "Status on Arrival",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -1415,8 +1516,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/HIV_Status",
+          "schema:description": "What is the participants HIV status( kodi ali kachirombo koyambika Aids ka HIV)",
+          "schema:alternateName": [
+            "HIV Status"
+          ],
+          "": "HIV Status What is the participants HIV status( kodi ali kachirombo koyambika Aids ka HIV) 239 0 1 Non-Reactive 12 2 Reactive(On Treatment) 3 3 Reactive-defaulted 0 4 Unknown 224",
           "schema:name": "HIV_Status",
-          "schema:description": "HIV Status",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -1558,8 +1663,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/Hydration_Status",
+          "schema:description": "What was the hydration status?( Mlingo wa madzi thupi la munthuyi)",
+          "schema:alternateName": [
+            "Hydration Status"
+          ],
+          "": "Hydration Status What was the hydration status?( Mlingo wa madzi thupi la munthuyi) 239 0 1 Well hydrated 9 2 Some Dehydration 90 3 Severe Dehydration 135 4 Unknown 5",
           "schema:name": "Hydration_Status",
-          "schema:description": "Hydration Status",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -1701,8 +1810,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/Vital_Signs",
+          "schema:description": "What were the participants Vital Signs(Zizindikilo zazikulu zinali ziti)",
+          "schema:alternateName": [
+            "Vital Signs"
+          ],
+          "": "Vital Signs What were the participants Vital Signs(Zizindikilo zazikulu zinali ziti) 239 0 \" 239",
           "schema:name": "Vital_Signs",
-          "schema:description": "Vital Signs",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -1796,8 +1909,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/Fluid_Management",
+          "schema:description": "Rate the fluid management given to the participant?(kuwerengera kasamalidwe ka madzimadzi operekedwa kwa munthuyi)",
+          "schema:alternateName": [
+            "Fluid Management"
+          ],
+          "": "Fluid Management Rate the fluid management given to the participant?(kuwerengera kasamalidwe ka madzimadzi operekedwa kwa munthuyi) 239 0 1 Adequate MGT 193 2 Inadequate MGT 46",
           "schema:name": "Fluid_Management",
-          "schema:description": "Fluid Management",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -1907,8 +2024,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/Antibiotic_Management",
+          "schema:description": "Were Antibiotics given?( Kodi maantibayotiki amaperekedwa)",
+          "schema:alternateName": [
+            "Antibiotic Management"
+          ],
+          "": "Antibiotic Management Were Antibiotics given?( Kodi maantibayotiki amaperekedwa) 239 0 1 Not Given 16 2 GIVEN(DOXYCYCLINE/ AZITHROMYCIN/CIPROFLOXACIN 223",
           "schema:name": "Antibiotic_Management",
-          "schema:description": "Antibiotic Management",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -2018,8 +2139,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/Other_Comorbidity",
+          "schema:description": "What other Medical Conditions were present in the participant?(Ndi Matenda ena ati omwe analipo mwa otenga nawo mbali)",
+          "schema:alternateName": [
+            "Other Comorbidity"
+          ],
+          "": "Other Comorbidity What other Medical Conditions were present in the participant?(Ndi Matenda ena ati omwe analipo mwa otenga nawo mbali)",
           "schema:name": "Other_Comorbidity",
-          "schema:description": "Other Comorbidity",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent"
         },
@@ -2029,8 +2154,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/Outcome",
+          "schema:description": "What was the patients outcome( kodi munthuyi ali moyo kapena anamwalira)",
+          "schema:alternateName": [
+            "Outcome"
+          ],
+          "": "Outcome What was the patients outcome( kodi munthuyi ali moyo kapena anamwalira) 239 0 1 Alive 152 2 Deseased 87",
           "schema:name": "Outcome",
-          "schema:description": "Outcome",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -2140,8 +2269,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/Time_in_ward",
+          "schema:description": "How long was the patient admitted( munthuyi anakhala nthawi yayitali bwanji mu wodi)",
+          "schema:alternateName": [
+            "Time in ward"
+          ],
+          "": "Time in ward How long was the patient admitted( munthuyi anakhala nthawi yayitali bwanji mu wodi) 239 0 1 >6 Hours 19 2 >24 Hours 87 3 >48 Hours 103 4 > 7 Days 30",
           "schema:name": "Time_in_ward",
-          "schema:description": "Time in ward",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent",
           "cdi:takesSubstantiveValuesFrom": {
@@ -2283,8 +2416,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/Time_of_Discharge",
+          "schema:description": "What time was the patient discharged?(Anatulutsidwa liti nchipatala)",
+          "schema:alternateName": [
+            "Time of Discharge"
+          ],
+          "": "Time of Discharge What time was the patient discharged?(Anatulutsidwa liti nchipatala)",
           "schema:name": "Time_of_Discharge",
-          "schema:description": "Time of Discharge",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent"
         },
@@ -2294,8 +2431,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/Primary_COD",
+          "schema:description": "What was the primary cause of death?(Chifukwa chachikulu cha imfa)",
+          "schema:alternateName": [
+            "Primary cause of death"
+          ],
+          "": "Primary cause of death What was the primary cause of death?(Chifukwa chachikulu cha imfa)",
           "schema:name": "Primary_COD",
-          "schema:description": "Primary cause of death",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent"
         },
@@ -2305,8 +2446,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/Other_COD",
+          "schema:description": "What is the other cause of death chifukwa china cha imfa",
+          "schema:alternateName": [
+            "Other cause of Death"
+          ],
+          "": "Other cause of Death What is the other cause of death chifukwa china cha imfa",
           "schema:name": "Other_COD",
-          "schema:description": "Other cause of Death",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent"
         },
@@ -2316,8 +2461,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/Time_of_Death",
+          "schema:description": "What time did the participant die?(kodi munthuy anamwalira nthawi zanji?",
+          "schema:alternateName": [
+            "Time of Death"
+          ],
+          "": "Time of Death What time did the participant die?(kodi munthuy anamwalira nthawi zanji?",
           "schema:name": "Time_of_Death",
-          "schema:description": "Time of Death",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent"
         },
@@ -2327,8 +2476,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/uuid",
+          "schema:description": "System generated variable as a unique identifer for each record",
+          "schema:alternateName": [
+            "_uuid"
+          ],
+          "": "_uuid System generated variable as a unique identifer for each record",
           "schema:name": "uuid",
-          "schema:description": "_uuid",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent"
         },
@@ -2338,8 +2491,12 @@
             "cdi:InstanceVariable"
           ],
           "@id": "#var/submitted_by",
+          "schema:description": "System generated variable for capturing who submitted data",
+          "schema:alternateName": [
+            "_submitted_by"
+          ],
+          "": "_submitted_by System generated variable for capturing who submitted data",
           "schema:name": "submitted_by",
-          "schema:description": "_submitted_by",
           "cdi:intendedDataType": "xsd:string",
           "cdi:role": "AttributeComponent"
         }
@@ -2351,383 +2508,32 @@
             "cdi:TabularTextDataSet"
           ],
           "schema:name": "The Clinical Epidemiologic Audit of Cholera in Malawi.NSDstat",
-          "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/missing",
-          "schema:description": "Source file type: Nesstar 200801",
-          "schema:additionalProperty": [
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:name": "row count",
-              "schema:value": 245
-            },
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:name": "column count",
-              "schema:value": 32
-            }
-          ],
-          "cdi:isDelimited": true,
-          "cdif:hasPhysicalMapping": [
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 0,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/Participant_ID"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 1,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/Age_of_Participant"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 2,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/Sex"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 3,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/District"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 4,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/Participant_Type"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 5,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/Marital_Status"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 6,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/Employment_Status"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 7,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/Date_of_Admission"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 8,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/Residential_LocationTraditional"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 9,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/location"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 10,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/location_latitude"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 11,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/location_longitude"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 12,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/location_altitude"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 13,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/location_precision"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 14,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/Vaccine_Status"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 15,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/Time_to_Presentation"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 16,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/Diagnosis"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 17,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/Status_on_Arrival"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 18,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/HIV_Status"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 19,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/Hydration_Status"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 20,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/Vital_Signs"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 21,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/Fluid_Management"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 22,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/Antibiotic_Management"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 23,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/Other_Comorbidity"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 24,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/Outcome"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 25,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/Time_in_ward"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 26,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/Time_of_Discharge"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 27,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/Primary_COD"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 28,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/Other_COD"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 29,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/Time_of_Death"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 30,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/uuid"
-              }
-            },
-            {
-              "@type": [
-                "cdif:PhysicalMapping"
-              ],
-              "cdif:index": 31,
-              "cdif:physicalDataType": "xsd:string",
-              "cdif:formats_InstanceVariable": {
-                "@id": "#var/submitted_by"
-              }
-            }
-          ]
+          "schema:description": "distributionDescription: PHIM\ndistributionDescription: 1.0",
+          "countColumns": "32",
+          "countRows": "245",
+          "schema:additionalType": "Nesstar 200801"
         }
       ],
-      "schema:subjectOf": {
-        "@type": [
-          "schema:Dataset"
-        ],
-        "schema:additionalType": [
-          {
-            "@id": "dcat:CatalogRecord"
-          }
-        ],
-        "@id": "urn:ddi:MWI-PHIM-CAC-2026-v01#cdif-catalog-record",
-        "schema:name": "Metadata record for: The Clinical Epidemiologic Audit of Cholera in Malawi: A Medical Record Review of the 2022 Outbreak",
-        "schema:about": {
-          "@id": "urn:ddi:MWI-PHIM-CAC-2026-v01"
-        },
-        "schema:description": "Metadata harvested from a DDI Codebook 1.2.2 (ICPSR) document (IDNo MWI-PHIM-CAC-2026-v01) and converted to CDIF by the CDIF DDI converter. Study citation/title, abstract, agents, spatial/temporal coverage, and access conditions mapped to discovery properties; DDI <var> elements deduplicated (by name + datatype + enumeration) to 32 schema:variableMeasured / cdi:InstanceVariable node(s); 1 <fileDscr> mapped to schema:distribution (schema:DataDownload, treated as delimited cdi:TabularTextDataSet; contentUrl set to the OGC nil 'missing' value where the source provides no resolvable download URL) with cdif:hasPhysicalMapping columns whose cdif:formats_InstanceVariable links each column (by the DDI `files` attribute + var identity) to its shared InstanceVariable. 16 variable(s) carry a DDI code list (<catgry>), emitted as CDIF enumerated value domains (cdi:takesSubstantiveValuesFrom -> cdif:EnumerationDomain -> cdif:references a shared skos:ConceptScheme code list; missing categories -> cdi:takesSentinelValuesFrom) with category and summary statistics (cdif:isDescribedBy_StatisticsCollection). Distinct code lists are deduplicated into sibling @graph nodes.",
-        "dcterms:conformsTo": [
-          {
-            "@id": "https://w3id.org/cdif/core/1.1"
-          },
-          {
-            "@id": "https://w3id.org/cdif/discovery/1.1"
-          },
-          {
-            "@id": "https://w3id.org/cdif/data_description/1.1"
-          }
-        ],
-        "schema:sdDatePublished": "2026-02-05",
-        "schema:maintainer": {
+      "prov:wasGeneratedBy": [
+        {
           "@type": [
-            "schema:Organization"
+            "schema:Action",
+            "prov:Activity"
           ],
-          "schema:name": "Moses Kamzati"
+          "prov:used": [
+            {
+              "bios:computationalTool": {
+                "schema:name": "Nesstar Publisher"
+              }
+            }
+          ],
+          "schema:actionProcess": {
+            "@type": [
+              "schema:HowTo"
+            ]
+          }
         }
-      }
+      ]
     },
     {
       "@id": "#codelist/1",
@@ -2736,7 +2542,7 @@
       ],
       "skos:prefLabel": "<10; 10-19; 20-29; 30-39; 40-49; 50-59; >60",
       "schema:identifier": "codelist/1",
-      "schema:dateModified": "2026-02-05",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -2848,7 +2654,7 @@
       ],
       "skos:prefLabel": "Male; Female; Unknown",
       "schema:identifier": "codelist/2",
-      "schema:dateModified": "2026-02-05",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -2904,7 +2710,7 @@
       ],
       "skos:prefLabel": "Central(Lilongwe); Northen(Nkhatabay); Southern (Blantyre); Southern(Mangochi)",
       "schema:identifier": "codelist/3",
-      "schema:dateModified": "2026-02-05",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -2974,7 +2780,7 @@
       ],
       "skos:prefLabel": "Case(Death); Control(Discharged)",
       "schema:identifier": "codelist/4",
-      "schema:dateModified": "2026-02-05",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -3016,7 +2822,7 @@
       ],
       "skos:prefLabel": "Married; Single; Option 3",
       "schema:identifier": "codelist/5",
-      "schema:dateModified": "2026-02-05",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -3072,7 +2878,7 @@
       ],
       "skos:prefLabel": "Fully Employed; PieceWorker; Self-Employed; Student; Unknown",
       "schema:identifier": "codelist/6",
-      "schema:dateModified": "2026-02-05",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -3156,7 +2962,7 @@
       ],
       "skos:prefLabel": "Vaccinated; Unvaccinated; Unknown",
       "schema:identifier": "codelist/7",
-      "schema:dateModified": "2026-02-05",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -3212,7 +3018,7 @@
       ],
       "skos:prefLabel": "<6 Hours; > 6 Hours; >24 Hours; > 48 Hours",
       "schema:identifier": "codelist/8",
-      "schema:dateModified": "2026-02-05",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -3296,7 +3102,7 @@
       ],
       "skos:prefLabel": "Stable; Critical",
       "schema:identifier": "codelist/9",
-      "schema:dateModified": "2026-02-05",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -3338,7 +3144,7 @@
       ],
       "skos:prefLabel": "Non-Reactive; Reactive(On Treatment); Reactive-defaulted; Unknown",
       "schema:identifier": "codelist/10",
-      "schema:dateModified": "2026-02-05",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -3408,7 +3214,7 @@
       ],
       "skos:prefLabel": "Well hydrated; Some Dehydration; Severe Dehydration; Unknown",
       "schema:identifier": "codelist/11",
-      "schema:dateModified": "2026-02-05",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -3478,7 +3284,7 @@
       ],
       "skos:prefLabel": "code list 12",
       "schema:identifier": "codelist/12",
-      "schema:dateModified": "2026-02-05",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -3506,7 +3312,7 @@
       ],
       "skos:prefLabel": "Adequate MGT; Inadequate MGT",
       "schema:identifier": "codelist/13",
-      "schema:dateModified": "2026-02-05",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -3548,7 +3354,7 @@
       ],
       "skos:prefLabel": "Not Given; GIVEN(DOXYCYCLINE/ AZITHROMYCIN/CIPROFLOXACIN",
       "schema:identifier": "codelist/14",
-      "schema:dateModified": "2026-02-05",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -3590,7 +3396,7 @@
       ],
       "skos:prefLabel": "Alive; Deseased",
       "schema:identifier": "codelist/15",
-      "schema:dateModified": "2026-02-05",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],
@@ -3632,7 +3438,7 @@
       ],
       "skos:prefLabel": ">6 Hours; >24 Hours; >48 Hours; > 7 Days",
       "schema:identifier": "codelist/16",
-      "schema:dateModified": "2026-02-05",
+      "schema:dateModified": "1900-01-01",
       "schema:license": [
         "http://www.opengis.net/def/nil/OGC/0/missing"
       ],

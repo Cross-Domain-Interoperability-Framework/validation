@@ -409,18 +409,24 @@ def convert(xml_path, doi_url, version, detect=True, verbose=False):
 
     desc_overflow, kw_terms, places = [], [], []
     for (leaf, oid), paths in ds_by_leaf.items():
-        if leaf == "schema:keywords":
-            # >4 words -> concatenate onto the dataset description; else a keyword
-            # DefinedTerm whose schema:about names the DDI source element.
+        if leaf == "schema:keywords" or leaf.startswith("schema:keywords."):
+            # Keyword targets. A value >4 words is concatenated onto the dataset
+            # description, labelled by the mapping's object_label. A short value
+            # becomes a keyword DefinedTerm; when it came from a field OTHER than
+            # subject/keyword (path $.schema:keywords.schema:name), its
+            # schema:about is the object_label (e.g. "Analysis Unit", "Data
+            # Kind") so the origin is retained.
+            plain = (leaf == "schema:keywords")     # subject/keyword -> genuine keyword
             for p in paths:
-                src = p.split(".")[-1]
-                label = maps[p]["object_label"] or src
+                label = maps[p]["object_label"] or p.split(".")[-1]
                 for v in values_at(root, p.split(".")):
                     if len(v.split()) > 4:
-                        desc_overflow.append((src if label == "keywords" else label, v))
+                        desc_overflow.append((label, v))
+                    elif plain:
+                        kw_terms.append({"@type": ["schema:DefinedTerm"], "schema:name": v})
                     else:
                         kw_terms.append({"@type": ["schema:DefinedTerm"],
-                                         "schema:name": v, "schema:about": src})
+                                         "schema:name": v, "schema:about": label})
             continue
         if leaf.startswith("schema:spatialCoverage"):
             sub = leaf[len("schema:spatialCoverage"):].lstrip("[*]").lstrip(".")
