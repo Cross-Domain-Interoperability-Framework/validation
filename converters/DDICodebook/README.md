@@ -118,6 +118,25 @@ for only a few, hence few statistics; the MICS file carries both throughout.)
 - **SHACL** (`../../ShaclValidation/CDIF-Discovery-Shapes.ttl`): **0 violations**;
   warnings are advisory (per-variable `propertyID`/physical data type, contacts).
 
+### A different-producer 2.5 fixture (Harvard Dataverse)
+
+`MWI_2019_MICS` / `MWI_2024_DHS` above are **NADA** exports. To exercise a
+*different producer* of the same Codebook 2.5 schema,
+[`Examples/XML/dataverse-GlobalPartySurvey-2019.xml`](Examples/XML/dataverse-GlobalPartySurvey-2019.xml)
+is the DDI export of the **Global Party Survey 2019** dataset from Harvard
+Dataverse (`doi:10.7910/DVN/WMGTNS`, cached verbatim from
+`dataverse.harvard.edu/api/datasets/export?exporter=ddi`). Its converted output,
+[`Examples/cdif/cdif_dataverse-GlobalPartySurvey-2019.json`](Examples/cdif/cdif_dataverse-GlobalPartySurvey-2019.json)
+(863 vars, 5 dists, 60 code lists; 0-error against data_description, 0 SHACL
+violations), demonstrates two producer-specific things NADA files don't:
+
+- `ddi2cdif.py --print-source` returns **`dataverse`** (via the `<distrbtr>`
+  archive name and `DVN:`/`VDC:` note types), where the NADA files return `nada`.
+- every `schema:distribution` carries a **real `schema:contentUrl`**
+  (`https://dataverse.harvard.edu/api/access/datafile/…`) read from
+  `<fileDscr URI>`, instead of the OGC nil placeholder — Dataverse puts the
+  resolvable download URL in the DDI, NADA and Nesstar do not.
+
 ## Schema availability (a caution)
 
 Getting the official XSDs to verify these mappings was uneven, and worth flagging

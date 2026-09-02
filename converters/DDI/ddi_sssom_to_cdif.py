@@ -655,11 +655,15 @@ def convert(xml_path, doi_url=None, version="25", detect=True, verbose=False,
     struct_dists = _build_dists(_parse_files(root), parsed, sig_to_ivid)
     ditems = []
     for i, fd in enumerate(iter_local(root, "fileDscr")):
-        # DDI 1.2.2/2.5 gives no per-file download URL, so carry the OGC nil
-        # "missing" value as schema:contentUrl (required by the dataDownload
-        # building block) rather than an invented link -- same as ddi122.
+        # schema:contentUrl: prefer a resolvable per-file download URL when the
+        # producer supplies one on <fileDscr URI="..."> (e.g. Dataverse). Only an
+        # http(s) URL counts -- NADA omits it and Nesstar puts a non-resolvable
+        # internal reference there -- so otherwise fall back to the OGC nil
+        # "missing" value (required by the dataDownload building block).
+        _furi = (fd.get("URI") or "").strip()
         item = {"@type": ["schema:DataDownload", "cdi:TabularTextDataSet"],
-                "schema:contentUrl": NIL_MISSING}
+                "schema:contentUrl": _furi if _furi.startswith(("http://", "https://"))
+                else NIL_MISSING}
         for (leaf, oid), paths in dist_by_leaf.items():
             val = shape_dataset(leaf, oid, gather(fd, paths, maps, anchor="fileDscr"))
             if val is not None:

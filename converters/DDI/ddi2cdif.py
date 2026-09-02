@@ -30,6 +30,7 @@ Usage:
 """
 import argparse
 import json
+import re
 import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -78,6 +79,33 @@ def sniff_flavor(path):
     return "unknown"
 
 
+def sniff_source(path):
+    """Best-effort *producer* of a DDI file -- a second axis below the schema
+    flavor: 'dataverse', 'nada', or 'generic'. Both a Dataverse and a NADA export
+    are valid Codebook 2.5; what separates them is producer convention, and the
+    reliable signals are the producer's own *branding/namespacing*, NOT the
+    generic structural conventions (fileDscr ID style, empty accsPlac) that
+    overlap across producers -- so those are deliberately not used here.
+
+      dataverse -> <distrbtr>...Dataverse, note types DVN:/VDC:/DATAVERSE:,
+                   or a dataverse.harvard.edu file URL / <fileDscr URI=...dataverse>
+      nada      -> names itself in <software>NADA</software>
+      generic   -> anything else (incl. Nesstar 1.2.2 exports)
+    """
+    try:
+        blob = open(path, encoding="utf-8", errors="replace").read()
+    except OSError:
+        return "generic"
+    if (re.search(r'<distrbtr[^>]*>[^<]*Dataverse', blob)
+            or re.search(r'<notes[^>]*type="(?:DVN|VDC|DATAVERSE):', blob)
+            or re.search(r'<fileDscr[^>]*URI="https?://[^"]*dataverse', blob)
+            or 'dataverse.harvard.edu/api/access/datafile/' in blob):
+        return "dataverse"
+    if re.search(r'<software[^>]*>\s*NADA\b', blob):
+        return "nada"
+    return "generic"
+
+
 _CODEBOOK_VERSION = {"codebook-1.2.2": "122", "codebook-2.5": "25"}
 
 
@@ -115,11 +143,17 @@ def main():
                     help="Skip content-derived conformsTo (detect_conformance)")
     ap.add_argument("--print-flavor", action="store_true",
                     help="Only report the detected flavor, do not convert")
+    ap.add_argument("--print-source", action="store_true",
+                    help="Only report the detected producer (dataverse/nada/generic)")
     a = ap.parse_args()
 
     flavor = sniff_flavor(a.input)
+    source = sniff_source(a.input)
     if a.print_flavor:
         print(flavor)
+        return
+    if a.print_source:
+        print(source)
         return
     try:
         doc = convert(a.input, a.explicit_id, a.base_uri,
@@ -127,11 +161,15 @@ def main():
     except (NotImplementedError, ValueError) as e:
         print(f"ddi2cdif: {e}", file=sys.stderr)
         sys.exit(2)
+    if source == "dataverse":
+        print("ddi2cdif: Dataverse export detected -- per-file download URLs are "
+              "read from <fileDscr URI=...>. For live file size/checksum "
+              "enrichment, use ddi_to_cdif.py --fetch-file-meta.", file=sys.stderr)
     if a.output:
         json.dump(doc, open(a.output, "w", encoding="utf-8"),
                   indent=2, ensure_ascii=False)
         ds = doc["@graph"][0] if "@graph" in doc else doc
-        print(f"wrote {a.output} [{flavor}] "
+        print(f"wrote {a.output} [{flavor}/{source}] "
               f"({len(ds.get('schema:variableMeasured', []))} vars, "
               f"{len(ds.get('schema:distribution', []))} dists)")
     else:

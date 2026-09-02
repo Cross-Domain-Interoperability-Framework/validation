@@ -29,6 +29,18 @@ size/checksum, HTTP headers) the offline engine deliberately lacks; its base
 conversion is otherwise superseded by the engine. Everything below documents the
 Codebook engine the dispatcher calls.
 
+**Producer detection (a second axis, below flavor).** Two Codebook 2.5 files can
+come from different producers that populate the schema differently. `ddi2cdif.py`
+also carries `sniff_source(path)` → `dataverse` \| `nada` \| `generic`
+(`--print-source`), using the producer's own *branding* (Dataverse's `<distrbtr>`
+archive name / `DVN:`/`VDC:`/`DATAVERSE:` note types / file-URL host; NADA's
+`<software>NADA</software>`) rather than the generic structural conventions
+(`fileDscr` ID style, empty `accsPlac`) that overlap across producers — so a
+Nesstar 1.2.2 export correctly lands in `generic`, not `nada`. The engine already
+handles the concrete producer difference (Dataverse's per-file download URLs) via
+`<fileDscr URI>`; the detection just labels the source and points Dataverse users
+at `ddi_to_cdif.py` for live size/checksum enrichment.
+
 | Engine | What it does |
 |--------|--------------|
 | [`ddi122_to_cdif.py`](ddi122_to_cdif.py) | Hand-coded 1.2.2 → CDIF converter. Builds the full study + variable + file structure, including the enumerated value domains, shared code lists, and statistics described below. |
@@ -108,14 +120,16 @@ resolve to **core + discovery + data_description**).
 
 ### Design decisions
 
-- **No fabricated URLs.** DDI 1.2.2 gives no per-file download URL, so
-  distributions carry the OGC nil value
-  `http://www.opengis.net/def/nil/OGC/0/missing` as `schema:contentUrl` rather
-  than an invented link. The real landing page (`accsPlac/@URI`) becomes
-  `schema:url` — and `schema:url` is set **only when it is a resolvable
-  `http(s)` URL**: a `urn:` `@id` minted from `IDNo` is a valid identifier but
-  not a landing page, so no `schema:url` is emitted (the distribution satisfies
-  the url-or-distribution rule).
+- **No fabricated URLs.** A distribution's `schema:contentUrl` is taken from a
+  resolvable per-file download URL when the producer supplies one on
+  `<fileDscr URI="...">` (Dataverse does — see the fixture below); when it is
+  absent (NADA) or a non-resolvable internal reference (Nesstar's
+  `...Nesstar?Index=0...`), the OGC nil value
+  `http://www.opengis.net/def/nil/OGC/0/missing` is used instead of an invented
+  link. The same `http(s)`-only rule governs the dataset `schema:url`: the study
+  landing page (`accsPlac/@URI`) is used when it is a real URL, and a `urn:`
+  `@id` minted from `IDNo` is never emitted as `schema:url` (the distribution
+  satisfies the url-or-distribution rule).
 - **No fabricated license.** When the source states neither `schema:license` nor
   `schema:conditionsOfAccess`, a nil `schema:license` placeholder is emitted (to
   satisfy the discovery license-or-conditionsOfAccess requirement) rather than

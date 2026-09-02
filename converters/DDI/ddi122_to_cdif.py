@@ -580,8 +580,19 @@ def parse_files(root):
                 pass
         out.append({"id": fd.attrib.get("ID", ""), "name": name,
                     "rows": rows, "cols": cols,
-                    "fileType": first_text(fd, "fileType")})
+                    "fileType": first_text(fd, "fileType"),
+                    # Some producers (e.g. Dataverse) carry the resolvable
+                    # per-file download URL on <fileDscr URI="...">. Only keep it
+                    # if it is an http(s) URL -- NADA omits it, and Nesstar puts a
+                    # non-resolvable internal reference ("...Nesstar?Index=0...")
+                    # there, which is not a download URL.
+                    "uri": _http_or_none(fd.attrib.get("URI"))})
     return out
+
+
+def _http_or_none(value):
+    v = (value or "").strip()
+    return v if v.startswith(("http://", "https://")) else None
 
 
 def build_distributions(files, variables, sig_to_id):
@@ -605,7 +616,7 @@ def build_distributions(files, variables, sig_to_id):
         dtype = ["schema:DataDownload"] + (["cdi:TabularTextDataSet"] if cols else [])
         dist = {"@type": dtype,
                 "schema:name": fi["name"] or fi["id"] or "data file",
-                "schema:contentUrl": NIL_MISSING}
+                "schema:contentUrl": fi.get("uri") or NIL_MISSING}
         if fi["fileType"]:
             dist["schema:description"] = f"Source file type: {fi['fileType']}"
         props = []
