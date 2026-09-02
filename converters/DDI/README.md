@@ -223,6 +223,15 @@ them against the DDI XSDs, and regenerates `ddi_mappings.json`, which
 with no code change. (The structured value-domain/statistics construction is
 code, not a flat mapping, and lives in `ddi122_to_cdif.py`.)
 
+**Bare-node paths are type declarations, not scalar mappings.** A row whose
+`object_json_path` is a *bare* node — `$.schema:variableMeasured[*]` or
+`$.schema:distribution[*]` with no trailing property (e.g. the `dataDscr.var`
+row, which records that a `<var>` **is** a variableMeasured node) — is **skipped**
+by the engine: those nodes are built structurally, so there is no scalar property
+to populate, and applying the row would dump the element's whole concatenated
+text under an empty `""` key. Give a row a trailing property (…`[*].schema:name`)
+for it to emit anything.
+
 ## Validation status (3 example files)
 
 `Examples/XML/` holds the three v1.2.2 inputs; they convert to `Examples/cdif/`
