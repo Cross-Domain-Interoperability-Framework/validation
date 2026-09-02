@@ -645,6 +645,23 @@ def convert(xml_path, doi_url, version, detect=True, verbose=False):
             if verbose:
                 print(f"  (conformance detection skipped: {e})", file=sys.stderr)
 
+    # Type the metadata catalog record like ddi122_to_cdif.py's build_catalog_record:
+    # a schema:Dataset bearing schema:additionalType {@id: dcat:CatalogRecord} and
+    # schema:about the described dataset. The docDscr.* SSSOM rows fill its content
+    # (identifier/maintainer/conformsTo/...) but cannot express this node typing, so
+    # add it here -- after conformance detection, which keys off the main dataset.
+    # The IRI form (not the bare string) plus schema:about is what the discovery
+    # mandatory SHACL shape's MINUS excludes, so the record is not held to the
+    # dataset-mandatory requirements.
+    rec = doc.get("schema:subjectOf")
+    if isinstance(rec, dict) and "@type" not in rec:
+        typed = {"@type": ["schema:Dataset"],
+                 "schema:additionalType": [{"@id": "dcat:CatalogRecord"}],
+                 "@id": doc["@id"] + "#cdif-catalog-record",
+                 "schema:about": {"@id": doc["@id"]}}
+        typed.update(rec)
+        doc["schema:subjectOf"] = typed
+
     # When coded variables produced shared code lists, emit a flattened @graph
     # with the dataset first and each distinct code list as a sibling node
     # (preserved from ddi122).
