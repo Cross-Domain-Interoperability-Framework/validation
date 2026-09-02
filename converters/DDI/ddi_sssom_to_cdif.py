@@ -37,6 +37,7 @@ Malformed object_json_path values (unbalanced brackets, embedded quotes/commas
 fix them in the worksheet and they light up here automatically.
 """
 import argparse
+import datetime
 import json
 import os
 import re
@@ -539,6 +540,10 @@ def convert(xml_path, doi_url, version, detect=True, verbose=False):
         doc["schema:description"] = (base + "\n" + extra) if (base and extra) else (extra or base)
     doc["schema:identifier"] = doc.get("schema:identifier", doi_url)
     doc["schema:url"] = doi_url
+    # schema:dateModified is required by the discovery profile; DDI does not
+    # always carry a production/version date, so fall back to the conversion
+    # date (the shared code lists below inherit this value).
+    doc.setdefault("schema:dateModified", datetime.date.today().isoformat())
 
     # variables -- data-driven flat mappings for scalar/description fields, plus
     # the structured value-domain / statistics construction delegated to ddi122.
@@ -608,7 +613,11 @@ def convert(xml_path, doi_url, version, detect=True, verbose=False):
     # distributions
     ditems = []
     for fd in iter_local(root, "fileDscr"):
-        item = {"@type": ["schema:DataDownload", "cdi:TabularTextDataSet"]}
+        # DDI 1.2.2/2.5 gives no per-file download URL, so carry the OGC nil
+        # "missing" value as schema:contentUrl (required by the dataDownload
+        # building block) rather than an invented link -- same as ddi122.
+        item = {"@type": ["schema:DataDownload", "cdi:TabularTextDataSet"],
+                "schema:contentUrl": NIL_MISSING}
         for (leaf, oid), paths in dist_by_leaf.items():
             val = shape_dataset(leaf, oid, gather(fd, paths, maps, anchor="fileDscr"))
             if val is not None:
