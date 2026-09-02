@@ -86,15 +86,27 @@ resolve to **core + discovery + data_description**).
   distributions carry the OGC nil value
   `http://www.opengis.net/def/nil/OGC/0/missing` as `schema:contentUrl` rather
   than an invented link. The real landing page (`accsPlac/@URI`) becomes
-  `schema:url`.
-- **No fabricated license.** When the source states no access conditions, a nil
-  `schema:license` placeholder is emitted (to satisfy the discovery
-  license-or-conditionsOfAccess requirement) rather than assuming CC-BY.
-- **Distributions are plain `schema:DataDownload`**, not `cdi:TabularTextDataSet`:
-  without a resolvable file and column-to-variable physical mapping, claiming the
-  tabular data-structure profile would over-claim (it requires
-  `cdi:hasPhysicalMapping` and `cdi:isDelimited`). Row/column counts are kept as
-  `schema:additionalProperty`.
+  `schema:url` — and `schema:url` is set **only when it is a resolvable
+  `http(s)` URL**: a `urn:` `@id` minted from `IDNo` is a valid identifier but
+  not a landing page, so no `schema:url` is emitted (the distribution satisfies
+  the url-or-distribution rule).
+- **No fabricated license.** When the source states neither `schema:license` nor
+  `schema:conditionsOfAccess`, a nil `schema:license` placeholder is emitted (to
+  satisfy the discovery license-or-conditionsOfAccess requirement) rather than
+  assuming CC-BY. `conditionsOfAccess` values are plain `"<label>: <value>"`
+  strings (the rights shape accepts an IRI, a string, or a CreativeWork *with* a
+  resolvable URL — DDI use-statement text has none).
+- **`schema:dateModified` fallback.** The discovery profile requires
+  `schema:dateModified`, but DDI does not always carry a production/version date;
+  when the source maps none, the data-driven engine falls back to the conversion
+  date (`datetime.date.today()`), and the shared code lists inherit it.
+- **Distributions are delimited `cdi:TabularTextDataSet`** (`schema:DataDownload`
+  + `cdi:TabularTextDataSet`). `ddi122_to_cdif.py` builds the full tabular
+  layout — `cdi:isDelimited` plus a `cdif:hasPhysicalMapping` column list whose
+  `cdif:formats_InstanceVariable` links each column to its deduplicated
+  InstanceVariable; row/column counts are kept as `schema:additionalProperty`.
+  The data-driven engine emits the same typing and file-level properties but not
+  (yet) the per-column physical mapping.
 - **Agent typing** uses a name heuristic (organization keywords → `Organization`,
   else `Person`), since DDI `AuthEnty` may be either.
 
