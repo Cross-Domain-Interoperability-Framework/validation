@@ -100,13 +100,17 @@ resolve to **core + discovery + data_description**).
   `schema:dateModified`, but DDI does not always carry a production/version date;
   when the source maps none, the data-driven engine falls back to the conversion
   date (`datetime.date.today()`), and the shared code lists inherit it.
-- **Distributions are delimited `cdi:TabularTextDataSet`** (`schema:DataDownload`
-  + `cdi:TabularTextDataSet`). `ddi122_to_cdif.py` builds the full tabular
-  layout — `cdi:isDelimited` plus a `cdif:hasPhysicalMapping` column list whose
-  `cdif:formats_InstanceVariable` links each column to its deduplicated
-  InstanceVariable; row/column counts are kept as `schema:additionalProperty`.
-  The data-driven engine emits the same typing and file-level properties but not
-  (yet) the per-column physical mapping.
+- **Distributions are delimited `cdi:TabularTextDataSet`.** DDI never *declares*
+  the data files as tabular text, but the `<var files="…">` → `<fileDscr ID>`
+  linkage lets the converter build a physical column-to-variable mapping, and it
+  is that mapping which justifies the `cdi:TabularTextDataSet` typing.
+  `build_distributions` emits `cdi:isDelimited` plus a `cdif:hasPhysicalMapping`
+  column list whose `cdif:formats_InstanceVariable` links each column (in
+  document order) to its deduplicated InstanceVariable. **Both engines produce
+  it**: the data-driven engine borrows this same builder for the column mapping
+  and supplies the file-level fields (name, descriptive title, row/column counts)
+  from the SSSOM worksheets. Files with no columns get plain `schema:DataDownload`
+  (no delimited layout).
 - **Agent typing** uses a name heuristic (organization keywords → `Organization`,
   else `Person`), since DDI `AuthEnty` may be either.
 

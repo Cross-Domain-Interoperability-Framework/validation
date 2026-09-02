@@ -55,6 +55,7 @@ sys.path.insert(0, HERE)
 from ddi122_to_cdif import (  # noqa: E402
     parse_variables as _parse_vars_struct, dedup_variables as _dedup_vars,
     _var_signature, CodeListRegistry, _value_domains, _statistics_collection,
+    parse_files as _parse_files, build_distributions as _build_dists,
     NIL_MISSING,
 )
 
@@ -567,7 +568,9 @@ def convert(xml_path, doi_url, version, detect=True, verbose=False):
     # <dataDscr> (e.g. DHS hhid/caseid) is one InstanceVariable, and same-name /
     # different-definition variables keep distinct #var/<name>[~N] @ids.
     parsed = _parse_vars_struct(root)
-    sig_to_ivid = {_var_signature(v): v["ivid"] for v in _dedup_vars(parsed)[0]}
+    # dedup_variables returns (unique_vars, sig->ivid); the second map is exactly
+    # the signature->@id lookup the physical mapping and this loop both need.
+    sig_to_ivid = _dedup_vars(parsed)[1]
     registry = CodeListRegistry(doc.get("schema:license") or [NIL_MISSING],
                                 doc.get("schema:dateModified") or "1900-01-01")
     # leafs the structured builder owns -- skip them in the flat pass so it does
@@ -625,9 +628,17 @@ def convert(xml_path, doi_url, version, detect=True, verbose=False):
     if vitems:
         doc["schema:variableMeasured"] = vitems
 
-    # distributions
+    # distributions. DDI never declares the files as tabular text, but the
+    # <var files="..."> -> <fileDscr ID> linkage lets us build the physical
+    # column-to-variable mapping, which is what justifies the cdi:TabularTextDataSet
+    # typing. ddi122.build_distributions constructs that mapping (cdi:isDelimited +
+    # cdif:hasPhysicalMapping, each column's cdif:formats_InstanceVariable pointing
+    # at the shared InstanceVariable); it runs over the fileDscr elements in
+    # document order, so it aligns one-to-one with the loop below. The SSSOM
+    # mappings supply the file-level fields (name, descriptive title, counts).
+    struct_dists = _build_dists(_parse_files(root), parsed, sig_to_ivid)
     ditems = []
-    for fd in iter_local(root, "fileDscr"):
+    for i, fd in enumerate(iter_local(root, "fileDscr")):
         # DDI 1.2.2/2.5 gives no per-file download URL, so carry the OGC nil
         # "missing" value as schema:contentUrl (required by the dataDownload
         # building block) rather than an invented link -- same as ddi122.
@@ -637,6 +648,12 @@ def convert(xml_path, doi_url, version, detect=True, verbose=False):
             val = shape_dataset(leaf, oid, gather(fd, paths, maps, anchor="fileDscr"))
             if val is not None:
                 set_nested(item, leaf.split("."), val)
+        # merge in the structured column mapping for this file (delimited layout +
+        # per-column links); files with no columns get neither, as they should.
+        if i < len(struct_dists):
+            for k in ("cdi:isDelimited", "cdif:hasPhysicalMapping"):
+                if k in struct_dists[i]:
+                    item[k] = struct_dists[i][k]
         ditems.append(item)
     if ditems:
         doc["schema:distribution"] = ditems
