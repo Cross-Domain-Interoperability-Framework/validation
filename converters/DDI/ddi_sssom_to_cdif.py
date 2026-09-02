@@ -494,6 +494,12 @@ def convert(xml_path, doi_url=None, version="25", detect=True, verbose=False,
             prov[ctx].append(path)
         elif ctx == "dataset":
             ds_by_leaf.setdefault((leaf, m["object_id"]), []).append(path)
+        elif ctx in ("variable", "distribution") and not leaf:
+            # A bare node path ($.schema:variableMeasured[*] / $.schema:distribution[*])
+            # is a node-TYPE declaration (this element IS that node), not a scalar
+            # property. The engine builds those nodes structurally, so applying the
+            # mapping would dump the element's whole text under an empty "" key.
+            continue
         elif ctx == "variable":
             var_by_leaf.setdefault((leaf, m["object_id"]), []).append(path)
         elif ctx == "distribution":
