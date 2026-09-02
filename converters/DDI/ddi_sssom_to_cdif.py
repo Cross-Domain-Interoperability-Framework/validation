@@ -180,15 +180,18 @@ def array_distinct(contribs):
 
 
 def shape_conditions(contribs):
-    """schema:conditionsOfAccess -> an array of References (schema:CreativeWork):
-    each contributing DDI field becomes {schema:name: <object_label>,
-    schema:description: <value>}."""
+    """schema:conditionsOfAccess -> an array of plain "label: value" strings, one
+    per contributing DDI use-statement field. The discovery rightsProperty shape
+    accepts a rights value that is an IRI, a plain string, or a CreativeWork *with*
+    a resolvable schema:url; DDI use-statement text carries no URL, so a labelled
+    string is the correct form (a url-less CreativeWork matches none of the three
+    and fails the shape). This mirrors ddi122's plain-string conditionsOfAccess,
+    keeping the object_label as a prefix so the originating field stays visible."""
     out = []
     for lbl, vs in contribs:
         for v in (vs if isinstance(vs, list) else [vs]):
             if v:
-                out.append({"@type": ["schema:CreativeWork"],
-                            "schema:name": lbl, "schema:description": v})
+                out.append(f"{lbl}: {v}" if lbl else v)
     return out or None
 
 
@@ -539,7 +542,19 @@ def convert(xml_path, doi_url, version, detect=True, verbose=False):
         base = doc.get("schema:description")
         doc["schema:description"] = (base + "\n" + extra) if (base and extra) else (extra or base)
     doc["schema:identifier"] = doc.get("schema:identifier", doi_url)
-    doc["schema:url"] = doi_url
+    # schema:url is a resolvable landing page: only set it when the @id is an
+    # http(s) URL. A urn: @id (minted from IDNo) is a valid identifier but not a
+    # URL, so emitting it as schema:url fails the discovery url pattern -- leave
+    # schema:url absent (the distributions satisfy the url-or-distribution rule),
+    # matching ddi122, which sets schema:url only from a real accsPlac/@URI.
+    if doi_url.startswith(("http://", "https://")):
+        doc["schema:url"] = doi_url
+    # Access rights are required by the discovery profile (license OR
+    # conditionsOfAccess). When the DDI states neither, emit an honest OGC nil
+    # "missing" license placeholder rather than assuming a license -- matching
+    # ddi122 (the shared code lists already use the same fallback).
+    if not doc.get("schema:license") and not doc.get("schema:conditionsOfAccess"):
+        doc["schema:license"] = [NIL_MISSING]
     # schema:dateModified is required by the discovery profile; DDI does not
     # always carry a production/version date, so fall back to the conversion
     # date (the shared code lists below inherit this value).
