@@ -4,6 +4,31 @@ Converts **DDI 1.2.2 XML** (ICPSR, `http://www.icpsr.umich.edu/DDI/Version1-2-2.
 — e.g. Nesstar-published DHS / MICS / PHIM / World Bank microdata — to CDIF
 JSON-LD. Both engines here are **source-agnostic** (no repository assumptions).
 
+## Single entry point: [`ddi2cdif.py`](ddi2cdif.py)
+
+You don't have to know the flavor up front. [`ddi2cdif.py`](ddi2cdif.py) sniffs
+the input (root element, `version` attribute, namespace — or JSON-LD) and routes
+it:
+
+```bash
+python ddi2cdif.py input.xml -o out.json      # auto-detects flavor + version
+python ddi2cdif.py input.xml --print-flavor   # just report what it is
+```
+
+The DDI landscape it dispatches over is **three peers**:
+
+| Peer | Handler |
+|------|---------|
+| **DDI Codebook** (1.2.2 **and** 2.5 — one product line, 2.5 ⊇ 1.2.2) | the data-driven engine below, version auto-chosen (`1.x → --version 122`, `2.x → 25`) |
+| **DDI-CDI** (RDF / JSON-LD) | a *separate* graph-based branch — not implemented yet; the dispatcher raises a clear error rather than mis-reading it as Codebook |
+| **DDI Lifecycle 3.x** (`<DDIInstance>`) | a different product line — not supported |
+
+Source-specific variants are **not** dispatched here: [`ddi_to_cdif.py`](ddi_to_cdif.py)
+is a Harvard-Dataverse tool that adds live Dataverse-API enrichment (file
+size/checksum, HTTP headers) the offline engine deliberately lacks; its base
+conversion is otherwise superseded by the engine. Everything below documents the
+Codebook engine the dispatcher calls.
+
 | Engine | What it does |
 |--------|--------------|
 | [`ddi122_to_cdif.py`](ddi122_to_cdif.py) | Hand-coded 1.2.2 → CDIF converter. Builds the full study + variable + file structure, including the enumerated value domains, shared code lists, and statistics described below. |

@@ -5,6 +5,13 @@ ddi_to_cdif.py - Convert DDI Codebook 2.5 XML to CDIF DataDescription JSON-LD.
 Reads a DDI Codebook 2.5 XML file (e.g., from Harvard Dataverse DDI export)
 and produces a CDIF-conformant JSON-LD document at the DataDescription level.
 
+SCOPE: this is a **source-specific** tool (Harvard Dataverse) and is deliberately
+NOT part of the ddi2cdif.py flavor dispatcher, because it does something the
+source-agnostic engine cannot: live Dataverse-API enrichment (file size/checksum,
+HTTP headers via --fetch-file-meta / --fetch-headers). For a plain, offline
+Codebook 2.5 -> CDIF conversion, prefer ddi2cdif.py / ddi_sssom_to_cdif.py, whose
+crosswalk is more complete; this tool's base conversion is otherwise superseded.
+
 Maps:
   - Study-level: title, abstract, authors, keywords, spatial, temporal
   - Variable-level: DDI <var> → schema:variableMeasured / cdi:InstanceVariable
