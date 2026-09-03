@@ -49,8 +49,40 @@ CDIF-managed URI space (`https://w3id.org/cdif/`) is compared — a project or
 domain profile claim is listed and left alone, matching what `apply_conformance`
 preserves.
 
-This is **reporting, not enforcement**: an inconsistent declaration does not by
-itself fail the run, so the exit code still reflects JSON Schema validity alone.
+**An over-claim is fatal; an under-claim is advisory.** Declaring a profile the
+content does not support is a wrong statement about the record, and it is the
+declaration that tells a consumer which schema to apply — so the run exits 1
+even when JSON Schema validation passes:
+
+```
+Validation PASSED
+
+FAILED: conformsTo declares 1 profile(s) the content does not support:
+  https://w3id.org/cdif/data_description/1.1
+```
+
+The exit is deferred until after the schema pass, so a document with both
+problems reports its schema errors rather than having them masked. A record that
+merely under-claims still exits 0.
+
+Two things bound what the comparison can honestly say, and both were found by
+making it fatal and watching correct records fail:
+
+- **Only the six detectable profiles are compared.** `detect_conformance` emits
+  from a fixed registry — core, discovery, data_description, data_structure,
+  provenance, manifest. A record declaring anything else (`codelist/1.1`,
+  `complexCitation/0.1`) would read as over-claiming every single time, because
+  no rule exists that could produce it. Those are reported as
+  `not checked (no detection rule)` and never fail a run.
+- **Both halves are read from the source document, never the framed one.**
+  Framing is lossy in both directions. It can drop `schema:subjectOf` outright,
+  so the declaration reads as "declares nothing". And evidence below
+  `schema:distribution` does not survive it — `exampleCDIFDataStructureMinimal.json`
+  detects `data_structure/1.1` from its source and not from its framed result —
+  so detection under-reports and a correct record looks like it is over-claiming.
+  Framing stays where it belongs: feeding JSON Schema, which validates the
+  framed shape.
+
 
 Two details worth knowing:
 

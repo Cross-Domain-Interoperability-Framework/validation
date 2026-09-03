@@ -168,7 +168,8 @@ def run_json_schema_validation(filepath):
     """JSON Schema pass across every declared profile (via ConformanceValidate).
 
     Returns (passed: bool, output: str). Passes when no declared profile's
-    framed JSON Schema fails; profiles with no local schema are reported but
+    framed JSON Schema fails and no profile is over-claimed (declared but not
+    supported by the content); profiles with no local schema are reported but
     don't fail the record.
     """
     res = _conformance(filepath)
@@ -182,6 +183,13 @@ def run_json_schema_validation(filepath):
         msgs = [f"{_short(p['uri'])}: {e.get('message', e)}"
                 for p in failed for e in p["schema"]["errors"][:2]]
         return False, "\n".join(msgs)
+    # An over-claimed profile fails the record: the declaration is what chose
+    # the schemas validated above, so "passed" against a profile the content
+    # does not support is not a pass. Under-claiming is advisory.
+    over = (res.get("conformance_check") or {}).get("overclaimed") or []
+    if over:
+        return False, "over-claimed conformsTo (declared, not supported by " \
+                      "content): " + ", ".join(_short(u) for u in over)
     checked = [_short(p["uri"]) for p in profiles
                if p["schema"]["status"] == "passed"]
     return True, "PASSED [" + ", ".join(checked) + "]" if checked else "PASSED (no local schema)"

@@ -219,11 +219,30 @@ to specify a profile up front.
    project or domain profile claim is left alone — the same boundary
    `apply_conformance` respects when it rewrites.
 
-   This is **reported, not enforced**: it does not feed `total_violations` and
-   does not change the exit code. The step is skipped, silently, where
-   `detect_conformance` or `rdflib` cannot be imported, so it is as optional as
-   the SHACL pass. `run_conformance(...)` returns it as `conformance_check`
-   (`None` when unavailable); every pre-existing key is unchanged.
+   **An over-claim is fatal; an under-claim is advisory.** `ConformanceValidate`
+   exits 1 on an over-claim even when every profile passed, and `batch_validate`
+   fails the record — because the over-claimed URI is what selected the schema
+   and SHACL used in steps 3-5, so a "pass" against a profile the content does
+   not support is not a pass. `total_violations` still counts only schema and
+   SHACL results, so that number does not change meaning.
+
+   Only the **six detectable profiles** are compared — `detect_conformance`
+   emits from a fixed registry (core, discovery, data_description,
+   data_structure, provenance, manifest), so a record declaring `codelist/1.1`
+   or `complexCitation/0.1` would read as over-claiming every time. Those are
+   reported as `not checked (no detection rule)` and never fail a run.
+
+   Detection runs on the **source** document, not the framed one: framing is
+   lossy, and evidence below `schema:distribution` does not survive it, so
+   detecting from the framed result under-reports and manufactures over-claims
+   for correct records. (Note `--conformance` in `FrameAndValidate.py`, which
+   *rewrites* conformsTo, still detects from the framed document — so it can
+   under-write the declaration for the same reason.)
+
+   The step is skipped, silently, where `detect_conformance` or `rdflib` cannot
+   be imported, so it is as optional as the SHACL pass. `run_conformance(...)`
+   returns it as `conformance_check` (`None` when unavailable); every
+   pre-existing key is unchanged.
 
    `FrameAndValidate.py -v` performs the same comparison for a single document
    against a single profile — see `tools/README.md`.
