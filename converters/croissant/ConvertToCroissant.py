@@ -292,7 +292,7 @@ def _convert_distribution(cdif, verbose=False):
     """Convert CDIF distribution → (cr_distribution, tabular_files).
 
     *tabular_files* is a list of (file_id, hasPart_obj) for parts that carry
-    ``cdi:hasPhysicalMapping``; these feed RecordSet generation.
+    ``cdif:hasPhysicalMapping``; these feed RecordSet generation.
     """
     dists = _as_list(_get(cdif, "schema:distribution", default=[]))
     cr_dist = []

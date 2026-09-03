@@ -19,14 +19,14 @@ STATUS — phased build toward the "broadest end-to-end" goal. Mapped so far:
 
   DataStore / WideDataSet / PhysicalDataSet -> schema:Dataset                (phase 1)
   InstanceVariable                          -> schema:variableMeasured        (phase 1)
-    name, displayLabel, hasIntendedDataType, cdi:role (from its Component)
-    Substantive + Sentinel ValueDomain -> CodeList -> cdif:hasValuesFrom /
+    name, displayLabel, hasIntendedDataType, cdif:role (from its Component)
+    Substantive + Sentinel ValueDomain -> CodeList -> cdi:takesSubstantiveValuesFrom / cdi:takesSentinelValuesFrom /
                                                cdif:EnumerationDomain (valueType)
                                                -> skos:ConceptScheme/Concept (phase 2, 6)
     ValueAndConceptDescription/classificationLevel -> cdif:classificationLevel(phase 2)
     catalogDetails/title, physicalFileName, recordCount -> discovery enrichment (phase 6)
   WideDataStructure + components + PrimaryKey -> distribution cdi:*DataSet +
-                                               cdif:isStructuredBy /
+                                               cdi:isStructuredBy /
                                                cdi:has_DataStructureComponent  (phase 3)
 
   Activity (Sequence-invoked) + Step/Parameter/Organization/ProductionEnvironment
@@ -36,7 +36,7 @@ STATUS — phased build toward the "broadest end-to-end" goal. Mapped so far:
 
   PhysicalSegmentLayout / ValueMapping / ValueMappingPosition
                                             -> distribution cdi:isDelimited /
-                                               cdi:hasPhysicalMapping (index,
+                                               cdif:hasPhysicalMapping (index,
                                                physicalDataType, formats var)   (phase 4)
 
 Out of scope: DataPoint / InstanceValue (the actual data values) - CDIF is a
@@ -68,9 +68,11 @@ CDI_CTX = {
     "prov": "http://www.w3.org/ns/prov#",
 }
 
-# DDI-CDI DataStructureComponent type -> CDIF cdi:role.
+# DDI-CDI DataStructureComponent type -> CDIF cdif:role (values must be
+# members of the cdif:role enum: UnitIdentifier | Measure | Attribute |
+# Dimension | Descriptor | ReferenceVariable).
 COMPONENT_ROLE = {
-    "IdentifierComponent": "Identifier",
+    "IdentifierComponent": "UnitIdentifier",
     "MeasureComponent": "Measure",
     "DimensionComponent": "Dimension",
     "AttributeComponent": "Attribute",
@@ -168,7 +170,7 @@ def map_intended_type(fmt):
 
 
 def build_role_map(objects):
-    """InstanceVariable dataIdentifier -> cdi:role, from the components."""
+    """InstanceVariable dataIdentifier -> cdif:role, from the components."""
     roles = {}
     for obj in objects:
         role = COMPONENT_ROLE.get(local(obj))
@@ -256,29 +258,42 @@ def build_variable(iv, roles, index):
     label = text_at(iv, "displayLabel", "languageSpecificString", "content")
     if label:
         vm["schema:description"] = label
-    vm["cdi:intendedDataType"] = map_intended_type(text_at(iv, "hasIntendedDataType", "name"))
+    vm["cdi:hasIntendedDataType"] = map_intended_type(text_at(iv, "hasIntendedDataType", "name"))
     if var_id in roles:
-        vm["cdi:role"] = roles[var_id]
+        vm["cdif:role"] = roles[var_id]
 
     # Phase 2 + 6 - substantive and sentinel value domains / code lists.
-    enumerations = []
+    # CDIF draws the substantive/sentinel line with two declared properties
+    # rather than a discriminator on one list: cdi:takesSubstantiveValuesFrom
+    # (single) and cdi:takesSentinelValuesFrom (array), each holding a
+    # ValueDomain whose cdif:takesValuesFrom is the EnumerationDomain.
+    sentinels = []
     for codelist, vtype, level in value_domains(iv, index):
         if vtype == "substantive" and level:
-            vm["cdif:classificationLevel"] = level
-        if codelist is not None:
-            enumerations.append({
+            vm["cdi:classificationLevel"] = level
+        if codelist is None:
+            continue
+        substantive = vtype == "substantive"
+        domain = {
+            "@type": ["cdif:SubstantiveValueDomain" if substantive
+                      else "cdif:SentinelValueDomain"],
+            "cdif:takesValuesFrom": {
                 "@type": ["cdif:EnumerationDomain"],
-                "cdif:valueType": vtype,
                 "cdif:references": build_concept_scheme(codelist, index),
-            })
-    if enumerations:
-        vm["cdif:hasValuesFrom"] = enumerations
+            },
+        }
+        if substantive:
+            vm["cdi:takesSubstantiveValuesFrom"] = domain
+        else:
+            sentinels.append(domain)
+    if sentinels:
+        vm["cdi:takesSentinelValuesFrom"] = sentinels
     return vm
 
 
 def build_data_structure(objects, index):
     """Map the DDI-CDI DataStructure + its components + primary key to a CDIF
-    cdif:isStructuredBy node. Returns (structure_node, dataset_type) or (None, None).
+    cdi:isStructuredBy node. Returns (structure_node, dataset_type) or (None, None).
 
     DDI-CDI:  <WideDataStructure> has DataStructure_has_DataStructureComponent ->
               <MeasureComponent> isDefinedBy_RepresentedVariable -> <InstanceVariable>
@@ -428,7 +443,7 @@ def build_provenance(objects, index):
 
 
 def build_physical_mappings(objects, index):
-    """Map DDI-CDI physical layout to CDIF cdi:hasPhysicalMapping entries.
+    """Map DDI-CDI physical layout to CDIF cdif:hasPhysicalMapping entries.
 
         InstanceVariable_has_ValueMapping -> ValueMapping (the physical column)
         ValueMappingPosition_indexes_ValueMapping, value -> column index
@@ -459,13 +474,13 @@ def build_physical_mappings(objects, index):
         if not vm:
             continue
         entry = {"schema:name": text_at(iv, "name", "name"),
-                 "cdi:physicalDataType": map_intended_type(
+                 "cdif:physicalDataType": map_intended_type(
                      text_at(iv, "hasIntendedDataType", "name")),
-                 "cdi:formats_InstanceVariable": {"@id": as_id(object_id(iv))}}
+                 "cdif:formats_InstanceVariable": {"@id": as_id(object_id(iv))}}
         if vm in vm_index:
-            entry["cdi:index"] = vm_index[vm]
+            entry["cdif:index"] = vm_index[vm]
         mappings.append(entry)
-    mappings.sort(key=lambda m: m.get("cdi:index", 1_000_000))
+    mappings.sort(key=lambda m: m.get("cdif:index", 1_000_000))
     return mappings, is_delim, is_fixed
 
 
@@ -533,7 +548,7 @@ def build_catalog_record(dataset_iri, name, nvars):
         f"(cdi:DDICDIModels) and converted to CDIF by ddicdi_to_cdif.py. "
         f"DataStore/WideDataSet -> schema:Dataset; {nvars} cdi:InstanceVariable "
         f"-> schema:variableMeasured (name, displayLabel, hasIntendedDataType, "
-        f"and cdi:role from the DataStructureComponent). Value domains, code "
+        f"and cdif:role from the DataStructureComponent). Value domains, code "
         f"lists, data structure, physical mappings, data and provenance are not "
         f"yet carried over (walking skeleton)."
     )
@@ -594,11 +609,11 @@ def convert(xml_path, explicit_id=None, base_uri="urn:ddi-cdi", detect=True):
             "@type": ["schema:PropertyValue"],
             "schema:name": "record count", "schema:value": rc}]
     # Phase 3 - data structure: type the distribution as a structured dataset and
-    # attach the DDI-CDI DataStructure + components via cdif:isStructuredBy.
+    # attach the DDI-CDI DataStructure + components via cdi:isStructuredBy.
     structure, dataset_type = build_data_structure(objects, index)
     if structure is not None:
         dist["@type"] = ["schema:DataDownload", dataset_type]
-        dist["cdif:isStructuredBy"] = structure
+        dist["cdi:isStructuredBy"] = structure
     # Phase 4 - physical mappings: variable -> column position/format.
     mappings, is_delim, is_fixed = build_physical_mappings(objects, index)
     if is_delim:
@@ -606,7 +621,7 @@ def convert(xml_path, explicit_id=None, base_uri="urn:ddi-cdi", detect=True):
     if is_fixed:
         dist["cdi:isFixedWidth"] = (is_fixed == "true")
     if mappings:
-        dist["cdi:hasPhysicalMapping"] = mappings
+        dist["cdif:hasPhysicalMapping"] = mappings
     doc["schema:distribution"] = [dist]
 
     # Phase 5 - provenance: map the DDI-CDI process model (Activity/Step/...) to

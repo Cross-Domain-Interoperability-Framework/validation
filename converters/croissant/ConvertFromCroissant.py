@@ -402,7 +402,7 @@ def _convert_distribution(croissant, record_sets_by_file, verbose=False):
 
     cdif_distribution = []
     # node_for_file_id: file @id -> CDIF node (DataDownload or hasPart MediaObject)
-    # that owns the cdi:hasPhysicalMapping for fields referencing that file.
+    # that owns the cdif:hasPhysicalMapping for fields referencing that file.
     node_for_file_id = {}
 
     # 1) Stand-alone (non-archive) DataDownloads
