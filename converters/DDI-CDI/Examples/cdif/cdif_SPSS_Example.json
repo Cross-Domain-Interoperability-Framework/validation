@@ -32,9 +32,9 @@
       "@id": "#instanceVariable-idno",
       "schema:name": "idno",
       "schema:description": "Respondent's identification number",
-      "cdi:intendedDataType": "xsd:integer",
-      "cdi:role": "Identifier",
-      "cdif:classificationLevel": "Nominal"
+      "cdi:hasIntendedDataType": "xsd:integer",
+      "cdif:role": "UnitIdentifier",
+      "cdi:classificationLevel": "Nominal"
     },
     {
       "@type": [
@@ -44,73 +44,81 @@
       "@id": "#instanceVariable-nwspol",
       "schema:name": "nwspol",
       "schema:description": "News about politics and current affairs, watching, reading or listening, in minutes",
-      "cdi:intendedDataType": "xsd:integer",
-      "cdi:role": "Measure",
-      "cdif:classificationLevel": "Continuous",
-      "cdif:hasValuesFrom": [
-        {
+      "cdi:hasIntendedDataType": "xsd:integer",
+      "cdif:role": "Measure",
+      "cdi:classificationLevel": "Continuous",
+      "cdi:takesSubstantiveValuesFrom": {
+        "@type": [
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdif:takesValuesFrom": {
           "@type": [
             "cdif:EnumerationDomain"
           ],
-          "cdif:valueType": "substantive",
           "cdif:references": {
             "@type": [
               "skos:ConceptScheme"
             ],
             "@id": "#substantiveCodelist-nwspol"
           }
-        },
+        }
+      },
+      "cdi:takesSentinelValuesFrom": [
         {
           "@type": [
-            "cdif:EnumerationDomain"
+            "cdif:SentinelValueDomain"
           ],
-          "cdif:valueType": "sentinel",
-          "cdif:references": {
+          "cdif:takesValuesFrom": {
             "@type": [
-              "skos:ConceptScheme"
+              "cdif:EnumerationDomain"
             ],
-            "@id": "#sentinelCodelist-nwspol",
-            "skos:hasTopConcept": [
-              {
-                "@type": [
-                  "skos:Concept"
-                ],
-                "@id": "#code-7777.0-nwspol",
-                "skos:inScheme": [
-                  {
-                    "@id": "#sentinelCodelist-nwspol"
-                  }
-                ],
-                "skos:notation": "7777.0",
-                "skos:prefLabel": "Refusal"
-              },
-              {
-                "@type": [
-                  "skos:Concept"
-                ],
-                "@id": "#code-8888.0-nwspol",
-                "skos:inScheme": [
-                  {
-                    "@id": "#sentinelCodelist-nwspol"
-                  }
-                ],
-                "skos:notation": "8888.0",
-                "skos:prefLabel": "Don't know"
-              },
-              {
-                "@type": [
-                  "skos:Concept"
-                ],
-                "@id": "#code-9999.0-nwspol",
-                "skos:inScheme": [
-                  {
-                    "@id": "#sentinelCodelist-nwspol"
-                  }
-                ],
-                "skos:notation": "9999.0",
-                "skos:prefLabel": "No answer"
-              }
-            ]
+            "cdif:references": {
+              "@type": [
+                "skos:ConceptScheme"
+              ],
+              "@id": "#sentinelCodelist-nwspol",
+              "skos:hasTopConcept": [
+                {
+                  "@type": [
+                    "skos:Concept"
+                  ],
+                  "@id": "#code-7777.0-nwspol",
+                  "skos:inScheme": [
+                    {
+                      "@id": "#sentinelCodelist-nwspol"
+                    }
+                  ],
+                  "skos:notation": "7777.0",
+                  "skos:prefLabel": "Refusal"
+                },
+                {
+                  "@type": [
+                    "skos:Concept"
+                  ],
+                  "@id": "#code-8888.0-nwspol",
+                  "skos:inScheme": [
+                    {
+                      "@id": "#sentinelCodelist-nwspol"
+                    }
+                  ],
+                  "skos:notation": "8888.0",
+                  "skos:prefLabel": "Don't know"
+                },
+                {
+                  "@type": [
+                    "skos:Concept"
+                  ],
+                  "@id": "#code-9999.0-nwspol",
+                  "skos:inScheme": [
+                    {
+                      "@id": "#sentinelCodelist-nwspol"
+                    }
+                  ],
+                  "skos:notation": "9999.0",
+                  "skos:prefLabel": "No answer"
+                }
+              ]
+            }
           }
         }
       ]
@@ -123,15 +131,17 @@
       "@id": "#instanceVariable-netusoft",
       "schema:name": "netusoft",
       "schema:description": "Internet use, how often",
-      "cdi:intendedDataType": "xsd:integer",
-      "cdi:role": "Measure",
-      "cdif:classificationLevel": "Nominal",
-      "cdif:hasValuesFrom": [
-        {
+      "cdi:hasIntendedDataType": "xsd:integer",
+      "cdif:role": "Measure",
+      "cdi:classificationLevel": "Nominal",
+      "cdi:takesSubstantiveValuesFrom": {
+        "@type": [
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdif:takesValuesFrom": {
           "@type": [
             "cdif:EnumerationDomain"
           ],
-          "cdif:valueType": "substantive",
           "cdif:references": {
             "@type": [
               "skos:ConceptScheme"
@@ -205,58 +215,64 @@
               }
             ]
           }
-        },
+        }
+      },
+      "cdi:takesSentinelValuesFrom": [
         {
           "@type": [
-            "cdif:EnumerationDomain"
+            "cdif:SentinelValueDomain"
           ],
-          "cdif:valueType": "sentinel",
-          "cdif:references": {
+          "cdif:takesValuesFrom": {
             "@type": [
-              "skos:ConceptScheme"
+              "cdif:EnumerationDomain"
             ],
-            "@id": "#sentinelCodelist-netusoft",
-            "skos:hasTopConcept": [
-              {
-                "@type": [
-                  "skos:Concept"
-                ],
-                "@id": "#code-7.0-netusoft",
-                "skos:inScheme": [
-                  {
-                    "@id": "#sentinelCodelist-netusoft"
-                  }
-                ],
-                "skos:notation": "7.0",
-                "skos:prefLabel": "Refusal"
-              },
-              {
-                "@type": [
-                  "skos:Concept"
-                ],
-                "@id": "#code-8.0-netusoft",
-                "skos:inScheme": [
-                  {
-                    "@id": "#sentinelCodelist-netusoft"
-                  }
-                ],
-                "skos:notation": "8.0",
-                "skos:prefLabel": "Don't know"
-              },
-              {
-                "@type": [
-                  "skos:Concept"
-                ],
-                "@id": "#code-9.0-netusoft",
-                "skos:inScheme": [
-                  {
-                    "@id": "#sentinelCodelist-netusoft"
-                  }
-                ],
-                "skos:notation": "9.0",
-                "skos:prefLabel": "No answer"
-              }
-            ]
+            "cdif:references": {
+              "@type": [
+                "skos:ConceptScheme"
+              ],
+              "@id": "#sentinelCodelist-netusoft",
+              "skos:hasTopConcept": [
+                {
+                  "@type": [
+                    "skos:Concept"
+                  ],
+                  "@id": "#code-7.0-netusoft",
+                  "skos:inScheme": [
+                    {
+                      "@id": "#sentinelCodelist-netusoft"
+                    }
+                  ],
+                  "skos:notation": "7.0",
+                  "skos:prefLabel": "Refusal"
+                },
+                {
+                  "@type": [
+                    "skos:Concept"
+                  ],
+                  "@id": "#code-8.0-netusoft",
+                  "skos:inScheme": [
+                    {
+                      "@id": "#sentinelCodelist-netusoft"
+                    }
+                  ],
+                  "skos:notation": "8.0",
+                  "skos:prefLabel": "Don't know"
+                },
+                {
+                  "@type": [
+                    "skos:Concept"
+                  ],
+                  "@id": "#code-9.0-netusoft",
+                  "skos:inScheme": [
+                    {
+                      "@id": "#sentinelCodelist-netusoft"
+                    }
+                  ],
+                  "skos:notation": "9.0",
+                  "skos:prefLabel": "No answer"
+                }
+              ]
+            }
           }
         }
       ]
@@ -269,86 +285,94 @@
       "@id": "#instanceVariable-netustm",
       "schema:name": "netustm",
       "schema:description": "Internet use, how much time on typical day, in minutes",
-      "cdi:intendedDataType": "xsd:integer",
-      "cdi:role": "Measure",
-      "cdif:classificationLevel": "Continuous",
-      "cdif:hasValuesFrom": [
-        {
+      "cdi:hasIntendedDataType": "xsd:integer",
+      "cdif:role": "Measure",
+      "cdi:classificationLevel": "Continuous",
+      "cdi:takesSubstantiveValuesFrom": {
+        "@type": [
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdif:takesValuesFrom": {
           "@type": [
             "cdif:EnumerationDomain"
           ],
-          "cdif:valueType": "substantive",
           "cdif:references": {
             "@type": [
               "skos:ConceptScheme"
             ],
             "@id": "#substantiveCodelist-netustm"
           }
-        },
+        }
+      },
+      "cdi:takesSentinelValuesFrom": [
         {
           "@type": [
-            "cdif:EnumerationDomain"
+            "cdif:SentinelValueDomain"
           ],
-          "cdif:valueType": "sentinel",
-          "cdif:references": {
+          "cdif:takesValuesFrom": {
             "@type": [
-              "skos:ConceptScheme"
+              "cdif:EnumerationDomain"
             ],
-            "@id": "#sentinelCodelist-netustm",
-            "skos:hasTopConcept": [
-              {
-                "@type": [
-                  "skos:Concept"
-                ],
-                "@id": "#code-6666.0-netustm",
-                "skos:inScheme": [
-                  {
-                    "@id": "#sentinelCodelist-netustm"
-                  }
-                ],
-                "skos:notation": "6666.0",
-                "skos:prefLabel": "Not applicable"
-              },
-              {
-                "@type": [
-                  "skos:Concept"
-                ],
-                "@id": "#code-7777.0-netustm",
-                "skos:inScheme": [
-                  {
-                    "@id": "#sentinelCodelist-netustm"
-                  }
-                ],
-                "skos:notation": "7777.0",
-                "skos:prefLabel": "Refusal"
-              },
-              {
-                "@type": [
-                  "skos:Concept"
-                ],
-                "@id": "#code-8888.0-netustm",
-                "skos:inScheme": [
-                  {
-                    "@id": "#sentinelCodelist-netustm"
-                  }
-                ],
-                "skos:notation": "8888.0",
-                "skos:prefLabel": "Don't know"
-              },
-              {
-                "@type": [
-                  "skos:Concept"
-                ],
-                "@id": "#code-9999.0-netustm",
-                "skos:inScheme": [
-                  {
-                    "@id": "#sentinelCodelist-netustm"
-                  }
-                ],
-                "skos:notation": "9999.0",
-                "skos:prefLabel": "No answer"
-              }
-            ]
+            "cdif:references": {
+              "@type": [
+                "skos:ConceptScheme"
+              ],
+              "@id": "#sentinelCodelist-netustm",
+              "skos:hasTopConcept": [
+                {
+                  "@type": [
+                    "skos:Concept"
+                  ],
+                  "@id": "#code-6666.0-netustm",
+                  "skos:inScheme": [
+                    {
+                      "@id": "#sentinelCodelist-netustm"
+                    }
+                  ],
+                  "skos:notation": "6666.0",
+                  "skos:prefLabel": "Not applicable"
+                },
+                {
+                  "@type": [
+                    "skos:Concept"
+                  ],
+                  "@id": "#code-7777.0-netustm",
+                  "skos:inScheme": [
+                    {
+                      "@id": "#sentinelCodelist-netustm"
+                    }
+                  ],
+                  "skos:notation": "7777.0",
+                  "skos:prefLabel": "Refusal"
+                },
+                {
+                  "@type": [
+                    "skos:Concept"
+                  ],
+                  "@id": "#code-8888.0-netustm",
+                  "skos:inScheme": [
+                    {
+                      "@id": "#sentinelCodelist-netustm"
+                    }
+                  ],
+                  "skos:notation": "8888.0",
+                  "skos:prefLabel": "Don't know"
+                },
+                {
+                  "@type": [
+                    "skos:Concept"
+                  ],
+                  "@id": "#code-9999.0-netustm",
+                  "skos:inScheme": [
+                    {
+                      "@id": "#sentinelCodelist-netustm"
+                    }
+                  ],
+                  "skos:notation": "9999.0",
+                  "skos:prefLabel": "No answer"
+                }
+              ]
+            }
           }
         }
       ]
@@ -361,15 +385,17 @@
       "@id": "#instanceVariable-ppltrst",
       "schema:name": "ppltrst",
       "schema:description": "Most people can be trusted or you can't be too careful",
-      "cdi:intendedDataType": "xsd:integer",
-      "cdi:role": "Measure",
-      "cdif:classificationLevel": "Nominal",
-      "cdif:hasValuesFrom": [
-        {
+      "cdi:hasIntendedDataType": "xsd:integer",
+      "cdif:role": "Measure",
+      "cdi:classificationLevel": "Nominal",
+      "cdi:takesSubstantiveValuesFrom": {
+        "@type": [
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdif:takesValuesFrom": {
           "@type": [
             "cdif:EnumerationDomain"
           ],
-          "cdif:valueType": "substantive",
           "cdif:references": {
             "@type": [
               "skos:ConceptScheme"
@@ -521,58 +547,64 @@
               }
             ]
           }
-        },
+        }
+      },
+      "cdi:takesSentinelValuesFrom": [
         {
           "@type": [
-            "cdif:EnumerationDomain"
+            "cdif:SentinelValueDomain"
           ],
-          "cdif:valueType": "sentinel",
-          "cdif:references": {
+          "cdif:takesValuesFrom": {
             "@type": [
-              "skos:ConceptScheme"
+              "cdif:EnumerationDomain"
             ],
-            "@id": "#sentinelCodelist-ppltrst",
-            "skos:hasTopConcept": [
-              {
-                "@type": [
-                  "skos:Concept"
-                ],
-                "@id": "#code-77.0-ppltrst",
-                "skos:inScheme": [
-                  {
-                    "@id": "#sentinelCodelist-ppltrst"
-                  }
-                ],
-                "skos:notation": "77.0",
-                "skos:prefLabel": "Refusal"
-              },
-              {
-                "@type": [
-                  "skos:Concept"
-                ],
-                "@id": "#code-88.0-ppltrst",
-                "skos:inScheme": [
-                  {
-                    "@id": "#sentinelCodelist-ppltrst"
-                  }
-                ],
-                "skos:notation": "88.0",
-                "skos:prefLabel": "Don't know"
-              },
-              {
-                "@type": [
-                  "skos:Concept"
-                ],
-                "@id": "#code-99.0-ppltrst",
-                "skos:inScheme": [
-                  {
-                    "@id": "#sentinelCodelist-ppltrst"
-                  }
-                ],
-                "skos:notation": "99.0",
-                "skos:prefLabel": "No answer"
-              }
-            ]
+            "cdif:references": {
+              "@type": [
+                "skos:ConceptScheme"
+              ],
+              "@id": "#sentinelCodelist-ppltrst",
+              "skos:hasTopConcept": [
+                {
+                  "@type": [
+                    "skos:Concept"
+                  ],
+                  "@id": "#code-77.0-ppltrst",
+                  "skos:inScheme": [
+                    {
+                      "@id": "#sentinelCodelist-ppltrst"
+                    }
+                  ],
+                  "skos:notation": "77.0",
+                  "skos:prefLabel": "Refusal"
+                },
+                {
+                  "@type": [
+                    "skos:Concept"
+                  ],
+                  "@id": "#code-88.0-ppltrst",
+                  "skos:inScheme": [
+                    {
+                      "@id": "#sentinelCodelist-ppltrst"
+                    }
+                  ],
+                  "skos:notation": "88.0",
+                  "skos:prefLabel": "Don't know"
+                },
+                {
+                  "@type": [
+                    "skos:Concept"
+                  ],
+                  "@id": "#code-99.0-ppltrst",
+                  "skos:inScheme": [
+                    {
+                      "@id": "#sentinelCodelist-ppltrst"
+                    }
+                  ],
+                  "skos:notation": "99.0",
+                  "skos:prefLabel": "No answer"
+                }
+              ]
+            }
           }
         }
       ]
@@ -585,15 +617,17 @@
       "@id": "#instanceVariable-pplfair",
       "schema:name": "pplfair",
       "schema:description": "Most people try to take advantage of you, or try to be fair",
-      "cdi:intendedDataType": "xsd:integer",
-      "cdi:role": "Measure",
-      "cdif:classificationLevel": "Nominal",
-      "cdif:hasValuesFrom": [
-        {
+      "cdi:hasIntendedDataType": "xsd:integer",
+      "cdif:role": "Measure",
+      "cdi:classificationLevel": "Nominal",
+      "cdi:takesSubstantiveValuesFrom": {
+        "@type": [
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdif:takesValuesFrom": {
           "@type": [
             "cdif:EnumerationDomain"
           ],
-          "cdif:valueType": "substantive",
           "cdif:references": {
             "@type": [
               "skos:ConceptScheme"
@@ -745,58 +779,64 @@
               }
             ]
           }
-        },
+        }
+      },
+      "cdi:takesSentinelValuesFrom": [
         {
           "@type": [
-            "cdif:EnumerationDomain"
+            "cdif:SentinelValueDomain"
           ],
-          "cdif:valueType": "sentinel",
-          "cdif:references": {
+          "cdif:takesValuesFrom": {
             "@type": [
-              "skos:ConceptScheme"
+              "cdif:EnumerationDomain"
             ],
-            "@id": "#sentinelCodelist-pplfair",
-            "skos:hasTopConcept": [
-              {
-                "@type": [
-                  "skos:Concept"
-                ],
-                "@id": "#code-77.0-pplfair",
-                "skos:inScheme": [
-                  {
-                    "@id": "#sentinelCodelist-pplfair"
-                  }
-                ],
-                "skos:notation": "77.0",
-                "skos:prefLabel": "Refusal"
-              },
-              {
-                "@type": [
-                  "skos:Concept"
-                ],
-                "@id": "#code-88.0-pplfair",
-                "skos:inScheme": [
-                  {
-                    "@id": "#sentinelCodelist-pplfair"
-                  }
-                ],
-                "skos:notation": "88.0",
-                "skos:prefLabel": "Don't know"
-              },
-              {
-                "@type": [
-                  "skos:Concept"
-                ],
-                "@id": "#code-99.0-pplfair",
-                "skos:inScheme": [
-                  {
-                    "@id": "#sentinelCodelist-pplfair"
-                  }
-                ],
-                "skos:notation": "99.0",
-                "skos:prefLabel": "No answer"
-              }
-            ]
+            "cdif:references": {
+              "@type": [
+                "skos:ConceptScheme"
+              ],
+              "@id": "#sentinelCodelist-pplfair",
+              "skos:hasTopConcept": [
+                {
+                  "@type": [
+                    "skos:Concept"
+                  ],
+                  "@id": "#code-77.0-pplfair",
+                  "skos:inScheme": [
+                    {
+                      "@id": "#sentinelCodelist-pplfair"
+                    }
+                  ],
+                  "skos:notation": "77.0",
+                  "skos:prefLabel": "Refusal"
+                },
+                {
+                  "@type": [
+                    "skos:Concept"
+                  ],
+                  "@id": "#code-88.0-pplfair",
+                  "skos:inScheme": [
+                    {
+                      "@id": "#sentinelCodelist-pplfair"
+                    }
+                  ],
+                  "skos:notation": "88.0",
+                  "skos:prefLabel": "Don't know"
+                },
+                {
+                  "@type": [
+                    "skos:Concept"
+                  ],
+                  "@id": "#code-99.0-pplfair",
+                  "skos:inScheme": [
+                    {
+                      "@id": "#sentinelCodelist-pplfair"
+                    }
+                  ],
+                  "skos:notation": "99.0",
+                  "skos:prefLabel": "No answer"
+                }
+              ]
+            }
           }
         }
       ]
@@ -809,15 +849,17 @@
       "@id": "#instanceVariable-pplhlp",
       "schema:name": "pplhlp",
       "schema:description": "Most of the time people helpful or mostly looking out for themselves",
-      "cdi:intendedDataType": "xsd:integer",
-      "cdi:role": "Measure",
-      "cdif:classificationLevel": "Nominal",
-      "cdif:hasValuesFrom": [
-        {
+      "cdi:hasIntendedDataType": "xsd:integer",
+      "cdif:role": "Measure",
+      "cdi:classificationLevel": "Nominal",
+      "cdi:takesSubstantiveValuesFrom": {
+        "@type": [
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdif:takesValuesFrom": {
           "@type": [
             "cdif:EnumerationDomain"
           ],
-          "cdif:valueType": "substantive",
           "cdif:references": {
             "@type": [
               "skos:ConceptScheme"
@@ -969,58 +1011,64 @@
               }
             ]
           }
-        },
+        }
+      },
+      "cdi:takesSentinelValuesFrom": [
         {
           "@type": [
-            "cdif:EnumerationDomain"
+            "cdif:SentinelValueDomain"
           ],
-          "cdif:valueType": "sentinel",
-          "cdif:references": {
+          "cdif:takesValuesFrom": {
             "@type": [
-              "skos:ConceptScheme"
+              "cdif:EnumerationDomain"
             ],
-            "@id": "#sentinelCodelist-pplhlp",
-            "skos:hasTopConcept": [
-              {
-                "@type": [
-                  "skos:Concept"
-                ],
-                "@id": "#code-77.0-pplhlp",
-                "skos:inScheme": [
-                  {
-                    "@id": "#sentinelCodelist-pplhlp"
-                  }
-                ],
-                "skos:notation": "77.0",
-                "skos:prefLabel": "Refusal"
-              },
-              {
-                "@type": [
-                  "skos:Concept"
-                ],
-                "@id": "#code-88.0-pplhlp",
-                "skos:inScheme": [
-                  {
-                    "@id": "#sentinelCodelist-pplhlp"
-                  }
-                ],
-                "skos:notation": "88.0",
-                "skos:prefLabel": "Don't know"
-              },
-              {
-                "@type": [
-                  "skos:Concept"
-                ],
-                "@id": "#code-99.0-pplhlp",
-                "skos:inScheme": [
-                  {
-                    "@id": "#sentinelCodelist-pplhlp"
-                  }
-                ],
-                "skos:notation": "99.0",
-                "skos:prefLabel": "No answer"
-              }
-            ]
+            "cdif:references": {
+              "@type": [
+                "skos:ConceptScheme"
+              ],
+              "@id": "#sentinelCodelist-pplhlp",
+              "skos:hasTopConcept": [
+                {
+                  "@type": [
+                    "skos:Concept"
+                  ],
+                  "@id": "#code-77.0-pplhlp",
+                  "skos:inScheme": [
+                    {
+                      "@id": "#sentinelCodelist-pplhlp"
+                    }
+                  ],
+                  "skos:notation": "77.0",
+                  "skos:prefLabel": "Refusal"
+                },
+                {
+                  "@type": [
+                    "skos:Concept"
+                  ],
+                  "@id": "#code-88.0-pplhlp",
+                  "skos:inScheme": [
+                    {
+                      "@id": "#sentinelCodelist-pplhlp"
+                    }
+                  ],
+                  "skos:notation": "88.0",
+                  "skos:prefLabel": "Don't know"
+                },
+                {
+                  "@type": [
+                    "skos:Concept"
+                  ],
+                  "@id": "#code-99.0-pplhlp",
+                  "skos:inScheme": [
+                    {
+                      "@id": "#sentinelCodelist-pplhlp"
+                    }
+                  ],
+                  "skos:notation": "99.0",
+                  "skos:prefLabel": "No answer"
+                }
+              ]
+            }
           }
         }
       ]
@@ -1033,15 +1081,17 @@
       "@id": "#instanceVariable-polintr",
       "schema:name": "polintr",
       "schema:description": "How interested in politics",
-      "cdi:intendedDataType": "xsd:integer",
-      "cdi:role": "Measure",
-      "cdif:classificationLevel": "Nominal",
-      "cdif:hasValuesFrom": [
-        {
+      "cdi:hasIntendedDataType": "xsd:integer",
+      "cdif:role": "Measure",
+      "cdi:classificationLevel": "Nominal",
+      "cdi:takesSubstantiveValuesFrom": {
+        "@type": [
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdif:takesValuesFrom": {
           "@type": [
             "cdif:EnumerationDomain"
           ],
-          "cdif:valueType": "substantive",
           "cdif:references": {
             "@type": [
               "skos:ConceptScheme"
@@ -1102,58 +1152,64 @@
               }
             ]
           }
-        },
+        }
+      },
+      "cdi:takesSentinelValuesFrom": [
         {
           "@type": [
-            "cdif:EnumerationDomain"
+            "cdif:SentinelValueDomain"
           ],
-          "cdif:valueType": "sentinel",
-          "cdif:references": {
+          "cdif:takesValuesFrom": {
             "@type": [
-              "skos:ConceptScheme"
+              "cdif:EnumerationDomain"
             ],
-            "@id": "#sentinelCodelist-polintr",
-            "skos:hasTopConcept": [
-              {
-                "@type": [
-                  "skos:Concept"
-                ],
-                "@id": "#code-7.0-polintr",
-                "skos:inScheme": [
-                  {
-                    "@id": "#sentinelCodelist-polintr"
-                  }
-                ],
-                "skos:notation": "7.0",
-                "skos:prefLabel": "Refusal"
-              },
-              {
-                "@type": [
-                  "skos:Concept"
-                ],
-                "@id": "#code-8.0-polintr",
-                "skos:inScheme": [
-                  {
-                    "@id": "#sentinelCodelist-polintr"
-                  }
-                ],
-                "skos:notation": "8.0",
-                "skos:prefLabel": "Don't know"
-              },
-              {
-                "@type": [
-                  "skos:Concept"
-                ],
-                "@id": "#code-9.0-polintr",
-                "skos:inScheme": [
-                  {
-                    "@id": "#sentinelCodelist-polintr"
-                  }
-                ],
-                "skos:notation": "9.0",
-                "skos:prefLabel": "No answer"
-              }
-            ]
+            "cdif:references": {
+              "@type": [
+                "skos:ConceptScheme"
+              ],
+              "@id": "#sentinelCodelist-polintr",
+              "skos:hasTopConcept": [
+                {
+                  "@type": [
+                    "skos:Concept"
+                  ],
+                  "@id": "#code-7.0-polintr",
+                  "skos:inScheme": [
+                    {
+                      "@id": "#sentinelCodelist-polintr"
+                    }
+                  ],
+                  "skos:notation": "7.0",
+                  "skos:prefLabel": "Refusal"
+                },
+                {
+                  "@type": [
+                    "skos:Concept"
+                  ],
+                  "@id": "#code-8.0-polintr",
+                  "skos:inScheme": [
+                    {
+                      "@id": "#sentinelCodelist-polintr"
+                    }
+                  ],
+                  "skos:notation": "8.0",
+                  "skos:prefLabel": "Don't know"
+                },
+                {
+                  "@type": [
+                    "skos:Concept"
+                  ],
+                  "@id": "#code-9.0-polintr",
+                  "skos:inScheme": [
+                    {
+                      "@id": "#sentinelCodelist-polintr"
+                    }
+                  ],
+                  "skos:notation": "9.0",
+                  "skos:prefLabel": "No answer"
+                }
+              ]
+            }
           }
         }
       ]
@@ -1166,15 +1222,17 @@
       "@id": "#instanceVariable-maritalb",
       "schema:name": "maritalb",
       "schema:description": "Legal marital status, post coded",
-      "cdi:intendedDataType": "xsd:integer",
-      "cdi:role": "Measure",
-      "cdif:classificationLevel": "Nominal",
-      "cdif:hasValuesFrom": [
-        {
+      "cdi:hasIntendedDataType": "xsd:integer",
+      "cdif:role": "Measure",
+      "cdi:classificationLevel": "Nominal",
+      "cdi:takesSubstantiveValuesFrom": {
+        "@type": [
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdif:takesValuesFrom": {
           "@type": [
             "cdif:EnumerationDomain"
           ],
-          "cdif:valueType": "substantive",
           "cdif:references": {
             "@type": [
               "skos:ConceptScheme"
@@ -1261,58 +1319,64 @@
               }
             ]
           }
-        },
+        }
+      },
+      "cdi:takesSentinelValuesFrom": [
         {
           "@type": [
-            "cdif:EnumerationDomain"
+            "cdif:SentinelValueDomain"
           ],
-          "cdif:valueType": "sentinel",
-          "cdif:references": {
+          "cdif:takesValuesFrom": {
             "@type": [
-              "skos:ConceptScheme"
+              "cdif:EnumerationDomain"
             ],
-            "@id": "#sentinelCodelist-maritalb",
-            "skos:hasTopConcept": [
-              {
-                "@type": [
-                  "skos:Concept"
-                ],
-                "@id": "#code-77.0-maritalb",
-                "skos:inScheme": [
-                  {
-                    "@id": "#sentinelCodelist-maritalb"
-                  }
-                ],
-                "skos:notation": "77.0",
-                "skos:prefLabel": "Refusal"
-              },
-              {
-                "@type": [
-                  "skos:Concept"
-                ],
-                "@id": "#code-88.0-maritalb",
-                "skos:inScheme": [
-                  {
-                    "@id": "#sentinelCodelist-maritalb"
-                  }
-                ],
-                "skos:notation": "88.0",
-                "skos:prefLabel": "Don't know"
-              },
-              {
-                "@type": [
-                  "skos:Concept"
-                ],
-                "@id": "#code-99.0-maritalb",
-                "skos:inScheme": [
-                  {
-                    "@id": "#sentinelCodelist-maritalb"
-                  }
-                ],
-                "skos:notation": "99.0",
-                "skos:prefLabel": "No answer"
-              }
-            ]
+            "cdif:references": {
+              "@type": [
+                "skos:ConceptScheme"
+              ],
+              "@id": "#sentinelCodelist-maritalb",
+              "skos:hasTopConcept": [
+                {
+                  "@type": [
+                    "skos:Concept"
+                  ],
+                  "@id": "#code-77.0-maritalb",
+                  "skos:inScheme": [
+                    {
+                      "@id": "#sentinelCodelist-maritalb"
+                    }
+                  ],
+                  "skos:notation": "77.0",
+                  "skos:prefLabel": "Refusal"
+                },
+                {
+                  "@type": [
+                    "skos:Concept"
+                  ],
+                  "@id": "#code-88.0-maritalb",
+                  "skos:inScheme": [
+                    {
+                      "@id": "#sentinelCodelist-maritalb"
+                    }
+                  ],
+                  "skos:notation": "88.0",
+                  "skos:prefLabel": "Don't know"
+                },
+                {
+                  "@type": [
+                    "skos:Concept"
+                  ],
+                  "@id": "#code-99.0-maritalb",
+                  "skos:inScheme": [
+                    {
+                      "@id": "#sentinelCodelist-maritalb"
+                    }
+                  ],
+                  "skos:notation": "99.0",
+                  "skos:prefLabel": "No answer"
+                }
+              ]
+            }
           }
         }
       ]
@@ -1325,15 +1389,17 @@
       "@id": "#instanceVariable-eisced",
       "schema:name": "eisced",
       "schema:description": "Highest level of education, ES - ISCED",
-      "cdi:intendedDataType": "xsd:integer",
-      "cdi:role": "Measure",
-      "cdif:classificationLevel": "Nominal",
-      "cdif:hasValuesFrom": [
-        {
+      "cdi:hasIntendedDataType": "xsd:integer",
+      "cdif:role": "Measure",
+      "cdi:classificationLevel": "Nominal",
+      "cdi:takesSubstantiveValuesFrom": {
+        "@type": [
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdif:takesValuesFrom": {
           "@type": [
             "cdif:EnumerationDomain"
           ],
-          "cdif:valueType": "substantive",
           "cdif:references": {
             "@type": [
               "skos:ConceptScheme"
@@ -1459,58 +1525,64 @@
               }
             ]
           }
-        },
+        }
+      },
+      "cdi:takesSentinelValuesFrom": [
         {
           "@type": [
-            "cdif:EnumerationDomain"
+            "cdif:SentinelValueDomain"
           ],
-          "cdif:valueType": "sentinel",
-          "cdif:references": {
+          "cdif:takesValuesFrom": {
             "@type": [
-              "skos:ConceptScheme"
+              "cdif:EnumerationDomain"
             ],
-            "@id": "#sentinelCodelist-eisced",
-            "skos:hasTopConcept": [
-              {
-                "@type": [
-                  "skos:Concept"
-                ],
-                "@id": "#code-77.0-eisced",
-                "skos:inScheme": [
-                  {
-                    "@id": "#sentinelCodelist-eisced"
-                  }
-                ],
-                "skos:notation": "77.0",
-                "skos:prefLabel": "Refusal"
-              },
-              {
-                "@type": [
-                  "skos:Concept"
-                ],
-                "@id": "#code-88.0-eisced",
-                "skos:inScheme": [
-                  {
-                    "@id": "#sentinelCodelist-eisced"
-                  }
-                ],
-                "skos:notation": "88.0",
-                "skos:prefLabel": "Don't know"
-              },
-              {
-                "@type": [
-                  "skos:Concept"
-                ],
-                "@id": "#code-99.0-eisced",
-                "skos:inScheme": [
-                  {
-                    "@id": "#sentinelCodelist-eisced"
-                  }
-                ],
-                "skos:notation": "99.0",
-                "skos:prefLabel": "No answer"
-              }
-            ]
+            "cdif:references": {
+              "@type": [
+                "skos:ConceptScheme"
+              ],
+              "@id": "#sentinelCodelist-eisced",
+              "skos:hasTopConcept": [
+                {
+                  "@type": [
+                    "skos:Concept"
+                  ],
+                  "@id": "#code-77.0-eisced",
+                  "skos:inScheme": [
+                    {
+                      "@id": "#sentinelCodelist-eisced"
+                    }
+                  ],
+                  "skos:notation": "77.0",
+                  "skos:prefLabel": "Refusal"
+                },
+                {
+                  "@type": [
+                    "skos:Concept"
+                  ],
+                  "@id": "#code-88.0-eisced",
+                  "skos:inScheme": [
+                    {
+                      "@id": "#sentinelCodelist-eisced"
+                    }
+                  ],
+                  "skos:notation": "88.0",
+                  "skos:prefLabel": "Don't know"
+                },
+                {
+                  "@type": [
+                    "skos:Concept"
+                  ],
+                  "@id": "#code-99.0-eisced",
+                  "skos:inScheme": [
+                    {
+                      "@id": "#sentinelCodelist-eisced"
+                    }
+                  ],
+                  "skos:notation": "99.0",
+                  "skos:prefLabel": "No answer"
+                }
+              ]
+            }
           }
         }
       ]
@@ -1533,7 +1605,7 @@
           "schema:value": "5"
         }
       ],
-      "cdif:isStructuredBy": {
+      "cdi:isStructuredBy": {
         "@type": [
           "cdi:WideDataStructure"
         ],
@@ -1636,86 +1708,86 @@
       },
       "cdi:isDelimited": false,
       "cdi:isFixedWidth": false,
-      "cdi:hasPhysicalMapping": [
+      "cdif:hasPhysicalMapping": [
         {
           "schema:name": "idno",
-          "cdi:physicalDataType": "xsd:integer",
-          "cdi:formats_InstanceVariable": {
+          "cdif:physicalDataType": "xsd:integer",
+          "cdif:formats_InstanceVariable": {
             "@id": "#instanceVariable-idno"
           },
-          "cdi:index": 0
+          "cdif:index": 0
         },
         {
           "schema:name": "nwspol",
-          "cdi:physicalDataType": "xsd:integer",
-          "cdi:formats_InstanceVariable": {
+          "cdif:physicalDataType": "xsd:integer",
+          "cdif:formats_InstanceVariable": {
             "@id": "#instanceVariable-nwspol"
           },
-          "cdi:index": 1
+          "cdif:index": 1
         },
         {
           "schema:name": "netusoft",
-          "cdi:physicalDataType": "xsd:integer",
-          "cdi:formats_InstanceVariable": {
+          "cdif:physicalDataType": "xsd:integer",
+          "cdif:formats_InstanceVariable": {
             "@id": "#instanceVariable-netusoft"
           },
-          "cdi:index": 2
+          "cdif:index": 2
         },
         {
           "schema:name": "netustm",
-          "cdi:physicalDataType": "xsd:integer",
-          "cdi:formats_InstanceVariable": {
+          "cdif:physicalDataType": "xsd:integer",
+          "cdif:formats_InstanceVariable": {
             "@id": "#instanceVariable-netustm"
           },
-          "cdi:index": 3
+          "cdif:index": 3
         },
         {
           "schema:name": "ppltrst",
-          "cdi:physicalDataType": "xsd:integer",
-          "cdi:formats_InstanceVariable": {
+          "cdif:physicalDataType": "xsd:integer",
+          "cdif:formats_InstanceVariable": {
             "@id": "#instanceVariable-ppltrst"
           },
-          "cdi:index": 4
+          "cdif:index": 4
         },
         {
           "schema:name": "pplfair",
-          "cdi:physicalDataType": "xsd:integer",
-          "cdi:formats_InstanceVariable": {
+          "cdif:physicalDataType": "xsd:integer",
+          "cdif:formats_InstanceVariable": {
             "@id": "#instanceVariable-pplfair"
           },
-          "cdi:index": 5
+          "cdif:index": 5
         },
         {
           "schema:name": "pplhlp",
-          "cdi:physicalDataType": "xsd:integer",
-          "cdi:formats_InstanceVariable": {
+          "cdif:physicalDataType": "xsd:integer",
+          "cdif:formats_InstanceVariable": {
             "@id": "#instanceVariable-pplhlp"
           },
-          "cdi:index": 6
+          "cdif:index": 6
         },
         {
           "schema:name": "polintr",
-          "cdi:physicalDataType": "xsd:integer",
-          "cdi:formats_InstanceVariable": {
+          "cdif:physicalDataType": "xsd:integer",
+          "cdif:formats_InstanceVariable": {
             "@id": "#instanceVariable-polintr"
           },
-          "cdi:index": 7
+          "cdif:index": 7
         },
         {
           "schema:name": "maritalb",
-          "cdi:physicalDataType": "xsd:integer",
-          "cdi:formats_InstanceVariable": {
+          "cdif:physicalDataType": "xsd:integer",
+          "cdif:formats_InstanceVariable": {
             "@id": "#instanceVariable-maritalb"
           },
-          "cdi:index": 8
+          "cdif:index": 8
         },
         {
           "schema:name": "eisced",
-          "cdi:physicalDataType": "xsd:integer",
-          "cdi:formats_InstanceVariable": {
+          "cdif:physicalDataType": "xsd:integer",
+          "cdif:formats_InstanceVariable": {
             "@id": "#instanceVariable-eisced"
           },
-          "cdi:index": 9
+          "cdif:index": 9
         }
       ]
     }
@@ -1734,7 +1806,7 @@
     "schema:about": {
       "@id": "urn:ddi-cdi:wideDataSet"
     },
-    "schema:description": "Metadata harvested from a DDI-CDI 1.0 XML instance (cdi:DDICDIModels) and converted to CDIF by ddicdi_to_cdif.py. DataStore/WideDataSet -> schema:Dataset; 10 cdi:InstanceVariable -> schema:variableMeasured (name, displayLabel, hasIntendedDataType, and cdi:role from the DataStructureComponent). Value domains, code lists, data structure, physical mappings, data and provenance are not yet carried over (walking skeleton).",
+    "schema:description": "Metadata harvested from a DDI-CDI 1.0 XML instance (cdi:DDICDIModels) and converted to CDIF by ddicdi_to_cdif.py. DataStore/WideDataSet -> schema:Dataset; 10 cdi:InstanceVariable -> schema:variableMeasured (name, displayLabel, hasIntendedDataType, and cdif:role from the DataStructureComponent). Value domains, code lists, data structure, physical mappings, data and provenance are not yet carried over (walking skeleton).",
     "dcterms:conformsTo": [
       {
         "@id": "https://w3id.org/cdif/core/1.1"
