@@ -3,14 +3,20 @@
 
 This is the one command to run after editing any of the DDI *.sssom.tsv files
 (in a text editor -- NOT a spreadsheet). It makes the TSVs the source of truth
-and everything else derived. Per file it:
+and everything else derived.
+
+Metadata layout is SSSOM *external mode* (the MIDS convention): each worksheet
+is a pair -- `<name>.sssom.tsv` holds only the column header + delimited rows,
+and `<name>.sssom.yml` holds the mapping-set metadata (curie_map, provider,
+sources, ...). A worksheet still carrying the legacy embedded `# ...` header is
+migrated to the sidecar automatically on the first run. Per file it:
 
   1. undoes spreadsheet round-trip damage  (CRLF->LF, trailing-tab padding,
      CSV quote-wrapping, ragged rows -> exactly the header's column count)
   2. enforces the canonical column order
-  3. regenerates the `# curie_map:` block from the prefixes actually used
-     (subject_id / predicate_id / object_id / mapping_justification), so a new
-     target prefix never has to be added to the header by hand
+  3. regenerates the `curie_map:` block in the .yml sidecar from the prefixes
+     actually used (subject_id / predicate_id / object_id / mapping_justification),
+     so a new target prefix never has to be added to the metadata by hand
   4. re-checks the file (flags non-SKOS predicates, object_ids that aren't a
      single CURIE, prefixes with no known IRI, and -- with --xsd -- any schema
      field missing from the worksheet or any subject not in the schema)
@@ -59,6 +65,7 @@ PREFIXES = {
  "ddi122": "https://ddialliance.org/Specification/DDI-Codebook/1.2.2/element/",
 }
 CURIE_RE = re.compile(r"^[A-Za-z][A-Za-z0-9]*:")
+CURIEMAP_ENTRY = re.compile(r"^  [A-Za-z][A-Za-z0-9]*: \S")  # '  prefix: iri' in the .yml
 
 
 def unquote_split(line):
@@ -111,22 +118,52 @@ def used_prefixes(recs):
     return used
 
 
-def rebuild_header(header_lines, used):
-    """Keep narrative header lines; regenerate the curie_map block."""
-    out, i, skipping = [], 0, False
-    while i < len(header_lines):
-        ln = header_lines[i]
-        if ln.strip() == "# curie_map:":
-            out.append("# curie_map:")
+def strip_hash(line):
+    """Turn a legacy embedded '# ...' metadata line into a plain YAML line.
+    The embedded block nested with '# ' + 2-space indent, so dropping '# '
+    yields correctly-indented YAML ('#   cdi: ...' -> '  cdi: ...')."""
+    if line.startswith("# "):
+        return line[2:]
+    if line == "#":
+        return ""
+    if line.startswith("#"):
+        return line[1:]
+    return line
+
+
+def load_meta(basename, legacy_header_lines):
+    """Return (yml_path, [yaml lines]) for a worksheet's external metadata.
+    Prefer an existing .sssom.yml sidecar; otherwise migrate the legacy
+    embedded '#' header block out of the .tsv into sidecar form."""
+    yml = os.path.join(HERE, basename + ".sssom.yml")
+    if os.path.exists(yml):
+        lines = read_text(yml).replace("\r\n", "\n").replace("\r", "\n").split("\n")
+        while lines and lines[-1] == "":
+            lines.pop()
+        return yml, lines
+    return yml, [strip_hash(l) for l in legacy_header_lines]
+
+
+def rebuild_meta(meta_lines, used):
+    """Keep the narrative YAML; regenerate the curie_map: block from used prefixes."""
+    out, i, found = [], 0, False
+    while i < len(meta_lines):
+        ln = meta_lines[i]
+        if ln.strip() == "curie_map:":
+            found = True
+            out.append("curie_map:")
             for p in sorted(used):
-                iri = PREFIXES.get(p, "UNKNOWN-PREFIX")
-                out.append(f"#   {p}: {iri}")
+                out.append(f"  {p}: {PREFIXES.get(p, 'UNKNOWN-PREFIX')}")
             i += 1
-            while i < len(header_lines) and header_lines[i].startswith("#   "):
+            while i < len(meta_lines) and CURIEMAP_ENTRY.match(meta_lines[i]):
                 i += 1  # drop old curie entries
             continue
         out.append(ln)
         i += 1
+    if not found:
+        out.append("curie_map:")
+        for p in sorted(used):
+            out.append(f"  {p}: {PREFIXES.get(p, 'UNKNOWN-PREFIX')}")
     return out
 
 
@@ -138,6 +175,7 @@ NONLEAF_SUBJECTS = {"dataDscr.var", "dataDscr.nCube"}
 def process(basename, check=False, expected=None, add_missing=False):
     path = os.path.join(HERE, basename + ".sssom.tsv")
     header_lines, hdr, rows = load(path)
+    yml_path, meta_lines = load_meta(basename, header_lines)
     idx = {n: i for i, n in enumerate(hdr)} if hdr else {}
     recs = []
     for row in rows:
@@ -185,14 +223,21 @@ def process(basename, check=False, expected=None, add_missing=False):
         print(f"      ! {w}")
 
     if not check:
-        out = rebuild_header(header_lines, used) + ["\t".join(CANON)]
+        # bare TSV: column header + delimited rows, no embedded '#' metadata
+        tsv_out = ["\t".join(CANON)]
         for r in recs:
-            out.append("\t".join(r.get(c, "") for c in CANON))
+            tsv_out.append("\t".join(r.get(c, "") for c in CANON))
         try:
-            open(path, "w", encoding="utf-8", newline="\n").write("\n".join(out) + "\n")
+            open(path, "w", encoding="utf-8", newline="\n").write("\n".join(tsv_out) + "\n")
         except PermissionError:
             print(f"      ! could not rewrite {basename}.sssom.tsv (open in another "
                   f"program?) -- ddi_mappings.json still updated from its current content")
+        # external-metadata sidecar (.sssom.yml)
+        meta_out = rebuild_meta(meta_lines, used)
+        try:
+            open(yml_path, "w", encoding="utf-8", newline="\n").write("\n".join(meta_out) + "\n")
+        except PermissionError:
+            print(f"      ! could not rewrite {basename}.sssom.yml (open in another program?)")
 
     # derived MAP: mapped rows only
     mp = {}

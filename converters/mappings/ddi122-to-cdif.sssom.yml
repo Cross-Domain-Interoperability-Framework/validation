@@ -1,0 +1,24 @@
+mapping_set_id: https://w3id.org/cdif/mappings/ddi122-to-cdif
+mapping_set_title: DDI Codebook 1.2.2 (ICPSR, extensions beyond common core) to CDIF
+mapping_set_description: Literal fields present in DDI Codebook 1.2.2 (ICPSR Version1-2-2.xsd) but not at the same path in 2.5 (deeper self-recursion of othId/catgry). Extends ddi-common-to-cdif; merge the two for the full 1.2.2 crosswalk. Applied by DDI/ddi122_to_cdif.py.
+license: https://creativecommons.org/publicdomain/zero/1.0/
+mapping_provider: https://cross-domain-interoperability-framework.github.io/
+mapping_tool: converters/DDI/ddi122_to_cdif.py
+mapping_date: 2026-08-24
+subject_source: https://ddialliance.org/Specification/DDI-Codebook/1/Version1-2-2.xsd
+object_source: https://w3id.org/cdif/data_description/1.1
+mapping_justification: semapv:ManualMappingCuration
+extension_definitions:
+  - slot: object_json_path
+    property: https://w3id.org/cdif/mappings/objectJsonPath
+curie_map:
+  ddi122: https://ddialliance.org/Specification/DDI-Codebook/1.2.2/element/
+  schema: http://schema.org/
+  semapv: https://w3id.org/semapv/vocab/
+  skos: http://www.w3.org/2004/02/skos/core#
+comment: |
+  VERSION EXTRAS for DDI 1.2.2: literal fields whose path is not shared with 2.5
+  (chiefly deeper recursion of othId / catgry). subject_id uses the `ddi122:` prefix.
+  The shared core lives in ddi-common-to-cdif.sssom.tsv (ddicb:); for the complete
+  1.2.2 field inventory:
+    sssom merge ddi-common-to-cdif.sssom.tsv ddi122-to-cdif.sssom.tsv

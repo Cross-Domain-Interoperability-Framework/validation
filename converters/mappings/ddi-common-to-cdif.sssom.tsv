@@ -1,35 +1,3 @@
-# mapping_set_id: https://w3id.org/cdif/mappings/ddi-common-to-cdif
-# mapping_set_title: DDI Codebook (common core, 2.5 and 1.2.2) to CDIF
-# mapping_set_description: Shared literal-field crosswalk for the DDI Codebook elements common to both 2.5 and 1.2.2 (identical XPath under stdyDscr/fileDscr/dataDscr/docDscr). Imported by ddi25-to-cdif and ddi122-to-cdif via `sssom merge`.
-# license: https://creativecommons.org/publicdomain/zero/1.0/
-# mapping_provider: https://cross-domain-interoperability-framework.github.io/
-# mapping_tool: converters/DDI/ddi_to_cdif.py ; converters/DDI/ddi122_to_cdif.py ; converters/DDICodebook/ddi25_to_cdif.py
-# mapping_date: 2026-08-24
-# subject_source: https://ddialliance.org/Specification/DDI-Codebook
-# object_source: https://w3id.org/cdif/complete/1.1
-# mapping_justification: semapv:ManualMappingCuration
-# extension_definitions:
-#   - slot: object_json_path
-#     property: https://w3id.org/cdif/mappings/objectJsonPath
-# curie_map:
-#   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
-#   cdif: https://w3id.org/cdif/
-#   dcterms: http://purl.org/dc/terms/
-#   ddicb: https://ddialliance.org/Specification/DDI-Codebook/element/
-#   prov: http://www.w3.org/ns/prov#
-#   schema: http://schema.org/
-#   semapv: https://w3id.org/semapv/vocab/
-#   skos: http://www.w3.org/2004/02/skos/core#
-# comment: |
-#   Comprehensive worksheet, COMMON CORE: every literal-valued element present in
-#   BOTH DDI Codebook 2.5 and 1.2.2 at the same path, mapped to CDIF where a target
-#   exists, else blank object_id/predicate for review. subject_id uses the
-#   version-neutral `ddicb:` prefix. To get a complete single-version crosswalk,
-#   merge this set with the version extras, e.g.:
-#     sssom merge ddi-common-to-cdif.sssom.tsv ddi25-to-cdif.sssom.tsv
-#     sssom merge ddi-common-to-cdif.sssom.tsv ddi122-to-cdif.sssom.tsv
-#   Universal qualifier attributes (abbr/affiliation/role/URI/date; GLOBALS group)
-#   are omitted; only data-bearing attributes that map are kept (var/@name, varFormat/@type).
 subject_id	subject_label	comment	predicate_id	object_id	object_label	object_json_path	mapping_justification	author_id	reviewer_id
 ddicb:stdyDscr.citation.titlStmt.titl	titl	DDI 2.5 <titl>: Full authoritative title for the work at the appropriate level.	skos:exactMatch	schema:name	name	$.schema:name	semapv:ManualMappingCuration	https://orcid.org/0000-0001-6041-5302	https://orcid.org/0000-0001-6041-5302
 ddicb:stdyDscr.citation.titlStmt.subTitl	subTitl	DDI 2.5 <subTitl>: A secondary title used to amplify or state certain limitations on the main title. | DDI Codebook: subtitle of the study title.	skos:closeMatch	schema:alternateName	alternateName	$.schema:alternateName[*]		https://orcid.org/0000-0001-6041-5302	https://orcid.org/0000-0001-6041-5302

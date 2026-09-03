@@ -1,0 +1,31 @@
+mapping_set_id: https://w3id.org/cdif/mappings/ddi25-to-cdif
+mapping_set_title: DDI Codebook 2.5 (extensions beyond common core) to CDIF
+mapping_set_description: Literal fields present in DDI Codebook 2.5 (codebook.xsd) but NOT in 1.2.2 (chiefly the nCube aggregate-cube branch). Extends ddi-common-to-cdif; merge the two for the full 2.5 crosswalk. Applied by DDI/ddi_to_cdif.py and DDICodebook/ddi25_to_cdif.py.
+license: https://creativecommons.org/publicdomain/zero/1.0/
+mapping_provider: https://cross-domain-interoperability-framework.github.io/
+mapping_tool: converters/DDICodebook/ddi25_to_cdif.py ; converters/DDI/ddi_to_cdif.py
+mapping_date: 2026-08-24
+subject_source: https://ddialliance.org/Specification/DDI-Codebook/2.5/XMLSchema/codebook.xsd
+object_source: https://w3id.org/cdif/complete/1.1
+mapping_justification: semapv:ManualMappingCuration
+extension_definitions:
+  - slot: object_json_path
+    property: https://w3id.org/cdif/mappings/objectJsonPath
+curie_map:
+  cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+  cdif: https://w3id.org/cdif/
+  dcterms: http://purl.org/dc/terms/
+  ddi: https://ddialliance.org/Specification/DDI-Codebook/2.5/element/
+  dqv: http://www.w3.org/ns/dqv#
+  geo: http://www.opengis.net/ont/geosparql#
+  prov: http://www.w3.org/ns/prov#
+  schema: http://schema.org/
+  semapv: https://w3id.org/semapv/vocab/
+  skos: http://www.w3.org/2004/02/skos/core#
+  spdx: http://spdx.org/rdf/terms#
+comment: |
+  VERSION EXTRAS for DDI 2.5: literal fields that exist in 2.5 but not 1.2.2.
+  subject_id uses the `ddi:` (2.5) prefix. The shared core lives in
+  ddi-common-to-cdif.sssom.tsv (ddicb:); for the complete 2.5 field inventory:
+    sssom merge ddi-common-to-cdif.sssom.tsv ddi25-to-cdif.sssom.tsv
+  Unmapped rows carry a blank object_id/predicate for review.
