@@ -4,20 +4,17 @@ The property-level mappings each converter applies, expressed as
 [SSSOM](https://mapping-commons.github.io/sssom/) (Simple Standard for Sharing
 Ontological Mappings) mapping sets — one per source→target direction.
 
-SSSOM defines two ways to carry the mapping-set metadata (id/title, license,
-provider, `mapping_tool`, `curie_map`, …), and both are used here:
-
-- **Embedded** (single-file) — the five converter sets (`cdif↔soso`,
-  `cdif↔croissant`, `dcat→cdif`) are standard SSSOM single-file TSVs: a YAML
-  metadata block as `#`-prefixed header lines followed by the tab-separated table.
-- **External** (sidecar pair) — the three DDI worksheets follow the
-  [MIDS](https://github.com/tdwg/mids/tree/main/source/mappings) convention: a
-  bare `<name>.sssom.tsv` (column header + rows only) paired with a
-  `<name>.sssom.yml` sidecar holding the metadata as plain YAML. The sidecar is
-  valid standalone SSSOM YAML the toolkit can read directly, and the TSV opens in
-  a spreadsheet with no `#` rows to skip. `sync_ddi_mappings.py` keeps the pair in
-  step (regenerating the sidecar's `curie_map` from the prefixes the table uses),
-  and migrates a worksheet still carrying an embedded header on first run.
+Every set uses SSSOM **external-metadata** mode (the
+[MIDS](https://github.com/tdwg/mids/tree/main/source/mappings) convention): a
+bare `<name>.sssom.tsv` (column header + rows only) is paired with a
+`<name>.sssom.yml` sidecar holding the mapping-set metadata (id/title, license,
+provider, `mapping_tool`, `curie_map`, …) as plain YAML. The sidecar is valid
+standalone SSSOM YAML the toolkit reads directly (`sssom parse … -m <sidecar>`),
+and the TSV opens in a spreadsheet with no `#` rows to skip. For the three DDI
+worksheets, `sync_ddi_mappings.py` keeps the pair in step — regenerating the
+sidecar's `curie_map` from the prefixes the table uses, and migrating a worksheet
+that still carries a legacy embedded `#` header on first run; the five converter
+sidecars are hand-maintained.
 
 | File | Direction | Converter | Mappings |
 |------|-----------|-----------|----------|
@@ -62,8 +59,9 @@ sssom merge ddi-common-to-cdif.sssom.tsv ddi122-to-cdif.sssom.tsv  # full DDI 1.
 ```
 
 (`sssom merge` unions the rows and `curie_map`s; the sets carry no conflicting
-paths. Since these are plain TSVs, `pandas.concat` of the two tables read with
-`comment="#"` is an equivalent fallback if the toolkit isn't installed.)
+paths. `parse` each with its `-m` sidecar first so the merge sees the prefixes.
+Since the tables are plain bare TSVs, `pandas.concat` of the two is an equivalent
+fallback if the toolkit isn't installed.)
 
 Universal qualifier attributes (`abbr`/`affiliation`/`role`/`URI`/date on many
 elements, and the `GLOBALS` attribute group) are **omitted** to keep the
@@ -100,9 +98,9 @@ pattern is therefore a **hybrid**: SSSOM captures (and can drive) the flat 1:1
 renames, while hand-written code does the graph traversal and structural
 assembly. The SSSOM set stays the human-readable, curatable, tool-checkable record
 of the *term alignments* (each row carrying its predicate and justification), and
-the structural transforms are recorded in each set's `comment:` metadata (the
-`.yml` sidecar for the DDI sets, the `#` header block for the others) instead
-of as rows. Updating a table documents an intended change; it does **not**
+the structural transforms are recorded in each set's `comment:` metadata (in the
+`.yml` sidecar) instead of as rows. Updating a table documents an intended
+change; it does **not**
 regenerate a converter — the code is edited in step, and the table updated to match.
 
 **Precedent — the XAS → CDIF profile work.** That effort built the same transform
@@ -152,7 +150,7 @@ sed -i 's#https://w3id.org/cdif/agents/SMR#https://orcid.org/0000-0000-0000-0000
 ```
 
 `object_json_path` is a **non-standard extension column** (declared in each set's
-`extension_definitions` metadata — the `.yml` sidecar for the DDI sets): a JSONPath *locator* for where the
+`extension_definitions` sidecar metadata): a JSONPath *locator* for where the
 target term's value lands in the target JSON-LD document — e.g. `$.schema:name`
 (dataset root), `$.schema:variableMeasured[*].cdif:role` (a variable item),
 `$.schema:distribution[*].schema:contentUrl` (a distribution item),
@@ -188,8 +186,7 @@ left blank where the target is a separate node/document (e.g. a code-list
 - **Structural transforms** the converter performs that are *not* term-to-term
   mappings — dropping/adding the `schema:subjectOf` catalog record, rewriting the
   `@context`, deriving `conformsTo` from content, emitting placeholders — have no
-  TSV row; they are listed in each set's `comment:` metadata (the `.yml` sidecar
-  for the DDI sets, the `#` header block for the others).
+  TSV row; they are listed in each set's `comment:` sidecar metadata.
 
 - **Targets outside the CDIF profiles are deliberate, and JSON-LD is open-world.**
   A mapping target need not be a property some CDIF profile declares: the profiles
@@ -219,25 +216,27 @@ left blank where the target is a separate node/document (e.g. a code-list
 
 ## Using them
 
-The files open directly in any spreadsheet or `pandas.read_csv(sep="\t",
-comment="#")` (harmless for the DDI tables — they carry no `#` rows). With the
-SSSOM toolkit (`pip install sssom`) you can validate, convert to RDF/OWL, or diff
-them:
+The tables open directly in any spreadsheet or with `pandas.read_csv(sep="\t")`
+(no `#` rows to skip). With the SSSOM toolkit (`pip install sssom`), point it at
+the `.yml` sidecar as the metadata file — `parse` merges the two into a canonical
+mapping set you can then validate, convert to RDF/OWL, or diff:
 
 ```bash
-# embedded (single-file) sets — metadata read from the '#' header
-sssom validate cdif-to-soso.sssom.tsv
-sssom convert  cdif-to-soso.sssom.tsv -o cdif-to-soso.ttl
-
-# external (DDI) sets — point the toolkit at the .yml sidecar as the metadata file
-sssom parse ddi25-to-cdif.sssom.tsv -m ddi25-to-cdif.sssom.yml -o ddi25-to-cdif.parsed.tsv
+sssom parse    cdif-to-soso.sssom.tsv -m cdif-to-soso.sssom.yml -o cdif-to-soso.parsed.tsv
+sssom validate cdif-to-soso.parsed.tsv
+sssom convert  cdif-to-soso.parsed.tsv -o cdif-to-soso.ttl
 ```
+
+The five converter sets validate clean. The three DDI worksheets are
+comprehensive inventories, so `validate` reports their deliberately-unmapped rows
+(blank `predicate_id`/`object_id`) as skipped — expected, not an error.
 
 ## Maintenance
 
 These sets are curated by hand and reflect the converters at authoring time
 (2026-08). When a converter's mappings change, update the corresponding
-`.sssom.tsv`. The authoritative narrative sources are each converter's mapping
+`.sssom.tsv` (and its `.sssom.yml` sidecar if a new prefix or metadata field is
+introduced). The authoritative narrative sources are each converter's mapping
 doc — `../soso/README.md` and
 `../../../doc-corediscovery/documents/CDIF-Discovery-vs-SOSO-comparison.md`
 (SOSO), `../croissant/CDIFtoCroissant.md` / `CroissantToCDIF.md`,

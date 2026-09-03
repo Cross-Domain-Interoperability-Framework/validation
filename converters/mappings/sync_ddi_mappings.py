@@ -131,6 +131,22 @@ def strip_hash(line):
     return line
 
 
+def normalize_meta_lines(lines):
+    """Keep the set-level YAML SSSOM-conformant:
+      - the ExtensionDefinition slot is `slot_name`, not `slot`
+      - `mapping_justification` is a per-row slot, not a mapping-set slot, so it
+        must not appear at the set level (every row carries its own)."""
+    out = []
+    for ln in lines:
+        if ln.strip().startswith("mapping_justification:"):
+            continue
+        m = re.match(r"^(\s*-\s*)slot:(.*)$", ln)
+        if m:
+            ln = f"{m.group(1)}slot_name:{m.group(2)}"
+        out.append(ln)
+    return out
+
+
 def load_meta(basename, legacy_header_lines):
     """Return (yml_path, [yaml lines]) for a worksheet's external metadata.
     Prefer an existing .sssom.yml sidecar; otherwise migrate the legacy
@@ -140,8 +156,8 @@ def load_meta(basename, legacy_header_lines):
         lines = read_text(yml).replace("\r\n", "\n").replace("\r", "\n").split("\n")
         while lines and lines[-1] == "":
             lines.pop()
-        return yml, lines
-    return yml, [strip_hash(l) for l in legacy_header_lines]
+        return yml, normalize_meta_lines(lines)
+    return yml, normalize_meta_lines([strip_hash(l) for l in legacy_header_lines])
 
 
 def rebuild_meta(meta_lines, used):
