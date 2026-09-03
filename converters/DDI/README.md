@@ -20,7 +20,8 @@ The DDI landscape it dispatches over is **three peers**:
 | Peer | Handler |
 |------|---------|
 | **DDI Codebook** (1.2.2 **and** 2.5 — one product line, 2.5 ⊇ 1.2.2) | the data-driven engine below, version auto-chosen (`1.x → --version 122`, `2.x → 25`) |
-| **DDI-CDI** (RDF / JSON-LD) | a *separate* graph-based branch — not implemented yet; the dispatcher raises a clear error rather than mis-reading it as Codebook |
+| **DDI-CDI** — **XML** (`<cdi:DDICDIModels>`) | routed to [`../DDI-CDI/ddicdi_to_cdif.py`](../DDI-CDI/ddicdi_to_cdif.py); the dispatcher's output is identical to calling that converter directly |
+| **DDI-CDI** — RDF / JSON-LD | a *separate* graph-based branch — not implemented; the dispatcher raises a clear error rather than mis-reading it as Codebook |
 | **DDI Lifecycle 3.x** (`<DDIInstance>`) | a different product line — not supported |
 
 Source-specific variants are **not** dispatched here: [`ddi_to_cdif.py`](ddi_to_cdif.py)
@@ -65,8 +66,16 @@ delegates the structured value-domain/statistics build to.
 > [`../DDICodebook/README.md`](../DDICodebook/README.md). 2.5 is an element-level
 > superset of 1.2.2, so this same engine handles it with `--version 25`;
 > `../DDICodebook/ddi25_to_cdif.py` is a thin shim that just calls it that way.
-> A Harvard-Dataverse-specific 2.5 variant is `ddi_to_cdif.py`. The DDI-CDI
-> (Lifecycle) converter will live elsewhere.
+> A Harvard-Dataverse-specific 2.5 variant is `ddi_to_cdif.py`, now a thin
+> enrichment layer over the engine. DDI-CDI lives in `../DDI-CDI/`, and its **XML**
+> serialisation is dispatched here; only the RDF/JSON-LD form is unimplemented.
+>
+> That distinction used to be wrong in both directions: the dispatcher refused all
+> DDI-CDI as unimplemented although the XML converter existed and generated the
+> committed examples, **and** the refusal never fired — the `ddi-cdi` test sat after
+> the XML branch, so it only saw files that fail to parse as XML. Real instances are
+> XML, so they fell through to `unknown` and raised "could not determine a supported
+> DDI flavor" instead.
 
 [^xsd]: A working copy of the schema is **bundled here** as
 [`Version1-2-2.xsd`](Version1-2-2.xsd) (the `sync_ddi_mappings.py` completeness

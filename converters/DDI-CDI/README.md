@@ -11,6 +11,12 @@ python ddicdi_to_cdif.py Examples/XML/SPSS_Example.xml -o out.json
 python ddicdi_to_cdif.py input.xml --id https://catalog.example/dataset/123
 ```
 
+`../DDI/ddi2cdif.py` also routes here: it sniffs a `<cdi:DDICDIModels>` root as
+`ddi-cdi-xml` and calls this converter, producing byte-identical output. Use the
+front door when you do not know the flavor up front, this script when you do.
+The **RDF / JSON-LD** serialisation of DDI-CDI is a different reader and is not
+implemented; the dispatcher refuses it with a message saying so.
+
 Profile scope is decided **per content** via
 [`detect_conformance`](../../detect_conformance.py).
 

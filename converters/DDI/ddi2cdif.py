@@ -37,6 +37,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from ddi_sssom_to_cdif import convert as _convert_codebook  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / 'DDI-CDI'))
+from ddicdi_to_cdif import convert as _convert_ddicdi_xml  # noqa: E402
 
 
 def _local(tag):
@@ -67,6 +69,11 @@ def sniff_flavor(path):
             return "codebook-1.2.2"
         if tag in ("DDIInstance", "FragmentInstance"):
             return "ddi-lifecycle-3"
+        # DDI-CDI has an XML serialisation as well as an RDF one. Its
+        # instances parse as XML, so they must be recognised here; the
+        # RDF check below only ever sees files that are not XML.
+        if tag == "DDICDIModels" or "DDI-CDI" in ns:
+            return "ddi-cdi-xml"
         return "unknown"
     # Not XML -> the only DDI flavor left is DDI-CDI (RDF / JSON-LD).
     try:
@@ -111,17 +118,22 @@ _CODEBOOK_VERSION = {"codebook-1.2.2": "122", "codebook-2.5": "25"}
 
 def convert(path, explicit_id=None, base_uri="urn:ddi", detect=True):
     """Sniff `path` and convert it, dispatching to the engine that fits its
-    flavor. Raises NotImplementedError for the DDI-CDI / Lifecycle branches that
-    have no handler, and ValueError when the flavor cannot be determined."""
+    flavor. XML DDI-CDI goes to ddicdi_to_cdif.py; NotImplementedError is raised
+    for the branches with no handler (RDF/JSON-LD DDI-CDI, Lifecycle 3.x), and
+    ValueError when the flavor cannot be determined."""
     flavor = sniff_flavor(path)
     if flavor in _CODEBOOK_VERSION:
         return _convert_codebook(path, explicit_id, _CODEBOOK_VERSION[flavor],
                                  detect=detect, base_uri=base_uri)
+    if flavor == "ddi-cdi-xml":
+        return _convert_ddicdi_xml(path, explicit_id, base_uri="urn:ddi-cdi",
+                                   detect=detect)
     if flavor == "ddi-cdi":
         raise NotImplementedError(
-            "DDI-CDI input detected. DDI-CDI is an RDF/JSON-LD model, not a "
-            "codeBook XML tree; it needs a separate graph-based handler that is "
-            "not implemented yet.")
+            "DDI-CDI in its RDF / JSON-LD serialisation detected. The XML "
+            "serialisation is handled by DDI-CDI/ddicdi_to_cdif.py, which this "
+            "dispatcher routes to; the RDF form needs a graph-based reader that "
+            "is not implemented yet.")
     if flavor == "ddi-lifecycle-3":
         raise NotImplementedError(
             "DDI Lifecycle 3.x (<DDIInstance>) detected -- a different DDI "
