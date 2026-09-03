@@ -30,6 +30,44 @@ building-block SHACL gates) and is a no-op in a release repo that doesn't have i
 python tools/FrameAndValidate.py record.jsonld --frame CDIF-frame-2026.jsonld --conformance -o out.json
 ```
 
+### Checking conformance while validating
+
+`-v` now also **compares** the record's declared `conformsTo` against the
+conformance `detect_conformance.py` derives from its content, and reports the
+disagreement in both directions:
+
+```
+Checking declared conformsTo against detected conformance...
+  DECLARED BUT NOT DETECTED: https://w3id.org/cdif/data_description/1.1
+  DETECTED BUT NOT DECLARED: https://w3id.org/cdif/discovery/1.1
+  Conformance INCONSISTENT
+```
+
+`DECLARED BUT NOT DETECTED` is a record claiming a profile its content does not
+support; `DETECTED BUT NOT DECLARED` is one under-selling itself. Only the
+CDIF-managed URI space (`https://w3id.org/cdif/`) is compared — a project or
+domain profile claim is listed and left alone, matching what `apply_conformance`
+preserves.
+
+This is **reporting, not enforcement**: an inconsistent declaration does not by
+itself fail the run, so the exit code still reflects JSON Schema validity alone.
+
+Two details worth knowing:
+
+- The declared URIs are read from the **source** document, not the framed one.
+  Framing can drop `schema:subjectOf` — a frame whose `subjectOf` clause carries
+  `"@type": "schema:Dataset"` will not match a `subjectOf` node that has no
+  `@type` — and reading the declaration from the framed output would then report
+  "declares nothing" for a record that declares plenty. When that happens the
+  check says so, which turns an otherwise baffling
+  `'schema:subjectOf' is a required property` into a diagnosis.
+- It is skipped after `--conformance`, which has just rewritten the declaration
+  to the detected set; agreement would be trivially true.
+
+The check no-ops with a one-line note where `detect_conformance.py` cannot be
+imported. A release-repo copy finds it when the validation repo is checked out
+as a sibling (`CDIF/validation/`), or via `CDIF_VALIDATION_DIR`.
+
 ### Propagating changes
 
 ```bash

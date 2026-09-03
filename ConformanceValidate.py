@@ -635,6 +635,38 @@ def build_resolver(source, schema_map=None, cache_dir=None,
 # Validation engine — pure function, returns JSON-serializable results
 # ---------------------------------------------------------------------------
 
+CDIF_URI_PREFIX = "https://w3id.org/cdif/"
+
+
+def conformance_consistency(doc, declared, framed=None):
+    """Compare the profiles the record DECLARES against those its content
+    actually supports, per detect_conformance.
+
+    Returns None when detect_conformance (or rdflib) is unavailable, so this
+    stays optional the way the SHACL pass does. Only the CDIF-managed URI space
+    is compared: a project or domain profile claim is the record's own business
+    and apply_conformance preserves it.
+    """
+    try:
+        from detect_conformance import detect_conformance
+    except Exception:
+        return None
+    try:
+        found = detect_conformance(framed if framed is not None else doc) or []
+    except Exception as e:
+        return {"status": "error", "message": str(e), "detected": [],
+                "overclaimed": [], "undeclared": []}
+    detected = {u for u in found if u.startswith(CDIF_URI_PREFIX)}
+    claimed = {u for u in declared if u.startswith(CDIF_URI_PREFIX)}
+    over = sorted(claimed - detected)
+    under = sorted(detected - claimed)
+    return {"status": "consistent" if not (over or under) else "inconsistent",
+            "declared": sorted(claimed),
+            "detected": sorted(detected),
+            "overclaimed": over,
+            "undeclared": under}
+
+
 def run_conformance(doc, resolver, do_schema=True, do_shacl=True,
                     frame=None, verbose=False):
     """Validate one CDIF JSON-LD document against every profile it claims.
@@ -652,6 +684,12 @@ def run_conformance(doc, resolver, do_schema=True, do_shacl=True,
             ...
           ],
           "total_violations": int,
+          "conformance_check": {                # None if unavailable
+            "status": "consistent" | "inconsistent" | "error",
+            "declared": [...], "detected": [...],
+            "overclaimed": [...],   # claimed but content does not support
+            "undeclared": [...],    # supported but not claimed
+          },
         }
 
     status values: passed | failed | skipped | no_schema | no_shacl |
@@ -669,6 +707,11 @@ def run_conformance(doc, resolver, do_schema=True, do_shacl=True,
             frame_error = f"Framing error: {e}"
 
     result = {"conformsTo": uris, "profiles": [], "total_violations": 0}
+
+    # Among the tests: do the declared conformsTo URIs match what the
+    # content actually supports? Reported, not enforced -- it does not
+    # feed total_violations.
+    result["conformance_check"] = conformance_consistency(doc, uris, framed)
 
     for uri in uris:
         if verbose:
@@ -789,10 +832,32 @@ def print_profile_section(prof):
             print(line)
 
 
+def print_conformance_check(check):
+    """Print the declared-vs-detected comparison, if one was made."""
+    if not check:
+        return
+    print(f"\n{'-'*70}")
+    print("Declared conformsTo vs detected conformance")
+    if check["status"] == "error":
+        print(f"  could not detect: {check['message']}")
+        return
+    for uri in check["overclaimed"]:
+        print(f"  DECLARED BUT NOT DETECTED: {short_uri(uri)}")
+    for uri in check["undeclared"]:
+        print(f"  DETECTED BUT NOT DECLARED: {short_uri(uri)}")
+    if check["status"] == "consistent":
+        print(f"  CONSISTENT: {len(check['declared'])} declared profile(s) match "
+              "the detected conformance.")
+    else:
+        print("  INCONSISTENT")
+
+
 def report_single(result):
     """Print the full per-profile report for one document; return exit code."""
     for prof in result["profiles"]:
         print_profile_section(prof)
+
+    print_conformance_check(result.get("conformance_check"))
 
     print(f"\n{'='*70}")
     print(f"Summary: {len(result['profiles'])} profile(s) checked, "

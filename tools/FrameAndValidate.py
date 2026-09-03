@@ -735,6 +735,12 @@ def _load_detect_conformance():
     if env:
         cands.append(Path(env))
     cands += [SCRIPT_DIR, SCRIPT_DIR.parent, SCRIPT_DIR.parent.parent]
+    # A release-repo copy sits at its repo root, with the validation repo
+    # checked out as a sibling, so look for CDIF/validation/ from one and two
+    # levels up as well. Without this the check silently no-ops in exactly the
+    # repos whose examples it is meant to check.
+    cands += [SCRIPT_DIR.parent / 'validation',
+              SCRIPT_DIR.parent.parent / 'validation']
     for c in cands:
         if c and (c / 'detect_conformance.py').is_file():
             if str(c) not in sys.path:
@@ -758,6 +764,92 @@ def detect_and_apply_conformance(framed):
     uris = detect_fn(framed)
     apply_fn(framed, uris)
     return uris
+
+
+# Mirrors detect_conformance.CDIF_BASE: the profile space CDIF manages. Claims
+# outside it (a project or domain profile) are the record's own business, and
+# apply_conformance preserves them, so they are never reported as inconsistent.
+CDIF_URI_PREFIX = "https://w3id.org/cdif/"
+
+
+def _declared_conformance(doc):
+    """The dcterms:conformsTo URIs the record declares on schema:subjectOf.
+
+    Tolerates subjectOf being a dict or a list, and each conformsTo entry being
+    either {"@id": uri} or a plain string."""
+    subj = doc.get("schema:subjectOf")
+    if isinstance(subj, dict):
+        subj = [subj]
+    if not isinstance(subj, list):
+        return set()
+    out = set()
+    for s in subj:
+        if not isinstance(s, dict):
+            continue
+        claims = s.get("dcterms:conformsTo")
+        if isinstance(claims, (dict, str)):
+            claims = [claims]
+        for entry in (claims or []):
+            if isinstance(entry, dict):
+                entry = entry.get("@id")
+            if isinstance(entry, str):
+                out.add(entry)
+    return out
+
+
+def check_conformance_consistency(framed, source_doc=None):
+    """Compare what the record CLAIMS to conform to against what its content
+    actually supports, per detect_conformance.
+
+    Returns None when detect_conformance is unavailable -- the release-repo
+    copies of this script do not ship it, so the check degrades to a no-op
+    there rather than failing.
+
+    Declared URIs are read from `source_doc` (the document as authored) when one
+    is given, because framing can silently drop schema:subjectOf; reading them
+    from the framed output would then report "declares nothing" for a record
+    that declares plenty."""
+    detect_fn, _ = _load_detect_conformance()
+    if detect_fn is None:
+        return None
+    detected = {u for u in (detect_fn(framed) or [])
+                if u.startswith(CDIF_URI_PREFIX)}
+    declared_all = _declared_conformance(
+        source_doc if source_doc is not None else framed)
+    declared = {u for u in declared_all if u.startswith(CDIF_URI_PREFIX)}
+    return {
+        'declared': sorted(declared),
+        'detected': sorted(detected),
+        'overclaimed': sorted(declared - detected),
+        'undeclared': sorted(detected - declared),
+        'other': sorted(declared_all - declared),
+        'lost_in_framing': bool(declared and not _declared_conformance(framed)),
+    }
+
+
+def report_conformance_consistency(report):
+    """Print the declared-vs-detected comparison. Returns True when they agree."""
+    print()
+    print("Checking declared conformsTo against detected conformance...")
+    if report['lost_in_framing']:
+        print("  NOTE: the source declares conformsTo but framing dropped "
+              "schema:subjectOf, so the declaration was read from the source "
+              "document. The framed output declares nothing.")
+    if not report['declared'] and not report['detected']:
+        print("  No CDIF conformsTo declared and none detected.")
+    for uri in report['overclaimed']:
+        print("  DECLARED BUT NOT DETECTED: %s" % uri)
+    for uri in report['undeclared']:
+        print("  DETECTED BUT NOT DECLARED: %s" % uri)
+    for uri in report['other']:
+        print("  (outside the CDIF profile space, not checked: %s)" % uri)
+    agree = not report['overclaimed'] and not report['undeclared']
+    if agree and report['declared']:
+        print("  Conformance CONSISTENT: %d declared CDIF profile(s) match the "
+              "detected conformance." % len(report['declared']))
+    elif not agree:
+        print("  Conformance INCONSISTENT")
+    return agree
 
 
 def validate_against_schema(framed, schema_path):
@@ -836,6 +928,23 @@ Examples:
                 print("Error: no schema given and could not auto-detect a single "
                       "*Schema*.json beside this script; pass --schema.", file=sys.stderr)
                 sys.exit(2)
+            # Among the validation tests: does the record's declared
+            # conformsTo agree with what its content actually supports?
+            # Skipped after --conformance, which has just rewritten the
+            # declaration to the detected set, making agreement trivial.
+            if not args.conformance:
+                try:
+                    with open(args.input, "r", encoding="utf-8") as f:
+                        source_doc = json.load(f)
+                except Exception:
+                    source_doc = None
+                report = check_conformance_consistency(framed, source_doc)
+                if report is None:
+                    print("\nConformance check skipped: detect_conformance.py "
+                          "not found (or rdflib missing).")
+                else:
+                    report_conformance_consistency(report)
+
             print("\nValidating against schema...")
             result = validate_against_schema(framed, schema_path)
 

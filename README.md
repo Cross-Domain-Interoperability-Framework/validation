@@ -198,6 +198,35 @@ to specify a profile up front.
    schemas expect them).
 5. Validates against each profile's schema (and optionally SHACL) and prints
    per-profile pass/fail with attributed error messages.
+6. **Compares the declared conformance against the detected conformance.**
+   `detect_conformance.py` derives, from the content, which profiles the record
+   actually supports; the two lists are diffed and reported:
+
+   ```
+   Declared conformsTo vs detected conformance
+     DECLARED BUT NOT DETECTED: data_description/1.1
+     DETECTED BUT NOT DECLARED: discovery/1.1
+     INCONSISTENT
+   ```
+
+   `DECLARED BUT NOT DETECTED` is a record claiming a profile its content does
+   not support — the declaration is wrong, and steps 3-5 have been validating
+   against a schema the record was never going to satisfy. `DETECTED BUT NOT
+   DECLARED` is a record under-selling itself: harmless, but a consumer
+   filtering on `conformsTo` will miss it.
+
+   Only the CDIF-managed URI space (`https://w3id.org/cdif/`) is compared, so a
+   project or domain profile claim is left alone — the same boundary
+   `apply_conformance` respects when it rewrites.
+
+   This is **reported, not enforced**: it does not feed `total_violations` and
+   does not change the exit code. The step is skipped, silently, where
+   `detect_conformance` or `rdflib` cannot be imported, so it is as optional as
+   the SHACL pass. `run_conformance(...)` returns it as `conformance_check`
+   (`None` when unavailable); every pre-existing key is unchanged.
+
+   `FrameAndValidate.py -v` performs the same comparison for a single document
+   against a single profile — see `tools/README.md`.
 
 The input may be a **single file** (per-profile report) or a **directory**
 (batch mode — per-file PASS/FAIL lines plus an aggregate summary and an
