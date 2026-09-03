@@ -774,20 +774,22 @@ See [converters/DCAT/README.md](converters/DCAT/README.md) for the full property
 
 ## DDI Conversion
 
-`converters/DDI/ddi_to_cdif.py` converts a [DDI Codebook 2.5](https://ddialliance.org/Specification/DDI-Codebook/2.5/) XML file (for example, a DDI export from Harvard Dataverse) to a CDIF DataDescription JSON-LD document.
+`converters/DDI/ddi2cdif.py` is the single entry point: it sniffs the input's DDI flavor and routes it. **DDI Codebook 1.2.2 and 2.5** go to the source-agnostic data-driven engine `converters/DDI/ddi_sssom_to_cdif.py`, which applies the SSSOM crosswalk under `converters/mappings` and builds the value domains, statistics, deduplicated code lists, structured contributors, and per-column physical mappings; **DDI-CDI** (RDF/JSON-LD) and **DDI Lifecycle 3.x** are separate branches. See [converters/DDI/README.md](converters/DDI/README.md) and [converters/DDICodebook/README.md](converters/DDICodebook/README.md).
 
 ```bash
-# Convert a DDI XML export (DOI is required)
-python converters/DDI/ddi_to_cdif.py input.xml --doi https://doi.org/10.7910/DVN/XXXXXX -o output.json
+# Convert any DDI Codebook file (flavor + version auto-detected)
+python converters/DDI/ddi2cdif.py input.xml -o output.json
+python converters/DDI/ddi2cdif.py input.xml --print-flavor   # just report the detected flavor
+```
 
-# Also fetch tab-file headers and file size/checksum from the Dataverse API
+`converters/DDI/ddi_to_cdif.py` is a **source-specific Harvard Dataverse** tool, deliberately outside the dispatcher: it delegates the base conversion to the engine and adds only the live Dataverse-API enrichment the offline engine cannot do — file size/checksum and the `.tab` header row (→ `cdif:hasPhysicalMapping`):
+
+```bash
 python converters/DDI/ddi_to_cdif.py input.xml --doi https://doi.org/10.7910/DVN/XXXXXX \
   --fetch-headers --fetch-file-meta -o output.json
 ```
 
-Key mappings: study `titl`/`abstract` → `schema:name`/`schema:description`, authors → `schema:creator`, `keyword` → `schema:keywords`, spatial/temporal coverage; DDI `<var>` → `schema:variableMeasured` (`cdi:InstanceVariable`); DDI `<fileDscr>` → `schema:DataDownload` (`cdi:TabularTextDataSet`) with CSVW properties; tab-file headers → physical mappings; `caseQnty`/`varQnty` → `cdifq:nRows`/`nColumns`. `--fetch-headers` and `--fetch-file-meta` pull headers and file size/checksum from the Dataverse API.
-
-> **Note:** The converter currently emits the pre-migration `cdi:`-prefixed data-structure properties (`cdi:role`, `cdi:physicalDataType`, `cdi:hasPhysicalMapping`, `cdi:index`, `cdi:formats_InstanceVariable`). These should be migrated to the current `cdif:` prefix before the output is treated as current-schema CDIF.
+> **Note:** Data-structure properties use the current `cdif:` prefix (`cdif:role`, `cdif:physicalDataType`, `cdif:hasPhysicalMapping`, `cdif:index`, `cdif:formats_InstanceVariable`); the DDI-CDI node types (`cdi:InstanceVariable`, `cdi:TabularTextDataSet`) keep the `cdi:` prefix.
 
 ## MetadataExamples
 
