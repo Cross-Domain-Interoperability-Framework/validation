@@ -429,10 +429,14 @@ class CodeListRegistry:
             if c["text"]:
                 node["skos:definition"] = c["text"]
             concepts.append(node)
-        labels = [c["label"] for c in usable if c["label"]]
         scheme = {
             "@id": clid, "@type": ["skos:ConceptScheme"],
-            "skos:prefLabel": ("; ".join(labels)[:120] if labels else f"code list {n}"),
+            # <catgry> has no name in DDI Codebook, so a scheme label has to be
+            # synthesised. Joining the category labels produced strings like
+            # "9; 8; 10: Very familiar; 2; 4; ..." -- a list of values, not a
+            # name, and truncated mid-value at 120 chars. The concepts carry
+            # the real labels one level down.
+            "skos:prefLabel": "code list %d (%d categories)" % (n, len(usable)),
             "schema:identifier": clid.lstrip("#"),
             "schema:dateModified": self._date,
             "schema:license": self._license,
@@ -541,11 +545,11 @@ def build_variables(unique, registry):
               "@id": var_id, "schema:name": v["name"]}
         if v["label"]:
             vm["schema:description"] = v["label"]
-        vm["cdi:intendedDataType"] = XSD_TYPE_MAP.get(v["format"], "xsd:string")
+        vm["cdi:hasIntendedDataType"] = XSD_TYPE_MAP.get(v["format"], "xsd:string")
         if v["intrvl"] == "contin":
-            vm["cdi:role"] = "MeasureComponent"
+            vm["cdif:role"] = "Measure"
         elif v["intrvl"] == "discrete":
-            vm["cdi:role"] = "AttributeComponent"
+            vm["cdif:role"] = "Attribute"
         for sk, jk in (("min", "schema:minValue"), ("max", "schema:maxValue")):
             if sk in v["stats"]:
                 try:

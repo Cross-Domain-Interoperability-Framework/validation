@@ -117,9 +117,6 @@
             "@id": "https://w3id.org/cdif/discovery/1.1"
           },
           {
-            "@id": "https://w3id.org/cdif/data_description/1.1"
-          },
-          {
             "@id": "https://w3id.org/cdif/provenance/1.1"
           }
         ]
@@ -161,8 +158,8 @@
             "Serial Number"
           ],
           "schema:name": "V1",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "MeasureComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Measure",
           "schema:minValue": 1.0,
           "schema:maxValue": 350.0,
           "cdif:isDescribedBy_StatisticsCollection": {
@@ -270,8 +267,8 @@
             "District of Case Residence"
           ],
           "schema:name": "DISTRICT",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "cdi:takesSubstantiveValuesFrom": {
             "@id": "#var/DISTRICT/valueDomain/substantive",
             "@type": [
@@ -528,8 +525,8 @@
             "Name of the reporting health facility Name of the reporting health facility Name of the reporting health facility"
           ],
           "schema:name": "HEALTHFACILITYCTC",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "cdi:takesSubstantiveValuesFrom": {
             "@id": "#var/HEALTHFACILITYCTC/valueDomain/substantive",
             "@type": [
@@ -1266,8 +1263,8 @@
             "Sex at birth"
           ],
           "schema:name": "SEX",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "cdi:takesSubstantiveValuesFrom": {
             "@id": "#var/SEX/valueDomain/substantive",
             "@type": [
@@ -1380,8 +1377,8 @@
             "Age in years"
           ],
           "schema:name": "AGE",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "schema:minValue": 0.0,
           "schema:maxValue": 90.0,
           "cdif:isDescribedBy_StatisticsCollection": {
@@ -1465,8 +1462,8 @@
             "A standardized categorization of the individual's age"
           ],
           "schema:name": "AGEGROUP",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "schema:minValue": 60.0,
           "schema:maxValue": 60.0,
           "cdif:isDescribedBy_StatisticsCollection": {
@@ -1536,8 +1533,8 @@
             "The specific village or community where the case is coming from"
           ],
           "schema:name": "VILLAGE",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent"
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute"
         },
         {
           "@type": [
@@ -1550,8 +1547,8 @@
             "Admin level (e.g.,traitional authority, ward, municipality sector) of residence"
           ],
           "schema:name": "TA",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "cdi:takesSubstantiveValuesFrom": {
             "@id": "#var/TA/valueDomain/substantive",
             "@type": [
@@ -2304,8 +2301,8 @@
             "The country/district of permanent residence"
           ],
           "schema:name": "COUNTRYOFORIGIN",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "cdi:takesSubstantiveValuesFrom": {
             "@id": "#var/COUNTRYOFORIGIN/valueDomain/substantive",
             "@type": [
@@ -2450,8 +2447,8 @@
             "the Rapid Diagnostic Test (RDT)"
           ],
           "schema:name": "RDTNegativepositive",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "cdif:isDescribedBy_StatisticsCollection": {
             "@id": "#var/RDTNegativepositive/statistics",
             "@type": [
@@ -2501,8 +2498,8 @@
             "Culture and seroagglutination result"
           ],
           "schema:name": "CULTURENegativepositive",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "cdi:takesSubstantiveValuesFrom": {
             "@id": "#var/CULTURENegativepositive/valueDomain/substantive",
             "@type": [
@@ -2647,8 +2644,8 @@
             "epidemiological link to another confirmed or probable case"
           ],
           "schema:name": "EPILINKYesNo",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "cdi:takesSubstantiveValuesFrom": {
             "@id": "#var/EPILINKYesNo/valueDomain/substantive",
             "@type": [
@@ -2809,8 +2806,8 @@
             "classification of the case based on case definition, indicating whether the individual is a suspected case or a confirmed case"
           ],
           "schema:name": "STATUSSuspectConfirmed",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "cdi:takesSubstantiveValuesFrom": {
             "@id": "#var/STATUSSuspectConfirmed/valueDomain/substantive",
             "@type": [
@@ -2923,8 +2920,8 @@
             "The number of confirmed or suspected outbreak-related cases reported from a specific location"
           ],
           "schema:name": "OUTBREAKCASES",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "cdi:takesSubstantiveValuesFrom": {
             "@id": "#var/OUTBREAKCASES/valueDomain/substantive",
             "@type": [
@@ -3053,8 +3050,8 @@
             "The final status of the patient after the illness or treatment"
           ],
           "schema:name": "OUTCOMEDeadAlive",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent"
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute"
         },
         {
           "@type": [
@@ -3067,8 +3064,8 @@
             "The location where the patient is alive or died"
           ],
           "schema:name": "PLACEOFOUTCOME",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent"
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute"
         },
         {
           "@type": [
@@ -3081,8 +3078,8 @@
             "The vaccination status of the case"
           ],
           "schema:name": "VACCINATIONSTATUS",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "cdi:takesSubstantiveValuesFrom": {
             "@id": "#var/VACCINATIONSTATUS/valueDomain/substantive",
             "@type": [
@@ -3243,8 +3240,8 @@
             "Number of vaccination doses the case received"
           ],
           "schema:name": "NUMBEROFDOSESOFVACCINE",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "cdi:takesSubstantiveValuesFrom": {
             "@id": "#var/NUMBEROFDOSESOFVACCINE/valueDomain/substantive",
             "@type": [
@@ -3373,8 +3370,8 @@
             "IN-the type of healthcare encounter — whether the individual was admitted as an inpatient or received care without admission (outpatient)"
           ],
           "schema:name": "INPATIENTOUTPATIENT",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "cdi:takesSubstantiveValuesFrom": {
             "@id": "#var/INPATIENTOUTPATIENT/valueDomain/substantive",
             "@type": [
@@ -3503,8 +3500,8 @@
             "Any other comment"
           ],
           "schema:name": "COMMENTS",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent"
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute"
         },
         {
           "@type": [
@@ -3517,8 +3514,8 @@
             "This is a case' Unique Indentifier"
           ],
           "schema:name": "SERIALNO",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "MeasureComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Measure",
           "schema:minValue": 1.0,
           "schema:maxValue": 704.0,
           "cdif:isDescribedBy_StatisticsCollection": {
@@ -3626,8 +3623,8 @@
             "District of Case Residence"
           ],
           "schema:name": "DISTRICT",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "cdi:takesSubstantiveValuesFrom": {
             "@id": "#var/DISTRICT~2/valueDomain/substantive",
             "@type": [
@@ -3964,8 +3961,8 @@
             "Name of the reporting health facility Name of the reporting health facility Name of the reporting health facility"
           ],
           "schema:name": "HEALTHFACILITYCTC",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "cdi:takesSubstantiveValuesFrom": {
             "@id": "#var/HEALTHFACILITYCTC~2/valueDomain/substantive",
             "@type": [
@@ -5038,8 +5035,8 @@
             "Sex at birth"
           ],
           "schema:name": "SEX",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "cdi:takesSubstantiveValuesFrom": {
             "@id": "#var/SEX~2/valueDomain/substantive",
             "@type": [
@@ -5152,8 +5149,8 @@
             "Age in years"
           ],
           "schema:name": "AGE",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent"
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute"
         },
         {
           "@type": [
@@ -5166,8 +5163,8 @@
             "A standardized categorization of the individual's age"
           ],
           "schema:name": "AGEGROUP",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent"
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute"
         },
         {
           "@type": [
@@ -5180,8 +5177,8 @@
             "Admin level (e.g.,traitional authority, ward, municipality sector) of residence"
           ],
           "schema:name": "TA",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "cdi:takesSubstantiveValuesFrom": {
             "@id": "#var/TA~2/valueDomain/substantive",
             "@type": [
@@ -6494,8 +6491,8 @@
             "The country/district of permanent residence"
           ],
           "schema:name": "COUNTRYDISTRICTOFORIGIN",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "cdi:takesSubstantiveValuesFrom": {
             "@id": "#var/COUNTRYDISTRICTOFORIGIN/valueDomain/substantive",
             "@type": [
@@ -6608,8 +6605,8 @@
             "This refers to the result of the Rapid Diagnostic Test (RDT)"
           ],
           "schema:name": "RDTNegativepositive",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "cdi:takesSubstantiveValuesFrom": {
             "@id": "#var/RDTNegativepositive~2/valueDomain/substantive",
             "@type": [
@@ -6754,8 +6751,8 @@
             "Culture and seroagglutination result"
           ],
           "schema:name": "CULTURENegativepositive",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "cdi:takesSubstantiveValuesFrom": {
             "@id": "#var/CULTURENegativepositive~2/valueDomain/substantive",
             "@type": [
@@ -6948,8 +6945,8 @@
             "epidemiological link to another confirmed or probable case"
           ],
           "schema:name": "EPILINKYesNo",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "cdi:takesSubstantiveValuesFrom": {
             "@id": "#var/EPILINKYesNo~2/valueDomain/substantive",
             "@type": [
@@ -7062,8 +7059,8 @@
             "classification of the case based on case definition, indicating whether the individual is a suspected case or a confirmed case"
           ],
           "schema:name": "STATUSSuspectConfirmed",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "cdi:takesSubstantiveValuesFrom": {
             "@id": "#var/STATUSSuspectConfirmed~2/valueDomain/substantive",
             "@type": [
@@ -7176,8 +7173,8 @@
             "The final status of the patient after the illness or treatment"
           ],
           "schema:name": "OUTCOMEDeadAlive",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "cdi:takesSubstantiveValuesFrom": {
             "@id": "#var/OUTCOMEDeadAlive~2/valueDomain/substantive",
             "@type": [
@@ -7290,8 +7287,8 @@
             "The location where the patient died"
           ],
           "schema:name": "PLACEOFDEATH",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "cdi:takesSubstantiveValuesFrom": {
             "@id": "#var/PLACEOFDEATH/valueDomain/substantive",
             "@type": [
@@ -7436,8 +7433,8 @@
             "The date on which the final outcome"
           ],
           "schema:name": "OUTCOMEDATE",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent"
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute"
         },
         {
           "@type": [
@@ -7450,8 +7447,8 @@
             "The vaccination status of the case"
           ],
           "schema:name": "VACCINATIONSTATUS",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "cdi:takesSubstantiveValuesFrom": {
             "@id": "#var/VACCINATIONSTATUS~2/valueDomain/substantive",
             "@type": [
@@ -7580,8 +7577,8 @@
             "Number of vaccination doses the case received"
           ],
           "schema:name": "NUMBEROFDOSESOFVACCINE",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "cdi:takesSubstantiveValuesFrom": {
             "@id": "#var/NUMBEROFDOSESOFVACCINE~2/valueDomain/substantive",
             "@type": [
@@ -7710,8 +7707,8 @@
             "A department where the case was captured"
           ],
           "schema:name": "TypeofCase",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "cdi:takesSubstantiveValuesFrom": {
             "@id": "#var/TypeofCase/valueDomain/substantive",
             "@type": [
@@ -7840,8 +7837,8 @@
             "SERIAL NO"
           ],
           "schema:name": "V29",
-          "cdi:intendedDataType": "xsd:string",
-          "cdi:role": "AttributeComponent",
+          "cdi:hasIntendedDataType": "xsd:string",
+          "cdif:role": "Attribute",
           "cdi:takesSubstantiveValuesFrom": {
             "@id": "#var/V29/valueDomain/substantive",
             "@type": [
@@ -8813,7 +8810,7 @@
       "@type": [
         "skos:ConceptScheme"
       ],
-      "skos:prefLabel": "Balaka; Thyolo; Zomba; Chitipa; Karonga; Lilongwe; Machinga; Mangochi; Mulanje; Mzimba North; Rumphi",
+      "skos:prefLabel": "code list 1 (11 categories)",
       "schema:identifier": "codelist/1",
       "schema:dateModified": "2026-09-02",
       "schema:license": [
@@ -8981,7 +8978,7 @@
       "@type": [
         "skos:ConceptScheme"
       ],
-      "skos:prefLabel": "Atupele community hospital; Kameme; Kamwe Health Center; Kapenda; Kaporo rural hospital; Karonga district Hospital; Kase",
+      "skos:prefLabel": "code list 2 (41 categories)",
       "schema:identifier": "codelist/2",
       "schema:dateModified": "2026-09-02",
       "schema:license": [
@@ -9569,7 +9566,7 @@
       "@type": [
         "skos:ConceptScheme"
       ],
-      "skos:prefLabel": "Male; Female",
+      "skos:prefLabel": "code list 3 (2 categories)",
       "schema:identifier": "codelist/3",
       "schema:dateModified": "2026-09-02",
       "schema:license": [
@@ -9611,7 +9608,7 @@
       "@type": [
         "skos:ConceptScheme"
       ],
-      "skos:prefLabel": "Amidu; Kilupula; Kyungu; Liwonde; Makwangwala; Mbawera; Mbesa; Mlomba; Mlumbe; Mtwalo; Mwakaboko; Chikowi; Mwaulambia; M",
+      "skos:prefLabel": "code list 4 (42 categories)",
       "schema:identifier": "codelist/4",
       "schema:dateModified": "2026-09-02",
       "schema:license": [
@@ -10213,7 +10210,7 @@
       "@type": [
         "skos:ConceptScheme"
       ],
-      "skos:prefLabel": "malawi; Mozambique; Tanzania; Zambia",
+      "skos:prefLabel": "code list 5 (4 categories)",
       "schema:identifier": "codelist/5",
       "schema:dateModified": "2026-09-02",
       "schema:license": [
@@ -10283,7 +10280,7 @@
       "@type": [
         "skos:ConceptScheme"
       ],
-      "skos:prefLabel": "NA; Negative; Not done; Positive",
+      "skos:prefLabel": "code list 6 (4 categories)",
       "schema:identifier": "codelist/6",
       "schema:dateModified": "2026-09-02",
       "schema:license": [
@@ -10353,7 +10350,7 @@
       "@type": [
         "skos:ConceptScheme"
       ],
-      "skos:prefLabel": "Index; NA; No; Unknown; yes",
+      "skos:prefLabel": "code list 7 (5 categories)",
       "schema:identifier": "codelist/7",
       "schema:dateModified": "2026-09-02",
       "schema:license": [
@@ -10437,7 +10434,7 @@
       "@type": [
         "skos:ConceptScheme"
       ],
-      "skos:prefLabel": "Suspected; confirmed",
+      "skos:prefLabel": "code list 8 (2 categories)",
       "schema:identifier": "codelist/8",
       "schema:dateModified": "2026-09-02",
       "schema:license": [
@@ -10479,7 +10476,7 @@
       "@type": [
         "skos:ConceptScheme"
       ],
-      "skos:prefLabel": "NA; No; Yes",
+      "skos:prefLabel": "code list 9 (3 categories)",
       "schema:identifier": "codelist/9",
       "schema:dateModified": "2026-09-02",
       "schema:license": [
@@ -10535,7 +10532,7 @@
       "@type": [
         "skos:ConceptScheme"
       ],
-      "skos:prefLabel": "25-Jan-25; Not received; Unknown; Unvaccinated; Vaccinated",
+      "skos:prefLabel": "code list 10 (5 categories)",
       "schema:identifier": "codelist/10",
       "schema:dateModified": "2026-09-02",
       "schema:license": [
@@ -10619,7 +10616,7 @@
       "@type": [
         "skos:ConceptScheme"
       ],
-      "skos:prefLabel": "First dose; NA; Unknown",
+      "skos:prefLabel": "code list 11 (3 categories)",
       "schema:identifier": "codelist/11",
       "schema:dateModified": "2026-09-02",
       "schema:license": [
@@ -10675,7 +10672,7 @@
       "@type": [
         "skos:ConceptScheme"
       ],
-      "skos:prefLabel": "Inpatient; NA; Outpatient",
+      "skos:prefLabel": "code list 12 (3 categories)",
       "schema:identifier": "codelist/12",
       "schema:dateModified": "2026-09-02",
       "schema:license": [
@@ -10731,7 +10728,7 @@
       "@type": [
         "skos:ConceptScheme"
       ],
-      "skos:prefLabel": "BLANTYRE; Mulanje; Mwanza; Mzimba South; Nsanje; Ntcheu; Phalombe; Thyolo; Balaka; Blantyre; Chikwawa; Chitipa; Dedza; K",
+      "skos:prefLabel": "code list 13 (16 categories)",
       "schema:identifier": "codelist/13",
       "schema:dateModified": "2026-09-02",
       "schema:license": [
@@ -10969,7 +10966,7 @@
       "@type": [
         "skos:ConceptScheme"
       ],
-      "skos:prefLabel": "Bwaila; Dzenje Health Centre; Gaga; Jenda RH; Kakoma; Kalemba; Kaporo rural hospital; Karonga District Hospital; Kasinje",
+      "skos:prefLabel": "code list 14 (62 categories)",
       "schema:identifier": "codelist/14",
       "schema:dateModified": "2026-09-02",
       "schema:license": [
@@ -11851,7 +11848,7 @@
       "@type": [
         "skos:ConceptScheme"
       ],
-      "skos:prefLabel": "FEMALE; MALE",
+      "skos:prefLabel": "code list 15 (2 categories)",
       "schema:identifier": "codelist/15",
       "schema:dateModified": "2026-09-02",
       "schema:license": [
@@ -11893,7 +11890,7 @@
       "@type": [
         "skos:ConceptScheme"
       ],
-      "skos:prefLabel": "Aluvado; Chitukula; Elenewo; Ganya; Govati; JUMA; KAPENI; KUNTAJA; Kaledzere; Kalumba; CHIKUMBU; Kalumbu; Kanduku; Kangu",
+      "skos:prefLabel": "code list 16 (77 categories)",
       "schema:identifier": "codelist/16",
       "schema:dateModified": "2026-09-02",
       "schema:license": [
@@ -12985,7 +12982,7 @@
       "@type": [
         "skos:ConceptScheme"
       ],
-      "skos:prefLabel": "Malawi; Mozambique",
+      "skos:prefLabel": "code list 17 (2 categories)",
       "schema:identifier": "codelist/17",
       "schema:dateModified": "2026-09-02",
       "schema:license": [
@@ -13027,7 +13024,7 @@
       "@type": [
         "skos:ConceptScheme"
       ],
-      "skos:prefLabel": "Negative; Not done; RDT positive; positive",
+      "skos:prefLabel": "code list 18 (4 categories)",
       "schema:identifier": "codelist/18",
       "schema:dateModified": "2026-09-02",
       "schema:license": [
@@ -13097,7 +13094,7 @@
       "@type": [
         "skos:ConceptScheme"
       ],
-      "skos:prefLabel": "Culture not done; negative; Not done; positive; Sample not taken; Waiting for culture results; Waiting for results",
+      "skos:prefLabel": "code list 19 (7 categories)",
       "schema:identifier": "codelist/19",
       "schema:dateModified": "2026-09-02",
       "schema:license": [
@@ -13209,7 +13206,7 @@
       "@type": [
         "skos:ConceptScheme"
       ],
-      "skos:prefLabel": "No; yes",
+      "skos:prefLabel": "code list 20 (2 categories)",
       "schema:identifier": "codelist/20",
       "schema:dateModified": "2026-09-02",
       "schema:license": [
@@ -13251,7 +13248,7 @@
       "@type": [
         "skos:ConceptScheme"
       ],
-      "skos:prefLabel": "Suspect; confirmed",
+      "skos:prefLabel": "code list 21 (2 categories)",
       "schema:identifier": "codelist/21",
       "schema:dateModified": "2026-09-02",
       "schema:license": [
@@ -13293,7 +13290,7 @@
       "@type": [
         "skos:ConceptScheme"
       ],
-      "skos:prefLabel": "Died; alive",
+      "skos:prefLabel": "code list 22 (2 categories)",
       "schema:identifier": "codelist/22",
       "schema:dateModified": "2026-09-02",
       "schema:license": [
@@ -13335,7 +13332,7 @@
       "@type": [
         "skos:ConceptScheme"
       ],
-      "skos:prefLabel": "Community; Health facility; N/A; Unknown",
+      "skos:prefLabel": "code list 23 (4 categories)",
       "schema:identifier": "codelist/23",
       "schema:dateModified": "2026-09-02",
       "schema:license": [
@@ -13405,7 +13402,7 @@
       "@type": [
         "skos:ConceptScheme"
       ],
-      "skos:prefLabel": "Unknown; Unvaccinated; vaccinated",
+      "skos:prefLabel": "code list 24 (3 categories)",
       "schema:identifier": "codelist/24",
       "schema:dateModified": "2026-09-02",
       "schema:license": [
@@ -13461,7 +13458,7 @@
       "@type": [
         "skos:ConceptScheme"
       ],
-      "skos:prefLabel": "N/A; Unknown; nil",
+      "skos:prefLabel": "code list 25 (3 categories)",
       "schema:identifier": "codelist/25",
       "schema:dateModified": "2026-09-02",
       "schema:license": [
@@ -13517,7 +13514,7 @@
       "@type": [
         "skos:ConceptScheme"
       ],
-      "skos:prefLabel": "N/A; Outpatient; inpatient",
+      "skos:prefLabel": "code list 26 (3 categories)",
       "schema:identifier": "codelist/26",
       "schema:dateModified": "2026-09-02",
       "schema:license": [
@@ -13573,7 +13570,7 @@
       "@type": [
         "skos:ConceptScheme"
       ],
-      "skos:prefLabel": "AGE; DISTRICT; EPI LINK Yes/No; HEALTH FACILITY/CTC; NAME; NUMBER OF DOSES OF VACCINE; OCCUPATION; OUTCOME (Dead/Alive);",
+      "skos:prefLabel": "code list 27 (27 categories)",
       "schema:identifier": "codelist/27",
       "schema:dateModified": "2026-09-02",
       "schema:license": [

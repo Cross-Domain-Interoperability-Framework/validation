@@ -618,13 +618,13 @@ def convert(xml_path, doi_url=None, version="25", detect=True, verbose=False,
             # stripped of any [*], so e.g. cdi:takesSentinelValuesFrom[*] is caught)
             if leaf.split(".")[0].replace("[*]", "") in struct_leaf:
                 continue
-            if oid == "cdi:role":
-                role = {"contin": "MeasureComponent", "discrete": "AttributeComponent"}.get(var.get("intrvl", ""))
+            if oid == "cdif:role":
+                role = {"contin": "Measure", "discrete": "Attribute"}.get(var.get("intrvl", ""))
                 if role:
-                    item["cdi:role"] = role
+                    item["cdif:role"] = role
                 continue
-            if oid == "cdi:intendedDataType":
-                item["cdi:intendedDataType"] = XSD_TYPE.get(var.get("intrvl", ""), "xsd:string")
+            if oid == "cdi:hasIntendedDataType":
+                item["cdi:hasIntendedDataType"] = XSD_TYPE.get(var.get("intrvl", ""), "xsd:string")
                 continue
             val = shape_dataset(leaf, oid, gather(var, paths, maps, anchor="dataDscr.var"))
             if val is not None:

@@ -141,7 +141,7 @@ sed -i 's#https://w3id.org/cdif/agents/SMR#https://orcid.org/0000-0000-0000-0000
 `object_json_path` is a **non-standard extension column** (declared in each
 file's `extension_definitions` header): a JSONPath *locator* for where the
 target term's value lands in the target JSON-LD document — e.g. `$.schema:name`
-(dataset root), `$.schema:variableMeasured[*].cdi:role` (a variable item),
+(dataset root), `$.schema:variableMeasured[*].cdif:role` (a variable item),
 `$.schema:distribution[*].schema:contentUrl` (a distribution item),
 `$.schema:subjectOf.dcterms:conformsTo` (the catalog record). It complements
 `object_id` (which stays the resolvable term IRI so the file remains valid SSSOM)
@@ -176,6 +176,32 @@ left blank where the target is a separate node/document (e.g. a code-list
   mappings — dropping/adding the `schema:subjectOf` catalog record, rewriting the
   `@context`, deriving `conformsTo` from content, emitting placeholders — have no
   TSV row; they are listed in each file's `# comment:` header block.
+
+- **Targets outside the CDIF profiles are deliberate, and JSON-LD is open-world.**
+  A mapping target need not be a property some CDIF profile declares: the profiles
+  constrain what they define, they do not close the record, and no CDIF schema seals
+  `additionalProperties` at these levels. Several rows map to real vocabulary terms
+  that carry information the profiles have no slot for, and converted records
+  therefore carry them:
+
+  | property | from | appears in |
+  |---|---|---|
+  | `schema:isPartOf` | `ddi-common`, `ddi25` | the series a study belongs to |
+  | `bios:computationalTool` | `ddi-common` | analysis software named in the method description |
+  | `schema:dateCreated` | `ddi-common`, `ddi25` | study creation date, distinct from `datePublished` |
+  | `dcterms:bibliographicCitation` | `ddi-common`, `ddi25` | the citation string the producer supplies |
+  | `schema:copyrightNotice` | `ddi-common`, `ddi25` | rights text that is not a licence URI |
+
+  All are bound in the emitted `@context` (`bios:` → `https://bioschemas.org/`), so
+  they expand to real IRIs rather than dangling CURIEs. A validator will not object
+  to them; a *profile-driven viewer* may mark them as outside the declared profiles,
+  which is a statement about profile coverage, not a defect.
+
+  This is distinct from a **wrong-prefix** target, which is a defect: `cdi:role`
+  where the blocks declare `cdif:role`, or `cdi:hasPhysicalMapping` where only
+  `cdif:hasPhysicalMapping` exists, expand to IRIs that denote nothing. When adding
+  a row, check the local name against the building blocks under both prefixes
+  before choosing one.
 
 ## Using them
 

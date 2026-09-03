@@ -587,7 +587,7 @@ The 2026 schema adds support for:
 
 **Variables (`schema:variableMeasured`):**
 - Items are `anyOf` PropertyValue-based (`cdifVariableMeasured`) or `schema:StatisticalVariable`
-- **PropertyValue variables**: typed as `schema:PropertyValue` with DDI-CDI extensions (`cdi:intendedDataType`, `cdif:simpleUnitOfMeasure`, `cdi:describedUnitOfMeasure`, `cdif:uses`, `cdif:role`)
+- **PropertyValue variables**: typed as `schema:PropertyValue` with DDI-CDI extensions (`cdi:hasIntendedDataType`, `cdif:simpleUnitOfMeasure`, `cdi:describedUnitOfMeasure`, `cdif:uses`, `cdif:role`)
 - `cdif:role` -- enum: `UnitIdentifier`, `Measure`, `Attribute`, `Dimension`, `Descriptor`, `ReferenceVariable`
 - **StatisticalVariable**: typed as `schema:StatisticalVariable` with `schema:statType`, `schema:measuredProperty` (required)
 - `cdif:physicalDataType` is required at the **data description level** (CDIFDataDescription/CDIFcomplete profiles), not at discovery level
