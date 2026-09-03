@@ -753,15 +753,22 @@ def _load_detect_conformance():
         return None, None
 
 
-def detect_and_apply_conformance(framed):
-    """Detect the CDIF profiles the framed document conforms to (from its content)
-    and rewrite schema:subjectOf/dcterms:conformsTo to declare them, preserving any
-    non-CDIF (domain) profile claims. Returns the list of detected URIs, or None if
-    detect_conformance is unavailable."""
+def detect_and_apply_conformance(framed, source_doc=None):
+    """Detect the CDIF profiles the record conforms to (from its content) and
+    rewrite schema:subjectOf/dcterms:conformsTo on `framed` to declare them,
+    preserving any non-CDIF (domain) profile claims. Returns the list of detected
+    URIs, or None if detect_conformance is unavailable.
+
+    Detection reads `source_doc` -- the document as authored -- not the framed
+    result. Framing drops evidence below schema:distribution, so detecting from
+    it omits profiles the record genuinely satisfies (data_structure is the one
+    that bites), and this function PERSISTS its answer: a narrowed conformsTo
+    would be written into the output file. The rewrite still targets `framed`,
+    since that is what gets serialized."""
     detect_fn, apply_fn = _load_detect_conformance()
     if detect_fn is None:
         return None
-    uris = detect_fn(framed)
+    uris = detect_fn(source_doc if source_doc is not None else framed)
     apply_fn(framed, uris)
     return uris
 
@@ -923,8 +930,17 @@ Examples:
     try:
         framed = frame_cdif_document(args.input, frame_path)
 
+        # The document as authored. Both the --conformance rewrite and the -v
+        # consistency check read conformance from this rather than from `framed`,
+        # because framing is lossy.
+        try:
+            with open(args.input, "r", encoding="utf-8") as f:
+                source_doc = json.load(f)
+        except Exception:
+            source_doc = None
+
         if args.conformance:
-            uris = detect_and_apply_conformance(framed)
+            uris = detect_and_apply_conformance(framed, source_doc)
             if uris is None:
                 print("\n--conformance: detect_conformance.py not found (or rdflib "
                       "missing); leaving conformsTo unchanged.", file=sys.stderr)
@@ -951,11 +967,6 @@ Examples:
             # Skipped after --conformance, which has just rewritten the
             # declaration to the detected set, making agreement trivial.
             if not args.conformance:
-                try:
-                    with open(args.input, "r", encoding="utf-8") as f:
-                        source_doc = json.load(f)
-                except Exception:
-                    source_doc = None
                 report = check_conformance_consistency(framed, source_doc)
                 if report is None:
                     print("\nConformance check skipped: detect_conformance.py "

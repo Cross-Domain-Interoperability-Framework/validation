@@ -20,9 +20,16 @@ Dataset-rooted and SKOS `ConceptScheme`-rooted profiles.
 ### Detecting conformance while framing
 
 `FrameAndValidate.py --conformance` frames the document, then derives which CDIF
-profiles the framed result conforms to (from its content, via `detect_conformance.py`)
-and rewrites `schema:subjectOf/dcterms:conformsTo` to declare them — preserving any
-non-CDIF (domain) profile already claimed. The import of `detect_conformance` is
+profiles the record conforms to (from its content, via `detect_conformance.py`)
+and rewrites `schema:subjectOf/dcterms:conformsTo` on the framed output to
+declare them — preserving any non-CDIF (domain) profile already claimed.
+
+Detection reads the **source** document, not the framed result. It used to read
+the framed result, which silently narrowed what it wrote: framing drops evidence
+below `schema:distribution`, so `exampleCDIFDataStructureMinimal.json` was
+written `[core, discovery, data_description]` when its content supports
+`data_structure/1.1` as well. Because this flag *persists* its answer, that loss
+went into the output file rather than merely being reported. The import of `detect_conformance` is
 best-effort: it works in the validation repo (which ships it and can reach the
 building-block SHACL gates) and is a no-op in a release repo that doesn't have it.
 

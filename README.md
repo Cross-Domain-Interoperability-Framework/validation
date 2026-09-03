@@ -235,9 +235,9 @@ to specify a profile up front.
    Detection runs on the **source** document, not the framed one: framing is
    lossy, and evidence below `schema:distribution` does not survive it, so
    detecting from the framed result under-reports and manufactures over-claims
-   for correct records. (Note `--conformance` in `FrameAndValidate.py`, which
-   *rewrites* conformsTo, still detects from the framed document — so it can
-   under-write the declaration for the same reason.)
+   for correct records. `--conformance` in `FrameAndValidate.py`, which
+   *rewrites* conformsTo, reads the source for the same reason — it used to read
+   the framed result and persist the narrowed answer into the output file.
 
    The step is skipped, silently, where `detect_conformance` or `rdflib` cannot
    be imported, so it is as optional as the SHACL pass. `run_conformance(...)`
