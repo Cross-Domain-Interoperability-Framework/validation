@@ -14,7 +14,7 @@ This converter enables DCAT catalog records to be consumed by CDIF-aware tools b
 |---|---|
 | [`dcat-examples/`](dcat-examples/) | 783 upstream files — DCAT-AP, its extensions and national derivatives, DCAT-US 3.0 and 1.1/POD, CKAN fixtures. Mixed purpose: catalogs, data services, vocabularies, SHACL shapes, fragments. |
 | [`dcatExamplesOK/`](dcatExamplesOK/) | The 238 of those that actually **describe a `dcat:Dataset`**, selected structurally (rdflib for RDF; POD JSON matched on its `dataset` array). |
-| [`cdifOK/`](cdifOK/) | 219 CDIF records converted from them. 67 conformant, 152 named `-frag`. |
+| [`cdifOK/`](cdifOK/) | 239 CDIF records converted from them by [`build_corpus.py`](build_corpus.py). 90 conformant, 149 named `-frag`. |
 
 Each has a `README.md` and an `INDEX.json` recording provenance.
 
@@ -53,30 +53,24 @@ in the record's `@context`. An absolute IRI as a JSON-LD key does not frame — 
 before the first colon is read as a prefix — and a CURIE whose prefix the record never
 declares fails the same way, in `@type` and `@id` positions as readily as in keys.
 
-## Property Mapping
+## Property mapping
 
-| DCAT / Dublin Core | Schema.org | Notes |
-|---|---|---|
-| `dcterms:title` | `schema:name` | Required |
-| `dcterms:description` | `schema:description` | |
-| `dcterms:identifier` | `schema:identifier` | Falls back to `adms:identifier` (an `adms:Identifier` whose `skos:notation` holds the value) — DCAT-AP records routinely carry only that |
-| `dcterms:modified` | `schema:dateModified` | Falls back to `dcterms:issued` |
-| `dcterms:issued` | `schema:datePublished` | |
-| `dcterms:license` | `schema:license` | |
-| `dcterms:accessRights` | `schema:conditionsOfAccess` | |
-| `dcterms:creator` | `schema:creator` | FOAF agents → schema:Person/Organization |
-| `dcterms:publisher` | `schema:publisher` | |
-| `dcterms:spatial` | `schema:spatialCoverage` | Bounding box and named places |
-| `dcterms:temporal` | `schema:temporalCoverage` | Start/end dates → ISO 8601 interval |
-| `dcat:keyword` | `schema:keywords` | |
-| `dcat:landingPage` | `schema:url` | |
-| `dcat:Distribution` | `schema:DataDownload` | `dcat:downloadURL`/`accessURL` → `schema:contentUrl` |
-| `dcat:mediaType` | `schema:encodingFormat` | |
-| `dcat:version` | `schema:version` | |
-| `prov:qualifiedAttribution` | `schema:contributor` | Agent + role extracted |
-| `dcat:contactPoint` (vcard) | `schema:provider` | Only if vcard has a name |
+The mappings are in [`../mappings/dcat-to-cdif.sssom.tsv`](../mappings/dcat-to-cdif.sssom.tsv),
+and the converter **reads** that table rather than restating it, so the two
+cannot drift apart. It covers every property the DCAT specification defines --
+the union of the editor's draft and the RDF vocabulary, which disagree -- plus
+every property found in `dcatExamplesOK`.
 
-Properties not in this mapping are passed through to the output unchanged.
+Source IRIs that are not the IRI the publisher meant are rewritten first,
+through [`../mappings/dcat-aliases.sssom.tsv`](../mappings/dcat-aliases.sssom.tsv).
+Most come from official context documents rather than careless records: the
+Project Open Data v1.1 context sets `"@vocab": "dcat#"`, so every term it does
+not itself define expands into the DCAT namespace.
+
+Two columns beyond stock SSSOM carry the work: `subject_class`, because DCAT is
+a graph and `dcterms:title` means one thing on a Dataset and another on a
+Distribution; and `transform`, naming the shaper to apply. Both are documented
+in [`../mappings/dcat-to-cdif.sssom.yml`](../mappings/dcat-to-cdif.sssom.yml).
 
 ## Usage
 

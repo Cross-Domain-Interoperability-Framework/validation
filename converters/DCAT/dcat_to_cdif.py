@@ -376,6 +376,10 @@ def _apply_aliases(ds, changes):
     return out
 
 
+# A node this pass creates still has to say what it is.
+_NODE_TYPES = {"prov:wasGeneratedBy": ["prov:Activity"]}
+
+
 # --- transforms ------------------------------------------------------------
 #
 # (value, ds, rule, doc) -> the CDIF value, or None to emit nothing.
@@ -417,6 +421,11 @@ def _tf_idref(value, ds, rule, doc):
     """
     got = _tf_iri(value, ds, rule, doc)
     items = got if isinstance(got, list) else ([got] if got else [])
+    # CDIF requires @type on the nodes it declares, so a reference to one has
+    # to say what it refers to -- an untyped {"@id": ...} does not validate.
+    types = _NODE_TYPES.get(rule.get("object_id"))
+    if types:
+        return [{"@id": i, "@type": list(types)} for i in items] or None
     return [{"@id": i} for i in items] or None
 
 
@@ -536,11 +545,14 @@ def _tf_concept(value, ds, rule, doc):
                 out.append(term)
                 continue
             if item.get("@id"):
-                out.append(item["@id"])
+                out.append({"@type": ["schema:DefinedTerm"],
+                            "schema:identifier": item["@id"]})
                 continue
         text = _get_str(item)
         if text:
-            out.append(text)
+            # A term of its own, not a bare keyword: this came from a
+            # classification property, and the DefinedTerm is what says so.
+            out.append({"@type": ["schema:DefinedTerm"], "schema:name": text})
     return out or None
 
 
@@ -597,6 +609,48 @@ def _tf_vcard(value, ds, rule, doc):
             agent["schema:contactPoint"] = point
         out.append(agent)
     return out or None
+
+
+def _tf_contributorid(value, ds, rule, doc):
+    """A bare contributor identifier -> a contributor that has only that.
+
+    DCAT-AP.de puts the ID at dataset level with no link to any particular
+    contributor, so attaching it to one already in the record would pick a
+    contributor at random. This says exactly what the source says: something
+    contributed, here is its identifier, its name is knowably absent.
+    """
+    idents = []
+    for item in _as_list(value):
+        ident = _tf_iri(item, ds, rule, doc)
+        if isinstance(ident, list):
+            ident = ident[0] if ident else None
+        if ident and ident not in idents:
+            idents.append(ident)
+    if not idents:
+        return None
+
+    existing = doc.get("schema:contributor") or []
+    if len(idents) == 1 and len(existing) == 1:
+        # One ID and one contributor: they are each other's, and saying so
+        # keeps the identifier attached to the agent it identifies.
+        node = existing[0]
+        agent = node.get("schema:contributor")             if "schema:Role" in _as_list(node.get("@type")) else node
+        if isinstance(agent, dict):
+            agent.setdefault("schema:identifier", idents[0])
+            return existing        # already in place; marks the row as applied
+
+    # Nothing to attach it to, or too many candidates to choose between. The
+    # ID becomes a contributor of its own, saying exactly what the source
+    # says: something contributed, here is its identifier, no name given.
+    return [{
+        "@type": ["schema:Role"],
+        "schema:roleName": "contributor",
+        "schema:contributor": {
+            "@type": ["schema:Organization"],
+            "schema:name": NIL,
+            "schema:identifier": ident,
+        },
+    } for ident in idents]
 
 
 def _tf_identifier(value, ds, rule, doc):
@@ -822,6 +876,7 @@ _TRANSFORMS = {
     "agent": _tf_agent,
     "vcard": _tf_vcard,
     "identifier": _tf_identifier,
+    "contributorid": _tf_contributorid,
     "place": _tf_place,
     "bbox": _tf_bbox,
     "period": _tf_period,
@@ -915,54 +970,94 @@ def _place(doc, target, value, transform=""):
 # expresses "dcterms:identifier, else adms:identifier" with no conditional
 # logic here. Walking the document instead would make precedence depend on
 # JSON key order.
-def _path_segments(rule):
-    """object_json_path as segments, or None when it just names a root key.
+_SEGMENT_RE = re.compile(r"^([^\[]+)(?:\[([^\]]*)\])?$")
 
-    "$.schema:spatialCoverage.schema:box" -> ["schema:spatialCoverage",
-    "schema:box"]; a trailing "[*]" marks a segment that holds an array.
+
+def _parse_segment(text):
+    """"name[key=value]" -> (name, {key: value}); "name[*]" -> (name, {})."""
+    match = _SEGMENT_RE.match(text.strip())
+    if not match:
+        return text, None
+    name, body = match.group(1), match.group(2)
+    if body is None:
+        return name, None
+    body = body.strip()
+    if body in ("", "*"):
+        return name, {}
+    filters = {}
+    for clause in body.split(","):
+        key, _, value = clause.partition("=")
+        key, value = key.strip(), value.strip().strip("'\"")
+        if key:
+            filters[key] = value
+    return name, filters
+
+
+def _path_segments(rule):
+    """object_json_path as [(name, filters)], or None if it names a root key.
+
+    "$.schema:spatialCoverage.schema:box" -> two segments; a single segment is
+    a property of the record itself and is handled by the main pass.
     """
     path = (rule.get("object_json_path") or "").strip()
     if not path.startswith("$."):
         return None
-    segs = path[2:].split(".")
+    segs = [_parse_segment(p) for p in path[2:].split(".")]
     return segs if len(segs) > 1 else None
 
 
-# A node this pass creates still has to say what it is.
+def _matches(node, filters):
+    if not isinstance(node, dict):
+        return False
+    for key, wanted in (filters or {}).items():
+        if key == "@type":
+            if wanted not in _as_list(node.get("@type")):
+                return False
+        else:
+            values = [v.get("@id") if isinstance(v, dict) else v
+                      for v in _as_list(node.get(key))]
+            if wanted not in values:
+                return False
+    return True
+
+
+def _make(filters):
+    """A new member satisfying `filters` -- the filter says what it must be."""
+    node = {}
+    for key, value in (filters or {}).items():
+        node["@type" if key == "@type" else key] = (
+            [value] if key == "@type" else value)
+    return node
+
+
+# A node this pass creates still has to say what it is, even when the path
+# carried no @type filter.
 _NODE_TYPES = {"prov:wasGeneratedBy": ["prov:Activity"]}
 
 
 def _descend(container, segs):
-    """The object that the last segment of `segs` should be written into."""
-    for seg in segs[:-1]:
-        key = seg[:-3] if seg.endswith("[*]") else seg
-        # The declared arity decides, not the path's notation: a path may omit
-        # [*] on a property CDIF declares as an array, and writing a bare
-        # object there produces a record that does not validate.
-        array = seg.endswith("[*]") or _TARGET_ARITY.get(key) == "array"
-        node = container.get(key)
+    """The object the last segment should be written into."""
+    for name, filters in segs[:-1]:
+        array = filters is not None or _TARGET_ARITY.get(name) == "array"
+        node = container.get(name)
         if array:
             if not isinstance(node, list):
                 node = [] if node is None else [node]
-                container[key] = node
-            # Write into the first member that is a node. A list of bare IRIs
-            # has none, and the previous code then wrote into a throwaway dict
-            # that was never attached -- the value vanished while the row
-            # counted as mapped, so the source property was dropped too.
-            spot = next((x for x in node if isinstance(x, dict)), None)
+                container[name] = node
+            spot = next((x for x in node
+                         if isinstance(x, dict) and _matches(x, filters)), None)
             if spot is None:
-                spot = {}
+                spot = _make(filters)
                 node.append(spot)
             container = spot
         else:
             if not isinstance(node, dict):
-                node = {}
-                container[key] = node
+                node = _make(filters)
+                container[name] = node
             container = node
-        if isinstance(container, dict) and key in _NODE_TYPES:
-            container.setdefault("@type", list(_NODE_TYPES[key]))
+        if isinstance(container, dict) and name in _NODE_TYPES:
+            container.setdefault("@type", list(_NODE_TYPES[name]))
     return container
-
 
 
 def _apply_nested(doc, ds, changes, graph=None):
@@ -984,9 +1079,9 @@ def _apply_nested(doc, ds, changes, graph=None):
         if shaped is None or shaped == [] or shaped == "":
             continue
         segs = _path_segments(rule)
-        leaf = segs[-1]
+        leaf = segs[-1][0]
         target = _descend(doc, segs)
-        if _place(target, leaf.replace("[*]", ""), shaped, rule["transform"]):
+        if _place(target, leaf, shaped, rule["transform"]):
             consumed.add(key)
             changes.append("%s to %s" % (key, rule["object_json_path"]))
     return consumed
@@ -1011,9 +1106,29 @@ _NESTABLE_PARENTS = {"prov:wasGeneratedBy"}
 # name is never mistaken for an unmapped leftover.
 _ROOT_TARGETS = {r["object_id"] for r in _ALL_ROOT if r["object_id"]}
 
-_NESTED_ROWS = [r for r in _ALL_ROOT
-                if _path_segments(r)
-                and _path_segments(r)[0].replace("[*]", "") in _NESTABLE_PARENTS]
+def _nestable(rule):
+    """Can this row's path be built without inventing an arbitrary node?
+
+    Yes when every step through an array either carries a filter -- which says
+    both which member to use and what to create if there is none -- or names a
+    container the converter fills itself. Without that, writing into the first
+    member of an array of typed objects attaches the value to whichever
+    sibling happened to be first.
+    """
+    segs = _path_segments(rule)
+    if not segs:
+        return False
+    for name, filters in segs[:-1]:
+        if filters:
+            continue
+        if name in _NESTABLE_PARENTS:
+            continue
+        if _TARGET_ARITY.get(name) == "array":
+            return False
+    return True
+
+
+_NESTED_ROWS = [r for r in _ALL_ROOT if _nestable(r)]
 
 # A row whose path points inside a container we will not build is left to the
 # passthrough pass, so its value survives under its own property.
@@ -1243,6 +1358,53 @@ def convert_distribution(dist):
 # Spatial / temporal coverage
 # ---------------------------------------------------------------------------
 
+def _coords_of(text):
+    """Every (lon, lat) pair in a WKT or GeoJSON geometry string."""
+    if not isinstance(text, str):
+        return []
+    pairs = []
+    stripped = text.strip()
+    if stripped.startswith("{"):
+        try:
+            data = json.loads(stripped)
+        except Exception:
+            return []
+
+        def dig(node):
+            if isinstance(node, list):
+                if (len(node) == 2 and all(isinstance(v, (int, float)) for v in node)):
+                    pairs.append((float(node[0]), float(node[1])))
+                    return
+                for item in node:
+                    dig(item)
+            elif isinstance(node, dict):
+                for value in node.values():
+                    dig(value)
+
+        dig(data.get("coordinates", data))
+        return pairs
+    numbers = re.findall(r"-?\d+(?:\.\d+)?", stripped)
+    for i in range(0, len(numbers) - 1, 2):
+        pairs.append((float(numbers[i]), float(numbers[i + 1])))
+    return pairs
+
+
+def _box_of(text):
+    """A schema:box "south west north east" enclosing a geometry, or None.
+
+    CDIF's GeoShape requires schema:box and defines no schema:polygon, so a
+    geometry has to be reduced to its envelope to be expressible at all. WKT
+    and GeoJSON both order coordinates longitude first.
+    """
+    pairs = [(x, y) for x, y in _coords_of(text)
+             if -180 <= x <= 180 and -90 <= y <= 90]
+    if not pairs:
+        return None
+    lons = [p[0] for p in pairs]
+    lats = [p[1] for p in pairs]
+    return "%g %g %g %g" % (min(lats), min(lons), max(lats), max(lons))
+
+
 def convert_spatial(spatial):
     """Convert dcterms:spatial to schema:spatialCoverage."""
     if not isinstance(spatial, dict):
@@ -1261,18 +1423,22 @@ def convert_spatial(spatial):
     bbox = spatial.get("dcat:bbox")
     if bbox:
         wkt = _get_str(bbox)
-        place["schema:geo"] = {
-            "@type": ["schema:GeoShape"],
-            "schema:box": wkt,
-        }
+        place["schema:geo"] = {"@type": ["schema:GeoShape"],
+                               "schema:box": _box_of(wkt) or wkt}
 
-    # Point geometry
+    # A geometry becomes the box that encloses it. CDIF's GeoShape requires
+    # schema:box and has no schema:polygon, so emitting the polygon produced a
+    # shape that could not validate; the geometry is kept alongside as an
+    # extension rather than discarded.
     geom = spatial.get("locn:geometry")
     if geom and not bbox:
-        place["schema:geo"] = {
-            "@type": ["schema:GeoShape"],
-            "schema:polygon": _get_str(geom),
-        }
+        text = _get_str(geom)
+        box = _box_of(text)
+        if box:
+            place["schema:geo"] = {"@type": ["schema:GeoShape"],
+                                   "schema:box": box}
+        if text:
+            place["locn:geometry"] = text
 
     return place if len(place) > 1 else None
 

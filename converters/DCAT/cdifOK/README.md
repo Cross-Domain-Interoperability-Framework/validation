@@ -1,19 +1,22 @@
 # CDIF records converted from the DCAT examples
 
-219 CDIF JSON-LD records generated from [`../dcatExamplesOK`](../dcatExamplesOK)
-by [`../dcat_to_cdif.py`](../dcat_to_cdif.py), mirroring that directory's
-profile subdirectories. `INDEX.json` lists every record with the sources it came
-from and whether it is a fragment.
+239 CDIF JSON-LD records generated from [`../dcatExamplesOK`](../dcatExamplesOK)
+by [`../build_corpus.py`](../build_corpus.py), which drives
+[`../dcat_to_cdif.py`](../dcat_to_cdif.py) and mirrors that directory's profile
+subdirectories. `INDEX.json` lists every record with the sources it came from
+and whether it is a fragment.
 
 ```
-158 logical examples -> 219 records
-   78 merged from more than one serialization
-   67 conformant  (core/1.1 + discovery/1.1)
-  152 -frag       (content does not meet core)
+157 logical examples -> 239 records
+   79 merged from more than one serialization
+   90 conformant  (core/1.1 + discovery/1.1)
+  149 -frag       (content does not meet core)
 
-  0 JSON Schema failures   0 over-claiming   0 under-declaring
-  2 records with SHACL violations
+  0 conformant records failing JSON Schema
+  0 source properties that reach no record
 ```
+
+Both of those zeroes are checked on every rebuild — see **Regenerating** below.
 
 ## `-frag`
 
@@ -32,8 +35,8 @@ conformant CDIF records and should not be mistaken for them.
 
 ## Merging
 
-The corpus ships many examples in more than one serialization, and **45 of the
-78 such pairs are not the same graph** — the `.ttl` and the `.jsonld` carry
+The corpus ships many examples in more than one serialization, and **48 of the
+79 such groups are not the same graph** — the `.ttl` and the `.jsonld` carry
 different triples upstream. Converting each separately produced near-duplicate
 records, each missing whatever the other had.
 
@@ -42,24 +45,34 @@ parsed into a single RDF graph and converted once. The union is what reaches the
 converter, and `INDEX.json` records how many sources each record was merged
 from.
 
-The normalization this depends on was verified rather than assumed: of the 33
-pairs whose source graphs *are* isomorphic, 46 of the 53 resulting records are
-byte-identical between the two routes, and the 7 that differ do so only in
-blank-node labels — arbitrary identifiers carrying no meaning.
+## Node references
 
-## Known remaining issues
+Real DCAT barely nests. A dataset says
 
-Of the 67 conformant records, **2** still carry SHACL violations, both about
-geometry: a `geoshape` that does not give a line or box as latitude-longitude
-pairs, and an absent spatial coverage description. Both are what the source
-contains; the converter has nothing to work from.
+```json
+"dcat:distribution": { "@id": "https://…/dataset/1T2p3o4B-dist-SHP" }
+```
 
-Where the source is silent, the record says so rather than staying quiet:
+and the distribution is a **sibling** node — always so after an RDF round-trip,
+which hoists every node to the top level. The converter is handed an index of
+the whole document and resolves these before mapping. Without it, 123 of these
+records lost their distributions, and the DCAT-US bounding box and
+`adms:contactPoint` shapers could never fire at all.
+
+A reference whose node is not in the document is kept as a `DataDownload`
+carrying that identifier: the source asserts the distribution exists, and
+saying nothing would assert that it does not.
+
+## Where the source is silent
+
+The record says so rather than staying quiet:
 
 - no landing page and no distribution, or a `DataDownload` with no access URL —
   `schema:url` / `schema:contentUrl` carry the OGC `nil:missing` URI, as a
   string: both properties are declared `sh:datatype xsd:string`;
 - no licence — `schema:license` carries the same URI;
+- an agent with an IRI and no name — `schema:name` carries the same URI. CDIF
+  requires a name and DCAT routinely gives only an ORCID or a ROR;
 - no usable `dcterms:modified` — the conversion timestamp, which is at least
   true of the serialization. Source dates carrying fractional seconds
   (`2024-05-08T04:11:24.309486`) are trimmed rather than discarded: the CDIF
@@ -68,15 +81,41 @@ Where the source is silent, the record says so rather than staying quiet:
 A record moving in or out of conformance changes its filename, so git shows it
 as a delete plus an add rather than a modification.
 
+## Known remaining issues
+
+One source, `11-dcat-us-1.1-pod/real-world/missing-catalog.data.json`, cannot
+be read at all: its `@context` names a relative IRI with no scheme
+(`project-open-data.cio.gov/v1.1/schema`), so nothing can resolve it. One other
+group parses but describes no `dcat:Dataset`.
+
+**SHACL has not been re-run against this regeneration.** The composite's
+`rules.shacl` is not self-contained — it references shapes assembled from the
+`$ref` graph — so it needs `metadataBuildingBlocks/tools/validate_shacl.py` or
+the OGC postprocessor rather than pyshacl over the file alone. The previous
+generation had 2 records with geometry violations; that figure predates this
+rebuild and should not be quoted for it.
+
 ## Regenerating
 
 ```bash
-python dcat_to_cdif.py <input.jsonld> --output <dir>
+python build_corpus.py
 ```
 
-The batch driver that produced this directory does three things the converter
-does not: it merges serializations, re-serializes RDF sources as JSON-LD
-compacted against a context binding `dcat:` (the converter matches on the
-literal CURIE `dcat:Dataset`), and inlines `@graph` node references so the
-converter — which walks *down* from the dataset node — can see distributions
-that rdflib emitted as siblings.
+Rebuilds this directory and verifies two invariants, both of which caught real
+bugs while the converter was being made table-driven:
+
+- **loss** — every predicate asserted on a `dcat:Dataset` in the source graph
+  is accounted for in the output: mapped through
+  [`../mappings/dcat-to-cdif.sssom.tsv`](../mappings/dcat-to-cdif.sssom.tsv),
+  rewritten by
+  [`../mappings/dcat-aliases.sssom.tsv`](../mappings/dcat-aliases.sssom.tsv),
+  or preserved verbatim. Comparison is on IRIs, resolving each record's own
+  `@context`, because the converter mints a prefix for any vocabulary it passes
+  through — HealthDCAT-AP arrives as `health:analytics`, not as the source IRI.
+- **schema** — every conformant record validates against the CoreDiscovery
+  profile. Fragments are expected to fail and are counted separately; a
+  *non*-fragment that fails means conformance was detected for content the
+  schema rejects.
+
+`--check` verifies the directory on disk without writing, and `--limit N`
+converts the first N groups for a quick pass.
