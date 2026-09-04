@@ -34,6 +34,7 @@ Usage:
     python DCAT/dcat_to_cdif.py catalog.jsonld --output ./examples --select 0,3,5
 """
 
+import datetime as _dt
 import json
 import sys
 import os
@@ -129,6 +130,51 @@ def _prefix_for(context, namespace):
     return prefix
 
 
+# The CDIF shapes accept YYYY-MM through YYYY-MM-DDThh:mm:ss with an optional
+# Z/offset -- and no fractional seconds, which sources routinely carry.
+_CDIF_DATE_RE = re.compile(
+    r"^[1-2][0-9]{3}-([0][1-9]|[1][0-2])"
+    r"(-([0-2][0-9]|[3][0-1])"
+    r"(T([0-1][0-9]|[2][0-3])(:[0-5][0-9])?"
+    r"(:[0-5][0-9](Z|[+-][0-2][0-9]:[0-5][0-9])?)?)?)?$")
+
+
+def _normalize_date(value):
+    """Coerce a date string into the form the CDIF shapes accept, or None."""
+    if not isinstance(value, str):
+        return None
+    v = value.strip()
+    if _CDIF_DATE_RE.match(v):
+        return v
+    trimmed = re.sub(r"\.\d+", "", v)          # "...:24.309486" -> "...:24"
+    if _CDIF_DATE_RE.match(trimmed):
+        return trimmed
+    for length in (10, 7):                     # fall back to date, then month
+        if _CDIF_DATE_RE.match(v[:length]):
+            return v[:length]
+    return None
+
+
+def _as_list(value):
+    """value as a list: None -> [], a scalar -> [scalar], a list unchanged."""
+    if value is None:
+        return []
+    return value if isinstance(value, list) else [value]
+
+
+def _declare_prefix_of(curie, context):
+    """Declare the namespace for `curie`'s prefix, when we know it."""
+    if not isinstance(curie, str) or ":" not in curie:
+        return
+    if curie.startswith(("http://", "https://", "urn:", "_:", "@")):
+        return
+    prefix = curie.split(":", 1)[0]
+    if prefix and prefix not in context:
+        ns = _NAMESPACE_FOR_PREFIX.get(prefix)
+        if ns:
+            context[prefix] = ns
+
+
 def _prefix_keys(key, value, context, depth=0):
     """(key, value) with every absolute-IRI property key turned into a CURIE.
 
@@ -153,6 +199,13 @@ def _prefix_keys(key, value, context, depth=0):
                 context[prefix] = ns
     if depth < 12:
         if isinstance(value, dict):
+            # @type and @id are IRI positions: a CURIE there with an undeclared
+            # prefix parses as an absolute IRI whose SCHEME is the prefix, which
+            # then collides with the frame's own prefix during compaction.
+            for iri_key in ("@type", "@id"):
+                for candidate in _as_list(value.get(iri_key)):
+                    if isinstance(candidate, str):
+                        _declare_prefix_of(candidate, context)
             out = {}
             for k2, v2 in value.items():
                 nk, nv = _prefix_keys(k2, v2, context, depth + 1)
@@ -470,9 +523,27 @@ def convert_dcat_to_cdif(ds, catalog_name="", catalog_url="", profile="core",
             doc["schema:dateModified"] = val
             changes.append("dcterms:issued to schema:dateModified (no dcterms:modified)")
 
+    # Whatever the date came from -- source, fallback, or conversion time -- it
+    # has to match the shape's pattern to be worth emitting. Sources carry
+    # fractional seconds, which the pattern rejects.
+    if "schema:dateModified" in doc:
+        fixed = _normalize_date(doc["schema:dateModified"])
+        if fixed:
+            if fixed != doc["schema:dateModified"]:
+                changes.append("schema:dateModified normalized to %s" % fixed)
+            doc["schema:dateModified"] = fixed
+        else:
+            del doc["schema:dateModified"]
+
     if "schema:dateModified" not in doc:
-        doc["schema:dateModified"] = "2025-01-01"
-        changes.append("schema:dateModified set to placeholder (no date in source)")
+        # Was the hardcoded "2025-01-01" -- untrue, and plausible enough to be
+        # taken for real. The conversion timestamp is at least true of this
+        # serialization. Seconds precision, no fractional part: that is what the
+        # CDIF dateModified pattern accepts.
+        doc["schema:dateModified"] = _dt.datetime.now(
+            _dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        changes.append("schema:dateModified set to the conversion time "
+                       "(no date in source)")
 
     # dcat:landingPage → schema:url
     landing = ds.get("dcat:landingPage", {})
@@ -608,6 +679,8 @@ def convert_dcat_to_cdif(ds, catalog_name="", catalog_url="", profile="core",
         # readily as a top-level one.
         key, value = _prefix_keys(k, v, doc["@context"])
         doc[key] = value
+    for candidate in _as_list(doc.get("@type")):
+        _declare_prefix_of(candidate, doc["@context"])
 
     # --- Determine profile ---
     has_spatial = "schema:spatialCoverage" in doc
@@ -615,6 +688,18 @@ def convert_dcat_to_cdif(ds, catalog_name="", catalog_url="", profile="core",
     has_variables = "schema:variableMeasured" in doc
     actual_profile = ("discovery" if (has_spatial or has_temporal or has_variables)
                       else profile)
+
+    # An access point is required for FAIR reuse. When the source offers neither
+    # a landing page nor a distribution, say the value is knowably absent rather
+    # than leaving the record silent about it.
+    # Both schema:url and schema:contentUrl are declared sh:datatype xsd:string
+    # (url with a ^https?://... pattern besides), so the nil URI goes in as a
+    # plain string, not an {"@id": ...} reference.
+    if not doc.get("schema:url") and not doc.get("schema:distribution"):
+        doc["schema:url"] = "http://www.opengis.net/def/nil/OGC/0/missing"
+    for _dist in (doc.get("schema:distribution") or []):
+        if isinstance(_dist, dict) and not _dist.get("schema:contentUrl"):
+            _dist["schema:contentUrl"] = "http://www.opengis.net/def/nil/OGC/0/missing"
 
     # CDIF requires licence / access-conditions information for FAIR reuse, and
     # a silent omission cannot be told from an oversight. Say it is knowably
