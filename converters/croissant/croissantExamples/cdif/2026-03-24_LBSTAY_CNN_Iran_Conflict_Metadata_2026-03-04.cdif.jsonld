@@ -34,12 +34,16 @@
     "@type": [
       "schema:PropertyValue"
     ],
-    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:propertyID": {
+      "@id": "https://registry.identifiers.org/registry/doi"
+    },
     "schema:value": "10.5072/FK2/LBSTAY",
     "schema:url": "https://doi.org/10.5072/FK2/LBSTAY"
   },
   "schema:license": [
-    "http://creativecommons.org/licenses/by/4.0"
+    {
+      "@id": "http://creativecommons.org/licenses/by/4.0"
+    }
   ],
   "schema:creator": {
     "@list": [
@@ -62,32 +66,6 @@
     "CNN Iran Conflict Metadata 2026-03-04"
   ],
   "schema:distribution": [
-    {
-      "@id": "croissant_cnn_iran_conflict_metadata_2026-03-04_final.json",
-      "schema:name": "croissant_cnn_iran_conflict_metadata_2026-03-04_final.json",
-      "schema:description": "Croissant Metadata",
-      "schema:encodingFormat": [
-        "application/json"
-      ],
-      "schema:contentUrl": "https://dataverse.dev1.codata.org/api/access/datafile/172",
-      "schema:size": {
-        "@type": [
-          "schema:QuantitativeValue"
-        ],
-        "schema:value": 1856,
-        "schema:unitText": "byte"
-      },
-      "spdx:checksum": {
-        "@type": [
-          "spdx:Checksum"
-        ],
-        "spdx:checksumAlgorithm": "checksumAlgorithm_md5",
-        "spdx:checksumValue": "780d61c73f2b7fb2fe518cc385af0e8c"
-      },
-      "@type": [
-        "schema:DataDownload"
-      ]
-    },
     {
       "@id": "variables_cnn_iran.csv",
       "schema:name": "variables_cnn_iran.csv",
@@ -114,52 +92,55 @@
         "schema:DataDownload",
         "cdi:TabularTextDataSet"
       ],
-      "cdi:hasPhysicalMapping": [
+      "cdi:isDelimited": true,
+      "csvw:delimiter": ",",
+      "cdif:hasPhysicalMapping": [
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 1,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 1,
+          "cdif:formats_InstanceVariable": {
             "@id": "#variablename"
           },
-          "cdi:locator": "variable_name"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 2,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 2,
+          "cdif:formats_InstanceVariable": {
             "@id": "#value"
           },
-          "cdi:locator": "value"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 3,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 3,
+          "cdif:formats_InstanceVariable": {
             "@id": "#unit"
           },
-          "cdi:locator": "unit"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 4,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 4,
+          "cdif:formats_InstanceVariable": {
             "@id": "#context"
           },
-          "cdi:locator": "context"
+          "cdif:physicalDataType": "xsd:string"
         }
       ]
+    }
+  ],
+  "schema:relatedLink": [
+    {
+      "@type": [
+        "schema:LinkRole"
+      ],
+      "schema:linkRelationship": "related",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:name": "croissant_cnn_iran_conflict_metadata_2026-03-04_final.json",
+        "schema:description": "Croissant Metadata",
+        "schema:url": "https://dataverse.dev1.codata.org/api/access/datafile/172",
+        "schema:encodingFormat": "application/json"
+      }
     }
   ],
   "schema:variableMeasured": [
@@ -171,12 +152,9 @@
       ],
       "schema:name": "variable_name",
       "schema:description": "variable_name",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -187,12 +165,9 @@
       ],
       "schema:name": "value",
       "schema:description": "value",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -203,12 +178,9 @@
       ],
       "schema:name": "unit",
       "schema:description": "unit",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -219,39 +191,41 @@
       ],
       "schema:name": "context",
       "schema:description": "context",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     }
   ],
   "schema:subjectOf": {
     "@type": [
-      "schema:Dataset",
-      "dcat:CatalogRecord"
+      "schema:Dataset"
     ],
-    "dcterms:conformsTo": [
+    "schema:additionalType": [
       {
-        "@id": "https://w3id.org/cdif/profiles/discovery"
-      },
-      {
-        "@id": "https://w3id.org/cdif/profiles/datadescription"
-      },
-      {
-        "@id": "https://w3id.org/cdif/discovery/1.0"
-      },
-      {
-        "@id": "https://w3id.org/cdif/data_description/1.0"
+        "@id": "dcat:CatalogRecord"
       }
     ],
-    "schema:sdDatePublished": "2026-03-24"
+    "schema:about": {
+      "@id": "https://doi.org/10.5072/FK2/LBSTAY"
+    },
+    "@id": "https://doi.org/10.5072/FK2/LBSTAY/metadata",
+    "schema:sdDatePublished": "2026-03-24",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.1"
+      }
+    ]
   },
   "prov:wasDerivedFrom": [
     {
-      "@id": "http://mlcommons.org/croissant/1.0",
+      "@id": "http://mlcommons.org/croissant/1.1",
       "schema:description": "Converted from Croissant 1.0 JSON-LD"
     }
   ]

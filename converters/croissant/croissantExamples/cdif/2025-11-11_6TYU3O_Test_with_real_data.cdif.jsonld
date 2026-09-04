@@ -34,12 +34,16 @@
     "@type": [
       "schema:PropertyValue"
     ],
-    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:propertyID": {
+      "@id": "https://registry.identifiers.org/registry/doi"
+    },
     "schema:value": "10.5072/FK2/6TYU3O",
     "schema:url": "https://doi.org/10.5072/FK2/6TYU3O"
   },
   "schema:license": [
-    "http://creativecommons.org/publicdomain/zero/1.0"
+    {
+      "@id": "http://creativecommons.org/publicdomain/zero/1.0"
+    }
   ],
   "schema:creator": {
     "@list": [
@@ -86,248 +90,162 @@
         "schema:DataDownload",
         "cdi:TabularTextDataSet"
       ],
-      "cdi:hasPhysicalMapping": [
+      "cdi:isDelimited": true,
+      "csvw:delimiter": ",",
+      "cdif:hasPhysicalMapping": [
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 1,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 1,
+          "cdif:formats_InstanceVariable": {
             "@id": "#country"
           },
-          "cdi:locator": "Country"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 2,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 2,
+          "cdif:formats_InstanceVariable": {
             "@id": "#year"
           },
-          "cdi:locator": "Year"
+          "cdif:physicalDataType": "xsd:integer"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 3,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 3,
+          "cdif:formats_InstanceVariable": {
             "@id": "#status"
           },
-          "cdi:locator": "Status"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 4,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 4,
+          "cdif:formats_InstanceVariable": {
             "@id": "#lifeexpectancy"
           },
-          "cdi:locator": "Life expectancy "
+          "cdif:physicalDataType": "xsd:decimal"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 5,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 5,
+          "cdif:formats_InstanceVariable": {
             "@id": "#adultmortality"
           },
-          "cdi:locator": "Adult Mortality"
+          "cdif:physicalDataType": "xsd:integer"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 6,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 6,
+          "cdif:formats_InstanceVariable": {
             "@id": "#infantdeaths"
           },
-          "cdi:locator": "infant deaths"
+          "cdif:physicalDataType": "xsd:integer"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 7,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 7,
+          "cdif:formats_InstanceVariable": {
             "@id": "#alcohol"
           },
-          "cdi:locator": "Alcohol"
+          "cdif:physicalDataType": "xsd:decimal"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 8,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 8,
+          "cdif:formats_InstanceVariable": {
             "@id": "#percentageexpenditure"
           },
-          "cdi:locator": "percentage expenditure"
+          "cdif:physicalDataType": "xsd:decimal"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 9,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 9,
+          "cdif:formats_InstanceVariable": {
             "@id": "#hepatitisb"
           },
-          "cdi:locator": "Hepatitis B"
+          "cdif:physicalDataType": "xsd:integer"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 10,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 10,
+          "cdif:formats_InstanceVariable": {
             "@id": "#measles"
           },
-          "cdi:locator": "Measles "
+          "cdif:physicalDataType": "xsd:integer"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 11,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 11,
+          "cdif:formats_InstanceVariable": {
             "@id": "#bmi"
           },
-          "cdi:locator": " BMI "
+          "cdif:physicalDataType": "xsd:decimal"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 12,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 12,
+          "cdif:formats_InstanceVariable": {
             "@id": "#underfivedeaths"
           },
-          "cdi:locator": "under-five deaths "
+          "cdif:physicalDataType": "xsd:integer"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 13,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 13,
+          "cdif:formats_InstanceVariable": {
             "@id": "#polio"
           },
-          "cdi:locator": "Polio"
+          "cdif:physicalDataType": "xsd:integer"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 14,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 14,
+          "cdif:formats_InstanceVariable": {
             "@id": "#totalexpenditure"
           },
-          "cdi:locator": "Total expenditure"
+          "cdif:physicalDataType": "xsd:decimal"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 15,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 15,
+          "cdif:formats_InstanceVariable": {
             "@id": "#diphtheria"
           },
-          "cdi:locator": "Diphtheria "
+          "cdif:physicalDataType": "xsd:integer"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 16,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 16,
+          "cdif:formats_InstanceVariable": {
             "@id": "#hivaids"
           },
-          "cdi:locator": " HIV/AIDS"
+          "cdif:physicalDataType": "xsd:decimal"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 17,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 17,
+          "cdif:formats_InstanceVariable": {
             "@id": "#gdp"
           },
-          "cdi:locator": "GDP"
+          "cdif:physicalDataType": "xsd:decimal"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 18,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 18,
+          "cdif:formats_InstanceVariable": {
             "@id": "#population"
           },
-          "cdi:locator": "Population"
+          "cdif:physicalDataType": "xsd:integer"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 19,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 19,
+          "cdif:formats_InstanceVariable": {
             "@id": "#thinness119years"
           },
-          "cdi:locator": " thinness  1-19 years"
+          "cdif:physicalDataType": "xsd:decimal"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 20,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 20,
+          "cdif:formats_InstanceVariable": {
             "@id": "#thinness59years"
           },
-          "cdi:locator": " thinness 5-9 years"
+          "cdif:physicalDataType": "xsd:decimal"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 21,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 21,
+          "cdif:formats_InstanceVariable": {
             "@id": "#incomecompositionofresources"
           },
-          "cdi:locator": "Income composition of resources"
+          "cdif:physicalDataType": "xsd:decimal"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 22,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 22,
+          "cdif:formats_InstanceVariable": {
             "@id": "#schooling"
           },
-          "cdi:locator": "Schooling"
+          "cdif:physicalDataType": "xsd:decimal"
         }
       ]
     }
@@ -341,12 +259,9 @@
       ],
       "schema:name": "Country",
       "schema:description": "Country",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -357,12 +272,9 @@
       ],
       "schema:name": "Year",
       "schema:description": "Year",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:integer"
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
       }
     },
     {
@@ -373,12 +285,9 @@
       ],
       "schema:name": "Status",
       "schema:description": "Status",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -389,12 +298,9 @@
       ],
       "schema:name": "Life expectancy ",
       "schema:description": "Life expectancy ",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:decimal"
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
       }
     },
     {
@@ -405,12 +311,9 @@
       ],
       "schema:name": "Adult Mortality",
       "schema:description": "Adult Mortality",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:integer"
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
       }
     },
     {
@@ -421,12 +324,9 @@
       ],
       "schema:name": "infant deaths",
       "schema:description": "infant deaths",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:integer"
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
       }
     },
     {
@@ -437,12 +337,9 @@
       ],
       "schema:name": "Alcohol",
       "schema:description": "Alcohol",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:decimal"
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
       }
     },
     {
@@ -453,12 +350,9 @@
       ],
       "schema:name": "percentage expenditure",
       "schema:description": "percentage expenditure",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:decimal"
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
       }
     },
     {
@@ -469,12 +363,9 @@
       ],
       "schema:name": "Hepatitis B",
       "schema:description": "Hepatitis B",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:integer"
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
       }
     },
     {
@@ -485,12 +376,9 @@
       ],
       "schema:name": "Measles ",
       "schema:description": "Measles ",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:integer"
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
       }
     },
     {
@@ -501,12 +389,9 @@
       ],
       "schema:name": " BMI ",
       "schema:description": " BMI ",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:decimal"
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
       }
     },
     {
@@ -517,12 +402,9 @@
       ],
       "schema:name": "under-five deaths ",
       "schema:description": "under-five deaths ",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:integer"
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
       }
     },
     {
@@ -533,12 +415,9 @@
       ],
       "schema:name": "Polio",
       "schema:description": "Polio",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:integer"
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
       }
     },
     {
@@ -549,12 +428,9 @@
       ],
       "schema:name": "Total expenditure",
       "schema:description": "Total expenditure",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:decimal"
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
       }
     },
     {
@@ -565,12 +441,9 @@
       ],
       "schema:name": "Diphtheria ",
       "schema:description": "Diphtheria ",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:integer"
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
       }
     },
     {
@@ -581,12 +454,9 @@
       ],
       "schema:name": " HIV/AIDS",
       "schema:description": " HIV/AIDS",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:decimal"
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
       }
     },
     {
@@ -597,12 +467,9 @@
       ],
       "schema:name": "GDP",
       "schema:description": "GDP",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:decimal"
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
       }
     },
     {
@@ -613,12 +480,9 @@
       ],
       "schema:name": "Population",
       "schema:description": "Population",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:integer"
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
       }
     },
     {
@@ -629,12 +493,9 @@
       ],
       "schema:name": " thinness  1-19 years",
       "schema:description": " thinness  1-19 years",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:decimal"
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
       }
     },
     {
@@ -645,12 +506,9 @@
       ],
       "schema:name": " thinness 5-9 years",
       "schema:description": " thinness 5-9 years",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:decimal"
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
       }
     },
     {
@@ -661,12 +519,9 @@
       ],
       "schema:name": "Income composition of resources",
       "schema:description": "Income composition of resources",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:decimal"
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
       }
     },
     {
@@ -677,39 +532,41 @@
       ],
       "schema:name": "Schooling",
       "schema:description": "Schooling",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:decimal"
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
       }
     }
   ],
   "schema:subjectOf": {
     "@type": [
-      "schema:Dataset",
-      "dcat:CatalogRecord"
+      "schema:Dataset"
     ],
-    "dcterms:conformsTo": [
+    "schema:additionalType": [
       {
-        "@id": "https://w3id.org/cdif/profiles/discovery"
-      },
-      {
-        "@id": "https://w3id.org/cdif/profiles/datadescription"
-      },
-      {
-        "@id": "https://w3id.org/cdif/discovery/1.0"
-      },
-      {
-        "@id": "https://w3id.org/cdif/data_description/1.0"
+        "@id": "dcat:CatalogRecord"
       }
     ],
-    "schema:sdDatePublished": "2025-11-11"
+    "schema:about": {
+      "@id": "https://doi.org/10.5072/FK2/6TYU3O"
+    },
+    "@id": "https://doi.org/10.5072/FK2/6TYU3O/metadata",
+    "schema:sdDatePublished": "2025-11-11",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.1"
+      }
+    ]
   },
   "prov:wasDerivedFrom": [
     {
-      "@id": "http://mlcommons.org/croissant/1.0",
+      "@id": "http://mlcommons.org/croissant/1.1",
       "schema:description": "Converted from Croissant 1.0 JSON-LD"
     }
   ]

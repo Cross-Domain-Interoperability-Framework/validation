@@ -34,12 +34,16 @@
     "@type": [
       "schema:PropertyValue"
     ],
-    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:propertyID": {
+      "@id": "https://registry.identifiers.org/registry/doi"
+    },
     "schema:value": "10.5072/FK2/KRKCNG",
     "schema:url": "https://doi.org/10.5072/FK2/KRKCNG"
   },
   "schema:license": [
-    "http://creativecommons.org/publicdomain/zero/1.0"
+    {
+      "@id": "http://creativecommons.org/publicdomain/zero/1.0"
+    }
   ],
   "schema:creator": {
     "@list": [
@@ -86,61 +90,43 @@
         "schema:DataDownload",
         "cdi:TabularTextDataSet"
       ],
-      "cdi:hasPhysicalMapping": [
+      "cdi:isDelimited": true,
+      "csvw:delimiter": ",",
+      "cdif:hasPhysicalMapping": [
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 1,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 1,
+          "cdif:formats_InstanceVariable": {
             "@id": "#idno"
           },
-          "cdi:locator": "idno"
+          "cdif:physicalDataType": "xsd:integer"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 2,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 2,
+          "cdif:formats_InstanceVariable": {
             "@id": "#pweight"
           },
-          "cdi:locator": "pweight"
+          "cdif:physicalDataType": "xsd:decimal"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 3,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 3,
+          "cdif:formats_InstanceVariable": {
             "@id": "#cntry"
           },
-          "cdi:locator": "cntry"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 4,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 4,
+          "cdif:formats_InstanceVariable": {
             "@id": "#proddate"
           },
-          "cdi:locator": "proddate"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 5,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 5,
+          "cdif:formats_InstanceVariable": {
             "@id": "#health"
           },
-          "cdi:locator": "health"
+          "cdif:physicalDataType": "xsd:integer"
         }
       ]
     }
@@ -154,12 +140,9 @@
       ],
       "schema:name": "idno",
       "schema:description": "idno",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:integer"
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
       }
     },
     {
@@ -170,12 +153,9 @@
       ],
       "schema:name": "pweight",
       "schema:description": "pweight",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:decimal"
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
       }
     },
     {
@@ -186,12 +166,9 @@
       ],
       "schema:name": "cntry",
       "schema:description": "cntry",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -202,12 +179,9 @@
       ],
       "schema:name": "proddate",
       "schema:description": "proddate",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -218,39 +192,41 @@
       ],
       "schema:name": "health",
       "schema:description": "health",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:integer"
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
       }
     }
   ],
   "schema:subjectOf": {
     "@type": [
-      "schema:Dataset",
-      "dcat:CatalogRecord"
+      "schema:Dataset"
     ],
-    "dcterms:conformsTo": [
+    "schema:additionalType": [
       {
-        "@id": "https://w3id.org/cdif/profiles/discovery"
-      },
-      {
-        "@id": "https://w3id.org/cdif/profiles/datadescription"
-      },
-      {
-        "@id": "https://w3id.org/cdif/discovery/1.0"
-      },
-      {
-        "@id": "https://w3id.org/cdif/data_description/1.0"
+        "@id": "dcat:CatalogRecord"
       }
     ],
-    "schema:sdDatePublished": "2025-12-04"
+    "schema:about": {
+      "@id": "https://doi.org/10.5072/FK2/KRKCNG"
+    },
+    "@id": "https://doi.org/10.5072/FK2/KRKCNG/metadata",
+    "schema:sdDatePublished": "2025-12-04",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.1"
+      }
+    ]
   },
   "prov:wasDerivedFrom": [
     {
-      "@id": "http://mlcommons.org/croissant/1.0",
+      "@id": "http://mlcommons.org/croissant/1.1",
       "schema:description": "Converted from Croissant 1.0 JSON-LD"
     }
   ]

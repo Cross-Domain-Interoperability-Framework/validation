@@ -34,12 +34,16 @@
     "@type": [
       "schema:PropertyValue"
     ],
-    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:propertyID": {
+      "@id": "https://registry.identifiers.org/registry/doi"
+    },
     "schema:value": "10.5072/FK2/BXSHPO",
     "schema:url": "https://doi.org/10.5072/FK2/BXSHPO"
   },
   "schema:license": [
-    "http://creativecommons.org/publicdomain/zero/1.0"
+    {
+      "@id": "http://creativecommons.org/publicdomain/zero/1.0"
+    }
   ],
   "schema:creator": {
     "@list": [
@@ -82,259 +86,169 @@
         "schema:DataDownload",
         "cdi:TabularTextDataSet"
       ],
-      "cdi:hasPhysicalMapping": [
+      "cdi:isDelimited": true,
+      "csvw:delimiter": ",",
+      "cdif:hasPhysicalMapping": [
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 1,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 1,
+          "cdif:formats_InstanceVariable": {
             "@id": "#time"
           },
-          "cdi:locator": "time"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 2,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 2,
+          "cdif:formats_InstanceVariable": {
             "@id": "#latitude"
           },
-          "cdi:locator": "latitude"
+          "cdif:physicalDataType": "xsd:decimal"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 3,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 3,
+          "cdif:formats_InstanceVariable": {
             "@id": "#longitude"
           },
-          "cdi:locator": "longitude"
+          "cdif:physicalDataType": "xsd:decimal"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 4,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 4,
+          "cdif:formats_InstanceVariable": {
             "@id": "#depth"
           },
-          "cdi:locator": "depth"
+          "cdif:physicalDataType": "xsd:decimal"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 5,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 5,
+          "cdif:formats_InstanceVariable": {
             "@id": "#mag"
           },
-          "cdi:locator": "mag"
+          "cdif:physicalDataType": "xsd:decimal"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 6,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 6,
+          "cdif:formats_InstanceVariable": {
             "@id": "#magtype"
           },
-          "cdi:locator": "magType"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 7,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 7,
+          "cdif:formats_InstanceVariable": {
             "@id": "#nst"
           },
-          "cdi:locator": "nst"
+          "cdif:physicalDataType": "xsd:decimal"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 8,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 8,
+          "cdif:formats_InstanceVariable": {
             "@id": "#gap"
           },
-          "cdi:locator": "gap"
+          "cdif:physicalDataType": "xsd:decimal"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 9,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 9,
+          "cdif:formats_InstanceVariable": {
             "@id": "#dmin"
           },
-          "cdi:locator": "dmin"
+          "cdif:physicalDataType": "xsd:decimal"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 10,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 10,
+          "cdif:formats_InstanceVariable": {
             "@id": "#rms"
           },
-          "cdi:locator": "rms"
+          "cdif:physicalDataType": "xsd:decimal"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 11,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 11,
+          "cdif:formats_InstanceVariable": {
             "@id": "#net"
           },
-          "cdi:locator": "net"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 12,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 12,
+          "cdif:formats_InstanceVariable": {
             "@id": "#id"
           },
-          "cdi:locator": "id"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 13,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 13,
+          "cdif:formats_InstanceVariable": {
             "@id": "#updated"
           },
-          "cdi:locator": "updated"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 14,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 14,
+          "cdif:formats_InstanceVariable": {
             "@id": "#place"
           },
-          "cdi:locator": "place"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 15,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 15,
+          "cdif:formats_InstanceVariable": {
             "@id": "#type"
           },
-          "cdi:locator": "type"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 16,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 16,
+          "cdif:formats_InstanceVariable": {
             "@id": "#horizontalerror"
           },
-          "cdi:locator": "horizontalError"
+          "cdif:physicalDataType": "xsd:decimal"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 17,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 17,
+          "cdif:formats_InstanceVariable": {
             "@id": "#deptherror"
           },
-          "cdi:locator": "depthError"
+          "cdif:physicalDataType": "xsd:decimal"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 18,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 18,
+          "cdif:formats_InstanceVariable": {
             "@id": "#magerror"
           },
-          "cdi:locator": "magError"
+          "cdif:physicalDataType": "xsd:decimal"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 19,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 19,
+          "cdif:formats_InstanceVariable": {
             "@id": "#magnst"
           },
-          "cdi:locator": "magNst"
+          "cdif:physicalDataType": "xsd:decimal"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 20,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 20,
+          "cdif:formats_InstanceVariable": {
             "@id": "#status"
           },
-          "cdi:locator": "status"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 21,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 21,
+          "cdif:formats_InstanceVariable": {
             "@id": "#locationsource"
           },
-          "cdi:locator": "locationSource"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 22,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 22,
+          "cdif:formats_InstanceVariable": {
             "@id": "#magsource"
           },
-          "cdi:locator": "magSource"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 23,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 23,
+          "cdif:formats_InstanceVariable": {
             "@id": "#alert"
           },
-          "cdi:locator": "Alert"
+          "cdif:physicalDataType": "xsd:string"
         }
       ]
     }
@@ -348,12 +262,9 @@
       ],
       "schema:name": "time",
       "schema:description": "time",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -364,12 +275,9 @@
       ],
       "schema:name": "latitude",
       "schema:description": "latitude",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:decimal"
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
       }
     },
     {
@@ -380,12 +288,9 @@
       ],
       "schema:name": "longitude",
       "schema:description": "longitude",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:decimal"
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
       }
     },
     {
@@ -396,12 +301,9 @@
       ],
       "schema:name": "depth",
       "schema:description": "depth",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:decimal"
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
       }
     },
     {
@@ -412,12 +314,9 @@
       ],
       "schema:name": "mag",
       "schema:description": "mag",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:decimal"
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
       }
     },
     {
@@ -428,12 +327,9 @@
       ],
       "schema:name": "magType",
       "schema:description": "magType",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -444,12 +340,9 @@
       ],
       "schema:name": "nst",
       "schema:description": "nst",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:decimal"
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
       }
     },
     {
@@ -460,12 +353,9 @@
       ],
       "schema:name": "gap",
       "schema:description": "gap",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:decimal"
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
       }
     },
     {
@@ -476,12 +366,9 @@
       ],
       "schema:name": "dmin",
       "schema:description": "dmin",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:decimal"
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
       }
     },
     {
@@ -492,12 +379,9 @@
       ],
       "schema:name": "rms",
       "schema:description": "rms",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:decimal"
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
       }
     },
     {
@@ -508,12 +392,9 @@
       ],
       "schema:name": "net",
       "schema:description": "net",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -524,12 +405,9 @@
       ],
       "schema:name": "id",
       "schema:description": "id",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -540,12 +418,9 @@
       ],
       "schema:name": "updated",
       "schema:description": "updated",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -556,12 +431,9 @@
       ],
       "schema:name": "place",
       "schema:description": "place",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -572,12 +444,9 @@
       ],
       "schema:name": "type",
       "schema:description": "type",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -588,12 +457,9 @@
       ],
       "schema:name": "horizontalError",
       "schema:description": "horizontalError",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:decimal"
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
       }
     },
     {
@@ -604,12 +470,9 @@
       ],
       "schema:name": "depthError",
       "schema:description": "depthError",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:decimal"
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
       }
     },
     {
@@ -620,12 +483,9 @@
       ],
       "schema:name": "magError",
       "schema:description": "magError",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:decimal"
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
       }
     },
     {
@@ -636,12 +496,9 @@
       ],
       "schema:name": "magNst",
       "schema:description": "magNst",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:decimal"
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
       }
     },
     {
@@ -652,12 +509,9 @@
       ],
       "schema:name": "status",
       "schema:description": "status",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -668,12 +522,9 @@
       ],
       "schema:name": "locationSource",
       "schema:description": "locationSource",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -684,12 +535,9 @@
       ],
       "schema:name": "magSource",
       "schema:description": "magSource",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -700,39 +548,41 @@
       ],
       "schema:name": "Alert",
       "schema:description": "Alert",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     }
   ],
   "schema:subjectOf": {
     "@type": [
-      "schema:Dataset",
-      "dcat:CatalogRecord"
+      "schema:Dataset"
     ],
-    "dcterms:conformsTo": [
+    "schema:additionalType": [
       {
-        "@id": "https://w3id.org/cdif/profiles/discovery"
-      },
-      {
-        "@id": "https://w3id.org/cdif/profiles/datadescription"
-      },
-      {
-        "@id": "https://w3id.org/cdif/discovery/1.0"
-      },
-      {
-        "@id": "https://w3id.org/cdif/data_description/1.0"
+        "@id": "dcat:CatalogRecord"
       }
     ],
-    "schema:sdDatePublished": "2025-11-27"
+    "schema:about": {
+      "@id": "https://doi.org/10.5072/FK2/BXSHPO"
+    },
+    "@id": "https://doi.org/10.5072/FK2/BXSHPO/metadata",
+    "schema:sdDatePublished": "2025-11-27",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.1"
+      }
+    ]
   },
   "prov:wasDerivedFrom": [
     {
-      "@id": "http://mlcommons.org/croissant/1.0",
+      "@id": "http://mlcommons.org/croissant/1.1",
       "schema:description": "Converted from Croissant 1.0 JSON-LD"
     }
   ]

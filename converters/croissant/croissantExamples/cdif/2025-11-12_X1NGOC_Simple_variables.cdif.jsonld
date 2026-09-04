@@ -34,12 +34,16 @@
     "@type": [
       "schema:PropertyValue"
     ],
-    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:propertyID": {
+      "@id": "https://registry.identifiers.org/registry/doi"
+    },
     "schema:value": "10.5072/FK2/X1NGOC",
     "schema:url": "https://doi.org/10.5072/FK2/X1NGOC"
   },
   "schema:license": [
-    "http://creativecommons.org/publicdomain/zero/1.0"
+    {
+      "@id": "http://creativecommons.org/publicdomain/zero/1.0"
+    }
   ],
   "schema:creator": {
     "@list": [
@@ -86,28 +90,22 @@
         "schema:DataDownload",
         "cdi:TabularTextDataSet"
       ],
-      "cdi:hasPhysicalMapping": [
+      "cdi:isDelimited": true,
+      "csvw:delimiter": ",",
+      "cdif:hasPhysicalMapping": [
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 1,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 1,
+          "cdif:formats_InstanceVariable": {
             "@id": "#age"
           },
-          "cdi:locator": "age"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 2,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 2,
+          "cdif:formats_InstanceVariable": {
             "@id": "#population"
           },
-          "cdi:locator": "population"
+          "cdif:physicalDataType": "xsd:integer"
         }
       ]
     }
@@ -121,12 +119,9 @@
       ],
       "schema:name": "age",
       "schema:description": "age",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -137,39 +132,41 @@
       ],
       "schema:name": "population",
       "schema:description": "population",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:integer"
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
       }
     }
   ],
   "schema:subjectOf": {
     "@type": [
-      "schema:Dataset",
-      "dcat:CatalogRecord"
+      "schema:Dataset"
     ],
-    "dcterms:conformsTo": [
+    "schema:additionalType": [
       {
-        "@id": "https://w3id.org/cdif/profiles/discovery"
-      },
-      {
-        "@id": "https://w3id.org/cdif/profiles/datadescription"
-      },
-      {
-        "@id": "https://w3id.org/cdif/discovery/1.0"
-      },
-      {
-        "@id": "https://w3id.org/cdif/data_description/1.0"
+        "@id": "dcat:CatalogRecord"
       }
     ],
-    "schema:sdDatePublished": "2025-11-12"
+    "schema:about": {
+      "@id": "https://doi.org/10.5072/FK2/X1NGOC"
+    },
+    "@id": "https://doi.org/10.5072/FK2/X1NGOC/metadata",
+    "schema:sdDatePublished": "2025-11-12",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.1"
+      }
+    ]
   },
   "prov:wasDerivedFrom": [
     {
-      "@id": "http://mlcommons.org/croissant/1.0",
+      "@id": "http://mlcommons.org/croissant/1.1",
       "schema:description": "Converted from Croissant 1.0 JSON-LD"
     }
   ]

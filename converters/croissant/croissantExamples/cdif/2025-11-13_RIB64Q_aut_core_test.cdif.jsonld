@@ -34,12 +34,16 @@
     "@type": [
       "schema:PropertyValue"
     ],
-    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:propertyID": {
+      "@id": "https://registry.identifiers.org/registry/doi"
+    },
     "schema:value": "10.5072/FK2/RIB64Q",
     "schema:url": "https://doi.org/10.5072/FK2/RIB64Q"
   },
   "schema:license": [
-    "http://creativecommons.org/publicdomain/zero/1.0"
+    {
+      "@id": "http://creativecommons.org/publicdomain/zero/1.0"
+    }
   ],
   "schema:creator": {
     "@list": [
@@ -86,138 +90,92 @@
         "schema:DataDownload",
         "cdi:TabularTextDataSet"
       ],
-      "cdi:hasPhysicalMapping": [
+      "cdi:isDelimited": true,
+      "csvw:delimiter": ",",
+      "cdif:hasPhysicalMapping": [
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 1,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 1,
+          "cdif:formats_InstanceVariable": {
             "@id": "#country"
           },
-          "cdi:locator": "country"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 2,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 2,
+          "cdif:formats_InstanceVariable": {
             "@id": "#pageid"
           },
-          "cdi:locator": "pageid"
+          "cdif:physicalDataType": "xsd:integer"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 3,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 3,
+          "cdif:formats_InstanceVariable": {
             "@id": "#wikidataid"
           },
-          "cdi:locator": "wikidataid"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 4,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 4,
+          "cdif:formats_InstanceVariable": {
             "@id": "#wikititle"
           },
-          "cdi:locator": "wikititle"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 5,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 5,
+          "cdif:formats_InstanceVariable": {
             "@id": "#name"
           },
-          "cdi:locator": "name"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 6,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 6,
+          "cdif:formats_InstanceVariable": {
             "@id": "#sex"
           },
-          "cdi:locator": "sex"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 7,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 7,
+          "cdif:formats_InstanceVariable": {
             "@id": "#ethnicity"
           },
-          "cdi:locator": "ethnicity"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 8,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 8,
+          "cdif:formats_InstanceVariable": {
             "@id": "#religion"
           },
-          "cdi:locator": "religion"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 9,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 9,
+          "cdif:formats_InstanceVariable": {
             "@id": "#birth"
           },
-          "cdi:locator": "birth"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 10,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 10,
+          "cdif:formats_InstanceVariable": {
             "@id": "#death"
           },
-          "cdi:locator": "death"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 11,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 11,
+          "cdif:formats_InstanceVariable": {
             "@id": "#birthplace"
           },
-          "cdi:locator": "birthplace"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 12,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 12,
+          "cdif:formats_InstanceVariable": {
             "@id": "#deathplace"
           },
-          "cdi:locator": "deathplace"
+          "cdif:physicalDataType": "xsd:string"
         }
       ]
     }
@@ -231,12 +189,9 @@
       ],
       "schema:name": "country",
       "schema:description": "country",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -247,12 +202,9 @@
       ],
       "schema:name": "pageid",
       "schema:description": "pageid",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:integer"
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
       }
     },
     {
@@ -263,12 +215,9 @@
       ],
       "schema:name": "wikidataid",
       "schema:description": "wikidataid",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -279,12 +228,9 @@
       ],
       "schema:name": "wikititle",
       "schema:description": "wikititle",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -295,12 +241,9 @@
       ],
       "schema:name": "name",
       "schema:description": "name",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -311,12 +254,9 @@
       ],
       "schema:name": "sex",
       "schema:description": "sex",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -327,12 +267,9 @@
       ],
       "schema:name": "ethnicity",
       "schema:description": "ethnicity",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -343,12 +280,9 @@
       ],
       "schema:name": "religion",
       "schema:description": "religion",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -359,12 +293,9 @@
       ],
       "schema:name": "birth",
       "schema:description": "birth",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -375,12 +306,9 @@
       ],
       "schema:name": "death",
       "schema:description": "death",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -391,12 +319,9 @@
       ],
       "schema:name": "birthplace",
       "schema:description": "birthplace",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -407,39 +332,41 @@
       ],
       "schema:name": "deathplace",
       "schema:description": "deathplace",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     }
   ],
   "schema:subjectOf": {
     "@type": [
-      "schema:Dataset",
-      "dcat:CatalogRecord"
+      "schema:Dataset"
     ],
-    "dcterms:conformsTo": [
+    "schema:additionalType": [
       {
-        "@id": "https://w3id.org/cdif/profiles/discovery"
-      },
-      {
-        "@id": "https://w3id.org/cdif/profiles/datadescription"
-      },
-      {
-        "@id": "https://w3id.org/cdif/discovery/1.0"
-      },
-      {
-        "@id": "https://w3id.org/cdif/data_description/1.0"
+        "@id": "dcat:CatalogRecord"
       }
     ],
-    "schema:sdDatePublished": "2025-11-13"
+    "schema:about": {
+      "@id": "https://doi.org/10.5072/FK2/RIB64Q"
+    },
+    "@id": "https://doi.org/10.5072/FK2/RIB64Q/metadata",
+    "schema:sdDatePublished": "2025-11-13",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.1"
+      }
+    ]
   },
   "prov:wasDerivedFrom": [
     {
-      "@id": "http://mlcommons.org/croissant/1.0",
+      "@id": "http://mlcommons.org/croissant/1.1",
       "schema:description": "Converted from Croissant 1.0 JSON-LD"
     }
   ]

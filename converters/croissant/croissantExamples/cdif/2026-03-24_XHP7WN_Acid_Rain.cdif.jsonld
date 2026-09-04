@@ -34,12 +34,16 @@
     "@type": [
       "schema:PropertyValue"
     ],
-    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:propertyID": {
+      "@id": "https://registry.identifiers.org/registry/doi"
+    },
     "schema:value": "10.5072/FK2/XHP7WN",
     "schema:url": "https://doi.org/10.5072/FK2/XHP7WN"
   },
   "schema:license": [
-    "http://creativecommons.org/licenses/by/4.0"
+    {
+      "@id": "http://creativecommons.org/licenses/by/4.0"
+    }
   ],
   "schema:creator": {
     "@list": [
@@ -86,32 +90,6 @@
   ],
   "schema:distribution": [
     {
-      "@id": "croissant_acid_rain_final.json",
-      "schema:name": "croissant_acid_rain_final.json",
-      "schema:description": "Croissant Metadata",
-      "schema:encodingFormat": [
-        "application/json"
-      ],
-      "schema:contentUrl": "https://dataverse.dev1.codata.org/api/access/datafile/165",
-      "schema:size": {
-        "@type": [
-          "schema:QuantitativeValue"
-        ],
-        "schema:value": 9834,
-        "schema:unitText": "byte"
-      },
-      "spdx:checksum": {
-        "@type": [
-          "spdx:Checksum"
-        ],
-        "spdx:checksumAlgorithm": "checksumAlgorithm_md5",
-        "spdx:checksumValue": "9f156b7f9d099114834c2cfb3f344c45"
-      },
-      "@type": [
-        "schema:DataDownload"
-      ]
-    },
-    {
       "@id": "translations_acid_rain.csv",
       "schema:name": "translations_acid_rain.csv",
       "schema:description": "Translations for Acid Rain",
@@ -137,118 +115,97 @@
         "schema:DataDownload",
         "cdi:TabularTextDataSet"
       ],
-      "cdi:hasPhysicalMapping": [
+      "cdi:isDelimited": true,
+      "csvw:delimiter": ",",
+      "cdif:hasPhysicalMapping": [
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 1,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 1,
+          "cdif:formats_InstanceVariable": {
             "@id": "#term"
           },
-          "cdi:locator": "term"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 2,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 2,
+          "cdif:formats_InstanceVariable": {
             "@id": "#translation"
           },
-          "cdi:locator": "translation"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 3,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 3,
+          "cdif:formats_InstanceVariable": {
             "@id": "#context"
           },
-          "cdi:locator": "context"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 4,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 4,
+          "cdif:formats_InstanceVariable": {
             "@id": "#language"
           },
-          "cdi:locator": "language"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 5,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 5,
+          "cdif:formats_InstanceVariable": {
             "@id": "#confidence"
           },
-          "cdi:locator": "confidence"
+          "cdif:physicalDataType": "xsd:decimal"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 6,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 6,
+          "cdif:formats_InstanceVariable": {
             "@id": "#winningmodel"
           },
-          "cdi:locator": "winning_model"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 7,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 7,
+          "cdif:formats_InstanceVariable": {
             "@id": "#consensus"
           },
-          "cdi:locator": "consensus"
+          "cdif:physicalDataType": "xsd:string"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 8,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 8,
+          "cdif:formats_InstanceVariable": {
             "@id": "#version"
           },
-          "cdi:locator": "version"
+          "cdif:physicalDataType": "xsd:decimal"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 9,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 9,
+          "cdif:formats_InstanceVariable": {
             "@id": "#code"
           },
-          "cdi:locator": "code"
+          "cdif:physicalDataType": "xsd:integer"
         },
         {
-          "@type": [
-            "cdi:PhysicalMapping",
-            "cdi:ValueMapping"
-          ],
-          "cdi:hasIndex": 10,
-          "cdi:isDefinedBy_InstanceVariable": {
+          "cdif:index": 10,
+          "cdif:formats_InstanceVariable": {
             "@id": "#url"
           },
-          "cdi:locator": "url"
+          "cdif:physicalDataType": "xsd:string"
         }
       ]
+    }
+  ],
+  "schema:relatedLink": [
+    {
+      "@type": [
+        "schema:LinkRole"
+      ],
+      "schema:linkRelationship": "related",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:name": "croissant_acid_rain_final.json",
+        "schema:description": "Croissant Metadata",
+        "schema:url": "https://dataverse.dev1.codata.org/api/access/datafile/165",
+        "schema:encodingFormat": "application/json"
+      }
     }
   ],
   "schema:variableMeasured": [
@@ -260,12 +217,9 @@
       ],
       "schema:name": "term",
       "schema:description": "term",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -276,12 +230,9 @@
       ],
       "schema:name": "translation",
       "schema:description": "translation",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -292,12 +243,9 @@
       ],
       "schema:name": "context",
       "schema:description": "context",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -308,12 +256,9 @@
       ],
       "schema:name": "language",
       "schema:description": "language",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -324,12 +269,9 @@
       ],
       "schema:name": "confidence",
       "schema:description": "confidence",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:decimal"
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
       }
     },
     {
@@ -340,12 +282,9 @@
       ],
       "schema:name": "winning_model",
       "schema:description": "winning_model",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -356,12 +295,9 @@
       ],
       "schema:name": "consensus",
       "schema:description": "consensus",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     },
     {
@@ -372,12 +308,9 @@
       ],
       "schema:name": "version",
       "schema:description": "version",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:decimal"
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#decimal"
       }
     },
     {
@@ -388,12 +321,9 @@
       ],
       "schema:name": "code",
       "schema:description": "code",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:integer"
+      "cdif:physicalDataType": "xsd:integer",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#integer"
       }
     },
     {
@@ -404,39 +334,41 @@
       ],
       "schema:name": "url",
       "schema:description": "url",
-      "cdi:hasValueDomain": {
-        "@type": [
-          "cdi:ValueDomain",
-          "cdif:SubstantiveValueDomain"
-        ],
-        "cdi:physicalDataType": "xsd:string"
+      "cdif:physicalDataType": "xsd:string",
+      "cdi:hasIntendedDataType": {
+        "@id": "https://www.w3.org/TR/xmlschema-2/#string"
       }
     }
   ],
   "schema:subjectOf": {
     "@type": [
-      "schema:Dataset",
-      "dcat:CatalogRecord"
+      "schema:Dataset"
     ],
-    "dcterms:conformsTo": [
+    "schema:additionalType": [
       {
-        "@id": "https://w3id.org/cdif/profiles/discovery"
-      },
-      {
-        "@id": "https://w3id.org/cdif/profiles/datadescription"
-      },
-      {
-        "@id": "https://w3id.org/cdif/discovery/1.0"
-      },
-      {
-        "@id": "https://w3id.org/cdif/data_description/1.0"
+        "@id": "dcat:CatalogRecord"
       }
     ],
-    "schema:sdDatePublished": "2026-03-24"
+    "schema:about": {
+      "@id": "https://doi.org/10.5072/FK2/XHP7WN"
+    },
+    "@id": "https://doi.org/10.5072/FK2/XHP7WN/metadata",
+    "schema:sdDatePublished": "2026-03-24",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.1"
+      }
+    ]
   },
   "prov:wasDerivedFrom": [
     {
-      "@id": "http://mlcommons.org/croissant/1.0",
+      "@id": "http://mlcommons.org/croissant/1.1",
       "schema:description": "Converted from Croissant 1.0 JSON-LD"
     }
   ]

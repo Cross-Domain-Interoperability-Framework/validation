@@ -22,7 +22,7 @@
   "schema:description": "### Context\n\nAfter watching [Somm](http://www.imdb.com/title/tt2204371/) (a documentary on master sommeliers) I wondered how I could create a predictive model to identify wines through blind tasting like a master sommelier would. The first step in this journey was gathering some data to train a model. I plan to use deep learning to predict the wine variety using words in the description/review. The model still won't be able to taste the wine, but theoretically it could identify the wine based on a description that a sommelier could give. If anyone has any ideas on how to accomplish this, please post them!\n\n### Content\n\n\nThis dataset contains three files:\n\n- **winemag-data-130k-v2.csv** contains 10 columns and 130k rows of wine reviews. \n\n- **winemag-data_first150k.csv** contains 10 columns and 150k rows of wine reviews.  \n\n- **winemag-data-130k-v2.json** contains 6919 nodes of wine reviews. \n\nClick on the data tab to see individual file descriptions, column-level metadata and summary statistics.\n\n\n### Acknowledgements\n\nThe data was scraped from [WineEnthusiast](http://www.winemag.com/?s=&drink_type=wine) during the week of June 15th, 2017. The code for the scraper can be found [here](https://github.com/zackthoutt/wine-deep-learning) if you have any more specific questions about data collection that I didn't address.\n\n**UPDATE 11/24/2017**\nAfter feedback from users of the dataset I scraped the reviews again on November 22nd, 2017. This time around I collected the title of each review, which you can parse the year out of, the tasters name, and the taster's Twitter handle. This should also fix the duplicate entry issue.\n\n\n### Inspiration\n\nI think that this dataset offers some great opportunities for sentiment analysis and other text related predictive models. My overall goal is to create a model that can identify the variety, winery, and location of a wine based on a description. If anyone has any ideas, breakthroughs, or other interesting insights/models please post them.",
   "schema:url": "https://www.kaggle.com/datasets/zynicide/wine-reviews/versions/4",
   "schema:datePublished": "2017-06-21T21:36:28.907",
-  "schema:dateModified": "2017-11-27T17:08:04.7",
+  "schema:dateModified": "2017-11-27T17:08:04",
   "schema:includedInDataCatalog": {
     "@type": "sc:DataCatalog",
     "name": "Kaggle",
@@ -30,11 +30,11 @@
   },
   "schema:version": 4,
   "schema:identifier": "https://www.kaggle.com/datasets/zynicide/wine-reviews/versions/4",
-  "schema:license": {
-    "@type": "sc:CreativeWork",
-    "name": "CC BY-NC-SA 4.0",
-    "url": "https://creativecommons.org/licenses/by-nc-sa/4.0/"
-  },
+  "schema:license": [
+    {
+      "@id": "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+    }
+  ],
   "schema:creator": {
     "@list": [
       {
@@ -287,18 +287,23 @@
           ]
         }
       ]
-    },
+    }
+  ],
+  "schema:relatedLink": [
     {
-      "@id": "application-json_fileset",
-      "schema:name": "application/json files",
-      "schema:description": "application/json files contained in archive.zip (File set; includes: *.json)",
-      "schema:encodingFormat": [
-        "application/json"
-      ],
       "@type": [
-        "schema:DataDownload"
+        "schema:LinkRole"
       ],
-      "schema:contentUrl": "https://www.kaggle.com/api/v1/datasets/download/zynicide/wine-reviews?datasetVersionNumber=4"
+      "schema:linkRelationship": "related",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:name": "application/json files",
+        "schema:description": "application/json files contained in archive.zip (File set; includes: *.json)",
+        "schema:url": "https://www.kaggle.com/api/v1/datasets/download/zynicide/wine-reviews?datasetVersionNumber=4",
+        "schema:encodingFormat": "application/json"
+      }
     }
   ],
   "schema:variableMeasured": [
@@ -629,11 +634,14 @@
       "schema:Dataset"
     ],
     "schema:additionalType": [
-      "dcat:CatalogRecord"
+      {
+        "@id": "dcat:CatalogRecord"
+      }
     ],
     "schema:about": {
       "@id": "https://www.kaggle.com/datasets/zynicide/wine-reviews/versions/4"
     },
+    "@id": "https://www.kaggle.com/datasets/zynicide/wine-reviews/versions/4/metadata",
     "schema:sdDatePublished": "2017-11-27T17:08:04.7",
     "dcterms:conformsTo": [
       {
