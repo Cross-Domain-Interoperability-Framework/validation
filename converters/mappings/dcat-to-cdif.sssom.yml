@@ -1,24 +1,87 @@
 mapping_set_id: https://w3id.org/cdif/mappings/dcat-to-cdif
 mapping_set_title: W3C DCAT to CDIF
-mapping_set_description: Property correspondences applied by dcat_to_cdif.py (DCAT JSON-LD -> CDIF core/discovery).
+mapping_set_description: |
+  Property correspondences applied by dcat_to_cdif.py (DCAT JSON-LD -> CDIF
+  core/discovery). This table is the authority: the converter reads it rather
+  than restating it in code.
+
+  Coverage is the union of the DCAT editor's draft (w3c.github.io/dxwg/dcat/)
+  and the RDF vocabulary (w3.org/ns/dcat.ttl), which disagree -- the draft
+  defines dcat:hasLastVersion, isVersionOf, next and seriesMember that the
+  vocabulary lacks, and the vocabulary has dcat:resource with no property block
+  in the draft. Two of the draft-only terms occur in our corpus, so neither
+  source alone is sufficient. Extension properties observed in
+  converters/DCAT/dcatExamplesOK are included as well, most as passthrough.
 license: https://creativecommons.org/publicdomain/zero/1.0/
 mapping_provider: https://cross-domain-interoperability-framework.github.io/
 mapping_tool: converters/DCAT/dcat_to_cdif.py
-mapping_date: 2026-08-24
+mapping_date: 2026-09-04
 subject_source: http://www.w3.org/ns/dcat#
 object_source: https://w3id.org/cdif/discovery/1.1
 extension_definitions:
   - slot_name: object_json_path
     property: https://w3id.org/cdif/mappings/objectJsonPath
+  - slot_name: subject_class
+    property: https://w3id.org/cdif/mappings/subjectClass
+  - slot_name: transform
+    property: https://w3id.org/cdif/mappings/transform
 curie_map:
   dcat: http://www.w3.org/ns/dcat#
   dcterms: http://purl.org/dc/terms/
+  foaf: http://xmlns.com/foaf/0.1/
+  vcard: http://www.w3.org/2006/vcard/ns#
   prov: http://www.w3.org/ns/prov#
+  odrl: http://www.w3.org/ns/odrl/2/
+  adms: http://www.w3.org/ns/adms#
+  spdx: http://spdx.org/rdf/terms#
+  skos: http://www.w3.org/2004/02/skos/core#
+  rdfs: http://www.w3.org/2000/01/rdf-schema#
+  org: http://www.w3.org/ns/org#
+  locn: http://www.w3.org/ns/locn#
+  dqv: http://www.w3.org/ns/dqv#
+  cnt: http://www.w3.org/2011/content#
+  wdrs: http://www.w3.org/2007/05/powder-s#
+  dcatap: http://data.europa.eu/r5r/
+  dcatde: http://dcat-ap.de/def/dcatde/
+  dcat-us: http://resources.data.gov/ontology/dcat-us#
+  pod: https://project-open-data.cio.gov/v1.1/schema#
+  it6: http://data.europa.eu/it6/
   schema: http://schema.org/
   semapv: https://w3id.org/semapv/vocab/
-  skos: http://www.w3.org/2004/02/skos/core#
 comment: |
-  Structural transforms the converter performs that are not term-to-term
-  mappings (so they have no TSV row):
-  - A CDIF catalog record is ADDED; dcterms:conformsTo is derived from content by detect_conformance (spatial/temporal presence upgrades core -> discovery).
-  - Unmapped DCAT properties are preserved verbatim (open world).
+  subject_class disambiguates. DCAT is a graph, not a tree, and the same
+  property means different things by class: dcterms:title on a dcat:Dataset is
+  schema:name at the root, on a dcat:Distribution it names the distribution.
+  DDI needed no such column because its dotted paths already carried position.
+
+  transform names the shaper the converter applies. An empty value means a
+  plain copy. The vocabulary:
+
+    text            literal, language map or {"@value": ...} -> a string
+    iri             node or string -> an IRI string
+    date            -> the CDIF dateModified/datePublished pattern
+    langcode        language IRI or string -> a BCP 47 subtag
+    list            -> an array of strings
+    bytes           -> schema:contentSize
+    mediatype       media-type node or IRI -> an encodingFormat string
+    agent           foaf:Agent -> schema:Person or schema:Organization
+    vcard           vcard:Kind -> schema:Organization + schema:ContactPoint
+    identifier      adms:Identifier -> a string
+    concept         skos:Concept -> schema:DefinedTerm
+    place           dcterms:Location -> schema:Place
+    bbox            four DCAT-US bounding coordinates -> one schema:Place
+    period          dcterms:PeriodOfTime -> an ISO 8601 interval
+    distribution    dcat:Distribution -> schema:DataDownload
+    service         dcat:DataService -> a distribution with a serviceType
+    checksum        spdx:Checksum -> CDIF's spdx:checksum node
+    attribution     prov:Attribution -> a contributor carrying its role
+    relatedlink     an IRI -> a CDIF relatedLink node
+    passthrough     copied verbatim onto the record; JSON-LD is open world and
+                    CDIF permits additional properties
+    catalog-walk    structural: the converter descends rather than maps
+    *-part          consumed by the transform of the same name on the parent
+
+  Structural behaviour that is not a term-to-term mapping, so has no row:
+  a CDIF catalog record is ADDED, and its dcterms:conformsTo is derived from
+  content by detect_conformance rather than copied from the source. Source
+  property IRIs are first rewritten through dcat-aliases.sssom.tsv.

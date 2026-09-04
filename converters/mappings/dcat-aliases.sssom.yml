@@ -1,0 +1,57 @@
+mapping_set_id: https://w3id.org/cdif/mappings/dcat-aliases
+mapping_set_title: DCAT source-IRI aliases
+mapping_set_description: |
+  Property IRIs that occur in published DCAT records but are not the IRI the
+  publisher meant. dcat_to_cdif.py rewrites a source key through this table
+  before applying dcat-to-cdif.sssom.tsv, and records each rewrite in the
+  conversion's change log, so the main mapping table only ever has to name real
+  properties and a correction is never silent.
+
+  Only unambiguous cases belong here: the intended property must be certain
+  from the source vocabulary, not guessed from the value.
+license: https://creativecommons.org/publicdomain/zero/1.0/
+mapping_provider: https://cross-domain-interoperability-framework.github.io/
+mapping_tool: converters/DCAT/dcat_to_cdif.py
+mapping_date: 2026-09-04
+subject_source: http://www.w3.org/ns/dcat#
+object_source: http://www.w3.org/ns/dcat#
+curie_map:
+  dcat: http://www.w3.org/ns/dcat#
+  dcterms: http://purl.org/dc/terms/
+  pod: https://project-open-data.cio.gov/v1.1/schema#
+  powder: http://www.w3.org/2007/05/powder#
+  wdrs: http://www.w3.org/2007/05/powder-s#
+  dcat-us: http://resources.data.gov/ontology/dcat-us#
+  dcat-us-alt: http://data.resources.gov/ontology/dcat-us#
+  schema: http://schema.org/
+  semapv: https://w3id.org/semapv/vocab/
+  skos: http://www.w3.org/2004/02/skos/core#
+comment: |
+  Evidence for each group, so these can be re-checked when upstream moves.
+
+  dcat:title / description / publisher / identifier / references / isPartOf /
+  systemOfRecords -- not typos by the record author. The Project Open Data
+  v1.1 context (project-open-data.cio.gov/v1.1/schema/catalog.jsonld) sets
+  "@vocab": "http://www.w3.org/ns/dcat#", so every term it does not itself
+  define lands in the dcat# namespace on expansion. None of these seven is a
+  DCAT property: the editor's draft and dcat.ttl agree on 41 dcat: properties
+  and none is among them.
+
+  powder:describedby -- that same POD context maps describedBy to
+  http://www.w3.org/2007/05/powder#describedby. The namespace that defines
+  describedby is POWDER-S, powder-s#; powder# redirects to wdr.xsd, an XML
+  Schema. Every record published against the POD context carries the wrong
+  one.
+
+  dcterms:#conformsTo / #license / language: -- a source context declared its
+  dc prefix as "http://purl.org/dc/terms/#" (and one term with a trailing
+  colon). The official POD context is clean here; these come from individual
+  publishers' own contexts.
+
+  dcat-us-alt:* -- DCAT-US 3.0 is internally inconsistent, not wrong. Its
+  JSON-LD context (DOI-DO/dcat-us, context/dcat-us-3.0.jsonld) declares
+  dcat-us as http://data.resources.gov/ontology/dcat-us#, while its own
+  Turtle examples use http://resources.data.gov/ontology/dcat-us#. Only the
+  latter host resolves. We normalize onto it so one mapping row serves records
+  published either way; this is a normalization, not an erratum, and should be
+  revisited if DCAT-US settles the question.
