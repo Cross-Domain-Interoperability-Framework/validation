@@ -1,0 +1,613 @@
+@prefix n0: <http://data.europa.eu/eli/reg/2025/327/>.
+@prefix ont: <http://data.europa.eu/eli/ontology#>.
+@prefix d: <http://fair.healthdataportal.eu:8080/dataset/>.
+@prefix n1: <http://fair.healthdataportal.eu:8080/analytics/>.
+@prefix ORDO: <http://www.orpha.net/ORDO/>.
+@prefix n2: <https://loinc.org/26464-8/>.
+@prefix n3: <https://loinc.org/55231-5/>.
+@prefix ent: <http://www.wikidata.org/entity/>.
+@prefix he: <http://healthdataportal.eu/resource/authority/healthcategories/>.
+@prefix n4: <http://publications.europa.eu/resource/authority/access-right/>.
+@prefix fre: <http://publications.europa.eu/resource/authority/frequency/>.
+@prefix pro: <http://fair.healthdataportal.eu:8080/profile/>.
+@prefix c: <http://fair.healthdataportal.eu:8080/catalog/>.
+@prefix l: <http://publications.europa.eu/resource/authority/language/>.
+@prefix pub: <http://healthdataportal.eu/resource/authority/publisher-type/>.
+@prefix cou: <http://publications.europa.eu/resource/authority/country/>.
+@prefix d0: <http://publications.europa.eu/resource/authority/dataset-type/>.
+@prefix s: <http://fair.healthdataportal.eu:8080/sample/>.
+@prefix dis: <http://fair.healthdataportal.eu:8080/distribution/>.
+@prefix d1: <http://publications.europa.eu/resource/authority/data-theme/>.
+@prefix rel: <http://www.iana.org/assignments/relation/>.
+@prefix Res: <https://inspire.ec.europa.eu/metadata-codelist/ResponsiblePartyRole/>.
+@prefix res: <http://dbpedia.org/resource/>.
+@prefix dct: <http://purl.org/dc/terms/>.
+@prefix dcat: <http://www.w3.org/ns/dcat#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix adms: <http://www.w3.org/ns/adms#>.
+@prefix prov: <http://www.w3.org/ns/prov#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#>.
+@prefix dpv: <https://w3id.org/dpv#>.
+@prefix dpvpd: <https://w3id.org/dpv/dpv-pd#>.
+@prefix spdx: <http://spdx.org/rdf/terms#>.
+@prefix locn: <http://www.w3.org/ns/locn#>.
+@prefix healthdcatap: <http://healthdataportal.eu/ns/health#>.
+@prefix dcatap: <http://data.europa.eu/r5r/>.
+@prefix odrl: <http://www.w3.org/ns/odrl/2/>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+@prefix dqv: <http://www.w3.org/ns/dqv#>.
+@prefix oa: <http://www.w3.org/ns/oa#>.
+@prefix technical: <http://technical.fdp/>.
+@prefix pl: <http://publications.europa.eu/resource/authority/planned-availability/>.
+@prefix fil: <http://publications.europa.eu/resource/authority/file-type/>.
+@prefix di: <http://publications.europa.eu/resource/authority/distribution-status/>.
+@prefix n5: <http://www.iana.org/assignments/media-types/application/>.
+@prefix text: <http://www.iana.org/assignments/media-types/text/>.
+@prefix t: <http://tab6-sample-accessurl.test/>.
+
+n0:oj a ont:LegalResource.
+
+n1:215f4d40-a6fd-4133-8a51-785e1fef3000
+    a dcat:Distribution;
+    dcatap:applicableLegislation
+    <http://tab5-analytics-applicableLegislation.test>;
+    dcatap:availability pl:AVAILABLE;
+    dct:conformsTo <http://tab5-analytics-conformsTo.test>;
+    dct:description "tab5-analytics-description"@en;
+    dct:format fil:7Z;
+    dct:isPartOf d:c1aa4336-1037-42c2-8c31-013f42bdd3e0;
+    dct:issued "1990-12-31T00:00:00.000Z"^^xsd:dateTime;
+    dct:language l:BUL;
+    dct:license <http://tab5-analytics-license.test>;
+    dct:modified "1990-12-31T00:00:00.000Z"^^xsd:dateTime;
+    dct:rights [ a dct:RightsStatement; rdfs:label "tab5-analytics-rights"@en ];
+    dct:title "tab5-analytics-title"@en;
+    spdx:checksum
+            [
+                a spdx:Checksum;
+                spdx:algorithm spdx:checksumAlgorithm_sha1;
+                spdx:checksumValue
+                "5d41402abc4b2a76b9719d911017c592"^^xsd:hexBinary
+            ];
+    adms:status di:COMPLETED;
+    dcat:accessService
+            [
+                a dcat:DataService;
+                dct:title "tab5-analytics-accessServiceTitle"@en;
+                dcat:endpointURL
+                <http://tab5-analytics-accessServiceEndpointURL.test>
+            ];
+    dcat:accessURL <http://tab5-analytics-accessURL.test>;
+    dcat:byteSize "7"^^xsd:nonNegativeInteger;
+    dcat:compressFormat n5:gzip;
+    dcat:downloadURL <http://tab5-analytics-downloadURL.test>;
+    dcat:mediaType text:csv;
+    dcat:packageFormat n5:gzip;
+    dcat:spatialResolutionInMeters 7.0;
+    dcat:temporalResolution "P2Y3M5DT6H30M45S"^^xsd:duration;
+    dcat:version "tab5-analytics-version";
+    odrl:hasPolicy
+            [
+                a odrl:Policy;
+                odrl:obligation
+                        [
+                            a odrl:Duty;
+                            odrl:action
+                            <http://tab5-analytics-hasPolicyObligation.test>
+                        ];
+                odrl:permission
+                        [
+                            a odrl:Permission;
+                            odrl:action
+                            <http://tab5-analytics-hasPolicyPermission.test>
+                        ];
+                odrl:prohibition
+                        [
+                            a odrl:Prohibition;
+                            odrl:action
+                            <http://tab5-analytics-hasPolicyProhibition.test>
+                        ]
+            ];
+    foaf:page <http://tab5-analytics-documentation.test>.
+d:c1aa4336-1037-42c2-8c31-013f42bdd3e0
+    a dcat:Dataset, dcat:Resource;
+    dcatap:applicableLegislation
+    n0:oj, <http://tab4-applicableLegislation-applicableLegislation.test>;
+    healthdcatap:analytics
+        n1:215f4d40-a6fd-4133-8a51-785e1fef3000,
+        n1:215f4d40-a6fd-4133-8a51-785e1fef3000;
+    healthdcatap:hasCodeValues
+    ORDO:Orphanet_26348, ORDO:Orphanet_73229, n2:, n3:;
+    healthdcatap:hasCodingSystem ent:P4338, ent:Q24254958, ent:Q45127;
+    healthdcatap:hdab
+            [
+                a foaf:Agent, foaf:Organization;
+                locn:address
+                        [
+                            a locn:Address;
+                            locn:adminUnitL1
+                                "http://publications.europa.eu/resource/authority/country/AUT"
+                        ];
+                foaf:homepage <http://tab2-hdab-url.test>;
+                foaf:mbox <mailto:tab2-hdab-mail@test.com>;
+                foaf:name "tab2-hdab-name"
+            ];
+    healthdcatap:healthCategory he:EHRS;
+    healthdcatap:healthTheme ent:Q35869, ent:Q84263196;
+    healthdcatap:maxTypicalAge "7"^^xsd:nonNegativeInteger;
+    healthdcatap:minTypicalAge "7"^^xsd:nonNegativeInteger;
+    healthdcatap:numberOfRecords "7"^^xsd:nonNegativeInteger;
+    healthdcatap:numberOfUniqueIndividuals "7"^^xsd:nonNegativeInteger;
+    healthdcatap:populationCoverage
+        "tab1-populationCoverage-populationCoverage"@en,
+        "tab2-populationCoverage-populationCoverage"@da;
+    healthdcatap:retentionPeriod
+            [
+                a dct:PeriodOfTime;
+                rdfs:comment "tab1-retentionPeriod-note"@en;
+                dcat:endDate "1990-12-31"^^xsd:date;
+                dcat:startDate "1990-12-31"^^xsd:date
+            ];
+    dct:accessRights n4:NON_PUBLIC;
+    dct:accrualPeriodicity fre:CONT;
+    dct:alternative "tab1-alternative-alternative"@en;
+    dct:conformsTo
+        pro:2f08228e-1789-40f8-84cd-28e3288c3604,
+        <http://tab4-conformsTo-conformsTo.test>;
+    dct:creator <internalURI:creator0>, <internalURI:creator1>;
+    dct:description "tab1-description-description"@en;
+    dct:identifier
+        "http://fair.healthdataportal.eu:8080/dataset/c1aa4336-1037-42c2-8c31-013f42bdd3e0"^^xsd:anyURI;
+    dct:isPartOf c:4329f5bd-f60f-483a-8f99-18ec996eb0d5;
+    dct:isReferencedBy
+        <http://tab3-isReferencedBy-isReferencedBy.test>,
+        <http://tab4-isReferencedBy-isReferencedBy.test>;
+    dct:issued "1990-12-31T00:00:00.000Z"^^xsd:dateTime;
+    dct:language l:BUL;
+    dct:modified "1990-12-31T00:00:00.000Z"^^xsd:dateTime;
+    dct:provenance <internalURI:datasetProvenance0>;
+    dct:publisher
+            [
+                a foaf:Agent;
+                healthdcatap:publisherNote "tab2-publisher-note"@en;
+                healthdcatap:publisherType pub:statitics;
+                healthdcatap:trustedDataHolder true;
+                foaf:homepage <http://tab2-publisher-url.test>;
+                foaf:mbox <mailto:tab2-publisher-mail@test.com>;
+                foaf:name "tab2-publisher-name"
+            ];
+    dct:relation
+    <http://tab3-relation-relation.test>, <http://tab4-relation-relation.test>;
+    dct:source
+    <http://tab3-source-source.test>, <http://tab4-source-source.test>;
+    dct:spatial cou:AUT;
+    dct:temporal
+            [
+                a dct:PeriodOfTime;
+                dcat:endDate "1990-12-31"^^xsd:date;
+                dcat:startDate "1990-12-31"^^xsd:date
+            ];
+    dct:title "RDF-validation"@en;
+    dct:type d0:GEOSPATIAL, d0:PERSONAL_DATA;
+    technical:modified "2025-03-09T12:13:11.887Z"^^xsd:dateTime;
+    adms:identifier
+    <internalURI:admsIdentifier0>, <internalURI:admsIdentifier1>;
+    adms:sample
+        s:2b1431b5-a446-4d4e-823b-3536e9bd184a,
+        s:2b1431b5-a446-4d4e-823b-3536e9bd184a,
+        s:ec6d14ae-cd43-4e51-be26-64044acd4760,
+        s:ec6d14ae-cd43-4e51-be26-64044acd4760;
+    adms:versionNotes
+    "tab3-versionNotes-versionNotes"@en, "tab4-versionNotes-versionNotes"@fr;
+    dcat:contactPoint <internalURI:contactPoint0>, <internalURI:contactPoint1>;
+    dcat:distribution
+        dis:9f478505-fd99-4a3e-856e-6332863bee89,
+        dis:9f478505-fd99-4a3e-856e-6332863bee89;
+    dcat:hasVersion
+        <http://tab3-hasVersion-hasVersion.test>,
+        <http://tab4-hasVersion-hasVersion.test>;
+    dcat:inSeries <http://tab3-inSeries-inSeries.test>;
+    dcat:isVersionOf
+        <http://tab3-isVersionOf-isVersionOf.test>,
+        <http://tab4-isVersionOf-isVersionOf.test>;
+    dcat:keyword "tab1-keywords-keywords"@en;
+    dcat:landingPage
+        <http://tab3-landingPage-landingPage.test>,
+        <http://tab4-landingPage-landingPage.test>;
+    dcat:qualifiedRelation
+    <internalURI:qualifiedRelation0>, <internalURI:qualifiedRelation1>;
+    dcat:spatialResolutionInMeters 7.0;
+    dcat:temporalResolution "P2Y3M5DT6H30M45S"^^xsd:duration;
+    dcat:theme d1:HEAL;
+    dcat:version "tab3-version-version";
+    dqv:hasQualityAnnotation <internalURI:datasetQualityAnnotation0>;
+    prov:qualifiedAttribution
+    <internalURI:qualifiedAttribution0>, <internalURI:qualifiedAttribution1>;
+    prov:wasGeneratedBy <internalURI:wasGeneratedBy0>;
+    foaf:page
+        <http://tab3-webPage-documentation.test>,
+        <http://tab4-webPage-documentation.test>;
+    dpv:hasLegalBasis
+    <internalURI:hasLegalBasis0>, <internalURI:hasLegalBasis1>;
+    dpv:hasPersonalData dpvpd:Accent, dpvpd:Age, dpvpd:BirthPlace;
+    dpv:hasPurpose <internalURI:datasetPurpose0>.
+dis:9f478505-fd99-4a3e-856e-6332863bee89
+    a dcat:Distribution;
+    dcatap:applicableLegislation
+    <http://tab5-distribution-applicableLegislation.test>;
+    dcatap:availability pl:AVAILABLE;
+    dct:conformsTo <http://tab5-distribution-conformsTo.test>;
+    dct:description "tab5-distribution-description"@en;
+    dct:format fil:7Z;
+    dct:isPartOf d:c1aa4336-1037-42c2-8c31-013f42bdd3e0;
+    dct:issued "1990-12-31T00:00:00.000Z"^^xsd:dateTime;
+    dct:language l:BUL;
+    dct:license <http://tab5-distribution-license.test>;
+    dct:modified "1990-12-31T00:00:00.000Z"^^xsd:dateTime;
+    dct:rights
+    [ a dct:RightsStatement; rdfs:label "tab5-distribution-rights"@en ];
+    dct:title "tab5-distribution-title"@en;
+    spdx:checksum
+            [
+                a spdx:Checksum;
+                spdx:algorithm spdx:checksumAlgorithm_sha1;
+                spdx:checksumValue
+                "5d41402abc4b2a76b9719d911017c592"^^xsd:hexBinary
+            ];
+    adms:status di:COMPLETED;
+    dcat:accessService
+            [
+                a dcat:DataService;
+                dct:title "tab5-distribution-accessServiceTitle"@en;
+                dcat:endpointURL
+                <http://tab5-distribution-accessServiceEndpointURL.test>
+            ];
+    dcat:accessURL <http://tab5-distribution-accessURL.test>;
+    dcat:byteSize "7"^^xsd:nonNegativeInteger;
+    dcat:compressFormat n5:gzip;
+    dcat:downloadURL <http://tab5-distribution-downloadURL.test>;
+    dcat:mediaType text:csv;
+    dcat:packageFormat n5:gzip;
+    dcat:spatialResolutionInMeters 7.0;
+    dcat:temporalResolution "P2Y3M5DT6H30M45S"^^xsd:duration;
+    dcat:version "tab5-distribution-version";
+    odrl:hasPolicy
+            [
+                a odrl:Policy;
+                odrl:obligation
+                        [
+                            a odrl:Duty;
+                            odrl:action
+                            <http://tab5-distribution-hasPolicyObligation.test>
+                        ];
+                odrl:permission
+                        [
+                            a odrl:Permission;
+                            odrl:action
+                            <http://tab5-distribution-hasPolicyPermission.test>
+                        ];
+                odrl:prohibition
+                        [
+                            a odrl:Prohibition;
+                            odrl:action
+                                <http://tab5-distribution-hasPolicyProhibition.test>
+                        ]
+            ];
+    foaf:page <http://tab5-distribution-documentation.test>.
+pro:2f08228e-1789-40f8-84cd-28e3288c3604 a dct:Standard.
+
+pro:da676fb4-a341-457e-a188-6dc7187a8d3c a dct:Standard.
+
+s:2b1431b5-a446-4d4e-823b-3536e9bd184a
+    a dcat:Distribution;
+    dcatap:applicableLegislation
+    <http://tab5-sample-applicableLegislation.test>;
+    dcatap:availability pl:AVAILABLE;
+    dct:conformsTo <http://tab5-sample-conformsTo.test>;
+    dct:description "tab5-sample-description"@en;
+    dct:format fil:7Z;
+    dct:isPartOf d:c1aa4336-1037-42c2-8c31-013f42bdd3e0;
+    dct:issued "1990-12-31T00:00:00.000Z"^^xsd:dateTime;
+    dct:language l:BUL;
+    dct:license <http://tab5-sample-license.test>;
+    dct:modified "1990-12-31T00:00:00.000Z"^^xsd:dateTime;
+    dct:rights [ a dct:RightsStatement; rdfs:label "tab5-sample-rights"@en ];
+    dct:title "tab5-sample-title"@en;
+    spdx:checksum
+            [
+                a spdx:Checksum;
+                spdx:algorithm spdx:checksumAlgorithm_sha1;
+                spdx:checksumValue
+                "5d41402abc4b2a76b9719d911017c592"^^xsd:hexBinary
+            ];
+    adms:status di:COMPLETED;
+    dcat:accessService
+            [
+                a dcat:DataService;
+                dct:title "tab5-sample-accessServiceTitle"@en;
+                dcat:endpointURL
+                <http://tab5-sample-accessServiceEndpointURL.test>
+            ];
+    dcat:accessURL <http://tab5-sample-accessURL.test>;
+    dcat:byteSize "7"^^xsd:nonNegativeInteger;
+    dcat:compressFormat n5:gzip;
+    dcat:downloadURL
+        <https://sciensano.healthdataportal.eu/sample/e46c3835-debf-4858-b74e-a051f452bfc3?format=ttl>;
+    dcat:mediaType text:csv;
+    dcat:packageFormat n5:gzip;
+    dcat:spatialResolutionInMeters 7.0;
+    dcat:temporalResolution "P2Y3M5DT6H30M45S"^^xsd:duration;
+    dcat:version "tab5-sample-version";
+    odrl:hasPolicy
+            [
+                a odrl:Policy;
+                odrl:obligation
+                        [
+                            a odrl:Duty;
+                            odrl:action
+                            <http://tab5-sample-hasPolicyObligation.test>
+                        ];
+                odrl:permission
+                        [
+                            a odrl:Permission;
+                            odrl:action
+                            <http://tab5-sample-hasPolicyPermission.test>
+                        ];
+                odrl:prohibition
+                        [
+                            a odrl:Prohibition;
+                            odrl:action
+                            <http://tab5-sample-hasPolicyProhibition.test>
+                        ]
+            ];
+    foaf:page <http://tab5-sample-documentation.test>.
+s:ec6d14ae-cd43-4e51-be26-64044acd4760
+    a dcat:Distribution;
+    dct:conformsTo pro:da676fb4-a341-457e-a188-6dc7187a8d3c;
+    dct:description "tab6-sample-description (en)"@fr;
+    dct:isPartOf d:c1aa4336-1037-42c2-8c31-013f42bdd3e0;
+    dct:language l:DEU;
+    dct:title "tab6-sample-tiltle"@en;
+    dcat:accessURL t:;
+    dcat:downloadURL
+        <https://sciensano.healthdataportal.eu/sample/e46c3835-debf-4858-b74e-a051f452bfc3?format=ttl>;
+    dcat:mediaType text:turtle;
+    dcat:version "1.0".
+he:EHRS a skos:Concept; skos:prefLabel "Electronic Health Records (EHRs)"@en.
+
+n4:NON_PUBLIC a dct:RightsStatement.
+
+cou:AUT a dct:Location.
+
+d1:HEAL a skos:Concept; skos:prefLabel "Health"@en.
+
+d0:GEOSPATIAL a skos:Concept; skos:prefLabel "Geospatial"@en.
+
+d0:PERSONAL_DATA a skos:Concept; skos:prefLabel "Personal Data"@en.
+
+di:COMPLETED a skos:ConceptScheme; skos:prefLabel "Completed"@en.
+
+fil:7Z a dct:MediaTypeOrExtent.
+
+fre:CONT a dct:Frequency.
+
+l:BUL a dct:LinguisticSystem.
+
+pl:AVAILABLE a skos:Concept; skos:prefLabel "Available"@en.
+
+<http://tab3-landingPage-landingPage.test> a foaf:Document.
+
+<http://tab3-webPage-documentation.test>
+    a foaf:Document;
+    rdfs:comment "tab3-webPage-note"@en, "tab3-webPage-notefr"@fr;
+    rdfs:label "tab3-webPage-label"@en.
+<http://tab4-applicableLegislation-applicableLegislation.test> a ont:LegalResource.
+
+<http://tab4-conformsTo-conformsTo.test> a dct:Standard.
+
+<http://tab4-landingPage-landingPage.test> a foaf:Document.
+
+<http://tab4-webPage-documentation.test>
+    a foaf:Document;
+    rdfs:comment "tab4-webPage-note"@en;
+    rdfs:label "tab4-webPage-label"@en.
+<http://tab5-analytics-applicableLegislation.test> a ont:LegalResource.
+
+<http://tab5-analytics-conformsTo.test> a dct:Standard.
+
+<http://tab5-analytics-documentation.test> a foaf:Document.
+
+<http://tab5-analytics-license.test> a dct:LicenseDocument.
+
+<http://tab5-distribution-applicableLegislation.test> a ont:LegalResource.
+
+<http://tab5-distribution-conformsTo.test> a dct:Standard.
+
+<http://tab5-distribution-documentation.test> a foaf:Document.
+
+<http://tab5-distribution-license.test> a dct:LicenseDocument.
+
+<http://tab5-sample-applicableLegislation.test> a ont:LegalResource.
+
+<http://tab5-sample-conformsTo.test> a dct:Standard.
+
+<http://tab5-sample-documentation.test> a foaf:Document.
+
+<http://tab5-sample-license.test> a dct:LicenseDocument.
+
+n5:gzip a dct:MediaType.
+
+text:csv a dct:MediaType.
+
+text:turtle a dct:MediaType.
+
+rel:about
+    a dcat:Role;
+    skos:prefLabel
+        "about - Refers to a resource that is the subject of the link's context."@en.
+rel:collection
+    a dcat:Role;
+    skos:prefLabel
+        "collection - The target IRI points to a resource which represents the collection resource for the context IRI."@en.
+ORDO:Orphanet_26348
+    a skos:Concept;
+    dct:identifier "http://www.orpha.net/ORDO/Orphanet_26348"^^xsd:anyURI;
+    skos:inScheme ent:Q24254958;
+    skos:notation "Orphanet_26348"@en;
+    skos:prefLabel "Acquired prothrombin deficiency"@en.
+ORDO:Orphanet_73229
+    a skos:Concept;
+    dct:identifier "http://www.orpha.net/ORDO/Orphanet_73229"^^xsd:anyURI;
+    skos:inScheme ent:Q24254958;
+    skos:notation "Orphanet_73229"@en;
+    skos:prefLabel "HANAC syndrome"@en.
+ent:P4338
+    a dct:Standard, skos:ConceptScheme;
+    dct:identifier "http://www.wikidata.org/entity/P4338"^^xsd:anyURI;
+    dct:title "LOINC"@en;
+    skos:definition
+        "identifier for medical observations, measurements, and documents in the Regenstrief Institute's Logical Observation Identifiers Names and Codes (LOINC), a database of internationalized medical terminology"@en;
+    skos:notation "Logical Observation Identifiers Names and Codes ID"@en;
+    skos:prefLabel "LOINC"@en.
+ent:Q24254958
+    a dct:Standard, skos:ConceptScheme;
+    dct:identifier "http://www.wikidata.org/entity/Q24254958"^^xsd:anyURI;
+    dct:title "ORDO"@en;
+    owl:versionInfo "orphanet.ordo";
+    skos:definition
+    "Vocabulary and ontology derived from the Orphanet database"@en;
+    skos:notation "Orphanet Rare Disease Ontology"@en;
+    skos:prefLabel "ORDO"@en.
+ent:Q35869 a skos:Concept; skos:prefLabel "asthma"@en.
+
+ent:Q45127 a dct:Standard.
+
+ent:Q84263196 a skos:Concept; skos:prefLabel "COVID-19"@en.
+
+Res:processor
+    a dcat:Role;
+    skos:prefLabel
+        "Processor - party who has processed the data in a manner such that the resource has been modified"@en.
+Res:resourceProvider
+    a dcat:Role;
+    skos:prefLabel "Resource Provider - party that supplies the resource"@en.
+n2:
+    a skos:Concept;
+    dct:identifier "https://loinc.org/26464-8/"^^xsd:anyURI;
+    skos:inScheme ent:P4338;
+    skos:notation "26464-8"@en.
+n3:
+    a skos:Concept;
+    dct:identifier "https://loinc.org/55231-5/"^^xsd:anyURI;
+    skos:inScheme ent:P4338;
+    skos:notation "55231-5"@en;
+    skos:prefLabel "Sodium [Moles/volume] in Blood"@en.
+dpvpd:Accent a dpv:PersonalData.
+
+dpvpd:Age a dpv:PersonalData.
+
+dpvpd:BirthPlace a dpv:PersonalData.
+
+<internalURI:admsIdentifier0>
+    a adms:Identifier;
+    skos:notation "http://tab3-otherIdentifiers-notation.test"^^xsd:anyURI;
+    adms:schemaAgency "tab3-otherIdentifiers-schemaAgency".
+<internalURI:admsIdentifier1>
+    a adms:Identifier;
+    skos:notation "http://tab4-otherIdentifiers-notation.test"^^xsd:anyURI;
+    adms:schemaAgency "tab4-otherIdentifiers-schemaAgency".
+<internalURI:contactPoint0>
+    a vcard:Kind, vcard:Organization;
+    vcard:fn "tab2-contactPoint-name";
+    vcard:hasEmail <mailto:tab2-contactPoint-mail@test.com>;
+    vcard:hasName "tab2-contactPoint-altName";
+    vcard:hasURL <http://tab2-contactPoint-url.test>;
+    vcard:organisationName "tab2-contactPoint-organisationName";
+    vcard:organisationUnit "tab2-contactPoint-organisationUnit".
+<internalURI:contactPoint1>
+    a vcard:Kind, vcard:Organization;
+    vcard:fn "tab3-contactPoint-name";
+    vcard:hasEmail <mailto:tab3-contactPoint-mail@test.com>;
+    vcard:hasName "tab3-contactPoint-altName";
+    vcard:hasURL <http://tab3-contactPoint-url.test>;
+    vcard:organisationName "tab3-contactPoint-organisationName";
+    vcard:organisationUnit "tab3-contactPoint-organisationUnit".
+<internalURI:creator0>
+    a foaf:Agent;
+    foaf:homepage <http://tab2-creator-url.test>;
+    foaf:mbox <mailto:tab2-creator-mail@test.com>;
+    foaf:name "tab2-creator-name".
+<internalURI:creator1>
+    a foaf:Agent;
+    foaf:homepage <http://tab3-creator-url.test>;
+    foaf:mbox <mailto:tab3-creator-mail@test.com>;
+    foaf:name "tab3-creator-name".
+<internalURI:datasetProvenance0>
+    a dct:ProvenanceStatement;
+    rdfs:label "tab1-provenance-provenance"@en, "tab2-provenance-provenance"@en.
+<internalURI:datasetPurpose0>
+    a dpv:Purpose;
+    dct:description "tab1-purpose-purpose"@en, "tab2-purpose-purpose"@da.
+<internalURI:datasetQualityAnnotation0>
+    a dqv:QualityCertificate;
+    oa:hasBody <http://tab3-hasQualityAnnotation-hasBody.test>;
+    oa:hasTarget <http://tab3-hasQualityAnnotation-hasTarget.test>;
+    oa:motivatedBy dqv:qualityAssessment.
+<internalURI:hasLegalBasis0>
+    a dpv:LegalBasis;
+    dct:description "tab3-hasLegalBasis-description"@en;
+    dct:source <http://tab3-hasLegalBasis-source.test>.
+<internalURI:hasLegalBasis1>
+    a dpv:LegalBasis;
+    dct:description "tab4-hasLegalBasis-description"@en;
+    dct:source <http://tab4-hasLegalBasis-source.test>.
+<internalURI:qualifiedAttribution0>
+    a prov:Attribution;
+    dcat:hadRole Res:resourceProvider;
+    prov:agent
+            [
+                a foaf:Organization;
+                foaf:homepage <http://tab3-qualifiedAttribution-url.test>;
+                foaf:mbox <mailto:tab3-qualifiedAttribution-mail@test.com>;
+                foaf:name "tab3-qualifiedAttribution-name"
+            ].
+<internalURI:qualifiedAttribution1>
+    a prov:Attribution;
+    dcat:hadRole Res:processor;
+    prov:agent
+            [
+                a foaf:Organization;
+                foaf:homepage <http://tab4-qualifiedAttribution-url.test>;
+                foaf:mbox <mailto:tab4-qualifiedAttribution-mail@test.com>;
+                foaf:name "tab4-qualifiedAttribution-name"
+            ].
+<internalURI:qualifiedRelation0>
+    a dcat:Relationship;
+    dct:relation <http://tab3-qualifiedRelation-relation.test>;
+    dcat:hadRole rel:about.
+<internalURI:qualifiedRelation1>
+    a dcat:Relationship;
+    dct:relation <http://tab4-qualifiedRelation-relation.test>;
+    dcat:hadRole rel:collection.
+<internalURI:wasGeneratedBy0>
+    a prov:Activity;
+    dct:type res:Record_linkage;
+    rdfs:label "tab3-wasGeneratedBy-activityLabel";
+    rdfs:seeAlso <http://tab3-wasGeneratedBy-additionalInformation.test>;
+    prov:startedAtTime "1990-12-31T00:00:00.000Z"^^xsd:dateTime;
+    prov:wasAssociatedWith
+            [
+                a prov:Agent;
+                prov:actedOnBehalfOf
+                        [
+                            a prov:Agent, prov:Organization;
+                            foaf:name "tab3-wasGeneratedBy-actedOnBehalfOf"
+                        ];
+                foaf:homepage <http://tab3-wasGeneratedBy-agentUrl.test>;
+                foaf:mbox <mailto:tab3-wasGeneratedBy-agentMail@test.com>;
+                foaf:name "tab3-wasGeneratedBy-agentName"
+            ];
+    foaf:page <http://tab3-wasGeneratedBy-activityDocumentation.test>.

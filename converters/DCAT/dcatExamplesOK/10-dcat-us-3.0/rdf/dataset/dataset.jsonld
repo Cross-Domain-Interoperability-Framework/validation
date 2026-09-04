@@ -1,0 +1,71 @@
+{
+  "@context": "https://raw.githubusercontent.com/DOI-DO/dcat-us/main/context/dcat-us-3.0.jsonld",
+  "@graph": [
+    {
+      "@id": "https://census.gov/dataset1",
+      "@type": "dcat:Dataset",
+      "title": "Loudoun County",
+      "titleMap": {
+        "es": "Condado de Loudoun"
+      },
+      "description": "This dataset contains information regarding the census in County of Loudoun",
+      "publisher": {
+        "@id": "https://census.gov/"
+      },
+      "contactPoint": [
+        {
+          "@type": "vcard:Kind",
+          "fn": "US Census",
+          "hasEmail": "mailto:noise@census.gov"
+        },
+        {
+          "@type": "vcard:Kind",
+          "fn": "John Smith",
+          "hasEmail": "mailto:johnsmith@census.gov"
+        }
+      ],
+      "distribution": [
+        {
+          "@id": "https://census.gov/data/dataset1/csv",
+          "mediaType": "text/csv",
+          "downloadURL": "https://census.gov/data/dataset1.csv"
+        },
+        {
+          "@id": "https://census.gov/data/dataset1/xml",
+          "mediaType": "text/xml",
+          "downloadURL": "https://census.gov/data/dataset1.xml"
+        }
+      ],
+      "keyword": ["loudoun", "census"],
+      "landingPage": "https://opendata.census.gov/1234/about",
+      "issued": {
+        "@value": "2021-04-26",
+        "@type": "xsd:date"
+      },
+      "spatial": "https://www.geonames.org/4770746",
+      "temporal": {
+        "@type": "dcterms:PeriodOfTime",
+        "endDate": {
+          "@value": "2021-06-22T00:00:00",
+          "@type": "xsd:dateTime"
+        },
+        "startDate": {
+          "@value": "2020-01-01T00:00:00",
+          "@type": "xsd:dateTime"
+        }
+      },
+      "theme": "http://resources.data.gov/authority/themes/society",
+      "modified": {
+        "@value": "2021-04-26",
+        "@type": "xsd:date"
+      }
+    },
+    {
+      "@id": "https://census.gov/",
+      "@type": "org:Organization",
+      "name": "US Census",
+      "altLabel": "US Census",
+      "prefLabel": "United States Census Bureau"
+    }
+  ]
+}

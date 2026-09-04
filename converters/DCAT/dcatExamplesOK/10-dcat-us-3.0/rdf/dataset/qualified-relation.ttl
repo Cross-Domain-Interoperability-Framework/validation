@@ -1,0 +1,16 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ex:<http://example.org/ns#> .
+
+
+<https://example.com/dataset1>
+  a dcat:Dataset ;
+  dcterms:title "Dataset 1" ;
+  dcterms:description "This is a dataset" ;
+  dcterms:publisher <https://example.com/publisher1> ;
+  dcat:qualifiedRelation [
+    a dcat:Relationship ;
+    dcterms:relation <http://example.org/Test543R> ;
+    dcat:hadRole <http://registry.it.csiro.au/def/isotc211/DS_AssociationTypeCode/stereoMate>
+  ] ;
+.

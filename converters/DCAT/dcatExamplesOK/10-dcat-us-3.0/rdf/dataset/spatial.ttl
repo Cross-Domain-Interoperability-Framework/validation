@@ -1,0 +1,37 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix locn: <http://www.w3.org/ns/locn#> .
+@prefix gsp: <http://www.opengis.net/ont/geosparql#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://example.com/ns/Dataset1>
+  a dcat:Dataset ;
+  dcterms:title "Dataset 1" ;
+  dcterms:description "This is a dataset" ;
+  dcterms:publisher <https://example.com/publisher1> ;
+  dcterms:spatial [
+    a dcterms:Location ;
+    locn:geometry """POLYGON ((
+          4.8842353 52.375108 , 4.884276 52.375153 ,
+          4.8842567 52.375159 , 4.883981 52.375254 ,
+          4.8838502 52.375109 , 4.883819 52.375075 ,
+          4.8841037 52.374979 , 4.884143 52.374965 ,
+          4.8842069 52.375035 , 4.884263 52.375016 ,
+          4.8843200 52.374996 , 4.884255 52.374926 ,
+          4.8843289 52.374901 , 4.884451 52.375034 ,
+          4.8842353 52.375108
+        ))"""^^gsp:wktLiteral
+  ], [
+    a dcterms:Location ;
+    dcat:centroid "POINT(4.88412 52.37509)"^^gsp:wktLiteral
+  ], [
+    a dcterms:Location ;
+    dcat:bbox """POLYGON((
+          3.053 47.975 , 7.24  47.975 ,
+          7.24  53.504 , 3.053 53.504 ,
+          3.053 47.975
+        ))"""^^gsp:wktLiteral
+  ], <https://www.geonames.org/2658434> .
+
+<https://www.geonames.org/2658434> a dcterms:Location;
+    skos:prefLabel "Switzerland".
