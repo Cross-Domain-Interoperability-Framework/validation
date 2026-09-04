@@ -64,12 +64,128 @@ CDIF_CONTEXT = {
 }
 
 
+def _split_iri(iri):
+    """(namespace, local name) for an absolute IRI, or (iri, "") if indivisible."""
+    for sep in ("#", "/"):
+        idx = iri.rfind(sep)
+        if idx > 0 and idx < len(iri) - 1:
+            local = iri[idx + 1:]
+            if local and not local[0].isdigit() and ":" not in local:
+                return iri[:idx + 1], local
+    return iri, ""
+
+
+# Conventional prefixes, so a minted one does not end up as "rdfschema" for a
+# namespace the world already calls "rdfs".
+_WELL_KNOWN_PREFIXES = {
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#": "rdf",
+    "http://www.w3.org/2000/01/rdf-schema#": "rdfs",
+    "http://www.w3.org/2002/07/owl#": "owl",
+    "http://www.w3.org/2004/02/skos/core#": "skos",
+    "http://www.w3.org/2001/XMLSchema#": "xsd",
+    "http://xmlns.com/foaf/0.1/": "foaf",
+    "http://www.w3.org/2006/vcard/ns#": "vcard",
+    "http://www.w3.org/ns/adms#": "adms",
+    "http://www.w3.org/ns/locn#": "locn",
+    "http://www.w3.org/ns/dqv#": "dqv",
+    "http://www.w3.org/2006/time#": "time",
+    "http://spdx.org/rdf/terms#": "spdx",
+    "http://www.opengis.net/ont/geosparql#": "geosparql",
+}
+
+
+# The reverse lookup, for CURIEs the source used but did not declare.
+_NAMESPACE_FOR_PREFIX = {p: ns for ns, p in _WELL_KNOWN_PREFIXES.items()}
+_NAMESPACE_FOR_PREFIX.update({
+    "dct": "http://purl.org/dc/terms/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "schema": "http://schema.org/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dqv": "http://www.w3.org/ns/dqv#",
+    "spdx": "http://spdx.org/rdf/terms#",
+})
+
+
+def _prefix_for(context, namespace):
+    """A prefix bound to `namespace` in `context`, reusing or minting one."""
+    for prefix, value in context.items():
+        if value == namespace:
+            return prefix
+    known = _WELL_KNOWN_PREFIXES.get(namespace)
+    if known and known not in context:
+        context[known] = namespace
+        return known
+    # Derive something readable from the last meaningful path segment.
+    stem = namespace.rstrip("#/").rsplit("/", 1)[-1]
+    base = "".join(ch for ch in stem if ch.isalnum()).lower() or "ext"
+    if base[0].isdigit():
+        base = "x" + base
+    prefix, n = base, 1
+    while prefix in context:
+        n += 1
+        prefix = "%s%d" % (base, n)
+    context[prefix] = namespace
+    return prefix
+
+
+def _prefix_keys(key, value, context, depth=0):
+    """(key, value) with every absolute-IRI property key turned into a CURIE.
+
+    An absolute IRI as a JSON-LD property key breaks framing: the part before
+    the first colon is read as a prefix. Minting a prefix keeps the term -- these
+    are real vocabulary properties from DCAT-AP extensions -- rather than
+    dropping content to make the record parse.
+    """
+    if key.startswith(("http://", "https://")):
+        ns, local = _split_iri(key)
+        if local:
+            key = "%s:%s" % (_prefix_for(context, ns), local)
+    elif ":" in key and not key.startswith("@"):
+        # A CURIE whose prefix the record does not declare is worse than an
+        # absolute IRI: jsonld cannot resolve "skos" and raises "Absolute IRI
+        # confused with prefix", so the record does not frame and never reaches
+        # validation. Declare the namespace when we know it.
+        prefix = key.split(":", 1)[0]
+        if prefix and prefix not in context:
+            ns = _NAMESPACE_FOR_PREFIX.get(prefix)
+            if ns:
+                context[prefix] = ns
+    if depth < 12:
+        if isinstance(value, dict):
+            out = {}
+            for k2, v2 in value.items():
+                nk, nv = _prefix_keys(k2, v2, context, depth + 1)
+                out[nk] = nv
+            value = out
+        elif isinstance(value, list):
+            value = [_prefix_keys("x", item, context, depth + 1)[1]
+                     for item in value]
+    return key, value
+
+
 def _get_str(val):
-    """Extract a string value from a JSON-LD value (plain, @value, or @id)."""
+    """Extract a string value from a JSON-LD value (plain, @value, or @id).
+
+    Returns None for a dict carrying neither, rather than str(val). The old
+    fallback turned the `{}` defaults that callers pass in -- dist.get(k, {}) --
+    into the literal string "{}", which is truthy, so it sailed through the
+    `if url:` guards and was written out as a value. 163 distributions across
+    108 records ended up with "schema:contentUrl": "{}".
+    """
     if val is None:
         return None
     if isinstance(val, dict):
-        return val.get("@value", val.get("@id", str(val)))
+        for key in ("@value", "@id"):
+            if key in val:
+                return str(val[key])
+        return None
+    if isinstance(val, (list, tuple)):
+        for item in val:
+            got = _get_str(item)
+            if got:
+                return got
+        return None
     return str(val)
 
 
@@ -102,10 +218,20 @@ def find_datasets(obj, results=None):
 
 def convert_agent(agent):
     """Convert a FOAF/DCAT agent to schema:Person or schema:Organization."""
+    if isinstance(agent, list):
+        for item in agent:
+            got = convert_agent(item)
+            if got:
+                return got
+        return None
     if not isinstance(agent, dict):
         if isinstance(agent, str) and agent.startswith("http"):
             return {"@id": agent}
         return None
+    # rdflib compacts an RDF collection to {"@list": [...]}. Taking that dict at
+    # face value emitted {"@list": [...]} where an Organization belonged.
+    if "@list" in agent:
+        return convert_agent(agent["@list"])
 
     t = agent.get("@type", "")
     result = {}
@@ -474,8 +600,14 @@ def convert_dcat_to_cdif(ds, catalog_name="", catalog_url="", profile="core",
         "rdfs:label", "owl:versionInfo",
     }
     for k, v in ds.items():
-        if k not in _MAPPED_KEYS and k not in doc:
-            doc[k] = v
+        if k in _MAPPED_KEYS or k in doc:
+            continue
+        # Rewrite absolute-IRI keys at EVERY depth, not just this one. The
+        # passed-through value carries whole sub-objects (qualifiedRelation,
+        # provenance, sample), and their nested keys break framing just as
+        # readily as a top-level one.
+        key, value = _prefix_keys(k, v, doc["@context"])
+        doc[key] = value
 
     # --- Determine profile ---
     has_spatial = "schema:spatialCoverage" in doc
@@ -484,10 +616,18 @@ def convert_dcat_to_cdif(ds, catalog_name="", catalog_url="", profile="core",
     actual_profile = ("discovery" if (has_spatial or has_temporal or has_variables)
                       else profile)
 
+    # CDIF requires licence / access-conditions information for FAIR reuse, and
+    # a silent omission cannot be told from an oversight. Say it is knowably
+    # absent instead.
+    if not doc.get("schema:license"):
+        doc["schema:license"] = [{"@id": "http://www.opengis.net/def/nil/OGC/0/missing"}]
+
     # --- subjectOf ---
-    conformsTo = [{"@id": "https://w3id.org/cdif/core/1.0"}]
+    # 1.1 is the current series. These are only the fallback: detect_conformance
+    # overrides them below from the record's actual content.
+    conformsTo = [{"@id": "https://w3id.org/cdif/core/1.1"}]
     if actual_profile == "discovery":
-        conformsTo.append({"@id": "https://w3id.org/cdif/discovery/1.0"})
+        conformsTo.append({"@id": "https://w3id.org/cdif/discovery/1.1"})
 
     doc["schema:subjectOf"] = {
         "@type": ["schema:Dataset"],
@@ -513,10 +653,21 @@ def convert_dcat_to_cdif(ds, catalog_name="", catalog_url="", profile="core",
     if detect and _HAVE_DETECT:
         try:
             uris = detect_conformance(doc)
+        except Exception as exc:
+            # Was a bare `pass`, which hid a broken detection as a record that
+            # simply kept the fallback conformsTo -- indistinguishable from a
+            # record whose content genuinely matched nothing.
+            print(f"  WARNING: detect_conformance failed ({exc}); keeping the "
+                  "fallback conformsTo", file=sys.stderr)
+        else:
             if uris:
                 apply_conformance(doc, uris)
-        except Exception:
-            pass
+            else:
+                # Nothing detected: the content does not meet even core. Keeping
+                # the built-in claim here is what made fragments look conformant,
+                # so drop it -- a record that conforms to nothing declares
+                # nothing, and the caller can tell the two apart.
+                doc["schema:subjectOf"].pop("dcterms:conformsTo", None)
 
     return doc
 
@@ -605,7 +756,7 @@ def main():
         with open(outpath, "w", encoding="utf-8") as f:
             json.dump(converted, f, indent=2, ensure_ascii=False)
 
-        profile_used = "discovery" if "https://w3id.org/cdif/discovery/1.0" in str(
+        profile_used = "discovery" if "https://w3id.org/cdif/discovery/1.1" in str(
             converted.get("schema:subjectOf", {}).get("dcterms:conformsTo", [])
         ) else "core"
         print(f"  [{i}] {profile_used:9s} {filename}: {title[:50]}")
