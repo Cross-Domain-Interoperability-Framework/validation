@@ -4,8 +4,7 @@
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
     "prov": "http://www.w3.org/ns/prov#",
-    "mobilitydcatap": "https://w3id.org/mobilitydcat-ap#",
-    "skos": "http://www.w3.org/2004/02/skos/core#"
+    "mobilitydcatap": "https://w3id.org/mobilitydcat-ap#"
   },
   "@id": "https://www.trafficdata.se/dataset/ec459578-a11f-4728-acaa-16b08ae45cfa",
   "@type": [
@@ -13,7 +12,6 @@
   ],
   "schema:name": "Traffic signs expressing traffic regulations and identifying dangers, Speed limits",
   "schema:description": "Traffic signs expressing traffic regulations and identifying dangers from the Swedish Transport Administration. Datex",
-  "schema:dateModified": "2026-09-04T03:44:17Z",
   "schema:publisher": {
     "@type": [
       "schema:Organization"
@@ -38,25 +36,24 @@
       ]
     }
   ],
+  "schema:dateModified": "2026-09-04T22:13:41Z",
   "dcterms:accrualPeriodicity": {
     "@id": "http://publications.europa.eu/resource/authority/frequency/UPDATE_CONT"
   },
-  "mobilitydcatap:mobilityTheme": [
+  "dcterms:spatial": [
     {
-      "@id": "https://w3id.org/mobilitydcat-ap/mobility-theme/dynamic-traffic-signs-and-regulations",
-      "@type": "skos:Concept",
-      "skos:prefLabel": {
-        "@language": "en",
-        "@value": "Dynamic traffic signs and regulations"
-      }
+      "@id": "_:n69a51715ce1f4413886b134af3458d38b2"
     },
     {
-      "@id": "https://w3id.org/mobilitydcat-ap/mobility-theme/dynamic-speed-limits",
-      "@type": "skos:Concept",
-      "skos:prefLabel": {
-        "@language": "en",
-        "@value": "Dynamic speed limits"
-      }
+      "@id": "_:N62325b76d67c410cbecca60bd7f87cbe"
+    }
+  ],
+  "mobilitydcatap:mobilityTheme": [
+    {
+      "@id": "https://w3id.org/mobilitydcat-ap/mobility-theme/dynamic-traffic-signs-and-regulations"
+    },
+    {
+      "@id": "https://w3id.org/mobilitydcat-ap/mobility-theme/dynamic-speed-limits"
     }
   ],
   "schema:license": [
@@ -85,6 +82,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to the conversion time (no date in source); dcterms:publisher to schema:publisher; dcat:Distribution to schema:DataDownload. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:publisher to schema:publisher; dcat:distribution to schema:distribution; schema:dateModified set to the conversion time (no date in source). Unmapped DCAT properties preserved (open world)."
   }
 }

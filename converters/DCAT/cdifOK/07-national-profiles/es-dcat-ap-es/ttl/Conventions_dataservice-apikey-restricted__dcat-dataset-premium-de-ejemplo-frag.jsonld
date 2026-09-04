@@ -11,12 +11,12 @@
   ],
   "schema:name": "Dataset premium de ejemplo",
   "schema:description": "Datos de acceso restringido mediante API",
-  "schema:dateModified": "2026-09-04T03:44:49Z",
   "schema:license": [
     "https://example.com/api-premium-license"
   ],
   "schema:conditionsOfAccess": [
-    "http://publications.europa.eu/resource/authority/access-right/RESTRICTED"
+    "dcterms:accessRights: http://publications.europa.eu/resource/authority/access-right/RESTRICTED",
+    "dcterms:rights: https://example.com/api-premium-terms"
   ],
   "schema:distribution": [
     {
@@ -27,12 +27,24 @@
         "http://publications.europa.eu/resource/authority/file-type/JSON"
       ],
       "schema:name": "Distribución JSON vía API premium",
+      "schema:license": [
+        "https://example.com/api-premium-license"
+      ],
+      "schema:potentialAction": [
+        {
+          "@type": [
+            "schema:WebAPI"
+          ],
+          "schema:contentUrl": "https://api.example.com/premium-data",
+          "schema:serviceType": "dcat:DataService",
+          "schema:name": "API de datos premium",
+          "schema:documentation": "https://example.org/endpoint/openapi.json"
+        }
+      ],
       "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/missing"
     }
   ],
-  "dcterms:rights": {
-    "@id": "https://example.com/api-premium-terms"
-  },
+  "schema:dateModified": "2026-09-04T22:13:43Z",
   "schema:subjectOf": {
     "@type": [
       "schema:Dataset"
@@ -54,6 +66,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to the conversion time (no date in source); dcterms:license to schema:license; dcterms:accessRights to schema:conditionsOfAccess; dcat:Distribution to schema:DataDownload. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:license to schema:license; dcterms:accessRights to schema:conditionsOfAccess; dcterms:rights to schema:conditionsOfAccess; dcat:distribution to schema:distribution; schema:dateModified set to the conversion time (no date in source). Unmapped DCAT properties preserved (open world)."
   }
 }

@@ -3,56 +3,37 @@
     "schema": "http://schema.org/",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
-    "prov": "http://www.w3.org/ns/prov#",
-    "xsd": "http://www.w3.org/2001/XMLSchema#"
+    "prov": "http://www.w3.org/ns/prov#"
   },
   "@id": "https://data.gov.gr/id/dataset/BeePopulation2023",
   "@type": [
     "schema:Dataset"
   ],
   "schema:name": "Bee population 2023 in the region of Thessaloniki and Athens",
-  "schema:dateModified": "2023-03-21",
   "schema:datePublished": "2023-03-21",
-  "dcat:inSeries": {
-    "@id": "https://data.gov.gr/id/datasetseries/BeePopulation"
-  },
-  "dcat:prev": {
-    "@id": "https://data.gov.gr/id/dataset/BeePopulation2022",
-    "@type": "dcat:Dataset",
-    "dcat:inSeries": {
-      "@id": "https://data.gov.gr/id/datasetseries/BeePopulation"
-    },
-    "dcat:prev": {
-      "@id": "https://data.gov.gr/id/dataset/BeePopulation2000"
-    },
-    "dcterms:issued": [
-      {
-        "@type": "xsd:date",
-        "@value": "2022-03-01"
-      },
-      {
-        "@type": "http://www.w3.org/2001/XMLSchema#date",
-        "@value": "2022-03-01"
+  "schema:dateModified": "2023-03-21",
+  "schema:isPartOf": [
+    "https://data.gov.gr/id/datasetseries/BeePopulation"
+  ],
+  "schema:relatedLink": [
+    {
+      "schema:linkRelationship": "dcat:prev",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "https://data.gov.gr/id/dataset/BeePopulation2022"
       }
-    ],
-    "dcterms:modified": [
-      {
-        "@type": "xsd:date",
-        "@value": "2022-03-20"
-      },
-      {
-        "@type": "http://www.w3.org/2001/XMLSchema#date",
-        "@value": "2022-03-20"
-      }
-    ],
-    "dcterms:spatial": {
+    }
+  ],
+  "dcterms:spatial": [
+    {
       "@id": "https://sws.geonames.org/734077"
     },
-    "dcterms:title": {
-      "@language": "en",
-      "@value": "Bee population 2022 in the region of Thessaloniki"
+    {
+      "@id": "https://sws.geonames.org/264371"
     }
-  },
+  ],
   "schema:url": "http://www.opengis.net/def/nil/OGC/0/missing",
   "schema:license": [
     {
@@ -80,6 +61,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:modified to schema:dateModified. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:issued to schema:datePublished; dcterms:modified to schema:dateModified; dcat:inSeries to schema:isPartOf; dcat:prev to schema:relatedLink. Unmapped DCAT properties preserved (open world)."
   }
 }

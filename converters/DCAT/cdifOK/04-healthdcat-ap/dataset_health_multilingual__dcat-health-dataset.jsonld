@@ -13,12 +13,21 @@
   "schema:name": "Health dataset",
   "schema:description": "A dataset with multilingual metadata",
   "schema:identifier": "http://example.test/dataset/1",
-  "schema:dateModified": "2024-06-01T00:00:00+00:00",
   "schema:datePublished": "2024-01-01T00:00:00+00:00",
-  "schema:keywords": [
-    "health",
-    "gezondheid"
-  ],
+  "schema:dateModified": "2024-06-01T00:00:00+00:00",
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:name": "Health Institute",
+    "schema:contactPoint": {
+      "@type": [
+        "schema:ContactPoint"
+      ],
+      "schema:email": "info@example.com"
+    },
+    "schema:url": "https://healthdata.nl"
+  },
   "schema:creator": {
     "@list": [
       {
@@ -35,19 +44,10 @@
       }
     ]
   },
-  "schema:publisher": {
-    "@type": [
-      "schema:Organization"
-    ],
-    "schema:name": "Health Institute",
-    "schema:contactPoint": {
-      "@type": [
-        "schema:ContactPoint"
-      ],
-      "schema:email": "info@example.com"
-    },
-    "schema:url": "https://healthdata.nl"
-  },
+  "schema:keywords": [
+    "health",
+    "gezondheid"
+  ],
   "schema:distribution": [
     {
       "@type": [
@@ -115,6 +115,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:modified to schema:dateModified; dcat:keyword to schema:keywords; dcterms:creator to schema:creator; dcterms:publisher to schema:publisher; dcat:Distribution to schema:DataDownload. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:identifier to schema:identifier; dcterms:issued to schema:datePublished; dcterms:modified to schema:dateModified; dcterms:publisher to schema:publisher; dcterms:creator to schema:creator; dcat:keyword to schema:keywords; dcat:distribution to schema:distribution. Unmapped DCAT properties preserved (open world)."
   }
 }

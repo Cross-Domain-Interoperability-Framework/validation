@@ -3,21 +3,18 @@
     "schema": "http://schema.org/",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
-    "prov": "http://www.w3.org/ns/prov#",
-    "adms": "http://www.w3.org/ns/adms#",
-    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-    "foaf": "http://xmlns.com/foaf/0.1/"
+    "prov": "http://www.w3.org/ns/prov#"
   },
   "@id": "https://example.org/dataset/0112cf32-bce0-4071-9504-923375f9f2ad",
   "@type": [
     "schema:Dataset"
   ],
   "schema:name": "Conjunt de dades de prova DCAT",
-  "schema:description": "Una descripció qualsevol",
+  "schema:description": "Una descripció qualsevol\n\nversionNotes: Notes sobre la versió Some version notes Notas sobre la versión",
   "schema:identifier": "0112cf32-bce0-4071-9504-923375f9f2ad",
-  "schema:dateModified": "2024-05-05",
   "schema:datePublished": "2024-05-01",
-  "schema:url": "http://example.org/ds1",
+  "schema:dateModified": "2024-05-05",
+  "schema:inLanguage": "ca",
   "schema:keywords": [
     "Pins",
     "Roures",
@@ -26,6 +23,34 @@
     "Pinos",
     "Robles"
   ],
+  "schema:url": "http://example.org/ds1",
+  "schema:provider": [
+    {
+      "@type": [
+        "schema:Person"
+      ],
+      "schema:name": "Contact 2",
+      "schema:contactPoint": {
+        "@type": [
+          "schema:ContactPoint"
+        ],
+        "schema:email": "contact2@example.org"
+      }
+    },
+    {
+      "@type": [
+        "schema:Person"
+      ],
+      "schema:name": "Contact 1",
+      "schema:contactPoint": {
+        "@type": [
+          "schema:ContactPoint"
+        ],
+        "schema:email": "contact1@example.org"
+      }
+    }
+  ],
+  "schema:version": "1.0b",
   "schema:distribution": [
     {
       "@type": [
@@ -39,48 +64,17 @@
       "schema:description": "Una descripció qualsevol"
     }
   ],
-  "schema:version": "1.0b",
-  "adms:versionNotes": [
+  "schema:relatedLink": [
     {
-      "@language": "ca",
-      "@value": "Notes sobre la versió"
-    },
-    {
-      "@language": "en",
-      "@value": "Some version notes"
-    },
-    {
-      "@language": "es",
-      "@value": "Notas sobre la versión"
+      "schema:linkRelationship": "foaf:page",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "https://example.org/some-doc.html"
+      }
     }
   ],
-  "dcterms:language": [
-    "ca",
-    "en",
-    "es"
-  ],
-  "dcterms:provenance": {
-    "@id": "_:n203eacf152a84a2aac99216bc7476068b1",
-    "@type": "dcterms:ProvenanceStatement",
-    "rdfs:label": [
-      {
-        "@language": "ca",
-        "@value": "Una declaració sobre la procedència"
-      },
-      {
-        "@language": "en",
-        "@value": "Statement about provenance"
-      },
-      {
-        "@language": "es",
-        "@value": "Una declaración sobre la procedencia"
-      }
-    ]
-  },
-  "foaf:page": {
-    "@id": "https://example.org/some-doc.html",
-    "@type": "foaf:Document"
-  },
   "schema:license": [
     {
       "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
@@ -115,6 +109,16 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:modified to schema:dateModified; dcat:landingPage to schema:url; dcat:keyword to schema:keywords; dcat:Distribution to schema:DataDownload. Unmapped DCAT properties preserved (open world)."
-  }
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: owl:versionInfo read as dcat:version; dcterms:title to schema:name; dcterms:description to schema:description; dcterms:identifier to schema:identifier; dcterms:issued to schema:datePublished; dcterms:modified to schema:dateModified; dcterms:language to schema:inLanguage; dcat:keyword to schema:keywords; dcat:landingPage to schema:url; dcat:contactPoint to schema:provider; dcat:version to schema:version; dcat:distribution to schema:distribution; foaf:page to schema:relatedLink; adms:versionNotes to schema:description. Unmapped DCAT properties preserved (open world)."
+  },
+  "prov:wasGeneratedBy": [
+    {
+      "@type": [
+        "prov:Activity"
+      ],
+      "prov:used": [
+        "_:n05a0ab46b4df487585aa98bcbbc95d84b1"
+      ]
+    }
+  ]
 }

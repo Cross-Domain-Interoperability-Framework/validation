@@ -13,13 +13,8 @@
   "schema:name": "A test dataset on your catalogue",
   "schema:description": "A longer description of the dataset",
   "schema:identifier": "http://example.com/data/test-dataset-1",
-  "schema:dateModified": "2012-05-10T21:04",
   "schema:datePublished": "2012-05-10",
-  "schema:url": "http://url.to.dataset.home",
-  "schema:keywords": [
-    "pollution",
-    "stats"
-  ],
+  "schema:dateModified": "2012-05-10T21:04",
   "schema:publisher": {
     "@type": [
       "schema:Organization"
@@ -32,6 +27,11 @@
       "schema:email": "contact@some.org"
     }
   },
+  "schema:keywords": [
+    "pollution",
+    "stats"
+  ],
+  "schema:url": "http://url.to.dataset.home",
   "schema:distribution": [
     {
       "@type": [
@@ -39,9 +39,12 @@
       ],
       "schema:contentUrl": "http://url.to.csv.file",
       "schema:encodingFormat": [
-        "_:n4ac12f9aa5cc402ab8ba6a8c0b7a4987b3"
+        "_:n4b87fc0cffc14c4a9d0544af4ea14b3db3"
       ],
-      "schema:name": "Test resource CSV file"
+      "schema:name": "Test resource CSV file",
+      "schema:license": [
+        "https://url.to.license"
+      ]
     },
     {
       "@type": [
@@ -49,9 +52,12 @@
       ],
       "schema:contentUrl": "http://url.to.html.page",
       "schema:encodingFormat": [
-        "_:n4ac12f9aa5cc402ab8ba6a8c0b7a4987b5"
+        "_:n4b87fc0cffc14c4a9d0544af4ea14b3db5"
       ],
-      "schema:name": "Test resource HTML file"
+      "schema:name": "Test resource HTML file",
+      "schema:license": [
+        "https://url.to.license"
+      ]
     }
   ],
   "x11:language": [
@@ -93,6 +99,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:modified to schema:dateModified; dcat:landingPage to schema:url; dcat:keyword to schema:keywords; dcterms:publisher to schema:publisher; dcat:Distribution to schema:DataDownload. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:identifier to schema:identifier; dcterms:issued to schema:datePublished; dcterms:modified to schema:dateModified; dcterms:publisher to schema:publisher; dcat:keyword to schema:keywords; dcat:landingPage to schema:url; dcat:distribution to schema:distribution. Unmapped DCAT properties preserved (open world)."
   }
 }

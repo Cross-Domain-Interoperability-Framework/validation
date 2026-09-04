@@ -3,8 +3,7 @@
     "schema": "http://schema.org/",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
-    "prov": "http://www.w3.org/ns/prov#",
-    "dct": "http://purl.org/dc/terms/"
+    "prov": "http://www.w3.org/ns/prov#"
   },
   "@id": "http://example.org/dataset/001",
   "@type": [
@@ -12,25 +11,17 @@
   ],
   "schema:name": "Sample Geospatial Dataset in NAD 83",
   "schema:description": "This dataset provides geospatial data in the North American Datum 1983 (NAD 83) CRS.",
-  "schema:dateModified": "2026-09-04T03:45:21Z",
   "schema:publisher": {
     "@type": [
       "schema:Organization"
     ],
-    "@id": "http://example.org/publisher/001"
+    "@id": "http://example.org/publisher/001",
+    "schema:name": "http://www.opengis.net/def/nil/OGC/0/missing"
   },
-  "dcterms:conformsTo": {
-    "@id": "http://www.opengis.net/def/crs/EPSG/0/4269",
-    "@type": [
-      "dct:Standard",
-      "dcterms:Standard"
-    ],
-    "dcterms:description": "North American Datum 1983 (NAD 83) is a geodetic reference system that is widely used in North America for mapping and navigation.",
-    "dcterms:title": "EPSG:4269 - NAD 83",
-    "dcterms:type": {
-      "@id": "http://resources.data.gov/categories/SpatialReferenceSystem"
-    }
-  },
+  "dcterms:conformsTo": [
+    "http://www.opengis.net/def/crs/EPSG/0/4269"
+  ],
+  "schema:dateModified": "2026-09-04T22:13:46Z",
   "schema:url": "http://www.opengis.net/def/nil/OGC/0/missing",
   "schema:license": [
     {
@@ -58,6 +49,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to the conversion time (no date in source); dcterms:publisher to schema:publisher. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:publisher to schema:publisher; dcterms:conformsTo to dcterms:conformsTo; schema:dateModified set to the conversion time (no date in source). Unmapped DCAT properties preserved (open world)."
   }
 }

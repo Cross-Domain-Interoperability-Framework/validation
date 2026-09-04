@@ -1,0 +1,172 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "terms": "http://purl.org/dc/terms/#"
+  },
+  "@id": "http://www.agency.gov/datasets/widgets-data",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "U.S. Widget Manufacturing Statistics",
+  "schema:description": "This dataset provides national statistics on the production of widgets",
+  "schema:identifier": "widgets-0001",
+  "schema:datePublished": "2011-11-22",
+  "schema:dateModified": "2011-11-19T12:00:00Z",
+  "schema:inLanguage": "en-US",
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:name": "Widget Services",
+    "schema:contactPoint": {
+      "@type": [
+        "schema:ContactPoint"
+      ],
+      "schema:email": "widget.services@agency.gov"
+    }
+  },
+  "schema:spatialCoverage": [
+    {
+      "@type": [
+        "schema:Place"
+      ],
+      "schema:name": "United States"
+    }
+  ],
+  "schema:temporalCoverage": [
+    "2009-09-01T12:00:00Z/2010-05-31T12:00:00Z"
+  ],
+  "schema:keywords": [
+    "widget",
+    "manufacturing",
+    "factory",
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "DCATtheme",
+      "schema:name": "manufacturing"
+    }
+  ],
+  "schema:url": "http://agency.gov/widgets/data",
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://data.agency.gov/datasets/widgets-statistics/widgets.csv",
+      "schema:encodingFormat": [
+        "text/csv",
+        "CSV"
+      ],
+      "schema:name": "widgets.csv",
+      "schema:description": "Widgets data as a CSV file"
+    },
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://data.agency.gov/datasets/widgets-statistics/widgets-all.zip",
+      "schema:encodingFormat": [
+        "application/zip",
+        "Zipped CSV"
+      ],
+      "schema:name": "widgets-all.zip",
+      "schema:description": "Widgets data as a zipped CSV file with attached data dictionary"
+    },
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "http://www.agency.gov/feeds/widgets-all.json",
+      "schema:encodingFormat": [
+        "application/json",
+        "JSON"
+      ],
+      "schema:name": "widgets-all.json",
+      "schema:description": "Widget data as a JSON feed"
+    },
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://data.agency.gov/api/widgets-statistics/",
+      "schema:encodingFormat": [
+        "API"
+      ],
+      "schema:name": "Widgets REST API",
+      "schema:description": "A fully queryable REST API with JSON and XML output"
+    }
+  ],
+  "schema:provider": [
+    {
+      "@type": [
+        "schema:Person"
+      ],
+      "schema:name": "Jane Doe",
+      "schema:contactPoint": {
+        "@type": [
+          "schema:ContactPoint"
+        ],
+        "schema:email": "jane.doe@agency.gov"
+      }
+    }
+  ],
+  "schema:relatedLink": [
+    {
+      "schema:linkRelationship": "wdrs:describedby",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "http://www.agency.gov/datasets/widgets-dictionary.html"
+      }
+    }
+  ],
+  "dcterms:accrualPeriodicity": "R/P1Y",
+  "terms:conformsTo": {
+    "@id": "http://www.agency.gov/widget-taxonomy/"
+  },
+  "terms:license": {
+    "@id": "http://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "http://www.agency.gov/datasets/widgets-data#metadata",
+    "schema:name": "Metadata record for: U.S. Widget Manufacturing Statistics",
+    "schema:about": {
+      "@id": "http://www.agency.gov/datasets/widgets-data"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      }
+    ],
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcat:identifier read as dcterms:identifier; dcterms:title to schema:name; dcterms:description to schema:description; dcterms:identifier to schema:identifier; dcterms:issued to schema:datePublished; dcterms:modified to schema:dateModified; dcterms:language to schema:inLanguage; dcterms:publisher to schema:publisher; dcterms:spatial to schema:spatialCoverage; dcterms:temporal to schema:temporalCoverage; dcat:keyword to schema:keywords; dcat:theme to schema:keywords; dcat:landingPage to schema:url; dcat:distribution to schema:distribution; adms:contactPoint to schema:provider; wdrs:describedby to schema:relatedLink. Unmapped DCAT properties preserved (open world)."
+  }
+}

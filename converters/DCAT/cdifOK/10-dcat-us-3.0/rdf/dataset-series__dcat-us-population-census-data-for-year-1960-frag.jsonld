@@ -3,8 +3,7 @@
     "schema": "http://schema.org/",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
-    "prov": "http://www.w3.org/ns/prov#",
-    "skos": "http://www.w3.org/2004/02/skos/core#"
+    "prov": "http://www.w3.org/ns/prov#"
   },
   "@id": "http://example.org/ns#populationCensus-1960",
   "@type": [
@@ -13,84 +12,40 @@
   "schema:name": "US Population Census Data for year 1960",
   "schema:description": "US Population Census Data for year 1960",
   "schema:datePublished": "1960",
-  "schema:dateModified": "2026-09-04T03:45:22Z",
   "schema:publisher": {
     "@type": [
       "schema:Organization"
     ],
-    "@id": "http://census.gov"
+    "@id": "http://census.gov",
+    "schema:name": "http://www.opengis.net/def/nil/OGC/0/missing"
   },
   "schema:temporalCoverage": [
-    "1960-01-01/1960-12-31",
     "1960-01-01/1960-12-31"
   ],
-  "dcat:inSeries": {
-    "@id": "http://example.org/ns#populationCensus",
-    "@type": "dcat:DatasetSeries",
-    "dcat:temporalResolution": {
-      "@type": "http://www.w3.org/2001/XMLSchema#duration",
-      "@value": "P10Y"
-    },
-    "dcterms:accrualPeriodicity": {
-      "@id": "http://purl.org/cld/freq/decennial"
-    },
-    "dcterms:description": "US Population Census Data from 1950 to 2020",
-    "dcterms:issued": {
-      "@type": "http://www.w3.org/2001/XMLSchema#gYear",
-      "@value": "1950"
-    },
-    "dcterms:modified": {
-      "@type": "http://www.w3.org/2001/XMLSchema#gYear",
-      "@value": "2020"
-    },
-    "dcterms:publisher": {
-      "@id": "http://census.gov"
-    },
-    "dcterms:spatial": {
-      "@id": "http://sws.geonames.org/6252001/",
-      "@type": "dcterms:Location",
-      "skos:prefLabel": "United States"
-    },
-    "dcterms:temporal": [
-      {
-        "@id": "_:N964659f4eae446b6be59c1141ec4a150",
-        "@type": "dcterms:PeriodOfTime",
-        "dcat:endDate": {
-          "@type": "http://www.w3.org/2001/XMLSchema#date",
-          "@value": "2020-12-31"
-        },
-        "dcat:startDate": {
-          "@type": "http://www.w3.org/2001/XMLSchema#date",
-          "@value": "1950-01-01"
-        }
-      },
-      {
-        "@id": "_:n0e8df837714247b5bd3c2347c153937eb1",
-        "@type": "dcterms:PeriodOfTime",
-        "dcat:endDate": {
-          "@type": "http://www.w3.org/2001/XMLSchema#date",
-          "@value": "2020-12-31"
-        },
-        "dcat:startDate": {
-          "@type": "http://www.w3.org/2001/XMLSchema#date",
-          "@value": "1950-01-01"
-        }
-      }
-    ],
-    "dcterms:title": "US Population Census Data"
-  },
-  "dcat:next": [
-    "http://example.org/ns#populationCensus-1970",
+  "schema:isPartOf": [
+    "http://example.org/ns#populationCensus"
+  ],
+  "schema:relatedLink": [
     {
-      "@id": "http://example.org/ns#populationCensus-1970"
+      "schema:linkRelationship": "dcat:next",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "http://example.org/ns#populationCensus-1970"
+      }
     }
   ],
+  "schema:dateModified": "2026-09-04T22:13:46Z",
   "dcat:temporalResolution": {
     "@type": "http://www.w3.org/2001/XMLSchema#duration",
     "@value": "P10Y"
   },
   "dcterms:accrualPeriodicity": {
     "@id": "http://purl.org/cld/freq/decennial"
+  },
+  "dcterms:spatial": {
+    "@id": "http://sws.geonames.org/6252001/"
   },
   "schema:url": "http://www.opengis.net/def/nil/OGC/0/missing",
   "schema:license": [
@@ -119,6 +74,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:issued to schema:dateModified (no dcterms:modified); schema:dateModified set to the conversion time (no date in source); dcterms:publisher to schema:publisher; dcterms:temporal to schema:temporalCoverage. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:issued to schema:datePublished; dcterms:publisher to schema:publisher; dcterms:temporal to schema:temporalCoverage; dcat:inSeries to schema:isPartOf; dcat:next to schema:relatedLink; schema:datePublished reused as dateModified (no dcterms:modified); schema:dateModified set to the conversion time (no date in source). Unmapped DCAT properties preserved (open world)."
   }
 }

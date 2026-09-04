@@ -11,13 +11,8 @@
   ],
   "schema:name": "Loudoun County",
   "schema:description": "This dataset contains information regarding the census in County of Loudoun",
-  "schema:dateModified": "2021-04-26",
   "schema:datePublished": "2021-04-26",
-  "schema:url": "https://opendata.census.gov/1234/about",
-  "schema:keywords": [
-    "loudoun",
-    "census"
-  ],
+  "schema:dateModified": "2021-04-26",
   "schema:publisher": {
     "@type": [
       "schema:Organization"
@@ -25,6 +20,48 @@
     "schema:name": "US Census",
     "@id": "https://census.gov/"
   },
+  "schema:temporalCoverage": [
+    "2020-01-01T00:00:00/2021-06-22T00:00:00"
+  ],
+  "schema:keywords": [
+    "loudoun",
+    "census",
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "DCATtheme",
+      "schema:identifier": "http://resources.data.gov/authority/themes/society",
+      "schema:name": "themes/society"
+    }
+  ],
+  "schema:url": "https://opendata.census.gov/1234/about",
+  "schema:provider": [
+    {
+      "@type": [
+        "schema:Person"
+      ],
+      "schema:name": "US Census",
+      "schema:contactPoint": {
+        "@type": [
+          "schema:ContactPoint"
+        ],
+        "schema:email": "noise@census.gov"
+      }
+    },
+    {
+      "@type": [
+        "schema:Person"
+      ],
+      "schema:name": "John Smith",
+      "schema:contactPoint": {
+        "@type": [
+          "schema:ContactPoint"
+        ],
+        "schema:email": "johnsmith@census.gov"
+      }
+    }
+  ],
   "schema:distribution": [
     {
       "@type": [
@@ -39,12 +76,8 @@
       "schema:contentUrl": "https://census.gov/data/dataset1.xml"
     }
   ],
-  "schema:temporalCoverage": [
-    "2020-01-01T00:00:00/2021-06-22T00:00:00",
-    "2020-01-01T00:00:00/2021-06-22T00:00:00"
-  ],
-  "dcat:theme": {
-    "@id": "http://resources.data.gov/authority/themes/society"
+  "dcterms:spatial": {
+    "@id": "https://www.geonames.org/4770746"
   },
   "schema:license": [
     {
@@ -72,6 +105,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:modified to schema:dateModified; dcat:landingPage to schema:url; dcat:keyword to schema:keywords; dcterms:publisher to schema:publisher; dcat:Distribution to schema:DataDownload; dcterms:temporal to schema:temporalCoverage. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:issued to schema:datePublished; dcterms:modified to schema:dateModified; dcterms:publisher to schema:publisher; dcterms:temporal to schema:temporalCoverage; dcat:keyword to schema:keywords; dcat:theme to schema:keywords; dcat:landingPage to schema:url; dcat:contactPoint to schema:provider; dcat:distribution to schema:distribution. Unmapped DCAT properties preserved (open world)."
   }
 }

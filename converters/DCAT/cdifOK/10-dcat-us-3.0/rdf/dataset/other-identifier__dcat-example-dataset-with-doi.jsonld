@@ -3,9 +3,7 @@
     "schema": "http://schema.org/",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
-    "prov": "http://www.w3.org/ns/prov#",
-    "adms": "http://www.w3.org/ns/adms#",
-    "skos": "http://www.w3.org/2004/02/skos/core#"
+    "prov": "http://www.w3.org/ns/prov#"
   },
   "@id": "http://example.org/ns#Dataset1",
   "@type": [
@@ -13,21 +11,15 @@
   ],
   "schema:name": "Example Dataset with DOI",
   "schema:description": "This dataset provides an example of how to use a DOI as an identifier.",
-  "schema:identifier": "10.12345/ex.doi.67890",
-  "schema:dateModified": "2026-09-04T03:45:47Z",
   "schema:publisher": {
     "@type": [
       "schema:Organization"
     ],
-    "@id": "https://doi.gov"
+    "@id": "https://doi.gov",
+    "schema:name": "http://www.opengis.net/def/nil/OGC/0/missing"
   },
-  "adms:identifier": {
-    "@id": "http://example.org/ns#Identifier1",
-    "@type": "adms:Identifier",
-    "adms:schemaAgency": "Department of the Interior",
-    "dcat:version": "1.0",
-    "skos:notation": "10.12345/ex.doi.67890"
-  },
+  "schema:identifier": "10.12345/ex.doi.67890",
+  "schema:dateModified": "2026-09-04T22:13:55Z",
   "schema:url": "http://www.opengis.net/def/nil/OGC/0/missing",
   "schema:license": [
     {
@@ -63,6 +55,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to the conversion time (no date in source); dcterms:publisher to schema:publisher. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:publisher to schema:publisher; adms:identifier to schema:identifier; schema:dateModified set to the conversion time (no date in source). Unmapped DCAT properties preserved (open world)."
   }
 }

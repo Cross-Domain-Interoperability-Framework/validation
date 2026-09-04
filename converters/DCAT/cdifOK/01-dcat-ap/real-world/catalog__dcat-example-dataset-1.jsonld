@@ -12,15 +12,9 @@
   "schema:name": "Example dataset 1",
   "schema:description": "A longer description of dataset 1: includes three distributions, a CSV file, a PDF file and an API. Some special characters: Θεσσαλονίκη.",
   "schema:identifier": "https://data.some.org/catalog/datasets/1",
-  "schema:dateModified": "2013-04-26T00:00:00+00:00",
   "schema:datePublished": "2013-04-26T00:00:00+00:00",
-  "schema:license": [
-    "https://data.some.org/link/to/license"
-  ],
-  "schema:keywords": [
-    "stats",
-    "pollution"
-  ],
+  "schema:dateModified": "2013-04-26T00:00:00+00:00",
+  "schema:inLanguage": "en",
   "schema:publisher": {
     "@type": [
       "schema:Organization"
@@ -33,6 +27,13 @@
       "schema:email": "contact@some.org"
     }
   },
+  "schema:license": [
+    "https://data.some.org/link/to/license"
+  ],
+  "schema:keywords": [
+    "stats",
+    "pollution"
+  ],
   "schema:distribution": [
     {
       "@type": [
@@ -43,7 +44,10 @@
         "text/csv"
       ],
       "schema:name": "A distribution for this dataset in CSV format",
-      "schema:description": "A longer description for the distribution"
+      "schema:description": "A longer description for the distribution",
+      "schema:license": [
+        "https://data.some.org/link/to/license"
+      ]
     },
     {
       "@type": [
@@ -51,10 +55,13 @@
       ],
       "schema:contentUrl": "https://data.some.org/the/actual/catalog/datasets/1/resources/2.pdf",
       "schema:encodingFormat": [
-        "_:Nf845cfd1b918474880988ba3cdbcb065"
+        "_:Necc518c5206a401c86c657f8bea167bf"
       ],
       "schema:name": "A distribution for this dataset in PDF format",
-      "schema:description": "A longer description for the distribution"
+      "schema:description": "A longer description for the distribution",
+      "schema:license": [
+        "https://data.some.org/link/to/license"
+      ]
     },
     {
       "@type": [
@@ -65,7 +72,6 @@
       "schema:description": "A longer description for the distribution"
     }
   ],
-  "dcterms:language": "en",
   "schema:subjectOf": {
     "@type": [
       "schema:Dataset"
@@ -95,6 +101,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:modified to schema:dateModified; dcterms:license to schema:license; dcat:keyword to schema:keywords; dcterms:publisher to schema:publisher; dcat:Distribution to schema:DataDownload. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:identifier to schema:identifier; dcterms:issued to schema:datePublished; dcterms:modified to schema:dateModified; dcterms:language to schema:inLanguage; dcterms:publisher to schema:publisher; dcterms:license to schema:license; dcat:keyword to schema:keywords; dcat:distribution to schema:distribution. Unmapped DCAT properties preserved (open world)."
   }
 }

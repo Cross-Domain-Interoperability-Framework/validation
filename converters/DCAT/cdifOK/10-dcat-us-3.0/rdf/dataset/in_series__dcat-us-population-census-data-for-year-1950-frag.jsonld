@@ -3,8 +3,7 @@
     "schema": "http://schema.org/",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
-    "prov": "http://www.w3.org/ns/prov#",
-    "dcatus": "http://resources.data.gov/ontology/dcat-us#"
+    "prov": "http://www.w3.org/ns/prov#"
   },
   "@id": "http://example.org/ns#populationCensus-1950",
   "@type": [
@@ -12,119 +11,25 @@
   ],
   "schema:name": "US Population Census Data for year 1950",
   "schema:description": "US Population Census Data for year 1950",
-  "schema:dateModified": "2026-09-04T03:45:40Z",
   "schema:publisher": {
     "@type": [
       "schema:Organization"
     ],
-    "@id": "https://www.census.gov/"
+    "@id": "https://www.census.gov/",
+    "schema:name": "http://www.opengis.net/def/nil/OGC/0/missing"
   },
-  "dcat:inSeries": {
-    "@id": "http://example.org/ns#populationCensus",
-    "@type": "dcat:DatasetSeries",
-    "dcat:seriesMember": [
-      {
-        "@id": "http://example.org/ns#populationCensus-1950"
-      },
-      {
-        "@id": "http://example.org/ns#populationCensus-1960",
-        "@type": "dcat:Dataset",
-        "dcat:inSeries": {
-          "@id": "http://example.org/ns#populationCensus"
-        },
-        "dcterms:description": [
-          "US Population Census Data for year 1960",
-          {
-            "@language": "en",
-            "@value": "US Population Census Data for year 1960"
-          }
-        ],
-        "dcterms:publisher": {
-          "@id": "https://www.census.gov/"
-        },
-        "dcterms:temporal": [
-          {
-            "@id": "_:N1323d450f8a546eba9b4bbc7ba658226",
-            "@type": "dcterms:PeriodOfTime"
-          },
-          {
-            "@id": "_:n72af15439b9b42cba5d76ca1b2f4ce99b4",
-            "@type": "dcterms:PeriodOfTime",
-            "dcterms:end": {
-              "@type": "http://www.w3.org/2001/XMLSchema#date",
-              "@value": "1960-01-01"
-            },
-            "dcterms:start": {
-              "@type": "http://www.w3.org/2001/XMLSchema#date",
-              "@value": "1950-01-01"
-            }
-          }
-        ],
-        "dcterms:title": [
-          "US Population Census Data for year 1960",
-          {
-            "@language": "en",
-            "@value": "US Population Census Data for year 1960"
-          }
-        ]
-      }
-    ],
-    "dcterms:description": [
-      "US Population Census Data from 1950 to 2000",
-      {
-        "@language": "en",
-        "@value": "US Population Census Data from 1950 to 2000"
-      }
-    ],
-    "dcterms:publisher": {
-      "@id": "https://www.census.gov/"
+  "schema:isPartOf": [
+    "http://example.org/ns#populationCensus"
+  ],
+  "schema:dateModified": "2026-09-04T22:13:53Z",
+  "dcterms:temporal": [
+    {
+      "@id": "_:N395cd07adafb45a2ae2a6aecc5345ed5"
     },
-    "dcterms:temporal": [
-      {
-        "@id": "_:N5bd99848123548a2a7af3dfd1ff4931b",
-        "@type": "dcterms:PeriodOfTime"
-      },
-      {
-        "@id": "_:n72af15439b9b42cba5d76ca1b2f4ce99b2",
-        "@type": "dcterms:PeriodOfTime",
-        "dcterms:end": {
-          "@type": "http://www.w3.org/2001/XMLSchema#date",
-          "@value": "2000-12-31"
-        },
-        "dcterms:start": {
-          "@type": "http://www.w3.org/2001/XMLSchema#date",
-          "@value": "1950-01-01"
-        }
-      }
-    ],
-    "dcterms:title": [
-      "US Population Census Data",
-      {
-        "@language": "en",
-        "@value": "US Population Census Data"
-      }
-    ],
-    "dcatus:geographicBoundingBox": {
-      "@id": "_:n72af15439b9b42cba5d76ca1b2f4ce99b1",
-      "@type": "http://resources.data.gov/ontology/dcat-us#GeographicBoundingBox",
-      "dcatus:eastBoundingLongitude": {
-        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
-        "@value": "-66.9"
-      },
-      "dcatus:northBoundingLatitude": {
-        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
-        "@value": "49.4"
-      },
-      "dcatus:southBoundingLatitude": {
-        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
-        "@value": "24.5"
-      },
-      "dcatus:westBoundingLongitude": {
-        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
-        "@value": "-125.0"
-      }
+    {
+      "@id": "_:n1e1b0c81aa8144df925498b37ac79d3eb3"
     }
-  },
+  ],
   "schema:url": "http://www.opengis.net/def/nil/OGC/0/missing",
   "schema:license": [
     {
@@ -152,6 +57,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to the conversion time (no date in source); dcterms:publisher to schema:publisher. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:publisher to schema:publisher; dcat:inSeries to schema:isPartOf; schema:dateModified set to the conversion time (no date in source). Unmapped DCAT properties preserved (open world)."
   }
 }

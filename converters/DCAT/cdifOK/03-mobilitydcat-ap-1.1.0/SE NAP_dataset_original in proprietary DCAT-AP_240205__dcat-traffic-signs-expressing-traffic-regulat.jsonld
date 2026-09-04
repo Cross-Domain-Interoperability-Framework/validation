@@ -13,13 +13,9 @@
   "schema:name": "Traffic signs expressing traffic regulations and identifying dangers, Speed limits",
   "schema:description": "Traffic signs expressing traffic regulations and identifying dangers from the Swedish Transport Administration. Datex",
   "schema:identifier": "ec459578-a11f-4728-acaa-16b08ae45cfa",
-  "schema:dateModified": "2019-12-04T09:48:27",
   "schema:datePublished": "2017-05-09T11:49:47.718613",
-  "schema:keywords": [
-    "Datex",
-    "Act B",
-    "Speed limits"
-  ],
+  "schema:dateModified": "2019-12-04T09:48:27",
+  "schema:inLanguage": "ENG",
   "schema:publisher": {
     "@type": [
       "schema:Organization"
@@ -34,6 +30,30 @@
     },
     "schema:url": "www.trafikverket.se"
   },
+  "dcterms:conformsTo": [
+    "file:///C:/GithubC/CDIF/validation/converters/DCAT/dcatExamplesOK/03-mobilitydcat-ap-1.1.0/SE%20NAP_dataset_original%20in%20proprietary%20DCAT-AP_240205.xml"
+  ],
+  "schema:keywords": [
+    "Datex",
+    "Act B",
+    "Speed limits",
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "DCATtheme",
+      "schema:identifier": "http://trafficdata.se/definitions/category/traffic_signs_expressing_traffic_regulations_and_identifying_dangers/speed_limits",
+      "schema:name": "traffic_signs_expressing_traffic_regulations_and_identifying_dangers/speed_limits"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "DCATtheme",
+      "schema:identifier": "http://publications.europa.eu/resource/authority/data-theme/TRAN",
+      "schema:name": "data-theme/TRAN"
+    }
+  ],
   "schema:provider": [
     {
       "@type": [
@@ -55,25 +75,17 @@
       ],
       "schema:contentUrl": "http://www.trafikverket.se/tjanster/Oppna_data/trafikinformation-i-realtid/Trafikinformation-vag-i-realtid/Sa-har-far-du-tillgang-till-data-for-trafikinformation-i-realtid/",
       "schema:name": "Datex",
-      "schema:description": "Datex is the Swedish Transport Administration resource for Traffic signs expressing traffic regulations and identifying dangers"
-    }
-  ],
-  "dcat:theme": [
-    {
-      "@id": "http://trafficdata.se/definitions/category/traffic_signs_expressing_traffic_regulations_and_identifying_dangers/speed_limits"
-    },
-    {
-      "@id": "http://publications.europa.eu/resource/authority/data-theme/TRAN"
+      "schema:description": "Datex is the Swedish Transport Administration resource for Traffic signs expressing traffic regulations and identifying dangers",
+      "schema:license": [
+        "http://www.opendefinition.org/licenses/cc-zero"
+      ]
     }
   ],
   "dcterms:accrualPeriodicity": {
     "@id": "http://publications.europa.eu/mdr/authority/frequency/UPDATE_CONT"
   },
-  "dcterms:conformsTo": {
-    "@id": "file:///C:/GithubC/CDIF/validation/converters/DCAT/dcatExamplesOK/03-mobilitydcat-ap-1.1.0/SE%20NAP_dataset_original%20in%20proprietary%20DCAT-AP_240205.xml"
-  },
-  "dcterms:language": {
-    "@id": "http://publications.europa.eu/resource/authority/language/ENG"
+  "dcterms:spatial": {
+    "@id": "http://sws.geonames.org/2661886"
   },
   "dcatext:networkcoverage": [
     {
@@ -117,6 +129,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:modified to schema:dateModified; schema:dateModified normalized to 2019-12-04T09:48:27; dcat:keyword to schema:keywords; dcterms:publisher to schema:publisher; dcat:contactPoint to schema:provider; dcat:Distribution to schema:DataDownload. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:identifier to schema:identifier; dcterms:issued to schema:datePublished; dcterms:modified to schema:dateModified; dcterms:language to schema:inLanguage; dcterms:publisher to schema:publisher; dcterms:conformsTo to dcterms:conformsTo; dcat:keyword to schema:keywords; dcat:theme to schema:keywords; dcat:contactPoint to schema:provider; dcat:distribution to schema:distribution; schema:dateModified normalized to 2019-12-04T09:48:27. Unmapped DCAT properties preserved (open world)."
   }
 }

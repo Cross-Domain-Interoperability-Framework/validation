@@ -3,8 +3,7 @@
     "schema": "http://schema.org/",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
-    "prov": "http://www.w3.org/ns/prov#",
-    "adms": "http://www.w3.org/ns/adms#"
+    "prov": "http://www.w3.org/ns/prov#"
   },
   "@id": "http://example.org/ns#Dataset1",
   "@type": [
@@ -12,12 +11,12 @@
   ],
   "schema:name": "Geographic Dataset following ISO 19139",
   "schema:description": "This dataset contains geographic metadata and is compliant with the ISO 19139 standard.",
-  "schema:dateModified": "2026-09-04T03:45:54Z",
   "schema:publisher": {
     "@type": [
       "schema:Organization"
     ],
-    "@id": "http://example.org/ns#Organization1"
+    "@id": "http://example.org/ns#Organization1",
+    "schema:name": "http://www.opengis.net/def/nil/OGC/0/missing"
   },
   "schema:distribution": [
     {
@@ -35,22 +34,10 @@
       ]
     }
   ],
-  "adms:supportedSchema": {
-    "@id": "http://example.org/ns#ISO19139Schema",
-    "@type": "dcat:Dataset",
-    "dcterms:conformsTo": {
-      "@id": "http://www.isotc211.org/2005/gmd"
-    },
-    "dcterms:description": "This is the XML Schema implementation of ISO 19139:2007 standard for geographic information metadata.",
-    "dcterms:identifier": "ISO 19139",
-    "dcterms:publisher": {
-      "@id": "http://www.isotc211.org"
-    },
-    "dcterms:title": "ISO 19139:2007 - Geographic Information Metadata XML Schema Implementation",
-    "dcterms:type": {
-      "@id": "http://data.gov/vocab/resource-type/Schema"
-    }
-  },
+  "dcterms:conformsTo": [
+    "http://example.org/ns#ISO19139Schema"
+  ],
+  "schema:dateModified": "2026-09-04T22:13:57Z",
   "schema:license": [
     {
       "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
@@ -77,6 +64,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to the conversion time (no date in source); dcterms:publisher to schema:publisher; dcat:Distribution to schema:DataDownload. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:publisher to schema:publisher; dcat:distribution to schema:distribution; adms:supportedSchema to dcterms:conformsTo; schema:dateModified set to the conversion time (no date in source). Unmapped DCAT properties preserved (open world)."
   }
 }

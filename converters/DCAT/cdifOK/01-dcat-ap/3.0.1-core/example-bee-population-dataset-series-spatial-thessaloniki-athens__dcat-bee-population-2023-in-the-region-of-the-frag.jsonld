@@ -10,24 +10,29 @@
     "schema:Dataset"
   ],
   "schema:name": "Bee population 2023 in the region of Thessaloniki and Athens",
-  "schema:dateModified": "2026-09-04T03:44:07Z",
-  "dcat:inSeries": {
-    "@id": "https://data.gov.gr/id/datasetseries/BeePopulation"
-  },
-  "dcat:prev": {
-    "@id": "https://data.gov.gr/id/dataset/BeePopulation2022",
-    "@type": "dcat:Dataset",
-    "dcat:inSeries": {
-      "@id": "https://data.gov.gr/id/datasetseries/BeePopulation"
-    },
-    "dcterms:spatial": {
+  "schema:isPartOf": [
+    "https://data.gov.gr/id/datasetseries/BeePopulation"
+  ],
+  "schema:relatedLink": [
+    {
+      "schema:linkRelationship": "dcat:prev",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "https://data.gov.gr/id/dataset/BeePopulation2022"
+      }
+    }
+  ],
+  "schema:dateModified": "2026-09-04T22:13:40Z",
+  "dcterms:spatial": [
+    {
       "@id": "https://sws.geonames.org/734077"
     },
-    "dcterms:title": {
-      "@language": "en",
-      "@value": "Bee population 2022 in the region of Thessaloniki"
+    {
+      "@id": "https://sws.geonames.org/264371"
     }
-  },
+  ],
   "schema:url": "http://www.opengis.net/def/nil/OGC/0/missing",
   "schema:license": [
     {
@@ -55,6 +60,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; schema:dateModified set to the conversion time (no date in source). Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcat:inSeries to schema:isPartOf; dcat:prev to schema:relatedLink; schema:dateModified set to the conversion time (no date in source). Unmapped DCAT properties preserved (open world)."
   }
 }

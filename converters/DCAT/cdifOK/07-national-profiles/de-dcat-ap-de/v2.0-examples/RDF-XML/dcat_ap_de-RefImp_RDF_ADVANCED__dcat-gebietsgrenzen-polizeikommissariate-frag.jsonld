@@ -3,22 +3,14 @@
     "schema": "http://schema.org/",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
-    "prov": "http://www.w3.org/ns/prov#",
-    "dcatde": "http://dcat-ap.de/def/dcatde/",
-    "foaf": "http://xmlns.com/foaf/0.1/"
+    "prov": "http://www.w3.org/ns/prov#"
   },
   "@id": "https://example.com/dataset/68180d85-df56-48e0-993e-b9da36103a72#dataset",
   "@type": [
     "schema:Dataset"
   ],
   "schema:name": "Gebietsgrenzen Polizeikommissariate",
-  "schema:description": "Mit den Polizeikommissariatsgrenzen werden die örtlichen Zustaendigkeiten der Hamburger Polizeikommissariatsgebiete geregelt.",
-  "schema:dateModified": "2026-09-04T03:44:30Z",
-  "schema:keywords": [
-    "Polizei",
-    "Polizeikommissariatsgrenzen",
-    "Polizeireviere"
-  ],
+  "schema:description": "Mit den Polizeikommissariatsgrenzen werden die örtlichen Zustaendigkeiten der Hamburger Polizeikommissariatsgebiete geregelt.\n\ngeocodingDescription: Freie und Hansestadt Hamburg\n\npoliticalGeocodingURI: http://dcat-ap.de/def/politicalGeocoding/stateKey/02\n\npoliticalGeocodingLevelURI: http://dcat-ap.de/def/politicalGeocoding/Level/state\n\nlegalBasis: Hamburgisches Transparenzgesetz (HmbTG).",
   "schema:publisher": {
     "@type": [
       "schema:Organization"
@@ -26,17 +18,31 @@
     "schema:name": "Behörde für Inneres und Sport, Polizei Hamburg",
     "@id": "https://www.hamburg.de/innenbehoerde/#publisher"
   },
+  "schema:keywords": [
+    "Polizei",
+    "Polizeikommissariatsgrenzen",
+    "Polizeireviere",
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "DCATtheme",
+      "schema:identifier": "http://publications.europa.eu/resource/authority/data-theme/GOVE",
+      "schema:name": "data-theme/GOVE"
+    }
+  ],
   "schema:provider": [
     {
       "@type": [
-        "schema:Organization"
+        "schema:Person"
       ],
       "schema:name": "Koenig, Julia, Frau",
       "schema:contactPoint": {
         "@type": [
           "schema:ContactPoint"
         ],
-        "schema:email": "julia.koenig@example.com"
+        "schema:email": "julia.koenig@example.com",
+        "schema:telephone": "_:Nc27ff5b6ad43487895e3945ccf2a0f8e"
       }
     }
   ],
@@ -49,36 +55,56 @@
       "schema:encodingFormat": [
         "http://publications.europa.eu/resource/authority/file-type/GML"
       ],
+      "schema:contentSize": "935108.0",
       "schema:name": "Download Gebietsgrenzen Polizeikommissariate",
-      "schema:contentSize": "935108.0"
+      "schema:license": [
+        "http://dcat-ap.de/def/licenses/dl-by-de/2.0"
+      ],
+      "spdx:checksum": {
+        "@type": [
+          "spdx:Checksum"
+        ],
+        "spdx:checksumValue": "b05ef732323f43c8cd0b73cdc6a954ddee99763b3041c9ab8219c18abfd5185a",
+        "spdx:algorithm": "http://dcat-ap.de/def/hashAlgorithms/md/5"
+      }
     }
   ],
-  "dcat:theme": {
-    "@id": "http://publications.europa.eu/resource/authority/data-theme/GOVE"
+  "schema:contributor": [
+    {
+      "@type": [
+        "schema:Role"
+      ],
+      "schema:roleName": "contributor",
+      "schema:contributor": {
+        "@type": [
+          "schema:Organization"
+        ],
+        "schema:name": "http://www.opengis.net/def/nil/OGC/0/missing",
+        "schema:identifier": "http://dcat-ap.de/def/contributors/transparenzportalHamburg"
+      }
+    },
+    {
+      "@type": [
+        "schema:Organization"
+      ],
+      "schema:name": "Behörde für Inneres und Sport, Polizei Hamburg",
+      "@id": "https://www.hamburg.de/innenbehoerde/#publisher"
+    }
+  ],
+  "schema:creator": {
+    "@list": [
+      {
+        "@type": [
+          "schema:Organization"
+        ],
+        "schema:name": "Behörde für Inneres und Sport, Polizei Hamburg",
+        "@id": "https://www.hamburg.de/innenbehoerde/#publisher"
+      }
+    ]
   },
+  "schema:dateModified": "2026-09-04T22:13:42Z",
   "dcterms:accrualPeriodicity": {
     "@id": "http://publications.europa.eu/resource/authority/frequency/MONTHLY"
-  },
-  "dcatde:contributorID": {
-    "@id": "http://dcat-ap.de/def/contributors/transparenzportalHamburg"
-  },
-  "dcatde:geocodingDescription": "Freie und Hansestadt Hamburg",
-  "dcatde:legalBasis": "Hamburgisches Transparenzgesetz (HmbTG).",
-  "dcatde:maintainer": {
-    "@id": "https://www.hamburg.de/innenbehoerde/#publisher",
-    "@type": "foaf:Organization",
-    "foaf:name": "Behörde für Inneres und Sport, Polizei Hamburg"
-  },
-  "dcatde:originator": {
-    "@id": "https://www.hamburg.de/innenbehoerde/#publisher",
-    "@type": "foaf:Organization",
-    "foaf:name": "Behörde für Inneres und Sport, Polizei Hamburg"
-  },
-  "dcatde:politicalGeocodingLevelURI": {
-    "@id": "http://dcat-ap.de/def/politicalGeocoding/Level/state"
-  },
-  "dcatde:politicalGeocodingURI": {
-    "@id": "http://dcat-ap.de/def/politicalGeocoding/stateKey/02"
   },
   "schema:license": [
     {
@@ -106,6 +132,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to the conversion time (no date in source); dcat:keyword to schema:keywords; dcterms:publisher to schema:publisher; dcat:contactPoint to schema:provider; dcat:Distribution to schema:DataDownload. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:publisher to schema:publisher; dcat:keyword to schema:keywords; dcat:theme to schema:keywords; dcat:contactPoint to schema:provider; dcat:distribution to schema:distribution; dcatde:contributorID to schema:contributor; dcatde:originator to schema:creator; dcatde:maintainer to schema:contributor; dcatde:geocodingDescription to schema:description; dcatde:politicalGeocodingURI to schema:description; dcatde:politicalGeocodingLevelURI to schema:description; dcatde:legalBasis to schema:description; schema:dateModified set to the conversion time (no date in source). Unmapped DCAT properties preserved (open world)."
   }
 }

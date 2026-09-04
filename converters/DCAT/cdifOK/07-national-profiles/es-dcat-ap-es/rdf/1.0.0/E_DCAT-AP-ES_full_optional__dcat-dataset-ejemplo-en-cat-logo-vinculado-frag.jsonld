@@ -1,0 +1,99 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "http://dcat-ap-es.ejemplo.org/catalogo-vinculado/dataset/ejemplo",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Dataset ejemplo en catálogo vinculado",
+  "schema:description": "Dataset de ejemplo en el catálogo vinculado",
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "@id": "http://datos.gob.es/recurso/sector-publico/org/Organismo/E0DAT0001",
+    "schema:name": "http://www.opengis.net/def/nil/OGC/0/missing"
+  },
+  "schema:temporalCoverage": [
+    "2024-01-01T00:00:00+00:00/2024-12-31T23:59:59+00:00"
+  ],
+  "schema:keywords": [
+    "ejemplo",
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "DCATtheme",
+      "schema:identifier": "http://datos.gob.es/kos/sector-publico/sector/medio-ambiente",
+      "schema:name": "sector/medio-ambiente"
+    }
+  ],
+  "schema:provider": [
+    {
+      "@type": [
+        "schema:Organization"
+      ],
+      "schema:name": "Oficina del dato",
+      "schema:contactPoint": {
+        "@type": [
+          "schema:ContactPoint"
+        ],
+        "schema:email": "info-contacto@dcat-ap-es.ejemplo.org",
+        "schema:url": "http://dcat-ap-es.ejemplo.org/",
+        "schema:telephone": ".+3491222222"
+      }
+    }
+  ],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "http://dcat-ap-es.ejemplo.org/catalogo-vinculado/files/ejemplo.csv",
+      "schema:encodingFormat": [
+        "http://publications.europa.eu/resource/authority/file-type/CSV"
+      ],
+      "schema:name": "Distribución de ejemplo en formato CSV",
+      "schema:description": "Descripción de una distribución distribuida de ejemplo",
+      "schema:license": [
+        "http://publications.europa.eu/resource/authority/licence/CC_BY_4_0"
+      ]
+    }
+  ],
+  "schema:dateModified": "2026-09-04T22:13:43Z",
+  "dcterms:spatial": {
+    "@id": "http://datos.gob.es/recurso/sector-publico/territorio/Pais/España"
+  },
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "http://dcat-ap-es.ejemplo.org/catalogo-vinculado/dataset/ejemplo#metadata",
+    "schema:name": "Metadata record for: Dataset ejemplo en catálogo vinculado",
+    "schema:about": {
+      "@id": "http://dcat-ap-es.ejemplo.org/catalogo-vinculado/dataset/ejemplo"
+    },
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:publisher to schema:publisher; dcterms:temporal to schema:temporalCoverage; dcat:keyword to schema:keywords; dcat:theme to schema:keywords; dcat:contactPoint to schema:provider; dcat:distribution to schema:distribution; schema:dateModified set to the conversion time (no date in source). Unmapped DCAT properties preserved (open world)."
+  }
+}

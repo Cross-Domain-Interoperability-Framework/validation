@@ -12,12 +12,12 @@
   ],
   "schema:name": "My Dataset",
   "schema:description": "This is an example dataset.",
-  "schema:dateModified": "2026-09-04T03:45:51Z",
   "schema:publisher": {
     "@type": [
       "schema:Organization"
     ],
-    "@id": "http://example.org/ns#Publisher1"
+    "@id": "http://example.org/ns#Publisher1",
+    "schema:name": "http://www.opengis.net/def/nil/OGC/0/missing"
   },
   "schema:distribution": [
     {
@@ -30,17 +30,9 @@
       ]
     }
   ],
+  "schema:dateModified": "2026-09-04T22:13:56Z",
   "adms:sample": {
-    "@id": "http://example.org/ns#MySample",
-    "@type": "dcat:Distribution",
-    "dcat:downloadURL": {
-      "@id": "http://example.org/data/mysample.csv"
-    },
-    "dcterms:description": "This is a sample from My Dataset.",
-    "dcterms:format": {
-      "@id": "https://www.iana.org/assignments/media-types/text/csv"
-    },
-    "dcterms:title": "Sample of My Dataset"
+    "@id": "http://example.org/ns#MySample"
   },
   "schema:license": [
     {
@@ -68,6 +60,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to the conversion time (no date in source); dcterms:publisher to schema:publisher; dcat:Distribution to schema:DataDownload. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:publisher to schema:publisher; dcat:distribution to schema:distribution; schema:dateModified set to the conversion time (no date in source). Unmapped DCAT properties preserved (open world)."
   }
 }

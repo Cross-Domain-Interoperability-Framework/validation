@@ -1,0 +1,145 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "adms": "http://www.w3.org/ns/adms#"
+  },
+  "@id": "http://dcat-ap-es.ejemplo.org/dataset/calidad-aire-madrid",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Air Quality in Madrid - Hourly Data",
+  "schema:description": "Hourly air quality measurements from Madrid monitoring stations, including NO2, PM10, PM2.5, O3, SO2 and CO.",
+  "schema:identifier": "http://dcat-ap-es.ejemplo.org/dataset/calidad-aire-madrid",
+  "schema:datePublished": "2024-01-01",
+  "schema:dateModified": "2025-01-15",
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "@id": "http://datos.gob.es/recurso/sector-publico/org/Organismo/E0DAT0001",
+    "schema:name": "http://www.opengis.net/def/nil/OGC/0/missing"
+  },
+  "schema:conditionsOfAccess": [
+    "dcterms:accessRights: http://publications.europa.eu/resource/authority/access-right/PUBLIC"
+  ],
+  "schema:temporalCoverage": [
+    "2020-01-01/2024-12-31"
+  ],
+  "dcterms:conformsTo": [
+    "https://www.eea.europa.eu/data-and-maps/data/aqereporting-8"
+  ],
+  "schema:keywords": [
+    "air quality",
+    "calidad del aire",
+    "contaminación",
+    "environment",
+    "medio ambiente",
+    "pollution",
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "DCATtheme",
+      "schema:identifier": "http://datos.gob.es/kos/sector-publico/sector/medio-ambiente",
+      "schema:name": "sector/medio-ambiente"
+    }
+  ],
+  "schema:url": "http://dcat-ap-es.ejemplo.org/dataset/calidad-aire-madrid",
+  "schema:provider": [
+    {
+      "@type": [
+        "schema:Organization"
+      ],
+      "schema:name": "Departamento de Medio Ambiente",
+      "schema:contactPoint": {
+        "@type": [
+          "schema:ContactPoint"
+        ],
+        "schema:email": "medioambiente@ejemplo.gob.es",
+        "schema:url": "http://dcat-ap-es.ejemplo.org/medioambiente/contacto",
+        "schema:telephone": "+34-915556789"
+      }
+    }
+  ],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "http://dcat-ap-es.ejemplo.org/files/calidad-aire-madrid.csv",
+      "schema:encodingFormat": [
+        "https://www.iana.org/assignments/media-types/text/csv",
+        "http://publications.europa.eu/resource/authority/file-type/CSV"
+      ],
+      "schema:contentSize": "2456789",
+      "schema:name": "Distribución CSV - Calidad del Aire Madrid",
+      "schema:description": "Archivo CSV con mediciones horarias de calidad del aire.",
+      "schema:license": [
+        "http://publications.europa.eu/resource/authority/licence/CC_BY_4_0"
+      ]
+    },
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "http://dcat-ap-es.ejemplo.org/api/calidad-aire-madrid",
+      "schema:encodingFormat": [
+        "https://www.iana.org/assignments/media-types/application/json",
+        "http://publications.europa.eu/resource/authority/file-type/JSON"
+      ],
+      "schema:name": "Distribución JSON - Calidad del Aire Madrid",
+      "schema:description": "API REST que devuelve datos en formato JSON.",
+      "schema:license": [
+        "http://publications.europa.eu/resource/authority/licence/CC_BY_4_0"
+      ]
+    }
+  ],
+  "adms:identifier": {
+    "@id": "_:naf56d5026a6542eba76bae83a01fe0e0b3"
+  },
+  "dcterms:accrualPeriodicity": {
+    "@id": "http://publications.europa.eu/resource/authority/frequency/HOURLY"
+  },
+  "dcterms:spatial": {
+    "@id": "http://datos.gob.es/recurso/sector-publico/territorio/Pais/España"
+  },
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "http://dcat-ap-es.ejemplo.org/dataset/calidad-aire-madrid#metadata",
+    "schema:name": "Metadata record for: Air Quality in Madrid - Hourly Data",
+    "schema:about": {
+      "@id": "http://dcat-ap-es.ejemplo.org/dataset/calidad-aire-madrid"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      }
+    ],
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:identifier to schema:identifier; dcterms:issued to schema:datePublished; dcterms:modified to schema:dateModified; dcterms:publisher to schema:publisher; dcterms:accessRights to schema:conditionsOfAccess; dcterms:temporal to schema:temporalCoverage; dcterms:conformsTo to dcterms:conformsTo; dcat:keyword to schema:keywords; dcat:theme to schema:keywords; dcat:landingPage to schema:url; dcat:contactPoint to schema:provider; dcat:distribution to schema:distribution. Unmapped DCAT properties preserved (open world)."
+  }
+}

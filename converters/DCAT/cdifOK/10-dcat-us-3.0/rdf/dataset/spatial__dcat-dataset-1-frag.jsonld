@@ -11,12 +11,12 @@
   ],
   "schema:name": "Dataset 1",
   "schema:description": "This is a dataset",
-  "schema:dateModified": "2026-09-04T03:45:52Z",
   "schema:publisher": {
     "@type": [
       "schema:Organization"
     ],
-    "@id": "https://example.com/publisher1"
+    "@id": "https://example.com/publisher1",
+    "schema:name": "http://www.opengis.net/def/nil/OGC/0/missing"
   },
   "schema:spatialCoverage": [
     {
@@ -27,7 +27,19 @@
         "@type": [
           "schema:GeoShape"
         ],
-        "schema:polygon": "POLYGON ((4.8842353 52.375108 , 4.884276 52.375153 , 4.8842567 52.375159 , 4.883981 52.375254 , 4.8838502 52.375109 , 4.883819 52.375075 , 4.8841037 52.374979 , 4.884143 52.374965 , 4.8842069 52.375035 , 4.884263 52.375016 ,4.8843200 52.374996 , 4.884255 52.374926 , 4.8843289 52.374901 , 4.884451 52.375034 , 4.8842353 52.375108))"
+        "schema:box": "52.3749 4.88382 52.3753 4.88445"
+      },
+      "locn:geometry": "POLYGON ((4.8842353 52.375108 , 4.884276 52.375153 , 4.8842567 52.375159 , 4.883981 52.375254 , 4.8838502 52.375109 , 4.883819 52.375075 , 4.8841037 52.374979 , 4.884143 52.374965 , 4.8842069 52.375035 , 4.884263 52.375016 ,4.8843200 52.374996 , 4.884255 52.374926 , 4.8843289 52.374901 , 4.884451 52.375034 , 4.8842353 52.375108))"
+    },
+    {
+      "@type": [
+        "schema:Place"
+      ],
+      "schema:geo": {
+        "@type": [
+          "schema:GeoShape"
+        ],
+        "schema:box": "47.975 3.053 53.504 7.24"
       }
     },
     {
@@ -38,32 +50,12 @@
         "@type": [
           "schema:GeoShape"
         ],
-        "schema:box": "POLYGON((3.053 47.975 , 7.24  47.975 ,7.24  53.504 , 3.053 53.504 , 3.053 47.975))"
-      }
-    },
-    {
-      "@type": [
-        "schema:Place"
-      ],
-      "schema:geo": {
-        "@type": [
-          "schema:GeoShape"
-        ],
-        "schema:polygon": "POLYGON ((\r\n          4.8842353 52.375108 , 4.884276 52.375153 ,\r\n          4.8842567 52.375159 , 4.883981 52.375254 ,\r\n          4.8838502 52.375109 , 4.883819 52.375075 ,\r\n          4.8841037 52.374979 , 4.884143 52.374965 ,\r\n          4.8842069 52.375035 , 4.884263 52.375016 ,\r\n          4.8843200 52.374996 , 4.884255 52.374926 ,\r\n          4.8843289 52.374901 , 4.884451 52.375034 ,\r\n          4.8842353 52.375108\r\n        ))"
-      }
-    },
-    {
-      "@type": [
-        "schema:Place"
-      ],
-      "schema:geo": {
-        "@type": [
-          "schema:GeoShape"
-        ],
-        "schema:box": "POLYGON((\r\n          3.053 47.975 , 7.24  47.975 ,\r\n          7.24  53.504 , 3.053 53.504 ,\r\n          3.053 47.975\r\n        ))"
-      }
+        "schema:box": "52.3749 4.88382 52.3753 4.88445"
+      },
+      "locn:geometry": "POLYGON ((\r\n          4.8842353 52.375108 , 4.884276 52.375153 ,\r\n          4.8842567 52.375159 , 4.883981 52.375254 ,\r\n          4.8838502 52.375109 , 4.883819 52.375075 ,\r\n          4.8841037 52.374979 , 4.884143 52.374965 ,\r\n          4.8842069 52.375035 , 4.884263 52.375016 ,\r\n          4.8843200 52.374996 , 4.884255 52.374926 ,\r\n          4.8843289 52.374901 , 4.884451 52.375034 ,\r\n          4.8842353 52.375108\r\n        ))"
     }
   ],
+  "schema:dateModified": "2026-09-04T22:13:57Z",
   "schema:url": "http://www.opengis.net/def/nil/OGC/0/missing",
   "schema:license": [
     {
@@ -91,6 +83,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to the conversion time (no date in source); dcterms:publisher to schema:publisher; dcterms:spatial to schema:spatialCoverage. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:publisher to schema:publisher; dcterms:spatial to schema:spatialCoverage; schema:dateModified set to the conversion time (no date in source). Unmapped DCAT properties preserved (open world)."
   }
 }

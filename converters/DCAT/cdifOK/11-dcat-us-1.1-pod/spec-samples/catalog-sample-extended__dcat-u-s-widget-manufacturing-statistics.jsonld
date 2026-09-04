@@ -1,0 +1,197 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "_:N60e8789b64f744f89574d00a458a4b9d",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "U.S. Widget Manufacturing Statistics",
+  "schema:description": "This dataset provides national statistics on the production of widgets",
+  "schema:identifier": "http://dx.doi.org/10.7927/H4PZ56R2",
+  "schema:datePublished": "2011-11-22",
+  "schema:dateModified": "2011-11-19",
+  "schema:inLanguage": "en-US",
+  "schema:license": [
+    "http://creativecommons.org/publicdomain/zero/1.0/"
+  ],
+  "schema:conditionsOfAccess": [
+    "dcterms:rights: This dataset has been given an international public domain dedication for worldwide reuse",
+    "pod:accessLevel: public"
+  ],
+  "schema:spatialCoverage": [
+    {
+      "@type": [
+        "schema:Place"
+      ],
+      "schema:name": "United States"
+    }
+  ],
+  "schema:temporalCoverage": [
+    "2009-09-01T12:00:00Z/2010-05-31T12:00:00Z"
+  ],
+  "dcterms:conformsTo": [
+    "http://www.agency.gov/widget-taxonomy/"
+  ],
+  "schema:relatedLink": [
+    {
+      "schema:linkRelationship": "dcterms:references",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "http://agency.gov/docs/widgets-1.html"
+      }
+    },
+    {
+      "schema:linkRelationship": "dcterms:references",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "http://agency.gov/docs/widgets-2.html"
+      }
+    },
+    {
+      "schema:linkRelationship": "wdrs:describedby",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "http://www.agency.gov/datasets/widgets-dictionary.html"
+      }
+    }
+  ],
+  "schema:keywords": [
+    "widget",
+    "manufacturing",
+    "factory",
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "DCATtheme",
+      "schema:name": "manufacturing"
+    }
+  ],
+  "schema:url": "http://agency.gov/widgets/data",
+  "schema:provider": [
+    {
+      "@type": [
+        "schema:Person"
+      ],
+      "schema:name": "Jane Doe",
+      "schema:contactPoint": {
+        "@type": [
+          "schema:ContactPoint"
+        ],
+        "schema:email": "jane.doe@agency.gov"
+      }
+    }
+  ],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://data.agency.gov/datasets/widgets-statistics/widgets.csv",
+      "schema:encodingFormat": [
+        "text/csv",
+        "CSV"
+      ],
+      "schema:name": "widgets.csv",
+      "schema:description": "Widgets data as a CSV file"
+    },
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://data.agency.gov/datasets/widgets-statistics/widgets-all.zip",
+      "schema:encodingFormat": [
+        "application/zip",
+        "Zipped CSV"
+      ],
+      "schema:name": "widgets-all.zip",
+      "schema:description": "Widgets data as a zipped CSV file with attached data dictionary"
+    },
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "http://www.agency.gov/feeds/widgets-all.json",
+      "schema:encodingFormat": [
+        "application/json",
+        "JSON"
+      ],
+      "schema:name": "widgets-all.json",
+      "schema:description": "Widget data as a JSON feed",
+      "dcterms:conformsTo": [
+        {
+          "@id": "http://www.agency.gov/widget-data-standard/"
+        }
+      ]
+    },
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://data.agency.gov/api/widgets-statistics/",
+      "schema:encodingFormat": [
+        "API"
+      ],
+      "schema:name": "Widgets REST API",
+      "schema:description": "A fully queryable REST API with JSON and XML output"
+    }
+  ],
+  "dqv:hasQualityMeasurement": [
+    {
+      "@type": [
+        "dqv:QualityMeasurement"
+      ],
+      "dqv:isMeasurementOf": "pod:dataQuality",
+      "dqv:value": "true"
+    }
+  ],
+  "pod:systemOfRecords": "http://www.agency.gov/widgets/sorn/",
+  "dcterms:accrualPeriodicity": "R/P1Y",
+  "dcterms:publisher": {
+    "@id": "_:N41c6a244123c4862b7649fba8a2bdc53"
+  },
+  "pod:bureauCode": "018:10",
+  "pod:primaryITInvestmentUII": "021-006227212",
+  "pod:programCode": "018:001",
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "_:N60e8789b64f744f89574d00a458a4b9d#metadata",
+    "schema:name": "Metadata record for: U.S. Widget Manufacturing Statistics",
+    "schema:about": {
+      "@id": "_:N60e8789b64f744f89574d00a458a4b9d"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      }
+    ],
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcat:references read as dcterms:references; dcat:systemOfRecords read as pod:systemOfRecords; powder:describedby read as wdrs:describedby; dcterms:title to schema:name; dcterms:description to schema:description; dcterms:identifier to schema:identifier; dcterms:issued to schema:datePublished; dcterms:modified to schema:dateModified; dcterms:language to schema:inLanguage; dcterms:license to schema:license; dcterms:rights to schema:conditionsOfAccess; dcterms:spatial to schema:spatialCoverage; dcterms:temporal to schema:temporalCoverage; dcterms:conformsTo to dcterms:conformsTo; dcterms:references to schema:relatedLink; dcat:keyword to schema:keywords; dcat:theme to schema:keywords; dcat:landingPage to schema:url; dcat:contactPoint to schema:provider; dcat:distribution to schema:distribution; pod:accessLevel to schema:conditionsOfAccess; pod:dataQuality to dqv:hasQualityMeasurement; wdrs:describedby to schema:relatedLink. Unmapped DCAT properties preserved (open world)."
+  }
+}

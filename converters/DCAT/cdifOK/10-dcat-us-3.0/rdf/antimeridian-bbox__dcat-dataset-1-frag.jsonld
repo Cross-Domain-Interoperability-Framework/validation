@@ -3,9 +3,7 @@
     "schema": "http://schema.org/",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
-    "prov": "http://www.w3.org/ns/prov#",
-    "dcatus": "http://data.resources.gov/ontology/dcat-us#",
-    "dcatus2": "http://resources.data.gov/ontology/dcat-us#"
+    "prov": "http://www.w3.org/ns/prov#"
   },
   "@id": "https://example.com/dataset1",
   "@type": [
@@ -13,29 +11,27 @@
   ],
   "schema:name": "Dataset 1",
   "schema:description": "This is a dataset",
-  "schema:dateModified": "2026-09-04T03:45:18Z",
   "schema:publisher": {
     "@type": [
       "schema:Organization"
     ],
-    "@id": "https://example.com/publisher1"
+    "@id": "https://example.com/publisher1",
+    "schema:name": "http://www.opengis.net/def/nil/OGC/0/missing"
   },
-  "dcatus:geographicBoundingBox": {
-    "@id": "_:N6f2a2ddfdb1646758d6e6a9ba65210d7",
-    "@type": "http://data.resources.gov/ontology/dcat-us#GeographicBoundingBox",
-    "dcatus:eastBoundingLongitude": -65,
-    "dcatus:northBoundingLatitude": 49,
-    "dcatus:southBoundingLatitude": 11,
-    "dcatus:westBoundingLongitude": 176
-  },
-  "dcatus2:geographicBoundingBox": {
-    "@id": "_:n468d0040c9a64ef09a5edbe3e02012b8b1",
-    "@type": "http://resources.data.gov/ontology/dcat-us#GeographicBoundingBox",
-    "dcatus2:eastBoundingLongitude": -65,
-    "dcatus2:northBoundingLatitude": 49,
-    "dcatus2:southBoundingLatitude": 11,
-    "dcatus2:westBoundingLongitude": 176
-  },
+  "schema:spatialCoverage": [
+    {
+      "@type": [
+        "schema:Place"
+      ],
+      "schema:geo": {
+        "@type": [
+          "schema:GeoShape"
+        ],
+        "schema:box": "11 176 49 -65"
+      }
+    }
+  ],
+  "schema:dateModified": "2026-09-04T22:13:45Z",
   "schema:url": "http://www.opengis.net/def/nil/OGC/0/missing",
   "schema:license": [
     {
@@ -63,6 +59,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to the conversion time (no date in source); dcterms:publisher to schema:publisher. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcat-us-alt:geographicBoundingBox dropped (dcat-us:geographicBoundingBox also present); dcterms:title to schema:name; dcterms:description to schema:description; dcterms:publisher to schema:publisher; dcat-us:geographicBoundingBox to schema:spatialCoverage; schema:dateModified set to the conversion time (no date in source). Unmapped DCAT properties preserved (open world)."
   }
 }

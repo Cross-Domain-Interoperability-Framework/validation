@@ -12,18 +12,26 @@
   "schema:name": "Dataset de ejemplo",
   "schema:description": "Descripción del dataset de ejemplo",
   "schema:identifier": "dataset-1",
-  "schema:dateModified": "2026-09-04T03:44:51Z",
   "schema:publisher": {
     "@type": [
       "schema:Organization"
     ],
-    "@id": "http://datos.gob.es/recurso/sector-publico/org/Organismo/EA0000000"
+    "@id": "http://datos.gob.es/recurso/sector-publico/org/Organismo/EA0000000",
+    "schema:name": "http://www.opengis.net/def/nil/OGC/0/missing"
   },
+  "schema:keywords": [
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "DCATtheme",
+      "schema:identifier": "http://datos.gob.es/kos/sector-publico/sector/medio-ambiente",
+      "schema:name": "sector/medio-ambiente"
+    }
+  ],
+  "schema:dateModified": "2026-09-04T22:13:43Z",
   "dcat:accessService": {
-    "@id": "_:n05266630b9e84b7f970f138fc3afeb45b1"
-  },
-  "dcat:theme": {
-    "@id": "http://datos.gob.es/kos/sector-publico/sector/medio-ambiente"
+    "@id": "_:n6a7211706a7745319f5101ad41d0bcd3b1"
   },
   "schema:url": "http://www.opengis.net/def/nil/OGC/0/missing",
   "schema:license": [
@@ -60,6 +68,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to the conversion time (no date in source); dcterms:publisher to schema:publisher. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:identifier to schema:identifier; dcterms:publisher to schema:publisher; dcat:theme to schema:keywords; schema:dateModified set to the conversion time (no date in source). Unmapped DCAT properties preserved (open world)."
   }
 }

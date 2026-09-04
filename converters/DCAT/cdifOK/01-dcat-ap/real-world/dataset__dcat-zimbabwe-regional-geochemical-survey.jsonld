@@ -5,29 +5,32 @@
     "dcat": "http://www.w3.org/ns/dcat#",
     "prov": "http://www.w3.org/ns/prov#",
     "adms": "http://www.w3.org/ns/adms#",
-    "foaf": "http://xmlns.com/foaf/0.1/",
-    "r5r": "http://data.europa.eu/r5r/"
+    "foaf": "http://xmlns.com/foaf/0.1/"
   },
   "@id": "https://data.some.org/catalog/datasets/9df8df51-63db-37a8-e044-0003ba9b0d98",
   "@type": [
     "schema:Dataset"
   ],
   "schema:name": "Zimbabwe Regional Geochemical Survey.",
-  "schema:description": "During the period 1982-86 a team of geologists from the British Geological Survey ...",
+  "schema:description": "During the period 1982-86 a team of geologists from the British Geological Survey ...\n\nversionNotes: New schema added",
   "schema:identifier": "9df8df51-63db-37a8-e044-0003ba9b0d98",
-  "schema:dateModified": "2012-05-10T21:04:00",
   "schema:datePublished": "2012-05-10",
-  "schema:license": [
-    "https://data.some.org/link/to/license"
-  ],
-  "schema:conditionsOfAccess": [
-    "public"
-  ],
-  "schema:keywords": [
-    "exploration",
-    "geochemistry",
-    "geology"
-  ],
+  "schema:dateModified": "2012-05-10T21:04:00",
+  "schema:inLanguage": "en",
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:name": "Publishing Organization for dataset 1",
+    "@id": "http://orgs.vocab.org/some-org",
+    "schema:contactPoint": {
+      "@type": [
+        "schema:ContactPoint"
+      ],
+      "schema:email": "contact@some.org"
+    },
+    "schema:url": "http://some.org"
+  },
   "schema:creator": {
     "@list": [
       {
@@ -46,47 +49,11 @@
       }
     ]
   },
-  "schema:publisher": {
-    "@type": [
-      "schema:Organization"
-    ],
-    "schema:name": "Publishing Organization for dataset 1",
-    "@id": "http://orgs.vocab.org/some-org",
-    "schema:contactPoint": {
-      "@type": [
-        "schema:ContactPoint"
-      ],
-      "schema:email": "contact@some.org"
-    },
-    "schema:url": "http://some.org"
-  },
-  "schema:provider": [
-    {
-      "@type": [
-        "schema:Organization"
-      ],
-      "schema:name": "Point of Contact",
-      "schema:contactPoint": {
-        "@type": [
-          "schema:ContactPoint"
-        ],
-        "schema:email": "contact@some.org"
-      }
-    }
+  "schema:license": [
+    "https://data.some.org/link/to/license"
   ],
-  "schema:distribution": [
-    {
-      "@type": [
-        "schema:DataDownload"
-      ],
-      "schema:contentUrl": "http://www.bgs.ac.uk/gbase/geochemcd/home.html",
-      "schema:encodingFormat": [
-        "text/html"
-      ],
-      "schema:name": "Some website",
-      "schema:description": "A longer description",
-      "schema:contentSize": "12323"
-    }
+  "schema:conditionsOfAccess": [
+    "dcterms:accessRights: public"
   ],
   "schema:spatialCoverage": [
     {
@@ -97,31 +64,164 @@
         "@type": [
           "schema:GeoShape"
         ],
-        "schema:polygon": "POLYGON ((11.9936 54.0486, 11.9936 54.2466, 12.3045 54.2466, 12.3045 54.0486, 11.9936 54.0486))"
-      }
+        "schema:box": "54.0486 11.9936 54.2466 12.3045"
+      },
+      "locn:geometry": "POLYGON ((11.9936 54.0486, 11.9936 54.2466, 12.3045 54.2466, 12.3045 54.0486, 11.9936 54.0486))"
     }
   ],
   "schema:temporalCoverage": [
     "1905-03-01/2013-01-05"
   ],
+  "schema:additionalType": [
+    "test-type"
+  ],
+  "dcterms:conformsTo": [
+    "Standard 1"
+  ],
+  "schema:relatedLink": [
+    {
+      "schema:linkRelationship": "dcterms:isReferencedBy",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "https://doi.org/10.1038/sdata.2018.22"
+      }
+    },
+    {
+      "schema:linkRelationship": "dcterms:isReferencedBy",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "test_isreferencedby"
+      }
+    },
+    {
+      "schema:linkRelationship": "dcat:qualifiedRelation",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "_:Nb8e20d9f76694a4bb039f3a18a230397"
+      }
+    },
+    {
+      "schema:linkRelationship": "foaf:page",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "http://dataset.info.org/doc1"
+      }
+    },
+    {
+      "schema:linkRelationship": "foaf:page",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "http://dataset.info.org/doc2"
+      }
+    }
+  ],
+  "schema:keywords": [
+    "exploration",
+    "geochemistry",
+    "geology",
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "DCATtheme",
+      "schema:identifier": "http://eurovoc.europa.eu/100142",
+      "schema:name": "eurovoc.europa.eu/100142"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "DCATtheme",
+      "schema:identifier": "http://eurovoc.europa.eu/209065",
+      "schema:name": "eurovoc.europa.eu/209065"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "DCATtheme",
+      "schema:name": "Earth Sciences"
+    }
+  ],
+  "schema:url": "http://dataset.info.org",
+  "schema:provider": [
+    {
+      "@type": [
+        "schema:Organization"
+      ],
+      "schema:name": "Point of Contact",
+      "schema:contactPoint": {
+        "@type": [
+          "schema:ContactPoint"
+        ],
+        "schema:email": "contact@some.org",
+        "schema:url": "https://example.org"
+      }
+    }
+  ],
   "schema:version": "2.3",
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "http://www.bgs.ac.uk/gbase/geochemcd/home.html",
+      "schema:encodingFormat": [
+        "text/html",
+        "HTML"
+      ],
+      "schema:contentSize": "12323",
+      "schema:name": "Some website",
+      "schema:description": "A longer description",
+      "dcterms:conformsTo": [
+        {
+          "@id": "Standard 1"
+        },
+        {
+          "@id": "Standard 2"
+        }
+      ],
+      "schema:license": [
+        "http://creativecommons.org/licenses/by-nc/2.0/"
+      ],
+      "dcat:compressFormat": "http://www.iana.org/assignments/media-types/application/gzip",
+      "dcat:packageFormat": "http://publications.europa.eu/resource/authority/file-type/TAR",
+      "schema:potentialAction": [
+        {
+          "@type": [
+            "schema:WebAPI"
+          ],
+          "schema:contentUrl": "http://publications.europa.eu/webapi/rdf/sparql",
+          "schema:serviceType": "dcat:DataService",
+          "schema:name": "Sparql-end Point",
+          "schema:documentation": "SPARQL url description"
+        }
+      ],
+      "spdx:checksum": {
+        "@type": [
+          "spdx:Checksum"
+        ],
+        "spdx:checksumValue": "4304cf2e751e6053c90b1804c89c0ebb758f395a",
+        "spdx:algorithm": "spdx:checksumAlgorithm_sha1"
+      }
+    }
+  ],
   "adms:identifier": [
     "alternate-identifier-1",
     "alternate-identifier-2"
   ],
   "adms:sample": {
     "@id": "https://data.some.org/catalog/datasets/9df8df51-63db-37a8-e044-0003ba9b0d98/sample"
-  },
-  "adms:versionNotes": "New schema added",
-  "dcat:qualifiedRelation": {
-    "@id": "_:N53635722b7754a0bb069aeef8c3d5db5",
-    "@type": "dcat:Relationship",
-    "dcat:hadRole": {
-      "@id": "http://www.iana.org/assignments/relation/related"
-    },
-    "dcterms:relation": {
-      "@id": "http://example.com/dataset/3.141592"
-    }
   },
   "dcat:spatialResolutionInMeters": {
     "@type": "http://www.w3.org/2001/XMLSchema#decimal",
@@ -131,22 +231,17 @@
     "@type": "http://www.w3.org/2001/XMLSchema#duration",
     "@value": "PT15M"
   },
-  "dcat:theme": [
+  "dcatap:applicableLegislation": [
     {
-      "@id": "http://eurovoc.europa.eu/100142"
+      "@id": "http://data.europa.eu/eli/reg_impl/2023/138/oj"
     },
     {
-      "@id": "http://eurovoc.europa.eu/209065"
-    },
-    "Earth Sciences"
+      "@id": "http://data.europa.eu/eli/reg_impl/2023/138/oj_alt"
+    }
   ],
   "dcterms:accrualPeriodicity": {
     "@id": "http://purl.org/cld/freq/daily"
   },
-  "dcterms:conformsTo": [
-    "Standard 1",
-    "Standard 2"
-  ],
   "dcterms:hasVersion": [
     {
       "@id": "https://data.some.org/catalog/datasets/derived-dataset-1"
@@ -155,19 +250,9 @@
       "@id": "https://data.some.org/catalog/datasets/derived-dataset-2"
     }
   ],
-  "dcterms:isReferencedBy": [
-    "https://doi.org/10.1038/sdata.2018.22",
-    "test_isreferencedby"
-  ],
   "dcterms:isVersionOf": {
     "@id": "https://data.some.org/catalog/datasets/original-dataset"
   },
-  "dcterms:language": [
-    "en",
-    "es",
-    "ca"
-  ],
-  "dcterms:provenance": "Some statement about provenance",
   "dcterms:relation": [
     {
       "@id": "http://dataset.info.org/related1"
@@ -184,26 +269,9 @@
       "@id": "https://data.some.org/catalog/datasets/source-dataset-2"
     }
   ],
-  "dcterms:type": "test-type",
   "foaf:homepage": {
     "@id": "http://dataset.info.org/home"
   },
-  "foaf:page": [
-    {
-      "@id": "http://dataset.info.org/doc1"
-    },
-    {
-      "@id": "http://dataset.info.org/doc2"
-    }
-  ],
-  "r5r:applicableLegislation": [
-    {
-      "@id": "http://data.europa.eu/eli/reg_impl/2023/138/oj"
-    },
-    {
-      "@id": "http://data.europa.eu/eli/reg_impl/2023/138/oj_alt"
-    }
-  ],
   "schema:subjectOf": {
     "@type": [
       "schema:Dataset"
@@ -233,6 +301,16 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:modified to schema:dateModified; dcterms:license to schema:license; dcterms:accessRights to schema:conditionsOfAccess; dcat:keyword to schema:keywords; dcterms:creator to schema:creator; dcterms:publisher to schema:publisher; dcat:contactPoint to schema:provider; dcat:Distribution to schema:DataDownload; dcterms:spatial to schema:spatialCoverage; dcterms:temporal to schema:temporalCoverage. Unmapped DCAT properties preserved (open world)."
-  }
+    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: owl:versionInfo read as dcat:version; dcterms:title to schema:name; dcterms:description to schema:description; dcterms:identifier to schema:identifier; dcterms:issued to schema:datePublished; dcterms:modified to schema:dateModified; dcterms:language to schema:inLanguage; dcterms:publisher to schema:publisher; dcterms:creator to schema:creator; dcterms:license to schema:license; dcterms:accessRights to schema:conditionsOfAccess; dcterms:spatial to schema:spatialCoverage; dcterms:temporal to schema:temporalCoverage; dcterms:type to schema:additionalType; dcterms:conformsTo to dcterms:conformsTo; dcterms:isReferencedBy to schema:relatedLink; dcat:keyword to schema:keywords; dcat:theme to schema:keywords; dcat:landingPage to schema:url; dcat:contactPoint to schema:provider; dcat:version to schema:version; dcat:distribution to schema:distribution; dcat:qualifiedRelation to schema:relatedLink; foaf:page to schema:relatedLink; adms:versionNotes to schema:description. Unmapped DCAT properties preserved (open world)."
+  },
+  "prov:wasGeneratedBy": [
+    {
+      "@type": [
+        "prov:Activity"
+      ],
+      "prov:used": [
+        "Some statement about provenance"
+      ]
+    }
+  ]
 }

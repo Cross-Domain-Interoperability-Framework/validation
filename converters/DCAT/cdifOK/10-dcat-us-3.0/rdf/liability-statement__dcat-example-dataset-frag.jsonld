@@ -3,9 +3,7 @@
     "schema": "http://schema.org/",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
-    "prov": "http://www.w3.org/ns/prov#",
-    "dcatus": "http://resources.data.gov/ontology/dcat-us#",
-    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+    "prov": "http://www.w3.org/ns/prov#"
   },
   "@id": "http://example.org/datasets/1",
   "@type": [
@@ -13,18 +11,17 @@
   ],
   "schema:name": "Example Dataset",
   "schema:description": "This is an example dataset.",
-  "schema:dateModified": "2026-09-04T03:45:23Z",
   "schema:publisher": {
     "@type": [
       "schema:Organization"
     ],
-    "@id": "http://example.org/ns#Publisher"
+    "@id": "http://example.org/ns#Publisher",
+    "schema:name": "http://www.opengis.net/def/nil/OGC/0/missing"
   },
-  "dcatus:liabilityStatement": {
-    "@id": "_:na94a58f27a3040a79701121e927fcee3b1",
-    "@type": "http://resources.data.gov/ontology/dcat-us#LiabilityStatement",
-    "rdfs:label": "This dataset is provided 'as-is' without any guarantees or warranties. The provider is not responsible for any inaccuracies or omissions."
-  },
+  "schema:conditionsOfAccess": [
+    "dcat-us:liabilityStatement: _:ne839df2754e44ce0a6c80d70210a7f1ab1"
+  ],
+  "schema:dateModified": "2026-09-04T22:13:47Z",
   "schema:url": "http://www.opengis.net/def/nil/OGC/0/missing",
   "schema:license": [
     {
@@ -52,6 +49,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to the conversion time (no date in source); dcterms:publisher to schema:publisher. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:publisher to schema:publisher; dcat-us:liabilityStatement to schema:conditionsOfAccess; schema:dateModified set to the conversion time (no date in source). Unmapped DCAT properties preserved (open world)."
   }
 }

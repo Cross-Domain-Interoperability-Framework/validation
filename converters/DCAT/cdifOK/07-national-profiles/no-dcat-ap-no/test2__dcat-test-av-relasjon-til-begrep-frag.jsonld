@@ -3,9 +3,7 @@
     "schema": "http://schema.org/",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
-    "prov": "http://www.w3.org/ns/prov#",
-    "skos": "http://www.w3.org/2004/02/skos/core#",
-    "vcard": "http://www.w3.org/2006/vcard/ns#"
+    "prov": "http://www.w3.org/ns/prov#"
   },
   "@id": "https://example.com/test/relasjon/begrep",
   "@type": [
@@ -13,159 +11,65 @@
   ],
   "schema:name": "Test av relasjon til begrep",
   "schema:description": "Dette er en test av å relatere til begrep i forbindelse med høsting av datasett.",
-  "schema:dateModified": "2026-09-04T03:45:16Z",
-  "schema:url": "https://www.digdir.no/",
-  "schema:conditionsOfAccess": [
-    "http://publications.europa.eu/resource/authority/access-right/PUBLIC"
-  ],
+  "schema:inLanguage": "NOR",
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "@id": "https://data.brreg.no/enhetsregisteret/api/enheter/991825827",
+    "schema:name": "http://www.opengis.net/def/nil/OGC/0/missing"
+  },
   "schema:creator": {
     "@list": [
       {
         "@type": [
           "schema:Organization"
         ],
-        "@id": "https://data.brreg.no/enhetsregisteret/api/enheter/991825827"
+        "@id": "https://data.brreg.no/enhetsregisteret/api/enheter/991825827",
+        "schema:name": "http://www.opengis.net/def/nil/OGC/0/missing"
       }
     ]
   },
-  "schema:publisher": {
-    "@type": [
-      "schema:Organization"
-    ],
-    "@id": "https://data.brreg.no/enhetsregisteret/api/enheter/991825827"
-  },
+  "schema:conditionsOfAccess": [
+    "dcterms:accessRights: http://publications.europa.eu/resource/authority/access-right/PUBLIC"
+  ],
   "schema:temporalCoverage": [
     "2002-01-01/2024-01-01"
   ],
-  "dcterms:language": {
-    "@id": "http://publications.europa.eu/resource/authority/language/NOR"
-  },
+  "schema:url": "https://www.digdir.no/",
+  "schema:provider": [
+    {
+      "@type": [
+        "schema:Organization"
+      ],
+      "schema:name": "http://www.opengis.net/def/nil/OGC/0/missing",
+      "schema:contactPoint": {
+        "@type": [
+          "schema:ContactPoint"
+        ],
+        "schema:email": "fellesdatakatalog@digdir.no"
+      }
+    }
+  ],
+  "schema:dateModified": "2026-09-04T22:13:45Z",
   "dcterms:subject": [
     {
-      "@id": "https://data.nav.no/begrep/BEGREP-261",
-      "@type": "skos:Concept",
-      "dcat:contactPoint": {
-        "@id": "_:n56df05ac8260497587e569fc7d1d2e8fb5",
-        "@type": "vcard:Organization",
-        "vcard:hasEmail": {
-          "@id": "mailto:fellesdatakatalog@digdir.no"
-        },
-        "vcard:hasOrganizationName": {
-          "@language": "nb",
-          "@value": "DIGDIR Felles datakatalog"
-        }
-      },
-      "dcterms:identifier": {
-        "@type": "http://www.w3.org/2001/XMLSchema#anyURI",
-        "@value": "https://data.nav.no/begrep/BEGREP-261"
-      },
-      "dcterms:publisher": {
-        "@id": "https://data.brreg.no/enhetsregisteret/api/enheter/991825827"
-      },
-      "skos:definition": {
-        "@language": "nb",
-        "@value": "betingelse som må være oppfylt for at en aktør får et rettslig bindende resultat_endretViaDatasett13.02.23."
-      },
-      "skos:prefLabel": {
-        "@language": "nb",
-        "@value": "vilkår_endret13.02.23"
-      }
+      "@id": "https://data.nav.no/begrep/BEGREP-261"
     },
     {
       "@id": "https://concept-catalog.demo.fellesdatakatalog.digdir.no/collections/555111013/concepts/422c6ef9-99f8-4f55-a286-a9a9c9fbd388"
     },
     {
-      "@id": "https://concept-catalog.staging.fellesdatakatalog.digdir.no/collections/555111026/concepts/c8467f0b-f997-4bc6-80e5-a368af63628f",
-      "@type": "skos:Concept",
-      "dcat:contactPoint": {
-        "@id": "_:n56df05ac8260497587e569fc7d1d2e8fb3",
-        "@type": "vcard:Organization",
-        "vcard:hasEmail": {
-          "@id": "mailto:fellesdatakatalog@digdir.no"
-        },
-        "vcard:hasOrganizationName": {
-          "@language": "nb",
-          "@value": "DIGDIR Felles datakatalog"
-        }
-      },
-      "dcterms:identifier": {
-        "@type": "http://www.w3.org/2001/XMLSchema#anyURI",
-        "@value": "https://concept-catalog.staging.fellesdatakatalog.digdir.no/collections/555111026/concepts/c8467f0b-f997-4bc6-80e5-a368af63628f"
-      },
-      "dcterms:publisher": {
-        "@id": "https://data.brreg.no/enhetsregisteret/api/enheter/991825827"
-      },
-      "skos:definition": {
-        "@language": "nb",
-        "@value": "Definert testing_endretViaDatasett09.02.23."
-      },
-      "skos:prefLabel": {
-        "@language": "nb",
-        "@value": "Testeterm_endret09.02.23"
-      }
+      "@id": "https://concept-catalog.staging.fellesdatakatalog.digdir.no/collections/555111026/concepts/c8467f0b-f997-4bc6-80e5-a368af63628f"
     },
     {
-      "@id": "https://example.com/test/relasjon/begrep/begrepIkkeHostetTilFDK",
-      "@type": "skos:Concept",
-      "dcat:contactPoint": {
-        "@id": "_:n56df05ac8260497587e569fc7d1d2e8fb4",
-        "@type": "vcard:Organization",
-        "vcard:hasEmail": {
-          "@id": "mailto:fellesdatakatalog@digdir.no"
-        },
-        "vcard:hasOrganizationName": {
-          "@language": "nb",
-          "@value": "DIGDIR Felles datakatalog"
-        }
-      },
-      "dcterms:identifier": {
-        "@type": "http://www.w3.org/2001/XMLSchema#anyURI",
-        "@value": "https://example.com/test/relasjon/begrep/begrepIkkeHostetTilFDK"
-      },
-      "dcterms:publisher": {
-        "@id": "https://data.brreg.no/enhetsregisteret/api/enheter/991825827"
-      },
-      "skos:definition": {
-        "@language": "nb",
-        "@value": "Definisjon til begrepIkkeHostetTilFDK satt via datasett."
-      },
-      "skos:prefLabel": {
-        "@language": "nb",
-        "@value": "begrepIkkeHostetTilFDK"
-      }
+      "@id": "https://example.com/test/relasjon/begrep/begrepIkkeHostetTilFDK"
     },
     {
       "@id": "http://begrepskatalogen/begrep/testURISomIkkeFungerer"
     },
     {
-      "@id": "http://begrepskatalogen/begrep/testURISomIkkeFungererMedPrefLabel",
-      "@type": "skos:Concept",
-      "dcat:contactPoint": {
-        "@id": "_:n56df05ac8260497587e569fc7d1d2e8fb6",
-        "@type": "vcard:Organization",
-        "vcard:hasEmail": {
-          "@id": "mailto:fellesdatakatalog@digdir.no"
-        },
-        "vcard:hasOrganizationName": {
-          "@language": "nb",
-          "@value": "DIGDIR Felles datakatalog"
-        }
-      },
-      "dcterms:identifier": {
-        "@type": "http://www.w3.org/2001/XMLSchema#anyURI",
-        "@value": "http://begrepskatalogen/begrep/testURISomIkkeFungererMedPrefLabel"
-      },
-      "dcterms:publisher": {
-        "@id": "https://data.brreg.no/enhetsregisteret/api/enheter/991825827"
-      },
-      "skos:definition": {
-        "@language": "nb",
-        "@value": "Test av URI som ikke fungerer med prefLabel og definition satt via datasett."
-      },
-      "skos:prefLabel": {
-        "@language": "nb",
-        "@value": "testURISomIkkeFungererMedPrefLabel"
-      }
+      "@id": "http://begrepskatalogen/begrep/testURISomIkkeFungererMedPrefLabel"
     },
     {
       "@id": "https://raw.githubusercontent.com/Informasjonsforvaltning/dcat-ap-no/develop/examples/begrepIkkeHostet"
@@ -197,6 +101,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to the conversion time (no date in source); dcat:landingPage to schema:url; dcterms:accessRights to schema:conditionsOfAccess; dcterms:creator to schema:creator; dcterms:publisher to schema:publisher; dcat:contactPoint to schema:provider; dcterms:temporal to schema:temporalCoverage. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:language to schema:inLanguage; dcterms:publisher to schema:publisher; dcterms:creator to schema:creator; dcterms:accessRights to schema:conditionsOfAccess; dcterms:temporal to schema:temporalCoverage; dcat:landingPage to schema:url; dcat:contactPoint to schema:provider; schema:dateModified set to the conversion time (no date in source). Unmapped DCAT properties preserved (open world)."
   }
 }

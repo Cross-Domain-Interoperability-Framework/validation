@@ -3,8 +3,7 @@
     "schema": "http://schema.org/",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
-    "prov": "http://www.w3.org/ns/prov#",
-    "foaf": "http://xmlns.com/foaf/0.1/"
+    "prov": "http://www.w3.org/ns/prov#"
   },
   "@id": "https://census.gov/datasets/123",
   "@type": [
@@ -12,18 +11,23 @@
   ],
   "schema:name": "Dataset 123",
   "schema:description": "This dataset contains information about...",
-  "schema:dateModified": "2026-09-04T03:45:31Z",
   "schema:publisher": {
     "@type": [
       "schema:Organization"
     ],
-    "@id": "https://census.gov"
+    "@id": "https://census.gov",
+    "schema:name": "http://www.opengis.net/def/nil/OGC/0/missing"
   },
-  "dcterms:contributor": {
-    "@id": "https://orcid.org/0000-0002-0693-466X",
-    "@type": "foaf:Person",
-    "foaf:name": "John Doe"
-  },
+  "schema:contributor": [
+    {
+      "@type": [
+        "schema:Person"
+      ],
+      "schema:name": "John Doe",
+      "@id": "https://orcid.org/0000-0002-0693-466X"
+    }
+  ],
+  "schema:dateModified": "2026-09-04T22:13:50Z",
   "schema:url": "http://www.opengis.net/def/nil/OGC/0/missing",
   "schema:license": [
     {
@@ -51,6 +55,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to the conversion time (no date in source); dcterms:publisher to schema:publisher. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:publisher to schema:publisher; dcterms:contributor to schema:contributor; schema:dateModified set to the conversion time (no date in source). Unmapped DCAT properties preserved (open world)."
   }
 }

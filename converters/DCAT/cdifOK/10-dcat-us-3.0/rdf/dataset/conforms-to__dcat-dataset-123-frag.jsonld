@@ -11,16 +11,17 @@
   ],
   "schema:name": "Dataset 123",
   "schema:description": "This dataset contains information about...",
-  "schema:dateModified": "2026-09-04T03:45:29Z",
   "schema:publisher": {
     "@type": [
       "schema:Organization"
     ],
-    "@id": "https://census.gov"
+    "@id": "https://census.gov",
+    "schema:name": "http://www.opengis.net/def/nil/OGC/0/missing"
   },
-  "dcterms:conformsTo": {
-    "@id": "http://resource.geosciml.org/ontology/timescale/gts"
-  },
+  "dcterms:conformsTo": [
+    "http://resource.geosciml.org/ontology/timescale/gts"
+  ],
+  "schema:dateModified": "2026-09-04T22:13:48Z",
   "schema:url": "http://www.opengis.net/def/nil/OGC/0/missing",
   "schema:license": [
     {
@@ -48,6 +49,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to the conversion time (no date in source); dcterms:publisher to schema:publisher. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:publisher to schema:publisher; dcterms:conformsTo to dcterms:conformsTo; schema:dateModified set to the conversion time (no date in source). Unmapped DCAT properties preserved (open world)."
   }
 }

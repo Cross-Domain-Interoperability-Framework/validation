@@ -5,8 +5,6 @@
     "dcat": "http://www.w3.org/ns/dcat#",
     "prov": "http://www.w3.org/ns/prov#",
     "adms": "http://www.w3.org/ns/adms#",
-    "foaf": "http://xmlns.com/foaf/0.1/",
-    "r5r": "http://data.europa.eu/r5r/",
     "health": "http://healthdataportal.eu/ns/health#",
     "dpv": "https://w3id.org/dpv#"
   },
@@ -15,61 +13,77 @@
     "schema:Dataset"
   ],
   "schema:name": "HealthDCAT-AP test dataset",
-  "schema:description": "This dataset is an example of using HealthDCAT-AP in CKAN",
+  "schema:description": "This dataset is an example of using HealthDCAT-AP in CKAN\n\nversionNotes: Dataset continuously updated",
   "schema:identifier": "http://example.com/dataset/1234567890",
-  "schema:dateModified": "2024-12-31T23:59:59+00:00",
   "schema:datePublished": "2024-01-01T00:00:00+00:00",
+  "schema:dateModified": "2024-12-31T23:59:59+00:00",
+  "schema:inLanguage": "ENG",
   "schema:conditionsOfAccess": [
-    "http://publications.europa.eu/resource/authority/access-right/NON_PUBLIC"
+    "dcterms:accessRights: http://publications.europa.eu/resource/authority/access-right/NON_PUBLIC"
+  ],
+  "schema:additionalType": [
+    "n1049372e768c4429a6b2200c22f5f1a4b7"
+  ],
+  "dcterms:conformsTo": [
+    "http://www.wikidata.org/entity/Q19597236"
+  ],
+  "schema:relatedLink": [
+    {
+      "schema:linkRelationship": "dcterms:isReferencedBy",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "https://doi.org/10.1038/sdata.2016.18"
+      }
+    },
+    {
+      "schema:linkRelationship": "dcterms:isReferencedBy",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "https://dx.doi.org/10.1002/jmri.28679"
+      }
+    },
+    {
+      "schema:linkRelationship": "foaf:page",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "n1049372e768c4429a6b2200c22f5f1a4b9"
+      }
+    }
   ],
   "schema:keywords": [
     "Test 1",
     "Test 2",
-    "Test 3"
+    "Test 3",
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "DCATtheme",
+      "schema:identifier": "http://publications.europa.eu/resource/authority/data-theme/HEAL",
+      "schema:name": "data-theme/HEAL"
+    }
   ],
   "adms:sample": {
     "@id": "http://example.com/sample"
   },
-  "adms:versionNotes": "Dataset continuously updated",
   "dcat:temporalResolution": {
     "@type": "http://www.w3.org/2001/XMLSchema#duration",
     "@value": "P1D"
   },
-  "dcat:theme": {
-    "@id": "http://publications.europa.eu/resource/authority/data-theme/HEAL"
+  "dcatap:applicableLegislation": {
+    "@id": "http://data.europa.eu/eli/reg/2022/868/oj"
   },
   "dcterms:accrualPeriodicity": {
     "@id": "http://publications.europa.eu/resource/authority/frequency/DAILY"
   },
-  "dcterms:conformsTo": {
-    "@id": "http://www.wikidata.org/entity/Q19597236"
-  },
-  "dcterms:isReferencedBy": [
-    {
-      "@id": "https://doi.org/10.1038/sdata.2016.18"
-    },
-    {
-      "@id": "https://dx.doi.org/10.1002/jmri.28679"
-    }
-  ],
-  "dcterms:language": [
-    {
-      "@id": "http://publications.europa.eu/resource/authority/language/ENG"
-    },
-    {
-      "@id": "http://publications.europa.eu/resource/authority/language/FRA"
-    },
-    {
-      "@id": "http://publications.europa.eu/resource/authority/language/NLD"
-    }
-  ],
   "dcterms:relation": {
     "@id": "http://example.com/dataset/9876543210"
-  },
-  "dcterms:type": "n1049372e768c4429a6b2200c22f5f1a4b7",
-  "foaf:page": "n1049372e768c4429a6b2200c22f5f1a4b9",
-  "r5r:applicableLegislation": {
-    "@id": "http://data.europa.eu/eli/reg/2022/868/oj"
   },
   "health:analytics": {
     "@id": "http://example.com/analytics"
@@ -184,6 +198,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:modified to schema:dateModified; dcterms:accessRights to schema:conditionsOfAccess; dcat:keyword to schema:keywords. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:identifier to schema:identifier; dcterms:issued to schema:datePublished; dcterms:modified to schema:dateModified; dcterms:language to schema:inLanguage; dcterms:accessRights to schema:conditionsOfAccess; dcterms:type to schema:additionalType; dcterms:conformsTo to dcterms:conformsTo; dcterms:isReferencedBy to schema:relatedLink; dcat:keyword to schema:keywords; dcat:theme to schema:keywords; foaf:page to schema:relatedLink; adms:versionNotes to schema:description. Unmapped DCAT properties preserved (open world)."
   }
 }

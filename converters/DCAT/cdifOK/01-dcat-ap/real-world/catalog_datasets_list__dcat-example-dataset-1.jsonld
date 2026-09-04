@@ -13,15 +13,8 @@
   "schema:name": "Example dataset 1",
   "schema:description": "A longer description of dataset 1: includes three distributions, a CSV file, a PDF file and an API. Some special characters: Θεσσαλονίκη.",
   "schema:identifier": "https://data.some.org/catalog/datasets/1",
-  "schema:dateModified": "2013-04-26T00:00:00+00:00",
   "schema:datePublished": "2013-04-26T00:00:00+00:00",
-  "schema:license": [
-    "https://data.some.org/link/to/license"
-  ],
-  "schema:keywords": [
-    "stats",
-    "pollution"
-  ],
+  "schema:dateModified": "2013-04-26T00:00:00+00:00",
   "schema:publisher": {
     "@type": [
       "schema:Organization"
@@ -34,6 +27,13 @@
       "schema:email": "contact@some.org"
     }
   },
+  "schema:license": [
+    "https://data.some.org/link/to/license"
+  ],
+  "schema:keywords": [
+    "stats",
+    "pollution"
+  ],
   "schema:distribution": [
     {
       "@type": [
@@ -44,7 +44,10 @@
         "text/csv"
       ],
       "schema:name": "A distribution for this dataset in CSV format",
-      "schema:description": "A longer description for the distribution"
+      "schema:description": "A longer description for the distribution",
+      "schema:license": [
+        "https://data.some.org/link/to/license"
+      ]
     },
     {
       "@type": [
@@ -52,10 +55,13 @@
       ],
       "schema:contentUrl": "https://data.some.org/the/actual/catalog/datasets/1/resources/2.pdf",
       "schema:encodingFormat": [
-        "_:N6bc40838ab214ff0ab2db89a3db45bed"
+        "_:Nf512b2d9530f406b9f14c34ff6b7aecd"
       ],
       "schema:name": "A distribution for this dataset in PDF format",
-      "schema:description": "A longer description for the distribution"
+      "schema:description": "A longer description for the distribution",
+      "schema:license": [
+        "https://data.some.org/link/to/license"
+      ]
     },
     {
       "@type": [
@@ -96,6 +102,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:modified to schema:dateModified; dcterms:license to schema:license; dcat:keyword to schema:keywords; dcterms:publisher to schema:publisher; dcat:Distribution to schema:DataDownload. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:identifier to schema:identifier; dcterms:issued to schema:datePublished; dcterms:modified to schema:dateModified; dcterms:publisher to schema:publisher; dcterms:license to schema:license; dcat:keyword to schema:keywords; dcat:distribution to schema:distribution. Unmapped DCAT properties preserved (open world)."
   }
 }

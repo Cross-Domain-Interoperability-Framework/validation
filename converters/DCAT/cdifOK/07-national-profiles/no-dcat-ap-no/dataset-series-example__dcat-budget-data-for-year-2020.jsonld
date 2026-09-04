@@ -13,71 +13,38 @@
   "schema:description": "Budget data for year 2020",
   "schema:identifier": "eu-budget-2020",
   "schema:datePublished": "2021-01-01",
-  "schema:dateModified": "2021-01-01",
   "schema:publisher": {
     "@type": [
       "schema:Organization"
     ],
-    "@id": "https://organization-catalog.fellesdatakatalog.digdir.no/organizations/991825827"
+    "@id": "https://organization-catalog.fellesdatakatalog.digdir.no/organizations/991825827",
+    "schema:name": "http://www.opengis.net/def/nil/OGC/0/missing"
   },
-  "dcat:inSeries": {
-    "@id": "http://example.org/budget"
-  },
-  "dcat:prev": {
-    "@id": "http://example.org/budget-2019",
-    "@type": "dcat:Dataset",
-    "dcat:inSeries": {
-      "@id": "http://example.org/budget"
-    },
-    "dcat:prev": {
-      "@id": "http://example.org/budget-2018",
-      "@type": "dcat:Dataset",
-      "dcat:inSeries": {
-        "@id": "http://example.org/budget"
-      },
-      "dcat:theme": {
-        "@id": "http://publications.europa.eu/resource/authority/data-theme/ECON"
-      },
-      "dcterms:description": {
-        "@language": "en",
-        "@value": "Budget data for year 2018"
-      },
-      "dcterms:identifier": "eu-budget-2018",
-      "dcterms:issued": {
-        "@type": "http://www.w3.org/2001/XMLSchema#date",
-        "@value": "2019-01-01"
-      },
-      "dcterms:publisher": {
-        "@id": "https://organization-catalog.fellesdatakatalog.digdir.no/organizations/991825827"
-      },
-      "dcterms:title": {
-        "@language": "en",
-        "@value": "Budget data for year 2018"
-      }
-    },
-    "dcat:theme": {
-      "@id": "http://publications.europa.eu/resource/authority/data-theme/ECON"
-    },
-    "dcterms:description": {
-      "@language": "en",
-      "@value": "Budget data for year 2019"
-    },
-    "dcterms:identifier": "eu-budget-2019",
-    "dcterms:issued": {
-      "@type": "http://www.w3.org/2001/XMLSchema#date",
-      "@value": "2020-01-01"
-    },
-    "dcterms:publisher": {
-      "@id": "https://organization-catalog.fellesdatakatalog.digdir.no/organizations/991825827"
-    },
-    "dcterms:title": {
-      "@language": "en",
-      "@value": "Budget data for year 2019"
+  "schema:keywords": [
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "DCATtheme",
+      "schema:identifier": "http://publications.europa.eu/resource/authority/data-theme/ECON",
+      "schema:name": "data-theme/ECON"
     }
-  },
-  "dcat:theme": {
-    "@id": "http://publications.europa.eu/resource/authority/data-theme/ECON"
-  },
+  ],
+  "schema:isPartOf": [
+    "http://example.org/budget"
+  ],
+  "schema:relatedLink": [
+    {
+      "schema:linkRelationship": "dcat:prev",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "http://example.org/budget-2019"
+      }
+    }
+  ],
+  "schema:dateModified": "2021-01-01",
   "schema:url": "http://www.opengis.net/def/nil/OGC/0/missing",
   "schema:license": [
     {
@@ -113,6 +80,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:issued to schema:dateModified (no dcterms:modified); dcterms:publisher to schema:publisher. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:identifier to schema:identifier; dcterms:issued to schema:datePublished; dcterms:publisher to schema:publisher; dcat:theme to schema:keywords; dcat:inSeries to schema:isPartOf; dcat:prev to schema:relatedLink; schema:datePublished reused as dateModified (no dcterms:modified). Unmapped DCAT properties preserved (open world)."
   }
 }

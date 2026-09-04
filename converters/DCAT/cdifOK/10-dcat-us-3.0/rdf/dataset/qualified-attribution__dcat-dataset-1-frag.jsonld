@@ -11,12 +11,12 @@
   ],
   "schema:name": "Dataset 1",
   "schema:description": "This is a dataset",
-  "schema:dateModified": "2026-09-04T03:45:50Z",
   "schema:publisher": {
     "@type": [
       "schema:Organization"
     ],
-    "@id": "https://example.com/publisher1"
+    "@id": "https://example.com/publisher1",
+    "schema:name": "http://www.opengis.net/def/nil/OGC/0/missing"
   },
   "schema:contributor": [
     {
@@ -28,7 +28,8 @@
         "@type": [
           "schema:Organization"
         ],
-        "@id": "https://www.census.gov"
+        "@id": "https://www.census.gov",
+        "schema:name": "http://www.opengis.net/def/nil/OGC/0/missing"
       }
     },
     {
@@ -40,34 +41,12 @@
         "@type": [
           "schema:Organization"
         ],
-        "@id": "https://www.doi.gov"
-      }
-    },
-    {
-      "@type": [
-        "schema:Role"
-      ],
-      "schema:roleName": "http://resources.data.gov/vocab/isotc211/CI_RoleCode/distributor",
-      "schema:contributor": {
-        "@type": [
-          "schema:Organization"
-        ],
-        "@id": "https://www.census.gov"
-      }
-    },
-    {
-      "@type": [
-        "schema:Role"
-      ],
-      "schema:roleName": "http://resources.data.gov/vocab/isotc211/CI_RoleCode/funder",
-      "schema:contributor": {
-        "@type": [
-          "schema:Organization"
-        ],
-        "@id": "https://www.doi.gov"
+        "@id": "https://www.doi.gov",
+        "schema:name": "http://www.opengis.net/def/nil/OGC/0/missing"
       }
     }
   ],
+  "schema:dateModified": "2026-09-04T22:13:56Z",
   "schema:url": "http://www.opengis.net/def/nil/OGC/0/missing",
   "schema:license": [
     {
@@ -95,6 +74,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to the conversion time (no date in source); dcterms:publisher to schema:publisher; prov:qualifiedAttribution to schema:contributor. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:publisher to schema:publisher; prov:qualifiedAttribution to schema:contributor; schema:dateModified set to the conversion time (no date in source). Unmapped DCAT properties preserved (open world)."
   }
 }

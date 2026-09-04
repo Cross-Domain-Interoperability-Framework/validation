@@ -11,7 +11,13 @@
   ],
   "schema:name": "Dataset 1",
   "schema:description": "This is a dataset",
-  "schema:dateModified": "2026-09-04T03:45:42Z",
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "@id": "https://example.com/publisher1",
+    "schema:name": "http://www.opengis.net/def/nil/OGC/0/missing"
+  },
   "schema:keywords": [
     "Sea Ice",
     "Sea Ice Anomalies",
@@ -19,12 +25,7 @@
     "Sea Ice Conditions",
     "Sea Ice Extent"
   ],
-  "schema:publisher": {
-    "@type": [
-      "schema:Organization"
-    ],
-    "@id": "https://example.com/publisher1"
-  },
+  "schema:dateModified": "2026-09-04T22:13:54Z",
   "schema:url": "http://www.opengis.net/def/nil/OGC/0/missing",
   "schema:license": [
     {
@@ -52,6 +53,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to the conversion time (no date in source); dcat:keyword to schema:keywords; dcterms:publisher to schema:publisher. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:publisher to schema:publisher; dcat:keyword to schema:keywords; schema:dateModified set to the conversion time (no date in source). Unmapped DCAT properties preserved (open world)."
   }
 }

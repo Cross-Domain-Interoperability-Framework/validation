@@ -3,8 +3,7 @@
     "schema": "http://schema.org/",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
-    "prov": "http://www.w3.org/ns/prov#",
-    "r5r": "http://data.europa.eu/r5r/"
+    "prov": "http://www.w3.org/ns/prov#"
   },
   "@id": "http://nsip.dcat-ap-es.ejemplo.org/dataset/datos-agregados-ejemplo",
   "@type": [
@@ -13,11 +12,20 @@
   "schema:name": "Datos Agregados Sectoriales de Ejemplo",
   "schema:description": "Datos de ejemplo agregados por sector con información ficticia sobre indicadores económicos y sociales.  Todos los datos son ficticios y generados para propósitos de demostración del modelo DCAT-AP-ES para NSIP/ERPD.",
   "schema:identifier": "EJEMPLO-AGR-2024-003",
-  "schema:dateModified": "2025-12-10",
   "schema:datePublished": "2024-06-01",
-  "schema:url": "http://nsip.dcat-ap-es.ejemplo.org/dataset/datos-agregados-ejemplo",
+  "schema:dateModified": "2025-12-10",
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "@id": "http://datos.gob.es/recurso/sector-publico/org/Organismo/E0DAT0001",
+    "schema:name": "http://www.opengis.net/def/nil/OGC/0/missing"
+  },
   "schema:conditionsOfAccess": [
-    "http://publications.europa.eu/resource/authority/access-right/RESTRICTED"
+    "dcterms:accessRights: http://publications.europa.eu/resource/authority/access-right/RESTRICTED"
+  ],
+  "schema:temporalCoverage": [
+    "2018-01-01/2024-12-31"
   ],
   "schema:keywords": [
     "agregado",
@@ -27,14 +35,25 @@
     "aggregated",
     "sectoral",
     "example",
-    "indicators"
+    "indicators",
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "DCATtheme",
+      "schema:identifier": "http://publications.europa.eu/resource/authority/data-theme/ECON",
+      "schema:name": "data-theme/ECON"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "DCATtheme",
+      "schema:identifier": "http://datos.gob.es/kos/sector-publico/sector/sector-publico",
+      "schema:name": "sector/sector-publico"
+    }
   ],
-  "schema:publisher": {
-    "@type": [
-      "schema:Organization"
-    ],
-    "@id": "http://datos.gob.es/recurso/sector-publico/org/Organismo/E0DAT0001"
-  },
+  "schema:url": "http://nsip.dcat-ap-es.ejemplo.org/dataset/datos-agregados-ejemplo",
   "schema:provider": [
     {
       "@type": [
@@ -45,7 +64,9 @@
         "@type": [
           "schema:ContactPoint"
         ],
-        "schema:email": "sectorial@ejemplo.org"
+        "schema:email": "sectorial@ejemplo.org",
+        "schema:url": "http://nsip.dcat-ap-es.ejemplo.org/solicitudes/datos-agregados",
+        "schema:telephone": "+34-900333333"
       }
     }
   ],
@@ -56,32 +77,22 @@
       ],
       "schema:contentUrl": "http://nsip.dcat-ap-es.ejemplo.org/solicitud-acceso/datos-agregados-xlsx",
       "schema:encodingFormat": [
-        "https://www.iana.org/assignments/media-types/application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        "https://www.iana.org/assignments/media-types/application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "http://publications.europa.eu/resource/authority/file-type/XLSX"
       ],
+      "schema:contentSize": "34567890",
       "schema:name": "Datos Agregados 2018-2024 - Formato Excel de Ejemplo",
       "schema:description": "Archivo Excel de ejemplo con múltiples hojas organizadas por año y sector. Incluye tablas dinámicas ficticias pre-configuradas.  Únicamente para demostración.",
-      "schema:contentSize": "34567890"
+      "schema:license": [
+        "http://publications.europa.eu/resource/authority/licence/CC_BY_4_0"
+      ]
     }
-  ],
-  "schema:temporalCoverage": [
-    "2018-01-01/2024-12-31"
   ],
   "dcat:temporalResolution": {
     "@type": "http://www.w3.org/2001/XMLSchema#duration",
     "@value": "P3M"
   },
-  "dcat:theme": [
-    {
-      "@id": "http://publications.europa.eu/resource/authority/data-theme/ECON"
-    },
-    {
-      "@id": "http://datos.gob.es/kos/sector-publico/sector/sector-publico"
-    }
-  ],
-  "dcterms:accrualPeriodicity": {
-    "@id": "http://publications.europa.eu/resource/authority/frequency/QUARTERLY"
-  },
-  "r5r:applicableLegislation": [
+  "dcatap:applicableLegislation": [
     {
       "@id": "http://data.europa.eu/eli/reg/2022/868/oj"
     },
@@ -89,6 +100,12 @@
       "@id": "http://data.europa.eu/eli/reg/2016/679/oj"
     }
   ],
+  "dcterms:accrualPeriodicity": {
+    "@id": "http://publications.europa.eu/resource/authority/frequency/QUARTERLY"
+  },
+  "dcterms:spatial": {
+    "@id": "http://datos.gob.es/recurso/sector-publico/territorio/Pais/España"
+  },
   "schema:license": [
     {
       "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
@@ -123,6 +140,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:modified to schema:dateModified; dcat:landingPage to schema:url; dcterms:accessRights to schema:conditionsOfAccess; dcat:keyword to schema:keywords; dcterms:publisher to schema:publisher; dcat:contactPoint to schema:provider; dcat:Distribution to schema:DataDownload; dcterms:temporal to schema:temporalCoverage. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:identifier to schema:identifier; dcterms:issued to schema:datePublished; dcterms:modified to schema:dateModified; dcterms:publisher to schema:publisher; dcterms:accessRights to schema:conditionsOfAccess; dcterms:temporal to schema:temporalCoverage; dcat:keyword to schema:keywords; dcat:theme to schema:keywords; dcat:landingPage to schema:url; dcat:contactPoint to schema:provider; dcat:distribution to schema:distribution. Unmapped DCAT properties preserved (open world)."
   }
 }

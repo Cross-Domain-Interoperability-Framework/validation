@@ -3,9 +3,7 @@
     "schema": "http://schema.org/",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
-    "prov": "http://www.w3.org/ns/prov#",
-    "adms": "http://www.w3.org/ns/adms#",
-    "vcard": "http://www.w3.org/2006/vcard/ns#"
+    "prov": "http://www.w3.org/ns/prov#"
   },
   "@id": "http://nobelprize.org/datasets/dcat#ds1",
   "@type": [
@@ -13,20 +11,43 @@
   ],
   "schema:name": "Linked Nobel prizes",
   "schema:description": "This dataset contains Nobel prizes, Nobel laureates and information about related media resources. ",
-  "schema:dateModified": "2014-08-27",
   "schema:datePublished": "2014-01-15",
-  "schema:url": "http://data.nobelprize.org/",
-  "schema:keywords": [
-    "Nobel prize",
-    "prize",
-    "science"
-  ],
+  "schema:dateModified": "2014-08-27",
+  "schema:inLanguage": "ENG",
   "schema:publisher": {
     "@type": [
       "schema:Organization"
     ],
     "schema:name": "Nobel Media AB"
   },
+  "schema:spatialCoverage": [
+    {
+      "@type": [
+        "schema:Place"
+      ],
+      "schema:name": "Stockholm"
+    }
+  ],
+  "schema:temporalCoverage": [
+    "1905-03-01/2013-01-05"
+  ],
+  "dcterms:conformsTo": [
+    "http://www.nobelprize.org/nobel_organizations/nobelmedia/nobelprize_org/developer/manual-linkeddata/terms.html"
+  ],
+  "schema:keywords": [
+    "Nobel prize",
+    "prize",
+    "science",
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "DCATtheme",
+      "schema:identifier": "http://eurovoc.europa.eu/100142",
+      "schema:name": "eurovoc.europa.eu/100142"
+    }
+  ],
+  "schema:url": "http://data.nobelprize.org/",
   "schema:distribution": [
     {
       "@type": [
@@ -34,52 +55,33 @@
       ],
       "schema:contentUrl": "http://data.nobelprize.org/",
       "schema:encodingFormat": [
-        "application/rdf+xml"
+        "application/rdf+xml",
+        "application/sparql-query"
       ],
       "schema:name": "Linked Data endpoint",
-      "schema:description": "Provides browsable linked data and a SPARQL endpoint."
+      "schema:description": "Provides browsable linked data and a SPARQL endpoint.",
+      "schema:license": [
+        "http://creativecommons.org/licenses/by-nc/3.0/"
+      ]
     }
   ],
-  "schema:temporalCoverage": [
-    "1905-03-01/2013-01-05"
-  ],
-  "adms:contactPoint": {
-    "@id": "_:Na765476421354f52b139c84d7895beaf",
-    "@type": "vcard:Organization",
-    "vcard:fn": "Nobel Media AB",
-    "vcard:hasAddress": {
-      "@id": "_:N661000fdd9984d6abb466cf166bbf346",
-      "@type": "vcard:Address",
-      "vcard:country-name": "Sweden",
-      "vcard:locality": "Stockholm",
-      "vcard:postal-code": "11436",
-      "vcard:street-address": "Stureg. 14"
-    },
-    "vcard:hasEmail": {
-      "@id": "mailto:info@nobelmedia.org"
-    },
-    "vcard:hasTelephone": {
-      "@id": "_:Nc3e32559a93c482f817d1df81d51ae53",
+  "schema:provider": [
+    {
       "@type": [
-        "vcard:Voice",
-        "vcard:Work"
+        "schema:Organization"
       ],
-      "vcard:hasValue": {
-        "@id": "tel:086631722"
+      "schema:name": "Nobel Media AB",
+      "schema:contactPoint": {
+        "@type": [
+          "schema:ContactPoint"
+        ],
+        "schema:email": "info@nobelmedia.org",
+        "schema:telephone": "_:N67dbc2d57544494d9aaa2bf2583789e7"
       }
     }
-  },
-  "dcat:theme": {
-    "@id": "http://eurovoc.europa.eu/100142"
-  },
+  ],
   "dcterms:accrualPeriodicity": {
     "@id": "http://purl.org/cld/freq/daily"
-  },
-  "dcterms:conformsTo": {
-    "@id": "http://www.nobelprize.org/nobel_organizations/nobelmedia/nobelprize_org/developer/manual-linkeddata/terms.html"
-  },
-  "dcterms:language": {
-    "@id": "http://publications.europa.eu/resource/authority/language/ENG"
   },
   "schema:license": [
     {
@@ -107,6 +109,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:modified to schema:dateModified; dcat:landingPage to schema:url; dcat:keyword to schema:keywords; dcterms:publisher to schema:publisher; dcat:Distribution to schema:DataDownload; dcterms:temporal to schema:temporalCoverage. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:issued to schema:datePublished; dcterms:modified to schema:dateModified; dcterms:language to schema:inLanguage; dcterms:publisher to schema:publisher; dcterms:spatial to schema:spatialCoverage; dcterms:temporal to schema:temporalCoverage; dcterms:conformsTo to dcterms:conformsTo; dcat:keyword to schema:keywords; dcat:theme to schema:keywords; dcat:landingPage to schema:url; dcat:distribution to schema:distribution; adms:contactPoint to schema:provider. Unmapped DCAT properties preserved (open world)."
   }
 }
