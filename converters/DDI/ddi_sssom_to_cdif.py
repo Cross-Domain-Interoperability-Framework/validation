@@ -439,16 +439,29 @@ def build_derived(root, items, maps, skipped):
 
 
 def build_related(root, items, maps, skipped):
-    links = []
+    """(relatedLink nodes, bibliographic citations).
+
+    DDI's related-publication elements carry prose citations, not URLs. A CDIF
+    relatedLink is a link -- its target is a schema:EntryPoint and must have a
+    schema:url -- so a citation with no URL was producing a link that pointed
+    at nothing and failed the shape. Those go to dcterms:bibliographicCitation
+    instead, which is what they are.
+    """
+    links, citations = [], []
     for path in items:
         m = maps[path]
         segs = clean_leaf(split_target(m["object_json_path"])[1])
         if segs is None:
             skipped.append(path); continue
         for v in values_at(root, path.split(".")):
-            links.append({"schema:linkRelationship": m["object_label"],
-                          "schema:target": {"schema:name": v}})
-    return links
+            url = v.strip()
+            if url.startswith(("http://", "https://", "doi:", "urn:")):
+                links.append({"schema:linkRelationship": m["object_label"],
+                              "schema:target": {"@type": ["schema:EntryPoint"],
+                                                "schema:url": url}})
+            elif v.strip():
+                citations.append(v.strip())
+    return links, citations
 
 
 # ---- conversion ----------------------------------------------------------
@@ -646,6 +659,14 @@ def convert(xml_path, doi_url=None, version="25", detect=True, verbose=False,
         coll = _statistics_collection(base, item["@id"], pv["stats"], pv["cats"], idmap)
         if coll is not None:
             item["cdif:isDescribedBy_StatisticsCollection"] = coll
+        # An Attribute component qualifies some other component -- CDIF requires
+        # cdi:qualifies on one, and DDI Codebook carries no such relationship,
+        # so the role (derived from intrvl=discrete) arrives without a target.
+        # Say the target is knowably absent rather than emitting an Attribute
+        # that qualifies nothing: without this every DDI record fails the
+        # InstanceVariable shape and so cannot declare data_description at all.
+        if item.get("cdif:role") == "Attribute" and "cdi:qualifies" not in item:
+            item["cdi:qualifies"] = {"@id": NIL_MISSING}
         vitems.append(item)
     if vitems:
         doc["schema:variableMeasured"] = vitems
@@ -695,9 +716,14 @@ def convert(xml_path, doi_url=None, version="25", detect=True, verbose=False,
         if der:
             doc["prov:wasDerivedFrom"] = [der]
     if prov["related"]:
-        links = build_related(root, prov["related"], maps, skipped)
+        links, citations = build_related(root, prov["related"], maps, skipped)
         if links:
             doc["schema:relatedLink"] = links
+        if citations:
+            # Open world: CDIF has no citation property, and a prose citation
+            # is not a link. dcterms:bibliographicCitation is where the DCAT
+            # mapping puts the same thing.
+            doc["dcterms:bibliographicCitation"] = citations
 
     if verbose and skipped:
         print(f"  [skipped] {len(skipped)} mapping(s) with a malformed object_json_path "
@@ -720,6 +746,20 @@ def convert(xml_path, doi_url=None, version="25", detect=True, verbose=False,
     # The IRI form (not the bare string) plus schema:about is what the discovery
     # mandatory SHACL shape's MINUS excludes, so the record is not held to the
     # dataset-mandatory requirements.
+    # Dataset-context array properties, for the same reason the variable
+    # context has them: the SSSOM path does not mark arity, so a single-valued
+    # source element produces a scalar where the CDIF profile declares a list.
+    for arr_key in ("schema:funding", "schema:measurementTechnique",
+                    "schema:creator", "schema:contributor", "schema:license",
+                    "schema:conditionsOfAccess", "schema:distribution",
+                    "schema:variableMeasured", "schema:relatedLink",
+                    "schema:spatialCoverage", "schema:temporalCoverage"):
+        value = doc.get(arr_key)
+        if value is not None and not isinstance(value, (list, dict)):
+            doc[arr_key] = [value]
+        elif isinstance(value, dict) and "@list" not in value:
+            doc[arr_key] = [value]
+
     rec = doc.get("schema:subjectOf")
     if isinstance(rec, dict) and "@type" not in rec:
         typed = {"@type": ["schema:Dataset"],
