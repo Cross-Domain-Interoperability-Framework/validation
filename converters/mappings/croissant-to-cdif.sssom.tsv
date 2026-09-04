@@ -1,17 +1,104 @@
-subject_id	subject_label	predicate_id	object_id	object_label	object_json_path	mapping_justification	comment
-sc:name	name	skos:exactMatch	schema:name	name	$.schema:name	semapv:ManualMappingCuration	schema.org term (CDIF uses http:// + schema: prefix)
-sc:description	description	skos:exactMatch	schema:description	description	$.schema:description	semapv:ManualMappingCuration	
-sc:url	url	skos:exactMatch	schema:url	url	$.schema:url	semapv:ManualMappingCuration	
-sc:license	license	skos:exactMatch	schema:license	license	$.schema:license	semapv:ManualMappingCuration	
-sc:datePublished	datePublished	skos:exactMatch	schema:datePublished	datePublished	$.schema:datePublished	semapv:ManualMappingCuration	
-sc:creator	creator	skos:exactMatch	schema:creator	creator	$.schema:creator	semapv:ManualMappingCuration	wrapped in @list
-sc:keywords	keywords	skos:exactMatch	schema:keywords	keywords	$.schema:keywords	semapv:ManualMappingCuration	
-sc:version	version	skos:exactMatch	schema:version	version	$.schema:version	semapv:ManualMappingCuration	
-cr:FileObject	FileObject	skos:closeMatch	schema:DataDownload	DataDownload	$.schema:distribution[*]	semapv:ManualMappingCuration	containedIn -> archive schema:hasPart
-sc:contentUrl	contentUrl	skos:exactMatch	schema:contentUrl	contentUrl	$.schema:distribution[*].schema:contentUrl	semapv:ManualMappingCuration	
-sc:encodingFormat	encodingFormat	skos:exactMatch	schema:encodingFormat	encodingFormat	$.schema:distribution[*].schema:encodingFormat	semapv:ManualMappingCuration	wrapped in array
-cr:sha256	sha256	skos:closeMatch	spdx:checksum	checksum	$.schema:distribution[*].spdx:checksum	semapv:ManualMappingCuration	-> spdx:Checksum object (SHA-256)
-cr:RecordSet	RecordSet	skos:closeMatch	cdi:TabularTextDataSet	TabularTextDataSet distribution	$.schema:distribution[*]	semapv:ManualMappingCuration	-> distribution with cdif:hasPhysicalMapping
-cr:Field	Field	skos:closeMatch	cdi:InstanceVariable	InstanceVariable	$.schema:variableMeasured[*]	semapv:ManualMappingCuration	dual-typed schema:PropertyValue + cdi:InstanceVariable
-cr:Field	Field.source.extract.column	skos:narrowMatch	cdif:hasPhysicalMapping	hasPhysicalMapping	$.schema:distribution[*].cdif:hasPhysicalMapping[*]	semapv:ManualMappingCuration	column source -> physical mapping (cdif:index)
-cr:Field	Field.dataType	skos:closeMatch	cdif:physicalDataType	physicalDataType	$.schema:variableMeasured[*].cdif:physicalDataType	semapv:ManualMappingCuration	sc:Float/Integer/Date/Boolean/Text -> xsd type
+subject_id	subject_label	subject_class	predicate_id	object_id	object_label	object_json_path	transform	mapping_justification	comment
+sc:name	name	sc:Dataset	skos:exactMatch	schema:name	name	$.schema:name	text	semapv:ManualMappingCuration	Required by CDIF core.
+sc:description	description	sc:Dataset	skos:exactMatch	schema:description	description	$.schema:description	text	semapv:ManualMappingCuration	
+sc:url	url	sc:Dataset	skos:exactMatch	schema:url	url	$.schema:url	iri	semapv:ManualMappingCuration	
+sc:identifier	identifier	sc:Dataset	skos:exactMatch	schema:identifier	identifier	$.schema:identifier	identifier	semapv:ManualMappingCuration	A DOI is preferred when several are given; the rest go to schema:sameAs.
+sc:license	license	sc:Dataset	skos:exactMatch	schema:license	license	$.schema:license	iri	semapv:ManualMappingCuration	
+sc:datePublished	datePublished	sc:Dataset	skos:exactMatch	schema:datePublished	datePublished	$.schema:datePublished	date	semapv:ManualMappingCuration	
+sc:dateModified	dateModified	sc:Dataset	skos:exactMatch	schema:dateModified	dateModified	$.schema:dateModified	date	semapv:ManualMappingCuration	Required by CDIF core; falls back to datePublished, then to conversion time.
+sc:dateCreated	dateCreated	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Not a CDIF target; preserved as an extension.
+sc:creator	creator	sc:Dataset	skos:exactMatch	schema:creator	creator	$.schema:creator	agent	semapv:ManualMappingCuration	Order is meaningful, so CDIF wraps creators in @list.
+sc:publisher	publisher	sc:Dataset	skos:exactMatch	schema:publisher	publisher	$.schema:publisher	agent	semapv:ManualMappingCuration	
+sc:keywords	keywords	sc:Dataset	skos:exactMatch	schema:keywords	keywords	$.schema:keywords	list	semapv:ManualMappingCuration	
+sc:version	version	sc:Dataset	skos:exactMatch	schema:version	version	$.schema:version	text	semapv:ManualMappingCuration	
+sc:inLanguage	inLanguage	sc:Dataset	skos:exactMatch	schema:inLanguage	inLanguage	$.schema:inLanguage	langcode	semapv:ManualMappingCuration	
+sc:funding	funding	sc:Dataset	skos:exactMatch	schema:funding	funding	$.schema:funding	funding	semapv:ManualMappingCuration	Croissant gives a grant or funder node; CDIF wants a MonetaryGrant.
+sc:sameAs	sameAs	sc:Dataset	skos:exactMatch	schema:sameAs	sameAs	$.schema:sameAs	iri	semapv:ManualMappingCuration	
+sc:isAccessibleForFree	isAccessibleForFree	sc:Dataset	skos:closeMatch	schema:conditionsOfAccess	conditionsOfAccess	$.schema:conditionsOfAccess	accessflag	semapv:ManualMappingCuration	A boolean; true becomes a statement that access is unrestricted.
+sc:includedInDataCatalog	includedInDataCatalog	sc:Dataset	skos:exactMatch	schema:includedInDataCatalog	includedInDataCatalog	$.schema:subjectOf.schema:includedInDataCatalog	catalog	semapv:ManualMappingCuration	Belongs on the CDIF catalog record, not the dataset.
+sc:citation	citation	sc:Dataset	skos:closeMatch	dcterms:bibliographicCitation	citation	$.dcterms:bibliographicCitation	text	semapv:ManualMappingCuration	schema:citation is not a CDIF target; a prose citation goes here, as in the DCAT mapping.
+cr:citeAs	citeAs	sc:Dataset	skos:closeMatch	dcterms:bibliographicCitation	citeAs	$.dcterms:bibliographicCitation	text	semapv:ManualMappingCuration	Croissant's own citation property.
+sc:distribution	distribution	sc:Dataset	skos:exactMatch	schema:distribution	distribution	$.schema:distribution	distribution	semapv:ManualMappingCuration	FileObjects and FileSets become schema:DataDownload nodes.
+cr:recordSet	recordSet	sc:Dataset	skos:closeMatch	schema:variableMeasured	variableMeasured	$.schema:variableMeasured	recordset	semapv:ManualMappingCuration	A RecordSet's fields become the dataset's described variables, and its column extraction becomes a physical mapping on the distribution.
+cr:isLiveDataset	isLiveDataset	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	No CDIF equivalent; preserved.
+sc:isBasedOn	isBasedOn	sc:Dataset	skos:closeMatch	prov:wasDerivedFrom	isBasedOn	$.prov:wasDerivedFrom	iri	semapv:ManualMappingCuration	A dataset derived from another is provenance in CDIF.
+sc:image	image	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	schema:image is not a CDIF target.
+sc:thumbnailUrl	thumbnailUrl	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	schema:thumbnailUrl is not a CDIF target.
+sc:processingRequirement	processingRequirement	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
+dct:conformsTo	conformsTo	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	The Croissant version the record follows. NOT routed to subjectOf: that node carries CDIF's own profile conformance, and a source value there would corrupt conformance detection.
+sc:alternateName	alternateName	sc:Dataset	skos:exactMatch	schema:alternateName	alternateName	$.schema:alternateName	list	semapv:ManualMappingCuration	
+sc:contentUrl	contentUrl	cr:FileObject	skos:exactMatch	schema:contentUrl	contentUrl	$.schema:distribution[*].schema:contentUrl	iri	semapv:ManualMappingCuration	
+sc:contentSize	contentSize	cr:FileObject	skos:exactMatch	schema:contentSize	contentSize	$.schema:distribution[*].schema:contentSize	bytes	semapv:ManualMappingCuration	Croissant gives a human-readable size; CDIF keeps the string.
+sc:encodingFormat	encodingFormat	cr:FileObject	skos:exactMatch	schema:encodingFormat	encodingFormat	$.schema:distribution[*].schema:encodingFormat	mediatype	semapv:ManualMappingCuration	
+sc:name	name	cr:FileObject	skos:exactMatch	schema:name	name	$.schema:distribution[*].schema:name	text	semapv:ManualMappingCuration	Same property, different target: the class decides.
+sc:description	description	cr:FileObject	skos:exactMatch	schema:description	description	$.schema:distribution[*].schema:description	text	semapv:ManualMappingCuration	
+sc:sha256	sha256	cr:FileObject	skos:closeMatch	spdx:checksum	checksum	$.schema:distribution[*].spdx:checksum	checksum	semapv:ManualMappingCuration	Becomes an spdx:Checksum with algorithm sha256.
+cr:md5	md5	cr:FileObject	skos:closeMatch	spdx:checksum	checksum	$.schema:distribution[*].spdx:checksum	checksum	semapv:ManualMappingCuration	Becomes an spdx:Checksum with algorithm md5; used when sha256 is absent.
+sc:containedIn	containedIn	cr:FileObject	skos:closeMatch	schema:hasPart	containedIn	$.schema:distribution[*].schema:hasPart	archive	semapv:ManualMappingCuration	A file inside an archive becomes a part of that archive's distribution.
+cr:containedIn	containedIn	cr:FileObject	skos:closeMatch	schema:hasPart	containedIn	$.schema:distribution[*].schema:hasPart	archive	semapv:ManualMappingCuration	The cr: spelling of the same relationship.
+sc:name	name	cr:FileSet	skos:exactMatch	schema:name	name	$.schema:distribution[*].schema:name	text	semapv:ManualMappingCuration	
+sc:description	description	cr:FileSet	skos:exactMatch	schema:description	description	$.schema:distribution[*].schema:description	text	semapv:ManualMappingCuration	
+sc:encodingFormat	encodingFormat	cr:FileSet	skos:exactMatch	schema:encodingFormat	encodingFormat	$.schema:distribution[*].schema:encodingFormat	mediatype	semapv:ManualMappingCuration	
+cr:includes	includes	cr:FileSet	skos:closeMatch				passthrough	semapv:ManualMappingCuration	A glob selecting the set's members; CDIF has no slot for it.
+cr:excludes	excludes	cr:FileSet	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
+sc:containedIn	containedIn	cr:FileSet	skos:closeMatch	schema:hasPart	containedIn	$.schema:distribution[*].schema:hasPart	archive	semapv:ManualMappingCuration	
+cr:fileObject	fileObject	cr:RecordSet	skos:closeMatch				structural	semapv:ManualMappingCuration	Names the file a record set is read from; the converter uses it to attach the physical mapping to the right distribution.
+cr:fileSet	fileSet	cr:RecordSet	skos:closeMatch				structural	semapv:ManualMappingCuration	
+cr:field	field	cr:RecordSet	skos:closeMatch	schema:variableMeasured	field	$.schema:variableMeasured[*]	structural	semapv:ManualMappingCuration	Each field becomes a described variable.
+cr:key	key	cr:RecordSet	skos:closeMatch	cdif:hasPrimaryKey	hasPrimaryKey	$.schema:distribution[*].cdif:hasPrimaryKey	key	semapv:ManualMappingCuration	The field(s) identifying a record. cdif:hasPrimaryKey is what CDIF calls this; cdif:isIdentifiedBy does not exist.
+cr:data	data	cr:RecordSet	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Inline example data; CDIF describes structure, not content.
+cr:examples	examples	cr:RecordSet	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
+sc:name	name	cr:RecordSet	skos:exactMatch				structural	semapv:ManualMappingCuration	Names the record set; carried on the physical mapping rather than as a property of its own.
+sc:description	description	cr:RecordSet	skos:closeMatch				structural	semapv:ManualMappingCuration	
+sc:name	name	cr:Field	skos:exactMatch	schema:name	name	$.schema:variableMeasured[*].schema:name	text	semapv:ManualMappingCuration	
+sc:description	description	cr:Field	skos:exactMatch	schema:description	description	$.schema:variableMeasured[*].schema:description	text	semapv:ManualMappingCuration	
+cr:dataType	dataType	cr:Field	skos:closeMatch	cdif:physicalDataType	physicalDataType	$.schema:variableMeasured[*].cdif:physicalDataType	datatype	semapv:ManualMappingCuration	Croissant's sc:Float / sc:Integer / sc:Date / sc:Boolean / sc:Text become the corresponding xsd: type.
+cr:source	source	cr:Field	skos:narrowMatch	cdif:hasPhysicalMapping	hasPhysicalMapping	$.schema:distribution[*].cdif:hasPhysicalMapping	structural	semapv:ManualMappingCuration	Where the field's values come from: the file, and the column or path within it.
+cr:references	references	cr:Field	skos:closeMatch	cdi:qualifies	references	$.schema:variableMeasured[*].cdi:qualifies	iri	semapv:ManualMappingCuration	A field referencing another field's values.
+cr:repeated	repeated	cr:Field	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
+cr:isArray	isArray	cr:Field	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
+cr:arrayShape	arrayShape	cr:Field	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
+cr:subField	subField	cr:Field	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Nested record structure; CDIF describes flat instance variables.
+cr:parentField	parentField	cr:Field	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
+sc:sameAs	sameAs	cr:Field	skos:closeMatch	schema:propertyID	propertyID	$.schema:variableMeasured[*].schema:propertyID	iri	semapv:ManualMappingCuration	A field aligned to an external property is CDIF's propertyID.
+cr:column	column	cr:Source	skos:narrowMatch	cdif:formats_InstanceVariable	column	$.schema:distribution[*].cdif:hasPhysicalMapping[*]	structural	semapv:ManualMappingCuration	Consumed by the physical-mapping builder.
+cr:extract	extract	cr:Source	skos:narrowMatch				structural	semapv:ManualMappingCuration	Consumed by the physical-mapping builder.
+cr:fileObject	fileObject	cr:Source	skos:closeMatch				structural	semapv:ManualMappingCuration	Consumed by the physical-mapping builder.
+cr:fileSet	fileSet	cr:Source	skos:closeMatch				structural	semapv:ManualMappingCuration	Consumed by the physical-mapping builder.
+cr:fileProperty	fileProperty	cr:Source	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Values taken from the file itself (name, content) rather than a column.
+cr:jsonPath	jsonPath	cr:Source	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
+cr:regex	regex	cr:Source	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
+cr:transform	transform	cr:Source	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Croissant transform pipelines beyond column extraction have no CDIF representation.
+cr:replace	replace	cr:Source	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
+cr:separator	separator	cr:Source	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
+cr:format	format	cr:Source	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
+cr:path	path	cr:Source	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
+sc:name	name	sc:Person	skos:exactMatch	schema:name	name		agent-part	semapv:ManualMappingCuration	Consumed by the agent transform.
+sc:givenName	givenName	sc:Person	skos:closeMatch				agent-part	semapv:ManualMappingCuration	Combined with familyName when no name is given; schema:givenName is not a CDIF target.
+sc:familyName	familyName	sc:Person	skos:closeMatch				agent-part	semapv:ManualMappingCuration	
+sc:url	url	sc:Person	skos:exactMatch	schema:url	url		agent-part	semapv:ManualMappingCuration	
+sc:sameAs	sameAs	sc:Person	skos:exactMatch	schema:identifier	identifier		agent-part	semapv:ManualMappingCuration	An ORCID or ROR given as sameAs is the agent's identifier in CDIF.
+sc:affiliation	affiliation	sc:Person	skos:exactMatch	schema:affiliation	affiliation		agent-part	semapv:ManualMappingCuration	
+sc:email	email	sc:Person	skos:exactMatch	schema:email	email		agent-part	semapv:ManualMappingCuration	Carried on the agent's schema:contactPoint.
+sc:name	name	sc:Organization	skos:exactMatch	schema:name	name		agent-part	semapv:ManualMappingCuration	
+sc:url	url	sc:Organization	skos:exactMatch	schema:url	url		agent-part	semapv:ManualMappingCuration	
+sc:sameAs	sameAs	sc:Organization	skos:exactMatch	schema:identifier	identifier		agent-part	semapv:ManualMappingCuration	
+rai:dataCollection	dataCollection	sc:Dataset	skos:closeMatch	prov:used	dataCollection	$.prov:wasGeneratedBy.prov:used	text	semapv:ManualMappingCuration	Responsible-AI extension: how the data was collected is provenance.
+rai:dataCollectionType	dataCollectionType	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Responsible-AI extension.
+rai:dataCollectionMissingData	dataCollectionMissingData	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Responsible-AI extension.
+rai:dataCollectionRawData	dataCollectionRawData	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Responsible-AI extension.
+rai:dataCollectionTimeframe	dataCollectionTimeframe	sc:Dataset	skos:closeMatch	schema:temporalCoverage	dataCollectionTimeframe	$.schema:temporalCoverage	period	semapv:ManualMappingCuration	Responsible-AI extension: when the data was collected.
+rai:dataImputationProtocol	dataImputationProtocol	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Responsible-AI extension.
+rai:dataPreprocessingProtocol	dataPreprocessingProtocol	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Responsible-AI extension.
+rai:dataManipulationProtocol	dataManipulationProtocol	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Responsible-AI extension.
+rai:dataAnnotationProtocol	dataAnnotationProtocol	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Responsible-AI extension.
+rai:dataAnnotationPlatform	dataAnnotationPlatform	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Responsible-AI extension.
+rai:dataAnnotationAnalysis	dataAnnotationAnalysis	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Responsible-AI extension.
+rai:dataUseCases	dataUseCases	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Responsible-AI extension.
+rai:dataBiases	dataBiases	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Responsible-AI extension.
+rai:dataLimitations	dataLimitations	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Responsible-AI extension.
+rai:dataSocialImpact	dataSocialImpact	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Responsible-AI extension.
+rai:dataReleaseMaintenancePlan	dataReleaseMaintenancePlan	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Responsible-AI extension.
+rai:personalSensitiveInformation	personalSensitiveInformation	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Responsible-AI extension.
+prov:wasGeneratedBy	wasGeneratedBy	sc:Dataset	skos:exactMatch	prov:wasGeneratedBy	wasGeneratedBy	$.prov:wasGeneratedBy	idref	semapv:ManualMappingCuration	Present in CDIF-derived Croissant records; kept as itself.
+prov:used	used	sc:Dataset	skos:exactMatch	prov:used	used	$.prov:wasGeneratedBy.prov:used	text	semapv:ManualMappingCuration	

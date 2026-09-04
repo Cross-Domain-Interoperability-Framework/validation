@@ -4,13 +4,23 @@ mapping_set_description: Property correspondences applied by ConvertToCroissant.
 license: https://creativecommons.org/publicdomain/zero/1.0/
 mapping_provider: https://cross-domain-interoperability-framework.github.io/
 mapping_tool: converters/croissant/ConvertToCroissant.py
-mapping_date: 2026-08-24
+mapping_date: 2026-09-04
 subject_source: https://w3id.org/cdif/data_description/1.1
 object_source: http://mlcommons.org/croissant/1.1
 extension_definitions:
   - slot_name: object_json_path
     property: https://w3id.org/cdif/mappings/objectJsonPath
+  - slot_name: subject_class
+    property: https://w3id.org/cdif/mappings/subjectClass
+  - slot_name: transform
+    property: https://w3id.org/cdif/mappings/transform
 curie_map:
+  rai: http://mlcommons.org/croissant/RAI/
+  dct: http://purl.org/dc/terms/
+  dcterms: http://purl.org/dc/terms/
+  prov: http://www.w3.org/ns/prov#
+  dqv: http://www.w3.org/ns/dqv#
+  dcat: http://www.w3.org/ns/dcat#
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
   cdif: https://w3id.org/cdif/
   cr: http://mlcommons.org/croissant/
@@ -20,8 +30,28 @@ curie_map:
   skos: http://www.w3.org/2004/02/skos/core#
   spdx: http://spdx.org/rdf/terms#
 comment: |
-  Structural transforms the converter performs that are not term-to-term
-  mappings (so they have no TSV row):
-  - CDIF-only discovery/provenance properties (prov:wasGeneratedBy, dqv:hasQualityMeasurement, schema:spatialCoverage, ...) are passed through verbatim with namespace prefixes added to @context.
-  - Croissant conformsTo is set to http://mlcommons.org/croissant/1.1; the CDIF schema:subjectOf block is passed through.
-  - Field dataType derives from the variable's data type: xsd:decimal/float/double -> sc:Float, xsd:integer/int/long -> sc:Integer, xsd:date/dateTime -> sc:Date, xsd:boolean -> sc:Boolean, String -> sc:Text.
+  Coverage is CDIF's own property set for the DiscoveryDataDescription
+  composite -- what a record being converted can actually contain -- at the
+  three levels a Croissant document has a place for: the dataset, its
+  distributions, and its variables.
+
+  This direction is **lossy, and the table says where**. 47 of the 85 rows have
+  a Croissant target; the other 38 are recorded with an empty object_id and
+  transform `unmapped`, because Croissant has no vocabulary for them: spatial
+  and temporal coverage, provenance structure, quality measurements, units,
+  value ranges, enumerated value domains, component roles, summary statistics,
+  service descriptions, and every CSV dialect property except the delimiter.
+  Recording them as rows rather than omitting them is the point -- a reader can
+  see what a round trip through Croissant costs, instead of discovering it.
+
+  Several mapped rows are lossy too, and say so in their comment: CDIF's
+  ordered creator @list is unwrapped, a contributor joins the creators and its
+  role is dropped, a keyword DefinedTerm keeps its name and loses its
+  identifier, and a prose conditionsOfAccess becomes a boolean.
+
+  subject_class disambiguates by level: schema:name is the dataset's, the
+  distribution's, or the variable's depending on where it sits.
+
+  Structural work with no row: a Croissant record set is SYNTHESISED per
+  tabular distribution, because CDIF describes variables of the dataset while
+  Croissant describes fields of a record set.

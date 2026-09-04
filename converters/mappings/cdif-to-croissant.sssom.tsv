@@ -1,24 +1,86 @@
-subject_id	subject_label	predicate_id	object_id	object_label	object_json_path	mapping_justification	comment
-schema:name	name	skos:exactMatch	sc:name	name	$.name	semapv:ManualMappingCuration	schema.org term (Croissant uses https:// serialization)
-schema:description	description	skos:exactMatch	sc:description	description	$.description	semapv:ManualMappingCuration	name used as fallback (Croissant requires description)
-schema:url	url	skos:exactMatch	sc:url	url	$.url	semapv:ManualMappingCuration	falls back to DOI URL from identifier
-schema:license	license	skos:exactMatch	sc:license	license	$.license	semapv:ManualMappingCuration	OGC nil:missing placeholder when absent
-schema:datePublished	datePublished	skos:exactMatch	sc:datePublished	datePublished	$.datePublished	semapv:ManualMappingCuration	
-schema:dateModified	dateModified	skos:exactMatch	sc:dateModified	dateModified	$.dateModified	semapv:ManualMappingCuration	
-schema:creator	creator	skos:exactMatch	sc:creator	creator	$.creator	semapv:ManualMappingCuration	@list unwrapped
-schema:keywords	keywords	skos:exactMatch	sc:keywords	keywords	$.keywords	semapv:ManualMappingCuration	
-schema:publisher	publisher	skos:exactMatch	sc:publisher	publisher	$.publisher	semapv:ManualMappingCuration	
-schema:version	version	skos:exactMatch	sc:version	version	$.version	semapv:ManualMappingCuration	defaults to 'not assigned' when absent
-schema:inLanguage	inLanguage	skos:exactMatch	sc:inLanguage	inLanguage	$.inLanguage	semapv:ManualMappingCuration	
-schema:sameAs	sameAs	skos:exactMatch	sc:sameAs	sameAs	$.sameAs	semapv:ManualMappingCuration	object -> URL extracted
-schema:funding	funding	skos:exactMatch	sc:funding	funding	$.funding	semapv:ManualMappingCuration	MonetaryGrant
-schema:DataDownload	DataDownload	skos:closeMatch	cr:FileObject	FileObject	$.distribution[*]	semapv:ManualMappingCuration	structural; archive hasPart -> component FileObjects via containedIn
-schema:contentUrl	contentUrl	skos:exactMatch	sc:contentUrl	contentUrl	$.distribution[*].contentUrl	semapv:ManualMappingCuration	placeholder when missing
-schema:encodingFormat	encodingFormat	skos:exactMatch	sc:encodingFormat	encodingFormat	$.distribution[*].encodingFormat	semapv:ManualMappingCuration	first array element
-schema:size	size	skos:closeMatch	sc:contentSize	contentSize	$.distribution[*].contentSize	semapv:ManualMappingCuration	QuantitativeValue -> 'NNN B' string
-spdx:checksum	checksum	skos:closeMatch	cr:sha256	sha256	$.distribution[*].sha256	semapv:ManualMappingCuration	sha256 hex extracted; nil placeholder otherwise
-cdi:TabularTextDataSet	TabularTextDataSet distribution	skos:closeMatch	cr:RecordSet	RecordSet	$.recordSet[*]	semapv:ManualMappingCuration	distribution carrying cdif:hasPhysicalMapping
-cdi:InstanceVariable	InstanceVariable	skos:closeMatch	cr:Field	Field	$.recordSet[*].field[*]	semapv:ManualMappingCuration	variable -> field
-cdif:hasPhysicalMapping	hasPhysicalMapping	skos:narrowMatch	cr:Field	Field.source.extract.column	$.recordSet[*].field[*].source.extract.column	semapv:ManualMappingCuration	cdif:index / cdif:formats_InstanceVariable -> field column source
-schema:propertyID	propertyID	skos:closeMatch	cr:Field	Field.equivalentProperty	$.recordSet[*].field[*].equivalentProperty	semapv:ManualMappingCuration	semantic link of a field
-cdif:hasPrimaryKey	hasPrimaryKey	skos:closeMatch	cr:RecordSet	RecordSet.key	$.recordSet[*].key	semapv:ManualMappingCuration	key variables -> key field @ids
+subject_id	subject_label	subject_class	predicate_id	object_id	object_label	object_json_path	transform	mapping_justification	comment
+schema:name	name	schema:Dataset	skos:exactMatch	sc:name	name	$.name	text	semapv:ManualMappingCuration	Croissant serializes schema.org terms against https://schema.org/.
+schema:description	description	schema:Dataset	skos:exactMatch	sc:description	description	$.description	text	semapv:ManualMappingCuration	Falls back to the name when absent; Croissant requires a description.
+schema:url	url	schema:Dataset	skos:exactMatch	sc:url	url	$.url	iri	semapv:ManualMappingCuration	Falls back to the DOI URL taken from schema:identifier.
+schema:identifier	identifier	schema:Dataset	skos:exactMatch	sc:identifier	identifier	$.identifier	identifier	semapv:ManualMappingCuration	A DOI is preferred; also supplies the url fallback.
+schema:license	license	schema:Dataset	skos:exactMatch	sc:license	license	$.license	iri	semapv:ManualMappingCuration	The OGC nil URI is emitted when CDIF recorded the licence as knowably absent.
+schema:datePublished	datePublished	schema:Dataset	skos:exactMatch	sc:datePublished	datePublished	$.datePublished	date	semapv:ManualMappingCuration	
+schema:dateModified	dateModified	schema:Dataset	skos:exactMatch	sc:dateModified	dateModified	$.dateModified	date	semapv:ManualMappingCuration	
+schema:creator	creator	schema:Dataset	skos:exactMatch	sc:creator	creator	$.creator	agent	semapv:ManualMappingCuration	CDIF wraps creators in @list to keep their order; Croissant has no ordered form, so the list is unwrapped and the order becomes incidental.
+schema:contributor	contributor	schema:Dataset	skos:closeMatch	sc:creator	creator	$.creator	agent	semapv:ManualMappingCuration	Croissant has no contributor; a contributor joins the creators, and its role is lost.
+schema:publisher	publisher	schema:Dataset	skos:exactMatch	sc:publisher	publisher	$.publisher	agent	semapv:ManualMappingCuration	
+schema:provider	provider	schema:Dataset	skos:closeMatch	sc:publisher	publisher	$.publisher	agent	semapv:ManualMappingCuration	Used only when no publisher is given; Croissant has no provider.
+schema:keywords	keywords	schema:Dataset	skos:exactMatch	sc:keywords	keywords	$.keywords	keywords	semapv:ManualMappingCuration	A CDIF keyword may be a DefinedTerm; Croissant takes plain strings, so the term's name is used and its identifier lost.
+schema:version	version	schema:Dataset	skos:exactMatch	sc:version	version	$.version	text	semapv:ManualMappingCuration	Croissant requires a version; "not assigned" is emitted when CDIF has none.
+schema:inLanguage	inLanguage	schema:Dataset	skos:exactMatch	sc:inLanguage	inLanguage	$.inLanguage	text	semapv:ManualMappingCuration	
+schema:sameAs	sameAs	schema:Dataset	skos:exactMatch	sc:sameAs	sameAs	$.sameAs	iri	semapv:ManualMappingCuration	
+schema:funding	funding	schema:Dataset	skos:exactMatch	sc:funding	funding	$.funding	funding	semapv:ManualMappingCuration	A CDIF MonetaryGrant; Croissant keeps the grant node.
+schema:conditionsOfAccess	conditionsOfAccess	schema:Dataset	skos:closeMatch	sc:isAccessibleForFree	isAccessibleForFree	$.isAccessibleForFree	accessflag	semapv:ManualMappingCuration	Lossy in both directions: a prose access condition becomes a boolean.
+dcterms:bibliographicCitation	bibliographicCitation	schema:Dataset	skos:closeMatch	cr:citeAs	citeAs	$.citeAs	text	semapv:ManualMappingCuration	
+schema:distribution	distribution	schema:Dataset	skos:exactMatch	cr:fileObject	distribution	$.distribution	distribution	semapv:ManualMappingCuration	A DataDownload becomes a cr:FileObject; an archive with parts becomes a FileObject plus a FileSet.
+schema:variableMeasured	variableMeasured	schema:Dataset	skos:closeMatch	cr:recordSet	recordSet	$.recordSet[*].field[*]	recordset	semapv:ManualMappingCuration	CDIF describes variables of the dataset; Croissant describes fields of a record set, so a record set is synthesised per tabular distribution.
+schema:subjectOf	subjectOf	schema:Dataset	skos:closeMatch				unmapped	semapv:ManualMappingCuration	The CDIF catalog record. Croissant has no equivalent; its own dct:conformsTo names the Croissant version, not a CDIF profile.
+schema:spatialCoverage	spatialCoverage	schema:Dataset	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Croissant has no spatial vocabulary.
+schema:temporalCoverage	temporalCoverage	schema:Dataset	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Croissant has no temporal vocabulary beyond the RAI collection timeframe.
+schema:measurementTechnique	measurementTechnique	schema:Dataset	skos:closeMatch				unmapped	semapv:ManualMappingCuration	No Croissant equivalent.
+schema:relatedLink	relatedLink	schema:Dataset	skos:closeMatch				unmapped	semapv:ManualMappingCuration	No Croissant equivalent.
+schema:additionalType	additionalType	schema:Dataset	skos:closeMatch				unmapped	semapv:ManualMappingCuration	No Croissant equivalent.
+schema:contactPoint	contactPoint	schema:Dataset	skos:closeMatch				unmapped	semapv:ManualMappingCuration	No Croissant equivalent.
+schema:publishingPrinciples	publishingPrinciples	schema:Dataset	skos:closeMatch				unmapped	semapv:ManualMappingCuration	No Croissant equivalent.
+prov:wasGeneratedBy	wasGeneratedBy	schema:Dataset	skos:closeMatch	rai:dataCollection	dataCollection	$.rai:dataCollection	provtext	semapv:ManualMappingCuration	The activity's prov:used prose becomes the Responsible-AI data-collection statement; the structured activity is lost.
+prov:wasDerivedFrom	wasDerivedFrom	schema:Dataset	skos:closeMatch	sc:isBasedOn	isBasedOn	$.isBasedOn	iri	semapv:ManualMappingCuration	
+dqv:hasQualityMeasurement	hasQualityMeasurement	schema:Dataset	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Croissant has no quality vocabulary.
+dcterms:relation	relation	schema:Dataset	skos:closeMatch				unmapped	semapv:ManualMappingCuration	No Croissant equivalent.
+schema:contentUrl	contentUrl	schema:DataDownload	skos:exactMatch	sc:contentUrl	contentUrl	$.distribution[*].contentUrl	iri	semapv:ManualMappingCuration	A nil contentUrl means CDIF recorded the access point as knowably absent.
+schema:name	name	schema:DataDownload	skos:exactMatch	sc:name	name	$.distribution[*].name	text	semapv:ManualMappingCuration	Croissant requires a name on every file object; one is derived from the URL when CDIF gives none.
+schema:description	description	schema:DataDownload	skos:exactMatch	sc:description	description	$.distribution[*].description	text	semapv:ManualMappingCuration	
+schema:encodingFormat	encodingFormat	schema:DataDownload	skos:exactMatch	sc:encodingFormat	encodingFormat	$.distribution[*].encodingFormat	mediatype	semapv:ManualMappingCuration	Croissant requires it; application/octet-stream is used when CDIF gives none.
+schema:contentSize	contentSize	schema:DataDownload	skos:exactMatch	sc:contentSize	contentSize	$.distribution[*].contentSize	size	semapv:ManualMappingCuration	
+spdx:checksum	checksum	schema:DataDownload	skos:closeMatch	sc:sha256	sha256	$.distribution[*].sha256	checksum	semapv:ManualMappingCuration	The hex value is taken from the spdx:Checksum; an md5 goes to cr:md5 instead.
+schema:hasPart	hasPart	schema:DataDownload	skos:closeMatch	cr:containedIn	containedIn	$.distribution[*].containedIn	archive	semapv:ManualMappingCuration	An archive's parts become file objects contained in it.
+dcterms:conformsTo	conformsTo	schema:DataDownload	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Croissant's conformsTo names the Croissant version, not a distribution standard.
+schema:documentation	documentation	schema:DataDownload	skos:closeMatch				unmapped	semapv:ManualMappingCuration	No Croissant equivalent.
+schema:potentialAction	potentialAction	schema:DataDownload	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Croissant does not describe services.
+schema:serviceType	serviceType	schema:DataDownload	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Croissant does not describe services.
+schema:termsOfService	termsOfService	schema:DataDownload	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Croissant does not describe services.
+cdif:hasPhysicalMapping	hasPhysicalMapping	schema:DataDownload	skos:narrowMatch	cr:source	source	$.recordSet[*].field[*].source	mapping	semapv:ManualMappingCuration	The column a variable is read from becomes the field's source extract.
+cdif:hasPrimaryKey	hasPrimaryKey	schema:DataDownload	skos:closeMatch	cr:key	key	$.recordSet[*].key	key	semapv:ManualMappingCuration	
+cdif:encoding	encoding	schema:DataDownload	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Croissant has no CSV dialect description.
+cdi:delimiter	delimiter	schema:DataDownload	skos:closeMatch	cr:separator	separator	$.recordSet[*].field[*].source.extract.separator	text	semapv:ManualMappingCuration	The only CSV dialect property Croissant carries.
+cdi:hasHeader	hasHeader	schema:DataDownload	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Croissant has no CSV dialect description.
+cdi:isDelimited	isDelimited	schema:DataDownload	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Croissant has no CSV dialect description.
+cdi:quoteCharacter	quoteCharacter	schema:DataDownload	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Croissant has no CSV dialect description.
+cdi:characterSet	characterSet	schema:DataDownload	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Croissant has no CSV dialect description.
+cdi:headerRowCount	headerRowCount	schema:DataDownload	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Croissant has no CSV dialect description.
+cdi:skipRows	skipRows	schema:DataDownload	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Croissant has no CSV dialect description.
+cdi:lineTerminator	lineTerminator	schema:DataDownload	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Croissant has no CSV dialect description.
+cdi:escapeCharacter	escapeCharacter	schema:DataDownload	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Croissant has no CSV dialect description.
+cdi:commentPrefix	commentPrefix	schema:DataDownload	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Croissant has no CSV dialect description.
+cdi:trim	trim	schema:DataDownload	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Croissant has no CSV dialect description.
+cdi:nullSequence	nullSequence	schema:DataDownload	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Croissant has no CSV dialect description.
+schema:name	name	cdi:InstanceVariable	skos:exactMatch	sc:name	name	$.recordSet[*].field[*].name	text	semapv:ManualMappingCuration	
+schema:description	description	cdi:InstanceVariable	skos:exactMatch	sc:description	description	$.recordSet[*].field[*].description	text	semapv:ManualMappingCuration	Croissant requires a description on a field; the name is reused when CDIF gives none.
+cdif:physicalDataType	physicalDataType	cdi:InstanceVariable	skos:closeMatch	cr:dataType	dataType	$.recordSet[*].field[*].dataType	datatype	semapv:ManualMappingCuration	An xsd: type becomes Croissant's sc:Float / sc:Integer / sc:Date / sc:Boolean / sc:Text.
+cdi:hasIntendedDataType	hasIntendedDataType	cdi:InstanceVariable	skos:closeMatch	cr:dataType	dataType	$.recordSet[*].field[*].dataType	datatype	semapv:ManualMappingCuration	Used when cdif:physicalDataType is absent.
+schema:propertyID	propertyID	cdi:InstanceVariable	skos:closeMatch	sc:sameAs	sameAs	$.recordSet[*].field[*].sameAs	iri	semapv:ManualMappingCuration	A variable aligned to an external property; Croissant expresses this as sameAs on the field.
+cdi:qualifies	qualifies	cdi:InstanceVariable	skos:closeMatch	cr:references	references	$.recordSet[*].field[*].references	iri	semapv:ManualMappingCuration	Not emitted when the target is the OGC nil URI: a reference to nothing is not a reference.
+schema:alternateName	alternateName	cdi:InstanceVariable	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Croissant fields carry one name.
+schema:unitText	unitText	cdi:InstanceVariable	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Croissant has no unit vocabulary.
+schema:unitCode	unitCode	cdi:InstanceVariable	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Croissant has no unit vocabulary.
+schema:minValue	minValue	cdi:InstanceVariable	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Croissant carries no value range.
+schema:maxValue	maxValue	cdi:InstanceVariable	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Croissant carries no value range.
+cdif:role	role	cdi:InstanceVariable	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Croissant has no component-role vocabulary.
+cdif:isDescribedBy_StatisticsCollection	statistics	cdi:InstanceVariable	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Croissant carries no summary statistics.
+cdi:takesSubstantiveValuesFrom	takesSubstantiveValuesFrom	cdi:InstanceVariable	skos:closeMatch				unmapped	semapv:ManualMappingCuration	An enumerated value domain has no Croissant equivalent; the codes are lost.
+cdi:takesSentinelValuesFrom	takesSentinelValuesFrom	cdi:InstanceVariable	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Missing-value codes have no Croissant equivalent.
+cdif:uses_Concept	uses_Concept	cdi:InstanceVariable	skos:closeMatch				unmapped	semapv:ManualMappingCuration	No Croissant equivalent.
+cdif:definition	definition	cdi:InstanceVariable	skos:closeMatch	sc:description	description	$.recordSet[*].field[*].description	text	semapv:ManualMappingCuration	Appended to the field description when both are present.
+schema:measurementTechnique	measurementTechnique	cdi:InstanceVariable	skos:closeMatch				unmapped	semapv:ManualMappingCuration	No Croissant equivalent.
+schema:name	name	schema:Person	skos:exactMatch	sc:name	name		agent-part	semapv:ManualMappingCuration	Consumed by the agent transform.
+schema:identifier	identifier	schema:Person	skos:exactMatch	sc:sameAs	sameAs		agent-part	semapv:ManualMappingCuration	An ORCID or ROR becomes sameAs on the Croissant agent.
+schema:url	url	schema:Person	skos:exactMatch	sc:url	url		agent-part	semapv:ManualMappingCuration	
+schema:affiliation	affiliation	schema:Person	skos:exactMatch	sc:affiliation	affiliation		agent-part	semapv:ManualMappingCuration	
+schema:contactPoint	contactPoint	schema:Person	skos:closeMatch	sc:email	email		agent-part	semapv:ManualMappingCuration	The e-mail is lifted out of the ContactPoint; Croissant has no ContactPoint.
+schema:name	name	schema:Organization	skos:exactMatch	sc:name	name		agent-part	semapv:ManualMappingCuration	
+schema:identifier	identifier	schema:Organization	skos:exactMatch	sc:sameAs	sameAs		agent-part	semapv:ManualMappingCuration	
+schema:url	url	schema:Organization	skos:exactMatch	sc:url	url		agent-part	semapv:ManualMappingCuration	

@@ -4,13 +4,21 @@ mapping_set_description: Property correspondences applied by ConvertFromCroissan
 license: https://creativecommons.org/publicdomain/zero/1.0/
 mapping_provider: https://cross-domain-interoperability-framework.github.io/
 mapping_tool: converters/croissant/ConvertFromCroissant.py
-mapping_date: 2026-08-24
+mapping_date: 2026-09-04
 subject_source: http://mlcommons.org/croissant/1.1
 object_source: https://w3id.org/cdif/data_description/1.1
 extension_definitions:
   - slot_name: object_json_path
     property: https://w3id.org/cdif/mappings/objectJsonPath
+  - slot_name: subject_class
+    property: https://w3id.org/cdif/mappings/subjectClass
+  - slot_name: transform
+    property: https://w3id.org/cdif/mappings/transform
 curie_map:
+  dct: http://purl.org/dc/terms/
+  dcterms: http://purl.org/dc/terms/
+  prov: http://www.w3.org/ns/prov#
+  rai: http://mlcommons.org/croissant/RAI/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
   cdif: https://w3id.org/cdif/
   cr: http://mlcommons.org/croissant/
@@ -20,8 +28,31 @@ curie_map:
   skos: http://www.w3.org/2004/02/skos/core#
   spdx: http://spdx.org/rdf/terms#
 comment: |
-  Structural transforms the converter performs that are not term-to-term
-  mappings (so they have no TSV row):
-  - A CDIF catalog record is ADDED; dcterms:conformsTo is derived from content by detect_conformance.
-  - Lossy: Croissant transform/format pipelines beyond column extraction are not represented in CDIF.
-  - Field dataType (sc:Float/Integer/Date/Boolean/Text) is mapped back to the xsd: type on cdif:physicalDataType.
+  Coverage is the union of what the Croissant specification defines (38 cr:
+  terms -- 27 properties and 11 classes) and every property found in
+  converters/croissant/croissantExamples and MLCroissantExamples. Neither is
+  sufficient alone: a spec lists terms nobody writes, and a corpus contains
+  terms no spec mentions.
+
+  subject_class disambiguates, as it does for DCAT. Croissant is a graph, and
+  sc:name means one thing on the Dataset, another on a cr:FileObject, and a
+  third on a cr:Field.
+
+  transform names the shaper. Empty is a plain copy; passthrough keeps the
+  property verbatim (JSON-LD is open world and CDIF permits additional
+  properties); structural marks a term the converter's own builders consume
+  while assembling record sets, fields and physical mappings; *-part is
+  consumed by the parent's transform.
+
+  Source IRIs are rewritten first through croissant-aliases.sssom.tsv, which
+  is almost entirely one thing: Croissant's @vocab is https://schema.org/ and
+  CDIF's schema: is http://schema.org/.
+
+  Structural work the table cannot express, so it has no row:
+  - A CDIF catalog record is ADDED; dcterms:conformsTo is derived from content
+    by detect_conformance.
+  - A cr:RecordSet is decomposed: its fields become schema:variableMeasured on
+    the dataset, and each field's cr:source/cr:extract/cr:column becomes a
+    cdif:hasPhysicalMapping on the distribution the record set reads from.
+  - Lossy: Croissant transform pipelines beyond column extraction, inline
+    example data, and nested subFields have no CDIF representation.

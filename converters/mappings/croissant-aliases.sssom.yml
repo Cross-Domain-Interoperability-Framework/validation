@@ -1,0 +1,40 @@
+mapping_set_id: https://w3id.org/cdif/mappings/croissant-aliases
+mapping_set_title: Croissant source-IRI aliases
+mapping_set_description: |
+  Property IRIs a Croissant record uses that are not the IRI CDIF uses for the
+  same term. ConvertFromCroissant.py rewrites a source key through this table
+  before applying croissant-to-cdif.sssom.tsv, so the mapping table only ever
+  names one spelling of a property.
+license: https://creativecommons.org/publicdomain/zero/1.0/
+mapping_provider: https://cross-domain-interoperability-framework.github.io/
+mapping_tool: converters/croissant/ConvertFromCroissant.py
+mapping_date: 2026-09-04
+subject_source: http://mlcommons.org/croissant/1.1
+object_source: https://w3id.org/cdif/data_description/1.1
+curie_map:
+  cr: http://mlcommons.org/croissant/
+  rai: http://mlcommons.org/croissant/RAI/
+  sc: https://schema.org/
+  schema: http://schema.org/
+  dct: http://purl.org/dc/terms/
+  dcterms: http://purl.org/dc/terms/
+  semapv: https://w3id.org/semapv/vocab/
+  skos: http://www.w3.org/2004/02/skos/core#
+comment: |
+  Almost every row here is one thing: the Croissant context sets
+
+      "@vocab": "https://schema.org/"
+
+  so every schema.org term in a Croissant record expands to an https:// IRI.
+  CDIF binds schema: to http://schema.org/, which is what schema.org's own
+  context document defines and therefore what the terms actually denote --
+  https://schema.org/name is a different IRI that names nothing. Publishers use
+  the two interchangeably, so this is a normalization we have to live with
+  rather than an error any single record can be blamed for.
+
+  Left as a table rather than a rule in code so the translation is visible and
+  reviewable, and so a term that should NOT be normalized (were one ever to
+  appear) can be omitted here rather than special-cased in the converter.
+
+  dct: and dcterms: are the same namespace under two prefixes; the Croissant
+  context declares dct.
