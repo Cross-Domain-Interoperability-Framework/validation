@@ -13,10 +13,11 @@ and whether it is a fragment.
   149 -frag       (content does not meet core)
 
   0 conformant records failing JSON Schema
+  0 conformant records with a SHACL Violation
   0 source properties that reach no record
 ```
 
-Both of those zeroes are checked on every rebuild — see **Regenerating** below.
+All three zeroes are checked by the rebuild — see **Regenerating** below.
 
 ## `-frag`
 
@@ -88,12 +89,36 @@ be read at all: its `@context` names a relative IRI with no scheme
 (`project-open-data.cio.gov/v1.1/schema`), so nothing can resolve it. One other
 group parses but describes no `dcat:Dataset`.
 
-**SHACL has not been re-run against this regeneration.** The composite's
-`rules.shacl` is not self-contained — it references shapes assembled from the
-`$ref` graph — so it needs `metadataBuildingBlocks/tools/validate_shacl.py` or
-the OGC postprocessor rather than pyshacl over the file alone. The previous
-generation had 2 records with geometry violations; that figure predates this
-rebuild and should not be quoted for it.
+## SHACL
+
+All **90 conformant records are clean of SHACL Violations**. All 149 fragments
+carry two, and both are what makes them fragments: no `dcterms:conformsTo` on
+the catalog record, and no identifier for the documented resource.
+
+Getting there fixed two things the shapes caught that JSON Schema did not:
+
+- **20 records had a `@id` that was not an IRI** — an rdflib blank-node label,
+  or (in two) the local filesystem path of whoever ran the build, because
+  rdflib resolves a relative IRI against the file it is reading. Sources are
+  now parsed with a stable `publicID`, and a dataset the source gives no
+  identifier for is minted a reproducible one under that base rather than
+  carrying a label that changes on every parse. Both defects predate this
+  regeneration.
+- **11 records claimed `schema:WebAPI` without meeting its shape**, which
+  requires `schema:termsOfService` and at least one typed
+  `schema:potentialAction`. A `dcat:accessService` is now the distribution's
+  `potentialAction` — a `schema:SearchAction` whose `EntryPoint` carries a
+  `urlTemplate`, which is both what the shape wants and what the property
+  means — rather than a nested `WebAPI` that asserted a service and then
+  failed to describe one.
+
+Note the two `schema:EntryPoint` positions differ: an Action's target requires
+`schema:urlTemplate`, a `relatedLink`'s requires `schema:url`.
+
+The remaining output is **Warnings**, which are advisory and reflect the
+sources: "At least one creator is recommended" (673), "Keywords are
+recommended for discovery" (533), and a request for identifiers for the
+specifications and datatypes used (388). No converter can invent those.
 
 ## Regenerating
 
@@ -101,8 +126,9 @@ rebuild and should not be quoted for it.
 python build_corpus.py
 ```
 
-Rebuilds this directory and verifies two invariants, both of which caught real
-bugs while the converter was being made table-driven:
+Rebuilds this directory and verifies two invariants on every run — both of
+which caught real bugs while the converter was being made table-driven — and a
+third on request:
 
 - **loss** — every predicate asserted on a `dcat:Dataset` in the source graph
   is accounted for in the output: mapped through
@@ -116,6 +142,14 @@ bugs while the converter was being made table-driven:
   profile. Fragments are expected to fail and are counted separately; a
   *non*-fragment that fails means conformance was detected for content the
   schema rejects.
+- **SHACL** (`--shacl`, opt-in) — every conformant record against the
+  CoreDiscovery shapes. Opt-in because it is slow and needs pyshacl plus
+  `metadataBuildingBlocks` beside this repo: the composite's own `rules.shacl`
+  is **not self-contained**, so the bundle has to be assembled by following the
+  `$ref` graph first. `build_corpus.py` shells out to that repo's
+  `tools/validate_shacl.py --emit-shapes` and caches the result (20 files, ~1300
+  triples). Running pyshacl against the composite's file alone instead errors on
+  `cdifd:descriptionProperty`.
 
 `--check` verifies the directory on disk without writing, and `--limit N`
 converts the first N groups for a quick pass.

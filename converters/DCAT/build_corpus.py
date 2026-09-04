@@ -111,20 +111,35 @@ def group_sources(root):
         groups.items(), key=lambda kv: (str(kv[0][0]), kv[0][1]))]
 
 
-def merged_graph(files):
+# Base for relative IRIs in a source document. Without one rdflib uses the
+# local file path, which baked "file:///C:/…" into published records -- a
+# machine-specific identifier in a committed artifact.
+PUBLIC_BASE = ("https://cross-domain-interoperability-framework.github.io/"
+               "validation/converters/DCAT/dcatExamplesOK/")
+
+
+def merged_graph(files, source_root=None):
     """One graph per logical example, plus the files that actually parsed."""
     import rdflib
     graph = rdflib.Graph()
     used, failed = [], []
     for path in files:
+        base = PUBLIC_BASE
+        if source_root is not None:
+            base += path.relative_to(source_root).as_posix()
         try:
-            graph.parse(str(path), format=SUFFIX_FORMAT[path.suffix.lower()])
+            graph.parse(str(path), format=SUFFIX_FORMAT[path.suffix.lower()],
+                        publicID=base)
             used.append(path)
-        except FileNotFoundError:
-            # rdflib resolves a relative @context IRI as a local path. The
-            # file is there; the context it names is not a URL.
-            failed.append((path, "unresolvable relative @context IRI "
-                                 "(the source omits the scheme)"))
+        except Exception as exc:
+            if isinstance(exc, FileNotFoundError) or "404" in str(exc):
+                # The file is there; the @context it names is not resolvable.
+                # The source omits the scheme, so the IRI is relative and
+                # resolves against whatever base is in play.
+                failed.append((path, "unresolvable relative @context IRI "
+                                     "(the source omits the scheme)"))
+            else:
+                raise
         except Exception as exc:
             failed.append((path, "%s: %s" % (type(exc).__name__, exc)))
     return graph, used, failed
@@ -248,6 +263,63 @@ def check_schema(records, validator):
     return bad
 
 
+
+def shacl_bundle(cache):
+    """The assembled CoreDiscovery shapes graph, or None with a reason.
+
+    The composite's own rules.shacl is NOT self-contained: it references shapes
+    defined in the building blocks it composes, so pyshacl over that one file
+    errors on cdifd:descriptionProperty. metadataBuildingBlocks'
+    validate_shacl.py follows the $ref graph and emits the whole bundle -- 20
+    rules.shacl files, ~1300 triples -- which is what has to be validated
+    against.
+    """
+    import subprocess
+    mbb = (HERE / ".." / ".." / ".." / "metadataBuildingBlocks").resolve()
+    emitter = mbb / "tools" / "validate_shacl.py"
+    if not emitter.exists():
+        return None, "metadataBuildingBlocks not beside this repo (%s)" % mbb
+    if not cache.exists():
+        target = mbb / "_sources/profiles/cdifCompositeProfile/CoreDiscovery"
+        proc = subprocess.run(
+            [sys.executable, str(emitter), str(target), "--emit-shapes", str(cache)],
+            capture_output=True, text=True, cwd=str(mbb))
+        if proc.returncode != 0 or not cache.exists():
+            return None, "could not emit shapes: %s" % (proc.stderr or proc.stdout)[:200]
+    try:
+        import rdflib
+        graph = rdflib.Graph()
+        graph.parse(str(cache), format="turtle")
+        return graph, None
+    except Exception as exc:
+        return None, str(exc)
+
+
+def check_shacl(index, out_root, shapes):
+    """(conformant with a Violation, fragments with one, warning messages)."""
+    import rdflib
+    from pyshacl import validate
+    SH = rdflib.Namespace("http://www.w3.org/ns/shacl#")
+    bad = {"conformant": [], "fragment": []}
+    warned = collections.Counter()
+    for entry in index:
+        kind = "fragment" if entry["fragment"] else "conformant"
+        data = rdflib.Graph()
+        try:
+            data.parse(str(out_root / entry["cdif"]), format="json-ld")
+            _, report, _ = validate(data, shacl_graph=shapes, advanced=True,
+                                    inference="none")
+        except Exception:
+            continue
+        for result in report.subjects(rdflib.RDF.type, SH.ValidationResult):
+            severity = str(report.value(result, SH.resultSeverity) or "")
+            message = str(report.value(result, SH.resultMessage) or "")[:110]
+            if severity.endswith("Violation"):
+                bad[kind].append((entry["cdif"], message))
+            elif severity.endswith("Warning"):
+                warned[message] += 1
+    return bad, warned
+
 # ---------------------------------------------------------------------------
 
 def build(source_root, out_root, limit=None, verify=True, write=True):
@@ -267,7 +339,7 @@ def build(source_root, out_root, limit=None, verify=True, write=True):
     counts = collections.Counter()
 
     for directory, stem, files in groups:
-        graph, used, failed = merged_graph(files)
+        graph, used, failed = merged_graph(files, source_root)
         parse_failures.extend(failed)
         if not used:
             continue
@@ -286,7 +358,17 @@ def build(source_root, out_root, limit=None, verify=True, write=True):
 
         rel_dir = directory.relative_to(source_root)
         produced, taken = [], set()
-        for dataset in datasets:
+        for n, dataset in enumerate(datasets):
+            # CDIF requires an @id and its shapes require an IRI. A source that
+            # gives none leaves rdflib's blank-node label, which is a fresh
+            # random string on every parse and meaningless outside the
+            # document. Mint something stable and obviously minted instead.
+            nid = dataset.get("@id")
+            if not isinstance(nid, str) or not nid.startswith(
+                    ("http://", "https://", "urn:")) or nid.startswith(PUBLIC_BASE):
+                dataset = dict(dataset)
+                dataset["@id"] = "%s%s#dataset-%d" % (
+                    PUBLIC_BASE, (rel_dir / stem).as_posix(), n)
             try:
                 record = C.convert_dcat_to_cdif(
                     json.loads(json.dumps(dataset)), graph=node_index)
@@ -342,6 +424,9 @@ def main():
     ap.add_argument("--no-verify", action="store_true")
     ap.add_argument("--check", action="store_true",
                     help="verify without writing anything")
+    ap.add_argument("--shacl", action="store_true",
+                    help="also run the CoreDiscovery SHACL shapes (slow; needs "
+                         "pyshacl and metadataBuildingBlocks beside this repo)")
     args = ap.parse_args()
 
     verify = not args.no_verify
@@ -397,6 +482,33 @@ def main():
                     print("        %s" % msg[:110])
             if bad_conformant:
                 status = 1
+
+        if args.shacl:
+            print("")
+            print("=== SHACL: CoreDiscovery shapes ===")
+            cache = HERE / ".shacl-coreDiscovery.ttl"
+            shapes, why = shacl_bundle(cache)
+            if shapes is None:
+                print("  skipped (%s)" % why)
+            else:
+                bad, warned = check_shacl(index, Path(args.out), shapes)
+                nc = len({r for r, _ in bad["conformant"]})
+                nf = len({r for r, _ in bad["fragment"]})
+                print("  conformant records with a Violation : %d of %d"
+                      % (nc, sum(1 for e in index if not e["fragment"])))
+                print("  fragments with a Violation          : %d (expected: a "
+                      "fragment declares no profile)" % nf)
+                seen = set()
+                for rel, msg in bad["conformant"]:
+                    if msg not in seen:
+                        seen.add(msg)
+                        print("     %s" % msg)
+                if warned:
+                    print("  most common warnings (advisory):")
+                    for msg, n in warned.most_common(4):
+                        print("     %4d  %s" % (n, msg))
+                if nc:
+                    status = 1
     return status
 
 

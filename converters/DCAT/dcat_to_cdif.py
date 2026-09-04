@@ -742,13 +742,18 @@ def _tf_distribution(value, ds, rule, doc):
 
 
 def _tf_service(value, ds, rule, doc):
-    """A dcat:DataService that serves a dataset -> a schema:WebAPI distribution.
+    """dcat:accessService -> the action that reaches this distribution.
 
     CDIF does not describe services as resources in their own right, so a
-    service reachable from a dataset is recorded as the way that dataset is
-    accessed. A processing service -- one that takes an arbitrary input and
-    returns a result -- is out of scope and is skipped: it does not distribute
-    this dataset.
+    service a distribution is obtained through is recorded as a
+    schema:potentialAction on it -- which is what that property means, and
+    what its shape requires: an Action whose EntryPoint carries a urlTemplate.
+    Emitting a nested schema:WebAPI there instead said "this action is a web
+    API" and then failed the WebAPI shape for having no terms of service and
+    no action of its own.
+
+    A processing service -- one that takes an arbitrary input and returns a
+    result -- is out of scope and skipped: it does not distribute this data.
     """
     out = []
     for node in _as_list(value):
@@ -763,20 +768,19 @@ def _tf_service(value, ds, rule, doc):
             url = url[0] if url else None
         if not url:
             continue
-        item = {"@type": ["schema:WebAPI"], "schema:contentUrl": url,
-                "schema:serviceType": "dcat:DataService"}
+        action = {"@type": ["schema:SearchAction"],
+                  "schema:target": {"@type": ["schema:EntryPoint"],
+                                    "schema:urlTemplate": url}}
         if isinstance(node, dict):
-            title = _get_str(node.get("dcterms:title"))
-            if title:
-                item["schema:name"] = title
             desc = node.get("dcat:endpointDescription")
             if desc:
                 link = _tf_iri(desc, ds, rule, doc)
                 if isinstance(link, list):
                     link = link[0] if link else None
                 if link:
-                    item["schema:documentation"] = link
-        out.append(item)
+                    action["schema:target"]["schema:contentType"] = None
+                    del action["schema:target"]["schema:contentType"]
+        out.append(action)
     return out or None
 
 
@@ -1347,6 +1351,26 @@ def convert_distribution(dist):
     if result.get("schema:serviceType") or "DataService" in types:
         result["@type"] = ["schema:WebAPI"]
         result.setdefault("schema:serviceType", "dcat:DataService")
+        # Typing a distribution as a WebAPI incurs the obligations CDIF puts on
+        # one: a terms-of-service statement and at least one action saying how
+        # it is invoked. Emitting the type without them produced a record that
+        # said "this is a service" and then failed to describe it as one.
+        url = result.get("schema:contentUrl")
+        if url and url != NIL and not result.get("schema:potentialAction"):
+            result["schema:potentialAction"] = [{
+                "@type": ["schema:SearchAction"],
+                "schema:target": {"@type": ["schema:EntryPoint"],
+                                  # the Action's EntryPoint wants urlTemplate,
+                                  # where a relatedLink's wants url
+                                  "schema:urlTemplate": url},
+            }]
+        if not result.get("schema:termsOfService"):
+            terms = (dist.get("dcterms:license") or dist.get("odrl:hasPolicy")
+                     or dist.get("dcterms:accessRights"))
+            got = _tf_iri(terms, dist, {"subject_id": "terms"}, result) if terms else None
+            if isinstance(got, list):
+                got = got[0] if got else None
+            result["schema:termsOfService"] = got or NIL
     # Emitted even when nothing but the type is known. The source asserts that
     # this dataset HAS a distribution; dropping it would say the dataset has
     # none. The access URL then becomes the nil URI, which says the value is
