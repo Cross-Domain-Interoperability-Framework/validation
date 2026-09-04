@@ -9,167 +9,167 @@ dcterms:publisher	publisher	dcat:Dataset	skos:exactMatch	schema:publisher	publis
 dcterms:creator	creator	dcat:Dataset	skos:exactMatch	schema:creator	creator	$.schema:creator	agent	semapv:ManualMappingCuration	foaf:Agent -> schema:Person or schema:Organization.
 dcterms:contributor	contributor	dcat:Dataset	skos:exactMatch	schema:contributor	contributor	$.schema:contributor	agent	semapv:ManualMappingCuration	
 dcterms:license	license	dcat:Dataset	skos:exactMatch	schema:license	license	$.schema:license	iri	semapv:ManualMappingCuration	
-dcterms:accessRights	accessRights	dcat:Dataset	skos:closeMatch	schema:conditionsOfAccess	conditionsOfAccess	$.schema:conditionsOfAccess	text	semapv:ManualMappingCuration	
-dcterms:rights	rights	dcat:Dataset	skos:closeMatch	schema:conditionsOfAccess	conditionsOfAccess	$.schema:conditionsOfAccess	text	semapv:ManualMappingCuration	Only when accessRights is absent; the two would otherwise collide.
+dcterms:accessRights	accessRights	dcat:Dataset	skos:closeMatch	schema:conditionsOfAccess	conditionsOfAccess	$.schema:conditionsOfAccess	prefixedtext	semapv:ManualMappingCuration	if rights and accessRights both specified, add as separate list elements with prefix for the dcterms property
+dcterms:rights	rights	dcat:Dataset	skos:closeMatch	schema:conditionsOfAccess	conditionsOfAccess	$.schema:conditionsOfAccess	prefixedtext	semapv:ManualMappingCuration	if rights and accessRights both specified, add as separate list elements with prefix for the dcterms property
 dcterms:spatial	spatial	dcat:Dataset	skos:closeMatch	schema:spatialCoverage	spatialCoverage	$.schema:spatialCoverage	place	semapv:ManualMappingCuration	dcterms:Location -> schema:Place; bbox/centroid/geometry folded in.
 dcterms:temporal	temporal	dcat:Dataset	skos:closeMatch	schema:temporalCoverage	temporalCoverage	$.schema:temporalCoverage	period	semapv:ManualMappingCuration	dcterms:PeriodOfTime -> ISO 8601 interval.
 dcterms:type	type	dcat:Dataset	skos:closeMatch	schema:additionalType	additionalType	$.schema:additionalType	iri	semapv:ManualMappingCuration	
-dcterms:relation	relation	dcat:Dataset	skos:exactMatch	dcterms:relation	relation	$.dcterms:relation	iri	semapv:ManualMappingCuration	CDIF keeps dcterms:relation as itself.
-dcterms:conformsTo	conformsTo	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	NOT routed to subjectOf: that node carries CDIF's own profile conformance, and a source value there would corrupt conformance detection.
+dcterms:relation	relation	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Not a defined CDIF target at the root; preserved verbatim. There is no standard way that providers encode dcterms:relation…
+dcterms:conformsTo	conformsTo	dcat:Dataset	skos:closeMatch	dcterms:conformsTo	datasetConformsTo	$.dcterms:conformsTo	text	semapv:ManualMappingCuration	NOT routed to subjectOf: that node carries CDIF's own profile conformance, and a source value there would corrupt conformance detection.
 dcterms:accrualPeriodicity	accrualPeriodicity	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	No CDIF target; schema:repeatFrequency is not in the profile.
-dcterms:hasPart	hasPart	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	schema:hasPart exists only in cdifManifest, not in core/discovery.
-dcterms:isReferencedBy	isReferencedBy	dcat:Dataset	skos:closeMatch	schema:relatedLink	relatedLink	$.schema:relatedLink	relatedlink	semapv:ManualMappingCuration	CDIF relatedLink is a node with linkRelationship + target.
-dcterms:references	references	dcat:Dataset	skos:closeMatch	schema:relatedLink	relatedLink	$.schema:relatedLink	relatedlink	semapv:ManualMappingCuration	
-dcterms:replaces	replaces	dcat:Dataset	skos:closeMatch	schema:relatedLink	relatedLink	$.schema:relatedLink	relatedlink	semapv:ManualMappingCuration	
-dcterms:isReplacedBy	isReplacedBy	dcat:Dataset	skos:closeMatch	schema:relatedLink	relatedLink	$.schema:relatedLink	relatedlink	semapv:ManualMappingCuration	
-dcterms:created	created	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	No CDIF dateCreated; issued/modified carry the dates CDIF asks for.
-dcterms:bibliographicCitation	bibliographicCitation	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	schema:citation is not a CDIF target.
+dcterms:hasPart	hasPart	dcat:Dataset	skos:closeMatch	schema:hasPart	datasetHasPart	$.schema:hasPart	iri	semapv:ManualMappingCuration	If a Dataset hasPart, then in CDIF it is dual typed as schema:Dataset, schema:Collection, and the cdif record uses the cdifManifest profile along with others. The parts are expected to be types as a valid cdif root object (see cdifCore @type enum)
+dcterms:isReferencedBy	isReferencedBy	dcat:Dataset	skos:closeMatch	schema:relatedLink	relatedLink	$.schema:relatedLink	relatedlink	semapv:ManualMappingCuration	CDIF relatedLink [ linkRelationship = 'isReferencedBy]
+dcterms:references	references	dcat:Dataset	skos:closeMatch	schema:relatedLink	relatedLink	$.schema:relatedLink	relatedlink	semapv:ManualMappingCuration	CDIF relatedLink [ linkRelationship = 'references]
+dcterms:replaces	replaces	dcat:Dataset	skos:closeMatch	schema:relatedLink	relatedLink	$.schema:relatedLink	relatedlink	semapv:ManualMappingCuration	CDIF relatedLink [ linkRelationship = 'replaces']
+dcterms:isReplacedBy	isReplacedBy	dcat:Dataset	skos:closeMatch	schema:relatedLink	relatedLink	$.schema:relatedLink	relatedlink	semapv:ManualMappingCuration	CDIF relatedLink [ linkRelationship = 'isReplacedBy]
+dcterms:created	created	dcat:Dataset	skos:closeMatch	schema:dateCreated	dateCreated	$.schema:dateCreated	date	semapv:ManualMappingCuration	No CDIF dateCreated; additionalProperty
+dcterms:bibliographicCitation	bibliographicCitation	dcat:Dataset	skos:closeMatch	dcterms:bibliographicCitation	howToCiteThisResource	$.dcterms:bibliographicCitation	text	semapv:ManualMappingCuration	additional property
 dcterms:rightsHolder	rightsHolder	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
-dcterms:provenance	provenance	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	A prose statement; cdifProvenance wants a structured activity.
-dcterms:isPartOf	isPartOf	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	schema:isPartOf is not a CDIF target.
-dcat:keyword	keyword	dcat:Resource	skos:exactMatch	schema:keywords	keywords	$.schema:keywords	list	semapv:ManualMappingCuration	
-dcat:theme	theme	dcat:Resource	skos:closeMatch	schema:keywords	keywords	$.schema:keywords	concept	semapv:ManualMappingCuration	skos:Concept -> schema:DefinedTerm; CDIF keywords accept a term.
+dcterms:provenance	provenance	dcat:Dataset	skos:closeMatch	prov:used	provenanceStatement	$.prov:wasGeneratedBy.prov:used	text	semapv:ManualMappingCuration	A prose statement; if the dcat record has a more complicated object, copy verbatim
+dcterms:isPartOf	isPartOf	dcat:Dataset	skos:closeMatch	schema:isPartOf	isPartOf	$.schema:isPartOf	iri	semapv:ManualMappingCuration	schema:isPartOf is additional property
+dcat:keyword	keyword	dcat:Resource	skos:exactMatch	schema:keywords	keyword	$.schema:keywords	list	semapv:ManualMappingCuration	
+dcat:theme	theme	dcat:Resource	skos:closeMatch	schema:keywords	theme keyword	$.schema:keywords	theme	semapv:ManualMappingCuration	skos:Concept -> schema:DefinedTerm[about='DCATtheme']; CDIF keywords accept a term--> DefienedTerm.name, or identifier-->DefinedTerm.Identifier
 dcat:landingPage	landingPage	dcat:Resource	skos:exactMatch	schema:url	url	$.schema:url	iri	semapv:ManualMappingCuration	
 dcat:contactPoint	contactPoint	dcat:Resource	skos:closeMatch	schema:provider	provider	$.schema:provider	vcard	semapv:ManualMappingCuration	vcard:Kind -> schema:Organization carrying a contactPoint.
 dcat:version	version	dcat:Resource	skos:exactMatch	schema:version	version	$.schema:version	text	semapv:ManualMappingCuration	
-dcat:distribution	distribution	dcat:Dataset	skos:exactMatch	schema:distribution	distribution	$.schema:distribution	distribution	semapv:ManualMappingCuration	
-dcat:qualifiedRelation	qualifiedRelation	dcat:Resource	skos:closeMatch				passthrough	semapv:ManualMappingCuration	dcat:Relationship carries a role IRI CDIF has no slot for.
+dcat:distribution	distribution	dcat:Dataset	skos:exactMatch	schema:distribution	distribution	$.schema:distribution	distribution	semapv:ManualMappingCuration	Value is a schema:DataDownload or schema:WebAPI
+dcat:qualifiedRelation	qualifiedRelation	dcat:Resource	skos:closeMatch	schema:relatedLink	qualifiedRelation	$.schema:relatedLink	relatedlink	semapv:ManualMappingCuration	CDIF relatedLink [ linkRelationship = 'qualifiedRelation.Role]
 dcat:spatialResolutionInMeters	spatialResolutionInMeters	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
 dcat:temporalResolution	temporalResolution	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
-dcat:inSeries	inSeries	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Dataset series have no CDIF equivalent in core/discovery.
-dcat:seriesMember	seriesMember	dcat:DatasetSeries	skos:closeMatch				passthrough	semapv:ManualMappingCuration	In the editor's draft, absent from dcat.ttl.
-dcat:first	first	dcat:Resource	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
-dcat:last	last	dcat:Resource	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
-dcat:prev	prev	dcat:Resource	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
-dcat:next	next	dcat:Resource	skos:closeMatch				passthrough	semapv:ManualMappingCuration	In the editor's draft, absent from dcat.ttl.
-dcat:hasVersion	hasVersion	dcat:Resource	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
-dcat:hasCurrentVersion	hasCurrentVersion	dcat:Resource	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
-dcat:hasLastVersion	hasLastVersion	dcat:Resource	skos:closeMatch				passthrough	semapv:ManualMappingCuration	In the editor's draft, absent from dcat.ttl.
-dcat:previousVersion	previousVersion	dcat:Resource	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
-dcat:isVersionOf	isVersionOf	dcat:Resource	skos:closeMatch				passthrough	semapv:ManualMappingCuration	In the editor's draft, absent from dcat.ttl.
-dcat:Distribution	Distribution	dcat:Distribution	skos:closeMatch	schema:DataDownload	DataDownload	$.schema:distribution[*]	distribution	semapv:ManualMappingCuration	Class-level correspondence, kept for documentation.
+dcat:inSeries	inSeries	dcat:Dataset	skos:closeMatch	schema:isPartOf	inSeries	$.schema:isPartOf	iri	semapv:ManualMappingCuration	Dataset series have no CDIF equivalent in core/discovery.
+dcat:seriesMember	seriesMember	dcat:DatasetSeries	skos:closeMatch	schema:hasPart	seriesMember	$.schema:hasPart	iri	semapv:ManualMappingCuration	this would requre that the root @type is schema:Dataset, schema:Collection, and uses the cdifManifest profile. 
+dcat:first	first	dcat:Resource	skos:closeMatch	schema:relatedLink	firstInCollection	$.schema:relatedLink	relatedlink	semapv:ManualMappingCuration	CDIF relatedLink [ linkRelationship = 'dcat:first']
+dcat:last	last	dcat:Resource	skos:closeMatch	schema:relatedLink	lastInCollection	$.schema:relatedLink	relatedlink	semapv:ManualMappingCuration	CDIF relatedLink [ linkRelationship = 'dcat:last']
+dcat:prev	prev	dcat:Resource	skos:closeMatch	schema:relatedLink	previousInCollection	$.schema:relatedLink	relatedlink	semapv:ManualMappingCuration	CDIF relatedLink [ linkRelationship = 'dcat:prev']
+dcat:next	next	dcat:Resource	skos:closeMatch	schema:relatedLink	nextInCollection	$.schema:relatedLink	relatedlink	semapv:ManualMappingCuration	CDIF relatedLink [ linkRelationship = 'dcat:next']
+dcat:hasVersion	hasVersion	dcat:Resource	skos:closeMatch	schema:relatedLink	hasVersion	$.schema:relatedLink	relatedlink	semapv:ManualMappingCuration	CDIF relatedLink [ linkRelationship = 'dcat:hasVersion']
+dcat:hasCurrentVersion	hasCurrentVersion	dcat:Resource	skos:closeMatch	schema:relatedLink	currentVersion	$.schema:relatedLink	relatedlink	semapv:ManualMappingCuration	CDIF relatedLink [ linkRelationship = 'dcat:hasCurrentVersion']
+dcat:hasLastVersion	hasLastVersion	dcat:Resource	skos:closeMatch	schema:relatedLink	lastVersion	$.schema:relatedLink	relatedlink	semapv:ManualMappingCuration	CDIF relatedLink [ linkRelationship = 'dcat:hasLastVersion']
+dcat:previousVersion	previousVersion	dcat:Resource	skos:closeMatch	schema:relatedLink	previousVersion	$.schema:relatedLink	relatedlink	semapv:ManualMappingCuration	CDIF relatedLink [ linkRelationship = 'dcat:hasPreviousVersion']
+dcat:isVersionOf	isVersionOf	dcat:Resource	skos:closeMatch	schema:relatedLink	isVersionOf	$.schema:relatedLink	relatedlink	semapv:ManualMappingCuration	CDIF relatedLink [ linkRelationship = 'dcat:isVersionOf']
 dcat:downloadURL	downloadURL	dcat:Distribution	skos:exactMatch	schema:contentUrl	contentUrl	$.schema:distribution[*].schema:contentUrl	iri	semapv:ManualMappingCuration	
-dcat:accessURL	accessURL	dcat:Distribution	skos:closeMatch	schema:contentUrl	contentUrl	$.schema:distribution[*].schema:contentUrl	iri	semapv:ManualMappingCuration	Only when downloadURL is absent; accessURL may address a landing page.
-dcat:mediaType	mediaType	dcat:Distribution	skos:exactMatch	schema:encodingFormat	encodingFormat	$.schema:distribution[*].schema:encodingFormat	mediatype	semapv:ManualMappingCuration	
-dcterms:format	format	dcat:Distribution	skos:closeMatch	schema:encodingFormat	encodingFormat	$.schema:distribution[*].schema:encodingFormat	mediatype	semapv:ManualMappingCuration	Only when dcat:mediaType is absent.
+dcat:accessURL	accessURL	dcat:Distribution	skos:closeMatch	schema:contentUrl	contentUrl	$.schema:distribution[*].schema:contentUrl	iri	semapv:ManualMappingCuration	Distribution access point, used when dcat:downloadURL is absent. The dataset-level row sends the same value to schema:url when there is no dcat:landingPage.
+dcat:accessURL	accessURL	dcat:Resource	skos:closeMatch	schema:url	landingPage	$.schema:url	iri	semapv:ManualMappingCuration	Only when downloadURL is absent; accessURL may address a landing page.
+dcat:mediaType	mediaType	dcat:Distribution	skos:exactMatch	schema:encodingFormat	encodingFormat	$.schema:distribution[*].schema:encodingFormat[*]	mediatype	semapv:ManualMappingCuration	
+dcterms:format	format	dcat:Distribution	skos:closeMatch	schema:encodingFormat	encodingFormat	$.schema:distribution[*].schema:encodingFormat[*]	mediatype	semapv:ManualMappingCuration	Only when dcat:mediaType is absent.
 dcat:byteSize	byteSize	dcat:Distribution	skos:exactMatch	schema:contentSize	contentSize	$.schema:distribution[*].schema:contentSize	bytes	semapv:ManualMappingCuration	
 dcterms:title	title	dcat:Distribution	skos:exactMatch	schema:name	name	$.schema:distribution[*].schema:name	text	semapv:ManualMappingCuration	Same property, different target: the class decides.
 dcterms:description	description	dcat:Distribution	skos:exactMatch	schema:description	description	$.schema:distribution[*].schema:description	text	semapv:ManualMappingCuration	
-dcterms:conformsTo	conformsTo	dcat:Distribution	skos:exactMatch	dcterms:conformsTo	conformsTo	$.schema:distribution[*].dcterms:conformsTo	iri	semapv:ManualMappingCuration	CDIF allows conformsTo on a distribution; unlike the dataset-level one this is safe.
-dcterms:license	license	dcat:Distribution	skos:closeMatch				passthrough	semapv:ManualMappingCuration	CDIF puts license on the dataset, not the distribution.
-dcterms:accessRights	accessRights	dcat:Distribution	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
-dcat:compressFormat	compressFormat	dcat:Distribution	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Would collide with encodingFormat, which carries the media type.
-dcat:packageFormat	packageFormat	dcat:Distribution	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
-dcat:accessService	accessService	dcat:Distribution	skos:closeMatch	schema:potentialAction	potentialAction	$.schema:distribution[*].schema:potentialAction	service	semapv:ManualMappingCuration	
+dcterms:conformsTo	conformsTo	dcat:Distribution	skos:exactMatch	dcterms:conformsTo	conformsTo	$.schema:distribution[*].dcterms:conformsTo	idref	semapv:ManualMappingCuration	CDIF allows conformsTo on a distribution; unlike the dataset-level one this is safe.
+dcterms:license	license	dcat:Distribution	skos:closeMatch	schema:license	distributionLicense	$.schema:distribution[*].schema:license	iri	semapv:ManualMappingCuration	CDIF puts license on the dataset, not the distribution.
+dcterms:accessRights	accessRights	dcat:Distribution	skos:closeMatch	schema:conditionsOfAccess	distributionAccessRights	$.schema:distribution[*].schema:conditionsOfAccess[*]	prefixedtext	semapv:ManualMappingCuration	
+dcat:compressFormat	compressFormat	dcat:Distribution	skos:closeMatch	dcat:compressFormat	distributionCompressFormat	$.schema:distribution[*].dcat:compressFormat	text	semapv:ManualMappingCuration	probably duplicates  encodingFormat, which carries the media type.
+dcat:packageFormat	packageFormat	dcat:Distribution	skos:closeMatch	dcat:packageFormat	distributionPackageFormat	$.schema:distribution[*].dcat:packageFormat	text	semapv:ManualMappingCuration	If the distribution is a package and the parts are described, should use CDIF manifest profile…
+dcat:accessService	accessService	dcat:Distribution	skos:closeMatch	schema:potentialAction	potentialAction	$.schema:distribution[*].schema:potentialAction	service	semapv:ManualMappingCuration	Distribution is @type: WebAPI
 spdx:checksum	checksum	dcat:Distribution	skos:exactMatch	spdx:checksum	checksum	$.schema:distribution[*].spdx:checksum	checksum	semapv:ManualMappingCuration	spdx:algorithm + spdx:checksumValue are folded in by the transform.
-spdx:algorithm	algorithm	spdx:Checksum	skos:exactMatch				checksum-part	semapv:ManualMappingCuration	Consumed by the checksum transform.
-spdx:checksumValue	checksumValue	spdx:Checksum	skos:exactMatch				checksum-part	semapv:ManualMappingCuration	Consumed by the checksum transform.
-dcat:endpointURL	endpointURL	dcat:DataService	skos:closeMatch	schema:contentUrl	contentUrl	$.schema:distribution[*].schema:contentUrl	service	semapv:ManualMappingCuration	A DataService becomes a distribution carrying schema:serviceType.
+spdx:algorithm	algorithm	spdx:Checksum	skos:exactMatch	spdx:algorithm	checksumAlgorithm	$.schema:distribution[*].spdx:checksum.spdx:algorithm	checksum-part	semapv:ManualMappingCuration	Consumed by the checksum transform.
+spdx:checksumValue	checksumValue	spdx:Checksum	skos:exactMatch	spdx:checksumValue	checksumValue	$.schema:distribution[*].spdx:checksum.spdx:checksumValue	checksum-part	semapv:ManualMappingCuration	Consumed by the checksum transform.
+dcat:endpointURL	endpointURL	dcat:DataService	skos:closeMatch	schema:contentUrl	contentUrl	$.schema:distribution[*].schema:contentUrl	iri	semapv:ManualMappingCuration	A DataService becomes a distribution carrying schema:serviceType.
 dcat:endpointDescription	endpointDescription	dcat:DataService	skos:closeMatch	schema:documentation	documentation	$.schema:distribution[*].schema:documentation	iri	semapv:ManualMappingCuration	
-dcat:servesDataset	servesDataset	dcat:DataService	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
+dcat:servesDataset	servesDataset	dcat:DataService	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Out of scope for CDIF. 
 dcat:dataset	dataset	dcat:Catalog	skos:closeMatch				catalog-walk	semapv:ManualMappingCuration	Structural: each member becomes its own CDIF record.
 dcat:record	record	dcat:Catalog	skos:closeMatch				catalog-walk	semapv:ManualMappingCuration	
 dcat:catalog	catalog	dcat:Catalog	skos:closeMatch				catalog-walk	semapv:ManualMappingCuration	
 dcat:service	service	dcat:Catalog	skos:closeMatch				catalog-walk	semapv:ManualMappingCuration	
 dcat:resource	resource	dcat:Catalog	skos:closeMatch				catalog-walk	semapv:ManualMappingCuration	In dcat.ttl but with no property block in the editor's draft.
-dcat:themeTaxonomy	themeTaxonomy	dcat:Catalog	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
-dcat:startDate	startDate	dcterms:PeriodOfTime	skos:exactMatch				period-part	semapv:ManualMappingCuration	Consumed by the period transform.
-dcat:endDate	endDate	dcterms:PeriodOfTime	skos:exactMatch				period-part	semapv:ManualMappingCuration	Consumed by the period transform.
-dcat:bbox	bbox	dcterms:Location	skos:exactMatch				place-part	semapv:ManualMappingCuration	Consumed by the place transform.
-dcat:centroid	centroid	dcterms:Location	skos:exactMatch				place-part	semapv:ManualMappingCuration	Consumed by the place transform.
-locn:geometry	geometry	dcterms:Location	skos:closeMatch				place-part	semapv:ManualMappingCuration	Consumed by the place transform.
-dcat:hadRole	hadRole	prov:Attribution	skos:exactMatch	dcat:hadRole	hadRole	$.schema:contributor[*].dcat:hadRole	iri	semapv:ManualMappingCuration	CDIF keeps dcat:hadRole as itself on a contributor.
+dcat:themeTaxonomy	themeTaxonomy	dcat:Catalog	skos:closeMatch	schema:inDefinedTermSet	themeTaxonomy	$.schema:keywords[*].schema:inDefinedTermSet	iri	semapv:ManualMappingCuration	expect would only apply to theme keywords….
+dcat:startDate	startDate	dcterms:PeriodOfTime	skos:exactMatch		temporalCoverageStart	$.schema:temporalCoverage	period-part	semapv:ManualMappingCuration	concatenate startDate and endDate into ISO8601 time range string
+dcat:endDate	endDate	dcterms:PeriodOfTime	skos:exactMatch		temporalCoverageEnd	$.schema:temporalCoverage	period-part	semapv:ManualMappingCuration	concatenate startDate and endDate into ISO8601 time range string
+dcat:bbox	bbox	dcterms:Location	skos:exactMatch				place-part	semapv:ManualMappingCuration	Consumed by the place transform schema:Box
+dcat:centroid	centroid	dcterms:Location	skos:exactMatch				place-part	semapv:ManualMappingCuration	Consumed by the place transform. schema:geo, @type:schema:GeoCoordinates
+locn:geometry	geometry	dcterms:Location	skos:closeMatch				place-part	semapv:ManualMappingCuration	Consumed by the place transform; ideally geosparql:hasGeometry 
+dcat:hadRole	hadRole	prov:Attribution	skos:closeMatch	schema:roleName	roleName		attribution-part	semapv:ManualMappingCuration	Consumed by the attribution transform, which emits a schema:Role.
 prov:qualifiedAttribution	qualifiedAttribution	dcat:Resource	skos:closeMatch	schema:contributor	contributor	$.schema:contributor	attribution	semapv:ManualMappingCuration	prov:agent + dcat:hadRole -> a contributor carrying its role.
 prov:agent	agent	prov:Attribution	skos:exactMatch				attribution-part	semapv:ManualMappingCuration	Consumed by the attribution transform.
-prov:wasGeneratedBy	wasGeneratedBy	dcat:Dataset	skos:exactMatch	prov:wasGeneratedBy	wasGeneratedBy	$.prov:wasGeneratedBy		semapv:ManualMappingCuration	CDIF keeps prov:wasGeneratedBy as itself; cdifProvenance shapes it.
-odrl:hasPolicy	hasPolicy	dcat:Resource	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
+prov:wasGeneratedBy	wasGeneratedBy	dcat:Dataset	skos:exactMatch	prov:wasGeneratedBy	wasGeneratedBy	$.prov:wasGeneratedBy	idref	semapv:ManualMappingCuration	CDIF keeps prov:wasGeneratedBy as itself; cdifProvenance shapes it.
+odrl:hasPolicy	hasPolicy	dcat:Resource	skos:closeMatch	schema:publishingPrinciples	odrl:hasPolicy	$.schema:publishingPrinciples	iri	semapv:ManualMappingCuration	
 foaf:homepage	homepage	dcat:Catalog	skos:closeMatch	schema:url	url	$.schema:subjectOf.schema:includedInDataCatalog.schema:url	iri	semapv:ManualMappingCuration	Catalog homepage lands on the catalog record, not the dataset.
-foaf:primaryTopic	primaryTopic	dcat:CatalogRecord	skos:exactMatch	schema:about	about	$.schema:subjectOf.schema:about	iri	semapv:ManualMappingCuration	
-foaf:page	page	dcat:Resource	skos:closeMatch	schema:relatedLink	relatedLink	$.schema:relatedLink	relatedlink	semapv:ManualMappingCuration	
+foaf:primaryTopic	primaryTopic	dcat:CatalogRecord	skos:exactMatch	schema:about	about	$.schema:subjectOf.schema:about	iri	semapv:ManualMappingCuration	primary topic of catalogRecord, expect this to be the host metadata record, but have to see what people are actually using this for…
+foaf:page	page	dcat:Resource	skos:closeMatch	schema:relatedLink	relatedLink	$.schema:relatedLink	relatedlink	semapv:ManualMappingCuration	CDIF relatedLink [ linkRelationship = 'foaf:page']
 foaf:name	name	foaf:Agent	skos:exactMatch	schema:name	name		agent-part	semapv:ManualMappingCuration	Consumed by the agent transform.
 foaf:mbox	mbox	foaf:Agent	skos:closeMatch	schema:email	email		agent-part	semapv:ManualMappingCuration	Consumed by the agent transform.
 vcard:fn	fn	vcard:Kind	skos:exactMatch	schema:name	name		vcard-part	semapv:ManualMappingCuration	Consumed by the vcard transform.
-vcard:hasEmail	hasEmail	vcard:Kind	skos:exactMatch	schema:email	email		vcard-part	semapv:ManualMappingCuration	Consumed by the vcard transform; a mailto: prefix is stripped.
+vcard:hasEmail	hasEmail	vcard:Kind	skos:exactMatch	schema:email	email		vcard-part	semapv:ManualMappingCuration	Consumed by the vcard transform; a mailto: prefix is stripped. Should goe in schema:contactPoint.schema:email. 
 vcard:email	email	vcard:Kind	skos:exactMatch	schema:email	email		vcard-part	semapv:ManualMappingCuration	The POD context maps hasEmail onto vcard:email.
-vcard:hasURL	hasURL	vcard:Kind	skos:closeMatch	schema:url	url		vcard-part	semapv:ManualMappingCuration	
-vcard:hasValue	hasValue	vcard:Kind	skos:closeMatch				vcard-part	semapv:ManualMappingCuration	Unwrapped by the vcard transform.
+vcard:hasURL	hasURL	vcard:Kind	skos:closeMatch	schema:url	url	$.schema:provider[*].schema:contactPoint.schema:url	vcard-part	semapv:ManualMappingCuration	 Should goe in schema:contactPoint.schema:url. 
+vcard:hasValue	hasValue	vcard:Kind	skos:closeMatch				vcard-part	semapv:ManualMappingCuration	Unwrapped by the vcard transform. Put in person or organization description
 vcard:hasTelephone	hasTelephone	vcard:Kind	skos:closeMatch				passthrough	semapv:ManualMappingCuration	schema:telephone is not a CDIF target.
 org:subOrganizationOf	subOrganizationOf	foaf:Agent	skos:closeMatch				passthrough	semapv:ManualMappingCuration	schema:parentOrganization is not a CDIF target.
 adms:identifier	identifier	dcat:Resource	skos:closeMatch	schema:identifier	identifier	$.schema:identifier	identifier	semapv:ManualMappingCuration	adms:Identifier node; the value sits in skos:notation. Used only when dcterms:identifier is absent.
-adms:schemaAgency	schemaAgency	adms:Identifier	skos:closeMatch				identifier-part	semapv:ManualMappingCuration	Consumed by the identifier transform.
+adms:schemaAgency	schemaAgency	adms:Identifier	skos:closeMatch	schema:owner	identifierAuthority		identifier-part	semapv:ManualMappingCuration	have to use @type schema:PropertyValue for the identifier;  make schema:owner
 adms:contactPoint	contactPoint	dcat:Resource	skos:closeMatch	schema:provider	provider	$.schema:provider	vcard	semapv:ManualMappingCuration	
 adms:status	status	dcat:Resource	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
-adms:versionNotes	versionNotes	dcat:Resource	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
+adms:versionNotes	versionNotes	dcat:Resource	skos:closeMatch	schema:description			describe	semapv:ManualMappingCuration	concatenate on Dataset.schema:description
 adms:sample	sample	dcat:Distribution	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
-adms:supportedSchema	supportedSchema	dcat:Resource	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
-skos:prefLabel	prefLabel	skos:Concept	skos:exactMatch	schema:name	name		concept-part	semapv:ManualMappingCuration	Consumed by the concept and agent transforms; POD maps name onto it.
-skos:altLabel	altLabel	skos:Concept	skos:closeMatch	schema:alternateName	alternateName		concept-part	semapv:ManualMappingCuration	
-skos:notation	notation	skos:Concept	skos:closeMatch	schema:termCode	termCode		concept-part	semapv:ManualMappingCuration	Also carries the value of an adms:Identifier.
-skos:definition	definition	skos:Concept	skos:closeMatch	schema:description	description		concept-part	semapv:ManualMappingCuration	
-skos:inScheme	inScheme	skos:Concept	skos:closeMatch	schema:inDefinedTermSet	inDefinedTermSet		concept-part	semapv:ManualMappingCuration	
-skos:exactMatch	exactMatch	skos:Concept	skos:closeMatch	schema:sameAs	sameAs		concept-part	semapv:ManualMappingCuration	
-skos:scopeNote	scopeNote	skos:Concept	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
+adms:supportedSchema	supportedSchema	dcat:Resource	skos:closeMatch	dcterms:conformsTo	supportedSchema	$.dcterms:conformsTo	iri	semapv:ManualMappingCuration	Dataset.conformsTo
+skos:prefLabel	prefLabel	skos:Concept	skos:exactMatch	schema:name	name		concept-part	semapv:ManualMappingCuration	Consumed by the concept and agent transforms; POD maps name onto it. Implement cdifConcept from cdifConceptSchemeProfile.
+skos:altLabel	altLabel	skos:Concept	skos:closeMatch	schema:alternateName	alternateName		concept-part	semapv:ManualMappingCuration	Implement cdifConcept from cdifConceptSchemeProfile.
+skos:notation	notation	skos:Concept	skos:closeMatch	schema:termCode	termCode		concept-part	semapv:ManualMappingCuration	Also carries the value of an adms:Identifier.Implement cdifConcept from cdifConceptSchemeProfile.
+skos:definition	definition	skos:Concept	skos:closeMatch	schema:description	description		concept-part	semapv:ManualMappingCuration	Implement cdifConcept from cdifConceptSchemeProfile.
+skos:inScheme	inScheme	skos:Concept	skos:closeMatch	schema:inDefinedTermSet	inDefinedTermSet		concept-part	semapv:ManualMappingCuration	Implement cdifConcept from cdifConceptSchemeProfile.
+skos:exactMatch	exactMatch	skos:Concept	skos:closeMatch	schema:sameAs	sameAs		concept-part	semapv:ManualMappingCuration	Implement cdifConcept from cdifConceptSchemeProfile.
+skos:scopeNote	scopeNote	skos:Concept	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Implement cdifConcept from cdifConceptSchemeProfile.
 rdfs:label	label	rdfs:Resource	skos:closeMatch	schema:name	name		concept-part	semapv:ManualMappingCuration	Last-resort label for a node with no prefLabel or fn.
-dqv:hasQualityMeasurement	hasQualityMeasurement	dcat:Resource	skos:exactMatch	dqv:hasQualityMeasurement	hasQualityMeasurement	$.dqv:hasQualityMeasurement		semapv:ManualMappingCuration	CDIF keeps the DQV term as itself.
+dqv:hasQualityMeasurement	hasQualityMeasurement	dcat:Resource	skos:exactMatch	dqv:hasQualityMeasurement	hasQualityMeasurement	$.dqv:hasQualityMeasurement	measurement	semapv:ManualMappingCuration	CDIF keeps the DQV term as itself.
 dcatap:applicableLegislation	applicableLegislation	dcat:Resource	skos:closeMatch				passthrough	semapv:ManualMappingCuration	DCAT-AP high-value-dataset extension.
 dcatap:hvdCategory	hvdCategory	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	DCAT-AP high-value-dataset extension.
-pod:accessLevel	accessLevel	dcat:Dataset	skos:closeMatch	schema:conditionsOfAccess	conditionsOfAccess	$.schema:conditionsOfAccess	text	semapv:ManualMappingCuration	POD public/restricted public/non-public; used when accessRights is absent.
+pod:accessLevel	accessLevel	dcat:Dataset	skos:closeMatch	schema:conditionsOfAccess	conditionsOfAccess	$.schema:conditionsOfAccess	prefixedtext	semapv:ManualMappingCuration	POD public/restricted public/non-public; used when accessRights is absent.
 pod:bureauCode	bureauCode	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
 pod:programCode	programCode	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
 pod:primaryITInvestmentUII	primaryITInvestmentUII	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
-pod:dataQuality	dataQuality	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
-pod:describedByType	describedByType	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
+pod:dataQuality	dataQuality	dcat:Dataset	skos:closeMatch	dqv:hasQualityMeasurement	hasQualityMeasurement	$.dqv:hasQualityMeasurement	measurement	semapv:ManualMappingCuration	hasQualityMeasurement[dqv:isMeasurementOf='dataQuality']
+pod:describedByType	describedByType	dcat:Dataset	skos:closeMatch	schema:encodingFormat		$.schema:relatedLink.schema:encodingFormat	text	semapv:ManualMappingCuration	this describes the file format for a related resource that documents the dataset;  describedBy gives a URL to a data dictionary or schema describing the structure of that distribution's data (e.g., a codebook, XML schema, or JSON schema). describedByType then tells consumers what format that referenced document is in.   
 pod:systemOfRecords	systemOfRecords	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
-wdrs:describedby	describedby	dcat:Dataset	skos:closeMatch	schema:relatedLink	relatedLink	$.schema:relatedLink	relatedlink	semapv:ManualMappingCuration	POD points this at a data dictionary. See dcat-aliases for the namespace.
+wdrs:describedby	describedby	dcat:Dataset	skos:closeMatch	schema:relatedLink	relatedLink	$.schema:relatedLink	relatedlink	semapv:ManualMappingCuration	POD points this at a data dictionary. See dcat-aliases for the namespace. pod:describedByType is the encoding format for the target link. 
 dcat-us:geographicBoundingBox	geographicBoundingBox	dcat:Dataset	skos:closeMatch	schema:spatialCoverage	spatialCoverage	$.schema:spatialCoverage	bbox	semapv:ManualMappingCuration	The four bounding coordinates are folded into one schema:Place.
 dcat-us:eastBoundingLongitude	eastBoundingLongitude	dcat-us:GeographicBoundingBox	skos:exactMatch				bbox-part	semapv:ManualMappingCuration	Consumed by the bbox transform.
 dcat-us:westBoundingLongitude	westBoundingLongitude	dcat-us:GeographicBoundingBox	skos:exactMatch				bbox-part	semapv:ManualMappingCuration	Consumed by the bbox transform.
 dcat-us:northBoundingLatitude	northBoundingLatitude	dcat-us:GeographicBoundingBox	skos:exactMatch				bbox-part	semapv:ManualMappingCuration	Consumed by the bbox transform.
 dcat-us:southBoundingLatitude	southBoundingLatitude	dcat-us:GeographicBoundingBox	skos:exactMatch				bbox-part	semapv:ManualMappingCuration	Consumed by the bbox transform.
-dcat-us:restrictionStatus	restrictionStatus	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
-dcat-us:accessRestriction	accessRestriction	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
-dcat-us:useRestriction	useRestriction	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
-dcat-us:liabilityStatement	liabilityStatement	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
+dcat-us:restrictionStatus	restrictionStatus	dcat:Dataset	skos:closeMatch	schema:conditionsOfAccess	conditionsOfAccess	$.schema:conditionsOfAccess[*]	prefixedtext	semapv:ManualMappingCuration	add dcat-us property name as prefix in the conditions of access list element.
+dcat-us:accessRestriction	accessRestriction	dcat:Dataset	skos:closeMatch	schema:conditionsOfAccess	conditionsOfAccess	$.schema:conditionsOfAccess[*]	prefixedtext	semapv:ManualMappingCuration	add dcat-us property name as prefix in the conditions of access list element.
+dcat-us:useRestriction	useRestriction	dcat:Dataset	skos:closeMatch	schema:conditionsOfAccess	conditionsOfAccess	$.schema:conditionsOfAccess[*]	prefixedtext	semapv:ManualMappingCuration	add dcat-us property name as prefix in the conditions of access list element.
+dcat-us:liabilityStatement	liabilityStatement	dcat:Dataset	skos:closeMatch	schema:conditionsOfAccess	conditionsOfAccess	$.schema:conditionsOfAccess[*]	prefixedtext	semapv:ManualMappingCuration	add dcat-us property name as prefix in the conditions of access list element.
 dcat-us:metadataDistribution	metadataDistribution	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
-dcatde:contributorID	contributorID	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	DCAT-AP.de extension.
-dcatde:licenseAttributionByText	licenseAttributionByText	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	DCAT-AP.de extension.
-dcatde:originator	originator	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	DCAT-AP.de extension.
-dcatde:maintainer	maintainer	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	DCAT-AP.de extension.
-dcatde:geocodingDescription	geocodingDescription	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	DCAT-AP.de extension.
-dcatde:politicalGeocodingURI	politicalGeocodingURI	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	DCAT-AP.de extension.
-dcatde:politicalGeocodingLevelURI	politicalGeocodingLevelURI	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	DCAT-AP.de extension.
-dcatde:legalBasis	legalBasis	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	DCAT-AP.de extension.
-it6:collectionDate	collectionDate	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	mldcat-ap extension.
-it6:hasDocument	hasDocument	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	mldcat-ap extension.
-it6:hasFile	hasFile	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	mldcat-ap extension.
-it6:url	url	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	mldcat-ap extension.
-it6:trainedOn	trainedOn	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	mldcat-ap extension.
-it6:intendedUse	intendedUse	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	mldcat-ap extension.
-it6:limitations	limitations	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	mldcat-ap extension.
-it6:dataProvenance	dataProvenance	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	mldcat-ap extension.
-cnt:characterEncoding	characterEncoding	dcat:Distribution	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
-dcterms:date	date	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Ambiguous; issued/modified are the dates CDIF asks for.
+dcatde:contributorID	contributorID	dcat:Dataset	skos:closeMatch	schema:identifier	contributorIdentifier	$.schema:contributor.schema:identifier	text	semapv:ManualMappingCuration	DCAT-AP.de extension.
+dcatde:licenseAttributionByText	licenseAttributionByText	dcat:Dataset	skos:closeMatch	schema:license	licenseAttributionByText	$.schema:license	text	semapv:ManualMappingCuration	DCAT-AP.de extension.
+dcatde:originator	originator	dcat:Dataset	skos:closeMatch	schema:creator	originator	$.schema:creator	agent	semapv:ManualMappingCuration	DCAT-AP.de extension. Use @list to preserver order
+dcatde:maintainer	maintainer	dcat:Dataset	skos:closeMatch	schema:contributor	maintainer	$.schema:contributor	agent	semapv:ManualMappingCuration	contributor[Role = 'maintainer']
+dcatde:geocodingDescription	geocodingDescription	dcat:Dataset	skos:closeMatch	schema:description	geocodingDescription	$.schema:description	describe	semapv:ManualMappingCuration	concatenate on Dataset.schema:description, with object_label as prefix
+dcatde:politicalGeocodingURI	politicalGeocodingURI	dcat:Dataset	skos:closeMatch	schema:description	politicalGeocodingURI	$.schema:description	describe	semapv:ManualMappingCuration	concatenate on Dataset.schema:description, with object_label as prefix
+dcatde:politicalGeocodingLevelURI	politicalGeocodingLevelURI	dcat:Dataset	skos:closeMatch	schema:description	politicalGeocodingLevelURI	$.schema:description	describe	semapv:ManualMappingCuration	concatenate on Dataset.schema:description, with object_label as prefix
+dcatde:legalBasis	legalBasis	dcat:Dataset	skos:closeMatch	schema:description	legalBasis	$.schema:description	describe	semapv:ManualMappingCuration	concatenate on Dataset.schema:description, with object_label as prefix
+it6:collectionDate	collectionDate	dcat:Dataset	skos:closeMatch	schema:temporalCoverage	collectionDate	$.schema:temporalCoverage	period	semapv:ManualMappingCuration	mldcat-ap extension.
+it6:hasDocument	hasDocument	dcat:Dataset	skos:closeMatch	schema:hasPart			iri	semapv:ManualMappingCuration	see other hasPart object_id description
+it6:hasFile	hasFile	dcat:Dataset	skos:closeMatch	schema:hasPart			iri	semapv:ManualMappingCuration	see other hasPart object_id description
+it6:url	url	dcat:Dataset	skos:closeMatch	schema:url	it6URL	$.schema:url	iri	semapv:ManualMappingCuration	mldcat-ap extension.
+it6:trainedOn	trainedOn	dcat:Dataset	skos:closeMatch	schema:relatedLink	trainedOn	$.schema:relatedLink	relatedlink	semapv:ManualMappingCuration	mldcat-ap extension.
+it6:intendedUse	intendedUse	dcat:Dataset	skos:closeMatch	schema:description	intendedUse	$.schema:description	describe	semapv:ManualMappingCuration	concatenate on Dataset.schema:description, with object_label as prefix
+it6:limitations	limitations	dcat:Dataset	skos:closeMatch	schema:description	limitations	$.schema:description	describe	semapv:ManualMappingCuration	concatenate on Dataset.schema:description, with object_label as prefix
+it6:dataProvenance	dataProvenance	dcat:Dataset	skos:closeMatch	prov:used	dataProvenance	$.prov:wasGeneratedBy.prov:used	text	semapv:ManualMappingCuration	mldcat-ap extension.
+cnt:characterEncoding	characterEncoding	dcat:Distribution	skos:closeMatch				passthrough	semapv:ManualMappingCuration	distribution property
+dcterms:date	date	dcat:Dataset	skos:closeMatch	schema:temporalCoverage	collectionDate	$.schema:temporalCoverage	period	semapv:ManualMappingCuration	Ambiguous; issued/modified are the dates CDIF asks for.
 dcterms:version	version	dcat:Dataset	skos:closeMatch	schema:version	version	$.schema:version	text	semapv:ManualMappingCuration	Not a DCMI term; coined by publishers. Used when dcat:version is absent.
 dqv:value	value	dqv:QualityMeasurement	skos:exactMatch				passthrough	semapv:ManualMappingCuration	Carried inside dqv:hasQualityMeasurement.
 prov:value	value	prov:Attribution	skos:closeMatch				attribution-part	semapv:ManualMappingCuration	Consumed by the attribution transform.
-spdx:licenseText	licenseText	dcat:Distribution	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
+spdx:licenseText	licenseText	dcat:Distribution	skos:closeMatch	schema:license	spdxLicenseText	$.schema:license	text	semapv:ManualMappingCuration	
 schema:image	image	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	schema:image is not a CDIF target.
 schema:caption	caption	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
-it6:classification	classification	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Classification of the dataset or model.
-it6:defaultTargetAttribute	defaultTargetAttribute	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	mldcat-ap extension.
-it6:hasBibliographicReference	hasBibliographicReference	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	mldcat-ap extension.
-it6:hasFeature	hasFeature	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	mldcat-ap extension.
-it6:hasInputModality	hasInputModality	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	mldcat-ap extension.
-it6:hasOutputModality	hasOutputModality	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	mldcat-ap extension.
-it6:hasProvider	hasProvider	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	mldcat-ap extension.
-it6:hasRepository	hasRepository	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	mldcat-ap extension.
-it6:hasUploader	hasUploader	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	mldcat-ap extension.
-it6:methodOfDistribution	methodOfDistribution	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	mldcat-ap extension.
-it6:modelArchitecture	modelArchitecture	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	mldcat-ap extension.
-it6:placedOnMarketDate	placedOnMarketDate	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	mldcat-ap extension.
-it6:processingDate	processingDate	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	mldcat-ap extension.
-it6:releaseDate	releaseDate	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	mldcat-ap extension.
-it6:size	size	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	mldcat-ap extension.
-it6:totalNumberOfParameters	totalNumberOfParameters	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	mldcat-ap extension.
-it6:versionLabel	versionLabel	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	mldcat-ap extension.
-it6:visibility	visibility	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	mldcat-ap extension.
+it6:classification	classification	dcat:Dataset	skos:closeMatch	schema:name	classification	$.schema:keywords.schema:name	concept	semapv:ManualMappingCuration	definedTerm[about='classification']
+it6:defaultTargetAttribute	defaultTargetAttribute	dcat:Dataset	skos:closeMatch	schema:description	defaultTargetAttribute	$.schema:description	describe	semapv:ManualMappingCuration	concatenate on Dataset.schema:description, with object_label as prefix
+it6:hasBibliographicReference	hasBibliographicReference	dcat:Dataset	skos:closeMatch	dcterms:bibliographicCitation	hasBibliographicReference	$.dcterms:bibliographicCitation	text	semapv:ManualMappingCuration	mldcat-ap extension.
+it6:hasFeature	hasFeature	dcat:Dataset	skos:closeMatch	schema:description	hasFeature	$.schema:description	describe	semapv:ManualMappingCuration	concatenate on Dataset.schema:description, with object_label as prefix
+it6:hasInputModality	hasInputModality	dcat:Dataset	skos:closeMatch	schema:description	hasInputModality	$.schema:description	describe	semapv:ManualMappingCuration	concatenate on Dataset.schema:description, with object_label as prefix
+it6:hasOutputModality	hasOutputModality	dcat:Dataset	skos:closeMatch	schema:description	hasOutputModality	$.schema:description	describe	semapv:ManualMappingCuration	concatenate on Dataset.schema:description, with object_label as prefix
+it6:hasProvider	hasProvider	dcat:Dataset	skos:closeMatch	schema:provider	provider	$.schema:provider	agent	semapv:ManualMappingCuration	mldcat-ap extension.
+it6:hasRepository	hasRepository	dcat:Dataset	skos:closeMatch	schema:includedInDataCatalog	hasRepository	$.schema:includedInDataCatalog	iri	semapv:ManualMappingCuration	mldcat-ap extension.
+it6:hasUploader	hasUploader	dcat:Dataset	skos:closeMatch	schema:contributor	uploader	$.schema:contributor	agent	semapv:ManualMappingCuration	contributor[role='uploader'] 
+it6:methodOfDistribution	methodOfDistribution	dcat:Dataset	skos:closeMatch	schema:description	methodOfDistribution	$.schema:description	describe	semapv:ManualMappingCuration	mldcat-ap extension.
+it6:modelArchitecture	modelArchitecture	dcat:Dataset	skos:closeMatch	schema:description	modelArchitecture	$.schema:description	describe	semapv:ManualMappingCuration	concatenate on Dataset.schema:description, with object_label as prefix
+it6:placedOnMarketDate	placedOnMarketDate	dcat:Dataset	skos:closeMatch	schema:description	placedOnMarketDate	$.schema:description	describe	semapv:ManualMappingCuration	concatenate on Dataset.schema:description, with object_label as prefix
+it6:processingDate	processingDate	dcat:Dataset	skos:closeMatch	schema:description	processingDate	$.schema:description	describe	semapv:ManualMappingCuration	concatenate on Dataset.schema:description, with object_label as prefix
+it6:releaseDate	releaseDate	dcat:Dataset	skos:closeMatch	schema:datePublished	releaseDate	$.schema:datePublished	date	semapv:ManualMappingCuration	concatenate on Dataset.schema:description, with object_label as prefix
+it6:size	size	dcat:Dataset	skos:closeMatch	schema:contentSize	size	$.schema:distribution[*].schema:contentSize	bytes	semapv:ManualMappingCuration	mldcat-ap extension.
+it6:totalNumberOfParameters	totalNumberOfParameters	dcat:Dataset	skos:closeMatch	schema:description	totalNumberOfParameters	$.schema:description	describe	semapv:ManualMappingCuration	concatenate on Dataset.schema:description, with object_label as prefix
+it6:versionLabel	versionLabel	dcat:Dataset	skos:closeMatch	schema:version	versionLabel	$.schema:version	text	semapv:ManualMappingCuration	if there is already a version value, concatenate this 
+it6:visibility	visibility	dcat:Dataset	skos:closeMatch	schema:description	visibility	$.schema:description	describe	semapv:ManualMappingCuration	concatenate on Dataset.schema:description, with object_label as prefix

@@ -243,6 +243,812 @@ def _get_str(val):
 
 
 # ---------------------------------------------------------------------------
+# SSSOM mapping tables
+# ---------------------------------------------------------------------------
+#
+# converters/mappings/dcat-to-cdif.sssom.tsv is the authority for which DCAT
+# property becomes which CDIF property. This module reads it rather than
+# restating it, so the table and the behaviour cannot drift apart -- the same
+# arrangement ddi_sssom_to_cdif.py uses.
+#
+# Two columns beyond stock SSSOM, declared as extension slots in the .yml:
+#   subject_class  DCAT is a graph, so a property's meaning depends on the
+#                  class it sits on: dcterms:title is schema:name on a Dataset
+#                  and the distribution's name on a Distribution.
+#   transform      names the shaper below. Empty means a plain copy.
+
+_MAPPINGS_DIR = Path(__file__).resolve().parent.parent / "mappings"
+
+# Classes a property sits on when it is a property of the dataset itself.
+_ROOT_CLASSES = ("dcat:Dataset", "dcat:Resource")
+
+
+def _read_sssom(name):
+    """Rows of an SSSOM TSV as dicts. Raises if the table is missing.
+
+    Deliberately fatal: a converter that silently produced empty records
+    because its mapping table was absent would look like a converter that
+    found nothing to map.
+    """
+    path = _MAPPINGS_DIR / name
+    with path.open(encoding="utf-8") as fh:
+        header = fh.readline().rstrip("\n").split("\t")
+        rows = []
+        for line in fh:
+            line = line.rstrip("\n")
+            if not line.strip():
+                continue
+            cells = line.split("\t")
+            cells += [""] * (len(header) - len(cells))
+            rows.append(dict(zip(header, cells)))
+    return rows
+
+
+def _load_tables():
+    aliases = {}
+    for row in _read_sssom("dcat-aliases.sssom.tsv"):
+        if row["subject_id"] and row["object_id"]:
+            aliases[row["subject_id"]] = row["object_id"]
+    rules = {}
+    for order, row in enumerate(_read_sssom("dcat-to-cdif.sssom.tsv")):
+        row["_order"] = order
+        rules.setdefault(row["subject_id"], []).append(row)
+    return aliases, rules
+
+
+ALIASES, RULES = _load_tables()
+
+
+def build_node_index(doc):
+    """{@id: node} for every node in `doc` that says more than its own @id.
+
+    A node carrying only @id is a reference, not a description, so it never
+    shadows the real node -- otherwise a document that mentions a distribution
+    before defining it would index the mention.
+    """
+    index = {}
+
+    def walk(node, depth=0):
+        if depth > 20:
+            return
+        if isinstance(node, list):
+            for item in node:
+                walk(item, depth + 1)
+            return
+        if not isinstance(node, dict):
+            return
+        nid = node.get("@id")
+        if isinstance(nid, str) and len(node) > 1 and nid not in index:
+            index[nid] = node
+        for value in node.values():
+            walk(value, depth + 1)
+
+    walk(doc)
+    return index
+
+
+def _resolve(value, graph, seen=None, depth=0):
+    """`value` with @id references replaced by the nodes they name."""
+    if not graph or depth > 8:
+        return value
+    if seen is None:
+        seen = set()
+    if isinstance(value, list):
+        return [_resolve(v, graph, seen, depth + 1) for v in value]
+    if not isinstance(value, dict):
+        return value
+    nid = value.get("@id")
+    if isinstance(nid, str) and len(value) == 1 and nid in graph and nid not in seen:
+        seen = seen | {nid}
+        return _resolve(graph[nid], graph, seen, depth + 1)
+    return {k: (v if k.startswith("@") else _resolve(v, graph, seen, depth + 1))
+            for k, v in value.items()}
+
+
+def _rule_for(key, classes):
+    """The row governing `key` on any of `classes`, or None."""
+    for row in RULES.get(key, ()):
+        if row["subject_class"] in classes:
+            return row
+    return None
+
+
+def _apply_aliases(ds, changes):
+    """`ds` with source IRIs rewritten to the IRI the publisher meant.
+
+    Most of these come from official context documents rather than from
+    careless records -- see dcat-aliases.sssom.yml -- so the rewrite is
+    routine, but it is recorded: a silent correction is indistinguishable
+    from the source having been right all along.
+    """
+    if not any(k in ALIASES for k in ds):
+        return ds
+    out = {}
+    for key, value in ds.items():
+        target = ALIASES.get(key)
+        if target and target not in ds:      # never clobber a real value
+            out[target] = value
+            changes.append("%s read as %s" % (key, target))
+        elif target:
+            changes.append("%s dropped (%s also present)" % (key, target))
+        else:
+            out[key] = value
+    return out
+
+
+# --- transforms ------------------------------------------------------------
+#
+# (value, ds, rule, doc) -> the CDIF value, or None to emit nothing.
+# `rule` is the table row, so a shaper can use the source property and the
+# curated object_label; `doc` is the record so far, for the shapers that
+# accumulate.
+
+NIL = "http://www.opengis.net/def/nil/OGC/0/missing"
+
+
+def _local(curie):
+    return curie.rsplit(":", 1)[-1] if curie else curie
+
+
+def _is_iri(text):
+    return isinstance(text, str) and text.startswith(("http://", "https://", "urn:"))
+
+
+def _tf_text(value, ds, rule, doc):
+    return _get_str(value)
+
+
+def _tf_iri(value, ds, rule, doc):
+    if isinstance(value, list):
+        got = [_tf_iri(v, ds, rule, doc) for v in value]
+        got = [g for g in got if g]
+        return got or None
+    if isinstance(value, dict):
+        return value.get("@id") or _get_str(value)
+    return _get_str(value)
+
+
+def _tf_idref(value, ds, rule, doc):
+    """An IRI -> {"@id": ...}, the reference form CDIF declares.
+
+    A distribution's dcterms:conformsTo is an array of objects, not of
+    strings: it names standards, and a name that cannot be dereferenced is
+    not much use.
+    """
+    got = _tf_iri(value, ds, rule, doc)
+    items = got if isinstance(got, list) else ([got] if got else [])
+    return [{"@id": i} for i in items] or None
+
+
+def _tf_date(value, ds, rule, doc):
+    return _get_str(value)
+
+
+def _tf_langcode(value, ds, rule, doc):
+    text = _tf_iri(value, ds, rule, doc)
+    if isinstance(text, list):
+        text = text[0] if text else None
+    if not text:
+        return None
+    tail = text.rstrip("/").rsplit("/", 1)[-1].rsplit("#", 1)[-1]
+    return tail or text
+
+
+def _tf_list(value, ds, rule, doc):
+    return [v for v in (_get_str(item) for item in _as_list(value)) if v]
+
+
+def _tf_describe(value, ds, rule, doc):
+    """Fold an extension property's prose into schema:description.
+
+    Seventeen extension properties (it6:*, dcatde:*, adms:versionNotes) carry
+    text a reader wants, and CDIF has one description. Each is appended as its
+    own labelled line rather than competing for the slot, so nothing is lost
+    and the source of each sentence stays visible.
+    """
+    text = " ".join(v for v in (_get_str(i) for i in _as_list(value)) if v).strip()
+    if not text:
+        return None
+    return "%s: %s" % (rule.get("object_label") or _local(rule["subject_id"]), text)
+
+
+def _tf_prefixedtext(value, ds, rule, doc):
+    """Label a conditionsOfAccess entry with the property it came from.
+
+    Seven properties feed conditionsOfAccess -- dcterms:accessRights and
+    dcterms:rights are different things, and POD and DCAT-US each add their own
+    vocabulary. Prefixing keeps them distinguishable in one list.
+    """
+    out = []
+    for item in _as_list(value):
+        text = _tf_iri(item, ds, rule, doc) if isinstance(item, dict) else _get_str(item)
+        if isinstance(text, list):
+            text = text[0] if text else None
+        if text:
+            out.append("%s: %s" % (rule["subject_id"], text))
+    return out or None
+
+
+def _name_from_iri(iri, taken):
+    """A readable name for a theme that came as a bare IRI.
+
+    The last two path segments carry the meaning in every theme vocabulary in
+    the corpus (".../sector-publico/sector/medio-ambiente"), and a bare IRI is
+    useless as a keyword. Numbered when two IRIs reduce to the same name.
+    """
+    parts = [p for p in iri.rstrip("/").replace("#", "/").split("/") if p]
+    name = "/".join(parts[-2:]) if len(parts) >= 2 else (parts[-1] if parts else iri)
+    if name not in taken:
+        return name
+    n = 2
+    while "%s (%d)" % (name, n) in taken:
+        n += 1
+    return "%s (%d)" % (name, n)
+
+
+def _tf_theme(value, ds, rule, doc):
+    """dcat:theme -> a schema:DefinedTerm marked as a DCAT theme.
+
+    A theme is a subject category, not a free-text keyword, so it keeps its
+    IRI in schema:identifier and is tagged schema:about = 'DCATtheme' to stay
+    distinguishable from dcat:keyword once both are in schema:keywords.
+    """
+    taken = set()
+    for existing in _as_list(doc.get("schema:keywords")):
+        if isinstance(existing, dict) and existing.get("schema:name"):
+            taken.add(existing["schema:name"])
+    out = []
+    for item in _as_list(value):
+        name = iri = None
+        if isinstance(item, dict):
+            name = _get_str(item.get("skos:prefLabel") or item.get("rdfs:label")
+                            or item.get("schema:name"))
+            iri = item.get("@id")
+        else:
+            text = _get_str(item)
+            if _is_iri(text):
+                iri = text
+            else:
+                name = text
+        term = {"@type": ["schema:DefinedTerm"], "schema:about": "DCATtheme"}
+        if iri:
+            term["schema:identifier"] = iri
+        if not name and iri:
+            name = _name_from_iri(iri, taken)
+        if not name:
+            continue
+        taken.add(name)
+        term["schema:name"] = name
+        out.append(term)
+    return out or None
+
+
+def _tf_concept(value, ds, rule, doc):
+    out = []
+    for item in _as_list(value):
+        if isinstance(item, dict):
+            name = _get_str(item.get("skos:prefLabel") or item.get("rdfs:label")
+                            or item.get("schema:name"))
+            if name:
+                term = {"@type": ["schema:DefinedTerm"], "schema:name": name}
+                if item.get("@id"):
+                    term["schema:identifier"] = item["@id"]
+                out.append(term)
+                continue
+            if item.get("@id"):
+                out.append(item["@id"])
+                continue
+        text = _get_str(item)
+        if text:
+            out.append(text)
+    return out or None
+
+
+def _tf_agent(value, ds, rule, doc):
+    got = [convert_agent(a) for a in _as_list(value)]
+    return [a for a in got if a] or None
+
+
+def _tf_vcard(value, ds, rule, doc):
+    """A vCard contact -> a schema:Person (or Organization) with a ContactPoint.
+
+    Default to Person: a contact point names a human unless the source says
+    otherwise, and guessing Organization made every named individual an
+    institution. A contact with no name still carries its address, so the name
+    becomes the nil URI rather than the node being dropped.
+    """
+    out = []
+    for contact in _as_list(value):
+        if not isinstance(contact, dict):
+            text = _get_str(contact)
+            if text:
+                out.append({"@type": ["schema:Person"], "schema:name": text})
+            continue
+        types = " ".join(_as_list(contact.get("@type")))
+        kind = "schema:Organization" if ("Organization" in types or "Org" in types) \
+            else "schema:Person"
+        name = _get_str(contact.get("vcard:fn") or contact.get("schema:name"))
+        email = contact.get("vcard:hasEmail") or contact.get("vcard:email")
+        url = contact.get("vcard:hasURL") or contact.get("vcard:url")
+        phone = contact.get("vcard:hasTelephone")
+        agent = {"@type": [kind], "schema:name": name or NIL}
+        if contact.get("@id") and _is_iri(contact["@id"]):
+            agent["@id"] = contact["@id"]
+        point = {"@type": ["schema:ContactPoint"]}
+        if email:
+            addr = _tf_iri(email, ds, rule, doc)
+            if isinstance(addr, list):
+                addr = addr[0] if addr else None
+            if addr:
+                point["schema:email"] = addr.replace("mailto:", "")
+        if url:
+            link = _tf_iri(url, ds, rule, doc)
+            if isinstance(link, list):
+                link = link[0] if link else None
+            if link:
+                point["schema:url"] = link
+        if phone:
+            tel = _tf_iri(phone, ds, rule, doc)
+            if isinstance(tel, list):
+                tel = tel[0] if tel else None
+            if tel:
+                point["schema:telephone"] = tel.replace("tel:", "")
+        if len(point) > 1:
+            agent["schema:contactPoint"] = point
+        out.append(agent)
+    return out or None
+
+
+def _tf_identifier(value, ds, rule, doc):
+    """adms:Identifier -> a string, preferring a DOI when there are several.
+
+    A record may carry many identifiers and CDIF names one. Picking a DOI
+    first means the chosen one is the citable, resolvable identifier rather
+    than whichever the serializer happened to put first; the rest are kept on
+    schema:sameAs so nothing is lost.
+    """
+    found = []
+    for item in _as_list(value):
+        if isinstance(item, dict):
+            got = (item.get("skos:notation") or item.get("dcterms:identifier")
+                   or item.get("@id"))
+        else:
+            got = item
+        text = _get_str(got)
+        if text and text not in found:
+            found.append(text)
+    if not found:
+        return None
+    doi = next((f for f in found if "doi.org" in f.lower()
+                or f.lower().startswith("doi:") or "10." in f[:4]), None)
+    chosen = doi or found[0]
+    rest = [f for f in found if f != chosen and _is_iri(f)]
+    if rest:
+        same = doc.get("schema:sameAs") or []
+        for r in rest:
+            if r not in same:
+                same.append(r)
+        doc["schema:sameAs"] = same
+    return chosen
+
+
+def _tf_place(value, ds, rule, doc):
+    got = [convert_spatial(p) for p in _as_list(value)]
+    return [p for p in got if p] or None
+
+
+def _tf_bbox(value, ds, rule, doc):
+    """DCAT-US bounding coordinates -> a schema:GeoShape box.
+
+    schema:box is "lower corner, then upper corner": south west north east.
+    The values are checked before use -- a box whose north is below its south,
+    or whose numbers are outside the coordinate range, is a transcription
+    error, and emitting it would put a wrong footprint in a discovery index.
+    """
+    for node in _as_list(value):
+        if not isinstance(node, dict):
+            continue
+
+        def coord(local):
+            for key, val in node.items():
+                if key.rsplit(":", 1)[-1] == local:
+                    text = _get_str(val)
+                    try:
+                        return float(text)
+                    except (TypeError, ValueError):
+                        return None
+            return None
+
+        west, east = coord("westBoundingLongitude"), coord("eastBoundingLongitude")
+        south, north = coord("southBoundingLatitude"), coord("northBoundingLatitude")
+        if None in (west, east, south, north):
+            continue
+        if not (-90 <= south <= 90 and -90 <= north <= 90):
+            continue
+        if not (-180 <= west <= 180 and -180 <= east <= 180):
+            continue
+        if north < south:
+            continue                      # transposed corners, not a real box
+        # west > east is legitimate: a box crossing the antimeridian.
+        return [{"@type": ["schema:Place"],
+                 "schema:geo": {"@type": ["schema:GeoShape"],
+                                "schema:box": "%g %g %g %g"
+                                              % (south, west, north, east)}}]
+    return None
+
+
+def _tf_period(value, ds, rule, doc):
+    got = [convert_temporal(t) for t in _as_list(value)]
+    return [t for t in got if t] or None
+
+
+def _tf_distribution(value, ds, rule, doc):
+    got = [convert_distribution(d) for d in _as_list(value) if isinstance(d, dict)]
+    return [d for d in got if d] or None
+
+
+def _tf_service(value, ds, rule, doc):
+    """A dcat:DataService that serves a dataset -> a schema:WebAPI distribution.
+
+    CDIF does not describe services as resources in their own right, so a
+    service reachable from a dataset is recorded as the way that dataset is
+    accessed. A processing service -- one that takes an arbitrary input and
+    returns a result -- is out of scope and is skipped: it does not distribute
+    this dataset.
+    """
+    out = []
+    for node in _as_list(value):
+        if isinstance(node, dict):
+            types = " ".join(_as_list(node.get("@type")))
+            if "Process" in types:
+                continue
+            url = _tf_iri(node.get("dcat:endpointURL") or node, ds, rule, doc)
+        else:
+            url = _tf_iri(node, ds, rule, doc)
+        if isinstance(url, list):
+            url = url[0] if url else None
+        if not url:
+            continue
+        item = {"@type": ["schema:WebAPI"], "schema:contentUrl": url,
+                "schema:serviceType": "dcat:DataService"}
+        if isinstance(node, dict):
+            title = _get_str(node.get("dcterms:title"))
+            if title:
+                item["schema:name"] = title
+            desc = node.get("dcat:endpointDescription")
+            if desc:
+                link = _tf_iri(desc, ds, rule, doc)
+                if isinstance(link, list):
+                    link = link[0] if link else None
+                if link:
+                    item["schema:documentation"] = link
+        out.append(item)
+    return out or None
+
+
+def _tf_attribution(value, ds, rule, doc):
+    got = [convert_qualified_attribution(a) for a in _as_list(value)]
+    return [a for a in got if a] or None
+
+
+def _tf_relatedlink(value, ds, rule, doc):
+    """An IRI -> a CDIF relatedLink that remembers which relation it was.
+
+    isReferencedBy, references, replaces, isReplacedBy, foaf:page,
+    wdrs:describedby and the dataset-series pointers all land here. Writing the
+    source property into linkRelationship is what keeps them distinguishable
+    afterwards -- the alternative loses the difference between "this replaces
+    that" and "that documents this".
+    """
+    out = []
+    for item in _as_list(value):
+        target = _tf_iri(item, ds, rule, doc)
+        if isinstance(target, list):
+            target = target[0] if target else None
+        if not target:
+            continue
+        out.append({"schema:linkRelationship": rule["subject_id"],
+                    "schema:target": {"@type": ["schema:EntryPoint"],
+                                      "schema:url": target}})
+    return out or None
+
+
+def _tf_bytes(value, ds, rule, doc):
+    return _get_str(value)
+
+
+def _tf_mediatype(value, ds, rule, doc):
+    got = [_get_str(v) if not isinstance(v, dict) else _tf_iri(v, ds, rule, doc)
+           for v in _as_list(value)]
+    got = [g for g in got if g]
+    return got or None
+
+
+def _tf_measurement(value, ds, rule, doc):
+    """A bare quality value -> a dqv:QualityMeasurement.
+
+    POD's dataQuality is a boolean, and CDIF wants a measurement object that
+    names what was measured. Wrapping keeps the assertion and says which
+    property it came from, instead of dropping a lone `true` into a slot
+    declared as an object.
+    """
+    out = []
+    for item in _as_list(value):
+        if isinstance(item, dict) and len(item) > 1:
+            out.append(item)
+            continue
+        # CDIF declares the measured value as a string or number, so a
+        # boolean flag is written the way JSON-LD would spell it.
+        val = "true" if item is True else ("false" if item is False else _get_str(item))
+        if val is None or val == "":
+            continue
+        out.append({"@type": ["dqv:QualityMeasurement"],
+                    "dqv:isMeasurementOf": rule["subject_id"],
+                    "dqv:value": val})
+    return out or None
+
+
+def _tf_checksum(value, ds, rule, doc):
+    """spdx:Checksum -> the single object CDIF declares (not an array)."""
+    out = []
+    for node in _as_list(value):
+        if not isinstance(node, dict):
+            continue
+        algo = _tf_iri(node.get("spdx:algorithm"), ds, rule, doc)
+        val = _get_str(node.get("spdx:checksumValue"))
+        if not val:
+            continue
+        item = {"@type": ["spdx:Checksum"], "spdx:checksumValue": val}
+        if algo:
+            item["spdx:algorithm"] = algo[0] if isinstance(algo, list) else algo
+        out.append(item)
+    return out[0] if out else None
+
+
+_TRANSFORMS = {
+    "": _tf_text,
+    "text": _tf_text,
+    "iri": _tf_iri,
+    "idref": _tf_idref,
+    "date": _tf_date,
+    "langcode": _tf_langcode,
+    "list": _tf_list,
+    "describe": _tf_describe,
+    "prefixedtext": _tf_prefixedtext,
+    "theme": _tf_theme,
+    "bytes": _tf_bytes,
+    "mediatype": _tf_mediatype,
+    "concept": _tf_concept,
+    "agent": _tf_agent,
+    "vcard": _tf_vcard,
+    "identifier": _tf_identifier,
+    "place": _tf_place,
+    "bbox": _tf_bbox,
+    "period": _tf_period,
+    "distribution": _tf_distribution,
+    "service": _tf_service,
+    "checksum": _tf_checksum,
+    "measurement": _tf_measurement,
+    "attribution": _tf_attribution,
+    "relatedlink": _tf_relatedlink,
+}
+
+# Shapers that add to what is already there instead of filling an empty slot.
+_ACCUMULATING = {"describe", "prefixedtext"}
+
+# How CDIF wants each target shaped. This is CDIF-side knowledge -- what the
+# profile schema declares -- not part of the DCAT correspondence, so it lives
+# here rather than in the table. Anything unlisted is a single value.
+_TARGET_ARITY = {
+    "schema:license": "array",
+    "schema:conditionsOfAccess": "array",
+    "schema:keywords": "array",
+    "schema:contributor": "array",
+    "schema:provider": "array",
+    "schema:distribution": "array",
+    "schema:spatialCoverage": "array",
+    "schema:temporalCoverage": "array",
+    "schema:relatedLink": "array",
+    "schema:additionalType": "array",
+    "schema:hasPart": "array",
+    "schema:isPartOf": "array",
+    "schema:sameAs": "array",
+    "schema:inDefinedTermSet": "array",
+    "prov:wasGeneratedBy": "array",
+    "dqv:hasQualityMeasurement": "array",
+    "prov:used": "array",
+    "schema:creator": "ordered",       # {"@list": [...]}, order is meaningful
+    # reached inside a distribution
+    "schema:encodingFormat": "array",
+    "dcterms:conformsTo": "array",
+    "schema:potentialAction": "array",
+}
+
+
+def _place(doc, target, value, transform=""):
+    """Put `value` at `target`, shaped the way the CDIF profile declares it.
+
+    Three arities, because CDIF's own schema has three:
+      accumulating -- `describe` and `prefixedtext` add to a slot another row
+        already filled. schema:description is a single string, so an appended
+        line is joined onto it; conditionsOfAccess is a list, so it gains an
+        entry.
+      array -- six properties map onto schema:relatedLink and three onto
+        schema:keywords; letting the first win would drop the rest on the
+        floor, consumed by the table and so not passed through either.
+      scalar -- keeps the first value, which is how the table's row order
+        expresses "dcterms:identifier, else adms:identifier".
+    """
+    if value is None or value == [] or value == "":
+        return False
+    arity = _TARGET_ARITY.get(target)
+    if transform in _ACCUMULATING:
+        items = value if isinstance(value, list) else [value]
+        if arity == "array":
+            existing = doc.get(target) or []
+            for item in items:
+                if item not in existing:
+                    existing.append(item)
+            doc[target] = existing
+        else:
+            joined = "\n\n".join(str(i) for i in items)
+            doc[target] = (doc[target] + "\n\n" + joined) if doc.get(target) else joined
+        return True
+    if arity == "ordered":
+        doc[target] = {"@list": value if isinstance(value, list) else [value]}
+    elif arity == "array":
+        items = value if isinstance(value, list) else [value]
+        existing = doc.get(target) or []
+        for item in items:
+            if item not in existing:
+                existing.append(item)
+        doc[target] = existing
+    else:
+        if target in doc:
+            return False
+        doc[target] = value[0] if isinstance(value, list) else value
+    return True
+
+
+# Root-level rows with a CDIF target, in table order. Order is precedence: for
+# a scalar target the first row to fill it wins, which is how the table
+# expresses "dcterms:identifier, else adms:identifier" with no conditional
+# logic here. Walking the document instead would make precedence depend on
+# JSON key order.
+def _path_segments(rule):
+    """object_json_path as segments, or None when it just names a root key.
+
+    "$.schema:spatialCoverage.schema:box" -> ["schema:spatialCoverage",
+    "schema:box"]; a trailing "[*]" marks a segment that holds an array.
+    """
+    path = (rule.get("object_json_path") or "").strip()
+    if not path.startswith("$."):
+        return None
+    segs = path[2:].split(".")
+    return segs if len(segs) > 1 else None
+
+
+# A node this pass creates still has to say what it is.
+_NODE_TYPES = {"prov:wasGeneratedBy": ["prov:Activity"]}
+
+
+def _descend(container, segs):
+    """The object that the last segment of `segs` should be written into."""
+    for seg in segs[:-1]:
+        key = seg[:-3] if seg.endswith("[*]") else seg
+        # The declared arity decides, not the path's notation: a path may omit
+        # [*] on a property CDIF declares as an array, and writing a bare
+        # object there produces a record that does not validate.
+        array = seg.endswith("[*]") or _TARGET_ARITY.get(key) == "array"
+        node = container.get(key)
+        if array:
+            if not isinstance(node, list):
+                node = [] if node is None else [node]
+                container[key] = node
+            # Write into the first member that is a node. A list of bare IRIs
+            # has none, and the previous code then wrote into a throwaway dict
+            # that was never attached -- the value vanished while the row
+            # counted as mapped, so the source property was dropped too.
+            spot = next((x for x in node if isinstance(x, dict)), None)
+            if spot is None:
+                spot = {}
+                node.append(spot)
+            container = spot
+        else:
+            if not isinstance(node, dict):
+                node = {}
+                container[key] = node
+            container = node
+        if isinstance(container, dict) and key in _NODE_TYPES:
+            container.setdefault("@type", list(_NODE_TYPES[key]))
+    return container
+
+
+
+def _apply_nested(doc, ds, changes, graph=None):
+    """Apply the rows whose target sits inside another property.
+
+    Deliberately after the catalog record exists: two rows write into
+    schema:subjectOf, and building that afterwards would overwrite them.
+    """
+    consumed = set()
+    for rule in _NESTED_ROWS:
+        key = rule["subject_id"]
+        value = ds.get(key)
+        if value is None:
+            continue
+        transform = _TRANSFORMS.get(rule["transform"])
+        if transform is None:
+            continue
+        shaped = transform(_resolve(value, graph), ds, rule, doc)
+        if shaped is None or shaped == [] or shaped == "":
+            continue
+        segs = _path_segments(rule)
+        leaf = segs[-1]
+        target = _descend(doc, segs)
+        if _place(target, leaf.replace("[*]", ""), shaped, rule["transform"]):
+            consumed.add(key)
+            changes.append("%s to %s" % (key, rule["object_json_path"]))
+    return consumed
+
+
+_ALL_ROOT = [row for group in RULES.values() for row in group
+             if row["subject_class"] in _ROOT_CLASSES and row["object_id"]]
+_ALL_ROOT.sort(key=lambda row: row["_order"])
+
+# A row whose path is "$.<one segment>" writes a property of the record; a
+# deeper path writes inside one, and is applied later.
+_ROOT_ROWS = [r for r in _ALL_ROOT if not _path_segments(r)]
+# Parents the nested pass may build. Deliberately short: most CDIF containers
+# are arrays of typed objects (a contributor is an Agent, a relatedLink is a
+# link node, a keyword is a term), and writing a loose property into the first
+# element invents a type-less node that does not validate and attaches the
+# value to whichever member happened to be first. prov:wasGeneratedBy is the
+# exception -- nothing else fills it, so building it here is unambiguous.
+_NESTABLE_PARENTS = {"prov:wasGeneratedBy"}
+
+# Every CDIF property some row writes, so a source property that shares its
+# name is never mistaken for an unmapped leftover.
+_ROOT_TARGETS = {r["object_id"] for r in _ALL_ROOT if r["object_id"]}
+
+_NESTED_ROWS = [r for r in _ALL_ROOT
+                if _path_segments(r)
+                and _path_segments(r)[0].replace("[*]", "") in _NESTABLE_PARENTS]
+
+# A row whose path points inside a container we will not build is left to the
+# passthrough pass, so its value survives under its own property.
+_ROOT_ROWS = [r for r in _ROOT_ROWS
+              if not _path_segments(r)]
+
+
+def _apply_table(doc, ds, changes, graph=None):
+    """Apply every root-level mapping row, in table order.
+
+    Returns the keys that actually produced a value. A key the table claims
+    but could not map is NOT consumed: it falls through to the passthrough
+    pass and survives. rdflib hoists nested nodes to the top level, so a
+    property whose value should be an object routinely arrives as a bare
+    {"@id": "_:b0"} reference that no transform can shape -- dropping those
+    would lose content the source really carried.
+    """
+    consumed = set()
+    for rule in _ROOT_ROWS:
+        key = rule["subject_id"]
+        value = ds.get(key)
+        if value is None:
+            continue
+        value = _resolve(value, graph)
+        transform = _TRANSFORMS.get(rule["transform"])
+        if transform is None:
+            continue
+        if _place(doc, rule["object_id"], transform(value, ds, rule, doc),
+                  rule["transform"]):
+            consumed.add(key)
+            changes.append("%s to %s" % (key, rule["object_id"]))
+    return consumed
+
+
+# ---------------------------------------------------------------------------
 # Dataset discovery
 # ---------------------------------------------------------------------------
 
@@ -323,7 +1129,16 @@ def convert_agent(agent):
     if homepage:
         result["schema:url"] = _get_str(homepage)
 
-    return result if result.get("schema:name") or result.get("@id") else None
+    # CDIF requires a name on an agent. A DCAT record routinely gives only an
+    # IRI -- an ORCID, a ROR, a publisher URI -- and emitting that alone
+    # produced an agent the schema rejects, while dropping it would lose the
+    # attribution entirely. Say the name is knowably absent, as the record
+    # already does for a missing licence or access URL.
+    if not result.get("schema:name"):
+        if not result.get("@id"):
+            return None
+        result["schema:name"] = "http://www.opengis.net/def/nil/OGC/0/missing"
+    return result
 
 
 def convert_qualified_attribution(attr):
@@ -361,48 +1176,66 @@ def convert_qualified_attribution(attr):
 # Distribution conversion
 # ---------------------------------------------------------------------------
 
+_DIST_ROWS = None
+
+
+def _dist_rows():
+    """Distribution rows, in table order. Built lazily: RULES is defined below
+    the shapers this module needs at import time."""
+    global _DIST_ROWS
+    if _DIST_ROWS is None:
+        # dcat:DataService rows included: a service is routinely the value of
+        # dcat:distribution, and shaping it with the Distribution rows alone
+        # produced a DataDownload whose only property was a nil access URL.
+        rows = [row for group in RULES.values() for row in group
+                if row["subject_class"] in ("dcat:Distribution", "dcat:DataService")
+                and row["object_id"]]
+        rows.sort(key=lambda row: row["_order"])
+        _DIST_ROWS = rows
+    return _DIST_ROWS
+
+
 def convert_distribution(dist):
-    """Convert a dcat:Distribution to schema:DataDownload."""
+    """Convert a dcat:Distribution to schema:DataDownload, from the table.
+
+    The table carries fifteen distribution rows -- title, description, licence,
+    access rights, conformsTo, compression and packaging alongside the obvious
+    URLs -- so hard-coding a handful here would mean the table said one thing
+    and the converter did another.
+    """
     if not isinstance(dist, dict):
         return None
-
+    dist = _apply_aliases(dist, [])
+    if len(dist) == 1 and "@id" in dist:
+        # An unresolved reference -- the node it names is not in this document.
+        # Still a distribution the source asserts, so keep it, carrying the
+        # identifier it was referenced by. A blank-node label is meaningless
+        # outside its document, so only a real IRI is worth keeping.
+        stub = {"@type": ["schema:DataDownload"]}
+        if _is_iri(dist["@id"]):
+            stub["@id"] = dist["@id"]
+        return stub
     result = {"@type": ["schema:DataDownload"]}
-
-    # Content URL
-    download = dist.get("dcat:downloadURL", {})
-    access = dist.get("dcat:accessURL", {})
-    url = _get_str(download) or _get_str(access)
-    if url:
-        result["schema:contentUrl"] = url
-
-    # Encoding format
-    media = dist.get("dcat:mediaType") or dist.get("dcterms:format")
-    if media:
-        result["schema:encodingFormat"] = [_get_str(media)]
-
-    # Name / title
-    title = dist.get("dcterms:title")
-    if title:
-        result["schema:name"] = _get_str(title)
-
-    # Description
-    desc = dist.get("dcterms:description")
-    if desc:
-        result["schema:description"] = _get_str(desc)
-
-    # Byte size
-    size = dist.get("dcat:byteSize")
-    if size:
-        result["schema:contentSize"] = _get_str(size)
-
-    # ConformsTo
-    conforms = dist.get("dcterms:conformsTo")
-    if conforms:
-        if isinstance(conforms, dict):
-            result["dcterms:conformsTo"] = [{"@id": conforms.get("@id", _get_str(conforms))}]
-        elif isinstance(conforms, str):
-            result["dcterms:conformsTo"] = [{"@id": conforms}]
-
+    for rule in _dist_rows():
+        value = dist.get(rule["subject_id"])
+        if value is None:
+            continue
+        transform = _TRANSFORMS.get(rule["transform"])
+        if transform is None:
+            continue
+        _place(result, rule["object_id"], transform(value, dist, rule, result),
+               rule["transform"])
+    # A service endpoint replaces the download type: it is not a file. CDIF
+    # does not describe services as resources in their own right, so a service
+    # a dataset is reached through is recorded as how that dataset is accessed.
+    types = " ".join(_as_list(dist.get("@type")))
+    if result.get("schema:serviceType") or "DataService" in types:
+        result["@type"] = ["schema:WebAPI"]
+        result.setdefault("schema:serviceType", "dcat:DataService")
+    # Emitted even when nothing but the type is known. The source asserts that
+    # this dataset HAS a distribution; dropping it would say the dataset has
+    # none. The access URL then becomes the nil URI, which says the value is
+    # knowably absent rather than merely unstated.
     return result
 
 
@@ -466,7 +1299,7 @@ def convert_temporal(temporal):
 # ---------------------------------------------------------------------------
 
 def convert_dcat_to_cdif(ds, catalog_name="", catalog_url="", profile="core",
-                         detect=True):
+                         detect=True, graph=None):
     """Convert a dcat:Dataset to CDIF schema.org JSON-LD.
 
     Args:
@@ -490,51 +1323,23 @@ def convert_dcat_to_cdif(ds, catalog_name="", catalog_url="", profile="core",
     doc["@id"] = dsid
     doc["@type"] = ["schema:Dataset"]
 
-    # --- Mapped properties ---
+    # --- Mapped properties, from converters/mappings/dcat-to-cdif.sssom.tsv ---
+    ds = _apply_aliases(ds, changes)
+    consumed = _apply_table(doc, ds, changes, graph)
 
-    # dcterms:title → schema:name
-    title = ds.get("dcterms:title")
-    doc["schema:name"] = _get_str(title) if title else "Untitled"
-    changes.append("dcterms:title to schema:name")
+    # --- What CDIF requires and DCAT does not guarantee ---
+    # These are not term correspondences, so they are not in the table: they
+    # are the converter deciding what to do when the source is silent about
+    # something CDIF core insists on.
 
-    # dcterms:description → schema:description
-    desc = ds.get("dcterms:description")
-    if desc:
-        doc["schema:description"] = _get_str(desc)
-        changes.append("dcterms:description to schema:description")
+    if not doc.get("schema:name"):
+        doc["schema:name"] = "Untitled"
 
-    # dcterms:identifier → schema:identifier, falling back to adms:identifier.
-    # DCAT-AP records routinely carry ONLY adms:identifier -- an adms:Identifier
-    # node whose skos:notation holds the value -- and dropping it left the
-    # record with no identifier at all, so it could not meet CDIF core over an
-    # identifier it demonstrably has.
-    ident = ds.get("dcterms:identifier")
-    if not ident:
-        for adms in _as_list(ds.get("adms:identifier")):
-            if isinstance(adms, dict):
-                ident = (adms.get("skos:notation") or adms.get("dcterms:identifier")
-                         or adms.get("@id"))
-            else:
-                ident = adms
-            if ident:
-                break
-    if ident:
-        doc["schema:identifier"] = _get_str(ident)
-
-    # dcterms:modified → schema:dateModified
-    modified = ds.get("dcterms:modified")
-    if modified:
-        doc["schema:dateModified"] = _get_str(modified)
-        changes.append("dcterms:modified to schema:dateModified")
-
-    # dcterms:issued → schema:datePublished
-    issued = ds.get("dcterms:issued")
-    if issued:
-        val = _get_str(issued)
-        doc["schema:datePublished"] = val
-        if "schema:dateModified" not in doc:
-            doc["schema:dateModified"] = val
-            changes.append("dcterms:issued to schema:dateModified (no dcterms:modified)")
+    # dcterms:issued also serves as dateModified when nothing else does.
+    if "schema:dateModified" not in doc and doc.get("schema:datePublished"):
+        doc["schema:dateModified"] = doc["schema:datePublished"]
+        changes.append("schema:datePublished reused as dateModified "
+                       "(no dcterms:modified)")
 
     # Whatever the date came from -- source, fallback, or conversion time -- it
     # has to match the shape's pattern to be worth emitting. Sources carry
@@ -558,133 +1363,9 @@ def convert_dcat_to_cdif(ds, catalog_name="", catalog_url="", profile="core",
         changes.append("schema:dateModified set to the conversion time "
                        "(no date in source)")
 
-    # dcat:landingPage → schema:url
-    landing = ds.get("dcat:landingPage", {})
-    lurl = landing.get("@id") if isinstance(landing, dict) else _get_str(landing)
-    if lurl:
-        doc["schema:url"] = lurl
-        changes.append("dcat:landingPage to schema:url")
-
-    # dcterms:license → schema:license
-    lic = ds.get("dcterms:license")
-    if lic:
-        lic_val = lic.get("@id", _get_str(lic)) if isinstance(lic, dict) else _get_str(lic)
-        doc["schema:license"] = [lic_val]
-        changes.append("dcterms:license to schema:license")
-
-    # dcterms:accessRights → schema:conditionsOfAccess
-    access_rights = ds.get("dcterms:accessRights")
-    if access_rights:
-        ar_val = (access_rights.get("@id", _get_str(access_rights))
-                  if isinstance(access_rights, dict) else _get_str(access_rights))
-        doc["schema:conditionsOfAccess"] = [ar_val]
-        changes.append("dcterms:accessRights to schema:conditionsOfAccess")
-
-    # dcat:keyword → schema:keywords
-    keywords = ds.get("dcat:keyword", [])
-    if not isinstance(keywords, list):
-        keywords = [keywords]
-    if keywords:
-        doc["schema:keywords"] = [_get_str(k) for k in keywords if k]
-        changes.append("dcat:keyword to schema:keywords")
-
-    # dcterms:creator → schema:creator
-    creator = ds.get("dcterms:creator")
-    if creator:
-        creators = creator if isinstance(creator, list) else [creator]
-        converted = [convert_agent(c) for c in creators]
-        converted = [c for c in converted if c]
-        if converted:
-            doc["schema:creator"] = {"@list": converted}
-            changes.append("dcterms:creator to schema:creator")
-
-    # dcterms:publisher / dcat:publisher → schema:publisher
-    pub = ds.get("dcterms:publisher") or ds.get("dcat:publisher")
-    if pub:
-        p = convert_agent(pub)
-        if p:
-            doc["schema:publisher"] = p
-            changes.append("dcterms:publisher to schema:publisher")
-
-    # prov:qualifiedAttribution → schema:contributor
-    attrs = ds.get("prov:qualifiedAttribution", [])
-    if not isinstance(attrs, list):
-        attrs = [attrs]
-    contributors = [convert_qualified_attribution(a) for a in attrs]
-    contributors = [c for c in contributors if c]
-    if contributors:
-        doc["schema:contributor"] = contributors
-        changes.append("prov:qualifiedAttribution to schema:contributor")
-
-    # dcat:contactPoint → schema:provider (best available mapping)
-    contact = ds.get("dcat:contactPoint")
-    if contact and isinstance(contact, dict):
-        # vcard:Kind → simple contact
-        fn = contact.get("vcard:fn") or contact.get("vcard:hasName")
-        email = contact.get("vcard:hasEmail")
-        if fn or email:
-            provider = {"@type": ["schema:Organization"]}
-            if fn:
-                provider["schema:name"] = _get_str(fn)
-            if email:
-                email_str = _get_str(email).replace("mailto:", "")
-                provider["schema:contactPoint"] = {
-                    "@type": ["schema:ContactPoint"],
-                    "schema:email": email_str,
-                }
-            if provider.get("schema:name"):
-                doc.setdefault("schema:provider", []).append(provider)
-            changes.append("dcat:contactPoint to schema:provider")
-
-    # dcat:Distribution → schema:distribution (DataDownload)
-    dists = ds.get("dcat:Distribution", ds.get("dcat:distribution", []))
-    if not isinstance(dists, list):
-        dists = [dists]
-    converted_dists = [convert_distribution(dd) for dd in dists if isinstance(dd, dict)]
-    converted_dists = [dd for dd in converted_dists if dd]
-    if converted_dists:
-        doc["schema:distribution"] = converted_dists
-        changes.append("dcat:Distribution to schema:DataDownload")
-
-    # dcterms:spatial → schema:spatialCoverage
-    spatial = ds.get("dcterms:spatial")
-    if spatial:
-        items = spatial if isinstance(spatial, list) else [spatial]
-        converted_sc = [convert_spatial(s) for s in items]
-        converted_sc = [s for s in converted_sc if s]
-        if converted_sc:
-            doc["schema:spatialCoverage"] = converted_sc
-            changes.append("dcterms:spatial to schema:spatialCoverage")
-
-    # dcterms:temporal → schema:temporalCoverage
-    temporal = ds.get("dcterms:temporal")
-    if temporal:
-        items = temporal if isinstance(temporal, list) else [temporal]
-        converted_tc = [convert_temporal(t) for t in items]
-        converted_tc = [t for t in converted_tc if t]
-        if converted_tc:
-            doc["schema:temporalCoverage"] = converted_tc
-            changes.append("dcterms:temporal to schema:temporalCoverage")
-
-    # dcat:version → schema:version
-    ver = ds.get("dcat:version") or ds.get("owl:versionInfo")
-    if ver:
-        doc["schema:version"] = _get_str(ver)
-
     # --- Preserve unmapped DCAT properties (open world) ---
-    _MAPPED_KEYS = {
-        "@context", "@type", "@id",
-        "dcterms:title", "dcterms:description", "dcterms:identifier",
-        "dcterms:modified", "dcterms:issued", "dcterms:license",
-        "dcterms:accessRights", "dcterms:creator", "dcterms:publisher",
-        "dcterms:spatial", "dcterms:temporal",
-        "dcat:landingPage", "dcat:keyword", "dcat:Distribution",
-        "dcat:distribution", "dcat:contactPoint", "dcat:publisher",
-        "dcat:version", "prov:qualifiedAttribution",
-        "rdfs:label", "owl:versionInfo",
-    }
     for k, v in ds.items():
-        if k in _MAPPED_KEYS or k in doc:
+        if k in ("@context", "@type", "@id") or k in consumed or k in doc:
             continue
         # Rewrite absolute-IRI keys at EVERY depth, not just this one. The
         # passed-through value carries whole sub-objects (qualifiedRelation,
@@ -746,6 +1427,16 @@ def convert_dcat_to_cdif(ds, catalog_name="", catalog_url="", profile="core",
         ),
     }
 
+    # Rows that write inside another property, now that schema:subjectOf exists.
+    _nested = _apply_nested(doc, ds, changes, graph)
+    consumed |= _nested
+    for _key in _nested:
+        # Only what THIS pass consumed, and never a key that is also a CDIF
+        # target: dcterms:conformsTo maps to itself, so popping every consumed
+        # key deleted the value the row had just written.
+        if _key not in _ROOT_TARGETS:
+            doc.pop(_key, None)
+
     # Derive dcterms:conformsTo from the record's actual content (overrides the
     # built-in default), preserving any non-cdif domain claims.
     if detect and _HAVE_DETECT:
@@ -804,6 +1495,7 @@ def main():
         data = json.load(f)
 
     # Find datasets
+    graph = build_node_index(data)
     if isinstance(data, dict) and data.get("@type") == "dcat:Dataset":
         datasets = [data]
     else:
@@ -844,6 +1536,7 @@ def main():
             catalog_url=args.catalog_url,
             profile=args.profile,
             detect=not args.static_conformance,
+            graph=graph,
         )
 
         # Derive filename

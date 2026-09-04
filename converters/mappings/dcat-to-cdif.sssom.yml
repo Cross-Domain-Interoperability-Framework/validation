@@ -59,27 +59,59 @@ comment: |
 
     text            literal, language map or {"@value": ...} -> a string
     iri             node or string -> an IRI string
+    idref           an IRI -> {"@id": ...}, where CDIF declares a reference
     date            -> the CDIF dateModified/datePublished pattern
     langcode        language IRI or string -> a BCP 47 subtag
     list            -> an array of strings
     bytes           -> schema:contentSize
     mediatype       media-type node or IRI -> an encodingFormat string
-    agent           foaf:Agent -> schema:Person or schema:Organization
-    vcard           vcard:Kind -> schema:Organization + schema:ContactPoint
-    identifier      adms:Identifier -> a string
+    describe        an extension property's prose -> a labelled line appended
+                    to schema:description, which is one string and has
+                    eighteen sources
+    prefixedtext    -> a conditionsOfAccess entry labelled with the property
+                    it came from, so seven vocabularies stay distinguishable
+    theme           dcat:theme -> a schema:DefinedTerm carrying its IRI in
+                    schema:identifier and marked schema:about = 'DCATtheme'.
+                    A theme given only as an IRI is named from the last two
+                    path segments, numbered if two reduce to the same name
     concept         skos:Concept -> schema:DefinedTerm
+    agent           foaf:Agent -> schema:Person or schema:Organization
+    vcard           vcard:Kind -> Person (the default) or Organization, with
+                    e-mail, URL and telephone on its schema:contactPoint
+    identifier      adms:Identifier -> a string, preferring a DOI; the others
+                    go to schema:sameAs
     place           dcterms:Location -> schema:Place
-    bbox            four DCAT-US bounding coordinates -> one schema:Place
+    bbox            four DCAT-US coordinates -> a schema:Place whose GeoShape
+                    box is "south west north east". A box outside the
+                    coordinate range, or with north below south, is rejected
     period          dcterms:PeriodOfTime -> an ISO 8601 interval
     distribution    dcat:Distribution -> schema:DataDownload
-    service         dcat:DataService -> a distribution with a serviceType
-    checksum        spdx:Checksum -> CDIF's spdx:checksum node
+    service         dcat:DataService -> a schema:WebAPI distribution. CDIF
+                    does not describe services as resources, so a service a
+                    dataset is reached through records how it is accessed;
+                    a processing service is out of scope and is skipped
+    checksum        spdx:Checksum -> CDIF's spdx:checksum object
+    measurement     a bare quality value -> a dqv:QualityMeasurement
     attribution     prov:Attribution -> a contributor carrying its role
-    relatedlink     an IRI -> a CDIF relatedLink node
+    relatedlink     an IRI -> a relatedLink whose linkRelationship is the
+                    source property, so the six properties that land here
+                    stay distinguishable
     passthrough     copied verbatim onto the record; JSON-LD is open world and
                     CDIF permits additional properties
     catalog-walk    structural: the converter descends rather than maps
     *-part          consumed by the transform of the same name on the parent
+
+  object_json_path is applied, not merely documentation. A path naming one
+  property under $. writes that property of the record; a deeper path writes
+  inside one, and is applied after the catalog record is built because two
+  rows write into schema:subjectOf. Only containers the converter can build
+  unambiguously are nested into -- most CDIF containers are arrays of typed
+  objects, where writing a loose property into the first member would invent
+  an untyped node and attach the value to an arbitrary sibling.
+
+  Row order is precedence. For a scalar target the first row to fill it wins,
+  which is how "dcterms:identifier, else adms:identifier" is expressed with no
+  conditional logic in the converter. Array targets accumulate instead.
 
   Structural behaviour that is not a term-to-term mapping, so has no row:
   a CDIF catalog record is ADDED, and its dcterms:conformsTo is derived from
