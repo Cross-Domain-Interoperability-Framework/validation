@@ -26,6 +26,7 @@ Usage:
     python ConvertFromCroissant.py input-croissant.json [-o output.jsonld] [-v]
 """
 
+import datetime as _date
 import json
 import sys
 import argparse
@@ -100,9 +101,13 @@ _XSD_IRI = {
     "xsd:anyURI": "https://www.w3.org/TR/xmlschema-2/#anyURI",
 }
 
-OGC_NIL_INAPPLICABLE = "http://www.opengis.net/def/nil/ogc/0/inapplicable"
-OGC_NIL_MISSING = "http://www.opengis.net/def/nil/ogc/0/missing"
+# Canonical case is OGC, not ogc -- IRIs are case sensitive, and the
+# lowercase form these once used named nothing at all.
+OGC_NIL_INAPPLICABLE = "http://www.opengis.net/def/nil/OGC/0/inapplicable"
+OGC_NIL_MISSING = "http://www.opengis.net/def/nil/OGC/0/missing"
 NIL_SHA256_PLACEHOLDER = "0" * 64
+# cdifd:nameProperty: schema:name on an agent needs at least 3 characters.
+AGENT_NAME_MIN_LENGTH = 3
 CROISSANT_VERSION_PLACEHOLDER = "not assigned"
 
 DOI_PATTERN = re.compile(r"\b(10\.\d{4,9}/[-._;()/:A-Z0-9]+)\b", re.IGNORECASE)
@@ -152,13 +157,34 @@ def _extract_doi(croissant):
     return None, None
 
 
+def _property_id(value):
+    """schema:propertyID as an IRI reference when the value names one.
+
+    A URI or CURIE serialized as a string literal never becomes an IRI in the
+    uplifted RDF, so the identifier scheme a consumer would resolve is lost.
+    Free-label schemes stay strings, which the CDIF shapes allow.
+    """
+    if not isinstance(value, str):
+        return value
+    v = value.strip()
+    if v.startswith(("http://", "https://", "urn:")):
+        return {"@id": v}
+    # A CURIE: a known-prefix token with no spaces, e.g. "schema:identifier".
+    if ":" in v and " " not in v and not v.endswith(":"):
+        prefix = v.split(":", 1)[0]
+        if prefix and prefix.isalnum():
+            return {"@id": v}
+    return v
+
+
 def _convert_identifier(croissant):
     """Build CDIF schema:identifier PropertyValue from Croissant citeAs/url."""
     doi_value, doi_url = _extract_doi(croissant)
     if doi_value:
         return {
             "@type": ["schema:PropertyValue"],
-            "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+            "schema:propertyID": _property_id(
+                "https://registry.identifiers.org/registry/doi"),
             "schema:value": doi_value,
             "schema:url": doi_url,
         }
@@ -185,6 +211,13 @@ def _convert_agent(agent):
         out["@id"] = agent["@id"]
     name = agent.get("name")
     if name:
+        # The CDIF agent shapes require schema:name to be at least 3 characters
+        # (cdifd:nameProperty, sh:minLength 3), and sources carry abbreviations
+        # like "WB" that fall under it. Pad rather than drop: the abbreviation is
+        # the only label the source gives, so losing it would be worse than
+        # carrying it in a padded form.
+        if isinstance(name, str) and 0 < len(name.strip()) < AGENT_NAME_MIN_LENGTH:
+            name = name.strip().ljust(AGENT_NAME_MIN_LENGTH, "_")
         out["schema:name"] = name
     if "email" in agent:
         out["schema:email"] = agent["email"]
@@ -236,12 +269,63 @@ def _convert_funding(croissant):
     return out or None
 
 
+# The CDIF shapes accept YYYY-MM through YYYY-MM-DDThh:mm:ss with an optional
+# Z/offset -- and no fractional seconds. Sources routinely carry them.
+_CDIF_DATE_RE = re.compile(
+    r"^[1-2][0-9]{3}-([0][1-9]|[1][0-2])"
+    r"(-([0-2][0-9]|[3][0-1])"
+    r"(T([0-1][0-9]|[2][0-3])(:[0-5][0-9])?"
+    r"(:[0-5][0-9](Z|[+-][0-2][0-9]:[0-5][0-9])?)?)?)?$")
+
+
+def _normalize_date(value):
+    """Coerce a date/datetime string into the form the CDIF shapes accept.
+
+    Drops fractional seconds first, since that is the usual offender, and falls
+    back to the plain date then the year-month rather than emitting something
+    that will fail validation. Returns None if nothing usable can be salvaged.
+    """
+    if not isinstance(value, str):
+        return value
+    v = value.strip()
+    if _CDIF_DATE_RE.match(v):
+        return v
+    # "2017-11-27T17:08:04.7" -> "2017-11-27T17:08:04"
+    trimmed = re.sub(r"\.\d+", "", v)
+    if _CDIF_DATE_RE.match(trimmed):
+        return trimmed
+    for length in (10, 7):
+        if _CDIF_DATE_RE.match(v[:length]):
+            return v[:length]
+    return None
+
+
 def _convert_license(croissant):
-    """Pass through license unless it's the OGC nil:missing placeholder."""
+    """Pass through the license, or state that it is missing.
+
+    CDIF requires licence / access-conditions information for FAIR reuse, and a
+    silent omission is indistinguishable from an oversight. When the source has
+    none, emit the OGC nil:missing URI, which says the value is knowably absent.
+    """
     lic = croissant.get("license")
     if not lic or lic == OGC_NIL_MISSING:
-        return None
-    return [lic] if isinstance(lic, str) else lic
+        return [{"@id": OGC_NIL_MISSING}]
+    out = []
+    for entry in (lic if isinstance(lic, list) else [lic]):
+        if isinstance(entry, str):
+            out.append({"@id": entry} if entry.startswith(("http://", "https://"))
+                       else entry)
+        elif isinstance(entry, dict):
+            # Croissant states a licence as a CreativeWork with its own
+            # unprefixed keys. Prefer its url -- an IRI a consumer can resolve
+            # -- and fall back to the name as a label.
+            url = entry.get("url") or entry.get("schema:url")
+            name = entry.get("name") or entry.get("schema:name")
+            if url:
+                out.append({"@id": url})
+            elif name:
+                out.append(name)
+    return out or [{"@id": OGC_NIL_MISSING}]
 
 
 def _convert_keywords(croissant):
@@ -654,7 +738,7 @@ def _convert_fields_to_cdif(record_sets_by_file, node_for_file_id, verbose=False
 
             eq = _field_equivalent_property(fld)
             if eq:
-                var_node["schema:propertyID"] = eq
+                var_node["schema:propertyID"] = _property_id(eq)
 
             # Croissant dataType -> current cdif: shape: a single-valued
             # cdif:physicalDataType (xsd token) on the variable, plus the
@@ -772,9 +856,11 @@ def convert(croissant, verbose=False):
         if c_key in croissant and croissant[c_key] not in (None, "", []):
             out[cdif_key] = croissant[c_key]
 
-    # Fallback dateModified (prototype): CDIF discovery requires it; when the
-    # source omits dateModified, fall back to datePublished, then dateCreated.
-    # (If the source carries no date at all, it stays absent — not fabricated.)
+    # Fallback dateModified: CDIF discovery requires it; when the source omits
+    # dateModified, fall back to datePublished, then dateCreated, and finally to
+    # the conversion date. That last step does fabricate a value -- a deliberate
+    # choice, since an absent dateModified fails validation outright and the
+    # conversion date is at least true of this serialization.
     if "schema:dateModified" not in out:
         for alt in ("datePublished", "dateCreated"):
             if croissant.get(alt):
@@ -782,6 +868,23 @@ def convert(croissant, verbose=False):
                 if verbose:
                     print(f"  FALLBACK: schema:dateModified <- {alt}")
                 break
+        else:
+            out["schema:dateModified"] = _date.date.today().isoformat()
+            if verbose:
+                print("  FALLBACK: schema:dateModified <- conversion date "
+                      f"({out['schema:dateModified']}); source carried no date")
+
+    # Whatever the date came from -- source, fallback or conversion date --
+    # it has to match the shape's pattern to be worth emitting.
+    if "schema:dateModified" in out:
+        fixed = _normalize_date(out["schema:dateModified"])
+        if fixed != out["schema:dateModified"] and verbose:
+            print(f"  NORMALIZED: schema:dateModified {out['schema:dateModified']!r}"
+                  f" -> {fixed!r}")
+        if fixed:
+            out["schema:dateModified"] = fixed
+        else:
+            out["schema:dateModified"] = _date.date.today().isoformat()
 
     version = croissant.get("version")
     if version and version != CROISSANT_VERSION_PLACEHOLDER:
@@ -920,6 +1023,14 @@ def convert(croissant, verbose=False):
             "schema:additionalType": [{"@id": "dcat:CatalogRecord"}],
             "schema:about": {"@id": out["@id"]},
         }
+        # The metadata record needs its own URI: SHACL's
+        # metadataIdentifierProperty asks for it, and a blank node cannot be
+        # cited or dereferenced from outside the file. Same convention as the
+        # building-block examples -- the resource IRI with "/metadata" appended
+        # -- and only when there is an absolute IRI to derive it from.
+        dataset_id = out.get("@id", "")
+        if dataset_id.startswith(("http://", "https://", "urn:")):
+            subject_of["@id"] = dataset_id.rstrip("/") + "/metadata"
         date_modified = croissant.get("dateModified")
         if date_modified:
             subject_of["schema:sdDatePublished"] = date_modified
