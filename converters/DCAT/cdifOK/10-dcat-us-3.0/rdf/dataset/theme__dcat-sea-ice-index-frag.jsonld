@@ -1,0 +1,72 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@id": "https://doi.org/10.7265/N5K072F8",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Sea Ice Index",
+  "schema:description": "This is an example dataset",
+  "schema:dateModified": "2025-01-01",
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "@id": "https://example.com/publisher1"
+  },
+  "dcat:theme": {
+    "@id": "https://example.com/themes/ClimateChange",
+    "@type": "skos:Concept",
+    "skos:inScheme": {
+      "@id": "https://example.com/themes/scheme",
+      "@type": "skos:ConceptScheme",
+      "dcterms:title": [
+        "A Theme Taxonomy",
+        {
+          "@language": "en",
+          "@value": "A Theme Taxonomy"
+        }
+      ]
+    },
+    "skos:prefLabel": [
+      "Climate Change",
+      {
+        "@language": "en",
+        "@value": "Climate Change"
+      }
+    ]
+  },
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "https://doi.org/10.7265/N5K072F8#metadata",
+    "schema:name": "Metadata record for: Sea Ice Index",
+    "schema:about": {
+      "@id": "https://doi.org/10.7265/N5K072F8"
+    },
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to placeholder (no date in source); dcterms:publisher to schema:publisher. Unmapped DCAT properties preserved (open world)."
+  }
+}

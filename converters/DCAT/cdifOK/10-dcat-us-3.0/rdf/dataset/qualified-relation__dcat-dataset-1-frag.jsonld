@@ -1,0 +1,71 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "https://example.com/dataset1",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Dataset 1",
+  "schema:description": "This is a dataset",
+  "schema:dateModified": "2025-01-01",
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "@id": "https://example.com/publisher1"
+  },
+  "dcat:qualifiedRelation": [
+    {
+      "@id": "_:N9be6f7b8595f4dc79d732f98c98bd98b",
+      "@type": "dcat:Relationship",
+      "dcat:hadRole": {
+        "@id": "http://registry.it.csiro.au/def/isotc211/DS_AssociationTypeCode/stereoMate"
+      },
+      "dcterms:relation": {
+        "@id": "http://example.org/Test543R"
+      }
+    },
+    {
+      "@id": "_:nee564d75c4334bc7adee61bd1bc2fcaeb1",
+      "@type": "dcat:Relationship",
+      "dcat:hadRole": {
+        "@id": "http://registry.it.csiro.au/def/isotc211/DS_AssociationTypeCode/stereoMate"
+      },
+      "dcterms:relation": {
+        "@id": "http://example.org/Test543R"
+      }
+    }
+  ],
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "https://example.com/dataset1#metadata",
+    "schema:name": "Metadata record for: Dataset 1",
+    "schema:about": {
+      "@id": "https://example.com/dataset1"
+    },
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to placeholder (no date in source); dcterms:publisher to schema:publisher. Unmapped DCAT properties preserved (open world)."
+  }
+}

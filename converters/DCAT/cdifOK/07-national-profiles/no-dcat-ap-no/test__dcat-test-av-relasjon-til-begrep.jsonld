@@ -1,0 +1,516 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "adms": "http://www.w3.org/ns/adms#",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "r5r": "http://data.europa.eu/r5r/",
+    "x2": "http://www.w3.org/ns/odrl/2/",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "vcard": "http://www.w3.org/2006/vcard/ns#",
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@id": "https://example.com/test/relasjon/begrep/testDatasett",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Test av relasjon til begrep",
+  "schema:description": "Dette er en test av å relatere til begrep i forbindelse med høsting av datasett_1311_2.",
+  "schema:identifier": "https://example.com/test/relasjon/begrep/testDatasett",
+  "schema:dateModified": "2025-01-01",
+  "schema:url": "https://www.digdir.no/",
+  "schema:creator": {
+    "@list": [
+      {
+        "@type": [
+          "schema:Organization"
+        ],
+        "schema:name": "The Norwegian Digitalisation Agency",
+        "@id": "https://data.brreg.no/enhetsregisteret/api/enheter/991825827"
+      }
+    ]
+  },
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:name": "The Norwegian Digitalisation Agency",
+    "@id": "https://data.brreg.no/enhetsregisteret/api/enheter/991825827"
+  },
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://example.com/test/relasjon/begrep/testDistribusjon1/downloadURL",
+      "schema:encodingFormat": [
+        "https://www.iana.org/assignments/media-types/application/json"
+      ],
+      "schema:name": "Distribusjon1",
+      "schema:description": "dct:format = .../file-type/JSON, dcat:mediaType = iana.../json, dcat:packageFormat = JSON_fritekst"
+    },
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://example.com/test/relasjon/begrep/testDistribusjon2/downloadURL",
+      "schema:encodingFormat": [
+        "https://www.iana.org/assignments/media-types/application/json"
+      ],
+      "schema:name": "Distribusjon2",
+      "schema:description": "dct:format = .../file-type/JSON, dcat:mediaType = iana.../json"
+    },
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://example.com/test/relasjon/begrep/testDistribusjon3/downloadURL",
+      "schema:encodingFormat": [
+        "http://publications.europa.eu/resource/authority/file-type/JSON"
+      ],
+      "schema:name": "Distribusjon3",
+      "schema:description": "dct:format = .../file-type/JSON, dcat:packageFormat = iana.../json"
+    },
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://example.com/test/relasjon/begrep/testDistribusjon4/downloadURL",
+      "schema:encodingFormat": [
+        "https://www.iana.org/assignments/media-types/application/json"
+      ],
+      "schema:name": "Distribusjon4",
+      "schema:description": "dcat:mediaType = iana.../json, dcat:packageFormat = .../file-type/JSON"
+    }
+  ],
+  "schema:temporalCoverage": [
+    "2002-01-01/2024-01-01"
+  ],
+  "adms:sample": {
+    "@id": "https://example.com/test/relasjon/begrep/testDistribusjon5",
+    "@type": "dcat:Distribution",
+    "adms:status": {
+      "@id": "http://publications.europa.eu/resource/authority/distribution-status/DEVELOP"
+    },
+    "dcat:accessService": {
+      "@id": "https://dataservice-catalog.staging.fellesdatakatalog.digdir.no/data-services/6290a62ee8ed2c5c6d2adda7"
+    },
+    "dcat:accessURL": {
+      "@id": "https://example.com/test/relasjon/begrep/testDistribusjon5/accessURL"
+    },
+    "dcat:byteSize": {
+      "@type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+      "@value": "500"
+    },
+    "dcat:compressFormat": {
+      "@id": "http://publications.europa.eu/resource/authority/file-type/7Z"
+    },
+    "dcat:downloadURL": {
+      "@id": "https://example.com/test/relasjon/begrep/testDistribusjon5/downloadURL"
+    },
+    "dcat:language": {
+      "@id": "http://publications.europa.eu/resource/authority/language/ENG"
+    },
+    "dcat:mediaType": {
+      "@id": "https://www.iana.org/assignments/media-types/application/json"
+    },
+    "dcat:packageFormat": {
+      "@id": "http://publications.europa.eu/resource/authority/file-type/JSON"
+    },
+    "dcat:spatialResolutionInMeters": {
+      "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+      "@value": "0,5"
+    },
+    "dcat:temporalResolution": {
+      "@type": "http://www.w3.org/2001/XMLSchema#duration",
+      "@value": ""
+    },
+    "dcterms:accessRights": {
+      "@id": "http://publications.europa.eu/resource/authority/access-right/NON_PUBLIC"
+    },
+    "dcterms:conformsTo": {
+      "@id": "file:///C:/GithubC/CDIF/validation/converters/DCAT/dcatExamplesOK/07-national-profiles/no-dcat-ap-no/test.ttl"
+    },
+    "dcterms:description": {
+      "@language": "nb",
+      "@value": "Distribusjon med eksempeldata"
+    },
+    "dcterms:format": {
+      "@id": "http://publications.europa.eu/resource/authority/file-type/JSON"
+    },
+    "dcterms:issued": {
+      "@type": "http://www.w3.org/2001/XMLSchema#date",
+      "@value": "2025-03-27"
+    },
+    "dcterms:language": [
+      {
+        "@id": "http://publications.europa.eu/resource/authority/language/NOB"
+      },
+      {
+        "@id": "http://publications.europa.eu/resource/authority/language/NNO"
+      }
+    ],
+    "dcterms:license": {
+      "@id": "http://publications.europa.eu/resource/authority/licence/CC_BY_4_0"
+    },
+    "dcterms:modified": {
+      "@type": "http://www.w3.org/2001/XMLSchema#date",
+      "@value": "2025-03-27"
+    },
+    "dcterms:rights": {
+      "@id": "file:///C:/GithubC/CDIF/validation/converters/DCAT/dcatExamplesOK/07-national-profiles/no-dcat-ap-no/test.ttl"
+    },
+    "dcterms:title": {
+      "@language": "nb",
+      "@value": "Eksempeldata"
+    },
+    "foaf:page": {
+      "@id": "https://www.digdir.no/felleslosninger/tenor-testdatasok/1284"
+    },
+    "r5r:applicableLegislation": {
+      "@id": "https://lovdata.no/eli/forskrift/2016/12/15/1600"
+    },
+    "r5r:availability": {
+      "@id": "http://publications.europa.eu/resource/authority/planned-availability/EXPERIMENTAL"
+    },
+    "x2:hasPolicy": {
+      "@id": "http://www.w3.org/ns/odrl/2/#permissions"
+    },
+    "spdx:checksum": {
+      "@id": "file:///C:/GithubC/CDIF/validation/converters/DCAT/dcatExamplesOK/07-national-profiles/no-dcat-ap-no/test.ttl"
+    }
+  },
+  "dcat:inSeries": {
+    "@id": "https://example.com/test/relasjon/begrep/testDatasettserie"
+  },
+  "dcat:theme": [
+    {
+      "@id": "http://eurovoc.europa.eu/100145"
+    },
+    {
+      "@id": "http://publications.europa.eu/resource/authority/data-theme/ENER"
+    },
+    {
+      "@id": "http://eurovoc.europa.eu/100181"
+    },
+    {
+      "@id": "https://psi.norge.no/los/ord/allergi"
+    }
+  ],
+  "dcterms:language": {
+    "@id": "http://publications.europa.eu/resource/authority/language/NOR"
+  },
+  "dcterms:subject": [
+    {
+      "@id": "https://data.nav.no/begrep/BEGREP-261",
+      "@type": "skos:Concept",
+      "dcat:contactPoint": {
+        "@id": "_:n0cb00b6bc49e47a8a141e21db19852e1b6",
+        "@type": "vcard:Organization",
+        "vcard:hasEmail": {
+          "@id": "mailto:fellesdatakatalog@digdir.no"
+        },
+        "vcard:hasTelephone": {
+          "@id": "tel:1233456"
+        },
+        "vcard:organization-unit": {
+          "@language": "nb",
+          "@value": "Informasjonsforvaltningsgruppen"
+        }
+      },
+      "dcterms:identifier": {
+        "@type": "http://www.w3.org/2001/XMLSchema#anyURI",
+        "@value": "https://data.nav.no/begrep/BEGREP-261"
+      },
+      "dcterms:publisher": {
+        "@id": "https://data.brreg.no/enhetsregisteret/api/enheter/991825827",
+        "@type": "foaf:Agent",
+        "foaf:name": [
+          {
+            "@language": "en",
+            "@value": "The Norwegian Digitalisation Agency"
+          },
+          {
+            "@language": "nb",
+            "@value": "Digitaliseringsdirektoratet"
+          }
+        ]
+      },
+      "skos:definition": {
+        "@language": "nb",
+        "@value": "betingelse som må være oppfylt for at en aktør får et rettslig bindende resultat_endretViaDatasett13.02.23."
+      },
+      "skos:prefLabel": {
+        "@language": "nb",
+        "@value": "vilkår_endret13.02.23"
+      }
+    },
+    {
+      "@id": "https://concept-catalog.demo.fellesdatakatalog.digdir.no/collections/555111013/concepts/422c6ef9-99f8-4f55-a286-a9a9c9fbd388",
+      "@type": "skos:Concept",
+      "dcat:contactPoint": {
+        "@id": "_:n0cb00b6bc49e47a8a141e21db19852e1b3",
+        "@type": "vcard:Organization",
+        "vcard:hasEmail": {
+          "@id": "mailto:fellesdatakatalog@digdir.no"
+        },
+        "vcard:hasTelephone": {
+          "@id": "tel:1233456"
+        },
+        "vcard:organization-unit": {
+          "@language": "nb",
+          "@value": "Informasjonsforvaltningsgruppen"
+        }
+      },
+      "dcterms:identifier": {
+        "@type": "http://www.w3.org/2001/XMLSchema#anyURI",
+        "@value": "https://concept-catalog.demo.fellesdatakatalog.digdir.no/collections/555111013/concepts/422c6ef9-99f8-4f55-a286-a9a9c9fbd388"
+      },
+      "dcterms:publisher": {
+        "@id": "https://data.brreg.no/enhetsregisteret/api/enheter/991825827",
+        "@type": "foaf:Agent",
+        "foaf:name": [
+          {
+            "@language": "en",
+            "@value": "The Norwegian Digitalisation Agency"
+          },
+          {
+            "@language": "nb",
+            "@value": "Digitaliseringsdirektoratet"
+          }
+        ]
+      },
+      "skos:definition": {
+        "@language": "nb",
+        "@value": "Plan som viser foretakets organisasjonsstruktur, herunder overordnet ansvars- og myndighetsfordeling_kun gyldig i demomiljø_lagt til via Datasett."
+      },
+      "skos:prefLabel": {
+        "@language": "nb",
+        "@value": "Organisasjonsplan_labelFraDatasett"
+      }
+    },
+    {
+      "@id": "https://concept-catalog.staging.fellesdatakatalog.digdir.no/collections/555111026/concepts/c8467f0b-f997-4bc6-80e5-a368af63628f",
+      "@type": "skos:Concept",
+      "dcat:contactPoint": {
+        "@id": "_:n0cb00b6bc49e47a8a141e21db19852e1b4",
+        "@type": "vcard:Organization",
+        "vcard:hasEmail": {
+          "@id": "mailto:fellesdatakatalog@digdir.no"
+        },
+        "vcard:hasTelephone": {
+          "@id": "tel:1233456"
+        },
+        "vcard:organization-unit": {
+          "@language": "nb",
+          "@value": "Informasjonsforvaltningsgruppen"
+        }
+      },
+      "dcterms:identifier": {
+        "@type": "http://www.w3.org/2001/XMLSchema#anyURI",
+        "@value": "https://concept-catalog.staging.fellesdatakatalog.digdir.no/collections/555111026/concepts/c8467f0b-f997-4bc6-80e5-a368af63628f"
+      },
+      "dcterms:publisher": {
+        "@id": "https://data.brreg.no/enhetsregisteret/api/enheter/991825827",
+        "@type": "foaf:Agent",
+        "foaf:name": [
+          {
+            "@language": "en",
+            "@value": "The Norwegian Digitalisation Agency"
+          },
+          {
+            "@language": "nb",
+            "@value": "Digitaliseringsdirektoratet"
+          }
+        ]
+      },
+      "skos:definition": {
+        "@language": "nb",
+        "@value": "Definert testing_kun gyldig i staging_lagt til via Datasett."
+      },
+      "skos:prefLabel": {
+        "@language": "nb",
+        "@value": "Testeterm_labelFraDatasett"
+      }
+    },
+    {
+      "@id": "https://example.com/test/relasjon/begrep/begrepIkkeHostetTilFDK",
+      "@type": "skos:Concept",
+      "dcat:contactPoint": {
+        "@id": "_:n0cb00b6bc49e47a8a141e21db19852e1b5",
+        "@type": "vcard:Organization",
+        "vcard:hasEmail": {
+          "@id": "mailto:fellesdatakatalog@digdir.no"
+        },
+        "vcard:hasTelephone": {
+          "@id": "tel:1233456"
+        },
+        "vcard:organization-unit": {
+          "@language": "nb",
+          "@value": "Informasjonsforvaltningsgruppen"
+        }
+      },
+      "dcterms:identifier": {
+        "@type": "http://www.w3.org/2001/XMLSchema#anyURI",
+        "@value": "https://example.com/test/relasjon/begrep/begrepIkkeHostetTilFDK"
+      },
+      "dcterms:publisher": {
+        "@id": "https://data.brreg.no/enhetsregisteret/api/enheter/991825827",
+        "@type": "foaf:Agent",
+        "foaf:name": [
+          {
+            "@language": "en",
+            "@value": "The Norwegian Digitalisation Agency"
+          },
+          {
+            "@language": "nb",
+            "@value": "Digitaliseringsdirektoratet"
+          }
+        ]
+      },
+      "skos:definition": {
+        "@language": "nb",
+        "@value": "Definisjon til begrepIkkeHostetTilFDK satt via datasett."
+      },
+      "skos:prefLabel": {
+        "@language": "nb",
+        "@value": "begrepIkkeHostetTilFDK"
+      }
+    },
+    {
+      "@id": "http://begrepskatalogen/begrep/testURISomIkkeFungerer"
+    },
+    {
+      "@id": "http://begrepskatalogen/begrep/testURISomIkkeFungererMedPrefLabel",
+      "@type": "skos:Concept",
+      "dcat:contactPoint": {
+        "@id": "_:n0cb00b6bc49e47a8a141e21db19852e1b7",
+        "@type": "vcard:Organization",
+        "vcard:hasEmail": {
+          "@id": "mailto:fellesdatakatalog@digdir.no"
+        },
+        "vcard:hasTelephone": {
+          "@id": "tel:1233456"
+        },
+        "vcard:organization-unit": {
+          "@language": "nb",
+          "@value": "Informasjonsforvaltningsgruppen"
+        }
+      },
+      "dcterms:identifier": {
+        "@type": "http://www.w3.org/2001/XMLSchema#anyURI",
+        "@value": "http://begrepskatalogen/begrep/testURISomIkkeFungererMedPrefLabel"
+      },
+      "dcterms:publisher": {
+        "@id": "https://data.brreg.no/enhetsregisteret/api/enheter/991825827",
+        "@type": "foaf:Agent",
+        "foaf:name": [
+          {
+            "@language": "en",
+            "@value": "The Norwegian Digitalisation Agency"
+          },
+          {
+            "@language": "nb",
+            "@value": "Digitaliseringsdirektoratet"
+          }
+        ]
+      },
+      "skos:definition": {
+        "@language": "nb",
+        "@value": "Test av URI som ikke fungerer med prefLabel og definition satt via datasett."
+      },
+      "skos:prefLabel": {
+        "@language": "nb",
+        "@value": "testURISomIkkeFungererMedPrefLabel"
+      }
+    },
+    {
+      "@id": "https://raw.githubusercontent.com/Informasjonsforvaltning/dcat-ap-no/develop/examples/begrepIkkeHostet"
+    },
+    {
+      "@id": "https://example.com/test/relasjon/begrep/begrepUlikIdentifierOgURI",
+      "@type": "skos:Concept",
+      "dcat:contactPoint": {
+        "@id": "_:n0cb00b6bc49e47a8a141e21db19852e1b8",
+        "@type": "vcard:Organization",
+        "vcard:hasEmail": {
+          "@id": "mailto:fellesdatakatalog@digdir.no"
+        },
+        "vcard:hasTelephone": {
+          "@id": "tel:1233456"
+        },
+        "vcard:organization-unit": {
+          "@language": "nb",
+          "@value": "Informasjonsforvaltningsgruppen"
+        }
+      },
+      "dcterms:identifier": {
+        "@type": "http://www.w3.org/2001/XMLSchema#anyURI",
+        "@value": "https://example.com/test/relasjon/begrep/begrepUlikURIOgIdentifier"
+      },
+      "dcterms:publisher": {
+        "@id": "https://data.brreg.no/enhetsregisteret/api/enheter/991825827",
+        "@type": "foaf:Agent",
+        "foaf:name": [
+          {
+            "@language": "en",
+            "@value": "The Norwegian Digitalisation Agency"
+          },
+          {
+            "@language": "nb",
+            "@value": "Digitaliseringsdirektoratet"
+          }
+        ]
+      },
+      "skos:definition": {
+        "@language": "nb",
+        "@value": "Definisjon til begrepUlikURIOgIdentifier satt via datasett."
+      },
+      "skos:prefLabel": {
+        "@language": "nb",
+        "@value": "begrepUlikURIOgIdentifier"
+      }
+    }
+  ],
+  "dcterms:type": {
+    "@id": "http://publications.europa.eu/resource/authority/dataset-type/CODE_LIST"
+  },
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "https://example.com/test/relasjon/begrep/testDatasett#metadata",
+    "schema:name": "Metadata record for: Test av relasjon til begrep",
+    "schema:about": {
+      "@id": "https://example.com/test/relasjon/begrep/testDatasett"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      }
+    ],
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to placeholder (no date in source); dcat:landingPage to schema:url; dcterms:creator to schema:creator; dcterms:publisher to schema:publisher; dcat:contactPoint to schema:provider; dcat:Distribution to schema:DataDownload; dcterms:temporal to schema:temporalCoverage. Unmapped DCAT properties preserved (open world)."
+  }
+}

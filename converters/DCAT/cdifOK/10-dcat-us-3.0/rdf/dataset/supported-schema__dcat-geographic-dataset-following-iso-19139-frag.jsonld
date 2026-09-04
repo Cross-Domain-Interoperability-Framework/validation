@@ -1,0 +1,82 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "adms": "http://www.w3.org/ns/adms#"
+  },
+  "@id": "http://example.org/ns#Dataset1",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Geographic Dataset following ISO 19139",
+  "schema:description": "This dataset contains geographic metadata and is compliant with the ISO 19139 standard.",
+  "schema:dateModified": "2025-01-01",
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "@id": "http://example.org/ns#Organization1"
+  },
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "http://example.org/data/iso19139-dataset.xml",
+      "schema:encodingFormat": [
+        "https://www.iana.org/assignments/media-types/application/xml"
+      ],
+      "dcterms:conformsTo": [
+        {
+          "@id": "http://www.isotc211.org/2005/gmd"
+        }
+      ]
+    }
+  ],
+  "adms:supportedSchema": {
+    "@id": "http://example.org/ns#ISO19139Schema",
+    "@type": "dcat:Dataset",
+    "dcterms:conformsTo": {
+      "@id": "http://www.isotc211.org/2005/gmd"
+    },
+    "dcterms:description": "This is the XML Schema implementation of ISO 19139:2007 standard for geographic information metadata.",
+    "dcterms:identifier": "ISO 19139",
+    "dcterms:publisher": {
+      "@id": "http://www.isotc211.org"
+    },
+    "dcterms:title": "ISO 19139:2007 - Geographic Information Metadata XML Schema Implementation",
+    "dcterms:type": {
+      "@id": "http://data.gov/vocab/resource-type/Schema"
+    }
+  },
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "http://example.org/ns#Dataset1#metadata",
+    "schema:name": "Metadata record for: Geographic Dataset following ISO 19139",
+    "schema:about": {
+      "@id": "http://example.org/ns#Dataset1"
+    },
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to placeholder (no date in source); dcterms:publisher to schema:publisher; dcat:Distribution to schema:DataDownload. Unmapped DCAT properties preserved (open world)."
+  }
+}

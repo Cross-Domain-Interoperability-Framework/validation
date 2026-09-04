@@ -1,0 +1,64 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "http://example.org/ns#WeatherDataset",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Weather Information",
+  "schema:description": "This dataset contains weather information including temperature, humidity, and wind speed.",
+  "schema:dateModified": "2025-01-01",
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "@id": "https://noaa.gov"
+  },
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ]
+    }
+  ],
+  "schema:image": {
+    "@id": "http://example.org/ns#WeatherThumbnail",
+    "@type": "schema:ImageObject",
+    "schema:caption": "Thumbnail image representing the Weather Information dataset",
+    "schema:contentURL": {
+      "@id": "http://example.org/images/weather-thumbnail.jpg"
+    }
+  },
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "http://example.org/ns#WeatherDataset#metadata",
+    "schema:name": "Metadata record for: Weather Information",
+    "schema:about": {
+      "@id": "http://example.org/ns#WeatherDataset"
+    },
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to placeholder (no date in source); dcterms:publisher to schema:publisher; dcat:Distribution to schema:DataDownload. Unmapped DCAT properties preserved (open world)."
+  }
+}

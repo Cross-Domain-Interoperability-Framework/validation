@@ -1,0 +1,111 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dcatde": "http://dcat-ap.de/def/dcatde/",
+    "foaf": "http://xmlns.com/foaf/0.1/"
+  },
+  "@id": "https://example.com/dataset/68180d85-df56-48e0-993e-b9da36103a72#dataset",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Gebietsgrenzen Polizeikommissariate",
+  "schema:description": "Mit den Polizeikommissariatsgrenzen werden die örtlichen Zustaendigkeiten der Hamburger Polizeikommissariatsgebiete geregelt.",
+  "schema:dateModified": "2025-01-01",
+  "schema:keywords": [
+    "Polizei",
+    "Polizeikommissariatsgrenzen",
+    "Polizeireviere"
+  ],
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:name": "Behörde für Inneres und Sport, Polizei Hamburg",
+    "@id": "https://www.hamburg.de/innenbehoerde/#publisher"
+  },
+  "schema:provider": [
+    {
+      "@type": [
+        "schema:Organization"
+      ],
+      "schema:name": "Koenig, Julia, Frau",
+      "schema:contactPoint": {
+        "@type": [
+          "schema:ContactPoint"
+        ],
+        "schema:email": "julia.koenig@example.com"
+      }
+    }
+  ],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://example.com/HH_WFS_PKGrenzen?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&typename=app:pk_grenzen",
+      "schema:encodingFormat": [
+        "http://publications.europa.eu/resource/authority/file-type/GML"
+      ],
+      "schema:name": "Download Gebietsgrenzen Polizeikommissariate",
+      "schema:contentSize": "935108"
+    }
+  ],
+  "dcat:theme": {
+    "@id": "http://publications.europa.eu/resource/authority/data-theme/GOVE"
+  },
+  "dcterms:accrualPeriodicity": {
+    "@id": "http://publications.europa.eu/resource/authority/frequency/MONTHLY"
+  },
+  "dcatde:contributorID": {
+    "@id": "http://dcat-ap.de/def/contributors/transparenzportalHamburg"
+  },
+  "dcatde:geocodingDescription": "Freie und Hansestadt Hamburg",
+  "dcatde:legalBasis": "Hamburgisches Transparenzgesetz (HmbTG).",
+  "dcatde:maintainer": {
+    "@id": "https://www.hamburg.de/innenbehoerde/#publisher",
+    "@type": "foaf:Organization",
+    "foaf:name": "Behörde für Inneres und Sport, Polizei Hamburg"
+  },
+  "dcatde:originator": {
+    "@id": "https://www.hamburg.de/innenbehoerde/#publisher",
+    "@type": "foaf:Organization",
+    "foaf:name": "Behörde für Inneres und Sport, Polizei Hamburg"
+  },
+  "dcatde:politicalGeocodingLevelURI": {
+    "@id": "http://dcat-ap.de/def/politicalGeocoding/Level/state"
+  },
+  "dcatde:politicalGeocodingURI": {
+    "@id": "http://dcat-ap.de/def/politicalGeocoding/stateKey/02"
+  },
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "https://example.com/dataset/68180d85-df56-48e0-993e-b9da36103a72#dataset#metadata",
+    "schema:name": "Metadata record for: Gebietsgrenzen Polizeikommissariate",
+    "schema:about": {
+      "@id": "https://example.com/dataset/68180d85-df56-48e0-993e-b9da36103a72#dataset"
+    },
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to placeholder (no date in source); dcat:keyword to schema:keywords; dcterms:publisher to schema:publisher; dcat:contactPoint to schema:provider; dcat:Distribution to schema:DataDownload. Unmapped DCAT properties preserved (open world)."
+  }
+}

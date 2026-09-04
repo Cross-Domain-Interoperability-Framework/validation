@@ -1,0 +1,58 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "ex:Dataset1",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Example Dataset with DOI",
+  "schema:description": "This dataset provides an example of how to use a DOI as an identifier.",
+  "schema:identifier": "_:N5292745f71b940a6bf86df8f2affc279",
+  "schema:dateModified": "2025-01-01",
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "@id": "https://doi.gov"
+  },
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "ex:Dataset1#metadata",
+    "schema:name": "Metadata record for: Example Dataset with DOI",
+    "schema:about": {
+      "@id": "ex:Dataset1"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      }
+    ],
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to placeholder (no date in source); dcterms:publisher to schema:publisher. Unmapped DCAT properties preserved (open world)."
+  }
+}

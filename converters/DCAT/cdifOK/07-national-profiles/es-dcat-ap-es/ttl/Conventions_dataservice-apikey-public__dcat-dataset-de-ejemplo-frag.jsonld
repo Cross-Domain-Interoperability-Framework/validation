@@ -1,0 +1,55 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "http://dcat-ap-es.ejemplo.org/dataset/dataset-ejemplo-1",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Dataset de ejemplo",
+  "schema:description": "Datos accesibles mediante API",
+  "schema:dateModified": "2025-01-01",
+  "schema:license": [
+    "http://creativecommons.org/licenses/by/4.0/"
+  ],
+  "schema:conditionsOfAccess": [
+    "http://publications.europa.eu/resource/authority/access-right/PUBLIC"
+  ],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:encodingFormat": [
+        "http://publications.europa.eu/resource/authority/file-type/JSON"
+      ],
+      "schema:name": "Distribución JSON vía API"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "http://dcat-ap-es.ejemplo.org/dataset/dataset-ejemplo-1#metadata",
+    "schema:name": "Metadata record for: Dataset de ejemplo",
+    "schema:about": {
+      "@id": "http://dcat-ap-es.ejemplo.org/dataset/dataset-ejemplo-1"
+    },
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to placeholder (no date in source); dcterms:license to schema:license; dcterms:accessRights to schema:conditionsOfAccess; dcat:Distribution to schema:DataDownload. Unmapped DCAT properties preserved (open world)."
+  }
+}

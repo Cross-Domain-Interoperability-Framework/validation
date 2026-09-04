@@ -1,0 +1,198 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "adms": "http://www.w3.org/ns/adms#",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+  },
+  "@id": "http://dcat-ap-es.ejemplo.org/dataset/dataset-ejemplo-3",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Dataset de ejemplo 3",
+  "schema:description": "Descripción de un dataset de ejemplo 3",
+  "schema:identifier": "IDD3",
+  "schema:dateModified": "2024-02-01T12:00:00+01:00",
+  "schema:datePublished": "2024-01-01T12:00:00+01:00",
+  "schema:url": "http://dcat-ap-es.ejemplo.org/dataset/dataset-ejemplo-3/landing",
+  "schema:conditionsOfAccess": [
+    "http://publications.europa.eu/resource/authority/access-right/PUBLIC"
+  ],
+  "schema:keywords": [
+    "estadísticas"
+  ],
+  "schema:creator": {
+    "@list": [
+      {
+        "@type": [
+          "schema:Organization"
+        ],
+        "@id": "http://datos.gob.es/recurso/sector-publico/org/Organismo/E0DAT0001"
+      }
+    ]
+  },
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "@id": "http://datos.gob.es/recurso/sector-publico/org/Organismo/E0DAT0001"
+  },
+  "schema:contributor": [
+    {
+      "@type": [
+        "schema:Role"
+      ],
+      "schema:roleName": "dcterms:publisher",
+      "schema:contributor": {
+        "@type": [
+          "schema:Organization"
+        ],
+        "@id": "http://datos.gob.es/recurso/sector-publico/org/Organismo/E0DAT0001"
+      }
+    }
+  ],
+  "schema:provider": [
+    {
+      "@type": [
+        "schema:Organization"
+      ],
+      "schema:name": "Oficina del dato",
+      "schema:contactPoint": {
+        "@type": [
+          "schema:ContactPoint"
+        ],
+        "schema:email": "info-contacto@dcat-ap-es.ejemplo.org"
+      }
+    }
+  ],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "http://dcat-ap-es.ejemplo.org/distribucion/dataset-ejemplo-3-CSV/download",
+      "schema:encodingFormat": [
+        "https://www.iana.org/assignments/media-types/text/calendar"
+      ],
+      "schema:name": "Distribución de ejemplo 3",
+      "schema:description": "Descripción de un distribución de ejemplo 3",
+      "schema:contentSize": "3000",
+      "dcterms:conformsTo": [
+        {
+          "@id": "http://normativaespecifica-distribucion.com"
+        }
+      ]
+    }
+  ],
+  "schema:temporalCoverage": [
+    "2021-02-01T12:00:00+01:00/2025-02-01T12:00:00+01:00"
+  ],
+  "schema:version": "3",
+  "adms:sample": {
+    "@id": "http://dcat-ap-es.ejemplo.org/distribucion/dataset-ejemplo-1-CSV"
+  },
+  "adms:versionNotes": {
+    "@language": "es",
+    "@value": "Version 3"
+  },
+  "dcat:qualifiedRelation": {
+    "@id": "_:n983e71d497a442d29f07fbfc600d870eb13",
+    "@type": "dcat:Relationship",
+    "dcat:hadRole": {
+      "@id": "dcterms:references"
+    },
+    "dcterms:relation": {
+      "@id": "http://dcat-ap-es.ejemplo.org/dataset/dataset-ejemplo-1"
+    },
+    "dcterms:type": {
+      "@id": "dcat:isReferencedBy"
+    }
+  },
+  "dcat:spatialResolutionInMeters": {
+    "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+    "@value": "5.0"
+  },
+  "dcat:temporalResolution": {
+    "@type": "http://www.w3.org/2001/XMLSchema#duration",
+    "@value": "PT24M"
+  },
+  "dcat:theme": {
+    "@id": "http://datos.gob.es/kos/sector-publico/sector/medio-ambiente"
+  },
+  "dcterms:accrualPeriodicity": {
+    "@id": "http://publications.europa.eu/resource/authority/frequency/MONTHLY"
+  },
+  "dcterms:conformsTo": {
+    "@id": "http://normativaespecifica-dataset.com"
+  },
+  "dcterms:isReferencedBy": {
+    "@id": "http://dcat-ap-es.ejemplo.org/dataset/dataset-ejemplo-1"
+  },
+  "dcterms:language": {
+    "@id": "http://publications.europa.eu/resource/authority/language/SPA"
+  },
+  "dcterms:provenance": {
+    "@id": "http://dcat-ap-es.ejemplo.org/provenance/statement1"
+  },
+  "dcterms:source": {
+    "@id": "http://dcat-ap-es.ejemplo.org/dataset/dataset-raiz-ejemplo-1"
+  },
+  "dcterms:type": {
+    "@id": "http://publications.europa.eu/resource/authority/dataset-type/STATISTICAL"
+  },
+  "foaf:page": {
+    "@id": "http://dcat-ap-es.ejemplo.org/dataset/dataset-ejemplo-3/page"
+  },
+  "prov:wasGeneratedBy": {
+    "@id": "http://dcat-ap-es.ejemplo.org/actividad/generacion-dataset",
+    "@type": "prov:Activity",
+    "rdfs:label": "Proceso de generación del dataset",
+    "prov:endedAtTime": {
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+      "@value": "2024-01-20T12:00:00+01:00"
+    },
+    "prov:startedAtTime": {
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+      "@value": "2024-01-10T12:00:00+01:00"
+    }
+  },
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "http://dcat-ap-es.ejemplo.org/dataset/dataset-ejemplo-3#metadata",
+    "schema:name": "Metadata record for: Dataset de ejemplo 3",
+    "schema:about": {
+      "@id": "http://dcat-ap-es.ejemplo.org/dataset/dataset-ejemplo-3"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      }
+    ],
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:modified to schema:dateModified; dcat:landingPage to schema:url; dcterms:accessRights to schema:conditionsOfAccess; dcat:keyword to schema:keywords; dcterms:creator to schema:creator; dcterms:publisher to schema:publisher; prov:qualifiedAttribution to schema:contributor; dcat:contactPoint to schema:provider; dcat:Distribution to schema:DataDownload; dcterms:temporal to schema:temporalCoverage. Unmapped DCAT properties preserved (open world)."
+  }
+}

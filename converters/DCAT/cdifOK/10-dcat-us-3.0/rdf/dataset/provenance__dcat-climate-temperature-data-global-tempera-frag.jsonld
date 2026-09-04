@@ -1,0 +1,68 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+  },
+  "@id": "http://example.org/datasets/climate-temperature-data",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Climate Temperature Data: Global Temperature Trends",
+  "schema:description": "This dataset contains historical temperature measurements used for global climate analysis.",
+  "schema:dateModified": "2025-01-01",
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "@id": "http://example.org/organization/climate-research-institute"
+  },
+  "dcterms:provenance": [
+    {
+      "@id": "_:N102175758e1344799ec31c2857c75a3a",
+      "@type": "dcterms:ProvenanceStatement",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "The temperature measurements were collected from weather stations worldwide over the past century."
+      }
+    },
+    {
+      "@id": "_:n7f39a1821a4144178fd59788f27a1899b1",
+      "@type": "dcterms:ProvenanceStatement",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "The temperature measurements were collected from weather stations worldwide over the past century."
+      }
+    }
+  ],
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "http://example.org/datasets/climate-temperature-data#metadata",
+    "schema:name": "Metadata record for: Climate Temperature Data: Global Temperature Trends",
+    "schema:about": {
+      "@id": "http://example.org/datasets/climate-temperature-data"
+    },
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to placeholder (no date in source); dcterms:publisher to schema:publisher. Unmapped DCAT properties preserved (open world)."
+  }
+}

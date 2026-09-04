@@ -1,0 +1,95 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "https://data.some.org/catalog/datasets/2",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Example dataset 2",
+  "schema:description": "A longer description of dataset 2: with two distributions, a website and a PDF file. Some special characters: Łódź",
+  "schema:identifier": "https://data.some.org/catalog/datasets/2",
+  "schema:dateModified": "2013-04-01",
+  "schema:datePublished": "2012-06-21",
+  "schema:keywords": [
+    "stats",
+    "education",
+    "sloths"
+  ],
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:name": "Publishing Organization for dataset 2",
+    "schema:contactPoint": {
+      "@type": [
+        "schema:ContactPoint"
+      ],
+      "schema:email": "contact@another.org"
+    }
+  },
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://external.site.org/",
+      "schema:encodingFormat": [
+        "html"
+      ],
+      "schema:name": "A distribution for this dataset as an external website",
+      "schema:description": "A longer description for the distribution"
+    },
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://data.some.org/the/actual/catalog/datasets/2/resources/2.pdf",
+      "schema:encodingFormat": [
+        "_:N720246c03f9449b888608c91b9cbe77f"
+      ],
+      "schema:name": "A distribution for this dataset in PDF format",
+      "schema:description": "A longer description for the distribution"
+    }
+  ],
+  "dcterms:language": "en",
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "https://data.some.org/catalog/datasets/2#metadata",
+    "schema:name": "Metadata record for: Example dataset 2",
+    "schema:about": {
+      "@id": "https://data.some.org/catalog/datasets/2"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      }
+    ],
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:modified to schema:dateModified; dcat:keyword to schema:keywords; dcterms:publisher to schema:publisher; dcat:Distribution to schema:DataDownload. Unmapped DCAT properties preserved (open world)."
+  }
+}

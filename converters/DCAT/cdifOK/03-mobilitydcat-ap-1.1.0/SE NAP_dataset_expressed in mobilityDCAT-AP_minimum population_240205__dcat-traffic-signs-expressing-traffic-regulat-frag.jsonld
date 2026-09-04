@@ -1,0 +1,90 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "mobilitydcatap": "https://w3id.org/mobilitydcat-ap#",
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@id": "https://www.trafficdata.se/dataset/ec459578-a11f-4728-acaa-16b08ae45cfa",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Traffic signs expressing traffic regulations and identifying dangers, Speed limits",
+  "schema:description": "Traffic signs expressing traffic regulations and identifying dangers from the Swedish Transport Administration. Datex",
+  "schema:dateModified": "2025-01-01",
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:name": "Trafikverket",
+    "@id": "https://www.trafficdata.se/organization/0a3a8800-a545-4538-a2ab-e7a11246ff9b",
+    "schema:contactPoint": {
+      "@type": [
+        "schema:ContactPoint"
+      ],
+      "schema:email": "datex@trafikverket.se"
+    }
+  },
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "http://www.trafikverket.se/tjanster/Oppna_data/trafikinformation-i-realtid/Trafikinformation-vag-i-realtid/Sa-har-far-du-tillgang-till-data-for-trafikinformation-i-realtid/",
+      "schema:encodingFormat": [
+        "http://publications.europa.eu/resource/authority/file-type/XML"
+      ]
+    }
+  ],
+  "dcterms:accrualPeriodicity": {
+    "@id": "http://publications.europa.eu/resource/authority/frequency/UPDATE_CONT"
+  },
+  "mobilitydcatap:mobilityTheme": [
+    {
+      "@id": "https://w3id.org/mobilitydcat-ap/mobility-theme/dynamic-traffic-signs-and-regulations",
+      "@type": "skos:Concept",
+      "skos:prefLabel": {
+        "@language": "en",
+        "@value": "Dynamic traffic signs and regulations"
+      }
+    },
+    {
+      "@id": "https://w3id.org/mobilitydcat-ap/mobility-theme/dynamic-speed-limits",
+      "@type": "skos:Concept",
+      "skos:prefLabel": {
+        "@language": "en",
+        "@value": "Dynamic speed limits"
+      }
+    }
+  ],
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "https://www.trafficdata.se/dataset/ec459578-a11f-4728-acaa-16b08ae45cfa#metadata",
+    "schema:name": "Metadata record for: Traffic signs expressing traffic regulations and identifying dangers, Speed limits",
+    "schema:about": {
+      "@id": "https://www.trafficdata.se/dataset/ec459578-a11f-4728-acaa-16b08ae45cfa"
+    },
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to placeholder (no date in source); dcterms:publisher to schema:publisher; dcat:Distribution to schema:DataDownload. Unmapped DCAT properties preserved (open world)."
+  }
+}

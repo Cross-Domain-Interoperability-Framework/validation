@@ -1,0 +1,64 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "http://example.org/dataset/1",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Dataset de ejemplo",
+  "schema:description": "Descripción del dataset de ejemplo",
+  "schema:identifier": "dataset-1",
+  "schema:dateModified": "2025-01-01",
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "@id": "http://datos.gob.es/recurso/sector-publico/org/Organismo/EA0000000"
+  },
+  "dcat:accessService": {
+    "@id": "_:nb37a84b901dd49c99b0f5ae06bcf45cfb1"
+  },
+  "dcat:theme": {
+    "@id": "http://datos.gob.es/kos/sector-publico/sector/medio-ambiente"
+  },
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "http://example.org/dataset/1#metadata",
+    "schema:name": "Metadata record for: Dataset de ejemplo",
+    "schema:about": {
+      "@id": "http://example.org/dataset/1"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      }
+    ],
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to placeholder (no date in source); dcterms:publisher to schema:publisher. Unmapped DCAT properties preserved (open world)."
+  }
+}

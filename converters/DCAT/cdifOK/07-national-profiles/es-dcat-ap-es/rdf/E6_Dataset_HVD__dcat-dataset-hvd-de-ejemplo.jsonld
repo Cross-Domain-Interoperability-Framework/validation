@@ -1,0 +1,90 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "r5r": "http://data.europa.eu/r5r/"
+  },
+  "@id": "http://dcat-ap-es.ejemplo.org/dataset/dataset-HVD-ejemplo-1",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Dataset HVD de ejemplo",
+  "schema:description": "Descripción de un dataset HVD de ejemplo.",
+  "schema:identifier": "identificador-dataset-HVD-ejemplo-1",
+  "schema:dateModified": "2025-01-01",
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "@id": "http://datos.gob.es/recurso/sector-publico/org/Organismo/Identificador_Organismo"
+  },
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://orgea.exampleMS.gov/files/1T2p3o4B.ttl",
+      "schema:encodingFormat": [
+        "http://publications.europa.eu/resource/authority/file-type/RDF_TURTLE"
+      ],
+      "schema:description": "Descripción de una Distribución HVD de ejemplo."
+    }
+  ],
+  "dcat:theme": [
+    {
+      "@id": "http://datos.gob.es/kos/sector-publico/sector/medio-ambiente"
+    },
+    {
+      "@id": "http://publications.europa.eu/resource/authority/data-theme/ENVI"
+    }
+  ],
+  "r5r:applicableLegislation": [
+    {
+      "@id": "http://data.europa.eu/eli/reg_impl/2023/138/oj"
+    },
+    {
+      "@id": "http://data.europa.eu/eli/dir/2007/2/2019-06-26"
+    }
+  ],
+  "r5r:hvdCategory": {
+    "@id": "http://data.europa.eu/bna/c_b7f6a4f3"
+  },
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "http://dcat-ap-es.ejemplo.org/dataset/dataset-HVD-ejemplo-1#metadata",
+    "schema:name": "Metadata record for: Dataset HVD de ejemplo",
+    "schema:about": {
+      "@id": "http://dcat-ap-es.ejemplo.org/dataset/dataset-HVD-ejemplo-1"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      }
+    ],
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to placeholder (no date in source); dcterms:publisher to schema:publisher; dcat:Distribution to schema:DataDownload. Unmapped DCAT properties preserved (open world)."
+  }
+}

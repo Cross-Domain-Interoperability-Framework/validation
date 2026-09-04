@@ -1,0 +1,120 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dcatde": "http://dcat-ap.de/def/dcatde/",
+    "foaf": "http://xmlns.com/foaf/0.1/"
+  },
+  "@id": "https://example.com/dataset/d4ce4e6e-ab89-44cb-bf5c-33a162c234de#dataset",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Badegewässer in Hamburg",
+  "schema:description": "Historische Daten der Badegewässer und ihrer Überwachungsmessstellen im Internet.",
+  "schema:dateModified": "2025-01-01",
+  "schema:keywords": [
+    "wasserbelastung",
+    "gewaesserqualitaet",
+    "umweltueberwachung",
+    "wasser",
+    "badestelle"
+  ],
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:name": "Behörde für Umwelt und Energie (BUE), Amt für Umweltschutz",
+    "@id": "http://www.hamburg.de/bue/#publisher"
+  },
+  "schema:provider": [
+    {
+      "@type": [
+        "schema:Organization"
+      ],
+      "schema:name": "Meister, Thomas, Herr",
+      "schema:contactPoint": {
+        "@type": [
+          "schema:ContactPoint"
+        ],
+        "schema:email": "thomas.meister@example.com"
+      }
+    }
+  ],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "http://example.com/badegewaesser/Badegewaesser_messwerte_historisch_HH_2004-2013.zip",
+      "schema:encodingFormat": [
+        "http://publications.europa.eu/resource/authority/file-type/CSV"
+      ],
+      "schema:name": "Download Historische Messwerte Hamburg, 2004-2013 (CSV)",
+      "schema:contentSize": "42702"
+    },
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "http://example.com/badegewaesser/Badegewaesser_HH_2004-2013.zip",
+      "schema:encodingFormat": [
+        "http://publications.europa.eu/resource/authority/file-type/XML"
+      ],
+      "schema:name": "Download Historische Messwerte Hamburg, 2004-2013 (XML)",
+      "schema:contentSize": "5056"
+    }
+  ],
+  "dcat:theme": {
+    "@id": "http://publications.europa.eu/resource/authority/data-theme/ENVI"
+  },
+  "dcatde:contributorID": {
+    "@id": "http://dcat-ap.de/def/contributors/transparenzportalHamburg"
+  },
+  "dcatde:geocodingDescription": "Freie und Hansestadt Hamburg",
+  "dcatde:maintainer": {
+    "@id": "http://www.hamburg.de/bue/#publisher",
+    "@type": "foaf:Organization",
+    "foaf:name": "Behörde für Umwelt und Energie (BUE), Amt für Umweltschutz"
+  },
+  "dcatde:originator": {
+    "@id": "http://www.hamburg.de/bue/#publisher",
+    "@type": "foaf:Organization",
+    "foaf:name": "Behörde für Umwelt und Energie (BUE), Amt für Umweltschutz"
+  },
+  "dcatde:politicalGeocodingLevelURI": {
+    "@id": "http://dcat-ap.de/def/politicalGeocoding/Level/state"
+  },
+  "dcatde:politicalGeocodingURI": {
+    "@id": "http://dcat-ap.de/def/politicalGeocoding/stateKey/02"
+  },
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "https://example.com/dataset/d4ce4e6e-ab89-44cb-bf5c-33a162c234de#dataset#metadata",
+    "schema:name": "Metadata record for: Badegewässer in Hamburg",
+    "schema:about": {
+      "@id": "https://example.com/dataset/d4ce4e6e-ab89-44cb-bf5c-33a162c234de#dataset"
+    },
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to placeholder (no date in source); dcat:keyword to schema:keywords; dcterms:publisher to schema:publisher; dcat:contactPoint to schema:provider; dcat:Distribution to schema:DataDownload. Unmapped DCAT properties preserved (open world)."
+  }
+}

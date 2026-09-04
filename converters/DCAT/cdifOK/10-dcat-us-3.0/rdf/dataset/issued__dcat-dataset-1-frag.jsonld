@@ -1,0 +1,50 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "https://example.com/dataset1",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Dataset 1",
+  "schema:description": "This is a dataset",
+  "schema:datePublished": "2015-04-26",
+  "schema:dateModified": "2015-04-26",
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "@id": "https://example.com/publisher1"
+  },
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "https://example.com/dataset1#metadata",
+    "schema:name": "Metadata record for: Dataset 1",
+    "schema:about": {
+      "@id": "https://example.com/dataset1"
+    },
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:issued to schema:dateModified (no dcterms:modified); dcterms:publisher to schema:publisher. Unmapped DCAT properties preserved (open world)."
+  }
+}

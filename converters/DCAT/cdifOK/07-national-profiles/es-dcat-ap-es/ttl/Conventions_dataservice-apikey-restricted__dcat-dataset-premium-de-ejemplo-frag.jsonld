@@ -1,0 +1,54 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "http://dcat-ap-es.ejemplo.org/dataset/dataset-premium-1",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Dataset premium de ejemplo",
+  "schema:description": "Datos de acceso restringido mediante API",
+  "schema:dateModified": "2025-01-01",
+  "schema:license": [
+    "https://example.com/api-premium-license"
+  ],
+  "schema:conditionsOfAccess": [
+    "http://publications.europa.eu/resource/authority/access-right/RESTRICTED"
+  ],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ]
+    }
+  ],
+  "dcterms:rights": {
+    "@id": "https://example.com/api-premium-terms"
+  },
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "http://dcat-ap-es.ejemplo.org/dataset/dataset-premium-1#metadata",
+    "schema:name": "Metadata record for: Dataset premium de ejemplo",
+    "schema:about": {
+      "@id": "http://dcat-ap-es.ejemplo.org/dataset/dataset-premium-1"
+    },
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to placeholder (no date in source); dcterms:license to schema:license; dcterms:accessRights to schema:conditionsOfAccess; dcat:Distribution to schema:DataDownload. Unmapped DCAT properties preserved (open world)."
+  }
+}

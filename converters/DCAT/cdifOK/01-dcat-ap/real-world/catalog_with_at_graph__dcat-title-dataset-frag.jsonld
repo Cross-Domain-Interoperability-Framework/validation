@@ -1,0 +1,66 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "https://ckan.example.org/dataset/d4ce4e6e-ab89-44cb-bf5c-33a162c234de#dataset",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Title dataset",
+  "schema:description": "Description distribution",
+  "schema:dateModified": "2025-01-01",
+  "schema:provider": [
+    {
+      "@type": [
+        "schema:Organization"
+      ],
+      "schema:name": "Jane Doe",
+      "schema:contactPoint": {
+        "@type": [
+          "schema:ContactPoint"
+        ],
+        "schema:email": "jane.doe@agency.gov"
+      }
+    }
+  ],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "http://example2.org/files/download.zip",
+      "schema:name": "download.zip"
+    }
+  ],
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "https://ckan.example.org/dataset/d4ce4e6e-ab89-44cb-bf5c-33a162c234de#dataset#metadata",
+    "schema:name": "Metadata record for: Title dataset",
+    "schema:about": {
+      "@id": "https://ckan.example.org/dataset/d4ce4e6e-ab89-44cb-bf5c-33a162c234de#dataset"
+    },
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to placeholder (no date in source); dcat:contactPoint to schema:provider; dcat:Distribution to schema:DataDownload. Unmapped DCAT properties preserved (open world)."
+  }
+}

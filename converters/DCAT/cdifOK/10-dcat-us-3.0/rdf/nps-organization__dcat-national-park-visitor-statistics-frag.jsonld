@@ -1,0 +1,52 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "http://data.example.org/dataset/park-visitor-data",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "National Park Visitor Statistics",
+  "schema:description": "This dataset contains statistics about visitors to national parks managed by the NPS.",
+  "schema:dateModified": "2025-01-01",
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:name": "National Park Service",
+    "@id": "https://www.nps.gov"
+  },
+  "dcat:description": "This dataset contains statistics about visitors to national parks managed by the NPS.",
+  "dcat:title": "National Park Visitor Statistics",
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "http://data.example.org/dataset/park-visitor-data#metadata",
+    "schema:name": "Metadata record for: National Park Visitor Statistics",
+    "schema:about": {
+      "@id": "http://data.example.org/dataset/park-visitor-data"
+    },
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to placeholder (no date in source); dcterms:publisher to schema:publisher. Unmapped DCAT properties preserved (open world)."
+  }
+}

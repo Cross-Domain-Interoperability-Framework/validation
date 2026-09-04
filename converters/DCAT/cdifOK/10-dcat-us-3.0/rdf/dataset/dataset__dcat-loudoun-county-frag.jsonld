@@ -1,0 +1,77 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "https://census.gov/dataset1",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Loudoun County",
+  "schema:description": "This dataset contains information regarding the census in County of Loudoun",
+  "schema:dateModified": "2021-04-26",
+  "schema:datePublished": "2021-04-26",
+  "schema:url": "https://opendata.census.gov/1234/about",
+  "schema:keywords": [
+    "loudoun",
+    "census"
+  ],
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:name": "US Census",
+    "@id": "https://census.gov/"
+  },
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://census.gov/data/dataset1.csv"
+    },
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://census.gov/data/dataset1.xml"
+    }
+  ],
+  "schema:temporalCoverage": [
+    "2020-01-01T00:00:00/2021-06-22T00:00:00",
+    "2020-01-01T00:00:00/2021-06-22T00:00:00"
+  ],
+  "dcat:theme": {
+    "@id": "http://resources.data.gov/authority/themes/society"
+  },
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "https://census.gov/dataset1#metadata",
+    "schema:name": "Metadata record for: Loudoun County",
+    "schema:about": {
+      "@id": "https://census.gov/dataset1"
+    },
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:modified to schema:dateModified; dcat:landingPage to schema:url; dcat:keyword to schema:keywords; dcterms:publisher to schema:publisher; dcat:Distribution to schema:DataDownload; dcterms:temporal to schema:temporalCoverage. Unmapped DCAT properties preserved (open world)."
+  }
+}

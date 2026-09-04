@@ -1,0 +1,238 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "adms": "http://www.w3.org/ns/adms#",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "r5r": "http://data.europa.eu/r5r/"
+  },
+  "@id": "https://data.some.org/catalog/datasets/9df8df51-63db-37a8-e044-0003ba9b0d98",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Zimbabwe Regional Geochemical Survey.",
+  "schema:description": "During the period 1982-86 a team of geologists from the British Geological Survey ...",
+  "schema:identifier": "9df8df51-63db-37a8-e044-0003ba9b0d98",
+  "schema:dateModified": "2012-05-10T21:04:00",
+  "schema:datePublished": "2012-05-10",
+  "schema:license": [
+    "https://data.some.org/link/to/license"
+  ],
+  "schema:conditionsOfAccess": [
+    "public"
+  ],
+  "schema:keywords": [
+    "exploration",
+    "geochemistry",
+    "geology"
+  ],
+  "schema:creator": {
+    "@list": [
+      {
+        "@type": [
+          "schema:Organization"
+        ],
+        "schema:name": "Creating Organization for dataset 1",
+        "@id": "http://example.org/creator-org",
+        "schema:contactPoint": {
+          "@type": [
+            "schema:ContactPoint"
+          ],
+          "schema:email": "creator@example.org"
+        },
+        "schema:url": "http://example.org"
+      }
+    ]
+  },
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:name": "Publishing Organization for dataset 1",
+    "@id": "http://orgs.vocab.org/some-org",
+    "schema:contactPoint": {
+      "@type": [
+        "schema:ContactPoint"
+      ],
+      "schema:email": "contact@some.org"
+    },
+    "schema:url": "http://some.org"
+  },
+  "schema:provider": [
+    {
+      "@type": [
+        "schema:Organization"
+      ],
+      "schema:name": "Point of Contact",
+      "schema:contactPoint": {
+        "@type": [
+          "schema:ContactPoint"
+        ],
+        "schema:email": "contact@some.org"
+      }
+    }
+  ],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "http://www.bgs.ac.uk/gbase/geochemcd/home.html",
+      "schema:encodingFormat": [
+        "text/html"
+      ],
+      "schema:name": "Some website",
+      "schema:description": "A longer description",
+      "schema:contentSize": "12323"
+    }
+  ],
+  "schema:spatialCoverage": [
+    {
+      "@type": [
+        "schema:Place"
+      ],
+      "schema:geo": {
+        "@type": [
+          "schema:GeoShape"
+        ],
+        "schema:polygon": "POLYGON ((11.9936 54.0486, 11.9936 54.2466, 12.3045 54.2466, 12.3045 54.0486, 11.9936 54.0486))"
+      }
+    }
+  ],
+  "schema:temporalCoverage": [
+    "1905-03-01/2013-01-05"
+  ],
+  "schema:version": "2.3",
+  "adms:identifier": [
+    "alternate-identifier-1",
+    "alternate-identifier-2"
+  ],
+  "adms:sample": {
+    "@id": "https://data.some.org/catalog/datasets/9df8df51-63db-37a8-e044-0003ba9b0d98/sample"
+  },
+  "adms:versionNotes": "New schema added",
+  "dcat:qualifiedRelation": {
+    "@id": "_:N0f5c168f9ff943fabad152df9043861d",
+    "@type": "dcat:Relationship",
+    "dcat:hadRole": {
+      "@id": "http://www.iana.org/assignments/relation/related"
+    },
+    "dcterms:relation": {
+      "@id": "http://example.com/dataset/3.141592"
+    }
+  },
+  "dcat:spatialResolutionInMeters": {
+    "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+    "@value": "1.5"
+  },
+  "dcat:temporalResolution": {
+    "@type": "http://www.w3.org/2001/XMLSchema#duration",
+    "@value": "PT15M"
+  },
+  "dcat:theme": [
+    {
+      "@id": "http://eurovoc.europa.eu/100142"
+    },
+    {
+      "@id": "http://eurovoc.europa.eu/209065"
+    },
+    "Earth Sciences"
+  ],
+  "dcterms:accrualPeriodicity": {
+    "@id": "http://purl.org/cld/freq/daily"
+  },
+  "dcterms:conformsTo": [
+    "Standard 1",
+    "Standard 2"
+  ],
+  "dcterms:hasVersion": [
+    {
+      "@id": "https://data.some.org/catalog/datasets/derived-dataset-1"
+    },
+    {
+      "@id": "https://data.some.org/catalog/datasets/derived-dataset-2"
+    }
+  ],
+  "dcterms:isReferencedBy": [
+    "https://doi.org/10.1038/sdata.2018.22",
+    "test_isreferencedby"
+  ],
+  "dcterms:isVersionOf": {
+    "@id": "https://data.some.org/catalog/datasets/original-dataset"
+  },
+  "dcterms:language": [
+    "en",
+    "es",
+    "ca"
+  ],
+  "dcterms:provenance": "Some statement about provenance",
+  "dcterms:relation": [
+    {
+      "@id": "http://dataset.info.org/related1"
+    },
+    {
+      "@id": "http://dataset.info.org/related2"
+    }
+  ],
+  "dcterms:source": [
+    {
+      "@id": "https://data.some.org/catalog/datasets/source-dataset-1"
+    },
+    {
+      "@id": "https://data.some.org/catalog/datasets/source-dataset-2"
+    }
+  ],
+  "dcterms:type": "test-type",
+  "foaf:homepage": {
+    "@id": "http://dataset.info.org/home"
+  },
+  "foaf:page": [
+    {
+      "@id": "http://dataset.info.org/doc1"
+    },
+    {
+      "@id": "http://dataset.info.org/doc2"
+    }
+  ],
+  "r5r:applicableLegislation": [
+    {
+      "@id": "http://data.europa.eu/eli/reg_impl/2023/138/oj"
+    },
+    {
+      "@id": "http://data.europa.eu/eli/reg_impl/2023/138/oj_alt"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "https://data.some.org/catalog/datasets/9df8df51-63db-37a8-e044-0003ba9b0d98#metadata",
+    "schema:name": "Metadata record for: Zimbabwe Regional Geochemical Survey.",
+    "schema:about": {
+      "@id": "https://data.some.org/catalog/datasets/9df8df51-63db-37a8-e044-0003ba9b0d98"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      }
+    ],
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:modified to schema:dateModified; dcterms:license to schema:license; dcterms:accessRights to schema:conditionsOfAccess; dcat:keyword to schema:keywords; dcterms:creator to schema:creator; dcterms:publisher to schema:publisher; dcat:contactPoint to schema:provider; dcat:Distribution to schema:DataDownload; dcterms:spatial to schema:spatialCoverage; dcterms:temporal to schema:temporalCoverage. Unmapped DCAT properties preserved (open world)."
+  }
+}

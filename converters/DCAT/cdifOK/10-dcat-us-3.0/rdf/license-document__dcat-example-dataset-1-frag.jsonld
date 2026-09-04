@@ -1,0 +1,47 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "http://example.org/Dataset1",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Example Dataset 1",
+  "schema:description": "This is an example dataset",
+  "schema:dateModified": "2025-01-01",
+  "schema:license": [
+    "https://creativecommons.org/licenses/by/4.0/"
+  ],
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "@id": "http://example.org/Publisher1"
+  },
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "http://example.org/Dataset1#metadata",
+    "schema:name": "Metadata record for: Example Dataset 1",
+    "schema:about": {
+      "@id": "http://example.org/Dataset1"
+    },
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to placeholder (no date in source); dcterms:license to schema:license; dcterms:publisher to schema:publisher. Unmapped DCAT properties preserved (open world)."
+  }
+}

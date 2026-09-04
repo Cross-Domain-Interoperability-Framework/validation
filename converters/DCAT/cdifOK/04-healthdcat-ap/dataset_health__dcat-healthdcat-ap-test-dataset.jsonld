@@ -1,0 +1,527 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "adms": "http://www.w3.org/ns/adms#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "r5r": "http://data.europa.eu/r5r/",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "health": "http://healthdataportal.eu/ns/health#",
+    "dqv": "http://www.w3.org/ns/dqv#",
+    "oa": "http://www.w3.org/ns/oa#",
+    "dpv": "https://w3id.org/dpv#"
+  },
+  "@id": "http://example.healthdata.nl/set/dataset",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "HealthDCAT-AP test dataset",
+  "schema:description": "This dataset is an example of using HealthDCAT-AP in CKAN",
+  "schema:identifier": "http://example.com/dataset/1234567890",
+  "schema:dateModified": "2024-12-31T23:59:59+00:00",
+  "schema:datePublished": "2024-01-01T00:00:00+00:00",
+  "schema:conditionsOfAccess": [
+    "http://publications.europa.eu/resource/authority/access-right/NON_PUBLIC"
+  ],
+  "schema:keywords": [
+    "Test 1",
+    "Test 2",
+    "Test 3"
+  ],
+  "schema:creator": {
+    "@list": [
+      {
+        "@type": [
+          "schema:Organization"
+        ],
+        "schema:name": "Contact Point",
+        "schema:contactPoint": {
+          "@type": [
+            "schema:ContactPoint"
+          ],
+          "schema:email": "info@example.com"
+        },
+        "schema:url": "https:/example.com/homepage"
+      }
+    ]
+  },
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:name": "Contact Point",
+    "schema:contactPoint": {
+      "@type": [
+        "schema:ContactPoint"
+      ],
+      "schema:email": "info@example.com"
+    },
+    "schema:url": "https://healthdata.nl"
+  },
+  "schema:contributor": [
+    {
+      "@type": [
+        "schema:Role"
+      ],
+      "schema:roleName": "https://inspire.ec.europa.eu/metadata-codelist/ResponsiblePartyRole/processor",
+      "schema:contributor": {
+        "@type": [
+          "schema:Organization"
+        ],
+        "schema:name": "Contact Point",
+        "schema:contactPoint": {
+          "@type": [
+            "schema:ContactPoint"
+          ],
+          "schema:email": "healthdata@sciensano.be"
+        },
+        "schema:url": "https://healthdata.be"
+      }
+    }
+  ],
+  "schema:provider": [
+    {
+      "@type": [
+        "schema:Organization"
+      ],
+      "schema:name": "Contact Point",
+      "schema:contactPoint": {
+        "@type": [
+          "schema:ContactPoint"
+        ],
+        "schema:email": "contact@example.com"
+      }
+    }
+  ],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://fair.healthdata.be/sites/default/files/distribution/d43a158e-7d13-4660-bbc3-9d3f8d5501e5/Technical_report_number_of_unique_study_subjects_available_by_environment_for_project_HDBP0250.csv",
+      "schema:encodingFormat": [
+        "http://www.iana.org/assignments/media-types/text/csv"
+      ],
+      "schema:name": "Technical report number of unique study subjects available by environment for project HDBP0250"
+    }
+  ],
+  "schema:temporalCoverage": [
+    "2020-03-01/2024-12-31"
+  ],
+  "adms:identifier": {
+    "@id": "internalURI:admsIdentifier0",
+    "@type": "adms:Identifier",
+    "adms:schemaAgency": "Health Information Portal",
+    "skos:notation": {
+      "@type": "http://www.w3.org/2001/XMLSchema#anyURI",
+      "@value": "https://www.healthinformationportal.eu/health-information-sources/linking-registers-covid-19-vaccine-surveillance"
+    }
+  },
+  "adms:sample": {
+    "@id": "http://example.com/sample",
+    "@type": "dcat:Distribution",
+    "dcat:accessURL": {
+      "@id": "https://www.dummy.com/"
+    },
+    "dcat:downloadURL": {
+      "@id": "https://github.com/CAVDgit/EHDS2_UC_Sciensano/blob/main/use_case_1_synthetic_data_10K_individuals.csv"
+    },
+    "dcat:mediaType": {
+      "@id": "http://www.iana.org/assignments/media-types/text/csv",
+      "@type": "dcterms:MediaType"
+    },
+    "dcterms:format": {
+      "@id": "http://publications.europa.eu/resource/authority/file-type/CSV",
+      "@type": "dcterms:MediaTypeOrExtent"
+    },
+    "dcterms:identifier": "http://ehelse.healthdataportal.eu/sample/fe921169-4619-4386-8bfe-60ea131dbe96",
+    "dcterms:isPartOf": {
+      "@id": "internal:temporaryDatasetURI"
+    },
+    "dcterms:issued": {
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+      "@value": "2024-06-03T08:51:00+00:00"
+    },
+    "dcterms:language": {
+      "@id": "http://publications.europa.eu/resource/authority/language/ENG",
+      "@type": "dcterms:LinguisticSystem"
+    },
+    "dcterms:license": {
+      "@id": "http://publications.europa.eu/resource/authority/licence/CC_BYNCND_3_0",
+      "@type": "dcterms:LicenseDocument",
+      "rdfs:label": "Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported"
+    },
+    "dcterms:modified": {
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+      "@value": "2024-06-04T18:00:00+00:00"
+    },
+    "dcterms:rights": {
+      "@id": "_:n5184652a58ac4e369cc08aa424dd9637b13",
+      "@type": "dcterms:RightsStatement",
+      "rdfs:label": "Free access."
+    },
+    "dcterms:title": "Proxy data generating for the EHDS2 Pilot project Sciensano Use Case",
+    "r5r:applicableLegislation": {
+      "@id": "http://data.europa.eu/eli/reg/2022/868/oj"
+    }
+  },
+  "adms:versionNotes": "Dataset continuously updated",
+  "dcat:hasVersion": {
+    "@id": "http://example.com/dataset/1234567890"
+  },
+  "dcat:qualifiedRelation": {
+    "@id": "_:n5184652a58ac4e369cc08aa424dd9637b5",
+    "@type": "dcat:Relationship",
+    "dcat:hadRole": {
+      "@id": "http://www.iana.org/assignments/relation/related"
+    },
+    "dcterms:relation": {
+      "@id": "http://example.com/dataset/3.141592"
+    }
+  },
+  "dcat:spatialResolutionInMeters": {
+    "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+    "@value": "10"
+  },
+  "dcat:temporalResolution": {
+    "@type": "http://www.w3.org/2001/XMLSchema#duration",
+    "@value": "P1D"
+  },
+  "dcat:theme": {
+    "@id": "http://publications.europa.eu/resource/authority/data-theme/HEAL"
+  },
+  "dcterms:accrualPeriodicity": {
+    "@id": "http://publications.europa.eu/resource/authority/frequency/DAILY",
+    "@type": "dcterms:Frequency"
+  },
+  "dcterms:alternative": "TEST-DATASET",
+  "dcterms:conformsTo": {
+    "@id": "http://www.wikidata.org/entity/Q19597236"
+  },
+  "dcterms:isPartOf": {
+    "@id": "http://example.com/catalog/abcdefghijklmnopqrstuvwxyz"
+  },
+  "dcterms:isReferencedBy": [
+    {
+      "@id": "https://doi.org/10.1038/sdata.2016.18"
+    },
+    {
+      "@id": "https://dx.doi.org/10.1002/jmri.28679"
+    }
+  ],
+  "dcterms:language": [
+    {
+      "@id": "http://publications.europa.eu/resource/authority/language/ENG",
+      "@type": "dcterms:LinguisticSystem"
+    },
+    {
+      "@id": "http://publications.europa.eu/resource/authority/language/NLD",
+      "@type": "dcterms:LinguisticSystem"
+    },
+    {
+      "@id": "http://publications.europa.eu/resource/authority/language/FRA",
+      "@type": "dcterms:LinguisticSystem"
+    }
+  ],
+  "dcterms:provenance": {
+    "@id": "_:n5184652a58ac4e369cc08aa424dd9637b3",
+    "@type": "dcterms:ProvenanceStatement",
+    "rdfs:label": "This example dataset is partly sourced from TEHDAS2"
+  },
+  "dcterms:relation": {
+    "@id": "http://example.com/dataset/9876543210"
+  },
+  "dcterms:type": {
+    "@id": "_:n5184652a58ac4e369cc08aa424dd9637b7",
+    "@type": "skos:Concept",
+    "skos:inScheme": {
+      "@id": "http://publications.europa.eu/resource/authority/dataset-type/PERSONAL_DATA"
+    },
+    "skos:prefLabel": "Personal Data"
+  },
+  "foaf:page": {
+    "@id": "_:n5184652a58ac4e369cc08aa424dd9637b9",
+    "@type": "foaf:Document",
+    "foaf:homepage": {
+      "@id": "https://www.sciensano.be/en/projects/linking-registers-covid-19-vaccine-surveillance"
+    },
+    "rdfs:label": "Landing Page for Sciensano"
+  },
+  "r5r:applicableLegislation": {
+    "@id": "http://data.europa.eu/eli/reg/2022/868/oj"
+  },
+  "health:analytics": {
+    "@id": "http://example.com/analytics",
+    "@type": "dcat:Distribution",
+    "dcat:accessURL": {
+      "@id": "https://www.dummy.com/"
+    },
+    "dcat:downloadURL": {
+      "@id": "https://fair.healthdata.be/sites/default/files/distribution/d43a158e-7d13-4660-bbc3-9d3f8d5501e5/Technical_report_number_of_unique_study_subjects_available_by_environment_for_project_HDBP0250.csv"
+    },
+    "dcat:mediaType": {
+      "@id": "http://www.iana.org/assignments/media-types/text/csv",
+      "@type": "dcterms:MediaType"
+    },
+    "dcterms:format": {
+      "@id": "http://publications.europa.eu/resource/authority/file-type/CSV",
+      "@type": "dcterms:MediaTypeOrExtent"
+    },
+    "dcterms:identifier": "http://ehelse.healthdataportal.eu/analytics/47f55653-a151-48c1-8d90-940561da6e57",
+    "dcterms:isPartOf": {
+      "@id": "internal:temporaryDatasetURI"
+    },
+    "dcterms:issued": {
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+      "@value": "2024-06-03T08:51:00+00:00"
+    },
+    "dcterms:license": {
+      "@id": "http://publications.europa.eu/resource/authority/licence/CC_BYNCND_3_0",
+      "@type": "dcterms:LicenseDocument",
+      "rdfs:label": "Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported"
+    },
+    "dcterms:modified": {
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+      "@value": "2024-06-04T18:00:00+00:00"
+    },
+    "dcterms:rights": {
+      "@id": "_:n5184652a58ac4e369cc08aa424dd9637b10",
+      "@type": "dcterms:RightsStatement",
+      "rdfs:label": [
+        "_g_L202C11377",
+        "internalURI:wasGeneratedBy0",
+        "_g_L123C7733"
+      ]
+    },
+    "dcterms:title": "Technical report number of unique study subjects available by environment for project HDBP0250",
+    "r5r:applicableLegislation": {
+      "@id": "http://data.europa.eu/eli/reg/2022/868/oj"
+    },
+    "health:retentionPeriod": {
+      "@id": "_:n5184652a58ac4e369cc08aa424dd9637b11",
+      "@type": "dcterms:PeriodOfTime",
+      "dcat:endDate": {
+        "@type": "http://www.w3.org/2001/XMLSchema#date",
+        "@value": "2034-12-31"
+      },
+      "dcat:startDate": {
+        "@type": "http://www.w3.org/2001/XMLSchema#date",
+        "@value": "2020-03-01"
+      },
+      "rdfs:comment": "As stated in the CSI deliberation"
+    }
+  },
+  "health:hasCodeValues": [
+    {
+      "@id": "http://example.com/code1"
+    },
+    {
+      "@id": "http://example.com/code2"
+    }
+  ],
+  "health:hasCodingSystem": [
+    {
+      "@id": "http://www.wikidata.org/entity/P1690"
+    },
+    {
+      "@id": "http://www.wikidata.org/entity/P4229"
+    }
+  ],
+  "health:hdab": {
+    "@id": "_:n5184652a58ac4e369cc08aa424dd9637b1",
+    "@type": "foaf:Organization",
+    "foaf:homepage": {
+      "@id": "https://www.example.com/hdab"
+    },
+    "foaf:mbox": {
+      "@id": "mailto:hdab@example.com"
+    },
+    "foaf:name": {
+      "@language": "en",
+      "@value": "EU Health Data Access Body"
+    }
+  },
+  "health:healthCategory": [
+    {
+      "@id": "http://example.com/ontology/resource/authority/healthcategories/PHDR"
+    },
+    {
+      "@id": "http://example.com/ontology/resource/authority/healthcategories/IDHP"
+    },
+    {
+      "@id": "http://example.com/ontology/resource/authority/healthcategories/DIOH"
+    },
+    {
+      "@id": "http://example.com/ontology/resource/authority/healthcategories/EHRS"
+    }
+  ],
+  "health:healthTheme": [
+    {
+      "@id": "http://www.wikidata.org/entity/Q7907952"
+    },
+    {
+      "@id": "http://www.wikidata.org/entity/Q58624061"
+    }
+  ],
+  "health:maxTypicalAge": {
+    "@type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+    "@value": "110"
+  },
+  "health:minTypicalAge": {
+    "@type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+    "@value": "0"
+  },
+  "health:numberOfRecords": {
+    "@type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+    "@value": "123456789"
+  },
+  "health:numberOfUniqueIndividuals": {
+    "@type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+    "@value": "7654321"
+  },
+  "health:populationCoverage": "This example includes a very non-descript population",
+  "health:publisherNote": "Health-RI is the Dutch health care initiative to build an integrated health data infrastructure for research and innovation.",
+  "health:publisherType": {
+    "@id": "http://example.com/publisherType/undefined",
+    "@type": "skos:Concept",
+    "skos:prefLabel": "National Public Health Institute"
+  },
+  "health:retentionPeriod": {
+    "@id": "_:n5184652a58ac4e369cc08aa424dd9637b2",
+    "@type": "dcterms:PeriodOfTime",
+    "dcat:endDate": {
+      "@type": "http://www.w3.org/2001/XMLSchema#date",
+      "@value": "2034-12-31"
+    },
+    "dcat:startDate": {
+      "@type": "http://www.w3.org/2001/XMLSchema#date",
+      "@value": "2020-03-01"
+    },
+    "rdfs:comment": "As stated in the CSI deliberation"
+  },
+  "health:trustedDataHolder": true,
+  "dqv:hasQualityAnnotation": {
+    "@id": "_:n5184652a58ac4e369cc08aa424dd9637b8",
+    "@type": "http://www.w3.org/ns/dqv#QualityCertificate",
+    "oa:hasBody": {
+      "@id": "https://certificates.theodi.org/en/datasets/393/certificate"
+    },
+    "oa:hasTarget": {
+      "@id": "https://certificates.theodi.org/en/datasets/393"
+    },
+    "oa:motivatedBy": {
+      "@id": "http://www.w3.org/ns/dqv#qualityAssessment"
+    }
+  },
+  "dpv:hasLegalBasis": {
+    "@id": "https://w3id.org/dpv#Consent"
+  },
+  "dpv:hasPersonalData": [
+    {
+      "@id": "https://w3id.org/dpv/dpv-pd#Age"
+    },
+    {
+      "@id": "https://w3id.org/dpv/dpv-pd#Gender"
+    },
+    {
+      "@id": "https://w3id.org/dpv/dpv-pd#HealthRecord"
+    }
+  ],
+  "dpv:hasPurpose": {
+    "@id": "https://w3id.org/dpv#AcademicResearch"
+  },
+  "prov:wasGeneratedBy": {
+    "@id": "internalURI:wasGeneratedBy0",
+    "@type": "prov:Activity",
+    "dcterms:type": {
+      "@id": "http://dbpedia.org/resource/Record_linkage"
+    },
+    "foaf:page": {
+      "@id": "https://www.sciensano.be/sites/default/files/information_letter_linkvacc_20221010_en.pdf"
+    },
+    "rdfs:label": "http://dbpedia.org/resource/Record_linkage",
+    "rdfs:seeAlso": {
+      "@id": "https://www.ehealth.fgov.be/ehealthplatform/fr/service-codage-anonymisation-et-ttp"
+    },
+    "prov:startedAtTime": {
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+      "@value": "2021-01-01T00:00:00+00:00"
+    },
+    "prov:wasAssociatedWith": {
+      "@id": "_:n5184652a58ac4e369cc08aa424dd9637b15",
+      "@type": "prov:Agent",
+      "foaf:homepage": {
+        "@id": "https://www.sciensano.be/fr/people/joris-van-loenhout"
+      },
+      "foaf:mbox": {
+        "@id": "mailto:Joris.VanLoenhout@sciensano.be"
+      },
+      "foaf:name": [
+        {
+          "@language": "en",
+          "@value": "Dr. Joris van Loenhout"
+        },
+        {
+          "@language": "nl",
+          "@value": "Dr. Joris van Loenhout"
+        }
+      ],
+      "prov:actedOnBehalfOf": {
+        "@id": "_:n5184652a58ac4e369cc08aa424dd9637b16",
+        "@type": [
+          "prov:Organization",
+          "prov:Agent"
+        ],
+        "foaf:name": [
+          {
+            "@language": "en",
+            "@value": "Contact Point"
+          },
+          {
+            "@language": "nl",
+            "@value": "Contactpunt"
+          }
+        ]
+      }
+    }
+  },
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "http://example.healthdata.nl/set/dataset#metadata",
+    "schema:name": "Metadata record for: HealthDCAT-AP test dataset",
+    "schema:about": {
+      "@id": "http://example.healthdata.nl/set/dataset"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      }
+    ],
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:modified to schema:dateModified; dcterms:accessRights to schema:conditionsOfAccess; dcat:keyword to schema:keywords; dcterms:creator to schema:creator; dcterms:publisher to schema:publisher; prov:qualifiedAttribution to schema:contributor; dcat:contactPoint to schema:provider; dcat:Distribution to schema:DataDownload; dcterms:temporal to schema:temporalCoverage. Unmapped DCAT properties preserved (open world)."
+  }
+}

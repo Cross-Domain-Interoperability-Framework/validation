@@ -1,0 +1,120 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "health": "http://healthdataportal.eu/ns/health#"
+  },
+  "@id": "http://example.test/dataset/1",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Health dataset",
+  "schema:description": "A dataset with multilingual metadata",
+  "schema:identifier": "http://example.test/dataset/1",
+  "schema:dateModified": "2024-06-01T00:00:00+00:00",
+  "schema:datePublished": "2024-01-01T00:00:00+00:00",
+  "schema:keywords": [
+    "health",
+    "gezondheid"
+  ],
+  "schema:creator": {
+    "@list": [
+      {
+        "@type": [
+          "schema:Organization"
+        ],
+        "schema:name": "Health Creator",
+        "schema:contactPoint": {
+          "@type": [
+            "schema:ContactPoint"
+          ],
+          "schema:email": "creator@example.com"
+        }
+      }
+    ]
+  },
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:name": "Health Institute",
+    "schema:contactPoint": {
+      "@type": [
+        "schema:ContactPoint"
+      ],
+      "schema:email": "info@example.com"
+    },
+    "schema:url": "https://healthdata.nl"
+  },
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "http://example.test/dataset/1/resource/1.csv",
+      "schema:encodingFormat": [
+        "http://publications.europa.eu/resource/authority/file-type/CSV"
+      ],
+      "schema:name": "CSV extract",
+      "schema:description": "Distribution description in English"
+    }
+  ],
+  "health:populationCoverage": [
+    {
+      "@language": "en",
+      "@value": "Population coverage in English"
+    },
+    {
+      "@language": "nl",
+      "@value": "Populatiedekking in het Nederlands"
+    }
+  ],
+  "health:publisherNote": [
+    {
+      "@language": "en",
+      "@value": "Publisher note in English"
+    },
+    {
+      "@language": "nl",
+      "@value": "Notitie van de uitgever in het Nederlands"
+    }
+  ],
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "http://example.test/dataset/1#metadata",
+    "schema:name": "Metadata record for: Health dataset",
+    "schema:about": {
+      "@id": "http://example.test/dataset/1"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      }
+    ],
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:modified to schema:dateModified; dcat:keyword to schema:keywords; dcterms:creator to schema:creator; dcterms:publisher to schema:publisher; dcat:Distribution to schema:DataDownload. Unmapped DCAT properties preserved (open world)."
+  }
+}

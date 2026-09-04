@@ -1,0 +1,58 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+  },
+  "@id": "http://example.org/Census2020Dataset",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "2020 Census Dataset",
+  "schema:description": "Dataset resulting from the 2020 National Census",
+  "schema:dateModified": "2025-01-01",
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "@id": "https://www.census.gov"
+  },
+  "prov:wasGeneratedBy": {
+    "@id": "http://example.org/NationalCensus",
+    "@type": "prov:Activity",
+    "dcterms:type": {
+      "@id": "http://example.org/CensusActivity"
+    },
+    "rdfs:label": "National Census"
+  },
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "http://example.org/Census2020Dataset#metadata",
+    "schema:name": "Metadata record for: 2020 Census Dataset",
+    "schema:about": {
+      "@id": "http://example.org/Census2020Dataset"
+    },
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to placeholder (no date in source); dcterms:publisher to schema:publisher. Unmapped DCAT properties preserved (open world)."
+  }
+}

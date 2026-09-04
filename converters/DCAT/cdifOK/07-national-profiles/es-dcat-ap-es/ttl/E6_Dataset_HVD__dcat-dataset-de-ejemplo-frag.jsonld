@@ -1,0 +1,47 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "r5r": "http://data.europa.eu/r5r/"
+  },
+  "@id": "http://dcat-ap-es.ejemplo.org/dataset/dataset-ejemplo-1",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Dataset de ejemplo",
+  "schema:description": "Descripción de un dataset de ejemplo.",
+  "schema:dateModified": "2025-01-01",
+  "r5r:applicableLegislation": {
+    "@id": "http://data.europa.eu/eli/dir/2007/2/2019-06-26"
+  },
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "http://dcat-ap-es.ejemplo.org/dataset/dataset-ejemplo-1#metadata",
+    "schema:name": "Metadata record for: Dataset de ejemplo",
+    "schema:about": {
+      "@id": "http://dcat-ap-es.ejemplo.org/dataset/dataset-ejemplo-1"
+    },
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to placeholder (no date in source). Unmapped DCAT properties preserved (open world)."
+  }
+}

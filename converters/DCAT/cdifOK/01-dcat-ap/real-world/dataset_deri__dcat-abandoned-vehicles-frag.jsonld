@@ -1,0 +1,77 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@id": "http://data.london.gov.uk/dataset/Abandoned_Vehicles",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Abandoned Vehicles",
+  "schema:description": "Number of abandoned vehicles.To estimate missing data, the supplied data for 2007/08 has been used if at least three quarterly periods have been supplied for 2007/08.Â  If fewer than three quarterly periods have been supplied for 2007/08 then data from 2006/07 has been used and the average percentage increase/decrease for that region has been applied to the 2006/07 data to estimate the 2007/08 figure. This is the estimation method used for previous years' data. Ealing's 2007/08 figure is the number of abandoned vehicles of which the authority has disposed.Â  Previous figures for Ealing are the number of abandoned vehicles reported to the authority.",
+  "schema:datePublished": "06/05/2009",
+  "schema:dateModified": "06/05/2009",
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "http://data.london.gov.uk/datafiles/environment/abandoned-vehicles-borough.csv",
+      "schema:encodingFormat": [
+        "text/plain"
+      ],
+      "schema:name": "CSV distribution of: Abandoned Vehicles"
+    }
+  ],
+  "schema:spatialCoverage": [
+    {
+      "@type": [
+        "schema:Place"
+      ],
+      "schema:name": "Greater London"
+    }
+  ],
+  "dcat:granularity": "Local Authority",
+  "dcterms:accrualPeriodicity": "Annual",
+  "dcterms:references": {
+    "@id": "http://www.defra.gov.uk/evidence/statistics/environment/waste/wrabanvehicles.htm"
+  },
+  "foaf:homepage": {
+    "@id": "http://data.london.gov.uk/datastore/package/abandoned-vehicles"
+  },
+  "rdfs:label": "Abandoned Vehicles",
+  "skos:prefLabel": "Abandoned Vehicles",
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "http://data.london.gov.uk/dataset/Abandoned_Vehicles#metadata",
+    "schema:name": "Metadata record for: Abandoned Vehicles",
+    "schema:about": {
+      "@id": "http://data.london.gov.uk/dataset/Abandoned_Vehicles"
+    },
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:issued to schema:dateModified (no dcterms:modified); dcat:Distribution to schema:DataDownload; dcterms:spatial to schema:spatialCoverage. Unmapped DCAT properties preserved (open world)."
+  }
+}

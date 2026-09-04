@@ -1,0 +1,241 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "x930": "http://data.europa.eu/930/"
+  },
+  "@id": "https://some.catalogue/resource/eea_r_3035_10_m_noise-contours-end2017_i_2016_v01_r00",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Noise contours data reported under Environmental Noise Directive (END) 2017 (raster 10m) - version 2019, Oct. 2019",
+  "schema:description": "\n      The data set includes the rasterized noise contours which have been \n      reported by countries under the terms of the Environmental Noise \n      Directive (END) by the 33 EEA member countries (EEA-33) excluding \n      Turkey for the third round of noise mapping in 2017. The data set \n      includes submissions from the countries until 01/01/2019. \n      ...\n    ",
+  "schema:identifier": "eea_r_3035_10_m_noise-contours-end2017_i_2016_v01_r00",
+  "schema:dateModified": "2025-01-01",
+  "schema:keywords": [
+    "agglomerations",
+    "Environmental Noise Directive",
+    "noise source",
+    "noise contour",
+    "Noise map"
+  ],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://noise.discomap.eea.europa.eu/arcgis/services/noiseStoryMap/NoiseContours_air_lnight/ImageServer/WMSServer?request=GetCapabilities&service=WMS",
+      "schema:encodingFormat": [
+        "http://publications.europa.eu/resource/authority/file-type/TIFF"
+      ],
+      "schema:description": "NoiseContours_air_lnight"
+    },
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://noise.discomap.eea.europa.eu/arcgis/services/noiseStoryMap/NoiseContours_air_lnight/ImageServer/WMSServer?request=GetCapabilities&service=WMS",
+      "schema:encodingFormat": [
+        "http://publications.europa.eu/resource/authority/file-type/TIFF"
+      ],
+      "schema:description": "NoiseContours_air_lnight"
+    }
+  ],
+  "schema:spatialCoverage": [
+    {
+      "@type": [
+        "schema:Place"
+      ],
+      "schema:geo": {
+        "@type": [
+          "schema:GeoShape"
+        ],
+        "schema:box": "POLYGON((-31.285 70.075,34.099 70.075,34.099 27.642,-31.285 27.642,-31.285 70.075))"
+      }
+    },
+    {
+      "@type": [
+        "schema:Place"
+      ],
+      "schema:geo": {
+        "@type": [
+          "schema:GeoShape"
+        ],
+        "schema:box": "<gml:Envelope srsName=\"http://www.opengis.net/def/crs/OGC/1.3/CRS84\"><gml:lowerCorner>-31.285 27.642</gml:lowerCorner><gml:upperCorner>34.099 70.075</gml:upperCorner></gml:Envelope>"
+      }
+    }
+  ],
+  "schema:temporalCoverage": [
+    "2016-01-01/2016-12-31",
+    "2016-01-01/2016-12-31"
+  ],
+  "dcat:spatialResolutionInMeters": [
+    {
+      "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+      "@value": "10"
+    },
+    {
+      "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+      "@value": "10.0"
+    }
+  ],
+  "dcat:theme": [
+    {
+      "@id": "http://publications.europa.eu/resource/authority/data-theme/HEAL"
+    },
+    {
+      "@id": "http://inspire.ec.europa.eu/theme/hh"
+    },
+    {
+      "@id": "http://www.eionet.europa.eu/gemet/concept/2884"
+    }
+  ],
+  "dcterms:accrualPeriodicity": {
+    "@id": "http://publications.europa.eu/resource/authority/frequency/IRREG"
+  },
+  "dcterms:conformsTo": {
+    "@id": "http://www.opengis.net/def/crs/EPSG/0/3035"
+  },
+  "dcterms:created": {
+    "@type": "http://www.w3.org/2001/XMLSchema#date",
+    "@value": "2019-10-31"
+  },
+  "dcterms:language": {
+    "@id": "http://publications.europa.eu/resource/authority/language/ENG"
+  },
+  "dcterms:provenance": [
+    {
+      "@id": "_:Nc8f3f137fbce4a889473833943524f8d",
+      "@type": "dcterms:ProvenanceStatement",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "The raster data sets have been created out of the Noise Spatial Database, which in turn contains all versions delivered by the relevant countries (EU and EFTA) to Reportnet (CDR). The data from Reportnet is automatically incorporated into the database, with the exception of those data sets which require a manual review (due to problems with naming conventions or Coordinate Reference System). The data set covers any submission by the countries until 01/01/2019."
+      }
+    },
+    {
+      "@id": "_:n5b7be21da2e84c2e9fb19e404ca8a8d4b1",
+      "@type": "dcterms:ProvenanceStatement",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "The raster data sets have been created out of the Noise Spatial Database, which in turn contains all versions delivered by the relevant countries (EU and EFTA) to Reportnet (CDR). The data from Reportnet is automatically incorporated into the database, with the exception of those data sets which require a manual review (due to problems with naming conventions or Coordinate Reference System). The data set covers any submission by the countries until 01/01/2019."
+      }
+    }
+  ],
+  "dcterms:subject": [
+    {
+      "@id": "http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/environment"
+    },
+    {
+      "@id": "http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/transportation"
+    },
+    {
+      "@id": "http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/health"
+    }
+  ],
+  "dcterms:type": {
+    "@id": "http://inspire.ec.europa.eu/metadata-codelist/ResourceType/dataset"
+  },
+  "foaf:isPrimaryTopicOf": {
+    "@id": "https://some.catalogue/record/e7807ecb-a8e6-4a33-baa2-d119eec9ce24"
+  },
+  "foaf:page": {
+    "@id": "https://noise.eea.europa.eu/"
+  },
+  "x930:custodian": {
+    "@id": "http://publications.europa.eu/resource/authority/corporate-body/EEA"
+  },
+  "prov:wasUsedBy": [
+    {
+      "@id": "_:Nd583e3fcee234c2ba05eb135931f8535",
+      "@type": "prov:Activity",
+      "prov:generated": {
+        "@id": "_:N5553d4b1ca154a149c500d07efe9943a",
+        "@type": "prov:Entity",
+        "dcterms:description": {
+          "@language": "en",
+          "@value": "See the referenced specification"
+        },
+        "dcterms:type": {
+          "@id": "http://inspire.ec.europa.eu/metadata-codelist/DegreeOfConformity/notEvaluated"
+        }
+      },
+      "prov:qualifiedAssociation": {
+        "@id": "_:N2cde2b57d6b44acbaa7935ee597ba7eb",
+        "@type": "prov:Association",
+        "prov:hadPlan": {
+          "@id": "_:Ndba79ce5d4254281a2b1e48988d8a183",
+          "@type": "prov:Plan",
+          "prov:wasDerivedFrom": {
+            "@id": "http://data.europa.eu/eli/reg/2010/1089"
+          }
+        }
+      }
+    },
+    {
+      "@id": "_:n5b7be21da2e84c2e9fb19e404ca8a8d4b9",
+      "@type": "prov:Activity",
+      "prov:generated": {
+        "@id": "_:n5b7be21da2e84c2e9fb19e404ca8a8d4b10",
+        "@type": "prov:Entity",
+        "dcterms:description": {
+          "@language": "en",
+          "@value": "See the referenced specification"
+        },
+        "dcterms:type": {
+          "@id": "http://inspire.ec.europa.eu/metadata-codelist/DegreeOfConformity/notEvaluated"
+        }
+      },
+      "prov:qualifiedAssociation": {
+        "@id": "_:n5b7be21da2e84c2e9fb19e404ca8a8d4b11",
+        "@type": "prov:Association",
+        "prov:hadPlan": {
+          "@id": "_:n5b7be21da2e84c2e9fb19e404ca8a8d4b12",
+          "@type": "prov:Plan",
+          "prov:wasDerivedFrom": {
+            "@id": "http://data.europa.eu/eli/reg/2010/1089"
+          }
+        }
+      }
+    }
+  ],
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "https://some.catalogue/resource/eea_r_3035_10_m_noise-contours-end2017_i_2016_v01_r00#metadata",
+    "schema:name": "Metadata record for: Noise contours data reported under Environmental Noise Directive (END) 2017 (raster 10m) - version 2019, Oct. 2019",
+    "schema:about": {
+      "@id": "https://some.catalogue/resource/eea_r_3035_10_m_noise-contours-end2017_i_2016_v01_r00"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      }
+    ],
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to placeholder (no date in source); dcat:keyword to schema:keywords; dcat:Distribution to schema:DataDownload; dcterms:spatial to schema:spatialCoverage; dcterms:temporal to schema:temporalCoverage. Unmapped DCAT properties preserved (open world)."
+  }
+}

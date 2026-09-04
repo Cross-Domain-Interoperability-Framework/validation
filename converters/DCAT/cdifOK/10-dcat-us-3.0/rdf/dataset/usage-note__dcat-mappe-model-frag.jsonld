@@ -1,0 +1,54 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@id": "http://www.example.com#Dataset1",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "MAPPE model",
+  "schema:description": "Multimedia Assessment of Pollutant Pathways in the Environment.",
+  "schema:dateModified": "2025-01-01",
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "@id": "http://www.example.com#Organization1"
+  },
+  "skos:scopeNote": [
+    "The MAPPE model is a collection of ArcGIS raster calculations, originally implemented in VBA for ArcGIS 9.x; as this environment is obsolete, the author recommends to develop the calculations anew just by picking the syntax from the reports. Anyway, the value of the work is in the data and concept more than in the original scripts.",
+    "The MAPPE model is a collection of ArcGIS raster calculations, \n        originally implemented in VBA for ArcGIS 9.x; as this environment \n        is obsolete, the author recommends to develop the calculations \n        anew just by picking the syntax from the reports. Anyway, the \n        value of the work is in the data and concept more than in the \n        original scripts."
+  ],
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "http://www.example.com#Dataset1#metadata",
+    "schema:name": "Metadata record for: MAPPE model",
+    "schema:about": {
+      "@id": "http://www.example.com#Dataset1"
+    },
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to placeholder (no date in source); dcterms:publisher to schema:publisher. Unmapped DCAT properties preserved (open world)."
+  }
+}

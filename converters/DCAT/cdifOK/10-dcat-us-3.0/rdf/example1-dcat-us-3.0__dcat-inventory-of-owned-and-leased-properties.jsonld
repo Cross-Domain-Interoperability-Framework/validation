@@ -1,0 +1,152 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "adms": "http://www.w3.org/ns/adms#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "dcatus": "http://data.resources.gov/ontology/dcat-us#"
+  },
+  "@id": "https://inventory.data.gov/dataset/9a9e946e-124e-46f5-a934-e458a6c1c2b2",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Inventory of Owned and Leased Properties (IOLP)",
+  "schema:description": "The Inventory of Owned and Leased Properties (IOLP) allows users to search properties owned and leased by the General Services Administration (GSA) across the United States, Puerto Rico, Guam and American Samoa.\n\nThe Owned and Leased Data Sets include the following data except where noted below for Leases:\n\n- Location Code - GSA’s alphanumeric identifier for the building\n- Real Property Asset Name - Allows users to find information about a specific building \n- Installation Name - Allows users to identify whether a property is part of an installation, such as a campus\n- Owned or Leased - Indicates the building is federally owned (F) or leased (L)\n- GSA Region - GSA assigned region for building location\n- Street Address/City/State/Zip Code - Building address\n- Longitude and Latitude - Map coordinates of the building (only through .csv export)\n- Rentable Square Feet - Total rentable square feet in building\n- Available Square Feet - Vacant space in building\n- Construction Date (Owned Only) - Year built\n- Congressional District - Congressional District building is located\n- Senator/Representative/URL - Senator/Representative of the Congressional District and their URL\n- Building Status - Indicates building is active\n- Lease Number (Leased Only) - GSA’s alphanumeric identifier for the lease\n- Lease Effective/Expiration Dates (Leased Only) - Date lease starts/expires\n- Real Property Asset Type - Identifies a property as land, building, or structure",
+  "schema:identifier": "GSA-4495",
+  "schema:dateModified": "2023-11-16T21:38:25.152000+00:00",
+  "schema:datePublished": "2002-01-01",
+  "schema:license": [
+    "https://creativecommons.org/publicdomain/zero/1.0/"
+  ],
+  "schema:keywords": [
+    "BUILDING_STATUS",
+    "City",
+    "LEASE_EFFECTIVE_DATE",
+    "LEASE_EXPIRATION_DATE",
+    "Latitude",
+    "Lease_Num",
+    "Longitude",
+    "STATE_CD",
+    "STREET_ADDRESS",
+    "Zipcode5",
+    "geospatial"
+  ],
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:name": "General Services Administration",
+    "@id": "https://www.gsa.gov"
+  },
+  "schema:provider": [
+    {
+      "@type": [
+        "schema:Organization"
+      ],
+      "schema:name": "Valerie R Butler",
+      "schema:contactPoint": {
+        "@type": [
+          "schema:ContactPoint"
+        ],
+        "schema:email": "valerie.butler@gsa.gov"
+      }
+    }
+  ],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://inventory.data.gov/dataset/9a9e946e-124e-46f5-a934-e458a6c1c2b2/resource/967d2d5e-c917-48a3-b7d8-d01ffd7e0783/download/iolp-buildings-11.27.23.xlsx",
+      "schema:encodingFormat": [
+        "https://www.iana.org/assignments/media-types/application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      ],
+      "schema:name": "IOLP Buildings 11.27.23.xlsx"
+    },
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://inventory.data.gov/dataset/9a9e946e-124e-46f5-a934-e458a6c1c2b2/resource/bfbd1f68-b7d8-4822-98bb-4eceabd2c3a7/download/iolp19139_080123.xml",
+      "schema:encodingFormat": [
+        "https://www.iana.org/assignments/media-types/application/xml"
+      ],
+      "schema:name": "IOLP19139_080123.xml",
+      "dcterms:conformsTo": [
+        {
+          "@id": "http://www.isotc211.org/2005/gmd"
+        }
+      ]
+    },
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://inventory.data.gov/dataset/9a9e946e-124e-46f5-a934-e458a6c1c2b2/resource/d3cb3a80-9227-45a7-8bf8-1c10b0b4de2b/download/iolp-leases-11.27.23.xlsx",
+      "schema:encodingFormat": [
+        "https://www.iana.org/assignments/media-types/application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      ],
+      "schema:name": "IOLP Leases 11.27.23.xlsx"
+    }
+  ],
+  "adms:identifier": {
+    "@id": "_:n06369560f8a64b2eb2b460671e54e68db1",
+    "@type": "adms:Identifier",
+    "adms:schemaAgency": "https://www.gsa.gov",
+    "skos:notation": "GSA-4495"
+  },
+  "dcat:theme": {
+    "@id": "https://data.gov/vocab/themes/geospatial",
+    "@type": "skos:Concept",
+    "skos:definition": "Geospatial data theme",
+    "skos:inScheme": {
+      "@id": "https://data.gov/vocab/themes"
+    },
+    "skos:prefLabel": "Geospatial"
+  },
+  "dcterms:accrualPeriodicity": {
+    "@id": "http://purl.org/cld/freq/weekly"
+  },
+  "dcterms:language": {
+    "@id": "http://id.loc.gov/vocabulary/iso639-1/en-us"
+  },
+  "dcatus:program": {
+    "@id": "https://fpi.omb.gov/programs/015:001",
+    "@type": "http://data.resources.gov/ontology/dcat-us#Program",
+    "dcterms:identifier": "023:003",
+    "dcterms:title": "Rental of Space Program"
+  },
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "https://inventory.data.gov/dataset/9a9e946e-124e-46f5-a934-e458a6c1c2b2#metadata",
+    "schema:name": "Metadata record for: Inventory of Owned and Leased Properties (IOLP)",
+    "schema:about": {
+      "@id": "https://inventory.data.gov/dataset/9a9e946e-124e-46f5-a934-e458a6c1c2b2"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      }
+    ],
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:modified to schema:dateModified; dcterms:license to schema:license; dcat:keyword to schema:keywords; dcterms:publisher to schema:publisher; dcat:contactPoint to schema:provider; dcat:Distribution to schema:DataDownload. Unmapped DCAT properties preserved (open world)."
+  }
+}

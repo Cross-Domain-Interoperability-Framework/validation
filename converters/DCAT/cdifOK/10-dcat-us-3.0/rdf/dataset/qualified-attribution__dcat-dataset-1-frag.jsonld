@@ -1,0 +1,99 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "https://example.com/dataset1",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Dataset 1",
+  "schema:description": "This is a dataset",
+  "schema:dateModified": "2025-01-01",
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "@id": "https://example.com/publisher1"
+  },
+  "schema:contributor": [
+    {
+      "@type": [
+        "schema:Role"
+      ],
+      "schema:roleName": "http://resources.data.gov/vocab/isotc211/CI_RoleCode/distributor",
+      "schema:contributor": {
+        "@type": [
+          "schema:Organization"
+        ],
+        "@id": "https://www.census.gov"
+      }
+    },
+    {
+      "@type": [
+        "schema:Role"
+      ],
+      "schema:roleName": "http://resources.data.gov/vocab/isotc211/CI_RoleCode/funder",
+      "schema:contributor": {
+        "@type": [
+          "schema:Organization"
+        ],
+        "@id": "https://www.doi.gov"
+      }
+    },
+    {
+      "@type": [
+        "schema:Role"
+      ],
+      "schema:roleName": "http://resources.data.gov/vocab/isotc211/CI_RoleCode/distributor",
+      "schema:contributor": {
+        "@type": [
+          "schema:Organization"
+        ],
+        "@id": "https://www.census.gov"
+      }
+    },
+    {
+      "@type": [
+        "schema:Role"
+      ],
+      "schema:roleName": "http://resources.data.gov/vocab/isotc211/CI_RoleCode/funder",
+      "schema:contributor": {
+        "@type": [
+          "schema:Organization"
+        ],
+        "@id": "https://www.doi.gov"
+      }
+    }
+  ],
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "https://example.com/dataset1#metadata",
+    "schema:name": "Metadata record for: Dataset 1",
+    "schema:about": {
+      "@id": "https://example.com/dataset1"
+    },
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to placeholder (no date in source); dcterms:publisher to schema:publisher; prov:qualifiedAttribution to schema:contributor. Unmapped DCAT properties preserved (open world)."
+  }
+}

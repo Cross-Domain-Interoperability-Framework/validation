@@ -1,0 +1,120 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "adms": "http://www.w3.org/ns/adms#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "foaf": "http://xmlns.com/foaf/0.1/"
+  },
+  "@id": "https://example.org/dataset/0112cf32-bce0-4071-9504-923375f9f2ad",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Conjunt de dades de prova DCAT",
+  "schema:description": "Una descripció qualsevol",
+  "schema:identifier": "0112cf32-bce0-4071-9504-923375f9f2ad",
+  "schema:dateModified": "2024-05-05",
+  "schema:datePublished": "2024-05-01",
+  "schema:url": "http://example.org/ds1",
+  "schema:keywords": [
+    "Pins",
+    "Roures",
+    "Oaks",
+    "Pines",
+    "Pinos",
+    "Robles"
+  ],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "https://example.com/data.csv",
+      "schema:encodingFormat": [
+        "CSV"
+      ],
+      "schema:name": "Recurs 1",
+      "schema:description": "Una descripció qualsevol"
+    }
+  ],
+  "schema:version": "1.0b",
+  "adms:versionNotes": [
+    {
+      "@language": "ca",
+      "@value": "Notes sobre la versió"
+    },
+    {
+      "@language": "en",
+      "@value": "Some version notes"
+    },
+    {
+      "@language": "es",
+      "@value": "Notas sobre la versión"
+    }
+  ],
+  "dcterms:language": [
+    "ca",
+    "en",
+    "es"
+  ],
+  "dcterms:provenance": {
+    "@id": "_:n62aa909a933840a3a8f436b1abaee817b1",
+    "@type": "dcterms:ProvenanceStatement",
+    "rdfs:label": [
+      {
+        "@language": "ca",
+        "@value": "Una declaració sobre la procedència"
+      },
+      {
+        "@language": "en",
+        "@value": "Statement about provenance"
+      },
+      {
+        "@language": "es",
+        "@value": "Una declaración sobre la procedencia"
+      }
+    ]
+  },
+  "foaf:page": {
+    "@id": "https://example.org/some-doc.html",
+    "@type": "foaf:Document"
+  },
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "https://example.org/dataset/0112cf32-bce0-4071-9504-923375f9f2ad#metadata",
+    "schema:name": "Metadata record for: Conjunt de dades de prova DCAT",
+    "schema:about": {
+      "@id": "https://example.org/dataset/0112cf32-bce0-4071-9504-923375f9f2ad"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      }
+    ],
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:modified to schema:dateModified; dcat:landingPage to schema:url; dcat:keyword to schema:keywords; dcat:Distribution to schema:DataDownload. Unmapped DCAT properties preserved (open world)."
+  }
+}

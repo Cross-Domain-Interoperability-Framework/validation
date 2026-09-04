@@ -1,0 +1,73 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "adms": "http://www.w3.org/ns/adms#"
+  },
+  "@id": "http://example.org/ns#MyDataset",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "My Dataset",
+  "schema:description": "This is an example dataset.",
+  "schema:dateModified": "2025-01-01",
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "@id": "http://example.org/ns#Publisher1"
+  },
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "http://example.org/data/mydataset.csv",
+      "schema:encodingFormat": [
+        "https://www.iana.org/assignments/media-types/text/csv"
+      ]
+    }
+  ],
+  "adms:sample": {
+    "@id": "http://example.org/ns#MySample",
+    "@type": "dcat:Distribution",
+    "dcat:downloadURL": {
+      "@id": "http://example.org/data/mysample.csv"
+    },
+    "dcterms:description": "This is a sample from My Dataset.",
+    "dcterms:format": {
+      "@id": "https://www.iana.org/assignments/media-types/text/csv"
+    },
+    "dcterms:title": "Sample of My Dataset"
+  },
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "http://example.org/ns#MyDataset#metadata",
+    "schema:name": "Metadata record for: My Dataset",
+    "schema:about": {
+      "@id": "http://example.org/ns#MyDataset"
+    },
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to placeholder (no date in source); dcterms:publisher to schema:publisher; dcat:Distribution to schema:DataDownload. Unmapped DCAT properties preserved (open world)."
+  }
+}

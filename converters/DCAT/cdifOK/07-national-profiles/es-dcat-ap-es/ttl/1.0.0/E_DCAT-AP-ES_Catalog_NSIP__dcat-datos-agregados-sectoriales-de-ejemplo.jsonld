@@ -1,0 +1,128 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "r5r": "http://data.europa.eu/r5r/"
+  },
+  "@id": "http://nsip.dcat-ap-es.ejemplo.org/dataset/datos-agregados-ejemplo",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Datos Agregados Sectoriales de Ejemplo",
+  "schema:description": "Datos de ejemplo agregados por sector con información ficticia sobre indicadores económicos y sociales.  Todos los datos son ficticios y generados para propósitos de demostración del modelo DCAT-AP-ES para NSIP/ERPD.",
+  "schema:identifier": "EJEMPLO-AGR-2024-003",
+  "schema:dateModified": "2025-12-10",
+  "schema:datePublished": "2024-06-01",
+  "schema:url": "http://nsip.dcat-ap-es.ejemplo.org/dataset/datos-agregados-ejemplo",
+  "schema:conditionsOfAccess": [
+    "http://publications.europa.eu/resource/authority/access-right/RESTRICTED"
+  ],
+  "schema:keywords": [
+    "agregado",
+    "sectorial",
+    "ejemplo",
+    "indicadores",
+    "aggregated",
+    "sectoral",
+    "example",
+    "indicators"
+  ],
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "@id": "http://datos.gob.es/recurso/sector-publico/org/Organismo/E0DAT0001"
+  },
+  "schema:provider": [
+    {
+      "@type": [
+        "schema:Organization"
+      ],
+      "schema:name": "Punto de Contacto - Datos Sectoriales de Ejemplo",
+      "schema:contactPoint": {
+        "@type": [
+          "schema:ContactPoint"
+        ],
+        "schema:email": "sectorial@ejemplo.org"
+      }
+    }
+  ],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "http://nsip.dcat-ap-es.ejemplo.org/solicitud-acceso/datos-agregados-xlsx",
+      "schema:encodingFormat": [
+        "https://www.iana.org/assignments/media-types/application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      ],
+      "schema:name": "Datos Agregados 2018-2024 - Formato Excel de Ejemplo",
+      "schema:description": "Archivo Excel de ejemplo con múltiples hojas organizadas por año y sector. Incluye tablas dinámicas ficticias pre-configuradas.  Únicamente para demostración.",
+      "schema:contentSize": "34567890"
+    }
+  ],
+  "schema:temporalCoverage": [
+    "2018-01-01/2024-12-31"
+  ],
+  "dcat:temporalResolution": {
+    "@type": "http://www.w3.org/2001/XMLSchema#duration",
+    "@value": "P3M"
+  },
+  "dcat:theme": [
+    {
+      "@id": "http://publications.europa.eu/resource/authority/data-theme/ECON"
+    },
+    {
+      "@id": "http://datos.gob.es/kos/sector-publico/sector/sector-publico"
+    }
+  ],
+  "dcterms:accrualPeriodicity": {
+    "@id": "http://publications.europa.eu/resource/authority/frequency/QUARTERLY"
+  },
+  "r5r:applicableLegislation": [
+    {
+      "@id": "http://data.europa.eu/eli/reg/2022/868/oj"
+    },
+    {
+      "@id": "http://data.europa.eu/eli/reg/2016/679/oj"
+    }
+  ],
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "http://nsip.dcat-ap-es.ejemplo.org/dataset/datos-agregados-ejemplo#metadata",
+    "schema:name": "Metadata record for: Datos Agregados Sectoriales de Ejemplo",
+    "schema:about": {
+      "@id": "http://nsip.dcat-ap-es.ejemplo.org/dataset/datos-agregados-ejemplo"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      }
+    ],
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:modified to schema:dateModified; dcat:landingPage to schema:url; dcterms:accessRights to schema:conditionsOfAccess; dcat:keyword to schema:keywords; dcterms:publisher to schema:publisher; dcat:contactPoint to schema:provider; dcat:Distribution to schema:DataDownload; dcterms:temporal to schema:temporalCoverage. Unmapped DCAT properties preserved (open world)."
+  }
+}

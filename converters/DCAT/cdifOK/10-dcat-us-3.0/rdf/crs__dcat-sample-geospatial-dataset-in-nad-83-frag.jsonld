@@ -1,0 +1,61 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "http://example.org/dataset/001",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Sample Geospatial Dataset in NAD 83",
+  "schema:description": "This dataset provides geospatial data in the North American Datum 1983 (NAD 83) CRS.",
+  "schema:dateModified": "2025-01-01",
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "@id": "http://example.org/publisher/001"
+  },
+  "dcterms:conformsTo": {
+    "@id": "http://www.opengis.net/def/crs/EPSG/0/4269",
+    "@type": [
+      "dct:Standard",
+      "dcterms:Standard"
+    ],
+    "dcterms:description": "North American Datum 1983 (NAD 83) is a geodetic reference system that is widely used in North America for mapping and navigation.",
+    "dcterms:title": "EPSG:4269 - NAD 83",
+    "dcterms:type": {
+      "@id": "http://resources.data.gov/categories/SpatialReferenceSystem"
+    }
+  },
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "http://example.org/dataset/001#metadata",
+    "schema:name": "Metadata record for: Sample Geospatial Dataset in NAD 83",
+    "schema:about": {
+      "@id": "http://example.org/dataset/001"
+    },
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to placeholder (no date in source); dcterms:publisher to schema:publisher. Unmapped DCAT properties preserved (open world)."
+  }
+}

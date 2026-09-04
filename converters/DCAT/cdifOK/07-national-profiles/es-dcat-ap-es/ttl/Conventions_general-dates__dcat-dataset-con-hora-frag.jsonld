@@ -1,0 +1,46 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "http://example.org/dataset/2",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Dataset con hora",
+  "schema:dateModified": "2025-01-30T15:30:00+00:00",
+  "dcterms:created": {
+    "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+    "@value": "2025-01-01T10:00:00+00:00"
+  },
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "http://example.org/dataset/2#metadata",
+    "schema:name": "Metadata record for: Dataset con hora",
+    "schema:about": {
+      "@id": "http://example.org/dataset/2"
+    },
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:modified to schema:dateModified. Unmapped DCAT properties preserved (open world)."
+  }
+}

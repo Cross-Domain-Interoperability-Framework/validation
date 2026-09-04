@@ -1,0 +1,170 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "adms": "http://www.w3.org/ns/adms#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "r5r": "http://data.europa.eu/r5r/"
+  },
+  "@id": "http://nsip.dcat-ap-es.ejemplo.org/dataset/datos-economicos-ejemplo",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Datos Económicos Agregados de Ejemplo",
+  "schema:description": "Conjunto de datos de ejemplo que contiene información económica ficticia agregada por sector y región. Los datos están anonimizados y son únicamente para propósitos de demostración del perfil DCAT-AP-ES para datos protegidos NSIP/ERPD.",
+  "schema:identifier": "EJEMPLO-ECO-2024-001",
+  "schema:dateModified": "2025-12-01",
+  "schema:datePublished": "2024-01-15",
+  "schema:url": "http://nsip.dcat-ap-es.ejemplo.org/dataset/datos-economicos-ejemplo",
+  "schema:conditionsOfAccess": [
+    "http://publications.europa.eu/resource/authority/access-right/RESTRICTED"
+  ],
+  "schema:keywords": [
+    "economía",
+    "ejemplo",
+    "ficticio",
+    "agregado",
+    "economy",
+    "example",
+    "fictitious",
+    "aggregated"
+  ],
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "@id": "http://datos.gob.es/recurso/sector-publico/org/Organismo/E0DAT0001"
+  },
+  "schema:provider": [
+    {
+      "@type": [
+        "schema:Organization"
+      ],
+      "schema:name": "Punto de Contacto - Datos Económicos de Ejemplo",
+      "schema:contactPoint": {
+        "@type": [
+          "schema:ContactPoint"
+        ],
+        "schema:email": "economia@ejemplo.org"
+      }
+    }
+  ],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "http://nsip.dcat-ap-es.ejemplo.org/solicitud-acceso/datos-economicos-csv",
+      "schema:encodingFormat": [
+        "https://www.iana.org/assignments/media-types/text/csv"
+      ],
+      "schema:name": "Datos Económicos 2020-2024 - Formato CSV",
+      "schema:description": "Archivo CSV de ejemplo con datos económicos ficticios agregados.  Contiene aproximadamente 150000 registros con 40 variables.  Este archivo es únicamente para demostración.",
+      "schema:contentSize": "45678900"
+    },
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "http://nsip.dcat-ap-es.ejemplo.org/solicitud-acceso/datos-economicos-json",
+      "schema:encodingFormat": [
+        "https://www.iana.org/assignments/media-types/application/json"
+      ],
+      "schema:name": "Datos Económicos 2020-2024 - Formato JSON",
+      "schema:description": "Archivo JSON de ejemplo con la misma información que el CSV pero en formato JSON estructurado. Únicamente para demostración.",
+      "schema:contentSize": "52345678"
+    }
+  ],
+  "schema:temporalCoverage": [
+    "2020-01-01/2024-12-31"
+  ],
+  "adms:identifier": {
+    "@id": "_:n1c0527c9162d48309730492ddd05a923b3",
+    "@type": "adms:Identifier",
+    "adms:schemeAgency": {
+      "@language": "es",
+      "@value": "Organización de Ejemplo"
+    },
+    "dcterms:creator": {
+      "@id": "http://nsip.dcat-ap-es.ejemplo.org/organizacion/ejemplo-economia"
+    },
+    "skos:notation": "ECO-EJEMPLO-001"
+  },
+  "dcat:accessService": {
+    "@id": "http://nsip.dcat-ap-es.ejemplo.org/service/api-datos-protegidos"
+  },
+  "dcat:temporalResolution": {
+    "@type": "http://www.w3.org/2001/XMLSchema#duration",
+    "@value": "P1Y"
+  },
+  "dcat:theme": [
+    {
+      "@id": "http://publications.europa.eu/resource/authority/data-theme/ECON"
+    },
+    {
+      "@id": "http://datos.gob.es/kos/sector-publico/sector/economia"
+    }
+  ],
+  "dcterms:accrualPeriodicity": {
+    "@id": "http://publications.europa.eu/resource/authority/frequency/ANNUAL"
+  },
+  "dcterms:provenance": {
+    "@id": "_:n1c0527c9162d48309730492ddd05a923b6",
+    "@type": "dcterms:ProvenanceStatement",
+    "rdfs:label": {
+      "@language": "es",
+      "@value": "Datos ficticios generados para demostración del perfil DCAT-AP-ES NSIP/ERPD."
+    }
+  },
+  "foaf:page": {
+    "@id": "http://nsip.dcat-ap-es.ejemplo.org/docs/datos-economicos-metodologia"
+  },
+  "r5r:applicableLegislation": [
+    {
+      "@id": "http://data.europa.eu/eli/reg/2022/868/oj"
+    },
+    {
+      "@id": "http://data.europa.eu/eli/reg/2016/679/oj"
+    }
+  ],
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "http://nsip.dcat-ap-es.ejemplo.org/dataset/datos-economicos-ejemplo#metadata",
+    "schema:name": "Metadata record for: Datos Económicos Agregados de Ejemplo",
+    "schema:about": {
+      "@id": "http://nsip.dcat-ap-es.ejemplo.org/dataset/datos-economicos-ejemplo"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      }
+    ],
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:modified to schema:dateModified; dcat:landingPage to schema:url; dcterms:accessRights to schema:conditionsOfAccess; dcat:keyword to schema:keywords; dcterms:publisher to schema:publisher; dcat:contactPoint to schema:provider; dcat:Distribution to schema:DataDownload; dcterms:temporal to schema:temporalCoverage. Unmapped DCAT properties preserved (open world)."
+  }
+}

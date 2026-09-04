@@ -1,0 +1,77 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@id": "http://example.org/ns#Census2020Dataset",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Census Dataset",
+  "schema:description": "A dataset containing data collected from the national census in 2020.",
+  "schema:identifier": "doi:10.1234/5678",
+  "schema:dateModified": "2025-01-01",
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "@id": "https://census.gov"
+  },
+  "rdfs:label": "Census Dataset",
+  "prov:value": "A dataset containing data collected from the national census in 2020.",
+  "prov:wasGeneratedBy": {
+    "@id": "http://example.org/ns#NationalCensus",
+    "@type": "prov:Activity",
+    "dcterms:type": {
+      "@id": "http://example.org/ns#CensusActivity",
+      "@type": "skos:Concept",
+      "rdfs:label": "Census Activity",
+      "skos:definition": "An activity type representing the conducting of a census in 2020.",
+      "skos:inScheme": {
+        "@id": "http://example.org/ns#ActivityTypeScheme"
+      },
+      "skos:prefLabel": "Census Activity"
+    },
+    "rdfs:label": "National Census"
+  },
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "http://example.org/ns#Census2020Dataset#metadata",
+    "schema:name": "Metadata record for: Census Dataset",
+    "schema:about": {
+      "@id": "http://example.org/ns#Census2020Dataset"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      }
+    ],
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to placeholder (no date in source); dcterms:publisher to schema:publisher. Unmapped DCAT properties preserved (open world)."
+  }
+}

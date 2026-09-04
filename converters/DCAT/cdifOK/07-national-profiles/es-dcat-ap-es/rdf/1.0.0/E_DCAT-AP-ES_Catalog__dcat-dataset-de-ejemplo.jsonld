@@ -1,0 +1,100 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "r5r": "http://data.europa.eu/r5r/"
+  },
+  "@id": "http://dcat-ap-es.ejemplo.org/dataset/dataset-ejemplo-1",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Dataset de ejemplo",
+  "schema:description": "Descripción de un dataset de ejemplo.",
+  "schema:identifier": "http://dcat-ap-es.ejemplo.org/dataset/dataset-ejemplo-1",
+  "schema:dateModified": "2025-01-01",
+  "schema:keywords": [
+    "estadísticas",
+    "statistics"
+  ],
+  "schema:publisher": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "@id": "http://datos.gob.es/recurso/sector-publico/org/Organismo/E0DAT0001"
+  },
+  "schema:provider": [
+    {
+      "@type": [
+        "schema:Organization"
+      ],
+      "schema:name": "Oficina del dato",
+      "schema:contactPoint": {
+        "@type": [
+          "schema:ContactPoint"
+        ],
+        "schema:email": "info-contacto@dcat-ap-es.ejemplo.org"
+      }
+    }
+  ],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "http://dcat-ap-es.ejemplo.org/files/dataset-ejemplo-1.CSV",
+      "schema:encodingFormat": [
+        "http://publications.europa.eu/resource/authority/file-type/CSV"
+      ],
+      "schema:name": "Distribución de ejemplo",
+      "schema:description": "Descripción de una distribución de ejemplo.",
+      "schema:contentSize": "1024"
+    }
+  ],
+  "schema:temporalCoverage": [
+    "2021-01-01T00:00:00+00:00/2025-01-01T00:00:00+00:00"
+  ],
+  "dcat:theme": {
+    "@id": "http://datos.gob.es/kos/sector-publico/sector/medio-ambiente"
+  },
+  "r5r:applicableLegislation": {
+    "@id": "https://www.boe.es/eli/es/rd/2023/08/22/729"
+  },
+  "schema:license": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "http://dcat-ap-es.ejemplo.org/dataset/dataset-ejemplo-1#metadata",
+    "schema:name": "Metadata record for: Dataset de ejemplo",
+    "schema:about": {
+      "@id": "http://dcat-ap-es.ejemplo.org/dataset/dataset-ejemplo-1"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      }
+    ],
+    "schema:includedInDataCatalog": {
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "Unknown Catalog",
+      "schema:url": ""
+    },
+    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to placeholder (no date in source); dcat:keyword to schema:keywords; dcterms:publisher to schema:publisher; dcat:contactPoint to schema:provider; dcat:Distribution to schema:DataDownload; dcterms:temporal to schema:temporalCoverage. Unmapped DCAT properties preserved (open world)."
+  }
+}
