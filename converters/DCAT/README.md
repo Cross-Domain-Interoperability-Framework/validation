@@ -8,13 +8,58 @@ Many institutional and government data catalogs publish metadata using the W3C D
 
 This converter enables DCAT catalog records to be consumed by CDIF-aware tools by translating DCAT/Dublin Core properties to their schema.org equivalents while preserving any unmapped properties (open-world assumption).
 
+## Example corpora
+
+| Directory | What |
+|---|---|
+| [`dcat-examples/`](dcat-examples/) | 783 upstream files — DCAT-AP, its extensions and national derivatives, DCAT-US 3.0 and 1.1/POD, CKAN fixtures. Mixed purpose: catalogs, data services, vocabularies, SHACL shapes, fragments. |
+| [`dcatExamplesOK/`](dcatExamplesOK/) | The 238 of those that actually **describe a `dcat:Dataset`**, selected structurally (rdflib for RDF; POD JSON matched on its `dataset` array). |
+| [`cdifOK/`](cdifOK/) | 219 CDIF records converted from them. 67 conformant, 152 named `-frag`. |
+
+Each has a `README.md` and an `INDEX.json` recording provenance.
+
+**`-frag`** marks a record whose content does not meet CDIF core. It declares **no**
+`dcterms:conformsTo` rather than claiming a profile it does not satisfy. That is most of
+the corpus, and it is a property of the sources: many DCAT-AP specification examples are
+single-feature fragments carrying a title, a description and one extension property.
+
+**Merging.** The corpus ships many examples in more than one serialization, and 45 of the
+78 such pairs are **not the same graph** — the `.ttl` and `.jsonld` carry different
+triples upstream. All serializations of one logical example are parsed into a single
+graph and converted once, so the converter sees the union.
+
+## What the converter does when the source is silent
+
+CDIF requires things DCAT does not. Rather than omit them — silence being
+indistinguishable from an oversight — the record says the value is knowably absent:
+
+| Missing | Emitted |
+|---|---|
+| no landing page **and** no distribution; a `DataDownload` with no access URL | `schema:url` / `schema:contentUrl` = the OGC `nil:missing` URI, **as a string** (both are declared `sh:datatype xsd:string`) |
+| no licence | `schema:license` = the same URI |
+| no usable `dcterms:modified` | the conversion timestamp |
+
+Dates are **normalized**, not merely defaulted: the CDIF pattern accepts seconds
+precision and no fractional part, so `2024-05-08T04:11:24.309486` is trimmed to
+`2024-05-08T04:11:24` rather than discarded.
+
+`dcterms:conformsTo` comes from `detect_conformance` alone. When detection finds nothing,
+the declaration is **removed** rather than falling back to a built-in claim — the
+fallback exists only for `--static-conformance` and for when `detect_conformance` cannot
+be imported.
+
+Passed-through properties (open world, deliberately preserved) get a **prefix declared**
+in the record's `@context`. An absolute IRI as a JSON-LD key does not frame — the part
+before the first colon is read as a prefix — and a CURIE whose prefix the record never
+declares fails the same way, in `@type` and `@id` positions as readily as in keys.
+
 ## Property Mapping
 
 | DCAT / Dublin Core | Schema.org | Notes |
 |---|---|---|
 | `dcterms:title` | `schema:name` | Required |
 | `dcterms:description` | `schema:description` | |
-| `dcterms:identifier` | `schema:identifier` | |
+| `dcterms:identifier` | `schema:identifier` | Falls back to `adms:identifier` (an `adms:Identifier` whose `skos:notation` holds the value) — DCAT-AP records routinely carry only that |
 | `dcterms:modified` | `schema:dateModified` | Falls back to `dcterms:issued` |
 | `dcterms:issued` | `schema:datePublished` | |
 | `dcterms:license` | `schema:license` | |

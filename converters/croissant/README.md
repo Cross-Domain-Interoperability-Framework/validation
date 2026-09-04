@@ -75,10 +75,38 @@ list. The converter:
   `cdif:hasPhysicalMapping` entries (`cdif:index`, `cdif:formats_InstanceVariable`,
   `cdif:physicalDataType`) from `cr:RecordSet` / `cr:Field`
 - Maps `cr:RecordSet.key` → `cdif:hasPrimaryKey` (`cdif:Key` / `cdif:isComposedOf`)
-- Emits the current `schema:subjectOf` catalog-record shape
-  (`schema:additionalType: ["dcat:CatalogRecord"]` + `schema:about` +
-  `dcterms:conformsTo` to `https://w3id.org/cdif/{core,discovery,data_description}/1.0`)
+- Emits the current `schema:subjectOf` catalog-record shape:
+  `schema:additionalType: [{"@id": "dcat:CatalogRecord"}]` — an **IRI reference**, not a
+  string literal — plus `schema:about`, an `@id` of the resource IRI with `/metadata`
+  appended, and a `dcterms:conformsTo` derived from the record's content by
+  `detect_conformance` (the `1.1` series; the hardcoded list is only a fallback for when
+  that cannot be imported)
 - Preserves pass-through properties verbatim, merging custom `@context` prefixes
+
+### Serialization rules that are easy to get wrong
+
+Each of these produced output that looked plausible and failed validation:
+
+- **A URI written as a string literal never becomes an IRI.** `schema:additionalType`
+  and `schema:propertyID` are emitted as `{"@id": ...}` when the value names a URI or
+  CURIE; a free-label value stays a string, which the shapes allow. The
+  `additionalType` case is worse than losing a type: `CDIFDatasetMandatoryShape` excludes
+  catalog records with a `MINUS` that matches the **IRI** `dcat:CatalogRecord`, so
+  against a literal the exclusion silently fails and every catalog record is validated as
+  though it were the dataset.
+- **A licence is a value, not a shape.** A Croissant licence is a `CreativeWork` object
+  with its own unprefixed keys; its `url` is taken as an IRI, falling back to its `name`.
+  When the source has none, `schema:license` carries the OGC `nil:missing` URI rather
+  than being omitted.
+- **Dates need normalizing, not just defaulting.** The CDIF pattern accepts seconds
+  precision and no fractional part, so `2017-11-27T17:08:04.7` is trimmed to
+  `2017-11-27T17:08:04`. Absent dates fall back to `datePublished`, `dateCreated`, then
+  the conversion date.
+- **Agent names have a minimum length.** `cdifd:nameProperty` requires 3 characters and
+  sources carry abbreviations like `WB`; these are padded rather than dropped, since the
+  abbreviation is the only label the source gives.
+- The OGC nil URIs are `.../def/nil/**OGC**/0/...` — uppercase. IRIs are case sensitive,
+  and the lowercase form these constants once used named nothing at all.
 
 When the source Croissant has no `recordSet`, the output has no
 `schema:variableMeasured` and validates against the **Discovery** schema (the

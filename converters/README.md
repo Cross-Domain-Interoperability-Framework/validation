@@ -43,7 +43,16 @@ run `detect_conformance` by default and write the detected `conformsTo` into the
 catalog record. Each takes a **`--static-conformance`** flag that skips detection
 and keeps the converter's built-in default instead (and detection degrades to
 the built-in default automatically if `detect_conformance` or its deps are
-unavailable). For example, the DDI converter's output carries `cdi:InstanceVariable`
+unavailable).
+
+**Detection decides, including when it finds nothing.** A record whose content
+meets no CDIF profile declares **no** `conformsTo` rather than falling back to a
+built-in claim it has not earned — the fallback list exists only for
+`--static-conformance` and for when `detect_conformance` cannot be imported.
+Over-claiming is not a cosmetic error: the declared URI is what selects the
+schema and shapes to validate against, so a false claim also makes the record
+*look* checkable. `ConformanceValidate` and `FrameAndValidate -v` fail a record
+that over-claims; under-declaring is advisory. For example, the DDI converter's output carries `cdi:InstanceVariable`
 variables, so detection adds `data_description` to the declared profiles.
 
 ## Why framing / structure matters

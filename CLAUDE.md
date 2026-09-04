@@ -68,7 +68,9 @@ python tools/FrameAndValidate.py path/to/metadata.jsonld -v --schema CDIFDiscove
 # Frame and save output for debugging
 python tools/FrameAndValidate.py path/to/metadata.jsonld -o framed.json --frame CDIF-frame-2026.jsonld
 
-# Frame, then detect CDIF profiles from the framed content and write them into subjectOf/conformsTo
+# Frame, then detect CDIF profiles from the SOURCE content and write them into subjectOf/conformsTo
+# (detection reads the source, not the framed result -- framing drops evidence below
+#  schema:distribution, and detecting from it narrowed what --conformance wrote)
 python tools/FrameAndValidate.py path/to/metadata.jsonld --frame CDIF-frame-2026.jsonld --conformance -o framed.json
 
 # Flatten a nested CDIF document into the @graph form (inverse of framing)
