@@ -73,7 +73,8 @@ This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule s
 | `docs/CDIF-Conformance-Declaration-Convention.md` | Convention spec for the per-building-block `conformance.json` sidecar (conformsTo URI + presence ASK + content `validityShapes`) that `detect_conformance.py` consumes |
 | `docs/conformance-declaration.schema.json` | JSON Schema (`https://w3id.org/cdif/schema/conformance-declaration/0.1`) validating those sidecar files |
 | `geocodes_harvester.py` | Harvests dataset metadata from the [EarthCube GeoCodes](https://geocodes.earthcube.org/) SPARQL endpoint, extracts original JSON-LD from landing pages, and optionally converts to CDIF core or discovery profile format |
-| `converters/DCAT/dcat_to_cdif.py` | Converts DCAT JSON-LD catalogs to CDIF schema.org format. Maps DCAT/Dublin Core properties to schema.org equivalents per the [CDIF DCAT implementation guide](https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/dcat.html). See [converters/DCAT/README.md](converters/DCAT/README.md) |
+| `converters/DCAT/dcat_to_cdif.py` | Converts DCAT JSON-LD catalogs to CDIF schema.org format. **Reads its mappings** from [converters/mappings/dcat-to-cdif.sssom.tsv](converters/mappings/dcat-to-cdif.sssom.tsv) rather than restating them; covers every property the DCAT specification defines plus every one found in the example corpus. See [converters/DCAT/README.md](converters/DCAT/README.md) |
+| `converters/DCAT/build_corpus.py` | Rebuilds `converters/DCAT/cdifOK/` from `dcatExamplesOK/`, merging every serialization of a logical example into one graph, and verifies on each run that no source property is dropped and that every conformant record validates. |
 | `converters/DDI/ddi_to_cdif.py` | Converts DDI Codebook 2.5 XML (e.g., from Harvard Dataverse) to CDIF DataDescription JSON-LD: study-level metadata, `<var>` → `schema:variableMeasured`, `<fileDscr>` → `schema:DataDownload`/`cdi:TabularTextDataSet`, tab-file headers → physical mappings |
 
 ### DDI-CDI Resolved Schema
@@ -816,9 +817,14 @@ python converters/DCAT/dcat_to_cdif.py catalog.jsonld --output ./examples \
   --validate
 ```
 
-Key mappings: `dcterms:title` → `schema:name`, `dcterms:description` → `schema:description`, `dcterms:modified` → `schema:dateModified`, `dcterms:license` �� `schema:license`, `dcterms:accessRights` → `schema:conditionsOfAccess`, `dcat:keyword` → `schema:keywords`, `dcat:Distribution` → `schema:DataDownload`, `dcterms:spatial` → `schema:spatialCoverage`, `dcterms:temporal` → `schema:temporalCoverage`. Unmapped properties preserved (open world). Auto-detects Discovery vs Core profile based on spatial/temporal content.
+```bash
+# Rebuild the example corpus and verify it, from converters/DCAT/
+python converters/DCAT/build_corpus.py
+```
 
-See [converters/DCAT/README.md](converters/DCAT/README.md) for the full property mapping table, PSDI catalog example, and known limitations.
+The mappings are not restated here or in the code: the converter **reads** [converters/mappings/dcat-to-cdif.sssom.tsv](converters/mappings/dcat-to-cdif.sssom.tsv), which covers every property the DCAT specification defines — the union of the editor's draft and the RDF vocabulary, which disagree — plus every property found in the example corpus. Source IRIs that are not the IRI the publisher meant are rewritten first through [dcat-aliases.sssom.tsv](converters/mappings/dcat-aliases.sssom.tsv); most of those come from official context documents rather than careless records. Unmapped properties are preserved (open world), and the profile is derived from content by `detect_conformance`.
+
+See [converters/DCAT/README.md](converters/DCAT/README.md) for the corpora, the PSDI catalog example, and known limitations.
 
 ## DDI Conversion
 

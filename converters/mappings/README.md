@@ -22,7 +22,8 @@ sidecars are hand-maintained.
 | [`soso-to-cdif.sssom.tsv`](soso-to-cdif.sssom.tsv) | SOSO → CDIF | `soso/ConvertFromSOSO.py` | 14 |
 | [`cdif-to-croissant.sssom.tsv`](cdif-to-croissant.sssom.tsv) | CDIF → Croissant | `croissant/ConvertToCroissant.py` | 23 |
 | [`croissant-to-cdif.sssom.tsv`](croissant-to-cdif.sssom.tsv) | Croissant → CDIF | `croissant/ConvertFromCroissant.py` | 16 |
-| [`dcat-to-cdif.sssom.tsv`](dcat-to-cdif.sssom.tsv) | DCAT → CDIF | `DCAT/dcat_to_cdif.py` | 20 |
+| [`dcat-to-cdif.sssom.tsv`](dcat-to-cdif.sssom.tsv) | DCAT → CDIF | `DCAT/dcat_to_cdif.py` **(reads it)** | 174 |
+| [`dcat-aliases.sssom.tsv`](dcat-aliases.sssom.tsv) | source IRIs → the IRI the publisher meant | `DCAT/dcat_to_cdif.py` **(reads it)** | 25 |
 | [`ddi-common-to-cdif.sssom.tsv`](ddi-common-to-cdif.sssom.tsv) | DDI Codebook (2.5 ∩ 1.2.2 common core) → CDIF | all three DDI converters | 210 (184 mapped) |
 | [`ddi25-to-cdif.sssom.tsv`](ddi25-to-cdif.sssom.tsv) | DDI Codebook 2.5 *extras* → CDIF | `DDI/ddi_to_cdif.py`, `DDICodebook/ddi25_to_cdif.py` | 137 (108 mapped) |
 | [`ddi122-to-cdif.sssom.tsv`](ddi122-to-cdif.sssom.tsv) | DDI Codebook 1.2.2 *extras* → CDIF | `DDI/ddi122_to_cdif.py` | 7 (1 mapped) |
@@ -70,38 +71,65 @@ worksheets legible — the handful of data-bearing attributes that *do* map (e.g
 Because the unmapped rows have empty `predicate_id`/`object_id`, `sssom validate`
 will flag them — that is expected for these worksheets, not an error.
 
-## Why not just generate the converters from SSSOM?
+## How much of a converter can the table drive?
 
-A natural question: if the mappings are captured as SSSOM, why are the converters
-hand-written Python rather than *generated from* (or *driven by*) these tables?
-Because **an SSSOM table is a flat list of term-to-term correspondences** —
-`subject_id → predicate → object_id`, plus (via our extension) a JSONPath for
-where the value lands. That is exactly the right shape for the **simple 1:1
-property renames** (`schema:name` here → `schema:name` there, `dct:title` →
-`schema:name`, an XDI header key → a glossary concept). It is *not* expressive
-enough for the structural work these conversions actually require:
+A natural question: if the mappings are captured as SSSOM, why is any of the
+conversion hand-written? Because **an SSSOM table is a flat list of term-to-term
+correspondences** — `subject_id → predicate → object_id`, plus (via our
+extensions) where the value lands and how it is shaped. That is exactly the
+right shape for property renames. It is *not* expressive enough for the
+structural work these conversions also require:
 
 - **reference resolution** — DDI-CDI is a flat graph of objects linked by
-  `ddiReference`; the converter must index every object and walk those links to
-  reassemble a tree;
+  `ddiReference`, and real DCAT is a flat graph of nodes linked by `@id`; the
+  converter must index every node and follow those links before it can map
+  anything;
 - **reified associations** — `X_has_Y` / `X_isDefinedBy_Y` objects that must be
   traversed and collapsed into a nested CDIF property;
 - **value-domain / structure reshaping** — turning a verbose DDI-CDI value domain
   + `CodeList`/`Code`/`Category` into a `skos:ConceptScheme`, or a
   `WideDataStructure` + components into `cdif:isStructuredBy`;
 - **synthesis with no source term** — the `schema:subjectOf` catalog record,
-  `dcterms:conformsTo` derived from content, `@context` rewrites, nil placeholders.
+  `dcterms:conformsTo` derived from content, `@context` rewrites, nil
+  placeholders for what the source is knowably silent about.
 
-None of those are term-to-term rows, so a purely declarative mapping either can't
-express them or needs a Turing-complete mapping language bolted on. The realistic
-pattern is therefore a **hybrid**: SSSOM captures (and can drive) the flat 1:1
-renames, while hand-written code does the graph traversal and structural
-assembly. The SSSOM set stays the human-readable, curatable, tool-checkable record
-of the *term alignments* (each row carrying its predicate and justification), and
-the structural transforms are recorded in each set's `comment:` metadata (in the
-`.yml` sidecar) instead of as rows. Updating a table documents an intended
-change; it does **not**
-regenerate a converter — the code is edited in step, and the table updated to match.
+So the pattern is a **hybrid**, and two converters now implement it properly:
+the table carries the term correspondences — the bulk and the tedium — and a
+short list of hand-written *shapers* carries the structure. Neither is
+generated code; both **read their table at runtime**, so the table and the
+behaviour cannot drift apart.
+
+| | how the table reaches the converter |
+|---|---|
+| DDI | `sync_ddi_mappings.py` compiles the worksheets to `ddi_mappings.json`; `DDI/ddi_sssom_to_cdif.py` applies it, with shapers `shape_place`, `shape_conditions`, `build_contributors`, `build_activity`, … |
+| DCAT | `DCAT/dcat_to_cdif.py` reads the TSVs directly, with shapers named by the `transform` column |
+
+The remaining sets (SOSO, Croissant) are still descriptive: the converter
+restates them, and editing the table documents an intended change rather than
+making one. Moving them to the same arrangement is the obvious next step.
+
+### What DCAT needed that DDI did not
+
+DDI Codebook is a **tree**, and its dotted paths
+(`stdyDscr.citation.titlStmt.titl`) already say where a value sits. DCAT is a
+**graph**, where the same property means different things depending on the
+class it is attached to — `dcterms:title` on a `dcat:Dataset` is `schema:name`
+at the root of the record, on a `dcat:Distribution` it names the distribution.
+That is what the `subject_class` column is for; without it a flat
+subject → object table cannot express DCAT at all.
+
+`object_json_path` is applied rather than merely documented, and filters go in
+brackets:
+
+```
+$.schema:relatedLink[schema:linkRelationship=wdrs:describedby].schema:target
+```
+
+A filter does double duty — it selects an existing member of an array, and
+says what to create when none matches. Without one, a path into an array of
+typed objects writes into whichever member happened to be first and leaves an
+untyped node behind, so unfiltered paths into such arrays are left unapplied
+and their values pass through instead.
 
 **Precedent — the XAS → CDIF profile work.** That effort built the same transform
 two ways (see [`../../../XAS-CDIF/release/xasToCdifWorkflows.md`](../../../XAS-CDIF/release/xasToCdifWorkflows.md)).
@@ -121,6 +149,12 @@ same hybrid philosophy — SSSOM for the alignments, Python for the structure.
 `object_label` (the target term), `object_json_path`, `mapping_justification`,
 a `comment` carrying the per-mapping transform note, and `author_id` /
 `reviewer_id` (who authored / reviewed the mapping).
+
+The DCAT set adds two more, declared as `extension_definitions` in its `.yml`:
+`subject_class` (the class the source property sits on, which disambiguates a
+property that means different things in different places) and `transform` (the
+shaper to apply; empty means a plain copy). Both are documented in
+[`dcat-to-cdif.sssom.yml`](dcat-to-cdif.sssom.yml).
 
 ### `mapping_justification` vs `author_id` / `reviewer_id`
 
