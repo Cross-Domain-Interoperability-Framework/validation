@@ -9,9 +9,9 @@
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "foaf": "http://xmlns.com/foaf/0.1/",
     "r5r": "http://data.europa.eu/r5r/",
+    "health": "http://healthdataportal.eu/ns/health#",
     "x2": "http://www.w3.org/ns/odrl/2/",
     "spdx": "http://spdx.org/rdf/terms#",
-    "health": "http://healthdataportal.eu/ns/health#",
     "owl": "http://www.w3.org/2002/07/owl#",
     "locn": "http://www.w3.org/ns/locn#",
     "technicalfdp": "http://technical.fdp/",
@@ -122,6 +122,18 @@
     {
       "@type": [
         "schema:DataDownload"
+      ],
+      "schema:contentUrl": "http://tab5-distribution-downloadURL.test",
+      "schema:encodingFormat": [
+        "http://www.iana.org/assignments/media-types/text/csv"
+      ],
+      "schema:name": "tab5-distribution-title",
+      "schema:description": "tab5-distribution-description",
+      "schema:contentSize": "7",
+      "dcterms:conformsTo": [
+        {
+          "@id": "http://tab5-distribution-conformsTo.test"
+        }
       ]
     }
   ],
@@ -151,153 +163,7 @@
   ],
   "adms:sample": [
     {
-      "@id": "http://fair.healthdataportal.eu:8080/sample/2b1431b5-a446-4d4e-823b-3536e9bd184a",
-      "@type": "dcat:Distribution",
-      "adms:status": {
-        "@id": "http://publications.europa.eu/resource/authority/distribution-status/COMPLETED",
-        "@type": "skos:ConceptScheme",
-        "skos:prefLabel": {
-          "@language": "en",
-          "@value": "Completed"
-        }
-      },
-      "dcat:accessService": {
-        "@id": "_:n5d43b5dbf8f54300a4a77007e934c7b8b22",
-        "@type": "dcat:DataService",
-        "dcat:endpointURL": {
-          "@id": "http://tab5-sample-accessServiceEndpointURL.test"
-        },
-        "dcterms:title": {
-          "@language": "en",
-          "@value": "tab5-sample-accessServiceTitle"
-        }
-      },
-      "dcat:accessURL": {
-        "@id": "http://tab5-sample-accessURL.test"
-      },
-      "dcat:byteSize": {
-        "@type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
-        "@value": "7"
-      },
-      "dcat:compressFormat": {
-        "@id": "http://www.iana.org/assignments/media-types/application/gzip",
-        "@type": "dcterms:MediaType"
-      },
-      "dcat:downloadURL": {
-        "@id": "https://sciensano.healthdataportal.eu/sample/e46c3835-debf-4858-b74e-a051f452bfc3?format=ttl"
-      },
-      "dcat:mediaType": {
-        "@id": "http://www.iana.org/assignments/media-types/text/csv",
-        "@type": "dcterms:MediaType"
-      },
-      "dcat:packageFormat": {
-        "@id": "http://www.iana.org/assignments/media-types/application/gzip",
-        "@type": "dcterms:MediaType"
-      },
-      "dcat:spatialResolutionInMeters": {
-        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
-        "@value": "7.0"
-      },
-      "dcat:temporalResolution": {
-        "@type": "http://www.w3.org/2001/XMLSchema#duration",
-        "@value": "P2Y3M5DT6H30M45S"
-      },
-      "dcat:version": "tab5-sample-version",
-      "dcterms:conformsTo": {
-        "@id": "http://tab5-sample-conformsTo.test",
-        "@type": "dcterms:Standard"
-      },
-      "dcterms:description": {
-        "@language": "en",
-        "@value": "tab5-sample-description"
-      },
-      "dcterms:format": {
-        "@id": "http://publications.europa.eu/resource/authority/file-type/7Z",
-        "@type": "dcterms:MediaTypeOrExtent"
-      },
-      "dcterms:isPartOf": {
-        "@id": "http://fair.healthdataportal.eu:8080/dataset/c1aa4336-1037-42c2-8c31-013f42bdd3e0"
-      },
-      "dcterms:issued": {
-        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
-        "@value": "1990-12-31T00:00:00+00:00"
-      },
-      "dcterms:language": {
-        "@id": "http://publications.europa.eu/resource/authority/language/BUL",
-        "@type": "dcterms:LinguisticSystem"
-      },
-      "dcterms:license": {
-        "@id": "http://tab5-sample-license.test",
-        "@type": "dcterms:LicenseDocument"
-      },
-      "dcterms:modified": {
-        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
-        "@value": "1990-12-31T00:00:00+00:00"
-      },
-      "dcterms:rights": {
-        "@id": "_:n5d43b5dbf8f54300a4a77007e934c7b8b20",
-        "@type": "dcterms:RightsStatement",
-        "rdfs:label": {
-          "@language": "en",
-          "@value": "tab5-sample-rights"
-        }
-      },
-      "dcterms:title": {
-        "@language": "en",
-        "@value": "tab5-sample-title"
-      },
-      "foaf:page": {
-        "@id": "http://tab5-sample-documentation.test",
-        "@type": "foaf:Document"
-      },
-      "r5r:applicableLegislation": {
-        "@id": "http://tab5-sample-applicableLegislation.test",
-        "@type": "http://data.europa.eu/eli/ontology#LegalResource"
-      },
-      "r5r:availability": {
-        "@id": "http://publications.europa.eu/resource/authority/planned-availability/AVAILABLE",
-        "@type": "skos:Concept",
-        "skos:prefLabel": {
-          "@language": "en",
-          "@value": "Available"
-        }
-      },
-      "x2:hasPolicy": {
-        "@id": "_:n5d43b5dbf8f54300a4a77007e934c7b8b23",
-        "@type": "http://www.w3.org/ns/odrl/2/Policy",
-        "x2:obligation": {
-          "@id": "_:n5d43b5dbf8f54300a4a77007e934c7b8b24",
-          "@type": "http://www.w3.org/ns/odrl/2/Duty",
-          "x2:action": {
-            "@id": "http://tab5-sample-hasPolicyObligation.test"
-          }
-        },
-        "x2:permission": {
-          "@id": "_:n5d43b5dbf8f54300a4a77007e934c7b8b25",
-          "@type": "http://www.w3.org/ns/odrl/2/Permission",
-          "x2:action": {
-            "@id": "http://tab5-sample-hasPolicyPermission.test"
-          }
-        },
-        "x2:prohibition": {
-          "@id": "_:n5d43b5dbf8f54300a4a77007e934c7b8b26",
-          "@type": "http://www.w3.org/ns/odrl/2/Prohibition",
-          "x2:action": {
-            "@id": "http://tab5-sample-hasPolicyProhibition.test"
-          }
-        }
-      },
-      "spdx:checksum": {
-        "@id": "_:n5d43b5dbf8f54300a4a77007e934c7b8b21",
-        "@type": "spdx:Checksum",
-        "spdx:algorithm": {
-          "@id": "spdx:checksumAlgorithm_sha1"
-        },
-        "spdx:checksumValue": {
-          "@type": "http://www.w3.org/2001/XMLSchema#hexBinary",
-          "@value": "5d41402abc4b2a76b9719d911017c592"
-        }
-      }
+      "@id": "http://fair.healthdataportal.eu:8080/sample/2b1431b5-a446-4d4e-823b-3536e9bd184a"
     },
     {
       "@id": "http://fair.healthdataportal.eu:8080/sample/ec6d14ae-cd43-4e51-be26-64044acd4760",
@@ -545,7 +411,7 @@
       }
     },
     "dcat:accessService": {
-      "@id": "_:n5d43b5dbf8f54300a4a77007e934c7b8b3",
+      "@id": "_:n9b6e236e5ff840e2bbda6de2d6dbf840b3",
       "@type": "dcat:DataService",
       "dcat:endpointURL": {
         "@id": "http://tab5-analytics-accessServiceEndpointURL.test"
@@ -618,7 +484,7 @@
       "@value": "1990-12-31T00:00:00+00:00"
     },
     "dcterms:rights": {
-      "@id": "_:n5d43b5dbf8f54300a4a77007e934c7b8b1",
+      "@id": "_:n9b6e236e5ff840e2bbda6de2d6dbf840b1",
       "@type": "dcterms:RightsStatement",
       "rdfs:label": {
         "@language": "en",
@@ -646,24 +512,24 @@
       }
     },
     "x2:hasPolicy": {
-      "@id": "_:n5d43b5dbf8f54300a4a77007e934c7b8b4",
+      "@id": "_:n9b6e236e5ff840e2bbda6de2d6dbf840b4",
       "@type": "http://www.w3.org/ns/odrl/2/Policy",
       "x2:obligation": {
-        "@id": "_:n5d43b5dbf8f54300a4a77007e934c7b8b5",
+        "@id": "_:n9b6e236e5ff840e2bbda6de2d6dbf840b5",
         "@type": "http://www.w3.org/ns/odrl/2/Duty",
         "x2:action": {
           "@id": "http://tab5-analytics-hasPolicyObligation.test"
         }
       },
       "x2:permission": {
-        "@id": "_:n5d43b5dbf8f54300a4a77007e934c7b8b6",
+        "@id": "_:n9b6e236e5ff840e2bbda6de2d6dbf840b6",
         "@type": "http://www.w3.org/ns/odrl/2/Permission",
         "x2:action": {
           "@id": "http://tab5-analytics-hasPolicyPermission.test"
         }
       },
       "x2:prohibition": {
-        "@id": "_:n5d43b5dbf8f54300a4a77007e934c7b8b7",
+        "@id": "_:n9b6e236e5ff840e2bbda6de2d6dbf840b7",
         "@type": "http://www.w3.org/ns/odrl/2/Prohibition",
         "x2:action": {
           "@id": "http://tab5-analytics-hasPolicyProhibition.test"
@@ -671,7 +537,7 @@
       }
     },
     "spdx:checksum": {
-      "@id": "_:n5d43b5dbf8f54300a4a77007e934c7b8b2",
+      "@id": "_:n9b6e236e5ff840e2bbda6de2d6dbf840b2",
       "@type": "spdx:Checksum",
       "spdx:algorithm": {
         "@id": "spdx:checksumAlgorithm_sha1"
@@ -916,7 +782,7 @@
     }
   ],
   "health:hdab": {
-    "@id": "_:n5d43b5dbf8f54300a4a77007e934c7b8b8",
+    "@id": "_:n9b6e236e5ff840e2bbda6de2d6dbf840b8",
     "@type": [
       "foaf:Agent",
       "foaf:Organization"
@@ -929,7 +795,7 @@
     },
     "foaf:name": "tab2-hdab-name",
     "locn:address": {
-      "@id": "_:n5d43b5dbf8f54300a4a77007e934c7b8b9",
+      "@id": "_:n9b6e236e5ff840e2bbda6de2d6dbf840b9",
       "@type": "locn:Address",
       "locn:adminUnitL1": "http://publications.europa.eu/resource/authority/country/AUT"
     }
@@ -987,7 +853,7 @@
     }
   ],
   "health:retentionPeriod": {
-    "@id": "_:n5d43b5dbf8f54300a4a77007e934c7b8b10",
+    "@id": "_:n9b6e236e5ff840e2bbda6de2d6dbf840b10",
     "@type": "dcterms:PeriodOfTime",
     "dcat:endDate": {
       "@type": "http://www.w3.org/2001/XMLSchema#date",
@@ -1089,7 +955,7 @@
       "@value": "1990-12-31T00:00:00+00:00"
     },
     "prov:wasAssociatedWith": {
-      "@id": "_:n5d43b5dbf8f54300a4a77007e934c7b8b29",
+      "@id": "_:n9b6e236e5ff840e2bbda6de2d6dbf840b29",
       "@type": "prov:Agent",
       "foaf:homepage": {
         "@id": "http://tab3-wasGeneratedBy-agentUrl.test"
@@ -1099,7 +965,7 @@
       },
       "foaf:name": "tab3-wasGeneratedBy-agentName",
       "prov:actedOnBehalfOf": {
-        "@id": "_:n5d43b5dbf8f54300a4a77007e934c7b8b30",
+        "@id": "_:n9b6e236e5ff840e2bbda6de2d6dbf840b30",
         "@type": [
           "prov:Agent",
           "prov:Organization"

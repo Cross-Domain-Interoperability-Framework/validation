@@ -3,7 +3,8 @@
     "schema": "http://schema.org/",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
-    "prov": "http://www.w3.org/ns/prov#"
+    "prov": "http://www.w3.org/ns/prov#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
   },
   "@id": "https://data.gov.gr/id/dataset/BeePopulation2022",
   "@type": [
@@ -16,7 +17,36 @@
     "@id": "https://data.gov.gr/id/datasetseries/BeePopulation",
     "@type": "dcat:DatasetSeries",
     "dcat:last": {
-      "@id": "https://data.gov.gr/id/dataset/BeePopulation2023"
+      "@id": "https://data.gov.gr/id/dataset/BeePopulation2023",
+      "@type": "dcat:Dataset",
+      "dcat:inSeries": {
+        "@id": "https://data.gov.gr/id/datasetseries/BeePopulation"
+      },
+      "dcat:prev": {
+        "@id": "https://data.gov.gr/id/dataset/BeePopulation2022"
+      },
+      "dcterms:issued": [
+        {
+          "@type": "xsd:date",
+          "@value": "2023-03-21"
+        },
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#date",
+          "@value": "2023-03-21"
+        }
+      ],
+      "dcterms:spatial": [
+        {
+          "@id": "https://sws.geonames.org/734077"
+        },
+        {
+          "@id": "https://sws.geonames.org/264371"
+        }
+      ],
+      "dcterms:title": {
+        "@language": "en",
+        "@value": "Bee population 2023 in the region of Thessaloniki and Athens"
+      }
     },
     "dcterms:issued": [
       {
@@ -44,6 +74,7 @@
   "dcat:prev": {
     "@id": "https://data.gov.gr/id/dataset/BeePopulation2000"
   },
+  "schema:url": "http://www.opengis.net/def/nil/OGC/0/missing",
   "schema:license": [
     {
       "@id": "http://www.opengis.net/def/nil/OGC/0/missing"

@@ -503,8 +503,21 @@ def convert_dcat_to_cdif(ds, catalog_name="", catalog_url="", profile="core",
         doc["schema:description"] = _get_str(desc)
         changes.append("dcterms:description to schema:description")
 
-    # dcterms:identifier → schema:identifier
+    # dcterms:identifier → schema:identifier, falling back to adms:identifier.
+    # DCAT-AP records routinely carry ONLY adms:identifier -- an adms:Identifier
+    # node whose skos:notation holds the value -- and dropping it left the
+    # record with no identifier at all, so it could not meet CDIF core over an
+    # identifier it demonstrably has.
     ident = ds.get("dcterms:identifier")
+    if not ident:
+        for adms in _as_list(ds.get("adms:identifier")):
+            if isinstance(adms, dict):
+                ident = (adms.get("skos:notation") or adms.get("dcterms:identifier")
+                         or adms.get("@id"))
+            else:
+                ident = adms
+            if ident:
+                break
     if ident:
         doc["schema:identifier"] = _get_str(ident)
 

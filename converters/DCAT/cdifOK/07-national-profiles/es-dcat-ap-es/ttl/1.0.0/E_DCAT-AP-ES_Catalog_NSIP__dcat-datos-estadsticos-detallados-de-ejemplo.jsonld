@@ -6,9 +6,11 @@
     "prov": "http://www.w3.org/ns/prov#",
     "adms": "http://www.w3.org/ns/adms#",
     "skos": "http://www.w3.org/2004/02/skos/core#",
-    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "vcard": "http://www.w3.org/2006/vcard/ns#",
     "foaf": "http://xmlns.com/foaf/0.1/",
-    "r5r": "http://data.europa.eu/r5r/"
+    "r5r": "http://data.europa.eu/r5r/",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
   },
   "@id": "http://nsip.dcat-ap-es.ejemplo.org/dataset/datos-estadisticos-ejemplo",
   "@type": [
@@ -57,6 +59,18 @@
     {
       "@type": [
         "schema:DataDownload"
+      ],
+      "schema:contentUrl": "http://nsip.dcat-ap-es.ejemplo.org/solicitud-acceso/datos-estadisticos-api",
+      "schema:encodingFormat": [
+        "https://www.iana.org/assignments/media-types/application/ld+json"
+      ],
+      "schema:name": "Datos Estadísticos 2015-2024 - API REST de Ejemplo",
+      "schema:description": "Acceso mediante API REST de ejemplo con autenticación ficticia. Permite consultas filtradas simuladas.  Este endpoint es únicamente para demostración y no contiene datos reales.",
+      "schema:contentSize": "987654321",
+      "dcterms:conformsTo": [
+        {
+          "@id": "https://www.openapis.org/"
+        }
       ]
     }
   ],
@@ -64,12 +78,656 @@
     "2015-01-01/2024-12-31"
   ],
   "adms:identifier": {
-    "@id": "_:n1c0527c9162d48309730492ddd05a923b8",
+    "@id": "_:n6742c17531dd458792dae0461b3c2d46b8",
     "@type": "adms:Identifier",
     "skos:notation": "EST-EJEMPLO-002"
   },
   "dcat:accessService": {
-    "@id": "http://nsip.dcat-ap-es.ejemplo.org/service/api-datos-protegidos"
+    "@id": "http://nsip.dcat-ap-es.ejemplo.org/service/api-datos-protegidos",
+    "@type": "dcat:DataService",
+    "dcat:contactPoint": {
+      "@id": "_:n6742c17531dd458792dae0461b3c2d46b15",
+      "@type": "vcard:Organization",
+      "vcard:fn": {
+        "@language": "es",
+        "@value": "Soporte Técnico API de Ejemplo"
+      },
+      "vcard:hasEmail": {
+        "@id": "mailto:api-soporte@ejemplo.org"
+      },
+      "vcard:hasTelephone": {
+        "@id": "tel:+34-900444444"
+      },
+      "vcard:hasUID": {
+        "@id": "http://datos.gob.es/recurso/sector-publico/org/Organismo/E0DAT0001"
+      },
+      "vcard:hasURL": {
+        "@id": "http://nsip.dcat-ap-es.ejemplo.org/soporte"
+      },
+      "vcard:organization-name": {
+        "@language": "es",
+        "@value": "Organización de Ejemplo"
+      }
+    },
+    "dcat:endpointDescription": {
+      "@id": "http://api.dcat-ap-es.ejemplo.org/v1/openapi.json"
+    },
+    "dcat:endpointURL": {
+      "@id": "http://api.dcat-ap-es.ejemplo.org/v1"
+    },
+    "dcat:keyword": [
+      {
+        "@language": "en",
+        "@value": "API"
+      },
+      {
+        "@language": "es",
+        "@value": "ejemplo"
+      },
+      {
+        "@language": "en",
+        "@value": "OAuth2"
+      },
+      {
+        "@language": "en",
+        "@value": "NSIP"
+      },
+      {
+        "@language": "es",
+        "@value": "datos protegidos"
+      },
+      {
+        "@language": "en",
+        "@value": "protected data"
+      },
+      {
+        "@language": "en",
+        "@value": "example"
+      }
+    ],
+    "dcat:landingPage": {
+      "@id": "http://nsip.dcat-ap-es.ejemplo.org/api"
+    },
+    "dcat:servesDataset": [
+      {
+        "@id": "http://nsip.dcat-ap-es.ejemplo.org/dataset/datos-economicos-ejemplo",
+        "@type": "dcat:Dataset",
+        "adms:identifier": {
+          "@id": "_:n6742c17531dd458792dae0461b3c2d46b3",
+          "@type": "adms:Identifier",
+          "adms:schemeAgency": {
+            "@language": "es",
+            "@value": "Organización de Ejemplo"
+          },
+          "dcterms:creator": {
+            "@id": "http://nsip.dcat-ap-es.ejemplo.org/organizacion/ejemplo-economia"
+          },
+          "skos:notation": "ECO-EJEMPLO-001"
+        },
+        "dcat:accessService": {
+          "@id": "http://nsip.dcat-ap-es.ejemplo.org/service/api-datos-protegidos"
+        },
+        "dcat:contactPoint": {
+          "@id": "_:n6742c17531dd458792dae0461b3c2d46b5",
+          "@type": "vcard:Organization",
+          "vcard:fn": {
+            "@language": "es",
+            "@value": "Punto de Contacto - Datos Económicos de Ejemplo"
+          },
+          "vcard:hasEmail": {
+            "@id": "mailto:economia@ejemplo.org"
+          },
+          "vcard:hasTelephone": {
+            "@id": "tel:+34-900111111"
+          },
+          "vcard:hasUID": {
+            "@id": "http://datos.gob.es/recurso/sector-publico/org/Organismo/E0DAT0001"
+          },
+          "vcard:hasURL": {
+            "@id": "http://nsip.dcat-ap-es.ejemplo.org/solicitudes/datos-economicos"
+          },
+          "vcard:organization-name": {
+            "@language": "es",
+            "@value": "Organización Económica de Ejemplo"
+          }
+        },
+        "dcat:distribution": [
+          {
+            "@id": "http://nsip.dcat-ap-es.ejemplo.org/dataset/datos-economicos-ejemplo/dist/csv",
+            "@type": "dcat:Distribution",
+            "adms:status": {
+              "@id": "http://publications.europa.eu/resource/authority/distribution-status/COMPLETED"
+            },
+            "dcat:accessURL": {
+              "@id": "http://nsip.dcat-ap-es.ejemplo.org/solicitud-acceso/datos-economicos-csv"
+            },
+            "dcat:byteSize": 45678900,
+            "dcat:compressFormat": {
+              "@id": "https://www.iana.org/assignments/media-types/application/gzip"
+            },
+            "dcat:mediaType": {
+              "@id": "https://www.iana.org/assignments/media-types/text/csv"
+            },
+            "dcterms:description": [
+              {
+                "@language": "es",
+                "@value": "Archivo CSV de ejemplo con datos económicos ficticios agregados.  Contiene aproximadamente 150000 registros con 40 variables.  Este archivo es únicamente para demostración."
+              },
+              {
+                "@language": "en",
+                "@value": "Example CSV file with fictitious aggregated economic data. Contains approximately 150000 records with 40 variables.  This file is for demonstration purposes only."
+              }
+            ],
+            "dcterms:format": {
+              "@id": "http://publications.europa.eu/resource/authority/file-type/CSV"
+            },
+            "dcterms:issued": {
+              "@type": "http://www.w3.org/2001/XMLSchema#date",
+              "@value": "2024-01-15"
+            },
+            "dcterms:language": {
+              "@id": "http://publications.europa.eu/resource/authority/language/SPA"
+            },
+            "dcterms:license": {
+              "@id": "http://publications.europa.eu/resource/authority/licence/CC_BY_4_0"
+            },
+            "dcterms:modified": {
+              "@type": "http://www.w3.org/2001/XMLSchema#date",
+              "@value": "2025-12-01"
+            },
+            "dcterms:rights": {
+              "@id": "http://nsip.dcat-ap-es.ejemplo.org/licencias/uso-ejemplo-confidencial"
+            },
+            "dcterms:title": [
+              {
+                "@language": "es",
+                "@value": "Datos Económicos 2020-2024 - Formato CSV"
+              },
+              {
+                "@language": "en",
+                "@value": "Economic Data 2020-2024 - CSV Format"
+              }
+            ],
+            "foaf:page": {
+              "@id": "http://nsip.dcat-ap-es.ejemplo.org/docs/datos-economicos-csv-schema"
+            },
+            "r5r:applicableLegislation": {
+              "@id": "http://data.europa.eu/eli/reg/2022/868/oj"
+            },
+            "r5r:availability": {
+              "@id": "http://publications.europa.eu/resource/authority/planned-availability/STABLE"
+            },
+            "spdx:checksum": {
+              "@id": "_:n6742c17531dd458792dae0461b3c2d46b7",
+              "@type": "spdx:Checksum",
+              "spdx:algorithm": {
+                "@id": "spdx:checksumAlgorithm_sha1"
+              },
+              "spdx:checksumValue": {
+                "@type": "http://www.w3.org/2001/XMLSchema#hexBinary",
+                "@value": "a1b2c3d4e5f6789012345678901234567890abcd"
+              }
+            }
+          },
+          {
+            "@id": "http://nsip.dcat-ap-es.ejemplo.org/dataset/datos-economicos-ejemplo/dist/json",
+            "@type": "dcat:Distribution",
+            "adms:status": {
+              "@id": "http://publications.europa.eu/resource/authority/distribution-status/COMPLETED"
+            },
+            "dcat:accessURL": {
+              "@id": "http://nsip.dcat-ap-es.ejemplo.org/solicitud-acceso/datos-economicos-json"
+            },
+            "dcat:byteSize": 52345678,
+            "dcat:mediaType": {
+              "@id": "https://www.iana.org/assignments/media-types/application/json"
+            },
+            "dcterms:description": [
+              {
+                "@language": "es",
+                "@value": "Archivo JSON de ejemplo con la misma información que el CSV pero en formato JSON estructurado. Únicamente para demostración."
+              },
+              {
+                "@language": "en",
+                "@value": "Example JSON file with the same information as CSV but in structured JSON format. For demonstration purposes only."
+              }
+            ],
+            "dcterms:format": {
+              "@id": "http://publications.europa.eu/resource/authority/file-type/JSON"
+            },
+            "dcterms:issued": {
+              "@type": "http://www.w3.org/2001/XMLSchema#date",
+              "@value": "2024-01-15"
+            },
+            "dcterms:language": {
+              "@id": "http://publications.europa.eu/resource/authority/language/SPA"
+            },
+            "dcterms:license": {
+              "@id": "http://publications.europa.eu/resource/authority/licence/CC_BY_4_0"
+            },
+            "dcterms:modified": {
+              "@type": "http://www.w3.org/2001/XMLSchema#date",
+              "@value": "2025-12-01"
+            },
+            "dcterms:rights": {
+              "@id": "http://nsip.dcat-ap-es.ejemplo.org/licencias/uso-ejemplo-confidencial"
+            },
+            "dcterms:title": [
+              {
+                "@language": "es",
+                "@value": "Datos Económicos 2020-2024 - Formato JSON"
+              },
+              {
+                "@language": "en",
+                "@value": "Economic Data 2020-2024 - JSON Format"
+              }
+            ],
+            "foaf:page": {
+              "@id": "http://nsip.dcat-ap-es.ejemplo.org/docs/datos-economicos-json-schema"
+            },
+            "r5r:applicableLegislation": {
+              "@id": "http://data.europa.eu/eli/reg/2022/868/oj"
+            },
+            "r5r:availability": {
+              "@id": "http://publications.europa.eu/resource/authority/planned-availability/STABLE"
+            }
+          }
+        ],
+        "dcat:keyword": [
+          {
+            "@language": "es",
+            "@value": "economía"
+          },
+          {
+            "@language": "es",
+            "@value": "ejemplo"
+          },
+          {
+            "@language": "es",
+            "@value": "ficticio"
+          },
+          {
+            "@language": "es",
+            "@value": "agregado"
+          },
+          {
+            "@language": "en",
+            "@value": "economy"
+          },
+          {
+            "@language": "en",
+            "@value": "example"
+          },
+          {
+            "@language": "en",
+            "@value": "fictitious"
+          },
+          {
+            "@language": "en",
+            "@value": "aggregated"
+          }
+        ],
+        "dcat:landingPage": {
+          "@id": "http://nsip.dcat-ap-es.ejemplo.org/dataset/datos-economicos-ejemplo"
+        },
+        "dcat:temporalResolution": {
+          "@type": "http://www.w3.org/2001/XMLSchema#duration",
+          "@value": "P1Y"
+        },
+        "dcat:theme": [
+          {
+            "@id": "http://publications.europa.eu/resource/authority/data-theme/ECON"
+          },
+          {
+            "@id": "http://datos.gob.es/kos/sector-publico/sector/economia"
+          }
+        ],
+        "dcterms:accessRights": {
+          "@id": "http://publications.europa.eu/resource/authority/access-right/RESTRICTED"
+        },
+        "dcterms:accrualPeriodicity": {
+          "@id": "http://publications.europa.eu/resource/authority/frequency/ANNUAL"
+        },
+        "dcterms:description": [
+          {
+            "@language": "es",
+            "@value": "Conjunto de datos de ejemplo que contiene información económica ficticia agregada por sector y región. Los datos están anonimizados y son únicamente para propósitos de demostración del perfil DCAT-AP-ES para datos protegidos NSIP/ERPD."
+          },
+          {
+            "@language": "en",
+            "@value": "Example dataset containing fictitious economic information aggregated by sector and region. Data is anonymized and for demonstration purposes of the DCAT-AP-ES profile for NSIP/ERPD protected data only."
+          }
+        ],
+        "dcterms:identifier": "EJEMPLO-ECO-2024-001",
+        "dcterms:issued": {
+          "@type": "http://www.w3.org/2001/XMLSchema#date",
+          "@value": "2024-01-15"
+        },
+        "dcterms:modified": {
+          "@type": "http://www.w3.org/2001/XMLSchema#date",
+          "@value": "2025-12-01"
+        },
+        "dcterms:provenance": {
+          "@id": "_:n6742c17531dd458792dae0461b3c2d46b6",
+          "@type": "dcterms:ProvenanceStatement",
+          "rdfs:label": {
+            "@language": "es",
+            "@value": "Datos ficticios generados para demostración del perfil DCAT-AP-ES NSIP/ERPD."
+          }
+        },
+        "dcterms:publisher": {
+          "@id": "http://datos.gob.es/recurso/sector-publico/org/Organismo/E0DAT0001"
+        },
+        "dcterms:spatial": {
+          "@id": "http://datos.gob.es/recurso/sector-publico/territorio/Pais/España"
+        },
+        "dcterms:temporal": {
+          "@id": "_:n6742c17531dd458792dae0461b3c2d46b4",
+          "@type": "dcterms:PeriodOfTime",
+          "dcat:endDate": {
+            "@type": "http://www.w3.org/2001/XMLSchema#date",
+            "@value": "2024-12-31"
+          },
+          "dcat:startDate": {
+            "@type": "http://www.w3.org/2001/XMLSchema#date",
+            "@value": "2020-01-01"
+          }
+        },
+        "dcterms:title": [
+          {
+            "@language": "es",
+            "@value": "Datos Económicos Agregados de Ejemplo"
+          },
+          {
+            "@language": "en",
+            "@value": "Example Aggregated Economic Data"
+          }
+        ],
+        "foaf:page": {
+          "@id": "http://nsip.dcat-ap-es.ejemplo.org/docs/datos-economicos-metodologia"
+        },
+        "r5r:applicableLegislation": [
+          {
+            "@id": "http://data.europa.eu/eli/reg/2022/868/oj"
+          },
+          {
+            "@id": "http://data.europa.eu/eli/reg/2016/679/oj"
+          }
+        ]
+      },
+      {
+        "@id": "http://nsip.dcat-ap-es.ejemplo.org/dataset/datos-estadisticos-ejemplo"
+      },
+      {
+        "@id": "http://nsip.dcat-ap-es.ejemplo.org/dataset/datos-agregados-ejemplo",
+        "@type": "dcat:Dataset",
+        "dcat:contactPoint": {
+          "@id": "_:n6742c17531dd458792dae0461b3c2d46b14",
+          "@type": "vcard:Organization",
+          "vcard:fn": {
+            "@language": "es",
+            "@value": "Punto de Contacto - Datos Sectoriales de Ejemplo"
+          },
+          "vcard:hasEmail": {
+            "@id": "mailto:sectorial@ejemplo.org"
+          },
+          "vcard:hasTelephone": {
+            "@id": "tel:+34-900333333"
+          },
+          "vcard:hasUID": {
+            "@id": "http://datos.gob.es/recurso/sector-publico/org/Organismo/E0DAT0001"
+          },
+          "vcard:hasURL": {
+            "@id": "http://nsip.dcat-ap-es.ejemplo.org/solicitudes/datos-agregados"
+          },
+          "vcard:organization-name": {
+            "@language": "es",
+            "@value": "Organización Sectorial de Ejemplo"
+          }
+        },
+        "dcat:distribution": {
+          "@id": "http://nsip.dcat-ap-es.ejemplo.org/dataset/datos-agregados-ejemplo/dist/xlsx",
+          "@type": "dcat:Distribution",
+          "adms:status": {
+            "@id": "http://publications.europa.eu/resource/authority/distribution-status/COMPLETED"
+          },
+          "dcat:accessURL": {
+            "@id": "http://nsip.dcat-ap-es.ejemplo.org/solicitud-acceso/datos-agregados-xlsx"
+          },
+          "dcat:byteSize": 34567890,
+          "dcat:mediaType": {
+            "@id": "https://www.iana.org/assignments/media-types/application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          },
+          "dcterms:description": [
+            {
+              "@language": "es",
+              "@value": "Archivo Excel de ejemplo con múltiples hojas organizadas por año y sector. Incluye tablas dinámicas ficticias pre-configuradas.  Únicamente para demostración."
+            },
+            {
+              "@language": "en",
+              "@value": "Example Excel file with multiple sheets organized by year and sector. Includes fictitious pre-configured pivot tables. For demonstration purposes only."
+            }
+          ],
+          "dcterms:format": {
+            "@id": "http://publications.europa.eu/resource/authority/file-type/XLSX"
+          },
+          "dcterms:issued": {
+            "@type": "http://www.w3.org/2001/XMLSchema#date",
+            "@value": "2024-06-01"
+          },
+          "dcterms:language": {
+            "@id": "http://publications.europa.eu/resource/authority/language/SPA"
+          },
+          "dcterms:license": {
+            "@id": "http://publications.europa.eu/resource/authority/licence/CC_BY_4_0"
+          },
+          "dcterms:modified": {
+            "@type": "http://www.w3.org/2001/XMLSchema#date",
+            "@value": "2025-12-10"
+          },
+          "dcterms:rights": {
+            "@id": "http://nsip.dcat-ap-es.ejemplo.org/licencias/uso-ejemplo-analisis"
+          },
+          "dcterms:title": [
+            {
+              "@language": "es",
+              "@value": "Datos Agregados 2018-2024 - Formato Excel de Ejemplo"
+            },
+            {
+              "@language": "en",
+              "@value": "Aggregated Data 2018-2024 - Example Excel Format"
+            }
+          ],
+          "foaf:page": {
+            "@id": "http://nsip.dcat-ap-es.ejemplo.org/docs/datos-agregados-guia"
+          },
+          "r5r:applicableLegislation": {
+            "@id": "http://data.europa.eu/eli/reg/2022/868/oj"
+          },
+          "r5r:availability": {
+            "@id": "http://publications.europa.eu/resource/authority/planned-availability/STABLE"
+          }
+        },
+        "dcat:keyword": [
+          {
+            "@language": "es",
+            "@value": "agregado"
+          },
+          {
+            "@language": "es",
+            "@value": "sectorial"
+          },
+          {
+            "@language": "es",
+            "@value": "ejemplo"
+          },
+          {
+            "@language": "es",
+            "@value": "indicadores"
+          },
+          {
+            "@language": "en",
+            "@value": "aggregated"
+          },
+          {
+            "@language": "en",
+            "@value": "sectoral"
+          },
+          {
+            "@language": "en",
+            "@value": "example"
+          },
+          {
+            "@language": "en",
+            "@value": "indicators"
+          }
+        ],
+        "dcat:landingPage": {
+          "@id": "http://nsip.dcat-ap-es.ejemplo.org/dataset/datos-agregados-ejemplo"
+        },
+        "dcat:temporalResolution": {
+          "@type": "http://www.w3.org/2001/XMLSchema#duration",
+          "@value": "P3M"
+        },
+        "dcat:theme": [
+          {
+            "@id": "http://publications.europa.eu/resource/authority/data-theme/ECON"
+          },
+          {
+            "@id": "http://datos.gob.es/kos/sector-publico/sector/sector-publico"
+          }
+        ],
+        "dcterms:accessRights": {
+          "@id": "http://publications.europa.eu/resource/authority/access-right/RESTRICTED"
+        },
+        "dcterms:accrualPeriodicity": {
+          "@id": "http://publications.europa.eu/resource/authority/frequency/QUARTERLY"
+        },
+        "dcterms:description": [
+          {
+            "@language": "es",
+            "@value": "Datos de ejemplo agregados por sector con información ficticia sobre indicadores económicos y sociales.  Todos los datos son ficticios y generados para propósitos de demostración del modelo DCAT-AP-ES para NSIP/ERPD."
+          },
+          {
+            "@language": "en",
+            "@value": "Example data aggregated by sector with fictitious information on economic and social indicators. All data is fictitious and generated for demonstration purposes of the DCAT-AP-ES model for NSIP/ERPD."
+          }
+        ],
+        "dcterms:identifier": "EJEMPLO-AGR-2024-003",
+        "dcterms:issued": {
+          "@type": "http://www.w3.org/2001/XMLSchema#date",
+          "@value": "2024-06-01"
+        },
+        "dcterms:modified": {
+          "@type": "http://www.w3.org/2001/XMLSchema#date",
+          "@value": "2025-12-10"
+        },
+        "dcterms:publisher": {
+          "@id": "http://datos.gob.es/recurso/sector-publico/org/Organismo/E0DAT0001"
+        },
+        "dcterms:spatial": {
+          "@id": "http://datos.gob.es/recurso/sector-publico/territorio/Pais/España"
+        },
+        "dcterms:temporal": {
+          "@id": "_:n6742c17531dd458792dae0461b3c2d46b13",
+          "@type": "dcterms:PeriodOfTime",
+          "dcat:endDate": {
+            "@type": "http://www.w3.org/2001/XMLSchema#date",
+            "@value": "2024-12-31"
+          },
+          "dcat:startDate": {
+            "@type": "http://www.w3.org/2001/XMLSchema#date",
+            "@value": "2018-01-01"
+          }
+        },
+        "dcterms:title": [
+          {
+            "@language": "es",
+            "@value": "Datos Agregados Sectoriales de Ejemplo"
+          },
+          {
+            "@language": "en",
+            "@value": "Example Sector Aggregated Data"
+          }
+        ],
+        "r5r:applicableLegislation": [
+          {
+            "@id": "http://data.europa.eu/eli/reg/2022/868/oj"
+          },
+          {
+            "@id": "http://data.europa.eu/eli/reg/2016/679/oj"
+          }
+        ]
+      }
+    ],
+    "dcat:theme": {
+      "@id": "http://datos.gob.es/kos/sector-publico/sector/sector-publico"
+    },
+    "dcterms:accessRights": {
+      "@id": "http://publications.europa.eu/resource/authority/access-right/RESTRICTED"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://www.openapis.org/"
+      },
+      {
+        "@id": "https://oauth.net/2/"
+      }
+    ],
+    "dcterms:description": [
+      {
+        "@language": "es",
+        "@value": "Servicio de API de ejemplo para acceso a conjuntos de datos protegidos ficticios. Demuestra cómo implementar un servicio conforme a DCAT-AP-ES para NSIP/ERPD.  Este servicio es únicamente para demostración y no proporciona acceso a datos reales."
+      },
+      {
+        "@language": "en",
+        "@value": "Example API service for access to fictitious protected datasets. Demonstrates how to implement a service compliant with DCAT-AP-ES for NSIP/ERPD. This service is for demonstration purposes only and does not provide access to real data."
+      }
+    ],
+    "dcterms:format": [
+      {
+        "@id": "http://publications.europa.eu/resource/authority/file-type/JSON_LD"
+      },
+      {
+        "@id": "http://publications.europa.eu/resource/authority/file-type/XML"
+      },
+      {
+        "@id": "http://publications.europa.eu/resource/authority/file-type/CSV"
+      }
+    ],
+    "dcterms:issued": {
+      "@type": "http://www.w3.org/2001/XMLSchema#date",
+      "@value": "2024-01-01"
+    },
+    "dcterms:license": {
+      "@id": "http://publications.europa.eu/resource/authority/licence/CC_BY_4_0"
+    },
+    "dcterms:modified": {
+      "@type": "http://www.w3.org/2001/XMLSchema#date",
+      "@value": "2025-12-18"
+    },
+    "dcterms:publisher": {
+      "@id": "http://datos.gob.es/recurso/sector-publico/org/Organismo/E0DAT0001"
+    },
+    "dcterms:title": [
+      {
+        "@language": "es",
+        "@value": "API de Ejemplo para Datos Protegidos"
+      },
+      {
+        "@language": "en",
+        "@value": "Example API for Protected Data"
+      }
+    ],
+    "foaf:page": {
+      "@id": "http://nsip.dcat-ap-es.ejemplo.org/docs/api-reference"
+    },
+    "r5r:applicableLegislation": {
+      "@id": "http://data.europa.eu/eli/reg/2022/868/oj"
+    },
+    "r5r:availability": {
+      "@id": "http://publications.europa.eu/resource/authority/planned-availability/AVAILABLE"
+    }
   },
   "dcat:temporalResolution": {
     "@type": "http://www.w3.org/2001/XMLSchema#duration",
@@ -87,7 +745,7 @@
     "@id": "http://publications.europa.eu/resource/authority/frequency/MONTHLY"
   },
   "dcterms:provenance": {
-    "@id": "_:n1c0527c9162d48309730492ddd05a923b11",
+    "@id": "_:n6742c17531dd458792dae0461b3c2d46b11",
     "@type": "dcterms:ProvenanceStatement",
     "rdfs:label": {
       "@language": "es",
@@ -106,7 +764,7 @@
     }
   ],
   "prov:wasGeneratedBy": {
-    "@id": "_:n1c0527c9162d48309730492ddd05a923b12",
+    "@id": "_:n6742c17531dd458792dae0461b3c2d46b12",
     "@type": "prov:Activity",
     "rdfs:label": {
       "@language": "es",

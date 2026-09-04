@@ -10,6 +10,9 @@ from and whether it is a fragment.
    78 merged from more than one serialization
    67 conformant  (core/1.1 + discovery/1.1)
   152 -frag       (content does not meet core)
+
+  0 JSON Schema failures   0 over-claiming   0 under-declaring
+  2 records with SHACL violations
 ```
 
 ## `-frag`
@@ -46,18 +49,24 @@ blank-node labels — arbitrary identifiers carrying no meaning.
 
 ## Known remaining issues
 
-Of the 67 conformant records:
+Of the 67 conformant records, **2** still carry SHACL violations, both about
+geometry: a `geoshape` that does not give a line or box as latitude-longitude
+pairs, and an absent spatial coverage description. Both are what the source
+contains; the converter has nothing to work from.
 
-- **36** have no `schema:url` or `schema:distribution`, and **20** have a
-  `DataDownload` with no `contentUrl` — the source DCAT carries no resolvable
-  access point.
-- **8** have no usable `dcterms:modified`.
-- **2** fail JSON-LD framing. One upstream file uses property keys of the form
-  `https://www.w3.org/TR/vocab-dqv/#dqv:hasQualityAnnotation` — a document URL
-  with a CURIE appended — which cannot be split into a namespace and a local
-  name, so no prefix can be declared for it.
+Where the source is silent, the record says so rather than staying quiet:
 
-None of these are conversion defects; they are what the sources contain.
+- no landing page and no distribution, or a `DataDownload` with no access URL —
+  `schema:url` / `schema:contentUrl` carry the OGC `nil:missing` URI, as a
+  string: both properties are declared `sh:datatype xsd:string`;
+- no licence — `schema:license` carries the same URI;
+- no usable `dcterms:modified` — the conversion timestamp, which is at least
+  true of the serialization. Source dates carrying fractional seconds
+  (`2024-05-08T04:11:24.309486`) are trimmed rather than discarded: the CDIF
+  pattern accepts seconds precision and no more.
+
+A record moving in or out of conformance changes its filename, so git shows it
+as a delete plus an add rather than a modification.
 
 ## Regenerating
 

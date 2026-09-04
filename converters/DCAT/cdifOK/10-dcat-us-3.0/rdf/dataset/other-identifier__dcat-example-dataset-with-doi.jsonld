@@ -3,22 +3,32 @@
     "schema": "http://schema.org/",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
-    "prov": "http://www.w3.org/ns/prov#"
+    "prov": "http://www.w3.org/ns/prov#",
+    "adms": "http://www.w3.org/ns/adms#",
+    "skos": "http://www.w3.org/2004/02/skos/core#"
   },
-  "@id": "ex:Dataset1",
+  "@id": "http://example.org/ns#Dataset1",
   "@type": [
     "schema:Dataset"
   ],
   "schema:name": "Example Dataset with DOI",
   "schema:description": "This dataset provides an example of how to use a DOI as an identifier.",
-  "schema:identifier": "_:N5292745f71b940a6bf86df8f2affc279",
-  "schema:dateModified": "2025-01-01",
+  "schema:identifier": "10.12345/ex.doi.67890",
+  "schema:dateModified": "2026-09-04T03:45:47Z",
   "schema:publisher": {
     "@type": [
       "schema:Organization"
     ],
     "@id": "https://doi.gov"
   },
+  "adms:identifier": {
+    "@id": "http://example.org/ns#Identifier1",
+    "@type": "adms:Identifier",
+    "adms:schemaAgency": "Department of the Interior",
+    "dcat:version": "1.0",
+    "skos:notation": "10.12345/ex.doi.67890"
+  },
+  "schema:url": "http://www.opengis.net/def/nil/OGC/0/missing",
   "schema:license": [
     {
       "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
@@ -33,10 +43,10 @@
         "@id": "dcat:CatalogRecord"
       }
     ],
-    "@id": "ex:Dataset1#metadata",
+    "@id": "http://example.org/ns#Dataset1#metadata",
     "schema:name": "Metadata record for: Example Dataset with DOI",
     "schema:about": {
-      "@id": "ex:Dataset1"
+      "@id": "http://example.org/ns#Dataset1"
     },
     "dcterms:conformsTo": [
       {
@@ -53,6 +63,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to placeholder (no date in source); dcterms:publisher to schema:publisher. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; schema:dateModified set to the conversion time (no date in source); dcterms:publisher to schema:publisher. Unmapped DCAT properties preserved (open world)."
   }
 }
