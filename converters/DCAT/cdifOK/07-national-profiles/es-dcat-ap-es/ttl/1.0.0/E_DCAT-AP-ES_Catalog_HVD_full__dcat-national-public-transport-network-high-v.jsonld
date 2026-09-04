@@ -128,18 +128,20 @@
       "schema:potentialAction": [
         {
           "@type": [
-            "schema:WebAPI"
+            "schema:SearchAction"
           ],
-          "schema:contentUrl": "https://api.dcat-ap-es.ejemplo.org/geoespacial/v1",
-          "schema:serviceType": "dcat:DataService",
-          "schema:name": "API Geoespacial de Datos de Alto Valor",
-          "schema:documentation": "https://api.dcat-ap-es.ejemplo.org/geoespacial/v1/swagger.json"
+          "schema:target": {
+            "@type": [
+              "schema:EntryPoint"
+            ],
+            "schema:urlTemplate": "https://api.dcat-ap-es.ejemplo.org/geoespacial/v1"
+          }
         }
       ]
     }
   ],
   "adms:identifier": {
-    "@id": "_:na1e48a7fbfd342d28bdf112c22711b4ab2"
+    "@id": "_:n1f83c8f7d32e42bdb59b57233d9d70fdb2"
   },
   "dcatap:applicableLegislation": {
     "@id": "http://data.europa.eu/eli/reg_impl/2023/138/oj"

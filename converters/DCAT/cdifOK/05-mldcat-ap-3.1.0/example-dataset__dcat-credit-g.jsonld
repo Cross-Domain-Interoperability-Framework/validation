@@ -84,11 +84,14 @@
       "schema:potentialAction": [
         {
           "@type": [
-            "schema:WebAPI"
+            "schema:SearchAction"
           ],
-          "schema:contentUrl": "https://www.openml.org/apis",
-          "schema:serviceType": "dcat:DataService",
-          "schema:name": "REST API for sharing, organizing and reusing machine learning datasets, code, and experiments."
+          "schema:target": {
+            "@type": [
+              "schema:EntryPoint"
+            ],
+            "schema:urlTemplate": "https://www.openml.org/apis"
+          }
         }
       ],
       "spdx:checksum": {

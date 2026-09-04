@@ -124,12 +124,14 @@
       "schema:potentialAction": [
         {
           "@type": [
-            "schema:WebAPI"
+            "schema:SearchAction"
           ],
-          "schema:contentUrl": "http://api.dcat-ap-es.ejemplo.org/v1",
-          "schema:serviceType": "dcat:DataService",
-          "schema:name": "API de Ejemplo para Datos Protegidos",
-          "schema:documentation": "http://api.dcat-ap-es.ejemplo.org/v1/openapi.json"
+          "schema:target": {
+            "@type": [
+              "schema:EntryPoint"
+            ],
+            "schema:urlTemplate": "http://api.dcat-ap-es.ejemplo.org/v1"
+          }
         }
       ]
     }
@@ -146,7 +148,7 @@
     }
   ],
   "adms:identifier": {
-    "@id": "_:N65ed37a12bb64ef3acd9bb3852b97e81"
+    "@id": "_:N4f5882182dda4e6bb4eb9a9fd4df0f45"
   },
   "dcat:accessService": {
     "@id": "http://nsip.dcat-ap-es.ejemplo.org/service/api-datos-protegidos"
@@ -211,7 +213,7 @@
         "prov:Activity"
       ],
       "prov:used": [
-        "_:N3092d7bf3b964036ae8cbf0b34566e6a"
+        "_:Nf4e2c4bc93d242079820241d3fc12d86"
       ]
     }
   ]

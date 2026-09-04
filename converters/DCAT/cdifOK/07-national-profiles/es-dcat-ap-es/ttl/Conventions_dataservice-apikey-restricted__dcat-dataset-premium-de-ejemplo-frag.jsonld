@@ -33,18 +33,20 @@
       "schema:potentialAction": [
         {
           "@type": [
-            "schema:WebAPI"
+            "schema:SearchAction"
           ],
-          "schema:contentUrl": "https://api.example.com/premium-data",
-          "schema:serviceType": "dcat:DataService",
-          "schema:name": "API de datos premium",
-          "schema:documentation": "https://example.org/endpoint/openapi.json"
+          "schema:target": {
+            "@type": [
+              "schema:EntryPoint"
+            ],
+            "schema:urlTemplate": "https://api.example.com/premium-data"
+          }
         }
       ],
       "schema:contentUrl": "http://www.opengis.net/def/nil/OGC/0/missing"
     }
   ],
-  "schema:dateModified": "2026-09-04T22:13:43Z",
+  "schema:dateModified": "2026-09-04T22:35:25Z",
   "schema:subjectOf": {
     "@type": [
       "schema:Dataset"
