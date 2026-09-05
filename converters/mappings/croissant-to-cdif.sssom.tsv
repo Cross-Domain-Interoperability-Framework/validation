@@ -3,7 +3,7 @@ sc:name	name	sc:Dataset	skos:exactMatch	schema:name	name	$.schema:name	text	sema
 sc:description	description	sc:Dataset	skos:exactMatch	schema:description	description	$.schema:description	text	semapv:ManualMappingCuration	
 sc:url	url	sc:Dataset	skos:exactMatch	schema:url	url	$.schema:url	iri	semapv:ManualMappingCuration	
 sc:identifier	identifier	sc:Dataset	skos:exactMatch	schema:identifier	identifier	$.schema:identifier	identifier	semapv:ManualMappingCuration	A DOI is preferred when several are given; the rest go to schema:sameAs.
-sc:license	license	sc:Dataset	skos:exactMatch	schema:license	license	$.schema:license	iri	semapv:ManualMappingCuration	
+sc:license	license	sc:Dataset	skos:exactMatch	schema:license	license	$.schema:license	license	semapv:ManualMappingCuration	
 sc:datePublished	datePublished	sc:Dataset	skos:exactMatch	schema:datePublished	datePublished	$.schema:datePublished	date	semapv:ManualMappingCuration	
 sc:dateModified	dateModified	sc:Dataset	skos:exactMatch	schema:dateModified	dateModified	$.schema:dateModified	date	semapv:ManualMappingCuration	Required by CDIF core; falls back to datePublished, then to conversion time.
 sc:dateCreated	dateCreated	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Not a CDIF target; preserved as an extension.
@@ -15,13 +15,13 @@ sc:inLanguage	inLanguage	sc:Dataset	skos:exactMatch	schema:inLanguage	inLanguage
 sc:funding	funding	sc:Dataset	skos:exactMatch	schema:funding	funding	$.schema:funding	funding	semapv:ManualMappingCuration	Croissant gives a grant or funder node; CDIF wants a MonetaryGrant.
 sc:sameAs	sameAs	sc:Dataset	skos:exactMatch	schema:sameAs	sameAs	$.schema:sameAs	iri	semapv:ManualMappingCuration	
 sc:isAccessibleForFree	isAccessibleForFree	sc:Dataset	skos:closeMatch	schema:conditionsOfAccess	conditionsOfAccess	$.schema:conditionsOfAccess	accessflag	semapv:ManualMappingCuration	A boolean; true becomes a statement that access is unrestricted.
-sc:includedInDataCatalog	includedInDataCatalog	sc:Dataset	skos:exactMatch	schema:includedInDataCatalog	includedInDataCatalog	$.schema:subjectOf.schema:includedInDataCatalog	catalog	semapv:ManualMappingCuration	Belongs on the CDIF catalog record, not the dataset.
+sc:includedInDataCatalog	includedInDataCatalog	sc:Dataset	skos:exactMatch	schema:includedInDataCatalog	includedInDataCatalog	$.schema:subjectOf.schema:includedInDataCatalog	structural	semapv:ManualMappingCuration	Legal only inside schema:subjectOf, so the catalog-record builder places it rather than the root pass.
 sc:citation	citation	sc:Dataset	skos:closeMatch	dcterms:bibliographicCitation	citation	$.dcterms:bibliographicCitation	text	semapv:ManualMappingCuration	schema:citation is not a CDIF target; a prose citation goes here, as in the DCAT mapping.
 cr:citeAs	citeAs	sc:Dataset	skos:closeMatch	dcterms:bibliographicCitation	citeAs	$.dcterms:bibliographicCitation	text	semapv:ManualMappingCuration	Croissant's own citation property.
 sc:distribution	distribution	sc:Dataset	skos:exactMatch	schema:distribution	distribution	$.schema:distribution	distribution	semapv:ManualMappingCuration	FileObjects and FileSets become schema:DataDownload nodes.
 cr:recordSet	recordSet	sc:Dataset	skos:closeMatch	schema:variableMeasured	variableMeasured	$.schema:variableMeasured	recordset	semapv:ManualMappingCuration	A RecordSet's fields become the dataset's described variables, and its column extraction becomes a physical mapping on the distribution.
 cr:isLiveDataset	isLiveDataset	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	No CDIF equivalent; preserved.
-sc:isBasedOn	isBasedOn	sc:Dataset	skos:closeMatch	prov:wasDerivedFrom	isBasedOn	$.prov:wasDerivedFrom	iri	semapv:ManualMappingCuration	A dataset derived from another is provenance in CDIF.
+sc:isBasedOn	isBasedOn	sc:Dataset	skos:closeMatch	prov:wasDerivedFrom	isBasedOn	$.prov:wasDerivedFrom	derived	semapv:ManualMappingCuration	A dataset derived from another is provenance in CDIF.
 sc:image	image	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	schema:image is not a CDIF target.
 sc:thumbnailUrl	thumbnailUrl	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	schema:thumbnailUrl is not a CDIF target.
 sc:processingRequirement	processingRequirement	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
@@ -102,3 +102,4 @@ rai:dataReleaseMaintenancePlan	dataReleaseMaintenancePlan	sc:Dataset	skos:closeM
 rai:personalSensitiveInformation	personalSensitiveInformation	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Responsible-AI extension.
 prov:wasGeneratedBy	wasGeneratedBy	sc:Dataset	skos:exactMatch	prov:wasGeneratedBy	wasGeneratedBy	$.prov:wasGeneratedBy	idref	semapv:ManualMappingCuration	Present in CDIF-derived Croissant records; kept as itself.
 prov:used	used	sc:Dataset	skos:exactMatch	prov:used	used	$.prov:wasGeneratedBy.prov:used	text	semapv:ManualMappingCuration	
+prov:wasDerivedFrom	wasDerivedFrom	sc:Dataset	skos:exactMatch	prov:wasDerivedFrom	wasDerivedFrom	$.prov:wasDerivedFrom	derived	semapv:ManualMappingCuration	Present in Croissant produced from CDIF; reshaped rather than passed through, which would leave nodes typed in Croissant's spelling.

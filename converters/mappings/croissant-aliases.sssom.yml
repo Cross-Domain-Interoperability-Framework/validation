@@ -21,20 +21,27 @@ curie_map:
   semapv: https://w3id.org/semapv/vocab/
   skos: http://www.w3.org/2004/02/skos/core#
 comment: |
-  Almost every row here is one thing: the Croissant context sets
+  This table normalises SPELLING before the mapping table is consulted. It
+  does not translate namespaces -- that is the mapping table's job, in its
+  object_id.
+
+  Croissant's context sets
 
       "@vocab": "https://schema.org/"
 
-  so every schema.org term in a Croissant record expands to an https:// IRI.
-  CDIF binds schema: to http://schema.org/, which is what schema.org's own
-  context document defines and therefore what the terms actually denote --
-  https://schema.org/name is a different IRI that names nothing. Publishers use
-  the two interchangeably, so this is a normalization we have to live with
-  rather than an error any single record can be blamed for.
+  so a Croissant record's schema.org terms are https:// IRIs, and
+  croissant-to-cdif.sssom.tsv keys on exactly that (sc:name -> schema:name,
+  where schema: is http://schema.org/). CDIF binds schema: to
+  http://schema.org/, which is what schema.org's own context document defines
+  and therefore what the terms actually denote; https://schema.org/name is a
+  different IRI that names nothing.
 
-  Left as a table rather than a rule in code so the translation is visible and
-  reviewable, and so a term that should NOT be normalized (were one ever to
-  appear) can be omitted here rather than special-cased in the converter.
+  The rows here exist for records that arrive with the OTHER spelling --
+  chiefly Croissant produced from CDIF by ConvertToCroissant.py, which carries
+  http:// terms through. Without them a lookup keyed on sc:name would miss and
+  the property would fall through to passthrough. So the direction is
+  schema:name -> sc:name: normalise onto what the mapping table asks for, then
+  let the mapping table do the real translation.
 
   dct: and dcterms: are the same namespace under two prefixes; the Croissant
   context declares dct.

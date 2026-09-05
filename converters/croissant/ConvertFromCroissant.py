@@ -28,6 +28,7 @@ Usage:
 
 import datetime as _date
 import json
+import os
 import sys
 import argparse
 import re
@@ -189,6 +190,173 @@ def _convert_identifier(croissant):
             "schema:url": doi_url,
         }
     return None
+
+
+# ---------------------------------------------------------------------------
+# The mapping table
+# ---------------------------------------------------------------------------
+#
+# converters/mappings/croissant-to-cdif.sssom.tsv decides which Croissant
+# property becomes which CDIF property; this module reads it rather than
+# restating it, so the table and the behaviour cannot drift apart. The generic
+# machinery is in converters/sssom_engine.py.
+#
+# Croissant writes bare terms (`name`, `recordSet`) resolved by its @context,
+# while the table keys on the IRIs those expand to (sc:name, cr:recordSet), so
+# a key has to be resolved through the context before it can be looked up.
+
+_CONVERTERS_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, _CONVERTERS_DIR)
+import sssom_engine as _engine  # noqa: E402
+
+_MAPPINGS = os.path.join(_CONVERTERS_DIR, "mappings")
+
+# The Croissant context, as the specification defines it. A record carries its
+# own copy, which is used when present; this is the fallback for one that does
+# not, and the authority for which bare terms are Croissant's own.
+CROISSANT_TERMS = {
+    "citeAs": "cr:citeAs", "column": "cr:column", "data": "cr:data",
+    "dataType": "cr:dataType", "examples": "cr:examples",
+    "extract": "cr:extract", "field": "cr:field", "fileObject": "cr:fileObject",
+    "fileProperty": "cr:fileProperty", "fileSet": "cr:fileSet",
+    "format": "cr:format", "includes": "cr:includes",
+    "isLiveDataset": "cr:isLiveDataset", "jsonPath": "cr:jsonPath",
+    "key": "cr:key", "md5": "cr:md5", "parentField": "cr:parentField",
+    "path": "cr:path", "recordSet": "cr:recordSet",
+    "references": "cr:references", "regex": "cr:regex",
+    "repeated": "cr:repeated", "replace": "cr:replace",
+    "separator": "cr:separator", "source": "cr:source",
+    "subField": "cr:subField", "transform": "cr:transform",
+    "conformsTo": "dct:conformsTo",
+}
+
+
+def croissant_curie(key, context=None):
+    """A document key as the mapping table spells it.
+
+    A bare term is Croissant's own when the context (or the specification)
+    says so, and otherwise falls to the context's @vocab, which Croissant sets
+    to https://schema.org/ -- hence the sc: prefix the table keys on.
+    """
+    if ":" in key or key.startswith("@"):
+        return key
+    if isinstance(context, dict):
+        bound = context.get(key)
+        if isinstance(bound, dict):
+            bound = bound.get("@id")
+        if isinstance(bound, str) and ":" in bound:
+            return bound
+    if key in CROISSANT_TERMS:
+        return CROISSANT_TERMS[key]
+    return "sc:" + key
+
+
+# --- the table's named transforms -----------------------------------------
+#
+# Each takes (value, source, rule, target) and returns the CDIF value, or None
+# to emit nothing. Most delegate to the shapers that were already here.
+
+def _t_text(value, src, rule, out):
+    return value if value not in (None, "", []) else None
+
+
+def _t_iri(value, src, rule, out):
+    if isinstance(value, dict):
+        return value.get("@id") or value.get("url") or None
+    return value or None
+
+
+def _t_idref(value, src, rule, out):
+    got = _t_iri(value, src, rule, out)
+    return {"@id": got} if isinstance(got, str) else (value or None)
+
+
+def _t_date(value, src, rule, out):
+    return _normalize_date(value) or value or None
+
+
+def _t_list(value, src, rule, out):
+    return _convert_keywords(src) or None
+
+
+def _t_langcode(value, src, rule, out):
+    got = _t_iri(value, src, rule, out)
+    if not isinstance(got, str):
+        return None
+    tail = got.rstrip("/").rsplit("/", 1)[-1].rsplit("#", 1)[-1]
+    return tail or got
+
+
+def _t_identifier(value, src, rule, out):
+    return _convert_identifier(src) or None
+
+
+def _t_agent(value, src, rule, out):
+    if rule["object_id"] == "schema:creator":
+        # _convert_creators already returns CDIF's ordered form; hand back the
+        # members so the arity rule does the wrapping exactly once.
+        got = _convert_creators(src)
+        return (got or {}).get("@list") or None
+    if rule["object_id"] == "schema:publisher":
+        return _convert_publisher(src) or None
+    got = [_convert_agent(a) for a in _as_list(value)]
+    return [a for a in got if a] or None
+
+
+def _t_derived(value, src, rule, out):
+    """Source datasets a record was derived from, as CDIF nodes.
+
+    Croissant-from-CDIF records carry prov:wasDerivedFrom already, written in
+    Croissant's own spelling (@type "CreativeWork", bare name/description).
+    Passing that through verbatim leaves untyped nodes CDIF rejects, so it goes
+    through the same shaper as sc:isBasedOn.
+    """
+    return _convert_is_based_on(src) or None
+
+
+def _t_license(value, src, rule, out):
+    """CDIF wants {"@id": ...} references, which _convert_license builds."""
+    return _convert_license(src) or None
+
+
+def _t_funding(value, src, rule, out):
+    return _convert_funding(src) or None
+
+
+def _t_accessflag(value, src, rule, out):
+    """Croissant's isAccessibleForFree is a boolean; CDIF wants a statement."""
+    if value is True:
+        return ["unrestricted"]
+    if value is False:
+        return ["restricted"]
+    return None
+
+
+def _t_catalog(value, src, rule, out):
+    """A data catalog belongs on the CDIF catalog record, not the dataset."""
+    for item in _as_list(value):
+        if isinstance(item, dict):
+            name = item.get("name") or item.get("schema:name")
+            url = item.get("url") or item.get("@id")
+            node = {"@type": ["schema:DataCatalog"]}
+            if name:
+                node["schema:name"] = name
+            if url:
+                node["schema:url"] = url
+            if len(node) > 1:
+                return node
+        elif isinstance(item, str):
+            return {"@type": ["schema:DataCatalog"], "schema:name": item}
+    return None
+
+
+def _t_period(value, src, rule, out):
+    text = value if isinstance(value, str) else None
+    return text or None
+
+
+def _t_passthrough(value, src, rule, out):
+    return None      # handled by the passthrough pass, not by placement
 
 
 def _convert_agent(agent):
@@ -800,6 +968,40 @@ def _convert_primary_key(croissant, field_ref_to_var_id):
 # Main conversion
 # ---------------------------------------------------------------------------
 
+# Built once: reading and indexing the table on every record would be waste.
+CROISSANT_TO_CDIF = _engine.MappingSet(
+    os.path.join(_MAPPINGS, "croissant-to-cdif.sssom.tsv"),
+    os.path.join(_MAPPINGS, "croissant-aliases.sssom.tsv"),
+    transforms={
+        "": _t_text, "text": _t_text, "iri": _t_iri, "idref": _t_idref,
+        "date": _t_date, "list": _t_list, "langcode": _t_langcode,
+        "identifier": _t_identifier, "license": _t_license,
+        "derived": _t_derived, "agent": _t_agent, "funding": _t_funding,
+        "accessflag": _t_accessflag, "catalog": _t_catalog, "period": _t_period,
+    },
+    # How CDIF wants each target shaped. Its own schema decides this, not the
+    # Croissant correspondence, so it lives here rather than in the table.
+    arity={
+        "schema:license": "array",
+        "schema:conditionsOfAccess": "array",
+        "schema:keywords": "array",
+        "schema:contributor": "array",
+        "schema:distribution": "array",
+        "schema:variableMeasured": "array",
+        "schema:relatedLink": "array",
+        "schema:alternateName": "array",
+        "schema:sameAs": "array",
+        "prov:wasGeneratedBy": "array",
+        "prov:wasDerivedFrom": "array",
+        "schema:creator": "ordered",
+    },
+)
+
+# Source properties the table claims for the dataset, so the passthrough pass
+# knows what has already been dealt with.
+DATASET_CLASSES = ("sc:Dataset",)
+
+
 def convert(croissant, verbose=False):
     """Convert a Croissant JSON-LD dict to a CDIF DataDescription JSON-LD dict."""
 
@@ -841,20 +1043,29 @@ def convert(croissant, verbose=False):
     else:
         out["@id"] = "_:dataset"
 
-    # ---- Dataset-level fields --------------------------------------------
-    direct_pass = {
-        "name": "schema:name",
-        "description": "schema:description",
-        "url": "schema:url",
-        "datePublished": "schema:datePublished",
-        "dateModified": "schema:dateModified",
-        "inLanguage": "schema:inLanguage",
-        "sameAs": "schema:sameAs",
-        "includedInDataCatalog": "schema:includedInDataCatalog",
-    }
-    for c_key, cdif_key in direct_pass.items():
-        if c_key in croissant and croissant[c_key] not in (None, "", []):
-            out[cdif_key] = croissant[c_key]
+    # ---- Dataset-level fields, from the mapping table --------------------
+    # croissant-to-cdif.sssom.tsv decides these. The blocks that follow only
+    # handle what a table cannot say: what to do when the source is silent
+    # about something CDIF requires.
+    _src_ctx = croissant.get("@context") if isinstance(croissant.get("@context"), dict) else None
+    _changes = []
+    _consumed = CROISSANT_TO_CDIF.apply(
+        croissant, out, DATASET_CLASSES, _changes,
+        curie_of=lambda k: croissant_curie(k, _src_ctx))
+
+    # A DOI is often only available inside citeAs, which the table cannot
+    # reach: it is parsed out of prose, not mapped from a property.
+    if "schema:identifier" not in out:
+        _ident = _convert_identifier(croissant)
+        if _ident:
+            out["schema:identifier"] = _ident
+
+    # CDIF asks for a licence and a silent omission cannot be told from an
+    # oversight, so say it is knowably absent.
+    if not out.get("schema:license"):
+        _lic = _convert_license(croissant)
+        if _lic:
+            out["schema:license"] = _lic
 
     # Fallback dateModified: CDIF discovery requires it; when the source omits
     # dateModified, fall back to datePublished, then dateCreated, and finally to
@@ -890,13 +1101,6 @@ def convert(croissant, verbose=False):
     if version and version != CROISSANT_VERSION_PLACEHOLDER:
         out["schema:version"] = version
 
-    ident = _convert_identifier(croissant)
-    if ident:
-        out["schema:identifier"] = ident
-    elif croissant.get("citeAs"):
-        # Preserve verbatim even if no DOI parseable
-        out["schema:citeAs"] = croissant["citeAs"]
-
     # Plain schema:identifier value: some producers emit `identifier` (or the
     # expanded `https://schema.org/identifier` key) carrying a bare string/code
     # or a PropertyValue rather than a DOI in citeAs.
@@ -923,26 +1127,6 @@ def convert(croissant, verbose=False):
             out["schema:identifier"] = fallback_id
             if verbose:
                 print(f"  FALLBACK: schema:identifier <- {fallback_id} (no DOI in source)")
-
-    lic = _convert_license(croissant)
-    if lic:
-        out["schema:license"] = lic
-
-    creators = _convert_creators(croissant)
-    if creators:
-        out["schema:creator"] = creators
-
-    publisher = _convert_publisher(croissant)
-    if publisher:
-        out["schema:publisher"] = publisher
-
-    funding = _convert_funding(croissant)
-    if funding:
-        out["schema:funding"] = funding
-
-    keywords = _convert_keywords(croissant)
-    if keywords:
-        out["schema:keywords"] = keywords
 
     # ---- Distribution + RecordSet ----------------------------------------
     record_sets_by_file = _index_record_sets(croissant)
@@ -985,11 +1169,6 @@ def convert(croissant, verbose=False):
     primary_key = _convert_primary_key(croissant, field_ref_to_var_id)
     if primary_key:
         out["cdif:hasPrimaryKey"] = primary_key
-
-    # isBasedOn -> prov:wasDerivedFrom (derivation sources)
-    derived = _convert_is_based_on(croissant, verbose=verbose)
-    if derived:
-        out.setdefault("prov:wasDerivedFrom", []).extend(derived)
 
     # ---- Pass-through properties (preserved by the forward converter) ----
     PASS_THROUGH = [
@@ -1034,6 +1213,14 @@ def convert(croissant, verbose=False):
         date_modified = croissant.get("dateModified")
         if date_modified:
             subject_of["schema:sdDatePublished"] = date_modified
+        # The catalog a dataset sits in describes the metadata record, not the
+        # dataset, and schema:includedInDataCatalog is legal only here. The
+        # source's own node is reshaped: Croissant writes it with sc: types and
+        # bare name/url keys, which are not CDIF terms.
+        _catalog = _t_catalog(croissant.get("includedInDataCatalog"),
+                              croissant, {}, out)
+        if _catalog:
+            subject_of["schema:includedInDataCatalog"] = _catalog
         out["schema:subjectOf"] = subject_of
 
         if HAS_DETECT:
