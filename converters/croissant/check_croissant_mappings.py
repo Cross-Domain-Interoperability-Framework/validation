@@ -73,8 +73,14 @@ def cdif_records():
 
 
 def croissant_records():
+    # Both extensions, because the corpus uses both: the Dataverse exports are
+    # .croissant.jsonld and the hand-added examples are .json. Globbing only
+    # .jsonld here quietly excluded two files, and an example that is never
+    # read is an example that never finds anything.
     paths = sorted(glob.glob(os.path.join(HERE, "croissantExamples", "*.jsonld")))
+    paths += sorted(glob.glob(os.path.join(HERE, "croissantExamples", "*.json")))
     paths += sorted(glob.glob(os.path.join(HERE, "MLCroissantExamples", "*.json")))
+    paths = [p for p in paths if not os.path.basename(p).startswith("_")]
     return [(p, d) for p in paths for d in [read(p)] if d]
 
 
@@ -210,8 +216,145 @@ def check_coverage():
     return len(unclaimed)
 
 
+# --- the class census -----------------------------------------------------
+#
+# `coverage` reads only the root dataset node, which is where the converter
+# dispatches the table. Most of the table is not about that node: 79 of its
+# 104 rows describe FileObjects, RecordSets, Fields and Sources. Those rows
+# are never dispatched, so nothing exercises them, so nothing notices when
+# their subject_class is wrong -- and subject_class is the column a reader
+# trusts to say where a property lives.
+
+# An untyped node under this property is this class. Croissant's examples
+# routinely omit @type inside source/extract/transform.
+IMPLIED_CLASS = {
+    "source": "cr:Source", "cr:source": "cr:Source",
+    "extract": "cr:Extract", "cr:extract": "cr:Extract",
+    "transform": "cr:Transform", "cr:transform": "cr:Transform",
+    "references": "cr:Source", "cr:references": "cr:Source",
+    "field": "cr:Field", "subField": "cr:Field",
+    "distribution": "cr:FileObject", "recordSet": "cr:RecordSet",
+}
+
+# Values under these keys are inline data ROWS keyed by field @id, not
+# metadata. Walking into them invents properties out of the data.
+DATA_KEYS = {"data", "cr:data", "examples", "cr:examples"}
+
+# Non-standard extension bags whose keys are not vocabulary at all. This one
+# holds BeautifulSoup scraping expressions. Named explicitly rather than
+# guessed at, so adding to this list stays a deliberate act.
+NOT_VOCABULARY = {"bs4ExtractionPattern"}
+
+_SC_CLASSES = ("Dataset", "Person", "Organization", "DataCatalog",
+               "CreativeWork", "MonetaryGrant", "SoftwareApplication",
+               "Place", "Event", "Thing", "DefinedTerm", "Role",
+               "PropertyValue", "ContactPoint")
+_CR_CLASSES = ("FileObject", "FileSet", "RecordSet", "Field", "Source",
+               "Extract", "Transform")
+
+
+def norm_class(name):
+    """One spelling per class.
+
+    The corpus types the same class three ways -- `Person`, `sc:Person`, and
+    `https://schema.org/Person` -- and comparing those to the table verbatim
+    reports differences that are only punctuation.
+    """
+    if not name:
+        return name
+    short = name.split(":")[-1].rsplit("/", 1)[-1].rsplit("#", 1)[-1]
+    if short in _SC_CLASSES:
+        return "sc:" + short
+    if short in _CR_CLASSES:
+        return "cr:" + short
+    return name
+
+
+def _node_class(node, parent_prop):
+    got = node.get("@type")
+    if isinstance(got, list):
+        got = got[0] if got else None
+    if isinstance(got, str) and got:
+        return norm_class(got)
+    return IMPLIED_CLASS.get(parent_prop,
+                             "(untyped under %s)" % parent_prop
+                             if parent_prop else "(untyped root)")
+
+
+def _walk(node, context, table, parent_prop=None, out=None):
+    """Every (class, property) pair in the document, at every depth."""
+    if out is None:
+        out = []
+    if isinstance(node, list):
+        for item in node:
+            _walk(item, context, table, parent_prop, out)
+        return out
+    if not isinstance(node, dict):
+        return out
+    cls = _node_class(node, parent_prop)
+    for key, value in node.items():
+        if key.startswith("@"):
+            continue
+        curie = table.resolve(FROM.croissant_curie(key, context))
+        out.append((cls, curie))
+        if key in DATA_KEYS or curie in ("cr:data", "cr:examples"):
+            continue
+        if key in NOT_VOCABULARY or key.split(":")[-1] in NOT_VOCABULARY:
+            continue
+        _walk(value, context, table, key, out)
+    return out
+
+
+def check_classes():
+    """Does the table cover the corpus at every depth, on the right classes?
+
+    Two findings, and conflating them hides the worse one. A property absent
+    from the table is a gap anyone can see. A property present but filed under
+    a class it never occurs on LOOKS covered -- it is right there in the file
+    -- and is inert. Only a per-class census tells them apart.
+    """
+    table = FROM.CROISSANT_TO_CDIF
+    by_class = collections.defaultdict(set)
+    everywhere = set()
+    for row in table.rows:
+        everywhere.add(row["subject_id"])
+        by_class[norm_class(row.get("subject_class") or "")].add(row["subject_id"])
+
+    absent = collections.Counter()
+    misfiled = collections.Counter()
+    where = {}
+    pairs = 0
+    records = 0
+    for path, doc in croissant_records():
+        records += 1
+        context = doc.get("@context")
+        root = doc
+        if "@graph" in doc and isinstance(doc["@graph"], list) and doc["@graph"]:
+            root = doc["@graph"][0]
+        for cls, curie in _walk(root, context, table):
+            pairs += 1
+            if curie not in everywhere:
+                absent[curie] += 1
+                where.setdefault(curie, os.path.basename(path))
+            elif curie not in by_class.get(cls, set()):
+                misfiled[(cls, curie)] += 1
+                where.setdefault((cls, curie), os.path.basename(path))
+
+    print("source files        : %d" % records)
+    print("class/property pairs: %d" % pairs)
+    print("absent from table   : %d distinct" % len(absent))
+    for curie, n in absent.most_common(25):
+        print("  %4d  %-34s e.g. %s" % (n, curie, where.get(curie, "")))
+    print("filed under a class it never occurs on: %d" % len(misfiled))
+    for (cls, curie), n in misfiled.most_common(25):
+        listed = sorted(c for c, s in by_class.items() if curie in s and c)
+        print("  %4d  %-24s on %-20s table says: %s"
+              % (n, curie, cls, ", ".join(listed) or "(no class)"))
+    return len(absent) + len(misfiled)
+
+
 CHECKS = {"transforms": check_transforms, "loss": check_loss,
-          "coverage": check_coverage}
+          "coverage": check_coverage, "classes": check_classes}
 
 
 def main():
@@ -219,7 +362,8 @@ def main():
     ap.add_argument("-c", "--check", choices=sorted(CHECKS),
                     help="run one check instead of all")
     args = ap.parse_args()
-    names = [args.check] if args.check else ["transforms", "loss", "coverage"]
+    names = ([args.check] if args.check
+             else ["transforms", "loss", "coverage", "classes"])
     failures = 0
     for name in names:
         print("\n=== %s ===" % name)
