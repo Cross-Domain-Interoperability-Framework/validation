@@ -62,17 +62,17 @@ cr:arrayShape	arrayShape	cr:Field	skos:closeMatch				passthrough	semapv:ManualMa
 cr:subField	subField	cr:Field	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Nested record structure; CDIF describes flat instance variables.
 cr:parentField	parentField	cr:Field	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
 sc:sameAs	sameAs	cr:Field	skos:closeMatch	schema:propertyID	propertyID	$.schema:variableMeasured[*].schema:propertyID	iri	semapv:ManualMappingCuration	A field aligned to an external property is CDIF's propertyID.
-cr:column	column	cr:Source	skos:narrowMatch	cdif:formats_InstanceVariable	column	$.schema:distribution[*].cdif:hasPhysicalMapping[*]	structural	semapv:ManualMappingCuration	Consumed by the physical-mapping builder.
+cr:column	column	cr:Extract	skos:narrowMatch	cdif:formats_InstanceVariable	column	$.schema:distribution[*].cdif:hasPhysicalMapping[*]	structural	semapv:ManualMappingCuration	Consumed by the physical-mapping builder.
 cr:extract	extract	cr:Source	skos:narrowMatch				structural	semapv:ManualMappingCuration	Consumed by the physical-mapping builder.
 cr:fileObject	fileObject	cr:Source	skos:closeMatch				structural	semapv:ManualMappingCuration	Consumed by the physical-mapping builder.
 cr:fileSet	fileSet	cr:Source	skos:closeMatch				structural	semapv:ManualMappingCuration	Consumed by the physical-mapping builder.
-cr:fileProperty	fileProperty	cr:Source	skos:closeMatch				passthrough	semapv:ManualMappingCuration	"Values taken from the file itself (name, content) rather than a column."
-cr:jsonPath	jsonPath	cr:Source	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
-cr:regex	regex	cr:Source	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
+cr:fileProperty	fileProperty	cr:Extract	skos:closeMatch				passthrough	semapv:ManualMappingCuration	"Values taken from the file itself (name, content) rather than a column."
+cr:jsonPath	jsonPath	cr:Transform	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
+cr:regex	regex	cr:Transform	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
 cr:transform	transform	cr:Source	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Croissant transform pipelines beyond column extraction have no CDIF representation.
-cr:replace	replace	cr:Source	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
-cr:separator	separator	cr:Source	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
-cr:format	format	cr:Source	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
+cr:replace	replace	cr:Transform	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Class taken from the Croissant Transform definition, not from the corpus -- no example here uses it, so the class census cannot confirm it.
+cr:separator	separator	cr:Transform	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Class taken from the Croissant Transform definition, not from the corpus -- no example here uses it, so the class census cannot confirm it.
+cr:format	format	cr:Transform	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Class taken from the Croissant Transform definition, not from the corpus -- no example here uses it, so the class census cannot confirm it.
 cr:path	path	cr:Source	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
 sc:name	name	sc:Person	skos:exactMatch	schema:name	name		agent-part	semapv:ManualMappingCuration	Consumed by the agent transform.
 sc:givenName	givenName	sc:Person	skos:closeMatch				agent-part	semapv:ManualMappingCuration	Combined with familyName when no name is given; schema:givenName is not a CDIF target.
