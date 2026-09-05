@@ -37,7 +37,7 @@ schema:description	description	schema:DataDownload	skos:exactMatch	sc:descriptio
 schema:encodingFormat	encodingFormat	schema:DataDownload	skos:exactMatch	sc:encodingFormat	encodingFormat	$.distribution[*].encodingFormat	mediatype	semapv:ManualMappingCuration	Croissant requires it; application/octet-stream is used when CDIF gives none.
 schema:contentSize	contentSize	schema:DataDownload	skos:exactMatch	sc:contentSize	contentSize	$.distribution[*].contentSize	size	semapv:ManualMappingCuration	
 spdx:checksum	checksum	schema:DataDownload	skos:closeMatch	sc:sha256	sha256	$.distribution[*].sha256	checksum	semapv:ManualMappingCuration	The hex value is taken from the spdx:Checksum; an md5 goes to cr:md5 instead.
-schema:hasPart	hasPart	schema:DataDownload	skos:closeMatch	cr:containedIn	containedIn	$.distribution[*].containedIn	archive	semapv:ManualMappingCuration	An archive's parts become file objects contained in it.
+schema:hasPart	hasPart	schema:DataDownload	skos:closeMatch	cr:containedIn	containedIn	$.distribution[@id=$item].containedIn	archive	semapv:ManualMappingCuration	INVERSION: each member of the archive's schema:hasPart gets a containedIn pointing back at the archive. The value is written on the member, not on the node that carries hasPart.
 dcterms:conformsTo	conformsTo	schema:DataDownload	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Croissant's conformsTo names the Croissant version, not a distribution standard.
 schema:documentation	documentation	schema:DataDownload	skos:closeMatch				unmapped	semapv:ManualMappingCuration	No Croissant equivalent.
 schema:potentialAction	potentialAction	schema:DataDownload	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Croissant does not describe services.

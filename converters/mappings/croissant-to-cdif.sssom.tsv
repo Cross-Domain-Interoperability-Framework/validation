@@ -5,9 +5,9 @@ sc:url	url	sc:Dataset	skos:exactMatch	schema:url	url	$.schema:url	iri	semapv:Man
 sc:identifier	identifier	sc:Dataset	skos:exactMatch	schema:identifier	identifier	$.schema:identifier	identifier	semapv:ManualMappingCuration	A DOI is preferred when several are given; the rest go to schema:sameAs.
 sc:license	license	sc:Dataset	skos:exactMatch	schema:license	license	$.schema:license	license	semapv:ManualMappingCuration	
 sc:datePublished	datePublished	sc:Dataset	skos:exactMatch	schema:datePublished	datePublished	$.schema:datePublished	date	semapv:ManualMappingCuration	
-sc:dateModified	dateModified	sc:Dataset	skos:exactMatch	schema:dateModified	dateModified	$.schema:dateModified	date	semapv:ManualMappingCuration	Required by CDIF core; falls back to datePublished, then to conversion time.
+sc:dateModified	dateModified	sc:Dataset	skos:exactMatch	schema:dateModified	dateModified	$.schema:dateModified	date	semapv:ManualMappingCuration	"Required by CDIF core; falls back to datePublished, then to conversion time."
 sc:dateCreated	dateCreated	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Not a CDIF target; preserved as an extension.
-sc:creator	creator	sc:Dataset	skos:exactMatch	schema:creator	creator	$.schema:creator	agent	semapv:ManualMappingCuration	Order is meaningful, so CDIF wraps creators in @list.
+sc:creator	creator	sc:Dataset	skos:exactMatch	schema:creator	creator	$.schema:creator	agent	semapv:ManualMappingCuration	"Order is meaningful, so CDIF wraps creators in @list."
 sc:publisher	publisher	sc:Dataset	skos:exactMatch	schema:publisher	publisher	$.schema:publisher	agent	semapv:ManualMappingCuration	
 sc:keywords	keywords	sc:Dataset	skos:exactMatch	schema:keywords	keywords	$.schema:keywords	list	semapv:ManualMappingCuration	
 sc:version	version	sc:Dataset	skos:exactMatch	schema:version	version	$.schema:version	text	semapv:ManualMappingCuration	
@@ -15,45 +15,46 @@ sc:inLanguage	inLanguage	sc:Dataset	skos:exactMatch	schema:inLanguage	inLanguage
 sc:funding	funding	sc:Dataset	skos:exactMatch	schema:funding	funding	$.schema:funding	funding	semapv:ManualMappingCuration	Croissant gives a grant or funder node; CDIF wants a MonetaryGrant.
 sc:sameAs	sameAs	sc:Dataset	skos:exactMatch	schema:sameAs	sameAs	$.schema:sameAs	iri	semapv:ManualMappingCuration	
 sc:isAccessibleForFree	isAccessibleForFree	sc:Dataset	skos:closeMatch	schema:conditionsOfAccess	conditionsOfAccess	$.schema:conditionsOfAccess	accessflag	semapv:ManualMappingCuration	A boolean; true becomes a statement that access is unrestricted.
-sc:includedInDataCatalog	includedInDataCatalog	sc:Dataset	skos:exactMatch	schema:includedInDataCatalog	includedInDataCatalog	$.schema:subjectOf.schema:includedInDataCatalog	structural	semapv:ManualMappingCuration	Legal only inside schema:subjectOf, so the catalog-record builder places it rather than the root pass.
-sc:citation	citation	sc:Dataset	skos:closeMatch	dcterms:bibliographicCitation	citation	$.dcterms:bibliographicCitation	text	semapv:ManualMappingCuration	schema:citation is not a CDIF target; a prose citation goes here, as in the DCAT mapping.
+sc:includedInDataCatalog	includedInDataCatalog	sc:Dataset	skos:exactMatch	schema:includedInDataCatalog	includedInDataCatalog	$.schema:subjectOf.schema:includedInDataCatalog	structural	semapv:ManualMappingCuration	"Legal only inside schema:subjectOf, so the catalog-record builder places it rather than the root pass."
+sc:citation	citation	sc:Dataset	skos:closeMatch	schema:relatedLink	citation	$.schema:relatedLink	text	semapv:ManualMappingCuration	"schema:citation is not a CDIF target; a prose citation goes here, as in the DCAT mapping."
 cr:citeAs	citeAs	sc:Dataset	skos:closeMatch	dcterms:bibliographicCitation	citeAs	$.dcterms:bibliographicCitation	text	semapv:ManualMappingCuration	Croissant's own citation property.
 sc:distribution	distribution	sc:Dataset	skos:exactMatch	schema:distribution	distribution	$.schema:distribution	distribution	semapv:ManualMappingCuration	FileObjects and FileSets become schema:DataDownload nodes.
-cr:recordSet	recordSet	sc:Dataset	skos:closeMatch	schema:variableMeasured	variableMeasured	$.schema:variableMeasured	recordset	semapv:ManualMappingCuration	A RecordSet's fields become the dataset's described variables, and its column extraction becomes a physical mapping on the distribution.
+cr:recordSet	recordSet	sc:Dataset	skos:closeMatch	schema:variableMeasured	variableMeasured	$.schema:variableMeasured	recordset	semapv:ManualMappingCuration	"A RecordSet's fields become the dataset's described variables, and its column extraction becomes a physical mapping on the distribution."
 cr:isLiveDataset	isLiveDataset	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	No CDIF equivalent; preserved.
 sc:isBasedOn	isBasedOn	sc:Dataset	skos:closeMatch	prov:wasDerivedFrom	isBasedOn	$.prov:wasDerivedFrom	derived	semapv:ManualMappingCuration	A dataset derived from another is provenance in CDIF.
 sc:image	image	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	schema:image is not a CDIF target.
 sc:thumbnailUrl	thumbnailUrl	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	schema:thumbnailUrl is not a CDIF target.
 sc:processingRequirement	processingRequirement	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
-dct:conformsTo	conformsTo	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	The Croissant version the record follows. NOT routed to subjectOf: that node carries CDIF's own profile conformance, and a source value there would corrupt conformance detection.
+dct:conformsTo	conformsTo	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	"The Croissant version the record follows. NOT routed to subjectOf: that node carries CDIF's own profile conformance, and a source value there would corrupt conformance detection."
 sc:alternateName	alternateName	sc:Dataset	skos:exactMatch	schema:alternateName	alternateName	$.schema:alternateName	list	semapv:ManualMappingCuration	
 sc:contentUrl	contentUrl	cr:FileObject	skos:exactMatch	schema:contentUrl	contentUrl	$.schema:distribution[*].schema:contentUrl	iri	semapv:ManualMappingCuration	
 sc:contentSize	contentSize	cr:FileObject	skos:exactMatch	schema:contentSize	contentSize	$.schema:distribution[*].schema:contentSize	bytes	semapv:ManualMappingCuration	Croissant gives a human-readable size; CDIF keeps the string.
 sc:encodingFormat	encodingFormat	cr:FileObject	skos:exactMatch	schema:encodingFormat	encodingFormat	$.schema:distribution[*].schema:encodingFormat	mediatype	semapv:ManualMappingCuration	
-sc:name	name	cr:FileObject	skos:exactMatch	schema:name	name	$.schema:distribution[*].schema:name	text	semapv:ManualMappingCuration	Same property, different target: the class decides.
+sc:name	name	cr:FileObject	skos:exactMatch	schema:name	name	$.schema:distribution[*].schema:name	text	semapv:ManualMappingCuration	"Same property, different target: the class decides."
 sc:description	description	cr:FileObject	skos:exactMatch	schema:description	description	$.schema:distribution[*].schema:description	text	semapv:ManualMappingCuration	
 sc:sha256	sha256	cr:FileObject	skos:closeMatch	spdx:checksum	checksum	$.schema:distribution[*].spdx:checksum	checksum	semapv:ManualMappingCuration	Becomes an spdx:Checksum with algorithm sha256.
 cr:md5	md5	cr:FileObject	skos:closeMatch	spdx:checksum	checksum	$.schema:distribution[*].spdx:checksum	checksum	semapv:ManualMappingCuration	Becomes an spdx:Checksum with algorithm md5; used when sha256 is absent.
-sc:containedIn	containedIn	cr:FileObject	skos:closeMatch	schema:hasPart	containedIn	$.schema:distribution[*].schema:hasPart	archive	semapv:ManualMappingCuration	A file inside an archive becomes a part of that archive's distribution.
-cr:containedIn	containedIn	cr:FileObject	skos:closeMatch	schema:hasPart	containedIn	$.schema:distribution[*].schema:hasPart	archive	semapv:ManualMappingCuration	The cr: spelling of the same relationship.
+sc:containedIn	containedIn	cr:FileObject	skos:closeMatch	schema:hasPart	hasPart	$.schema:distribution[@id=$value].schema:hasPart	archive	semapv:ManualMappingCuration	INVERSION: containedIn points up (this file names its archive), hasPart points down. The value is not written on this node -- it selects the distribution whose @id it names, and this node is appended to that distribution's schema:hasPart. CDIF has no schema:isPartOf building block, so hasPart on the container is the available direction.
+cr:containedIn	containedIn	cr:FileObject	skos:closeMatch	schema:hasPart	hasPart	$.schema:distribution[@id=$value].schema:hasPart	archive	semapv:ManualMappingCuration	INVERSION: containedIn points up (this file names its archive), hasPart points down. The value is not written on this node -- it selects the distribution whose @id it names, and this node is appended to that distribution's schema:hasPart. CDIF has no schema:isPartOf building block, so hasPart on the container is the available direction.
 sc:name	name	cr:FileSet	skos:exactMatch	schema:name	name	$.schema:distribution[*].schema:name	text	semapv:ManualMappingCuration	
 sc:description	description	cr:FileSet	skos:exactMatch	schema:description	description	$.schema:distribution[*].schema:description	text	semapv:ManualMappingCuration	
 sc:encodingFormat	encodingFormat	cr:FileSet	skos:exactMatch	schema:encodingFormat	encodingFormat	$.schema:distribution[*].schema:encodingFormat	mediatype	semapv:ManualMappingCuration	
 cr:includes	includes	cr:FileSet	skos:closeMatch				passthrough	semapv:ManualMappingCuration	A glob selecting the set's members; CDIF has no slot for it.
 cr:excludes	excludes	cr:FileSet	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
-sc:containedIn	containedIn	cr:FileSet	skos:closeMatch	schema:hasPart	containedIn	$.schema:distribution[*].schema:hasPart	archive	semapv:ManualMappingCuration	
+sc:containedIn	containedIn	cr:FileSet	skos:closeMatch	schema:hasPart	hasPart	$.schema:distribution[@id=$value].schema:hasPart	archive	semapv:ManualMappingCuration	INVERSION: containedIn points up (this file names its archive), hasPart points down. The value is not written on this node -- it selects the distribution whose @id it names, and this node is appended to that distribution's schema:hasPart. CDIF has no schema:isPartOf building block, so hasPart on the container is the available direction.
+cr:containedIn	containedIn	cr:FileSet	skos:closeMatch	schema:hasPart	hasPart	$.schema:distribution[@id=$value].schema:hasPart	archive	semapv:ManualMappingCuration	INVERSION: containedIn points up (this file names its archive), hasPart points down. The value is not written on this node -- it selects the distribution whose @id it names, and this node is appended to that distribution's schema:hasPart. CDIF has no schema:isPartOf building block, so hasPart on the container is the available direction. A FileSet is contained the same way a FileObject is.
 cr:fileObject	fileObject	cr:RecordSet	skos:closeMatch				structural	semapv:ManualMappingCuration	Names the file a record set is read from; the converter uses it to attach the physical mapping to the right distribution.
 cr:fileSet	fileSet	cr:RecordSet	skos:closeMatch				structural	semapv:ManualMappingCuration	
 cr:field	field	cr:RecordSet	skos:closeMatch	schema:variableMeasured	field	$.schema:variableMeasured[*]	structural	semapv:ManualMappingCuration	Each field becomes a described variable.
 cr:key	key	cr:RecordSet	skos:closeMatch	cdif:hasPrimaryKey	hasPrimaryKey	$.schema:distribution[*].cdif:hasPrimaryKey	key	semapv:ManualMappingCuration	The field(s) identifying a record. cdif:hasPrimaryKey is what CDIF calls this; cdif:isIdentifiedBy does not exist.
-cr:data	data	cr:RecordSet	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Inline example data; CDIF describes structure, not content.
+cr:data	data	cr:RecordSet	skos:closeMatch				passthrough	semapv:ManualMappingCuration	"Inline example data; CDIF describes structure, not content."
 cr:examples	examples	cr:RecordSet	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
 sc:name	name	cr:RecordSet	skos:exactMatch				structural	semapv:ManualMappingCuration	Names the record set; carried on the physical mapping rather than as a property of its own.
 sc:description	description	cr:RecordSet	skos:closeMatch				structural	semapv:ManualMappingCuration	
 sc:name	name	cr:Field	skos:exactMatch	schema:name	name	$.schema:variableMeasured[*].schema:name	text	semapv:ManualMappingCuration	
 sc:description	description	cr:Field	skos:exactMatch	schema:description	description	$.schema:variableMeasured[*].schema:description	text	semapv:ManualMappingCuration	
 cr:dataType	dataType	cr:Field	skos:closeMatch	cdif:physicalDataType	physicalDataType	$.schema:variableMeasured[*].cdif:physicalDataType	datatype	semapv:ManualMappingCuration	Croissant's sc:Float / sc:Integer / sc:Date / sc:Boolean / sc:Text become the corresponding xsd: type.
-cr:source	source	cr:Field	skos:narrowMatch	cdif:hasPhysicalMapping	hasPhysicalMapping	$.schema:distribution[*].cdif:hasPhysicalMapping	structural	semapv:ManualMappingCuration	Where the field's values come from: the file, and the column or path within it.
+cr:source	source	cr:Field	skos:narrowMatch	cdif:hasPhysicalMapping	hasPhysicalMapping	$.schema:distribution[*].cdif:hasPhysicalMapping	structural	semapv:ManualMappingCuration	"Where the field's values come from: the file, and the column or path within it."
 cr:references	references	cr:Field	skos:closeMatch	cdi:qualifies	references	$.schema:variableMeasured[*].cdi:qualifies	iri	semapv:ManualMappingCuration	A field referencing another field's values.
 cr:repeated	repeated	cr:Field	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
 cr:isArray	isArray	cr:Field	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
@@ -65,7 +66,7 @@ cr:column	column	cr:Source	skos:narrowMatch	cdif:formats_InstanceVariable	column
 cr:extract	extract	cr:Source	skos:narrowMatch				structural	semapv:ManualMappingCuration	Consumed by the physical-mapping builder.
 cr:fileObject	fileObject	cr:Source	skos:closeMatch				structural	semapv:ManualMappingCuration	Consumed by the physical-mapping builder.
 cr:fileSet	fileSet	cr:Source	skos:closeMatch				structural	semapv:ManualMappingCuration	Consumed by the physical-mapping builder.
-cr:fileProperty	fileProperty	cr:Source	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Values taken from the file itself (name, content) rather than a column.
+cr:fileProperty	fileProperty	cr:Source	skos:closeMatch				passthrough	semapv:ManualMappingCuration	"Values taken from the file itself (name, content) rather than a column."
 cr:jsonPath	jsonPath	cr:Source	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
 cr:regex	regex	cr:Source	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
 cr:transform	transform	cr:Source	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Croissant transform pipelines beyond column extraction have no CDIF representation.
@@ -102,4 +103,4 @@ rai:dataReleaseMaintenancePlan	dataReleaseMaintenancePlan	sc:Dataset	skos:closeM
 rai:personalSensitiveInformation	personalSensitiveInformation	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Responsible-AI extension.
 prov:wasGeneratedBy	wasGeneratedBy	sc:Dataset	skos:exactMatch	prov:wasGeneratedBy	wasGeneratedBy	$.prov:wasGeneratedBy	idref	semapv:ManualMappingCuration	Present in CDIF-derived Croissant records; kept as itself.
 prov:used	used	sc:Dataset	skos:exactMatch	prov:used	used	$.prov:wasGeneratedBy.prov:used	text	semapv:ManualMappingCuration	
-prov:wasDerivedFrom	wasDerivedFrom	sc:Dataset	skos:exactMatch	prov:wasDerivedFrom	wasDerivedFrom	$.prov:wasDerivedFrom	derived	semapv:ManualMappingCuration	Present in Croissant produced from CDIF; reshaped rather than passed through, which would leave nodes typed in Croissant's spelling.
+prov:wasDerivedFrom	wasDerivedFrom	sc:Dataset	skos:exactMatch	prov:wasDerivedFrom	wasDerivedFrom	$.prov:wasDerivedFrom	derived	semapv:ManualMappingCuration	"Present in Croissant produced from CDIF; reshaped rather than passed through, which would leave nodes typed in Croissant's spelling."
