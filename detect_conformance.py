@@ -136,9 +136,20 @@ CONFORMANCE_CLASSES = [
     },
     {
         "uri": "https://w3id.org/cdif/manifest/1.1",
-        # Marked by an archive distribution: a DataDownload with hasPart files.
+        # Marked by schema:hasPart in either of the two places the profile
+        # declares it: on a distribution item, for archive members with no
+        # address of their own (profile 3.5); or on the Dataset, for package
+        # members that are independently accessible (3.1/3.2). Only the first
+        # was detected until 2026-09-05 -- Dataset-level hasPart did not exist
+        # in CDIF until 2026-08-06 and this rule predated it, so a record using
+        # resourcePartArray used the profile without ever declaring it.
+        # The schema:Dataset constraint is load-bearing: ?d is unbound here, and
+        # schema:hasPart also means instrument sub-components and workflow
+        # sub-workflows, which are not manifests.
         "presence": """ASK {
-            ?d schema:distribution ?dd . ?dd schema:hasPart ?p .
+            { ?d schema:distribution ?dd . ?dd schema:hasPart ?p }
+            UNION
+            { ?d a schema:Dataset ; schema:hasPart ?p }
         }""",
         "shacl": None,  # cdifArchiveDistribution has no content rules.shacl yet
     },

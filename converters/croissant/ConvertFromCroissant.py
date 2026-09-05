@@ -546,11 +546,50 @@ def _convert_checksum(fobj):
     return None
 
 
+def _safe_local_id(value):
+    """A local @id that survives being parsed as RDF.
+
+    Croissant @ids are filenames, and filenames contain spaces:
+    "Daily_Cholera_Case and deaths_Data_2022 to 2025.xlsx". A space makes an
+    invalid relative IRI, and the failure is silent and total -- the node does
+    not merely lose its @id, it disappears from the graph entirely, taking
+    every triple about it with it. The JSON still validates, and every
+    RDF-based check (SHACL, conformance detection) simply never sees the node.
+    One such @id was enough to stop a record being detected as a manifest.
+
+    An absolute IRI is left alone; anything else goes through the same
+    sanitizer the rest of this module uses to mint ids.
+    """
+    if not isinstance(value, str) or "://" in value:
+        return value
+    return _sanitize_id(value)
+
+
+def _unescape_url(value):
+    r"""Repair a URL that was escaped as if it were being embedded in JSON.
+
+    Two records in the corpus carry
+    ``https\:\/\/dataverse.dev1.codata.org/api/access/datafile/62`` -- a
+    producer escaped the separators and then wrote the result as the value
+    itself. It is not a URL, it fails the CDIF URI pattern, and it resolves to
+    nothing.
+
+    Narrow on purpose: only a backslash directly before ``:`` or ``/`` is
+    removed, and only when the result looks like an absolute URL. A backslash
+    is legal in a URL path, so stripping them wholesale would corrupt honest
+    values to tidy up dishonest ones.
+    """
+    if not isinstance(value, str) or "\\" not in value:
+        return value
+    repaired = re.sub(r"\\([:/])", r"\1", value)
+    return repaired if re.match(r"^[a-zA-Z][a-zA-Z0-9+.-]*://", repaired) else value
+
+
 def _file_object_basic(fobj, is_archive_component=False):
     """Copy the common DataDownload/MediaObject fields from a cr:FileObject."""
     out = {}
     if fobj.get("@id"):
-        out["@id"] = fobj["@id"]
+        out["@id"] = _safe_local_id(fobj["@id"])
 
     name = fobj.get("name")
     if name:
@@ -564,7 +603,7 @@ def _file_object_basic(fobj, is_archive_component=False):
     if enc:
         out["schema:encodingFormat"] = [enc] if isinstance(enc, str) else enc
 
-    content_url = fobj.get("contentUrl")
+    content_url = _unescape_url(fobj.get("contentUrl"))
     if content_url and content_url != OGC_NIL_INAPPLICABLE:
         out["schema:contentUrl"] = content_url
     elif not is_archive_component:
