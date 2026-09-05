@@ -1102,6 +1102,80 @@ def _convert_fields_to_cdif(record_sets_by_file, node_for_file_id, verbose=False
     return variables, mappings_by_file_id, field_ref_to_var_id
 
 
+def _foreign_key_target(value):
+    """The field a cr:Field.references points at.
+
+    Croissant writes it as {"field": {"@id": ...}}; older and hand-written
+    documents use a bare {"@id": ...} or a plain string.
+    """
+    if isinstance(value, str):
+        return value
+    if not isinstance(value, dict):
+        return None
+    inner = _get(value, "field", "cr:field")
+    if isinstance(inner, dict):
+        return inner.get("@id")
+    if isinstance(inner, str):
+        return inner
+    return value.get("@id")
+
+
+def _convert_foreign_keys(record_sets_by_file, field_ref_to_var_id, verbose=False):
+    """Croissant cr:Field.references -> cdif:ForeignKey, per file.
+
+    Croissant states a foreign key flat, on the field: these values reference
+    that field's. CDIF states it on the data structure, because a key can span
+    several columns -- cdi:has_ForeignKey holds a cdif:ForeignKey whose
+    cdif:isComposedOf is an ordered list of cdi:ComponentPosition wrappers,
+    each indexing one variable at one position. A Croissant reference is always
+    single-column, so each becomes a one-position key.
+
+    The position sits on the wrapper rather than on the variable, which is what
+    lets the variable be a plain @id reference into schema:variableMeasured
+    instead of a duplicated inline copy.
+
+    Returns {file id: [ForeignKey]}.
+
+    Resolution runs here, not in the field loop, because a reference routinely
+    points into a RecordSet processed later -- a Hugging Face split field
+    naming its splits enumeration -- so the variable ids are only all known
+    once every field has been seen.
+    """
+    by_file = {}
+    for fid, rs_groups in record_sets_by_file.items():
+        keys = []
+        for _rs, fields in rs_groups:
+            for fld in fields:
+                if not isinstance(fld, dict):
+                    continue
+                target_ref = _foreign_key_target(_get(fld, "references", "cr:references"))
+                if not target_ref:
+                    continue
+                local = field_ref_to_var_id.get(fld.get("@id")) or                     field_ref_to_var_id.get(fld.get("name"))
+                target = field_ref_to_var_id.get(target_ref) or                     field_ref_to_var_id.get(str(target_ref).split("/")[-1])
+                if not local or not target:
+                    # A reference into a RecordSet with no file source (inline
+                    # cr:data -- every such reference in the current corpus) has
+                    # no CDIF variable to point at. Dropping the key is right;
+                    # dropping it silently is not.
+                    if verbose:
+                        print(f"  WARN: cannot resolve foreign key "
+                              f"{fld.get('@id')!r} -> {target_ref!r}; skipping")
+                    continue
+                keys.append({
+                    "@type": ["cdif:ForeignKey"],
+                    "cdif:isComposedOf": [{
+                        "@type": ["cdi:ComponentPosition"],
+                        "cdi:indexes": {"@id": local},
+                        "cdi:value": 1,
+                    }],
+                    "cdif:references": {"@id": target},
+                })
+        if keys:
+            by_file[fid] = keys
+    return by_file
+
+
 def _convert_primary_key(croissant, field_ref_to_var_id):
     """Croissant cr:RecordSet.key -> CDIF cdif:hasPrimaryKey.
 
@@ -1340,6 +1414,22 @@ def convert(croissant, verbose=False):
         node = node_for_file_id.get(fid)
         if node is not None:
             node["cdif:hasPhysicalMapping"] = mappings
+
+    # Foreign keys live on the data structure, which a distribution attaches
+    # via cdi:isStructuredBy. Typed cdi:DataStructure, the generic base: the
+    # Dimensional / Long / Wide variants each name a data layout and must
+    # enumerate their components, while the base admits a structure whose
+    # content is a key. This is the converter's only data-structure output, so
+    # the record gains data_structure conformance -- detect_conformance reads
+    # that from the content; nothing declares it here.
+    for fid, keys in _convert_foreign_keys(
+            record_sets_by_file, field_ref_to_var_id, verbose=verbose).items():
+        node = node_for_file_id.get(fid)
+        if node is None:
+            continue
+        structure = node.setdefault("cdi:isStructuredBy",
+                                    {"@type": ["cdi:DataStructure"]})
+        structure.setdefault("cdi:has_ForeignKey", []).extend(keys)
 
     # A FileObject that no RecordSet draws data from is not a distribution of
     # this dataset — a distribution is another downloadable form of the same
