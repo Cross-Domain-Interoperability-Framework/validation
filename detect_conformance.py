@@ -116,18 +116,19 @@ CONFORMANCE_CLASSES = [
         # link to a DataStructure node, or a node typed as one of the DDI-CDI
         # structure classes.
         #
-        # BOTH prefixes, because the building blocks use both: the
-        # cdifDataStructure profile declares cdi:isStructuredBy on a
-        # distribution item, while cdifDataType/cdifLongData uses
-        # cdif:isStructuredBy. A rule that knows one silently fails to detect
-        # records written against the other.
+        # cdi:, not cdif:. The property takes a canonical DDI-CDI structure
+        # (cdi:LongDataStructure and friends, carrying
+        # cdi:has_DataStructureComponent), so the namespace policy puts it in
+        # cdi:. A cdif:isStructuredBy spelling existed in one unreferenced
+        # building block and had spread to a mapping table and one record; all
+        # were migrated and the block retired, so testing it here would only
+        # keep a dead IRI alive.
         #
         # cdi:DataStructure sits alongside the three specialisations. It is one
         # of the profile's four variants and was missing here, so a record
         # using the base class went undetected.
         "presence": """ASK {
-            { ?x cdif:isStructuredBy ?s }
-            UNION { ?x cdi:isStructuredBy ?s }
+            { ?x cdi:isStructuredBy ?s }
             UNION { ?n a cdi:DataStructure }
             UNION { ?n a cdi:LongDataStructure }
             UNION { ?n a cdi:WideDataStructure }
