@@ -786,25 +786,54 @@ def _convert_is_based_on(croissant, verbose=False):
     return out
 
 
-def _download_to_related_link(dd):
-    """Reshape a CDIF DataDownload (from a Croissant FileObject that no RecordSet
-    draws data from) into a schema:relatedLink LinkRole -> EntryPoint: a related
-    resource, not part of the described data distribution."""
-    target = {"@type": ["schema:EntryPoint"]}
-    if dd.get("schema:name"):
-        target["schema:name"] = dd["schema:name"]
-    if dd.get("schema:description"):
-        target["schema:description"] = dd["schema:description"]
-    if dd.get("schema:contentUrl"):
-        target["schema:url"] = dd["schema:contentUrl"]
-    enc = dd.get("schema:encodingFormat")
-    if enc:
-        target["schema:encodingFormat"] = enc[0] if isinstance(enc, list) and enc else enc
-    return {
-        "@type": ["schema:LinkRole"],
-        "schema:linkRelationship": "related",
-        "schema:target": target,
-    }
+def _download_to_resource_part(dd):
+    """A CDIF DataDownload as a Manifest resourcePartItem.
+
+    For a Croissant FileObject that no RecordSet draws data from. It is not a
+    distribution of this dataset -- a distribution is another downloadable
+    form of the SAME content, and a Dutch translation is not another encoding
+    of a CSV. It is a member of the package: independently accessible, at its
+    own address, differing in content and format from its siblings. That is
+    what schema:hasPart on the Dataset means, and the Manifest profile says
+    such a part "may carry its own schema:distribution".
+
+    So the node splits in two. What the resource IS -- name, description,
+    language, modification date, author -- stays on the part. How you GET it
+    -- URL, format, checksum, size -- becomes the part's own distribution.
+
+    Typed schema:CreativeWork: it is in the profile's enumeration, it is true
+    of everything a package can hold, and the alternative is inferring Article
+    or TextDigitalDocument from a media type, which is a guess.
+    """
+    part = {"@type": ["schema:CreativeWork"]}
+    # Only an absolute IRI. Croissant @ids are frequently bare filenames
+    # ("croissant_acid_rain_final.json"), and a part carrying one fails the
+    # "must be a resolvable URL" shape -- the relatedLink form this replaces
+    # never hit that because it built a fresh node with no @id at all. The
+    # part is still reachable through its distribution's contentUrl.
+    part_id = dd.get("@id")
+    if isinstance(part_id, str) and "://" in part_id:
+        part["@id"] = part_id
+    for key in ("schema:name", "schema:description", "schema:inLanguage",
+                "schema:dateModified", "schema:creator"):
+        if dd.get(key):
+            part[key] = dd[key]
+
+    access = {"@type": ["schema:DataDownload"]}
+    for key in ("schema:contentUrl", "schema:encodingFormat", "spdx:checksum",
+                "schema:size"):
+        if dd.get(key):
+            access[key] = dd[key]
+    if len(access) > 1:
+        part["schema:distribution"] = [access]
+
+    # A part is a package member because it is independently accessible, so it
+    # has to say where. The content URL is that address; without a schema:url
+    # the part is an assertion that something exists somewhere.
+    url = dd.get("schema:contentUrl")
+    if isinstance(url, str) and url.startswith("http"):
+        part["schema:url"] = url
+    return part
 
 
 def _has_data_part(dd):
@@ -1201,26 +1230,29 @@ def convert(croissant, verbose=False):
         if node is not None:
             node["cdif:hasPhysicalMapping"] = mappings
 
-    # A FileObject that no RecordSet draws data from is not part of the described
-    # data distribution — route it to schema:relatedLink (a related resource).
-    # BUT only demote such files when the dataset actually has at least one
-    # described data file: if NO file has a RecordSet, the file(s) are still the
-    # data (just undescribed) and stay as distribution.
+    # A FileObject that no RecordSet draws data from is not a distribution of
+    # this dataset — a distribution is another downloadable form of the same
+    # content — but it is still a member of the package, independently
+    # accessible at its own address. That is Dataset-level schema:hasPart.
+    #
+    # BUT only split when the dataset actually has at least one described data
+    # file: if NO file has a RecordSet, the file(s) are still the data (just
+    # undescribed) and stay as distribution.
     if cdif_distribution:
         data_file_ids = set(record_sets_by_file.keys())
         has_data = bool(data_file_ids) or any(_has_data_part(dd)
                                               for dd in cdif_distribution)
-        data_dist, related = [], []
+        data_dist, parts = [], []
         for dd in cdif_distribution:
             is_data = _has_data_part(dd) or dd.get("@id") in data_file_ids
-            (data_dist if (is_data or not has_data) else related).append(dd)
+            (data_dist if (is_data or not has_data) else parts).append(dd)
         if data_dist:
             out["schema:distribution"] = data_dist
-        if related:
-            out["schema:relatedLink"] = [_download_to_related_link(dd) for dd in related]
+        if parts:
+            out["schema:hasPart"] = [_download_to_resource_part(dd) for dd in parts]
         if verbose:
             print(f"  distribution split: {len(data_dist)} data distribution(s), "
-                  f"{len(related)} related -> schema:relatedLink")
+                  f"{len(parts)} package member(s) -> schema:hasPart")
     if variables:
         out["schema:variableMeasured"] = variables
 
