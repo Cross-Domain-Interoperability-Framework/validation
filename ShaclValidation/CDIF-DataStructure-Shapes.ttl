@@ -753,12 +753,24 @@ cdifd:cdifDataStructure_WideDataStructureShape a sh:NodeShape ;
     sh:targetClass cdi:WideDataStructure .
 
 cdifd:cdifDataStructure_inlineStructureShape a sh:NodeShape ;
-    sh:sparql [ sh:message "A distribution's cdi:isStructuredBy must resolve to a structure that carries cdi:has_DataStructureComponent. The components may be written inline or on a node identified by @id elsewhere in the same document -- in RDF both denote the same node, and this rule is satisfied either way. What it rejects is a reference to a structure that is never defined." ;
+    sh:sparql [ sh:message "A distribution's cdi:isStructuredBy must resolve to a structure that carries cdi:has_DataStructureComponent. The components may be written inline or on a node identified by @id elsewhere in the same document -- in RDF both denote the same node, and this rule is satisfied either way. What it rejects is a reference to a structure that is never defined. Exempt: a plain cdi:DataStructure whose content is a key (cdi:has_ForeignKey or cdi:has_PrimaryKey), since cdif:ForeignKey and cdif:PrimaryKey compose variables through cdi:ComponentPosition wrappers and imply no components. The exemption does NOT extend to the Dimensional, Long and Wide variants: each names a data layout, and a layout listing no components describes nothing." ;
             sh:select """
 			SELECT $this WHERE {
 				$this <http://schema.org/distribution> ?dist .
 				?dist <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isStructuredBy> ?s .
 				FILTER NOT EXISTS { ?s <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_DataStructureComponent> ?c }
+				FILTER NOT EXISTS {
+					{ ?s <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_ForeignKey> ?k }
+					UNION
+					{ ?s <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_PrimaryKey> ?k }
+					FILTER NOT EXISTS {
+						?s a ?t .
+						FILTER (?t IN (
+							<http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/DimensionalDataStructure>,
+							<http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/LongDataStructure>,
+							<http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/WideDataStructure>))
+					}
+				}
 			}
 		""" ;
             sh:severity sh:Violation ] ;
