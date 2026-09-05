@@ -969,10 +969,47 @@ def _convert_primary_key(croissant, field_ref_to_var_id):
 # ---------------------------------------------------------------------------
 
 # Built once: reading and indexing the table on every record would be waste.
+def _t_structural(value, source, rule, target):
+    """Placed by a builder, not by the table pass.
+
+    The row still carries the real target -- it is the mapping, and the only
+    written record of where the value lands. What it cannot do is place it:
+    `sc:includedInDataCatalog` is legal only inside `schema:subjectOf`, and the
+    catalog record does not exist yet when the root pass runs. Naming the
+    transform keeps the row from reading as an unimplemented mapping.
+    """
+    return None
+
+
+def _t_agent_part(value, source, rule, target):
+    """A property of an agent, not of the dataset.
+
+    The row exists to document the agent sub-mapping -- sc:name, sc:url,
+    sc:email and friends on a Person or Organization. The values are shaped by
+    `_convert_agent` when the agent itself is converted, so there is nothing
+    for the row to place, and it deliberately places nothing. Naming the
+    transform rather than leaving the cell blank is what keeps the row from
+    looking like an unfinished mapping.
+    """
+    return None
+
+
+def _t_passthrough(value, source, rule, target):
+    """Croissant property CDIF has no term for; keep it verbatim.
+
+    Placing nothing is the point: a row that consumes nothing leaves the key
+    for the converter's passthrough loop, which copies it and merges its
+    prefix into the output @context. JSON-LD is open-world, so an unmapped
+    property in its own namespace stays valid and stays readable.
+    """
+    return None
+
+
 CROISSANT_TO_CDIF = _engine.MappingSet(
     os.path.join(_MAPPINGS, "croissant-to-cdif.sssom.tsv"),
     os.path.join(_MAPPINGS, "croissant-aliases.sssom.tsv"),
     transforms={
+        "structural": _t_structural, "agent-part": _t_agent_part, "passthrough": _t_passthrough,
         "": _t_text, "text": _t_text, "iri": _t_iri, "idref": _t_idref,
         "date": _t_date, "list": _t_list, "langcode": _t_langcode,
         "identifier": _t_identifier, "license": _t_license,

@@ -11,9 +11,65 @@ Scope-specific guide for `croissant/`. For repo-wide context see the root
 | `ConvertFromCroissant.py` | Croissant 1.0/1.1 → CDIF (inverse, lossy) |
 | `CDIFtoCroissant.md` | Forward property mapping (incl. Data Structure profile crosswalk) |
 | `CroissantToCDIF.md` | Inverse property mapping |
+| `../mappings/{croissant-to-cdif,cdif-to-croissant}.sssom.tsv` | **The mappings themselves.** Edit these, not the Python |
+| `../mappings/croissant-aliases.sssom.tsv` | Wild spelling variants → the term the table keys on |
+| `../sssom_engine.py` | Shared table applier (DCAT and DDI use it too) |
 | `croissantExamples/` | Source Croissant exports (`*-croissant.json` / `*.croissant.jsonld`) |
 | `croissantExamples/cdif/` | Their CDIF conversions (`*-cdif.json` / `*.cdif.jsonld`) + `_manifest.json` |
 | `MLCroissantExamples/` | 14 HF/Kaggle/OpenML Croissant sources — the inverse-converter regression corpus |
+
+## Both converters are table-driven — edit the TSV, not the Python
+
+`ConvertToCroissant.py` and `ConvertFromCroissant.py` state no property
+correspondence in code. Each reads its SSSOM table through
+`converters/sssom_engine.py`. **A change to what maps where belongs in the TSV.**
+Touch the Python only when the *shape* is wrong, and then only by adding or
+fixing a named transform.
+
+Two extension columns beyond stock SSSOM:
+
+- **`subject_class`** — the class the property sits on, because `sc:name` on a
+  Dataset, a FileObject and a Field are three different mappings and a flat
+  table cannot say so. A row with the wrong `subject_class` is silently inert:
+  it will never be selected, and nothing reports it.
+- **`transform`** — names a shaper in the converter's transform dict. An unknown
+  name is skipped and the source property falls through to passthrough, so a
+  typo here loses a mapping without an error.
+
+**Row order is precedence, and arity decides whether that matters.** For a
+scalar target the first row to fill it wins — that is how "prefer X, else Y" is
+written. Array targets accumulate. Getting arity backwards keeps only the first
+source and looks like correct output; it cost a silent drop of `dcat:theme`
+across 72 records in the DCAT converter before it was caught.
+
+The engine has a third arity, **`asis`**, for shapers that have already decided
+their shape — Croissant's `sameAs` is one URL or a list of them, and the scalar
+unwrap would keep only the first.
+
+### `target_key`: the output key is not always the target term
+
+Going to CDIF the row's `object_id` and the document key agree
+(`sc:name` → `schema:name`). Going to Croissant they do not: the target term is
+`sc:name` but the document key is the bare `name` its `@context` resolves. So
+`MappingSet.target_key()` prefers the row's `object_json_path` when it is a
+single bare segment, and falls back to `object_id`. A new row in the forward
+table needs its `object_json_path` filled or it will write a CURIE key that no
+Croissant reader looks for.
+
+### The forward direction's loss is declared, not discovered
+
+CDIF → Croissant drops provenance, extents, and most CDIF qualifiers. Those
+properties still get a row — no target, `transform: unmapped` — so the loss is
+on the record. This makes the real invariant checkable: **every CDIF property
+either reaches the output or has a row saying it does not.** A property in
+neither category means the table has a gap. When you add a CDIF property to the
+profiles, add its row here too, even if the row only says "Croissant cannot
+carry this".
+
+Croissant's required fields (name, description, url, licence, datePublished,
+creator, version) have fallbacks and warnings in `convert_cdif_to_croissant`.
+Those are the converter deciding what to do about silence, not correspondences —
+leave them in the Python.
 
 ## Target versions (do not drift)
 

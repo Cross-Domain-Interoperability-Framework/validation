@@ -27,7 +27,48 @@ profile) typed components; Croissant uses `RecordSet`/`Field` with extract pipel
 | `ConvertFromCroissant.py` | **Croissant → CDIF** inverse (lossy): reads Croissant 1.0/1.1, produces current-`cdif:` CDIF that validates against the DataDescription schema (or the Discovery schema when the source has no `recordSet`) |
 | `CDIFtoCroissant.md` | Property-by-property mapping (forward), incl. the full Data Structure profile crosswalk |
 | `CroissantToCDIF.md` | Property-by-property mapping (inverse) |
+| `../mappings/croissant-to-cdif.sssom.tsv` | **The mapping, authoritative.** Both converters read it; the docs above describe it |
+| `../mappings/cdif-to-croissant.sssom.tsv` | The same, for the forward direction, incl. the rows recording what Croissant cannot carry |
+| `../mappings/croissant-aliases.sssom.tsv` | Spelling variants seen in the wild, folded onto the term the table keys on |
 | `croissantExamples/` | Example corpus (see below) |
+
+## Where the mapping lives
+
+Neither converter states a property correspondence in Python. Both read an
+SSSOM table in `../mappings/`, applied by the shared `converters/sssom_engine.py`
+— the same arrangement as the DCAT and DDI converters. Two extension columns do
+work plain SSSOM cannot:
+
+- **`subject_class`** — the class the property sits on. These vocabularies are
+  graphs, not trees: `sc:name` means one thing on a Dataset, another on a
+  FileObject and a third on a Field, and a flat subject → object table cannot
+  say so.
+- **`transform`** — names a shaper in the converter. The table carries the term
+  correspondences (the bulk and the tedium); the converter supplies the handful
+  of shapers for structure no table can express.
+
+**Row order is precedence.** For a scalar target the first row to fill it wins,
+which is how "prefer this source property, else that one" is written with no
+conditional logic. Array targets accumulate instead — getting that backwards
+silently drops every source but the first.
+
+To change what maps where, edit the TSV. Reach for the Python only when the
+shape, not the correspondence, is what's wrong.
+
+### What the forward direction loses, and how you can tell
+
+CDIF → Croissant is lossy: Croissant has no vocabulary for provenance, spatial
+and temporal extent, or most of CDIF's qualifiers. `cdif-to-croissant.sssom.tsv`
+carries a row for each of those anyway, with no target and `transform:
+unmapped`, so the loss is **written down rather than discovered**. That makes a
+real invariant checkable — every CDIF property either reaches the output or has
+a row saying it does not — and a property in neither category is a gap in the
+table, which is the only genuine failure.
+
+What the table cannot decide is what to do about silence. Croissant requires a
+name, description, url, licence, datePublished, creator and version; where CDIF
+supplies none, the converter falls back and warns. Those are the converter's
+judgement, not correspondences, and they stay in the Python.
 
 ## Usage
 
