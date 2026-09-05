@@ -67,7 +67,8 @@ cr:extract	extract	cr:Source	skos:narrowMatch				structural	semapv:ManualMapping
 cr:fileObject	fileObject	cr:Source	skos:closeMatch				structural	semapv:ManualMappingCuration	Consumed by the physical-mapping builder.
 cr:fileSet	fileSet	cr:Source	skos:closeMatch				structural	semapv:ManualMappingCuration	Consumed by the physical-mapping builder.
 cr:fileProperty	fileProperty	cr:Extract	skos:closeMatch				passthrough	semapv:ManualMappingCuration	"Values taken from the file itself (name, content) rather than a column."
-cr:jsonPath	jsonPath	cr:Transform	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
+cr:jsonPath	jsonPath	cr:Extract	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Selects the value out of a JSON source. Distinct from the Transform spelling, which re-selects within a value already extracted. Unmapped either way: CDIF describes what a variable is, not the pipeline that produced it. Not exercised by this corpus.
+cr:jsonPath	jsonPath	cr:Transform	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Re-selects within an already-extracted value; see the cr:Extract row for the extraction spelling.
 cr:regex	regex	cr:Transform	skos:closeMatch				passthrough	semapv:ManualMappingCuration	
 cr:transform	transform	cr:Source	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Croissant transform pipelines beyond column extraction have no CDIF representation.
 cr:replace	replace	cr:Transform	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Class taken from the Croissant Transform definition, not from the corpus -- no example here uses it, so the class census cannot confirm it.
