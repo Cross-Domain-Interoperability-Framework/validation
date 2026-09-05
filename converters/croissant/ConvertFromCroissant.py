@@ -580,6 +580,28 @@ def _file_object_basic(fobj, is_archive_component=False):
     if cksum:
         out["spdx:checksum"] = cksum
 
+    # A DataDownload is a MediaObject, so these carry unchanged. They were
+    # being dropped: a file's language, its own modification date, and who
+    # made it are not the dataset's, and there is nowhere else for them to go.
+    lang = fobj.get("inLanguage")
+    if lang:
+        out["schema:inLanguage"] = lang
+
+    modified = fobj.get("dateModified")
+    if modified:
+        out["schema:dateModified"] = modified
+
+    creator = fobj.get("creator")
+    if creator:
+        agents = [_convert_agent(a) or a for a in _as_list(creator)
+                  if isinstance(a, (dict, str))]
+        # A bare {"@id": ...} survives as a reference rather than being
+        # discarded for having no name -- the node it points at is usually
+        # described elsewhere in the graph.
+        agents = [a for a in agents if a]
+        if agents:
+            out["schema:creator"] = agents
+
     return out
 
 
