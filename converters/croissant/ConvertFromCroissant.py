@@ -729,27 +729,49 @@ def _convert_distribution(croissant, record_sets_by_file, verbose=False):
             cdif_distribution.append(dd)
             node_for_file_id[child.get("@id")] = dd
 
-    # 4) FileSets -> standalone DataDownloads. A FileSet carries no contentUrl
-    # of its own, so inherit the containedIn parent FileObject's URL; record the
-    # selection glob in the description for traceability.
+    # 4) FileSets. Two cases, and they are not the same resource at all.
+    #
+    # A FileSet inside a real archive is a glob within that archive: it has no
+    # address of its own, and the "inherit the parent's URL" fallback below
+    # would give it the URL of the whole zip -- an address that does not
+    # retrieve it. Per the Manifest profile that is an archive part, typed
+    # schema:MediaObject and explicitly NOT schema:DataDownload, because there
+    # is nothing to download it from.
+    #
+    # A FileSet whose host is merely a tree (the Hugging Face "repo"
+    # FileObject, which holds no FileObject children of its own) is a
+    # different thing: the host is not an archive, and inheriting its URL is
+    # how the file set becomes reachable.
+    archive_by_id = {fo.get("@id"): fo for fo in real_archives}
+    archive_dd_by_id = {}
+    for dd in cdif_distribution:
+        if dd.get("@id") in archive_by_id:
+            archive_dd_by_id[dd["@id"]] = dd
+
     for fs in file_sets:
-        dd = _file_object_basic(fs)
-        dd["@type"] = ["schema:DataDownload"]
-        if "schema:contentUrl" not in dd:
-            ci = fs.get("containedIn")
-            pid = ci.get("@id") if isinstance(ci, dict) else (ci if isinstance(ci, str) else None)
-            parent = fo_by_id.get(pid) if pid else None
-            purl = parent.get("contentUrl") if isinstance(parent, dict) else None
-            if purl and purl != OGC_NIL_INAPPLICABLE:
-                dd["schema:contentUrl"] = purl
+        ci = fs.get("containedIn")
+        pid = ci.get("@id") if isinstance(ci, dict) else (ci if isinstance(ci, str) else None)
+
+        node = _file_object_basic(fs, is_archive_component=pid in archive_dd_by_id)
         inc = fs.get("includes")
         if inc:
             glob = inc if isinstance(inc, str) else ", ".join(_as_list(inc))
             note = f"File set; includes: {glob}"
-            dd["schema:description"] = (
-                f"{dd['schema:description']} ({note})" if dd.get("schema:description") else note)
-        cdif_distribution.append(dd)
-        node_for_file_id[fs.get("@id")] = dd
+            node["schema:description"] = (
+                f"{node['schema:description']} ({note})" if node.get("schema:description") else note)
+
+        if pid in archive_dd_by_id:
+            node["@type"] = ["schema:MediaObject"]
+            archive_dd_by_id[pid].setdefault("schema:hasPart", []).append(node)
+        else:
+            node["@type"] = ["schema:DataDownload"]
+            if "schema:contentUrl" not in node:
+                parent = fo_by_id.get(pid) if pid else None
+                purl = parent.get("contentUrl") if isinstance(parent, dict) else None
+                if purl and purl != OGC_NIL_INAPPLICABLE:
+                    node["schema:contentUrl"] = purl
+            cdif_distribution.append(node)
+        node_for_file_id[fs.get("@id")] = node
 
     return cdif_distribution, node_for_file_id
 
@@ -784,6 +806,56 @@ def _convert_is_based_on(croissant, verbose=False):
     if verbose and out:
         print(f"  isBasedOn -> prov:wasDerivedFrom: {len(out)} source(s)")
     return out
+
+
+def _representation_groups(nodes):
+    """Which of these are representations of one content, and which are not.
+
+    Manifest profile §3.6 against §3.1. Several distributions mean each is a
+    complete interchangeable copy and a consumer picks one -- "a document or
+    dataset with content encoded in different languages", or the same table
+    as CSV and XLSX. schema:hasPart means the parts together make up the
+    dataset and no single one gives you the whole.
+
+    The signal is the file name with its extension removed. Nineteen files
+    all named BI0104_article.md, all text/markdown, differing only in
+    inLanguage, are one article in nineteen languages. Files named
+    croissant_snowmelt_flooding_final.json, skos_snowmelt_flooding.json and
+    wikilink_snowmelt_flooding.json are three different things.
+
+    Keyed on name rather than description on purpose: in the corpus
+    BI0104_article.md and BI0104_keywords.md carry *identical* descriptions,
+    so grouping by description merges two genuinely different resources.
+
+    Returns (representation_sets, singles). A set needs two or more members
+    that actually differ in language, extension or encoding -- otherwise
+    there is no evidence they are alternatives rather than duplicates, and
+    the conservative reading is that they are separate parts.
+
+    Deliberately undetectable: a CSV and an XLSX of the same table under
+    different base names. Croissant asserts nothing that links them, so
+    nothing here can either, and they stay parts.
+    """
+    groups = {}
+    for node in nodes:
+        name = node.get("schema:name") or node.get("@id") or ""
+        root = name.rsplit(".", 1)[0] if "." in name else name
+        groups.setdefault(root.lower(), []).append(node)
+
+    def variant(node):
+        name = node.get("schema:name") or ""
+        ext = name.rsplit(".", 1)[1].lower() if "." in name else ""
+        enc = node.get("schema:encodingFormat")
+        enc = tuple(enc) if isinstance(enc, list) else (enc,)
+        return (node.get("schema:inLanguage"), ext, enc)
+
+    sets, singles = [], []
+    for root, members in groups.items():
+        if len(members) > 1 and len({variant(m) for m in members}) > 1:
+            sets.append(members)
+        else:
+            singles.extend(members)
+    return sets, singles
 
 
 def _download_to_resource_part(dd):
@@ -1246,13 +1318,20 @@ def convert(croissant, verbose=False):
         for dd in cdif_distribution:
             is_data = _has_data_part(dd) or dd.get("@id") in data_file_ids
             (data_dist if (is_data or not has_data) else parts).append(dd)
+        # Of what is left over, some are alternative representations of one
+        # content (§3.6 -- more distributions) and the rest are package
+        # members (§3.1 -- schema:hasPart).
+        rep_sets, members = _representation_groups(parts)
+        for group in rep_sets:
+            data_dist.extend(group)
         if data_dist:
             out["schema:distribution"] = data_dist
-        if parts:
-            out["schema:hasPart"] = [_download_to_resource_part(dd) for dd in parts]
+        if members:
+            out["schema:hasPart"] = [_download_to_resource_part(dd) for dd in members]
         if verbose:
-            print(f"  distribution split: {len(data_dist)} data distribution(s), "
-                  f"{len(parts)} package member(s) -> schema:hasPart")
+            print(f"  distribution split: {len(data_dist)} distribution(s) "
+                  f"({sum(len(g) for g in rep_sets)} of them alternative "
+                  f"representations), {len(members)} package member(s)")
     if variables:
         out["schema:variableMeasured"] = variables
 
