@@ -112,10 +112,23 @@ CONFORMANCE_CLASSES = [
     },
     {
         "uri": "https://w3id.org/cdif/data_structure/1.1",
-        # Marked by an explicit data-structure description (cdif:isStructuredBy
-        # to a DataStructure node).
+        # Marked by an explicit data-structure description: an isStructuredBy
+        # link to a DataStructure node, or a node typed as one of the DDI-CDI
+        # structure classes.
+        #
+        # BOTH prefixes, because the building blocks use both: the
+        # cdifDataStructure profile declares cdi:isStructuredBy on a
+        # distribution item, while cdifDataType/cdifLongData uses
+        # cdif:isStructuredBy. A rule that knows one silently fails to detect
+        # records written against the other.
+        #
+        # cdi:DataStructure sits alongside the three specialisations. It is one
+        # of the profile's four variants and was missing here, so a record
+        # using the base class went undetected.
         "presence": """ASK {
             { ?x cdif:isStructuredBy ?s }
+            UNION { ?x cdi:isStructuredBy ?s }
+            UNION { ?n a cdi:DataStructure }
             UNION { ?n a cdi:LongDataStructure }
             UNION { ?n a cdi:WideDataStructure }
             UNION { ?n a cdi:DimensionalDataStructure }

@@ -516,8 +516,14 @@ def _convert_record_sets(tabular_files, var_index, cdif, verbose=False):
     Reads the current CDIF DataDescription shape:
       cdif:hasPhysicalMapping[] with cdif:index, cdif:formats_InstanceVariable,
       cdif:physicalDataType; InstanceVariable carries cdi:hasIntendedDataType.
-    Emits cr:RecordSet.key from the dataset-level cdif:hasPrimaryKey and
-    cr:Field.references from a variable's cdi:qualifies (FK analogy).
+    Emits cr:RecordSet.key from the dataset-level cdif:hasPrimaryKey.
+
+    Does NOT emit cr:Field.references. It once claimed to, from a variable's
+    cdi:qualifies, and that was wrong twice over: cdi:qualifies says a
+    variable is metadata ABOUT another, not that its values reference them,
+    and mapping it crashed mlcroissant. The real foreign key is
+    cdi:has_ForeignKey on the data structure, which this converter does not
+    read -- see the cdi:has_ForeignKey row in cdif-to-croissant.sssom.tsv.
     """
     record_sets = []
 
