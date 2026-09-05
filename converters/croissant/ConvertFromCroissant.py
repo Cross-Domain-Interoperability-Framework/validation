@@ -806,14 +806,14 @@ def _download_to_resource_part(dd):
     or TextDigitalDocument from a media type, which is a guess.
     """
     part = {"@type": ["schema:CreativeWork"]}
-    # Only an absolute IRI. Croissant @ids are frequently bare filenames
-    # ("croissant_acid_rain_final.json"), and a part carrying one fails the
-    # "must be a resolvable URL" shape -- the relatedLink form this replaces
-    # never hit that because it built a fresh node with no @id at all. The
-    # part is still reachable through its distribution's contentUrl.
-    part_id = dd.get("@id")
-    if isinstance(part_id, str) and "://" in part_id:
-        part["@id"] = part_id
+    # Kept as-is, bare filenames included. An @id here is a local reference
+    # for pointing at this part from elsewhere in the document, not a claim
+    # that it resolves -- a part asserts persistent identity only by carrying
+    # schema:identifier. The profile's conceptual model wants every item in
+    # the list to have both an ID and a location; this is the ID, schema:url
+    # below is the location.
+    if dd.get("@id"):
+        part["@id"] = dd["@id"]
     for key in ("schema:name", "schema:description", "schema:inLanguage",
                 "schema:dateModified", "schema:creator"):
         if dd.get(key):
