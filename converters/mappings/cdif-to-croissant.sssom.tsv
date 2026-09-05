@@ -3,7 +3,7 @@ schema:name	name	schema:Dataset	skos:exactMatch	sc:name	name	$.name	text	semapv:
 schema:description	description	schema:Dataset	skos:exactMatch	sc:description	description	$.description	text	semapv:ManualMappingCuration	Falls back to the name when absent; Croissant requires a description.
 schema:url	url	schema:Dataset	skos:exactMatch	sc:url	url	$.url	iri	semapv:ManualMappingCuration	Falls back to the DOI URL taken from schema:identifier.
 schema:identifier	identifier	schema:Dataset	skos:exactMatch	sc:identifier	identifier	$.identifier	identifier	semapv:ManualMappingCuration	A DOI is preferred; also supplies the url fallback.
-schema:license	license	schema:Dataset	skos:exactMatch	sc:license	license	$.license	iri	semapv:ManualMappingCuration	The OGC nil URI is emitted when CDIF recorded the licence as knowably absent.
+schema:license	license	schema:Dataset	skos:exactMatch	sc:license	license	$.license	license	semapv:ManualMappingCuration	The OGC nil URI is emitted when CDIF recorded the licence as knowably absent.
 schema:datePublished	datePublished	schema:Dataset	skos:exactMatch	sc:datePublished	datePublished	$.datePublished	date	semapv:ManualMappingCuration	
 schema:dateModified	dateModified	schema:Dataset	skos:exactMatch	sc:dateModified	dateModified	$.dateModified	date	semapv:ManualMappingCuration	
 schema:creator	creator	schema:Dataset	skos:exactMatch	sc:creator	creator	$.creator	agent	semapv:ManualMappingCuration	CDIF wraps creators in @list to keep their order; Croissant has no ordered form, so the list is unwrapped and the order becomes incidental.
@@ -11,9 +11,9 @@ schema:contributor	contributor	schema:Dataset	skos:closeMatch	sc:creator	creator
 schema:publisher	publisher	schema:Dataset	skos:exactMatch	sc:publisher	publisher	$.publisher	agent	semapv:ManualMappingCuration	
 schema:provider	provider	schema:Dataset	skos:closeMatch	sc:publisher	publisher	$.publisher	agent	semapv:ManualMappingCuration	Used only when no publisher is given; Croissant has no provider.
 schema:keywords	keywords	schema:Dataset	skos:exactMatch	sc:keywords	keywords	$.keywords	keywords	semapv:ManualMappingCuration	A CDIF keyword may be a DefinedTerm; Croissant takes plain strings, so the term's name is used and its identifier lost.
-schema:version	version	schema:Dataset	skos:exactMatch	sc:version	version	$.version	text	semapv:ManualMappingCuration	Croissant requires a version; "not assigned" is emitted when CDIF has none.
+schema:version	version	schema:Dataset	skos:exactMatch	sc:version	version	$.version	versiontext	semapv:ManualMappingCuration	Croissant requires a version; "not assigned" is emitted when CDIF has none.
 schema:inLanguage	inLanguage	schema:Dataset	skos:exactMatch	sc:inLanguage	inLanguage	$.inLanguage	text	semapv:ManualMappingCuration	
-schema:sameAs	sameAs	schema:Dataset	skos:exactMatch	sc:sameAs	sameAs	$.sameAs	iri	semapv:ManualMappingCuration	
+schema:sameAs	sameAs	schema:Dataset	skos:exactMatch	sc:sameAs	sameAs	$.sameAs	sameas	semapv:ManualMappingCuration	
 schema:funding	funding	schema:Dataset	skos:exactMatch	sc:funding	funding	$.funding	funding	semapv:ManualMappingCuration	A CDIF MonetaryGrant; Croissant keeps the grant node.
 schema:conditionsOfAccess	conditionsOfAccess	schema:Dataset	skos:closeMatch	sc:isAccessibleForFree	isAccessibleForFree	$.isAccessibleForFree	accessflag	semapv:ManualMappingCuration	Lossy in both directions: a prose access condition becomes a boolean.
 dcterms:bibliographicCitation	bibliographicCitation	schema:Dataset	skos:closeMatch	cr:citeAs	citeAs	$.citeAs	text	semapv:ManualMappingCuration	
@@ -84,3 +84,6 @@ schema:contactPoint	contactPoint	schema:Person	skos:closeMatch	sc:email	email		a
 schema:name	name	schema:Organization	skos:exactMatch	sc:name	name		agent-part	semapv:ManualMappingCuration	
 schema:identifier	identifier	schema:Organization	skos:exactMatch	sc:sameAs	sameAs		agent-part	semapv:ManualMappingCuration	
 schema:url	url	schema:Organization	skos:exactMatch	sc:url	url		agent-part	semapv:ManualMappingCuration	
+schema:includedInDataCatalog	includedInDataCatalog	schema:Dataset	skos:exactMatch	sc:includedInDataCatalog	includedInDataCatalog	$.includedInDataCatalog	catalog	semapv:ManualMappingCuration	CDIF puts this on the catalog record; Croissant has it on the dataset. Older CDIF records carry it at the root, and it is read from either.
+schema:citeAs	citeAs	schema:Dataset	skos:exactMatch	cr:citeAs	citeAs	$.citeAs	text	semapv:ManualMappingCuration	Not a CDIF property -- it appears in records made before ConvertFromCroissant was corrected to send citeAs to dcterms:bibliographicCitation. Carried back so those records do not lose it.
+cdif:statistics	statistics	cdi:InstanceVariable	skos:closeMatch				unmapped	semapv:ManualMappingCuration	Croissant carries no summary statistics.

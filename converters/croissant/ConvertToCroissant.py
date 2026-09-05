@@ -23,6 +23,7 @@ Usage:
 """
 
 import json
+import os
 import sys
 import argparse
 import re
@@ -632,6 +633,207 @@ def _convert_record_sets(tabular_files, var_index, cdif, verbose=False):
 # Main conversion
 # ---------------------------------------------------------------------------
 
+# ---------------------------------------------------------------------------
+# The mapping table
+# ---------------------------------------------------------------------------
+#
+# converters/mappings/cdif-to-croissant.sssom.tsv decides which CDIF property
+# becomes which Croissant property; this module reads it rather than restating
+# it. The generic machinery is converters/sssom_engine.py.
+#
+# This direction is lossy and the table says where: 38 of its rows carry no
+# target and transform `unmapped`, because Croissant has no vocabulary for
+# them. Those rows exist so the loss is visible rather than discovered.
+
+_CONVERTERS_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if _CONVERTERS_DIR not in sys.path:
+    sys.path.insert(0, _CONVERTERS_DIR)
+import sssom_engine as _engine  # noqa: E402
+
+_MAPPINGS = os.path.join(_CONVERTERS_DIR, "mappings")
+
+
+# --- the table's named transforms -----------------------------------------
+#
+# (value, source, rule, target) -> the Croissant value, or None to emit
+# nothing. Most delegate to shapers that were already here.
+
+def _x_text(value, cdif, rule, cr):
+    got = _get(cdif, rule["subject_id"])
+    if isinstance(got, list):
+        got = got[0] if got else None
+    if isinstance(got, dict):
+        got = got.get("@value") or got.get("@id") or got.get("schema:name")
+    return got if got not in (None, "", []) else None
+
+
+def _x_iri(value, cdif, rule, cr):
+    for item in _as_list(value):
+        if isinstance(item, dict):
+            got = item.get("@id") or item.get("schema:url")
+        else:
+            got = item
+        if isinstance(got, str) and got:
+            return got
+    return None
+
+
+def _x_date(value, cdif, rule, cr):
+    return _x_text(value, cdif, rule, cr)
+
+
+def _x_identifier(value, cdif, rule, cr):
+    got = _extract_identifier_url(cdif)
+    return got or _x_text(value, cdif, rule, cr)
+
+
+def _x_agent(value, cdif, rule, cr):
+    if rule["object_id"] == "sc:creator":
+        return _extract_creators(cdif) or None
+    got = [_convert_agent(a) for a in _as_list(value)]
+    return [a for a in got if a] or None
+
+
+def _x_keywords(value, cdif, rule, cr):
+    return _extract_keywords(cdif) or None
+
+
+def _x_license(value, cdif, rule, cr):
+    return _extract_license(cdif) or None
+
+
+def _x_catalog(value, cdif, rule, cr):
+    """A CDIF DataCatalog node in Croissant's spelling.
+
+    Read from either place: CDIF puts it on the catalog record, but records
+    made before ConvertFromCroissant was corrected carry it at the root.
+    """
+    got = value
+    if got is None:
+        subject = cdif.get("schema:subjectOf") or {}
+        if isinstance(subject, list):
+            subject = subject[0] if subject else {}
+        got = subject.get("schema:includedInDataCatalog") if isinstance(subject, dict) else None
+    for item in _as_list(got):
+        if isinstance(item, str):
+            return {"@type": "sc:DataCatalog", "name": item}
+        if isinstance(item, dict):
+            node = {"@type": "sc:DataCatalog"}
+            name = _get(item, "schema:name", "name")
+            url = _get(item, "schema:url", "url", "@id")
+            if name:
+                node["name"] = name
+            if url:
+                node["url"] = url
+            if len(node) > 1:
+                return node
+    return None
+
+
+def _x_version(value, cdif, rule, cr):
+    """Croissant declares version a string; CDIF allows a number."""
+    got = _x_text(value, cdif, rule, cr)
+    return str(got) if got not in (None, "") else None
+
+
+def _x_sameas(value, cdif, rule, cr):
+    """Croissant expects URLs; CDIF may carry a PropertyValue or a node."""
+    urls = []
+    for item in _as_list(value):
+        if isinstance(item, str):
+            urls.append(item)
+        elif isinstance(item, dict):
+            got = _get(item, "schema:url", "@id", "schema:value")
+            if got:
+                urls.append(got)
+    if not urls:
+        return None
+    # Croissant takes one or many; a single value is written plain, which is
+    # what its own examples do.
+    return urls if len(urls) > 1 else urls[0]
+
+
+def _x_funding(value, cdif, rule, cr):
+    """A CDIF MonetaryGrant as the grant node Croissant carries."""
+    out = []
+    for item in _as_list(value):
+        if not isinstance(item, dict):
+            continue
+        node = {}
+        desc = _get(item, "schema:description")
+        if desc:
+            node["description"] = desc
+        name = _get(item, "schema:name")
+        if name:
+            node["name"] = name
+        funder = _get(item, "schema:funder")
+        if isinstance(funder, dict):
+            agent = _convert_agent(funder)
+            if agent:
+                node["funder"] = agent
+        # A CDIF identifier may be a PropertyValue node. Croissant has no
+        # shape for one, and copying it in would put CDIF's vocabulary inside
+        # a Croissant document, so only a plain value travels.
+        ident = _get(item, "schema:identifier")
+        if isinstance(ident, dict):
+            ident = _get(ident, "schema:value", "@id", "schema:name")
+        if isinstance(ident, str) and ident:
+            node["identifier"] = ident
+        if node:
+            node.setdefault("@type", "MonetaryGrant")
+            out.append(node)
+    return out or None
+
+
+def _x_accessflag(value, cdif, rule, cr):
+    """CDIF states access conditions in prose; Croissant asks a yes/no.
+
+    Anything that names a restriction is not free access. This is the lossy
+    half of a lossy pair -- the prose itself has nowhere to go.
+    """
+    text = " ".join(str(v) for v in _as_list(value)).lower()
+    if not text:
+        return None
+    restricted = ("restrict", "non-public", "embargo", "closed", "licence required",
+                  "license required", "authenticat", "registration")
+    return not any(word in text for word in restricted)
+
+
+def _x_unmapped(value, cdif, rule, cr):
+    """A CDIF property Croissant has no vocabulary for.
+
+    Returns nothing on purpose. The row exists so the table records the loss;
+    without it a reader would have to infer that absence meant "not mapped"
+    rather than "not present".
+    """
+    return None
+
+
+CDIF_TO_CROISSANT = _engine.MappingSet(
+    os.path.join(_MAPPINGS, "cdif-to-croissant.sssom.tsv"),
+    transforms={
+        "": _x_text, "text": _x_text, "iri": _x_iri, "date": _x_date,
+        "identifier": _x_identifier, "agent": _x_agent, "keywords": _x_keywords,
+        "funding": _x_funding, "accessflag": _x_accessflag,
+        "sameas": _x_sameas, "license": _x_license, "catalog": _x_catalog,
+        "versiontext": _x_version,
+        "unmapped": _x_unmapped,
+    },
+    # Croissant's own arity. Its creator is a plain list -- it has no ordered
+    # form, which is where CDIF's @list ordering is lost.
+    arity={
+        "creator": "array",
+        "keywords": "array",
+        "funding": "array",
+        "sameAs": "asis",
+        "distribution": "array",
+        "recordSet": "array",
+    },
+)
+
+DATASET_CLASSES = ("schema:Dataset",)
+
+
 def convert_cdif_to_croissant(cdif, verbose=False):
     """Convert a CDIF JSON-LD dict to a Croissant JSON-LD dict.
 
@@ -645,114 +847,43 @@ def convert_cdif_to_croissant(cdif, verbose=False):
     cr["@type"] = "sc:Dataset"
     cr["conformsTo"] = CROISSANT_CONFORMS_TO
 
-    # -- discovery metadata ---------------------------------------------
-    name = _get(cdif, "schema:name")
-    if name:
-        cr["name"] = name
-    else:
-        warnings.append("Missing schema:name (required by Croissant)")
+    # -- discovery metadata, from the mapping table ----------------------
+    # cdif-to-croissant.sssom.tsv decides these. It also records, in its 38
+    # `unmapped` rows, everything Croissant has no vocabulary for -- so what
+    # this conversion loses is written down rather than discovered.
+    _changes = []
+    CDIF_TO_CROISSANT.apply(cdif, cr, DATASET_CLASSES, _changes)
 
-    desc = _get(cdif, "schema:description")
-    if desc:
-        cr["description"] = desc
-    else:
+    # -- what Croissant requires and CDIF does not guarantee ---------------
+    # Not correspondences: the converter deciding what to do about silence.
+    name = _get(cdif, "schema:name")
+    if not cr.get("name"):
+        warnings.append("Missing schema:name (required by Croissant)")
+    if not cr.get("description"):
         cr["description"] = name or "No description available"
         warnings.append("Missing schema:description (required by Croissant); "
                         "using name as fallback")
-
-    url = _get(cdif, "schema:url")
     ident_url = _extract_identifier_url(cdif)
-    if url and url != "":
-        cr["url"] = url
-    elif ident_url:
-        cr["url"] = ident_url
-    else:
-        warnings.append("Missing url (required by Croissant)")
-
-    lic = _extract_license(cdif)
-    if lic:
-        cr["license"] = lic
-    else:
+    if not cr.get("url"):
+        if ident_url:
+            cr["url"] = ident_url
+        else:
+            warnings.append("Missing url (required by Croissant)")
+    if not cr.get("license"):
         cr["license"] = "http://www.opengis.net/def/nil/OGC/0/missing"
         warnings.append("Missing license; using OGC nil:missing placeholder")
-
-    dp = _get(cdif, "schema:datePublished")
-    if dp:
-        cr["datePublished"] = dp
-    else:
+    if not cr.get("datePublished"):
         warnings.append("Missing datePublished (required by Croissant)")
-
-    creators = _extract_creators(cdif)
-    if creators:
-        cr["creator"] = creators
-    else:
+    if not cr.get("creator"):
         warnings.append("Missing creator (required by Croissant)")
-
-    # citeAs from DOI / identifier
-    if ident_url:
+    if ident_url and not cr.get("citeAs"):
         cr["citeAs"] = ident_url
-
-    # recommended properties
-    ver = _get(cdif, "schema:version")
-    cr["version"] = str(ver) if ver else "not assigned"
-
-    dm = _extract_date_modified(cdif)
-    if dm:
-        cr["dateModified"] = dm
-
-    kw = _extract_keywords(cdif)
-    if kw:
-        cr["keywords"] = kw
-
-    lang = _get(cdif, "schema:inLanguage")
-    if lang:
-        cr["inLanguage"] = lang
-
-    # schema:sameAs: Croissant expects URL(s). CDIF may carry a PropertyValue or
-    # object; extract a URL string from each.
-    same = _get(cdif, "schema:sameAs")
-    if same:
-        same_urls = []
-        for s in _as_list(same):
-            if isinstance(s, str):
-                same_urls.append(s)
-            elif isinstance(s, dict):
-                u = _get(s, "schema:url", "@id", "schema:value")
-                if u:
-                    same_urls.append(u)
-        if same_urls:
-            cr["sameAs"] = same_urls if len(same_urls) > 1 else same_urls[0]
-
-    # publisher
-    pub = _get(cdif, "schema:publisher")
-    if pub:
-        p = _convert_agent(pub) if isinstance(pub, dict) else None
-        if p:
-            cr["publisher"] = p
-
-    # funding (Croissant recommends it and schema.org supports it)
-    funding = _get(cdif, "schema:funding")
-    if funding:
-        cr_funding = []
-        for f in _as_list(funding):
-            if isinstance(f, dict):
-                fd = {}
-                fd_desc = _get(f, "schema:description")
-                if fd_desc:
-                    fd["description"] = fd_desc
-                fd_name = _get(f, "schema:name")
-                if fd_name:
-                    fd["name"] = fd_name
-                funder = _get(f, "schema:funder")
-                if funder:
-                    fa = _convert_agent(funder) if isinstance(funder, dict) else None
-                    if fa:
-                        fd["funder"] = fa
-                if fd:
-                    fd["@type"] = "MonetaryGrant"
-                    cr_funding.append(fd)
-        if cr_funding:
-            cr["funding"] = cr_funding
+    if not cr.get("version"):
+        cr["version"] = "not assigned"
+    if not cr.get("dateModified"):
+        _dm = _extract_date_modified(cdif)
+        if _dm:
+            cr["dateModified"] = _dm
 
     # -- distribution ---------------------------------------------------
     if verbose:

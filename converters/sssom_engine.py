@@ -108,6 +108,21 @@ class MappingSet(object):
         """`key` as the mapping table spells it."""
         return self.aliases.get(key, key)
 
+    @staticmethod
+    def target_key(rule):
+        """The key a row writes in the OUTPUT document.
+
+        object_id names the target term; object_json_path says where it lands.
+        Going to CDIF those agree (sc:name -> schema:name, at $.schema:name).
+        Going to Croissant they do not: the target term is sc:name but the
+        document key is the bare `name` its context resolves, and the path is
+        what says so.
+        """
+        path = (rule.get("object_json_path") or "").strip()
+        if path.startswith("$.") and "." not in path[2:] and "[" not in path:
+            return path[2:]
+        return rule.get("object_id") or ""
+
     def place(self, target_doc, target, value, transform=""):
         """Put `value` at `target`, shaped the way the target vocabulary wants.
 
@@ -132,6 +147,11 @@ class MappingSet(object):
                 target_doc[target] = (
                     target_doc[target] + "\n\n" + joined
                     if target_doc.get(target) else joined)
+            return True
+        if kind == "asis":
+            # The shaper chose the shape. Croissant's sameAs is one URL or
+            # many, and unwrapping a list here would keep only the first.
+            target_doc[target] = value
             return True
         if kind == "ordered":
             target_doc[target] = {"@list": value if isinstance(value, list) else [value]}
@@ -167,7 +187,7 @@ class MappingSet(object):
             if shaper is None:
                 continue
             shaped = shaper(value, source, rule, target_doc)
-            if self.place(target_doc, rule["object_id"], shaped,
+            if self.place(target_doc, self.target_key(rule), shaped,
                           rule.get("transform", "")):
                 consumed.add(raw_key)
                 changes.append("%s to %s" % (subject, rule["object_id"]))
