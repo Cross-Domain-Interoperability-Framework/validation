@@ -136,7 +136,7 @@ two ways (see [`../../../XAS-CDIF/release/xasToCdifWorkflows.md`](../../../XAS-C
 The original design was a **declarative RML mapping executed by a Java tool**
 (`rmlmapper`), packaged as an HTTP service
 ([`cdif-xas`](https://github.com/smrgeoinfo/cdif-xas)). A later **Python emitter
-keyed off SSSOM crosswalks** ([`cdifnexmetadata`](https://github.com/usgin/cdifnexmetadata))
+keyed off SSSOM crosswalks** ([`cdifnexmetadata`](https://github.com/CDIF-4-XAS/cdifnexmetadata))
 turned out to be **easier to build and maintain**: a new input format becomes a
 *parser* rather than a new pipeline, and a new technique a *crosswalk edit* rather
 than a code change, while the SSSOM crosswalk still "licenses" each mapping (its
