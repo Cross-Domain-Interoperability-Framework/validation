@@ -65,6 +65,12 @@ ARRAY_PROPERTIES = [
     'schema:query-input',
     'schema:participant',
     'schema:additionalProperty',
+    # An activity commonly uses several instruments in one role, so the
+    # profiles pin prov:used's schema:instrument wrapper to an array.
+    # Framing collapses a one-instrument list back to a bare object and
+    # the document then fails a schema it actually satisfies -- every
+    # XAS release example failed this way while being correct on disk.
+    'schema:instrument',
     # PROV properties
     'prov:wasGeneratedBy',
     'prov:wasDerivedFrom',
