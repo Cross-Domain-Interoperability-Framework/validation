@@ -1,0 +1,86 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dqv": "http://www.w3.org/ns/dqv#",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "geosparql": "http://www.opengis.net/ont/geosparql#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "time": "http://www.w3.org/2006/time#",
+    "sf": "http://www.opengis.net/ont/sf#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "nxs": "https://manual.nexusformat.org/classes/"
+  },
+  "@id": "http://example.org/base/",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:datePublished": "2022-12-01",
+  "schema:description": "Official rainfall readings for Katoomba, NSW 2022, Australia",
+  "schema:license": [
+    {
+      "@id": "http://spdx.org/licenses/CC0-1.0"
+    }
+  ],
+  "schema:name": "Example dataset for RO-Crate specification",
+  "schema:publisher": {
+    "@id": "https://ror.org/04dkp1p98",
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:description": "Australian Government Bureau of Meteorology",
+    "schema:name": "Bureau of Meteorology",
+    "schema:url": "http://www.bom.gov.au/"
+  },
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      "dcat:CatalogRecord"
+    ],
+    "@id": "ro-crate-metadata.json",
+    "schema:about": {
+      "@id": "http://example.org/base/"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.0"
+      }
+    ]
+  },
+  "schema:distribution": [
+    {
+      "@id": "http://example.org/base/#distribution",
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:hasPart": [
+        {
+          "@id": "http://example.org/base/data.csv",
+          "@type": [
+            "schema:MediaObject"
+          ],
+          "schema:encodingFormat": [
+            "text/csv"
+          ],
+          "schema:license": [
+            {
+              "@id": "https://creativecommons.org/licenses/by-nc-sa/3.0/au/",
+              "@type": [
+                "schema:CreativeWork"
+              ],
+              "schema:description": "Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Australia",
+              "schema:name": "CC BY-NC-SA 3.0 AU"
+            }
+          ],
+          "schema:name": "Rainfall data for Katoomba, NSW Australia February 2022"
+        }
+      ],
+      "schema:contentUrl": "http://example.org/base/data.csv"
+    }
+  ],
+  "schema:dateModified": "2022-12-01"
+}

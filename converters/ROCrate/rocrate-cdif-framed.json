@@ -1,0 +1,73 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dqv": "http://www.w3.org/ns/dqv#",
+    "geosparql": "http://www.opengis.net/ont/geosparql#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "time": "http://www.w3.org/2006/time#",
+    "sf": "http://www.opengis.net/ont/sf#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "nxs": "https://manual.nexusformat.org/classes/"
+  },
+  "@id": "http://example.org/base/",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:dateModified": "2022-12-01",
+  "schema:datePublished": "2022-12-01",
+  "schema:description": "Official rainfall readings for Katoomba, NSW 2022, Australia",
+  "schema:distribution": [
+    {
+      "@id": "http://example.org/base/#distribution",
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "http://example.org/base/data.csv",
+      "schema:hasPart": {
+        "@id": "http://example.org/base/data.csv",
+        "@type": [
+          "schema:MediaObject"
+        ],
+        "schema:encodingFormat": "text/csv",
+        "schema:license": [
+          {
+            "@id": "https://creativecommons.org/licenses/by-nc-sa/3.0/au/",
+            "@type": [
+              "schema:CreativeWork"
+            ],
+            "schema:description": "Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Australia",
+            "schema:name": "CC BY-NC-SA 3.0 AU"
+          }
+        ],
+        "schema:name": "Rainfall data for Katoomba, NSW Australia February 2022"
+      }
+    }
+  ],
+  "schema:license": [
+    {
+      "@id": "http://spdx.org/licenses/CC0-1.0"
+    }
+  ],
+  "schema:name": "Example dataset for RO-Crate specification",
+  "schema:subjectOf": {
+    "@id": "http://example.org/base/ro-crate-metadata.json",
+    "@type": [
+      "schema:Dataset"
+    ],
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/profiles/cdifComplete/1.0"
+      }
+    ],
+    "schema:about": {
+      "@id": "http://example.org/base/"
+    },
+    "schema:additionalType": [
+      "dcat:CatalogRecord"
+    ]
+  }
+}

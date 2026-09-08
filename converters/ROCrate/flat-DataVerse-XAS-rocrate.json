@@ -1,0 +1,276 @@
+{
+  "@context": [
+    "https://w3id.org/ro/crate/1.1/context",
+    {
+      "dcterms": "http://purl.org/dc/terms/",
+      "prov": "http://www.w3.org/ns/prov#",
+      "dqv": "http://www.w3.org/ns/dqv#",
+      "geosparql": "http://www.opengis.net/ont/geosparql#",
+      "spdx": "http://spdx.org/rdf/terms#",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "csvw": "http://www.w3.org/ns/csvw#",
+      "time": "http://www.w3.org/2006/time#",
+      "ada": "https://ada.astromat.org/metadata/",
+      "xas": "https://ada.astromat.org/metadata/xas/",
+      "nxs": "https://manual.nexusformat.org/classes/",
+      "cdifq": "http://crossdomaininteroperability.org/cdifq/",
+      "wasGeneratedBy": {
+        "@id": "prov:wasGeneratedBy",
+        "@container": "@set"
+      },
+      "wasDerivedFrom": {
+        "@id": "prov:wasDerivedFrom",
+        "@container": "@set"
+      },
+      "used": {
+        "@id": "prov:used",
+        "@container": "@set"
+      },
+      "Activity": "prov:Activity",
+      "checksum": "spdx:checksum",
+      "algorithm": "spdx:algorithm",
+      "checksumValue": "spdx:checksumValue",
+      "hasQualityMeasurement": {
+        "@id": "dqv:hasQualityMeasurement",
+        "@container": "@set"
+      },
+      "isMeasurementOf": "dqv:isMeasurementOf",
+      "QualityMeasurement": "dqv:QualityMeasurement",
+      "hasGeometry": "geosparql:hasGeometry",
+      "asWKT": "geosparql:asWKT",
+      "crs": "geosparql:crs",
+      "wktLiteral": "geosparql:wktLiteral",
+      "ProperInterval": "time:ProperInterval",
+      "Instant": "time:Instant",
+      "TimePosition": "time:TimePosition",
+      "intervalStartedBy": {
+        "@id": "time:intervalStartedBy",
+        "@type": "@id"
+      },
+      "intervalFinishedBy": {
+        "@id": "time:intervalFinishedBy",
+        "@type": "@id"
+      },
+      "hasBeginning": "time:hasBeginning",
+      "hasEnd": "time:hasEnd",
+      "inTimePosition": "time:inTimePosition",
+      "hasTRS": {
+        "@id": "time:hasTRS",
+        "@type": "@id"
+      },
+      "numericPosition": "time:numericPosition",
+      "InstanceVariable": "cdi:InstanceVariable",
+      "StructuredDataSet": "cdi:StructuredDataSet",
+      "TabularTextDataSet": "cdi:TabularTextDataSet",
+      "intendedDataType": "cdi:intendedDataType",
+      "role": "cdi:role",
+      "describedUnitOfMeasure": "cdi:describedUnitOfMeasure",
+      "simpleUnitOfMeasure": "cdi:simpleUnitOfMeasure",
+      "unitOfMeasureKind": "cdi:unitOfMeasureKind",
+      "uses": {
+        "@id": "cdi:uses",
+        "@container": "@set"
+      },
+      "characterSet": "cdi:characterSet",
+      "fileSize": "cdi:fileSize",
+      "fileSizeUofM": "cdi:fileSizeUofM",
+      "hasPhysicalMapping": {
+        "@id": "cdi:hasPhysicalMapping",
+        "@container": "@set"
+      },
+      "decimalPositions": "cdi:decimalPositions",
+      "defaultValue": "cdi:defaultValue",
+      "format": "cdi:format",
+      "isRequired": "cdi:isRequired",
+      "maximumLength": "cdi:maximumLength",
+      "minimumLength": "cdi:minimumLength",
+      "nullSequence": "cdi:nullSequence",
+      "physicalDataType": "cdi:physicalDataType",
+      "scale": "cdi:scale",
+      "index": "cdi:index",
+      "locator": "cdi:locator",
+      "formats_InstanceVariable": {
+        "@id": "cdi:formats_InstanceVariable",
+        "@type": "@id"
+      },
+      "arrayBase": "cdi:arrayBase",
+      "escapeCharacter": "cdi:escapeCharacter",
+      "headerIsCaseSensitive": "cdi:headerIsCaseSensitive",
+      "isDelimited": "cdi:isDelimited",
+      "isFixedWidth": "cdi:isFixedWidth",
+      "treatConsecutiveDelimitersAsOne": "cdi:treatConsecutiveDelimitersAsOne",
+      "defaultDecimalSeparator": "cdi:defaultDecimalSeparator",
+      "defaultDigitalGroupSeparator": "cdi:defaultDigitalGroupSeparator",
+      "displayLabel": "cdi:displayLabel",
+      "length": "cdi:length",
+      "allowsDuplicates": "cdi:allowsDuplicates",
+      "isStructuredBy": {
+        "@id": "cdi:isStructuredBy",
+        "@type": "@id"
+      },
+      "has_DataStructureComponent": {
+        "@id": "cdi:has_DataStructureComponent",
+        "@container": "@set"
+      },
+      "isDefinedBy_InstanceVariable": {
+        "@id": "cdi:isDefinedBy_InstanceVariable",
+        "@type": "@id"
+      },
+      "has": {
+        "@id": "cdi:has",
+        "@type": "@id"
+      },
+      "hasIndex": "cdi:hasIndex",
+      "PhysicalDataSet": "cdi:PhysicalDataSet",
+      "WideDataStructure": "cdi:WideDataStructure",
+      "IdentifierComponent": "cdi:IdentifierComponent",
+      "MeasureComponent": "cdi:MeasureComponent",
+      "ValueMapping": "cdi:ValueMapping",
+      "cdiIdentifier": "cdi:identifier",
+      "cdiName": "cdi:name",
+      "commentPrefix": "csvw:commentPrefix",
+      "delimiter": "csvw:delimiter",
+      "header": "csvw:header",
+      "headerRowCount": "csvw:headerRowCount",
+      "lineTerminators": "csvw:lineTerminators",
+      "quoteChar": "csvw:quoteChar",
+      "skipBlankRows": "csvw:skipBlankRows",
+      "skipColumns": "csvw:skipColumns",
+      "skipInitialSpace": "csvw:skipInitialSpace",
+      "skipRows": "csvw:skipRows",
+      "tableDirection": "csvw:tableDirection",
+      "textDirection": "csvw:textDirection",
+      "trim": "csvw:trim",
+      "nColumns": "cdifq:nColumns",
+      "nRows": "cdifq:nRows"
+    }
+  ],
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "conformsTo": {
+        "@id": "https://w3id.org/ro/crate/1.1"
+      },
+      "about": {
+        "@id": "./"
+      }
+    },
+    {
+      "@id": "_:b0",
+      "@type": "Person",
+      "affiliation": {
+        "@id": "_:b1"
+      },
+      "familyName": "Richard",
+      "givenName": "Stephen M.",
+      "name": "Richard, Stephen M."
+    },
+    {
+      "@id": "_:b1",
+      "@type": "Organization",
+      "name": "USGIN.org"
+    },
+    {
+      "@id": "_:b2",
+      "@type": "Person",
+      "affiliation": {
+        "@id": "_:b3"
+      },
+      "familyName": "Richard",
+      "givenName": "Stephen M.",
+      "name": "Richard, Stephen M."
+    },
+    {
+      "@id": "_:b3",
+      "@type": "Organization",
+      "name": "USGIN.org"
+    },
+    {
+      "@id": "_:b4",
+      "@type": "DataCatalog",
+      "name": "Root",
+      "url": "https://dataverse.dev.codata.org"
+    },
+    {
+      "@id": "_:b5",
+      "@type": "Organization",
+      "name": "Root"
+    },
+    {
+      "@id": "_:b6",
+      "@type": "Organization",
+      "name": "Root"
+    },
+    {
+      "@id": "_:b7",
+      "@type": "DataDownload",
+      "contentSize": 18789,
+      "contentUrl": "https://dataverse.dev.codata.org/api/access/datafile/38",
+      "description": "https://github.com/CDIF-4-XAS/XAS-CDIF/blob/main/se_na2so4_rt.xdi",
+      "encodingFormat": "application/octet-stream",
+      "name": "Se_Na2SeO4_rt_01.xdi"
+    },
+    {
+      "@id": "_:b8",
+      "@type": "DataDownload",
+      "contentSize": 15382,
+      "contentUrl": "https://dataverse.dev.codata.org/api/access/datafile/41",
+      "encodingFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "name": "XDI-CDIF-Mapping.xlsx"
+    },
+    {
+      "@id": "./",
+      "@type": "Dataset",
+      "author": {
+        "@id": "_:b0"
+      },
+      "creator": {
+        "@id": "_:b2"
+      },
+      "dateModified": "2025-11-21",
+      "datePublished": "2025-11-19",
+      "description": "comment from xdi file: room temperature; measured at beamline 13-BM-D. need a better description of what's in this datasset-- maybe the DCAT metadata has what we need?",
+      "identifier": "./",
+      "includedInDataCatalog": {
+        "@id": "_:b4"
+      },
+      "keywords": [
+        "Computer and Information Science",
+        "X-Ray Absorption Spetroscopy",
+        "Se",
+        "K"
+      ],
+      "license": "http://creativecommons.org/publicdomain/zero/1.0",
+      "name": "X-ray absorption spectra for K edge, selenium in sodium selenate",
+      "provider": {
+        "@id": "_:b5"
+      },
+      "publisher": {
+        "@id": "_:b6"
+      },
+      "version": "3",
+      "hasPart": [
+        {
+          "@id": "_:b7"
+        },
+        {
+          "@id": "_:b8"
+        }
+      ]
+    },
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "conformsTo": {
+        "@id": "https://w3id.org/ro/crate/1.0"
+      },
+      "about": {
+        "@id": "./"
+      },
+      "description": "comment from xdi file: room temperature; measured at beamline 13-BM-D. need a better description of what's in this datasset-- maybe the DCAT metadata has what we need?",
+      "identifier": "ro-crate-metadata.json",
+      "license": "http://creativecommons.org/publicdomain/zero/1.0"
+    }
+  ]
+}
