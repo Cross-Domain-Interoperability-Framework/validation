@@ -850,9 +850,9 @@ cdifd:cdifDescriptorVariableShape a sh:NodeShape ;
     sh:targetClass cdi:DescriptorVariable .
 
 cdifd:cdifDimensionComponentShape a sh:NodeShape ;
-    sh:property [ sh:message "A cdi:DimensionComponent must carry cdif:isDefinedBy_RepresentedVariable (the RepresentedVariable it is a role of)." ;
+    sh:property [ sh:message "A cdi:DimensionComponent must carry cdif:isDefinedBy_Variable (the RepresentedVariable or InstanceVariable it is a role of)." ;
             sh:minCount 1 ;
-            sh:path <https://w3id.org/cdif/isDefinedBy_RepresentedVariable> ;
+            sh:path <https://w3id.org/cdif/isDefinedBy_Variable> ;
             sh:severity sh:Violation ] ;
     sh:targetClass cdi:DimensionComponent .
 
@@ -875,9 +875,9 @@ cdifd:cdifEnumerationDomainShape a sh:NodeShape ;
     sh:targetClass <https://w3id.org/cdif/EnumerationDomain> .
 
 cdifd:cdifIdentifierComponentShape a sh:NodeShape ;
-    sh:property [ sh:message "A cdi:IdentifierComponent must carry cdif:isDefinedBy_RepresentedVariable (the RepresentedVariable it is a role of)." ;
+    sh:property [ sh:message "A cdi:IdentifierComponent must carry cdif:isDefinedBy_Variable (the RepresentedVariable or InstanceVariable it is a role of)." ;
             sh:minCount 1 ;
-            sh:path <https://w3id.org/cdif/isDefinedBy_RepresentedVariable> ;
+            sh:path <https://w3id.org/cdif/isDefinedBy_Variable> ;
             sh:severity sh:Violation ] ;
     sh:targetClass cdi:IdentifierComponent .
 

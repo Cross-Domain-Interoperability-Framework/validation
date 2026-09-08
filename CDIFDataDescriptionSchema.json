@@ -323,7 +323,7 @@
                 },
                 "cdif:isDefinedBy_RepresentedVariable": {
                     "title": "Object Reference",
-                    "description": "The RepresentedVariable this InstanceVariable instantiates. A reference only (@id, nothing else): the point of the link is that the represented-variable-level properties are defined once on the RepresentedVariable and NOT duplicated here, so an inline copy would defeat it. Same property name as on cdifDataStructureComponent, which carries the equivalent link within a data structure; that one also accepts an inline RepresentedVariable because a structure may define one that exists nowhere else.",
+                    "description": "The RepresentedVariable this InstanceVariable instantiates. A reference only (@id, nothing else): the point of the link is that the represented-variable-level properties are defined once on the RepresentedVariable and NOT duplicated here, so an inline copy would defeat it. The equivalent link within a data structure is cdif:isDefinedBy_Variable on cdifDataStructureComponent -- a different name because it means something wider: it accepts an InstanceVariable as well (in DDI-CDI an InstanceVariable IS a RepresentedVariable), and accepts one inline, because a structure may define a variable that exists nowhere else. This property stays narrow: the RepresentedVariable an InstanceVariable instantiates, by reference.",
                     "type": "object",
                     "properties": {
                         "@id": {
