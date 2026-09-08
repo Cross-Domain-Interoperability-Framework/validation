@@ -153,20 +153,22 @@ def verify_repo(repo, candidate_body, src_sha):
     if ex_dir.is_dir():
         examples = sorted(ex_dir.glob("*.json")) + sorted(ex_dir.glob("*.jsonld"))
     if not examples:
-        return [], 0
+        return [], 0, 0
     existing = sdir / "FrameAndValidate.py"
     cand = sdir / ".FrameAndValidate.candidate.py"
     cand.write_text(generated_text(candidate_body, src_sha), encoding="utf-8")
     regressions = []
+    baseline_passes = 0
     try:
         for ex in examples:
             base_ok, _ = _run_validate(existing, ex) if existing.exists() else (False, "")
             cand_ok, _ = _run_validate(cand, ex)
+            baseline_passes += 1 if base_ok else 0
             if base_ok and not cand_ok:
                 regressions.append(ex.name)
     finally:
         cand.unlink(missing_ok=True)
-    return regressions, len(examples)
+    return regressions, len(examples), baseline_passes
 
 
 def deploy_ci(repo):
@@ -240,17 +242,23 @@ def main(argv=None):
         cur_sha = body_hash(target.read_text(encoding="utf-8")) if target.exists() else None
         in_sync = cur_sha == src_sha
 
-        regressions, n_ex = ([], 0)
+        regressions, n_ex, base_ok_n = ([], 0, 0)
         if not args.no_verify and not in_sync:
-            regressions, n_ex = verify_repo(repo, body, src_sha)
+            regressions, n_ex, base_ok_n = verify_repo(repo, body, src_sha)
 
         status = "in-sync" if in_sync else ("REGRESSION" if regressions else "stale")
         detail = ""
         if regressions:
             detail = f"  !! {len(regressions)} regress: {', '.join(regressions[:4])}" + \
                      (" ..." if len(regressions) > 4 else "")
+        elif not in_sync and n_ex and not base_ok_n:
+            # No example passed under the existing copy, so "no regression" is
+            # vacuous -- nothing could regress. Usually the repo has several
+            # *Schema*.json and the script cannot auto-detect one, so every run
+            # fails identically both sides. Say so rather than print a green count.
+            detail = f"  ({n_ex} examples, NONE pass under the current copy -- gate proved nothing)"
         elif not in_sync and n_ex:
-            detail = f"  ({n_ex} examples ok)"
+            detail = f"  ({n_ex} examples ok, {base_ok_n} passing)"
         print(f"  {repo.name:42s} {status}{detail}")
 
         # CI workflow is a separate artifact -- (re)deploy it independently of
