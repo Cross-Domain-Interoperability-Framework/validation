@@ -79,14 +79,52 @@ def generated_text(body, src_sha, newline="\r\n"):
     return newline.join(banner) + newline + body.replace("\n", newline)
 
 
+# Most release repos keep the copy at their root, but a repo whose publishable
+# artifacts live in a subdirectory keeps it there instead (XAS-CDIF/release/).
+# Such a copy was invisible to discovery, so nothing maintained it and no drift
+# check covered it -- it sat frozen against a months-old normative source while
+# still carrying a DO-NOT-EDIT banner that implied otherwise.
+def _is_generated_copy(path):
+    """True if this file declares itself a synced copy (GENERATED banner).
+
+    Only the GENERATED banner counts. A file carrying the NORMATIVE banner is a
+    stray duplicate of the source, not a target, and one with no banner at all
+    is an independent vendored script -- overwriting either would be wrong.
+    """
+    try:
+        head = path.read_text(encoding="utf-8", errors="replace")[:2048]
+    except OSError:
+        return False
+    return BANNER_OPEN in head
+
+
+def script_dir(repo):
+    """Directory inside `repo` that holds its FrameAndValidate.py copy.
+
+    The root wins when it has one; otherwise the first subdirectory carrying a
+    copy that declares itself generated. Returns the root when there is none,
+    so callers can still form the path for a repo being seeded.
+    """
+    if (repo / "FrameAndValidate.py").exists():
+        return repo
+    for child in sorted(repo.iterdir()):
+        if not child.is_dir() or child.name.startswith("."):
+            continue
+        cand = child / "FrameAndValidate.py"
+        if cand.exists() and _is_generated_copy(cand):
+            return child
+    return repo
+
+
 def discover_targets():
     """Sibling repos under CDIF_ROOT that carry a FrameAndValidate.py (excluding
-    the validation source repo itself)."""
+    the validation source repo itself). The copy may sit at the repo root or one
+    level down, in which case it must declare itself generated."""
     targets = []
     for child in sorted(CDIF_ROOT.iterdir()):
         if not child.is_dir() or child == VALIDATION_DIR:
             continue
-        if (child / "FrameAndValidate.py").exists():
+        if (script_dir(child) / "FrameAndValidate.py").exists():
             targets.append(child)
     return targets
 
@@ -107,11 +145,17 @@ def _run_validate(script, example):
 def verify_repo(repo, candidate_body, src_sha):
     """Run each example through the existing copy (baseline) and a temp candidate;
     return (regressions, n_examples). A regression = baseline PASS, candidate FAIL."""
-    examples = sorted((repo / "examples").glob("*.json")) if (repo / "examples").is_dir() else []
+    sdir = script_dir(repo)
+    ex_dir = sdir / "examples"
+    # .jsonld counts too: XAS's examples are all .jsonld, so a .json-only glob
+    # checked 1 of its 7 and reported the sync safe on that basis.
+    examples = []
+    if ex_dir.is_dir():
+        examples = sorted(ex_dir.glob("*.json")) + sorted(ex_dir.glob("*.jsonld"))
     if not examples:
         return [], 0
-    existing = repo / "FrameAndValidate.py"
-    cand = repo / ".FrameAndValidate.candidate.py"
+    existing = sdir / "FrameAndValidate.py"
+    cand = sdir / ".FrameAndValidate.candidate.py"
     cand.write_text(generated_text(candidate_body, src_sha), encoding="utf-8")
     regressions = []
     try:
@@ -133,6 +177,13 @@ def deploy_ci(repo):
         return "no-template"
     dest = repo / ".github" / "workflows" / "check-frameandvalidate.yml"
     new = template.read_text(encoding="utf-8")
+    # The template names the copy at the repo root, which is right for all but a
+    # repo that keeps it in a subdirectory. There the literal path would make the
+    # paths: filter never match and body_hash() open a file that isn't there, so
+    # the drift check would sit green having tested nothing.
+    rel = script_dir(repo).relative_to(repo).as_posix()
+    if rel != ".":
+        new = new.replace('"FrameAndValidate.py"', f'"{rel}/FrameAndValidate.py"')
     if dest.exists() and dest.read_text(encoding="utf-8") == new:
         return "present"
     dest.parent.mkdir(parents=True, exist_ok=True)
@@ -185,7 +236,7 @@ def main(argv=None):
 
     wrote = skipped = uptodate = 0
     for repo in targets:
-        target = repo / "FrameAndValidate.py"
+        target = script_dir(repo) / "FrameAndValidate.py"
         cur_sha = body_hash(target.read_text(encoding="utf-8")) if target.exists() else None
         in_sync = cur_sha == src_sha
 
