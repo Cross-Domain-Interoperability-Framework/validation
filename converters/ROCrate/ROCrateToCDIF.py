@@ -534,7 +534,12 @@ def _create_subject_of(result, original_doc, profile):
     # Construct subjectOf
     subject_of = {
         "@type": ["schema:Dataset"],
-        "schema:additionalType": ["dcat:CatalogRecord"],
+        # {"@id": ...}, not a bare string: a plain "dcat:CatalogRecord" expands to an
+        # RDF Literal, so the catalog-record marker is absent from the graph entirely --
+        # the schema's `contains` rejects it and
+        # ConformanceValidate.extract_conforms_to skips the node, reading the record as
+        # declaring no conformance at all.
+        "schema:additionalType": [{"@id": "dcat:CatalogRecord"}],
         "@id": descriptor.get("@id", "ro-crate-metadata.json") if descriptor else "ro-crate-metadata.json",
         "schema:about": {"@id": dataset_id},
         "dcterms:conformsTo": [{"@id": profile_uri}],

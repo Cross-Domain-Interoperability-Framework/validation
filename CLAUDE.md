@@ -19,8 +19,9 @@ This repository contains validation tools for **CDIF (Cross-Domain Interoperabil
 |------|------|
 | `tools/FrameAndValidate.py` | Main validation script: frames JSON-LD then validates against schema. **Normative source** for the per-profile copies shipped in the release repos (profile-core, profile-manifest, …); profile-agnostic (auto-detects the single `*Schema*.json`/`*-frame.jsonld` beside it). Propagate edits with `tools/sync_frameandvalidate.py` — see `tools/README.md` |
 | `tools/sync_frameandvalidate.py` | Copies the normative `FrameAndValidate.py` into every sibling release repo with a `DO NOT EDIT` banner + `src-sha256` + read-only flag; verifies each repo's `examples/` don't regress before overwriting (`--apply` to write, `--force`/`--no-verify` to override) |
-| `ConvertToROCrate.py` | Converts CDIF JSON-LD to RO-Crate format -- **moved to [packaging repo](https://github.com/Cross-Domain-Interoperability-Framework/packaging)** |
-| `ValidateROCrate.py` | Validates RO-Crate documents -- **moved to [packaging repo](https://github.com/Cross-Domain-Interoperability-Framework/packaging)** |
+| `converters/ROCrate/ConvertToROCrate.py` | Converts CDIF JSON-LD to RO-Crate 1.2 |
+| `converters/ROCrate/ValidateROCrate.py` | Validates RO-Crate documents (structural + optional SHACL) |
+| `converters/ROCrate/ROCrateToCDIF.py` | Converts RO-Crate 1.2 to CDIF |
 | `validate-cdif.bat` | Windows batch wrapper for oXygen XML Editor integration |
 | `batch_validate.py` | Batch validation of CDIF metadata files across multiple file groups |
 | `ConformanceValidate.py` | Profile-agnostic validator: discovers profiles from the document's `schema:subjectOf/dcterms:conformsTo` (CatalogRecord-tagged) and validates against each profile's schema + SHACL. `--source w3id` (fetch from redirector) or `--source local` (via `conformance-schema-map.json`); single file or directory (batch); engine importable as `run_conformance(...)` |

@@ -1,0 +1,11 @@
+# Required for ConvertToROCrate.py and ROCrateToCDIF.py (JSON-LD expand/flatten/compact/frame)
+pyld>=2.0.3
+
+# Required for ROCrateToCDIF.py --validate (JSON Schema validation of CDIF output)
+jsonschema>=4.0
+
+# Optional: enables the SHACL-based pass in ValidateROCrate.py.
+# Without it, ValidateROCrate.py still runs its built-in structural checks.
+# 1.2-profile support landed in roc-validator >= 0.7; older versions still
+# work — the tool falls back to the ro-crate-1.1 profile automatically.
+roc-validator>=0.7

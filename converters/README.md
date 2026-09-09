@@ -17,6 +17,9 @@ expose their conversion as an importable function.
 | [`DDI/ddi122_to_cdif.py`](DDI/ddi122_to_cdif.py) | DDI 1.2.2 (ICPSR, source-agnostic) → CDIF | DDI XML |
 | [`DDICodebook/ddi25_to_cdif.py`](DDICodebook/ddi25_to_cdif.py) | DDI Codebook 2.5 (source-agnostic) → CDIF | DDI Codebook XML |
 | [`DDI-CDI/ddicdi_to_cdif.py`](DDI-CDI/ddicdi_to_cdif.py) | DDI-CDI 1.0 → CDIF *(phased; all six phases)* | DDI-CDI XML |
+| [`ROCrate/ConvertToROCrate.py`](ROCrate/ConvertToROCrate.py) | CDIF → RO-Crate 1.2 | RO-Crate |
+| [`ROCrate/ROCrateToCDIF.py`](ROCrate/ROCrateToCDIF.py) | RO-Crate 1.2 → CDIF | RO-Crate |
+| [`ROCrate/ValidateROCrate.py`](ROCrate/ValidateROCrate.py) | RO-Crate structural + SHACL validator | RO-Crate |
 
 Related, but **not** in `converters/`: `../geocodes_harvester.py` harvests SOSO
 records from the EarthCube GeoCodes SPARQL catalog and converts them to CDIF —

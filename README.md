@@ -349,9 +349,9 @@ to propagate; see [`tools/README.md`](tools/README.md). When you want to ask
 
 ## RO-Crate Conversion and Validation
 
-RO-Crate conversion and validation tools (`ConvertToROCrate.py`, `ValidateROCrate.py`) have been moved to the [CDIF packaging repository](https://github.com/Cross-Domain-Interoperability-Framework/packaging). These tools convert nested/compacted CDIF JSON-LD into [RO-Crate 1.1](https://www.researchobject.org/ro-crate/1.1/) form via JSON-LD expand + flatten.
+The RO-Crate tools live in [`converters/ROCrate/`](converters/ROCrate/): `ConvertToROCrate.py` (CDIF → RO-Crate 1.2), `ROCrateToCDIF.py` (RO-Crate → CDIF) and `ValidateROCrate.py` (structural + optional SHACL). See that directory's [README](converters/ROCrate/README.md) for usage.
 
-See the [packaging repository documentation](https://github.com/Cross-Domain-Interoperability-Framework/packaging/blob/main/docs/RO-Crate-relationship.md) for conversion details, validation checks, and usage.
+They had been moved out to a `packaging` repository, which no longer exists — the 2026-05 reorg renamed it `profile-manifest` — so both links here were dead. They came back on 2026-09-08, beside the other format converters. The conceptual background stays in `profile-manifest`: [`docs/RO-Crate-relationship.md`](https://github.com/Cross-Domain-Interoperability-Framework/profile-manifest/blob/reviewRevision202606/docs/RO-Crate-relationship.md).
 
 ## Croissant Conversion
 
