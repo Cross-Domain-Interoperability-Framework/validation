@@ -4,7 +4,7 @@ Command-line converters and a validator that move metadata between **CDIF JSON-L
 
 These lived in `profile-manifest/tools/` until 2026-09-08. They are format converters rather than profile artifacts, so they now sit beside the other converters here — DCAT, DDI, DDICodebook, Croissant, SOSO.
 
-For the conceptual background — what RO-Crate is, how the property/structure mappings work, what is preserved on round-trip — see [`RO-Crate-relationship.md`](https://github.com/Cross-Domain-Interoperability-Framework/profile-manifest/blob/reviewRevision202606/docs/RO-Crate-relationship.md) in `profile-manifest`, which stays there as profile documentation. This README is a short operational reference.
+For the conceptual background — what RO-Crate is, how the property/structure mappings work, what is preserved on round-trip — see [`RO-Crate-relationship.md`](https://github.com/Cross-Domain-Interoperability-Framework/profile-manifest/blob/main/docs/RO-Crate-relationship.md) in `profile-manifest`, which stays there as profile documentation. This README is a short operational reference.
 
 ## Examples in this directory
 
