@@ -1,0 +1,47 @@
+# Do the w3id conformance URIs still resolve to the version they name?
+#
+# The redirect rules for a CURRENT version point at GitHub Pages, which serves
+# each release repo's `main` branch -- and main is always the newest release. So
+# those rules are correct only while the version in the URI is the newest one.
+# When a newer minor version merges to main, an un-repointed rule serves the
+# wrong spec, and nothing reports an error: there is no build to fail, and a 1.2
+# schema is a perfectly valid schema. The URI just quietly stops meaning what it
+# says, and every record claiming the old version is validated against the wrong
+# thing.
+#
+# The fix is a two-step edit in perma-id/w3id.org (see w3id.org/cdif/CLAUDE.md).
+# That PR merges on the upstream project's schedule, not ours, so there is a
+# window where the change is written but not live. This job is what notices --
+# both that window, and the case where step 1 was simply forgotten.
+#
+# It is scheduled rather than triggered by a release: the thing that breaks the
+# redirect is an upstream merge we do not control, so there is no event here to
+# hang it on.
+name: check-w3id-redirects
+
+on:
+  schedule:
+    # Weekly, Monday 06:00 UTC. Drift is not urgent-but-silent; it is
+    # slow-but-silent, and weekly is enough to catch it long before anyone
+    # relies on a wrong answer.
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+  push:
+    paths:
+      - "tools/check_w3id_redirects.py"
+      - ".github/workflows/check-w3id-redirects.yml"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # No dependencies: the script uses only the standard library, so this job
+      # cannot fail for reasons unrelated to what it is checking.
+      - name: Check conformance URIs resolve to the version they name
+        run: python tools/check_w3id_redirects.py --strict
