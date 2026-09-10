@@ -18,6 +18,10 @@ mapping_tool: converters/DCAT/dcat_to_cdif.py
 mapping_date: 2026-09-04
 subject_source: http://www.w3.org/ns/dcat#
 object_source: https://w3id.org/cdif/discovery/1.1
+see_also:
+  # schema.org targets cross-checked against W3C DCAT 3 Appendix B (Alignment with Schema.org)
+  - https://w3c.github.io/dxwg/dcat/#dcat-sdo
+  - https://w3c.github.io/dxwg/dcat/rdf/dcat-schema.ttl
 extension_definitions:
   - slot_name: object_json_path
     property: https://w3id.org/cdif/mappings/objectJsonPath
@@ -26,6 +30,13 @@ extension_definitions:
   - slot_name: transform
     property: https://w3id.org/cdif/mappings/transform
 curie_map:
+  csvw: http://www.w3.org/ns/csvw#
+  dpv: https://w3id.org/dpv#
+  healthdcat: http://healthdataportal.eu/ns/health#
+  mdcat: https://w3id.org/mobilitydcat-ap#
+  oa: http://www.w3.org/ns/oa#
+  odrs: http://schema.theodi.org/odrs#
+  time: http://www.w3.org/2006/time#
   dcat: http://www.w3.org/ns/dcat#
   dcterms: http://purl.org/dc/terms/
   foaf: http://xmlns.com/foaf/0.1/
@@ -93,9 +104,16 @@ comment: |
     checksum        spdx:Checksum -> CDIF's spdx:checksum object
     measurement     a bare quality value -> a dqv:QualityMeasurement
     attribution     prov:Attribution -> a contributor carrying its role
-    relatedlink     an IRI -> a relatedLink whose linkRelationship is the
-                    source property, so the six properties that land here
-                    stay distinguishable
+    relatedlink     an IRI -> a schema:relatedLink whose schema:linkRelationship
+                    is the source property, so every relation routed here
+                    (dcterms:relation/references/replaces/isReferencedBy/...,
+                    dcat version and series links, dcat:qualifiedRelation,
+                    foaf:page, wdrs:describedby, ...) keeps its specific
+                    meaning, and the target generalizes to any
+                    schema:CreativeWork rather than another dcat:Dataset. This
+                    deliberately supersedes the W3C DCAT->schema.org alignment
+                    of dcterms:relation to schema:isRelatedTo, which cannot
+                    carry the relationship semantics or a non-Dataset target
     passthrough     copied verbatim onto the record; JSON-LD is open world and
                     CDIF permits additional properties
     catalog-walk    structural: the converter descends rather than maps
