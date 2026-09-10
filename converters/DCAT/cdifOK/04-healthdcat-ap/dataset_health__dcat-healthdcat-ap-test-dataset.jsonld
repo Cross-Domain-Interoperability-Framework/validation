@@ -5,9 +5,7 @@
     "dcat": "http://www.w3.org/ns/dcat#",
     "prov": "http://www.w3.org/ns/prov#",
     "adms": "http://www.w3.org/ns/adms#",
-    "dqv": "http://www.w3.org/ns/dqv#",
-    "health": "http://healthdataportal.eu/ns/health#",
-    "dpv": "https://w3id.org/dpv#"
+    "dqv": "http://www.w3.org/ns/dqv#"
   },
   "@id": "http://example.healthdata.nl/set/dataset",
   "@type": [
@@ -56,12 +54,18 @@
     "2020-03-01/2024-12-31"
   ],
   "schema:additionalType": [
-    "_:n3b13d85aadc94572aebead3815e6441bb7"
-  ],
-  "dcterms:conformsTo": [
-    "http://www.wikidata.org/entity/Q19597236"
+    "_:n794393f9dbca44909263bb793eb73509b7"
   ],
   "schema:relatedLink": [
+    {
+      "schema:linkRelationship": "dcterms:relation",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "http://example.com/dataset/9876543210"
+      }
+    },
     {
       "schema:linkRelationship": "dcterms:isReferencedBy",
       "schema:target": {
@@ -86,7 +90,7 @@
         "@type": [
           "schema:EntryPoint"
         ],
-        "schema:url": "_:n3b13d85aadc94572aebead3815e6441bb5"
+        "schema:url": "_:n794393f9dbca44909263bb793eb73509b5"
       }
     },
     {
@@ -104,9 +108,12 @@
         "@type": [
           "schema:EntryPoint"
         ],
-        "schema:url": "_:n3b13d85aadc94572aebead3815e6441bb9"
+        "schema:url": "_:n794393f9dbca44909263bb793eb73509b9"
       }
     }
+  ],
+  "dcterms:conformsTo": [
+    "http://www.wikidata.org/entity/Q19597236"
   ],
   "schema:isPartOf": [
     "http://example.com/catalog/abcdefghijklmnopqrstuvwxyz"
@@ -183,10 +190,11 @@
         "prov:Activity"
       ],
       "prov:used": [
-        "_:n3b13d85aadc94572aebead3815e6441bb3"
+        "_:n794393f9dbca44909263bb793eb73509b3"
       ]
     }
   ],
+  "schema:alternateName": "TEST-DATASET",
   "adms:identifier": {
     "@id": "internalURI:admsIdentifier0"
   },
@@ -207,87 +215,11 @@
   "dcterms:accrualPeriodicity": {
     "@id": "http://publications.europa.eu/resource/authority/frequency/DAILY"
   },
-  "dcterms:alternative": "TEST-DATASET",
-  "dcterms:relation": {
-    "@id": "http://example.com/dataset/9876543210"
-  },
   "dcterms:spatial": {
     "@id": "http://publications.europa.eu/resource/authority/country/BEL"
   },
-  "dqv:hasQualityAnnotation": {
-    "@id": "_:n3b13d85aadc94572aebead3815e6441bb8"
-  },
-  "health:analytics": {
-    "@id": "http://example.com/analytics"
-  },
-  "health:hasCodeValues": [
-    {
-      "@id": "http://example.com/code1"
-    },
-    {
-      "@id": "http://example.com/code2"
-    }
-  ],
-  "health:hasCodingSystem": [
-    {
-      "@id": "http://www.wikidata.org/entity/P1690"
-    },
-    {
-      "@id": "http://www.wikidata.org/entity/P4229"
-    }
-  ],
-  "health:hdab": {
-    "@id": "_:n3b13d85aadc94572aebead3815e6441bb1"
-  },
-  "health:healthCategory": [
-    {
-      "@id": "http://example.com/ontology/resource/authority/healthcategories/PHDR"
-    },
-    {
-      "@id": "http://example.com/ontology/resource/authority/healthcategories/IDHP"
-    },
-    {
-      "@id": "http://example.com/ontology/resource/authority/healthcategories/DIOH"
-    },
-    {
-      "@id": "http://example.com/ontology/resource/authority/healthcategories/EHRS"
-    }
-  ],
-  "health:healthTheme": [
-    {
-      "@id": "http://www.wikidata.org/entity/Q7907952"
-    },
-    {
-      "@id": "http://www.wikidata.org/entity/Q58624061"
-    }
-  ],
-  "health:maxTypicalAge": {
-    "@type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
-    "@value": "110"
-  },
-  "health:minTypicalAge": {
-    "@type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
-    "@value": "0"
-  },
-  "health:numberOfRecords": {
-    "@type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
-    "@value": "123456789"
-  },
-  "health:numberOfUniqueIndividuals": {
-    "@type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
-    "@value": "7654321"
-  },
-  "health:populationCoverage": "This example includes a very non-descript population",
-  "health:publisherNote": "Health-RI is the Dutch health care initiative to build an integrated health data infrastructure for research and innovation.",
-  "health:publisherType": {
-    "@id": "http://example.com/publisherType/undefined"
-  },
-  "health:retentionPeriod": {
-    "@id": "_:n3b13d85aadc94572aebead3815e6441bb2"
-  },
-  "health:trustedDataHolder": true,
   "dpv:hasLegalBasis": {
-    "@id": "https://w3id.org/dpv#Consent"
+    "@id": "dpv:Consent"
   },
   "dpv:hasPersonalData": [
     {
@@ -301,8 +233,80 @@
     }
   ],
   "dpv:hasPurpose": {
-    "@id": "https://w3id.org/dpv#AcademicResearch"
+    "@id": "dpv:AcademicResearch"
   },
+  "dqv:hasQualityAnnotation": {
+    "@id": "_:n794393f9dbca44909263bb793eb73509b8"
+  },
+  "healthdcat:analytics": {
+    "@id": "http://example.com/analytics"
+  },
+  "healthdcat:hasCodeValues": [
+    {
+      "@id": "http://example.com/code1"
+    },
+    {
+      "@id": "http://example.com/code2"
+    }
+  ],
+  "healthdcat:hasCodingSystem": [
+    {
+      "@id": "http://www.wikidata.org/entity/P1690"
+    },
+    {
+      "@id": "http://www.wikidata.org/entity/P4229"
+    }
+  ],
+  "healthdcat:hdab": {
+    "@id": "_:n794393f9dbca44909263bb793eb73509b1"
+  },
+  "healthdcat:healthCategory": [
+    {
+      "@id": "http://example.com/ontology/resource/authority/healthcategories/PHDR"
+    },
+    {
+      "@id": "http://example.com/ontology/resource/authority/healthcategories/IDHP"
+    },
+    {
+      "@id": "http://example.com/ontology/resource/authority/healthcategories/DIOH"
+    },
+    {
+      "@id": "http://example.com/ontology/resource/authority/healthcategories/EHRS"
+    }
+  ],
+  "healthdcat:healthTheme": [
+    {
+      "@id": "http://www.wikidata.org/entity/Q7907952"
+    },
+    {
+      "@id": "http://www.wikidata.org/entity/Q58624061"
+    }
+  ],
+  "healthdcat:maxTypicalAge": {
+    "@type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+    "@value": "110"
+  },
+  "healthdcat:minTypicalAge": {
+    "@type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+    "@value": "0"
+  },
+  "healthdcat:numberOfRecords": {
+    "@type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+    "@value": "123456789"
+  },
+  "healthdcat:numberOfUniqueIndividuals": {
+    "@type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+    "@value": "7654321"
+  },
+  "healthdcat:populationCoverage": "This example includes a very non-descript population",
+  "healthdcat:publisherNote": "Health-RI is the Dutch health care initiative to build an integrated health data infrastructure for research and innovation.",
+  "healthdcat:publisherType": {
+    "@id": "http://example.com/publisherType/undefined"
+  },
+  "healthdcat:retentionPeriod": {
+    "@id": "_:n794393f9dbca44909263bb793eb73509b2"
+  },
+  "healthdcat:trustedDataHolder": true,
   "schema:license": [
     {
       "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
@@ -337,6 +341,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:identifier to schema:identifier; dcterms:issued to schema:datePublished; dcterms:modified to schema:dateModified; dcterms:language to schema:inLanguage; dcterms:publisher to schema:publisher; dcterms:creator to schema:creator; dcterms:accessRights to schema:conditionsOfAccess; dcterms:temporal to schema:temporalCoverage; dcterms:type to schema:additionalType; dcterms:conformsTo to dcterms:conformsTo; dcterms:isReferencedBy to schema:relatedLink; dcterms:isPartOf to schema:isPartOf; dcat:keyword to schema:keywords; dcat:theme to schema:keywords; dcat:contactPoint to schema:provider; dcat:distribution to schema:distribution; dcat:qualifiedRelation to schema:relatedLink; dcat:hasVersion to schema:relatedLink; prov:qualifiedAttribution to schema:contributor; prov:wasGeneratedBy to prov:wasGeneratedBy; foaf:page to schema:relatedLink; adms:versionNotes to schema:description. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:identifier to schema:identifier; dcterms:issued to schema:datePublished; dcterms:modified to schema:dateModified; dcterms:language to schema:inLanguage; dcterms:publisher to schema:publisher; dcterms:creator to schema:creator; dcterms:accessRights to schema:conditionsOfAccess; dcterms:temporal to schema:temporalCoverage; dcterms:type to schema:additionalType; dcterms:relation to schema:relatedLink; dcterms:conformsTo to dcterms:conformsTo; dcterms:isReferencedBy to schema:relatedLink; dcterms:isPartOf to schema:isPartOf; dcat:keyword to schema:keywords; dcat:theme to schema:keywords; dcat:contactPoint to schema:provider; dcat:distribution to schema:distribution; dcat:qualifiedRelation to schema:relatedLink; dcat:hasVersion to schema:relatedLink; prov:qualifiedAttribution to schema:contributor; prov:wasGeneratedBy to prov:wasGeneratedBy; foaf:page to schema:relatedLink; adms:versionNotes to schema:description; dcterms:alternative to schema:alternateName. Unmapped DCAT properties preserved (open world)."
   }
 }

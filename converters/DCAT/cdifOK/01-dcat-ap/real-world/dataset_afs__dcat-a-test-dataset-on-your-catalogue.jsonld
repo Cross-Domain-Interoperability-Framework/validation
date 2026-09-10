@@ -3,8 +3,7 @@
     "schema": "http://schema.org/",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
-    "prov": "http://www.w3.org/ns/prov#",
-    "x11": "http://purl.org/dc/elements/1.1/"
+    "prov": "http://www.w3.org/ns/prov#"
   },
   "@id": "http://example.com/data/test-dataset-1",
   "@type": [
@@ -15,6 +14,7 @@
   "schema:identifier": "http://example.com/data/test-dataset-1",
   "schema:datePublished": "2012-05-10",
   "schema:dateModified": "2012-05-10T21:04",
+  "schema:inLanguage": "ca",
   "schema:publisher": {
     "@type": [
       "schema:Organization"
@@ -39,7 +39,7 @@
       ],
       "schema:contentUrl": "http://url.to.csv.file",
       "schema:encodingFormat": [
-        "_:nd44436cda47c4f03b057bcdfefb12ec7b3"
+        "_:nc4ebe7ef5a424e23bc01e754fa4f1696b3"
       ],
       "schema:name": "Test resource CSV file",
       "schema:license": [
@@ -52,18 +52,13 @@
       ],
       "schema:contentUrl": "http://url.to.html.page",
       "schema:encodingFormat": [
-        "_:nd44436cda47c4f03b057bcdfefb12ec7b5"
+        "_:nc4ebe7ef5a424e23bc01e754fa4f1696b5"
       ],
       "schema:name": "Test resource HTML file",
       "schema:license": [
         "https://url.to.license"
       ]
     }
-  ],
-  "x11:language": [
-    "ca",
-    "en",
-    "es"
   ],
   "schema:license": [
     {
@@ -99,6 +94,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:identifier to schema:identifier; dcterms:issued to schema:datePublished; dcterms:modified to schema:dateModified; dcterms:publisher to schema:publisher; dcat:keyword to schema:keywords; dcat:landingPage to schema:url; dcat:distribution to schema:distribution. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dce:language read as dcterms:language; dcterms:title to schema:name; dcterms:description to schema:description; dcterms:identifier to schema:identifier; dcterms:issued to schema:datePublished; dcterms:modified to schema:dateModified; dcterms:language to schema:inLanguage; dcterms:publisher to schema:publisher; dcat:keyword to schema:keywords; dcat:landingPage to schema:url; dcat:distribution to schema:distribution. Unmapped DCAT properties preserved (open world)."
   }
 }

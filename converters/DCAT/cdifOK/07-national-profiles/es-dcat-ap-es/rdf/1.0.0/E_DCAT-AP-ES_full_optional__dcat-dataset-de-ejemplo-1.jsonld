@@ -62,7 +62,7 @@
         "@type": [
           "schema:EntryPoint"
         ],
-        "schema:url": "_:Neab7482f66374906bb426c1f3b263826"
+        "schema:url": "_:Ndca282d1b94d4af789eb5f617ae0d37a"
       }
     },
     {
@@ -71,7 +71,7 @@
         "@type": [
           "schema:EntryPoint"
         ],
-        "schema:url": "_:Nc97e98c93a4b47bc9abb86d099395b0e"
+        "schema:url": "_:N26e2535273324e11ab8266ad24016c1b"
       }
     },
     {
@@ -80,7 +80,7 @@
         "@type": [
           "schema:EntryPoint"
         ],
-        "schema:url": "_:Nb5b163b2588a48ae91df902f8f058650"
+        "schema:url": "_:N45000a9a3bc447e9af9c7515f1f8b509"
       }
     },
     {
@@ -90,6 +90,15 @@
           "schema:EntryPoint"
         ],
         "schema:url": "http://dcat-ap-es.ejemplo.org/dataset/dataset-ejemplo-2"
+      }
+    },
+    {
+      "schema:linkRelationship": "dcat:isVersionOf",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "http://dcat-ap-es.ejemplo.org/dataset/dataset-ejemplo-3"
       }
     },
     {
@@ -203,6 +212,11 @@
       ]
     }
   ],
+  "prov:wasDerivedFrom": [
+    {
+      "@id": "http://dcat-ap-es.ejemplo.org/dataset/dataset-raiz-ejemplo-1"
+    }
+  ],
   "adms:sample": {
     "@id": "http://dcat-ap-es.ejemplo.org/distribucion/dataset-ejemplo-1-CSV"
   },
@@ -216,12 +230,6 @@
   },
   "dcterms:accrualPeriodicity": {
     "@id": "http://publications.europa.eu/resource/authority/frequency/MONTHLY"
-  },
-  "dcterms:isVersionOf": {
-    "@id": "http://dcat-ap-es.ejemplo.org/dataset/dataset-ejemplo-3"
-  },
-  "dcterms:source": {
-    "@id": "http://dcat-ap-es.ejemplo.org/dataset/dataset-raiz-ejemplo-1"
   },
   "dcterms:spatial": {
     "@id": "http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Madrid"
@@ -260,6 +268,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:identifier to schema:identifier; dcterms:issued to schema:datePublished; dcterms:modified to schema:dateModified; dcterms:language to schema:inLanguage; dcterms:publisher to schema:publisher; dcterms:creator to schema:creator; dcterms:accessRights to schema:conditionsOfAccess; dcterms:temporal to schema:temporalCoverage; dcterms:type to schema:additionalType; dcterms:conformsTo to dcterms:conformsTo; dcterms:isReferencedBy to schema:relatedLink; dcat:keyword to schema:keywords; dcat:theme to schema:keywords; dcat:landingPage to schema:url; dcat:contactPoint to schema:provider; dcat:version to schema:version; dcat:distribution to schema:distribution; dcat:qualifiedRelation to schema:relatedLink; dcat:hasVersion to schema:relatedLink; prov:qualifiedAttribution to schema:contributor; prov:wasGeneratedBy to prov:wasGeneratedBy; foaf:page to schema:relatedLink; adms:versionNotes to schema:description. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:isVersionOf read as dcat:isVersionOf; dcterms:title to schema:name; dcterms:description to schema:description; dcterms:identifier to schema:identifier; dcterms:issued to schema:datePublished; dcterms:modified to schema:dateModified; dcterms:language to schema:inLanguage; dcterms:publisher to schema:publisher; dcterms:creator to schema:creator; dcterms:accessRights to schema:conditionsOfAccess; dcterms:temporal to schema:temporalCoverage; dcterms:type to schema:additionalType; dcterms:conformsTo to dcterms:conformsTo; dcterms:isReferencedBy to schema:relatedLink; dcat:keyword to schema:keywords; dcat:theme to schema:keywords; dcat:landingPage to schema:url; dcat:contactPoint to schema:provider; dcat:version to schema:version; dcat:distribution to schema:distribution; dcat:qualifiedRelation to schema:relatedLink; dcat:hasVersion to schema:relatedLink; dcat:isVersionOf to schema:relatedLink; prov:qualifiedAttribution to schema:contributor; prov:wasGeneratedBy to prov:wasGeneratedBy; foaf:page to schema:relatedLink; adms:versionNotes to schema:description; dcterms:source to prov:wasDerivedFrom. Unmapped DCAT properties preserved (open world)."
   }
 }

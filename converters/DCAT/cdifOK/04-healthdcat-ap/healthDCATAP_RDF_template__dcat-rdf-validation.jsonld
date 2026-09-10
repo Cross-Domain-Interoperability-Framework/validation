@@ -6,9 +6,7 @@
     "prov": "http://www.w3.org/ns/prov#",
     "adms": "http://www.w3.org/ns/adms#",
     "dqv": "http://www.w3.org/ns/dqv#",
-    "health": "http://healthdataportal.eu/ns/health#",
-    "technicalfdp": "http://technical.fdp/",
-    "dpv": "https://w3id.org/dpv#"
+    "technicalfdp": "http://technical.fdp/"
   },
   "@id": "http://fair.healthdataportal.eu:8080/dataset/c1aa4336-1037-42c2-8c31-013f42bdd3e0",
   "@type": [
@@ -73,10 +71,25 @@
     "http://publications.europa.eu/resource/authority/dataset-type/GEOSPATIAL",
     "http://publications.europa.eu/resource/authority/dataset-type/PERSONAL_DATA"
   ],
-  "dcterms:conformsTo": [
-    "http://fair.healthdataportal.eu:8080/profile/2f08228e-1789-40f8-84cd-28e3288c3604"
-  ],
   "schema:relatedLink": [
+    {
+      "schema:linkRelationship": "dcterms:relation",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "http://tab3-relation-relation.test"
+      }
+    },
+    {
+      "schema:linkRelationship": "dcterms:relation",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "http://tab4-relation-relation.test"
+      }
+    },
     {
       "schema:linkRelationship": "dcterms:isReferencedBy",
       "schema:target": {
@@ -167,6 +180,9 @@
         "schema:url": "http://tab4-webPage-documentation.test"
       }
     }
+  ],
+  "dcterms:conformsTo": [
+    "http://fair.healthdataportal.eu:8080/profile/2f08228e-1789-40f8-84cd-28e3288c3604"
   ],
   "schema:isPartOf": [
     "http://fair.healthdataportal.eu:8080/catalog/4329f5bd-f60f-483a-8f99-18ec996eb0d5",
@@ -312,6 +328,15 @@
   "schema:sameAs": [
     "http://tab4-otherIdentifiers-notation.test"
   ],
+  "schema:alternateName": "tab1-alternative-alternative",
+  "prov:wasDerivedFrom": [
+    {
+      "@id": "http://tab3-source-source.test"
+    },
+    {
+      "@id": "http://tab4-source-source.test"
+    }
+  ],
   "adms:identifier": [
     {
       "@id": "internalURI:admsIdentifier0"
@@ -347,106 +372,8 @@
   "dcterms:accrualPeriodicity": {
     "@id": "http://publications.europa.eu/resource/authority/frequency/CONT"
   },
-  "dcterms:alternative": {
-    "@language": "en",
-    "@value": "tab1-alternative-alternative"
-  },
-  "dcterms:relation": [
-    {
-      "@id": "http://tab3-relation-relation.test"
-    },
-    {
-      "@id": "http://tab4-relation-relation.test"
-    }
-  ],
-  "dcterms:source": [
-    {
-      "@id": "http://tab3-source-source.test"
-    },
-    {
-      "@id": "http://tab4-source-source.test"
-    }
-  ],
   "dcterms:spatial": {
     "@id": "http://publications.europa.eu/resource/authority/country/AUT"
-  },
-  "dqv:hasQualityAnnotation": {
-    "@id": "internalURI:datasetQualityAnnotation0"
-  },
-  "health:analytics": {
-    "@id": "http://fair.healthdataportal.eu:8080/analytics/215f4d40-a6fd-4133-8a51-785e1fef3000"
-  },
-  "health:hasCodeValues": [
-    {
-      "@id": "http://www.orpha.net/ORDO/Orphanet_26348"
-    },
-    {
-      "@id": "http://www.orpha.net/ORDO/Orphanet_73229"
-    },
-    {
-      "@id": "https://loinc.org/26464-8/"
-    },
-    {
-      "@id": "https://loinc.org/55231-5/"
-    }
-  ],
-  "health:hasCodingSystem": [
-    {
-      "@id": "http://www.wikidata.org/entity/P4338"
-    },
-    {
-      "@id": "http://www.wikidata.org/entity/Q24254958"
-    },
-    {
-      "@id": "http://www.wikidata.org/entity/Q45127"
-    }
-  ],
-  "health:hdab": {
-    "@id": "_:n98336b00843c4249ae7fbd8e9bef9215b8"
-  },
-  "health:healthCategory": {
-    "@id": "http://healthdataportal.eu/resource/authority/healthcategories/EHRS"
-  },
-  "health:healthTheme": [
-    {
-      "@id": "http://www.wikidata.org/entity/Q35869"
-    },
-    {
-      "@id": "http://www.wikidata.org/entity/Q84263196"
-    }
-  ],
-  "health:maxTypicalAge": {
-    "@type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
-    "@value": "7"
-  },
-  "health:minTypicalAge": {
-    "@type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
-    "@value": "7"
-  },
-  "health:numberOfRecords": {
-    "@type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
-    "@value": "7"
-  },
-  "health:numberOfUniqueIndividuals": {
-    "@type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
-    "@value": "7"
-  },
-  "health:populationCoverage": [
-    {
-      "@language": "en",
-      "@value": "tab1-populationCoverage-populationCoverage"
-    },
-    {
-      "@language": "da",
-      "@value": "tab2-populationCoverage-populationCoverage"
-    }
-  ],
-  "health:retentionPeriod": {
-    "@id": "_:n98336b00843c4249ae7fbd8e9bef9215b10"
-  },
-  "technicalfdp:modified": {
-    "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
-    "@value": "2025-03-09T12:13:11.887000+00:00"
   },
   "dpv:hasLegalBasis": [
     {
@@ -469,6 +396,84 @@
   ],
   "dpv:hasPurpose": {
     "@id": "internalURI:datasetPurpose0"
+  },
+  "dqv:hasQualityAnnotation": {
+    "@id": "internalURI:datasetQualityAnnotation0"
+  },
+  "healthdcat:analytics": {
+    "@id": "http://fair.healthdataportal.eu:8080/analytics/215f4d40-a6fd-4133-8a51-785e1fef3000"
+  },
+  "healthdcat:hasCodeValues": [
+    {
+      "@id": "http://www.orpha.net/ORDO/Orphanet_26348"
+    },
+    {
+      "@id": "http://www.orpha.net/ORDO/Orphanet_73229"
+    },
+    {
+      "@id": "https://loinc.org/26464-8/"
+    },
+    {
+      "@id": "https://loinc.org/55231-5/"
+    }
+  ],
+  "healthdcat:hasCodingSystem": [
+    {
+      "@id": "http://www.wikidata.org/entity/P4338"
+    },
+    {
+      "@id": "http://www.wikidata.org/entity/Q24254958"
+    },
+    {
+      "@id": "http://www.wikidata.org/entity/Q45127"
+    }
+  ],
+  "healthdcat:hdab": {
+    "@id": "_:nc8d9a396d4c4428581cb00274ba2c2c5b8"
+  },
+  "healthdcat:healthCategory": {
+    "@id": "http://healthdataportal.eu/resource/authority/healthcategories/EHRS"
+  },
+  "healthdcat:healthTheme": [
+    {
+      "@id": "http://www.wikidata.org/entity/Q35869"
+    },
+    {
+      "@id": "http://www.wikidata.org/entity/Q84263196"
+    }
+  ],
+  "healthdcat:maxTypicalAge": {
+    "@type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+    "@value": "7"
+  },
+  "healthdcat:minTypicalAge": {
+    "@type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+    "@value": "7"
+  },
+  "healthdcat:numberOfRecords": {
+    "@type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+    "@value": "7"
+  },
+  "healthdcat:numberOfUniqueIndividuals": {
+    "@type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+    "@value": "7"
+  },
+  "healthdcat:populationCoverage": [
+    {
+      "@language": "en",
+      "@value": "tab1-populationCoverage-populationCoverage"
+    },
+    {
+      "@language": "da",
+      "@value": "tab2-populationCoverage-populationCoverage"
+    }
+  ],
+  "healthdcat:retentionPeriod": {
+    "@id": "_:nc8d9a396d4c4428581cb00274ba2c2c5b10"
+  },
+  "technicalfdp:modified": {
+    "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+    "@value": "2025-03-09T12:13:11.887000+00:00"
   },
   "schema:license": [
     {
@@ -504,6 +509,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:identifier to schema:identifier; dcterms:issued to schema:datePublished; dcterms:modified to schema:dateModified; dcterms:language to schema:inLanguage; dcterms:publisher to schema:publisher; dcterms:creator to schema:creator; dcterms:accessRights to schema:conditionsOfAccess; dcterms:temporal to schema:temporalCoverage; dcterms:type to schema:additionalType; dcterms:conformsTo to dcterms:conformsTo; dcterms:isReferencedBy to schema:relatedLink; dcterms:isPartOf to schema:isPartOf; dcat:keyword to schema:keywords; dcat:theme to schema:keywords; dcat:landingPage to schema:url; dcat:contactPoint to schema:provider; dcat:version to schema:version; dcat:distribution to schema:distribution; dcat:qualifiedRelation to schema:relatedLink; dcat:inSeries to schema:isPartOf; dcat:hasVersion to schema:relatedLink; dcat:isVersionOf to schema:relatedLink; prov:qualifiedAttribution to schema:contributor; prov:wasGeneratedBy to prov:wasGeneratedBy; foaf:page to schema:relatedLink; adms:versionNotes to schema:description. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:identifier to schema:identifier; dcterms:issued to schema:datePublished; dcterms:modified to schema:dateModified; dcterms:language to schema:inLanguage; dcterms:publisher to schema:publisher; dcterms:creator to schema:creator; dcterms:accessRights to schema:conditionsOfAccess; dcterms:temporal to schema:temporalCoverage; dcterms:type to schema:additionalType; dcterms:relation to schema:relatedLink; dcterms:conformsTo to dcterms:conformsTo; dcterms:isReferencedBy to schema:relatedLink; dcterms:isPartOf to schema:isPartOf; dcat:keyword to schema:keywords; dcat:theme to schema:keywords; dcat:landingPage to schema:url; dcat:contactPoint to schema:provider; dcat:version to schema:version; dcat:distribution to schema:distribution; dcat:qualifiedRelation to schema:relatedLink; dcat:inSeries to schema:isPartOf; dcat:hasVersion to schema:relatedLink; dcat:isVersionOf to schema:relatedLink; prov:qualifiedAttribution to schema:contributor; prov:wasGeneratedBy to prov:wasGeneratedBy; foaf:page to schema:relatedLink; adms:versionNotes to schema:description; dcterms:alternative to schema:alternateName; dcterms:source to prov:wasDerivedFrom. Unmapped DCAT properties preserved (open world)."
   }
 }

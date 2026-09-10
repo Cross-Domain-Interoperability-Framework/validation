@@ -75,10 +75,25 @@
   "schema:additionalType": [
     "test-type"
   ],
-  "dcterms:conformsTo": [
-    "Standard 1"
-  ],
   "schema:relatedLink": [
+    {
+      "schema:linkRelationship": "dcterms:relation",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "http://dataset.info.org/related1"
+      }
+    },
+    {
+      "schema:linkRelationship": "dcterms:relation",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "http://dataset.info.org/related2"
+      }
+    },
     {
       "schema:linkRelationship": "dcterms:isReferencedBy",
       "schema:target": {
@@ -103,7 +118,34 @@
         "@type": [
           "schema:EntryPoint"
         ],
-        "schema:url": "_:Ne8793f18b17149af95cb900ec3ad627c"
+        "schema:url": "_:Nbb626b39b9e246a08bc90494142fa68e"
+      }
+    },
+    {
+      "schema:linkRelationship": "dcat:hasVersion",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "https://data.some.org/catalog/datasets/derived-dataset-1"
+      }
+    },
+    {
+      "schema:linkRelationship": "dcat:hasVersion",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "https://data.some.org/catalog/datasets/derived-dataset-2"
+      }
+    },
+    {
+      "schema:linkRelationship": "dcat:isVersionOf",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "https://data.some.org/catalog/datasets/original-dataset"
       }
     },
     {
@@ -124,6 +166,9 @@
         "schema:url": "http://dataset.info.org/doc2"
       }
     }
+  ],
+  "dcterms:conformsTo": [
+    "Standard 1"
   ],
   "schema:keywords": [
     "exploration",
@@ -218,6 +263,14 @@
       }
     }
   ],
+  "prov:wasDerivedFrom": [
+    {
+      "@id": "https://data.some.org/catalog/datasets/source-dataset-1"
+    },
+    {
+      "@id": "https://data.some.org/catalog/datasets/source-dataset-2"
+    }
+  ],
   "adms:identifier": [
     "alternate-identifier-1",
     "alternate-identifier-2"
@@ -244,33 +297,6 @@
   "dcterms:accrualPeriodicity": {
     "@id": "http://purl.org/cld/freq/daily"
   },
-  "dcterms:hasVersion": [
-    {
-      "@id": "https://data.some.org/catalog/datasets/derived-dataset-1"
-    },
-    {
-      "@id": "https://data.some.org/catalog/datasets/derived-dataset-2"
-    }
-  ],
-  "dcterms:isVersionOf": {
-    "@id": "https://data.some.org/catalog/datasets/original-dataset"
-  },
-  "dcterms:relation": [
-    {
-      "@id": "http://dataset.info.org/related1"
-    },
-    {
-      "@id": "http://dataset.info.org/related2"
-    }
-  ],
-  "dcterms:source": [
-    {
-      "@id": "https://data.some.org/catalog/datasets/source-dataset-1"
-    },
-    {
-      "@id": "https://data.some.org/catalog/datasets/source-dataset-2"
-    }
-  ],
   "foaf:homepage": {
     "@id": "http://dataset.info.org/home"
   },
@@ -303,7 +329,7 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: owl:versionInfo read as dcat:version; dcterms:title to schema:name; dcterms:description to schema:description; dcterms:identifier to schema:identifier; dcterms:issued to schema:datePublished; dcterms:modified to schema:dateModified; dcterms:language to schema:inLanguage; dcterms:publisher to schema:publisher; dcterms:creator to schema:creator; dcterms:license to schema:license; dcterms:accessRights to schema:conditionsOfAccess; dcterms:spatial to schema:spatialCoverage; dcterms:temporal to schema:temporalCoverage; dcterms:type to schema:additionalType; dcterms:conformsTo to dcterms:conformsTo; dcterms:isReferencedBy to schema:relatedLink; dcat:keyword to schema:keywords; dcat:theme to schema:keywords; dcat:landingPage to schema:url; dcat:contactPoint to schema:provider; dcat:version to schema:version; dcat:distribution to schema:distribution; dcat:qualifiedRelation to schema:relatedLink; foaf:page to schema:relatedLink; adms:versionNotes to schema:description. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:hasVersion read as dcat:hasVersion; dcterms:isVersionOf read as dcat:isVersionOf; owl:versionInfo read as dcat:version; dcterms:title to schema:name; dcterms:description to schema:description; dcterms:identifier to schema:identifier; dcterms:issued to schema:datePublished; dcterms:modified to schema:dateModified; dcterms:language to schema:inLanguage; dcterms:publisher to schema:publisher; dcterms:creator to schema:creator; dcterms:license to schema:license; dcterms:accessRights to schema:conditionsOfAccess; dcterms:spatial to schema:spatialCoverage; dcterms:temporal to schema:temporalCoverage; dcterms:type to schema:additionalType; dcterms:relation to schema:relatedLink; dcterms:conformsTo to dcterms:conformsTo; dcterms:isReferencedBy to schema:relatedLink; dcat:keyword to schema:keywords; dcat:theme to schema:keywords; dcat:landingPage to schema:url; dcat:contactPoint to schema:provider; dcat:version to schema:version; dcat:distribution to schema:distribution; dcat:qualifiedRelation to schema:relatedLink; dcat:hasVersion to schema:relatedLink; dcat:isVersionOf to schema:relatedLink; foaf:page to schema:relatedLink; adms:versionNotes to schema:description; dcterms:source to prov:wasDerivedFrom. Unmapped DCAT properties preserved (open world)."
   },
   "prov:wasGeneratedBy": [
     {

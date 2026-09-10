@@ -3,8 +3,7 @@
     "schema": "http://schema.org/",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
-    "prov": "http://www.w3.org/ns/prov#",
-    "x11": "http://purl.org/dc/elements/1.1/"
+    "prov": "http://www.w3.org/ns/prov#"
   },
   "@id": "https://data.some.org/catalog/datasets/1",
   "@type": [
@@ -15,6 +14,7 @@
   "schema:identifier": "https://data.some.org/catalog/datasets/1",
   "schema:datePublished": "2013-04-26T00:00:00+00:00",
   "schema:dateModified": "2013-04-26T00:00:00+00:00",
+  "schema:inLanguage": "en",
   "schema:publisher": {
     "@type": [
       "schema:Organization"
@@ -55,7 +55,7 @@
       ],
       "schema:contentUrl": "https://data.some.org/the/actual/catalog/datasets/1/resources/2.pdf",
       "schema:encodingFormat": [
-        "_:Nf57c0bf112d8463d902bf656d1c56eee"
+        "_:N2603a95815354a3fac21f73a42901f83"
       ],
       "schema:name": "A distribution for this dataset in PDF format",
       "schema:description": "A longer description for the distribution",
@@ -72,7 +72,6 @@
       "schema:description": "A longer description for the distribution"
     }
   ],
-  "x11:language": "en",
   "schema:subjectOf": {
     "@type": [
       "schema:Dataset"
@@ -102,6 +101,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:identifier to schema:identifier; dcterms:issued to schema:datePublished; dcterms:modified to schema:dateModified; dcterms:publisher to schema:publisher; dcterms:license to schema:license; dcat:keyword to schema:keywords; dcat:distribution to schema:distribution. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF core profile by dcat_to_cdif.py. Mappings applied: dce:language read as dcterms:language; dcterms:title to schema:name; dcterms:description to schema:description; dcterms:identifier to schema:identifier; dcterms:issued to schema:datePublished; dcterms:modified to schema:dateModified; dcterms:language to schema:inLanguage; dcterms:publisher to schema:publisher; dcterms:license to schema:license; dcat:keyword to schema:keywords; dcat:distribution to schema:distribution. Unmapped DCAT properties preserved (open world)."
   }
 }
