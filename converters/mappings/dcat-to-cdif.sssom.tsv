@@ -178,37 +178,37 @@ dcatde:politicalGeocoding	politicalGeocoding	dcat:Dataset	skos:closeMatch				pas
 dcat-us:program	program	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	DCAT/DCAT-AP/US property; no CDIF target yet - for review.			
 dcat:granularity	granularity	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	DCAT/DCAT-AP/US property; no CDIF target yet - for review.			
 adms:representationTechnique	representationTechnique	dcat:Distribution	skos:closeMatch				passthrough	semapv:ManualMappingCuration	DCAT/DCAT-AP/US property; no CDIF target yet - for review.			
-foaf:isPrimaryTopicOf	isPrimaryTopicOf	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	DCAT/DCAT-AP/US property; no CDIF target yet - for review.			
+foaf:isPrimaryTopicOf	isPrimaryTopicOf	dcat:Dataset	skos:closeMatch	schema:relatedLink	relatedLink	$.schema:relatedLink	relatedlink	semapv:ManualMappingCuration	CDIF relatedLink [ linkRelationship = 'isPrimaryTopicOf' ].			
 foaf:workplaceHomepage	workplaceHomepage	foaf:Agent	skos:closeMatch				passthrough	semapv:ManualMappingCuration	DCAT/DCAT-AP/US property; no CDIF target yet - for review.			
-dcterms:alternative	alternative	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Dublin Core term seen in the corpus; unmapped - for review.			
-dcterms:source	source	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Dublin Core term seen in the corpus; unmapped - for review.			
-dcterms:subject	subject	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Dublin Core term seen in the corpus; unmapped - for review.			
+dcterms:alternative	alternative	dcat:Dataset	skos:closeMatch	schema:alternateName	alternateName	$.schema:alternateName	text	semapv:ManualMappingCuration	Alternative title -> schema:alternateName.			
+dcterms:source	source	dcat:Dataset	skos:closeMatch	prov:wasDerivedFrom	wasDerivedFrom	$.prov:wasDerivedFrom	idref	semapv:ManualMappingCuration	Source the dataset was derived from -> prov:wasDerivedFrom (CDIF derivedFrom).			
+dcterms:subject	subject	dcat:Dataset	skos:closeMatch	schema:keywords	keyword	$.schema:keywords	theme	semapv:ManualMappingCuration	Subject -> schema:DefinedTerm in keywords, tagged schema:about='subject' (like dcat:theme).			
 dcterms:valid	valid	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Dublin Core term seen in the corpus; unmapped - for review.			
-dcterms:start	start	dcterms:PeriodOfTime	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Dublin Core term seen in the corpus; unmapped - for review.			
-dcterms:end	end	dcterms:PeriodOfTime	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Dublin Core term seen in the corpus; unmapped - for review.			
-vcard:street-address	street-address	vcard:Address	skos:closeMatch				passthrough	semapv:ManualMappingCuration	vCard contact detail; candidate schema:ContactPoint/PostalAddress - for review.			
-vcard:locality	locality	vcard:Address	skos:closeMatch				passthrough	semapv:ManualMappingCuration	vCard contact detail; candidate schema:ContactPoint/PostalAddress - for review.			
-vcard:postal-code	postal-code	vcard:Address	skos:closeMatch				passthrough	semapv:ManualMappingCuration	vCard contact detail; candidate schema:ContactPoint/PostalAddress - for review.			
-vcard:country-name	country-name	vcard:Address	skos:closeMatch				passthrough	semapv:ManualMappingCuration	vCard contact detail; candidate schema:ContactPoint/PostalAddress - for review.			
-vcard:region	region	vcard:Address	skos:closeMatch				passthrough	semapv:ManualMappingCuration	vCard contact detail; candidate schema:ContactPoint/PostalAddress - for review.			
-vcard:hasAddress	hasAddress	vcard:Kind	skos:closeMatch				passthrough	semapv:ManualMappingCuration	vCard contact detail; candidate schema:ContactPoint/PostalAddress - for review.			
+dcterms:start	start	dcterms:PeriodOfTime	skos:exactMatch		temporalCoverageStart	$.schema:temporalCoverage	period-part	semapv:ManualMappingCuration	Folded into the ISO 8601 schema:temporalCoverage interval (start bound).			
+dcterms:end	end	dcterms:PeriodOfTime	skos:exactMatch		temporalCoverageEnd	$.schema:temporalCoverage	period-part	semapv:ManualMappingCuration	Folded into the ISO 8601 schema:temporalCoverage interval (end bound).			
+vcard:street-address	street-address	vcard:Address	skos:exactMatch	schema:streetAddress	streetAddress	$.schema:provider.schema:address.schema:streetAddress	vcard-part	semapv:ManualMappingCuration	Part of the provider's schema:PostalAddress.			
+vcard:locality	locality	vcard:Address	skos:exactMatch	schema:addressLocality	addressLocality	$.schema:provider.schema:address.schema:addressLocality	vcard-part	semapv:ManualMappingCuration	Part of the provider's schema:PostalAddress.			
+vcard:postal-code	postal-code	vcard:Address	skos:exactMatch	schema:postalCode	postalCode	$.schema:provider.schema:address.schema:postalCode	vcard-part	semapv:ManualMappingCuration	Part of the provider's schema:PostalAddress.			
+vcard:country-name	country-name	vcard:Address	skos:exactMatch	schema:addressCountry	addressCountry	$.schema:provider.schema:address.schema:addressCountry	vcard-part	semapv:ManualMappingCuration	Part of the provider's schema:PostalAddress.			
+vcard:region	region	vcard:Address	skos:exactMatch	schema:addressRegion	addressRegion	$.schema:provider.schema:address.schema:addressRegion	vcard-part	semapv:ManualMappingCuration	Part of the provider's schema:PostalAddress.			
+vcard:hasAddress	hasAddress	vcard:Kind	skos:closeMatch	schema:address	address	$.schema:provider.schema:address	vcard-part	semapv:ManualMappingCuration	vcard:Address -> schema:PostalAddress on the provider (built by the vcard transform).			
 vcard:hasUID	hasUID	vcard:Kind	skos:closeMatch				passthrough	semapv:ManualMappingCuration	vCard contact detail; candidate schema:ContactPoint/PostalAddress - for review.			
-vcard:hasOrganizationName	hasOrganizationName	vcard:Kind	skos:closeMatch				passthrough	semapv:ManualMappingCuration	vCard contact detail; candidate schema:ContactPoint/PostalAddress - for review.			
-vcard:organisationName	organisationName	vcard:Kind	skos:closeMatch				passthrough	semapv:ManualMappingCuration	vCard contact detail; candidate schema:ContactPoint/PostalAddress - for review.			
+vcard:hasOrganizationName	hasOrganizationName	vcard:Kind	skos:closeMatch	schema:name	name	$.schema:provider.schema:name	vcard-part	semapv:ManualMappingCuration	Org-type contact name -> the provider Organization's schema:name.			
+vcard:organisationName	organisationName	vcard:Kind	skos:closeMatch	schema:name	name	$.schema:provider.schema:name	vcard-part	semapv:ManualMappingCuration	Org-type contact name -> the provider Organization's schema:name.			
 vcard:organisationUnit	organisationUnit	vcard:Kind	skos:closeMatch				passthrough	semapv:ManualMappingCuration	vCard contact detail; candidate schema:ContactPoint/PostalAddress - for review.			
-vcard:organization-name	organization-name	vcard:Kind	skos:closeMatch				passthrough	semapv:ManualMappingCuration	vCard contact detail; candidate schema:ContactPoint/PostalAddress - for review.			
+vcard:organization-name	organization-name	vcard:Kind	skos:closeMatch	schema:name	name	$.schema:provider.schema:name	vcard-part	semapv:ManualMappingCuration	Org-type contact name -> the provider Organization's schema:name.			
 vcard:organization-unit	organization-unit	vcard:Kind	skos:closeMatch				passthrough	semapv:ManualMappingCuration	vCard contact detail; candidate schema:ContactPoint/PostalAddress - for review.			
 locn:address	address	foaf:Agent	skos:closeMatch				passthrough	semapv:ManualMappingCuration	locn address detail; candidate schema:PostalAddress - for review.			
 locn:adminUnitL1	adminUnitL1	locn:Address	skos:closeMatch				passthrough	semapv:ManualMappingCuration	locn address detail; candidate schema:PostalAddress - for review.			
 locn:adminUnitL2	adminUnitL2	dcterms:Location	skos:closeMatch				passthrough	semapv:ManualMappingCuration	locn address detail; candidate schema:PostalAddress - for review.			
-prov:startedAtTime	startedAtTime	prov:Activity	skos:closeMatch				passthrough	semapv:ManualMappingCuration	PROV-O provenance term; maps under prov:wasGeneratedBy activity - for review.			
-prov:endedAtTime	endedAtTime	prov:Activity	skos:closeMatch				passthrough	semapv:ManualMappingCuration	PROV-O provenance term; maps under prov:wasGeneratedBy activity - for review.			
-prov:wasAssociatedWith	wasAssociatedWith	prov:Activity	skos:closeMatch				passthrough	semapv:ManualMappingCuration	PROV-O provenance term; maps under prov:wasGeneratedBy activity - for review.			
+prov:startedAtTime	startedAtTime	prov:Activity	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Agreed CDIF target: schema:startTime on the prov:wasGeneratedBy activity. Passthrough until an activity-descent shaper is added.			
+prov:endedAtTime	endedAtTime	prov:Activity	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Agreed CDIF target: schema:endTime on the prov:wasGeneratedBy activity. Passthrough until an activity-descent shaper is added.			
+prov:wasAssociatedWith	wasAssociatedWith	prov:Activity	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Agreed CDIF target: schema:agent on the prov:wasGeneratedBy activity. Passthrough until an activity-descent shaper is added.			
 prov:actedOnBehalfOf	actedOnBehalfOf	prov:Agent	skos:closeMatch				passthrough	semapv:ManualMappingCuration	PROV-O provenance term; maps under prov:wasGeneratedBy activity - for review.			
-prov:generated	generated	prov:Activity	skos:closeMatch				passthrough	semapv:ManualMappingCuration	PROV-O provenance term; maps under prov:wasGeneratedBy activity - for review.			
-prov:hadPlan	hadPlan	prov:Association	skos:closeMatch				passthrough	semapv:ManualMappingCuration	PROV-O provenance term; maps under prov:wasGeneratedBy activity - for review.			
-prov:qualifiedAssociation	qualifiedAssociation	prov:Activity	skos:closeMatch				passthrough	semapv:ManualMappingCuration	PROV-O provenance term; maps under prov:wasGeneratedBy activity - for review.			
-prov:wasDerivedFrom	wasDerivedFrom	prov:Entity	skos:closeMatch				passthrough	semapv:ManualMappingCuration	PROV-O provenance term; maps under prov:wasGeneratedBy activity - for review.			
+prov:generated	generated	prov:Activity	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Agreed CDIF target: schema:result on the prov:wasGeneratedBy activity. Passthrough until an activity-descent shaper is added.			
+prov:hadPlan	hadPlan	prov:Association	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Agreed CDIF target: schema:actionProcess (HowTo) on the prov:wasGeneratedBy activity. Passthrough until an activity-descent shaper is added.			
+prov:qualifiedAssociation	qualifiedAssociation	prov:Activity	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Agreed CDIF target: schema:relatedLink. Passthrough until wired (it is an activity-level property).			
+prov:wasDerivedFrom	wasDerivedFrom	prov:Entity	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Agreed CDIF target: prov:used on the prov:wasGeneratedBy activity. Passthrough until an activity-descent shaper is added.			
 prov:wasUsedBy	wasUsedBy	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	PROV-O provenance term; maps under prov:wasGeneratedBy activity - for review.			
 healthdcat:analytics	analytics	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	HealthDCAT-AP extension; no CDIF target - for review.			
 healthdcat:hasCodeValues	hasCodeValues	dcat:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	HealthDCAT-AP extension; no CDIF target - for review.			

@@ -519,7 +519,9 @@ def _tf_theme(value, ds, rule, doc):
                 iri = text
             else:
                 name = text
-        term = {"@type": ["schema:DefinedTerm"], "schema:about": "DCATtheme"}
+        about = ("DCATtheme" if rule.get("subject_id") == "dcat:theme"
+                 else rule["subject_id"].split(":")[-1])
+        term = {"@type": ["schema:DefinedTerm"], "schema:about": about}
         if iri:
             term["schema:identifier"] = iri
         if not name and iri:
@@ -579,7 +581,10 @@ def _tf_vcard(value, ds, rule, doc):
         types = " ".join(_as_list(contact.get("@type")))
         kind = "schema:Organization" if ("Organization" in types or "Org" in types) \
             else "schema:Person"
-        name = _get_str(contact.get("vcard:fn") or contact.get("schema:name"))
+        name = _get_str(contact.get("vcard:fn") or contact.get("schema:name")
+                        or contact.get("vcard:hasOrganizationName")
+                        or contact.get("vcard:organization-name")
+                        or contact.get("vcard:organisationName"))
         email = contact.get("vcard:hasEmail") or contact.get("vcard:email")
         url = contact.get("vcard:hasURL") or contact.get("vcard:url")
         phone = contact.get("vcard:hasTelephone")
@@ -607,6 +612,21 @@ def _tf_vcard(value, ds, rule, doc):
                 point["schema:telephone"] = tel.replace("tel:", "")
         if len(point) > 1:
             agent["schema:contactPoint"] = point
+        node = contact.get("vcard:hasAddress") or contact
+        node = node[0] if isinstance(node, list) and node else node
+        if isinstance(node, dict):
+            postal, fields = {"@type": ["schema:PostalAddress"]}, {
+                "vcard:street-address": "schema:streetAddress",
+                "vcard:locality": "schema:addressLocality",
+                "vcard:postal-code": "schema:postalCode",
+                "vcard:country-name": "schema:addressCountry",
+                "vcard:region": "schema:addressRegion"}
+            for k, t in fields.items():
+                v = _get_str(node.get(k))
+                if v:
+                    postal[t] = v
+            if len(postal) > 1:
+                agent["schema:address"] = postal
         out.append(agent)
     return out or None
 
@@ -914,6 +934,7 @@ _TARGET_ARITY = {
     "schema:sameAs": "array",
     "schema:inDefinedTermSet": "array",
     "prov:wasGeneratedBy": "array",
+    "prov:wasDerivedFrom": "array",
     "dqv:hasQualityMeasurement": "array",
     "prov:used": "array",
     "schema:creator": "ordered",       # {"@list": [...]}, order is meaningful
@@ -1472,8 +1493,10 @@ def convert_temporal(temporal):
     if not isinstance(temporal, dict):
         return _get_str(temporal) if temporal else None
 
-    start = temporal.get("dcat:startDate") or temporal.get("schema:startDate")
-    end = temporal.get("dcat:endDate") or temporal.get("schema:endDate")
+    start = (temporal.get("dcat:startDate") or temporal.get("schema:startDate")
+             or temporal.get("dcterms:start"))
+    end = (temporal.get("dcat:endDate") or temporal.get("schema:endDate")
+           or temporal.get("dcterms:end"))
 
     if start and end:
         return f"{_get_str(start)}/{_get_str(end)}"
