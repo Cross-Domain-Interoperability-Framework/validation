@@ -13,6 +13,11 @@ its own conformance URI once, as the `contains` const on dcterms:conformsTo, so
 the artifact states which version it is. Fetch each URI and confirm the artifact
 that comes back agrees.
 
+It then asks the same question of the CDIF book, which pins its links to
+release tags rather than to main. A stale pin there does not 404 -- it serves a
+correct-looking page describing an older release -- so it needs the same kind of
+guard for the same reason.
+
     python tools/check_w3id_redirects.py            # report
     python tools/check_w3id_redirects.py --strict   # exit 1 on any mismatch
 
@@ -20,6 +25,8 @@ See w3id.org/cdif/CLAUDE.md for the release checklist this guards.
 """
 import argparse
 import json
+import os
+import re
 import sys
 import urllib.error
 import urllib.request
@@ -77,6 +84,150 @@ def check(component, version):
     return False, f"artifact declares no {component} conformance URI"
 
 
+# ---------------------------------------------------------------------------
+# Second check: does the CDIF book still pin the newest release tag?
+#
+# The book links release artifacts by tag, not by branch, so a reader always
+# gets the spec the prose was written against. That is the right policy, and it
+# is exactly why it needs a guard: a tag pin does not rot into a 404, it rots
+# into a page that looks entirely correct while describing a superseded release.
+# Nothing in the book's own build can notice, because every link it contains
+# still resolves. Same failure shape as an un-repointed w3id rule, which is why
+# the two checks live together.
+#
+# Every tracked file is scanned rather than a known list of pages, so a link
+# added to a new chapter is covered the day it lands.
+# ---------------------------------------------------------------------------
+
+ORG = "Cross-Domain-Interoperability-Framework"
+BOOK_TARBALL = f"https://github.com/{ORG}/cdifbook/archive/refs/heads/main.tar.gz"
+
+# Generated output, rebuilt from the sources; a stale tag here is not a finding.
+BOOK_SKIP_DIRS = ("_build/", "_book/", "_site/")
+
+# Members larger than this are assets, not prose. Keeps the scan from decoding
+# megabytes of PNG to find nothing.
+BOOK_MAX_BYTES = 2_000_000
+
+TAG_REF = re.compile(
+    r"github\.com/" + ORG + r"/([A-Za-z0-9._-]+)/(?:blob|tree|raw)/(v\d+\.\d+\.\d+)")
+
+
+def _semver(tag):
+    return tuple(int(part) for part in tag.lstrip("v").split("."))
+
+
+def book_tag_refs():
+    """{repo: {tag: count}} over every release-tag link in the book sources."""
+    import io
+    import tarfile
+
+    with urllib.request.urlopen(BOOK_TARBALL, timeout=TIMEOUT) as r:
+        archive = r.read()
+
+    refs = {}
+    with tarfile.open(fileobj=io.BytesIO(archive), mode="r:gz") as tf:
+        for member in tf.getmembers():
+            if not member.isfile() or member.size > BOOK_MAX_BYTES:
+                continue
+            # Drop the "cdifbook-main/" wrapper the archive adds.
+            path = member.name.split("/", 1)[-1]
+            if path.startswith(BOOK_SKIP_DIRS):
+                continue
+            handle = tf.extractfile(member)
+            if handle is None:
+                continue
+            text = handle.read().decode("utf-8", "ignore")
+            for repo, tag in TAG_REF.findall(text):
+                refs.setdefault(repo, {})
+                refs[repo][tag] = refs[repo].get(tag, 0) + 1
+    return refs
+
+
+def newest_tag(repo):
+    """Highest vX.Y.Z tag in a release repo, or None if it has none.
+
+    Sorted by parsed semver rather than trusting the API's order, which is not
+    documented to be version order -- v1.1.10 must beat v1.1.9.
+    """
+    url = f"https://api.github.com/repos/{ORG}/{repo}/tags?per_page=100"
+    headers = {"Accept": "application/vnd.github+json"}
+    # Unauthenticated API calls from a shared runner IP hit the 60/hour limit;
+    # the workflow passes the job's own token, which needs no extra permission
+    # to read public tags.
+    token = os.environ.get("GITHUB_TOKEN")
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+    with urllib.request.urlopen(
+            urllib.request.Request(url, headers=headers), timeout=TIMEOUT) as r:
+        tags = json.load(r)
+    versions = [t["name"] for t in tags
+                if re.fullmatch(r"v\d+\.\d+\.\d+", t["name"])]
+    return max(versions, key=_semver) if versions else None
+
+
+def check_book():
+    """Report the book's tag pins. Returns the list of (repo, detail) problems."""
+    print("=== cdifbook release-tag pins ===")
+    try:
+        refs = book_tag_refs()
+    except (urllib.error.URLError, OSError) as e:
+        print(f"  SKIP  could not fetch the book sources: {e}")
+        print()
+        return []
+
+    if not refs:
+        # Zero findings from zero matches is the failure this repo keeps
+        # relearning, so say so instead of printing a clean bill of health.
+        print("  NOTE  no release-tag links found at all -- either the book stopped")
+        print("        linking artifacts by tag, or the link style changed and this")
+        print("        check is now matching nothing.")
+        print()
+        return []
+
+    print(f"{'repo':<28} {'pinned':<20} {'newest':<10} result")
+    print("-" * 96)
+    bad = []
+    for repo in sorted(refs):
+        pins = refs[repo]
+        pinned = ", ".join(sorted(pins, key=_semver))
+        count = sum(pins.values())
+        try:
+            newest = newest_tag(repo)
+        except (urllib.error.URLError, OSError) as e:
+            print(f"{repo:<28} {pinned:<20} {'?':<10} SKIP  {e}")
+            continue
+        if newest is None:
+            print(f"{repo:<28} {pinned:<20} {'-':<10} SKIP  no vX.Y.Z tags")
+            continue
+
+        if len(pins) > 1:
+            result = f"MIXED {count} link(s) split across {len(pins)} tags"
+            bad.append((repo, result))
+        elif pinned != newest:
+            result = f"STALE {count} link(s) still at {pinned}"
+            bad.append((repo, result))
+        else:
+            result = f"OK    {count} link(s)"
+        print(f"{repo:<28} {pinned:<20} {newest:<10} {result}")
+
+    print()
+    if bad:
+        print(f"::error::{len(bad)} repo(s) linked from the CDIF book are pinned "
+              f"to a superseded release tag.")
+        for repo, result in bad:
+            print(f"    {repo}: {result}")
+        print()
+        print("Repoint the book's links to the newest tag and push; Pages")
+        print("redeploys on merge to main. The 2026-09-10 sweep is a worked")
+        print("example -- cdifbook commit 'Repoint profile artifact links to")
+        print("the v1.1.1 release tag'.")
+    else:
+        print(f"All {len(refs)} repo(s) linked from the book are pinned to the "
+              f"newest release tag.")
+    return bad
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -112,7 +263,10 @@ def main():
     if skipped:
         print(f"Not checked (unreachable): {', '.join(skipped)}")
 
-    return 1 if (bad and args.strict) else 0
+    print()
+    book_bad = check_book()
+
+    return 1 if ((bad or book_bad) and args.strict) else 0
 
 
 if __name__ == "__main__":

@@ -14,6 +14,12 @@
 # window where the change is written but not live. This job is what notices --
 # both that window, and the case where step 1 was simply forgotten.
 #
+# The same job also checks the CDIF book's release-tag pins. The book links
+# artifacts by tag so a reader gets the spec the prose was written against, which
+# means a patch release leaves those links a version behind -- and a stale tag
+# does not 404, it serves a correct-looking page for a superseded release. Same
+# silent shape, so it is caught in the same place.
+#
 # It is scheduled rather than triggered by a release: the thing that breaks the
 # redirect is an upstream merge we do not control, so there is no event here to
 # hang it on.
@@ -43,5 +49,10 @@ jobs:
 
       # No dependencies: the script uses only the standard library, so this job
       # cannot fail for reasons unrelated to what it is checking.
-      - name: Check conformance URIs resolve to the version they name
+      - name: Check conformance URIs and book tag pins
+        # Reading public tags needs no extra permission, but an unauthenticated
+        # call from a shared runner IP hits the 60/hour API limit -- which would
+        # surface as a SKIP, i.e. as a check that quietly stopped checking.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python tools/check_w3id_redirects.py --strict
