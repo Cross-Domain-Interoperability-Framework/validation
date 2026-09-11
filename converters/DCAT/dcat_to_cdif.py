@@ -994,6 +994,67 @@ def _tf_generatedby(value, ds, rule, doc):
     return out or None
 
 
+# Sentinel a fan-out shaper returns to mean "I handled this key myself (writing
+# straight to doc); consume it so the passthrough pass does not also copy it,
+# but place nothing at object_id."
+_CONSUMED = object()
+
+_INSPIRE_SRT = "http://inspire.ec.europa.eu/codelist/SpatialRepresentationType/"
+
+
+def _tf_representationtechnique(value, ds, rule, doc):
+    """adms:representationTechnique routes by its value. An INSPIRE
+    SpatialRepresentationType URI is geometry-model information with no CDIF
+    discovery slot (its home is the data_structure profile), so it is passed
+    through verbatim onto the Dataset root; any other value is treated as a
+    schema-language / format concept and lands in dcterms:conformsTo."""
+    conforms, kept = [], []
+    for v in _as_list(value):
+        iri = _get_str(v.get("@id") if isinstance(v, dict) else v)
+        if iri and iri.startswith(_INSPIRE_SRT):
+            kept.append(v)
+        elif iri:
+            conforms.append(iri)
+    if conforms:
+        _place(doc, "dcterms:conformsTo",
+               conforms[0] if len(conforms) == 1 else conforms, "")
+    if kept:
+        k, val = _prefix_keys("adms:representationTechnique",
+                              kept[0] if len(kept) == 1 else kept, doc["@context"])
+        doc[k] = val
+    return _CONSUMED
+
+
+def _tf_odrlpolicy(value, ds, rule, doc):
+    """odrl:hasPolicy: keep the policy reference as schema:publishingPrinciples
+    (as before), and copy the access rules an inline odrl:Policy carries --
+    odrl:permission / prohibition / obligation / action (the Rule objects,
+    whose own nested odrl:action rides along) -- verbatim as children of
+    schema:conditionsOfAccess, which is where CDIF will attach its Access
+    profile. Rule values may be objects, strings, or {@id} references."""
+    principles, rules = [], []
+    for pol in _as_list(value):
+        if isinstance(pol, dict):
+            for prop in ("odrl:permission", "odrl:prohibition",
+                         "odrl:obligation", "odrl:action"):
+                rules += _as_list(pol.get(prop))
+            if pol.get("@id"):
+                principles.append(pol["@id"])
+        elif pol:
+            principles.append(pol)
+    if rules:
+        _place(doc, "schema:conditionsOfAccess", rules, "")   # array -> verbatim children
+    refs = []
+    for p in principles:
+        r = _tf_iri(p, ds, rule, doc)
+        r = r[0] if isinstance(r, list) and r else r
+        if r:
+            refs.append(r)
+    if refs:
+        return refs[0] if len(refs) == 1 else refs
+    return _CONSUMED
+
+
 def _tf_rights(value, ds, rule, doc):
     """dcterms:rights -> a labelled schema:conditionsOfAccess entry, and, when the
     value is an odrs:RightsStatement, fan its sub-properties out to the dataset:
@@ -1029,7 +1090,7 @@ def _tf_rights(value, ds, rule, doc):
                                                      "schema:url": u}})
         if not seen:
             passthrough.append(node)
-    return _tf_prefixedtext(passthrough, ds, rule, doc) if passthrough else None
+    return _tf_prefixedtext(passthrough, ds, rule, doc) if passthrough else _CONSUMED
 
 
 _TRANSFORMS = {
@@ -1043,6 +1104,8 @@ _TRANSFORMS = {
     "describe": _tf_describe,
     "prefixedtext": _tf_prefixedtext,
     "rights": _tf_rights,
+    "representationtechnique": _tf_representationtechnique,
+    "odrlpolicy": _tf_odrlpolicy,
     "theme": _tf_theme,
     "bytes": _tf_bytes,
     "mediatype": _tf_mediatype,
@@ -1332,8 +1395,8 @@ def _apply_table(doc, ds, changes, graph=None):
         transform = _TRANSFORMS.get(rule["transform"])
         if transform is None:
             continue
-        if _place(doc, rule["object_id"], transform(value, ds, rule, doc),
-                  rule["transform"]):
+        res = transform(value, ds, rule, doc)
+        if res is _CONSUMED or _place(doc, rule["object_id"], res, rule["transform"]):
             consumed.add(key)
             changes.append("%s to %s" % (key, rule["object_id"]))
     return consumed
