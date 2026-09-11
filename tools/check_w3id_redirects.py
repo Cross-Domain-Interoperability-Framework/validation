@@ -21,7 +21,7 @@ guard for the same reason.
     python tools/check_w3id_redirects.py            # report
     python tools/check_w3id_redirects.py --strict   # exit 1 on any mismatch
 
-See w3id.org/cdif/CLAUDE.md for the release checklist this guards.
+See w3id.org/ids/cdif/CLAUDE.md for the release checklist this guards.
 """
 import argparse
 import json
@@ -256,7 +256,7 @@ def main():
         print()
         print("A version's rules must be repointed from GitHub Pages to that")
         print("version's release tag when a newer minor version ships. See")
-        print("w3id.org/cdif/CLAUDE.md, 'Cutting a new minor version'.")
+        print("w3id.org/ids/cdif/CLAUDE.md, 'Cutting a new minor version'.")
     else:
         print(f"All {len(PROFILES) - len(skipped)} checked conformance URIs "
               f"resolve to the version they name.")
