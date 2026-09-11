@@ -1055,6 +1055,20 @@ def _tf_odrlpolicy(value, ds, rule, doc):
     return _CONSUMED
 
 
+def _tf_rightsholder(value, ds, rule, doc):
+    """dcterms:rightsHolder -> a schema:contributor carrying the rightsHolder
+    role. The value is a plain agent (not a prov:Attribution), so wrap the
+    shaped agent in a schema:Role, mirroring the attribution shaper's shape."""
+    out = []
+    for a in _as_list(value):
+        ag = convert_agent(a)
+        if ag:
+            out.append({"@type": ["schema:Role"],
+                        "schema:roleName": "rightsHolder",
+                        "schema:contributor": ag})
+    return out or None
+
+
 def _tf_rights(value, ds, rule, doc):
     """dcterms:rights -> a labelled schema:conditionsOfAccess entry, and, when the
     value is an odrs:RightsStatement, fan its sub-properties out to the dataset:
@@ -1104,6 +1118,7 @@ _TRANSFORMS = {
     "describe": _tf_describe,
     "prefixedtext": _tf_prefixedtext,
     "rights": _tf_rights,
+    "rightsholder": _tf_rightsholder,
     "representationtechnique": _tf_representationtechnique,
     "odrlpolicy": _tf_odrlpolicy,
     "theme": _tf_theme,

@@ -24,7 +24,7 @@ dcterms:replaces	replaces	dcat:Dataset	skos:closeMatch	schema:relatedLink	relate
 dcterms:isReplacedBy	isReplacedBy	dcat:Dataset	skos:closeMatch	schema:relatedLink	relatedLink	$.schema:relatedLink	relatedlink	semapv:ManualMappingCuration	CDIF relatedLink [ linkRelationship = 'isReplacedBy]			
 dcterms:created	created	dcat:Dataset	skos:closeMatch	schema:dateCreated	dateCreated	$.schema:dateCreated	date	semapv:ManualMappingCuration	No CDIF dateCreated; additionalProperty			
 dcterms:bibliographicCitation	bibliographicCitation	dcat:Dataset	skos:closeMatch	dcterms:bibliographicCitation	howToCiteThisResource	$.dcterms:bibliographicCitation	text	semapv:ManualMappingCuration	additional property			
-dcterms:rightsHolder	rightsHolder	dcat:Dataset	skos:closeMatch	schema:contributor	name	$.schema:contributor[role='rightsHolder]	contributor	semapv:ManualMappingCuration				
+dcterms:rightsHolder	rightsHolder	dcat:Dataset	skos:closeMatch	schema:contributor	contributor	$.schema:contributor	rightsholder	semapv:ManualMappingCuration	Agent -> a schema:contributor wrapped in a schema:Role (roleName='rightsHolder').			
 dcterms:provenance	provenance	dcat:Dataset	skos:closeMatch	prov:used	provenanceStatement	$.prov:wasGeneratedBy.prov:used	text	semapv:ManualMappingCuration	A prose statement; if the dcat record has a more complicated object	 copy verbatim		
 dcterms:isPartOf	isPartOf	dcat:Dataset	skos:closeMatch	schema:isPartOf	isPartOf	$.schema:isPartOf	iri	semapv:ManualMappingCuration	schema:isPartOf is additional property			
 dcat:keyword	keyword	dcat:Resource	skos:exactMatch	schema:keywords	keyword	$.schema:keywords	list	semapv:ManualMappingCuration				

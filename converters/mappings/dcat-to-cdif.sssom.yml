@@ -30,35 +30,35 @@ extension_definitions:
   - slot_name: transform
     property: https://w3id.org/cdif/mappings/transform
 curie_map:
-  csvw: http://www.w3.org/ns/csvw#
-  dpv: https://w3id.org/dpv#
-  healthdcat: http://healthdataportal.eu/ns/health#
-  mdcat: https://w3id.org/mobilitydcat-ap#
-  oa: http://www.w3.org/ns/oa#
-  odrs: http://schema.theodi.org/odrs#
-  time: http://www.w3.org/2006/time#
-  dcat: http://www.w3.org/ns/dcat#
-  dcterms: http://purl.org/dc/terms/
-  foaf: http://xmlns.com/foaf/0.1/
-  vcard: http://www.w3.org/2006/vcard/ns#
-  prov: http://www.w3.org/ns/prov#
-  odrl: http://www.w3.org/ns/odrl/2/
   adms: http://www.w3.org/ns/adms#
-  spdx: http://spdx.org/rdf/terms#
-  skos: http://www.w3.org/2004/02/skos/core#
-  rdfs: http://www.w3.org/2000/01/rdf-schema#
-  org: http://www.w3.org/ns/org#
-  locn: http://www.w3.org/ns/locn#
-  dqv: http://www.w3.org/ns/dqv#
   cnt: http://www.w3.org/2011/content#
-  wdrs: http://www.w3.org/2007/05/powder-s#
+  csvw: http://www.w3.org/ns/csvw#
+  dcat: http://www.w3.org/ns/dcat#
+  dcat-us: http://resources.data.gov/ontology/dcat-us#
   dcatap: http://data.europa.eu/r5r/
   dcatde: http://dcat-ap.de/def/dcatde/
-  dcat-us: http://resources.data.gov/ontology/dcat-us#
-  pod: https://project-open-data.cio.gov/v1.1/schema#
+  dcterms: http://purl.org/dc/terms/
+  dpv: https://w3id.org/dpv#
+  dqv: http://www.w3.org/ns/dqv#
+  foaf: http://xmlns.com/foaf/0.1/
+  healthdcat: http://healthdataportal.eu/ns/health#
   it6: http://data.europa.eu/it6/
+  locn: http://www.w3.org/ns/locn#
+  mdcat: https://w3id.org/mobilitydcat-ap#
+  oa: http://www.w3.org/ns/oa#
+  odrl: http://www.w3.org/ns/odrl/2/
+  odrs: http://schema.theodi.org/odrs#
+  org: http://www.w3.org/ns/org#
+  pod: https://project-open-data.cio.gov/v1.1/schema#
+  prov: http://www.w3.org/ns/prov#
+  rdfs: http://www.w3.org/2000/01/rdf-schema#
   schema: http://schema.org/
   semapv: https://w3id.org/semapv/vocab/
+  skos: http://www.w3.org/2004/02/skos/core#
+  spdx: http://spdx.org/rdf/terms#
+  time: http://www.w3.org/2006/time#
+  vcard: http://www.w3.org/2006/vcard/ns#
+  wdrs: http://www.w3.org/2007/05/powder-s#
 comment: |
   subject_class disambiguates. DCAT is a graph, not a tree, and the same
   property means different things by class: dcterms:title on a dcat:Dataset is
@@ -104,6 +104,23 @@ comment: |
     checksum        spdx:Checksum -> CDIF's spdx:checksum object
     measurement     a bare quality value -> a dqv:QualityMeasurement
     attribution     prov:Attribution -> a contributor carrying its role
+    contributorid   a bare contributor identifier -> a contributor with only
+                    that identifier (name knowably absent)
+    rightsholder    dcterms:rightsHolder agent -> a schema:contributor wrapped
+                    in a schema:Role (roleName='rightsHolder')
+    generatedby     prov:wasGeneratedBy -> a cdifProvActivity: PROV terms mapped
+                    to schema.org, input entities into the required prov:used;
+                    an activity with no usable input stays a plain prov:Activity
+    rights          dcterms:rights -> a labelled conditionsOfAccess entry; an
+                    odrs:RightsStatement fans its dataLicense / attributionText /
+                    attributionURL out to license / creditText / relatedLink
+    odrlpolicy      odrl:hasPolicy -> the policy ref to schema:publishingPrinciples,
+                    and any inline permission / prohibition / obligation / action
+                    copied verbatim into schema:conditionsOfAccess
+    representationtechnique
+                    adms:representationTechnique routes by value: an INSPIRE
+                    SpatialRepresentationType URI passes through on the root
+                    (geometry-model info), any other concept -> dcterms:conformsTo
     relatedlink     an IRI -> a schema:relatedLink whose schema:linkRelationship
                     is the source property, so every relation routed here
                     (dcterms:relation/references/replaces/isReferencedBy/...,
@@ -118,6 +135,12 @@ comment: |
                     CDIF permits additional properties
     catalog-walk    structural: the converter descends rather than maps
     *-part          consumed by the transform of the same name on the parent
+
+  A transform value names the shaper registered under it in dcat_to_cdif.py
+  (the function _tf_<name>, in the _TRANSFORMS table); an empty value is a plain
+  copy. A value that is NOT registered -- the *-part sentinels, passthrough and
+  catalog-walk, or a typo -- is skipped by the table pass, so it silently does
+  nothing (the source value then survives via the passthrough pass).
 
   object_json_path is applied, not merely documentation. A path naming one
   property under $. writes that property of the record; a deeper path writes

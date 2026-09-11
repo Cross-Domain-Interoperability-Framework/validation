@@ -10,11 +10,15 @@ bare `<name>.sssom.tsv` (column header + rows only) is paired with a
 `<name>.sssom.yml` sidecar holding the mapping-set metadata (id/title, license,
 provider, `mapping_tool`, `curie_map`, …) as plain YAML. The sidecar is valid
 standalone SSSOM YAML the toolkit reads directly (`sssom parse … -m <sidecar>`),
-and the TSV opens in a spreadsheet with no `#` rows to skip. For the three DDI
-worksheets, `sync_ddi_mappings.py` keeps the pair in step — regenerating the
-sidecar's `curie_map` from the prefixes the table uses, and migrating a worksheet
-that still carries a legacy embedded `#` header on first run; the five converter
-sidecars are hand-maintained.
+and the TSV opens in a spreadsheet with no `#` rows to skip. `sync_sssom.py`
+keeps every sidecar's `curie_map` in step — for **all** the sets — regenerating
+it from the prefixes each table actually uses (standard CURIE columns plus
+`subject_class`), so a new prefix never has to be added by hand; it changes no
+table and no converter behaviour. The three DDI worksheets additionally have
+`sync_ddi_mappings.py`, which regenerates their `curie_map` the same way (its
+output matches `sync_sssom.py`'s), migrates a worksheet still carrying a legacy
+embedded `#` header, runs the XSD-completeness check, and compiles
+`ddi_mappings.json`. The converter-set *tables* are otherwise hand-maintained.
 
 | File | Direction | Converter | Mappings |
 |------|-----------|-----------|----------|
@@ -154,7 +158,17 @@ The DCAT set adds two more, declared as `extension_definitions` in its `.yml`:
 `subject_class` (the class the source property sits on, which disambiguates a
 property that means different things in different places) and `transform` (the
 shaper to apply; empty means a plain copy). Both are documented in
-[`dcat-to-cdif.sssom.yml`](dcat-to-cdif.sssom.yml).
+[`dcat-to-cdif.sssom.yml`](dcat-to-cdif.sssom.yml), whose `comment:` block lists
+the whole `transform` vocabulary.
+
+A `transform` value maps directly to code: `transform=X` is the shaper
+registered under `X` in `dcat_to_cdif.py`'s `_TRANSFORMS` table — the function
+`_tf_X` — and `""` is a plain copy. Values that are **not** registered — the
+`<name>-part` sentinels (handled by the parent's shaper), `passthrough`,
+`catalog-walk` — are skipped by the table pass; the source value then survives
+via the passthrough pass. A consequence worth knowing: a **mistyped** transform
+is silently a no-op (it just isn't found in `_TRANSFORMS`), so the value falls
+through instead of erroring.
 
 ### `mapping_justification` vs `author_id` / `reviewer_id`
 
