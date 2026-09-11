@@ -627,6 +627,14 @@ def _tf_vcard(value, ds, rule, doc):
                     postal[t] = v
             if len(postal) > 1:
                 agent["schema:address"] = postal
+        uid = _get_str(contact.get("vcard:hasUID"))
+        if uid:
+            agent["schema:identifier"] = uid
+        unit = _get_str(contact.get("vcard:organisationUnit")
+                        or contact.get("vcard:organization-unit"))
+        if unit:
+            agent["schema:department"] = {"@type": ["schema:Organization"],
+                                          "schema:name": unit}
         out.append(agent)
     return out or None
 
@@ -1373,6 +1381,33 @@ def convert_agent(agent):
     if homepage:
         result["schema:url"] = _get_str(homepage)
 
+    # Parent organization (org:subOrganizationOf)
+    parent = agent.get("org:subOrganizationOf")
+    if parent:
+        pid = _get_str(parent.get("@id") if isinstance(parent, dict) else parent)
+        if pid:
+            result["schema:parentOrganization"] = (
+                {"@id": pid} if pid.startswith("http")
+                else {"@type": ["schema:Organization"], "schema:name": pid})
+
+    # Postal address (locn:address -> schema:PostalAddress, or a plain string)
+    addr = agent.get("locn:address")
+    if isinstance(addr, str) and addr.strip():
+        result["schema:address"] = _get_str(addr)
+    elif isinstance(addr, dict):
+        postal, amap = {"@type": ["schema:PostalAddress"]}, {
+            "locn:thoroughfare": "schema:streetAddress",
+            "locn:postName": "schema:addressLocality",
+            "locn:adminUnitL2": "schema:addressLocality",
+            "locn:adminUnitL1": "schema:addressRegion",
+            "locn:postCode": "schema:postalCode"}
+        for k, t in amap.items():
+            v = _get_str(addr.get(k))
+            if v and t not in postal:
+                postal[t] = v
+        if len(postal) > 1:
+            result["schema:address"] = postal
+
     # CDIF requires a name on an agent. A DCAT record routinely gives only an
     # IRI -- an ORCID, a ROR, a publisher URI -- and emitting that alone
     # produced an agent the schema rejects, while dropping it would lose the
@@ -1601,6 +1636,17 @@ def convert_temporal(temporal):
              or temporal.get("dcterms:start"))
     end = (temporal.get("dcat:endDate") or temporal.get("schema:endDate")
            or temporal.get("dcterms:end"))
+
+    # OWL-Time: temporal -> time:hasBeginning/hasEnd -> time:Instant -> inXSDDateTime
+    def _instant(v):
+        v = v[0] if isinstance(v, list) and v else v
+        if isinstance(v, dict):
+            return v.get("time:inXSDDateTime") or v.get("time:inXSDDate")
+        return v
+    if not start:
+        start = _instant(temporal.get("time:hasBeginning"))
+    if not end:
+        end = _instant(temporal.get("time:hasEnd"))
 
     if start and end:
         return f"{_get_str(start)}/{_get_str(end)}"
