@@ -1,0 +1,56 @@
+# Do the SOSO mapping tables still describe what the converters do?
+#
+# SOSO is the one converter pair that does not read its SSSOM tables: CDIF
+# Discovery and SOSO are both schema.org profiles, so the conversion is
+# procedural and the tables (converters/mappings/{cdif-to-soso,soso-to-cdif}
+# .sssom.tsv) document it rather than drive it. That means the table and the
+# code can drift apart with nothing to report it -- a renamed property, a moved
+# path, a term the converter now carries that no row mentions. All look exactly
+# like the mapping simply not being there.
+#
+# converters/soso/check_soso_mappings.py makes that drift loud: it exits
+# non-zero when a mapping the table asserts is not one the converter makes, or a
+# property a converter carries is neither tabled nor a declared passthrough. It
+# needs no third-party packages -- the converters guard their detect_conformance
+# import and the checker runs with detection off -- so this job cannot go red
+# for a reason unrelated to what it checks.
+#
+# (The sibling Croissant checker, converters/croissant/check_croissant_mappings.py,
+# is not run here yet: it currently reports pre-existing drift in its own corpus.
+# Add a step once it is green.)
+
+name: check-mappings
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "converters/soso/ConvertToSOSO.py"
+      - "converters/soso/ConvertFromSOSO.py"
+      - "converters/soso/check_soso_mappings.py"
+      - "converters/soso/examples/**"
+      - "converters/mappings/cdif-to-soso.sssom.tsv"
+      - "converters/mappings/soso-to-cdif.sssom.tsv"
+      - ".github/workflows/check-mappings.yml"
+  pull_request:
+    paths:
+      - "converters/soso/ConvertToSOSO.py"
+      - "converters/soso/ConvertFromSOSO.py"
+      - "converters/soso/check_soso_mappings.py"
+      - "converters/soso/examples/**"
+      - "converters/mappings/cdif-to-soso.sssom.tsv"
+      - "converters/mappings/soso-to-cdif.sssom.tsv"
+      - ".github/workflows/check-mappings.yml"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check SOSO mapping tables against the converters
+        run: python converters/soso/check_soso_mappings.py
