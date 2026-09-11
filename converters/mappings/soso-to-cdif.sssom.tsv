@@ -6,8 +6,10 @@ schema:identifier	identifier	skos:exactMatch	schema:identifier	identifier	$.sche
 schema:license	license	skos:exactMatch	schema:license	license	$.schema:license	semapv:ManualMappingCuration	wrapped in array
 schema:creator	creator	skos:exactMatch	schema:creator	creator	$.schema:creator	semapv:ManualMappingCuration	wrapped in JSON-LD @list; Person names synthesized from given/family
 schema:author	author	skos:closeMatch	schema:creator	creator	$.schema:creator	semapv:ManualMappingCuration	author folded into creator when creator absent
+schema:publisher	publisher	skos:exactMatch	schema:publisher	publisher	$.schema:publisher	semapv:ManualMappingCuration	Organization/Person; prefixed and passed through
 schema:keywords	keywords	skos:exactMatch	schema:keywords	keywords	$.schema:keywords	semapv:ManualMappingCuration	comma-delimited strings split into array
-schema:datePublished	datePublished	skos:closeMatch	schema:dateModified	dateModified	$.schema:dateModified	semapv:ManualMappingCuration	used as dateModified fallback (CDIF requires dateModified)
+schema:datePublished	datePublished	skos:exactMatch	schema:datePublished	datePublished	$.schema:datePublished	semapv:ManualMappingCuration	retained as-is
+schema:datePublished	datePublished	skos:closeMatch	schema:dateModified	dateModified	$.schema:dateModified	semapv:ManualMappingCuration	also used as dateModified fallback (CDIF requires dateModified)
 schema:dateModified	dateModified	skos:exactMatch	schema:dateModified	dateModified	$.schema:dateModified	semapv:ManualMappingCuration	
 schema:variableMeasured	variableMeasured	skos:exactMatch	schema:variableMeasured	variableMeasured	$.schema:variableMeasured[*]	semapv:ManualMappingCuration	
 schema:spatialCoverage	spatialCoverage	skos:exactMatch	schema:spatialCoverage	spatialCoverage	$.schema:spatialCoverage	semapv:ManualMappingCuration	string coerced to schema:Place; lat/long to numbers

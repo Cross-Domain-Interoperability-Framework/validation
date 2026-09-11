@@ -110,7 +110,17 @@ behaviour cannot drift apart.
 
 The remaining sets (SOSO, Croissant) are still descriptive: the converter
 restates them, and editing the table documents an intended change rather than
-making one. Moving them to the same arrangement is the obvious next step.
+making one. Moving them to the same arrangement is the obvious next step. Until
+then a **drift-checker** guards each pair — `soso/check_soso_mappings.py` and
+`croissant/check_croissant_mappings.py` — verifying against the example corpus
+that the table and the converter still agree (every mapping the table asserts is
+one the converter makes, and every property the converter carries is in the
+table or a reported passthrough). Each exits non-zero on drift:
+
+```bash
+python converters/soso/check_soso_mappings.py
+python converters/croissant/check_croissant_mappings.py
+```
 
 ### What DCAT needed that DDI did not
 
