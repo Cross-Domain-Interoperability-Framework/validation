@@ -883,6 +883,109 @@ def _tf_checksum(value, ds, rule, doc):
     return out[0] if out else None
 
 
+def _tf_generatedby(value, ds, rule, doc):
+    """wasGeneratedBy -> a cdifProvActivity (schema:Action + prov:Activity).
+
+    Map the source activity's PROV terms to their schema.org equivalents inside
+    the activity node, and satisfy the shape's required prov:used from the
+    activity's used resources plus its input entities (schema:object /
+    prov:wasDerivedFrom -- an activity's input, per CDIF, is schema:object;
+    prov:wasDerivedFrom itself stays a dataset property). An activity that
+    yields no prov:used is kept as a bare reference so it does not trip the
+    cdifProvActivity shape (which requires prov:used); a nameless HowTo built
+    from prov:hadPlan gets the OGC nil sentinel for its required schema:name.
+    """
+    out = []
+    for node in _as_list(value):
+        if not isinstance(node, dict):
+            ref = _tf_iri(node, ds, rule, doc)
+            ref = ref[0] if isinstance(ref, list) and ref else ref
+            if ref:
+                out.append({"@id": ref} if isinstance(ref, str) else ref)
+            continue
+        if "@id" in node and set(node) <= {"@id", "@type"}:
+            out.append({"@id": node["@id"]})            # bare reference -> keep
+            continue
+        act = {"@type": ["schema:Action", "prov:Activity"]}
+        if isinstance(node.get("@id"), str) and _is_iri(node["@id"]):
+            act["@id"] = node["@id"]
+        used = list(_as_list(node.get("prov:used")))
+        for k in ("schema:object", "prov:wasDerivedFrom"):   # inputs satisfy prov:used
+            used += list(_as_list(node.get(k)))
+        for src, dst in (("prov:startedAtTime", "schema:startTime"),
+                         ("schema:startTime", "schema:startTime"),
+                         ("prov:endedAtTime", "schema:endTime"),
+                         ("schema:endTime", "schema:endTime")):
+            v = _get_str(node.get(src))
+            if v and dst not in act:
+                act[dst] = v
+        ag = node.get("prov:wasAssociatedWith") or node.get("schema:agent")
+        shaped = _tf_agent(ag, ds, rule, doc) if ag is not None else None
+        if shaped:
+            act["schema:agent"] = shaped[0]
+            if len(shaped) > 1:
+                act["schema:participant"] = shaped[1:]
+        obj = node.get("schema:object")
+        if obj is not None:
+            r = _tf_iri(obj, ds, rule, doc)
+            if r:
+                act["schema:object"] = r
+        gen = node.get("prov:generated") or node.get("schema:result")
+        if gen is not None:
+            r = _tf_iri(gen, ds, rule, doc)
+            if r:
+                act["schema:result"] = r
+        nm = _get_str(node.get("schema:name") or node.get("prov:label")
+                      or node.get("rdfs:label"))
+        if nm:
+            act["schema:name"] = nm
+        d = _get_str(node.get("schema:description"))
+        if d:
+            act["schema:description"] = d
+        plan = node.get("prov:hadPlan") or node.get("schema:actionProcess")
+        for p in _as_list(plan):
+            if isinstance(p, dict):
+                howto = {"@type": ["schema:HowTo"],
+                         "schema:name": _get_str(p.get("schema:name")
+                                                 or p.get("rdfs:label")) or NIL}
+                if p.get("schema:step"):
+                    howto["schema:step"] = p["schema:step"]
+            else:
+                pid = _tf_iri(p, ds, rule, doc)
+                howto = {"@type": ["schema:HowTo"], "schema:name": NIL}
+                if isinstance(pid, str):
+                    howto["schema:identifier"] = pid
+            act["schema:actionProcess"] = howto              # single HowTo
+            break
+        # prov:qualifiedAssociation (agent-in-a-role on the activity) -> a
+        # dataset-level relatedLink pointing at the association/agent.
+        for assoc in _as_list(node.get("prov:qualifiedAssociation")):
+            tgt = assoc
+            if isinstance(assoc, dict):
+                tgt = assoc.get("@id") or assoc.get("prov:agent")
+                if isinstance(tgt, dict):
+                    tgt = tgt.get("@id")
+            tgt = _tf_iri(tgt, ds, rule, doc) if tgt else None
+            tgt = tgt[0] if isinstance(tgt, list) and tgt else tgt
+            if isinstance(tgt, str) and tgt:
+                link = {"schema:linkRelationship": "prov:qualifiedAssociation",
+                        "schema:target": {"@type": ["schema:EntryPoint"],
+                                          "schema:url": tgt}}
+                rl = doc.setdefault("schema:relatedLink", [])
+                if isinstance(rl, list):
+                    rl.append(link)
+        if not used:
+            # No resource to satisfy the required prov:used, so this is not a
+            # full cdifProvActivity: keep it a plain prov:Activity (drop the
+            # schema:Action claim) carrying whatever mapped onto it.
+            act["@type"] = ["prov:Activity"]
+            out.append(act)
+            continue
+        act["prov:used"] = used
+        out.append(act)
+    return out or None
+
+
 _TRANSFORMS = {
     "": _tf_text,
     "text": _tf_text,
@@ -898,6 +1001,7 @@ _TRANSFORMS = {
     "mediatype": _tf_mediatype,
     "concept": _tf_concept,
     "agent": _tf_agent,
+    "generatedby": _tf_generatedby,
     "vcard": _tf_vcard,
     "identifier": _tf_identifier,
     "contributorid": _tf_contributorid,
