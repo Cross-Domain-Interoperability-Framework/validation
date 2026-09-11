@@ -197,6 +197,30 @@
       "schema:about": "DCATtheme",
       "schema:identifier": "http://publications.europa.eu/resource/authority/data-theme/HEAL",
       "schema:name": "Health"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "healthCategory",
+      "schema:identifier": "http://healthdataportal.eu/resource/authority/healthcategories/EHRS",
+      "schema:name": "Electronic Health Records (EHRs)"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "healthTheme",
+      "schema:identifier": "http://www.wikidata.org/entity/Q35869",
+      "schema:name": "asthma"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "healthTheme",
+      "schema:identifier": "http://www.wikidata.org/entity/Q84263196",
+      "schema:name": "COVID-19"
     }
   ],
   "schema:url": "http://tab3-landingPage-landingPage.test",
@@ -212,6 +236,12 @@
         ],
         "schema:email": "tab2-contactPoint-mail@test.com",
         "schema:url": "http://tab2-contactPoint-url.test"
+      },
+      "schema:department": {
+        "@type": [
+          "schema:Organization"
+        ],
+        "schema:name": "tab2-contactPoint-organisationUnit"
       }
     },
     {
@@ -225,6 +255,12 @@
         ],
         "schema:email": "tab3-contactPoint-mail@test.com",
         "schema:url": "http://tab3-contactPoint-url.test"
+      },
+      "schema:department": {
+        "@type": [
+          "schema:Organization"
+        ],
+        "schema:name": "tab3-contactPoint-organisationUnit"
       }
     }
   ],
@@ -271,7 +307,8 @@
         ],
         "spdx:checksumValue": "5d41402abc4b2a76b9719d911017c592",
         "spdx:algorithm": "spdx:checksumAlgorithm_sha1"
-      }
+      },
+      "schema:creativeWorkStatus": "http://publications.europa.eu/resource/authority/planned-availability/AVAILABLE"
     }
   ],
   "schema:contributor": [
@@ -443,19 +480,8 @@
     }
   ],
   "healthdcat:hdab": {
-    "@id": "_:nc98c1d211b334ba1a63cb155306d5405b8"
+    "@id": "_:n1c39d89ac1e44112befb665af5d67431b8"
   },
-  "healthdcat:healthCategory": {
-    "@id": "http://healthdataportal.eu/resource/authority/healthcategories/EHRS"
-  },
-  "healthdcat:healthTheme": [
-    {
-      "@id": "http://www.wikidata.org/entity/Q35869"
-    },
-    {
-      "@id": "http://www.wikidata.org/entity/Q84263196"
-    }
-  ],
   "healthdcat:maxTypicalAge": {
     "@type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
     "@value": "7"
@@ -483,7 +509,7 @@
     }
   ],
   "healthdcat:retentionPeriod": {
-    "@id": "_:nc98c1d211b334ba1a63cb155306d5405b10"
+    "@id": "_:n1c39d89ac1e44112befb665af5d67431b10"
   },
   "technicalfdp:modified": {
     "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
@@ -523,6 +549,6 @@
       "schema:name": "Unknown Catalog",
       "schema:url": ""
     },
-    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:identifier to schema:identifier; dcterms:issued to schema:datePublished; dcterms:modified to schema:dateModified; dcterms:language to schema:inLanguage; dcterms:publisher to schema:publisher; dcterms:creator to schema:creator; dcterms:accessRights to schema:conditionsOfAccess; dcterms:temporal to schema:temporalCoverage; dcterms:type to schema:additionalType; dcterms:relation to schema:relatedLink; dcterms:conformsTo to dcterms:conformsTo; dcterms:isReferencedBy to schema:relatedLink; dcterms:isPartOf to schema:isPartOf; dcat:keyword to schema:keywords; dcat:theme to schema:keywords; dcat:landingPage to schema:url; dcat:contactPoint to schema:provider; dcat:version to schema:version; dcat:distribution to schema:distribution; dcat:qualifiedRelation to schema:relatedLink; dcat:inSeries to schema:isPartOf; dcat:hasVersion to schema:relatedLink; dcat:isVersionOf to schema:relatedLink; prov:qualifiedAttribution to schema:contributor; prov:wasGeneratedBy to prov:wasGeneratedBy; foaf:page to schema:relatedLink; adms:versionNotes to schema:description; dcterms:alternative to schema:alternateName; dcterms:source to prov:wasDerivedFrom. Unmapped DCAT properties preserved (open world)."
+    "schema:description": "Converted from DCAT to CDIF discovery profile by dcat_to_cdif.py. Mappings applied: dcterms:title to schema:name; dcterms:description to schema:description; dcterms:identifier to schema:identifier; dcterms:issued to schema:datePublished; dcterms:modified to schema:dateModified; dcterms:language to schema:inLanguage; dcterms:publisher to schema:publisher; dcterms:creator to schema:creator; dcterms:accessRights to schema:conditionsOfAccess; dcterms:temporal to schema:temporalCoverage; dcterms:type to schema:additionalType; dcterms:relation to schema:relatedLink; dcterms:conformsTo to dcterms:conformsTo; dcterms:isReferencedBy to schema:relatedLink; dcterms:isPartOf to schema:isPartOf; dcat:keyword to schema:keywords; dcat:theme to schema:keywords; dcat:landingPage to schema:url; dcat:contactPoint to schema:provider; dcat:version to schema:version; dcat:distribution to schema:distribution; dcat:qualifiedRelation to schema:relatedLink; dcat:inSeries to schema:isPartOf; dcat:hasVersion to schema:relatedLink; dcat:isVersionOf to schema:relatedLink; prov:qualifiedAttribution to schema:contributor; prov:wasGeneratedBy to prov:wasGeneratedBy; foaf:page to schema:relatedLink; adms:versionNotes to schema:description; dcterms:alternative to schema:alternateName; dcterms:source to prov:wasDerivedFrom; healthdcat:healthCategory to schema:keywords; healthdcat:healthTheme to schema:keywords. Unmapped DCAT properties preserved (open world)."
   }
 }
