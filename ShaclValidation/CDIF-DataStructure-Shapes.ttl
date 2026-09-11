@@ -195,9 +195,12 @@ cdifd:CDIFDataStructureConformsToShape a sh:NodeShape ;
             sh:prefixes cdifd: ;
             sh:select """
 			PREFIX schema: <http://schema.org/>
+			PREFIX dcat: <http://www.w3.org/ns/dcat#>
 			SELECT ?this WHERE {
-				?dataset schema:subjectOf ?this .
-				?dataset a schema:Dataset .
+				?subject schema:subjectOf ?this .
+				?subject a schema:Dataset .
+				?this schema:additionalType ?at .
+				FILTER( ?at = dcat:CatalogRecord || STR(?at) = "dcat:CatalogRecord" )
 			}
 		""" ] .
 
