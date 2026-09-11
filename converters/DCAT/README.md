@@ -53,24 +53,127 @@ in the record's `@context`. An absolute IRI as a JSON-LD key does not frame — 
 before the first colon is read as a prefix — and a CURIE whose prefix the record never
 declares fails the same way, in `@type` and `@id` positions as readily as in keys.
 
-## Property mapping
+## The mapping process
 
-The mappings are in [`../mappings/dcat-to-cdif.sssom.tsv`](../mappings/dcat-to-cdif.sssom.tsv),
-and the converter **reads** that table rather than restating it, so the two
-cannot drift apart. It covers every property the DCAT specification defines --
-the union of the editor's draft and the RDF vocabulary, which disagree -- plus
-every property found in `dcatExamplesOK`.
+### The SSSOM table is the source of truth
 
-Source IRIs that are not the IRI the publisher meant are rewritten first,
-through [`../mappings/dcat-aliases.sssom.tsv`](../mappings/dcat-aliases.sssom.tsv).
-Most come from official context documents rather than careless records: the
-Project Open Data v1.1 context sets `"@vocab": "dcat#"`, so every term it does
-not itself define expands into the DCAT namespace.
+The crosswalk lives in [`../mappings/dcat-to-cdif.sssom.tsv`](../mappings/dcat-to-cdif.sssom.tsv)
+(an [SSSOM](https://mapping-commons.github.io/sssom/) mapping set), and the
+converter **reads** it at import rather than restating it in code, so the table
+and the behaviour cannot drift apart. Its metadata header is the sidecar
+[`dcat-to-cdif.sssom.yml`](../mappings/dcat-to-cdif.sssom.yml) (external-metadata
+/ MIDS layout: a bare `.tsv` of rows + a `.yml` of `curie_map`, provenance, and
+the `transform` vocabulary).
 
-Two columns beyond stock SSSOM carry the work: `subject_class`, because DCAT is
-a graph and `dcterms:title` means one thing on a Dataset and another on a
-Distribution; and `transform`, naming the shaper to apply. Both are documented
-in [`../mappings/dcat-to-cdif.sssom.yml`](../mappings/dcat-to-cdif.sssom.yml).
+Coverage is deliberately exhaustive: **every property the DCAT specification
+defines** — the union of the editor's draft (`w3c.github.io/dxwg/dcat/`) and the
+RDF vocabulary (`w3.org/ns/dcat.ttl`), which disagree — **plus every property
+observed in `dcatExamplesOK`**. A row that has no CDIF target is kept anyway
+(blank object, `transform=passthrough`) so the full source inventory is visible
+for review; unmapped values are still preserved in the output (open world).
+
+### Two extension columns beyond stock SSSOM carry the work
+
+- **`subject_class`** — DCAT is a graph, not a tree, so the same property means
+  different things by class: `dcterms:title` on a `dcat:Dataset` is the record's
+  `schema:name`; on a `dcat:Distribution` it names the distribution.
+- **`transform`** — names the *shaper* the converter applies to the value
+  (empty = a plain copy). Plus **`object_json_path`**, the JSONPath where the
+  value lands (`$.schema:name`, `$.schema:provider.schema:address.*`, …).
+
+The `transform` vocabulary (authoritatively described in the `.yml` `comment:`):
+`text` / `iri` / `idref` / `date` / `langcode` / `list` / `bytes` /
+`mediatype` (scalar coercions); `agent`, `vcard`, `place`, `bbox`, `period`,
+`distribution`, `service`, `generatedby`, `attribution`, `checksum`,
+`measurement`, `concept`, `theme`, `relatedlink`, `identifier`, `describe`,
+`prefixedtext` (structural shapers); and the sentinels `passthrough` (copy
+verbatim, open world), `catalog-walk` (descend, don't map) and `<name>-part`
+(consumed by the shaper of that name on the parent — e.g. `vcard-part`,
+`period-part`). Row order is precedence: for a scalar target the first row to
+fill it wins (how "`dcterms:identifier`, else `adms:identifier`" is expressed
+without conditional code); array targets accumulate.
+
+### Source IRIs are normalized first
+
+Variant/typo IRIs are rewritten before mapping, through
+[`../mappings/dcat-aliases.sssom.tsv`](../mappings/dcat-aliases.sssom.tsv). Most
+come from official context documents, not careless records: the Project Open
+Data v1.1 context sets `"@vocab": "dcat#"`, so every term it doesn't define
+expands into the DCAT namespace (`dcat:title` → `dcterms:title`); DCAT-US 3.0
+uses a transposed host (`data.resources.gov` vs `resources.data.gov`); and a
+handful are plain case/namespace slips (`downloadUrl`, `dcterms:mediaType`).
+
+### Checked against the W3C schema.org alignment
+
+The schema.org targets are cross-checked against **DCAT 3 Appendix B (Alignment
+with Schema.org)**, cited via `see_also` in the sidecar. Most match exactly;
+where CDIF deliberately diverges it is documented in the row/`.yml` comments —
+the relation family (`dcterms:relation`, versioning, `references`, …) routes to
+`schema:relatedLink` with a `schema:linkRelationship` (preserving the relation
+semantics and generalizing the target to any `schema:CreativeWork`) rather than
+W3C's `schema:isRelatedTo`; `dcat:contactPoint` → `schema:provider`;
+`prov:wasGeneratedBy` is kept (DCAT-native) rather than inverted to
+`schema:result`; `dcat:endpointURL` lands in a WebAPI `schema:potentialAction`;
+and `dcterms:accrualPeriodicity` stays a passthrough (`schema:repeatFrequency`
+is a poor semantic fit).
+
+## How the converter works
+
+[`dcat_to_cdif.py`](dcat_to_cdif.py) is a table-driven pipeline:
+
+1. **At import** — `_load_tables()` reads the two SSSOM files into `RULES` (the
+   mapping rows, in table order) and `ALIASES` (the IRI-normalization map).
+2. **`find_datasets()`** walks the input JSON-LD to any depth (handling
+   catalog-of-catalogs) and collects every `dcat:Dataset` node.
+3. **`convert_dcat_to_cdif(ds, …, graph)`** converts one dataset:
+   1. `_apply_aliases` rewrites variant source IRIs (see above).
+   2. `_resolve` replaces `{@id}` references against the whole document, so a
+      shaper sees the node it names — real DCAT barely nests, and rdflib merges
+      hoist nodes to the top level, so values arrive as references.
+   3. **`_apply_table`** runs the root-level rows in table order: each row's
+      `transform` shaper produces a value that `_place` writes at the row's
+      `object_id`, respecting `_TARGET_ARITY` (which targets are arrays that
+      accumulate vs. single values where the first row wins).
+   4. **CDIF-required, DCAT-silent** fields are then filled — `schema:name`
+      falls back to `"Untitled"`, `schema:dateModified` to `datePublished` then
+      to conversion time, `schema:url`/`contentUrl`/`license` to the OGC
+      `nil:missing` URI — and dates are normalized to the CDIF pattern.
+   5. The `schema:subjectOf` `dcat:CatalogRecord` is added (CDIF's own record
+      about the dataset; its `dcterms:conformsTo` is derived, not copied).
+   6. **`_apply_nested`** runs the deep-path rows *after* the catalog record
+      exists (e.g. `$.schema:provider.schema:address.*`), building only the
+      containers it can build unambiguously (`_NESTABLE_PARENTS`).
+   7. **Unmapped** source properties pass through verbatim, each with its prefix
+      declared in `@context` (an undeclared CURIE or absolute-IRI key won't
+      frame — in key, `@type`, or `@id` position).
+   8. **`detect_conformance` / `apply_conformance`** derive `dcterms:conformsTo`
+      from the record's *content* (`--static-conformance` opts out; a stub is
+      used only when `detect_conformance` can't be imported).
+
+Shapers worth calling out: **`agent`** (FOAF → `schema:Person`/`Organization`),
+**`vcard`** (a contact → a `schema:provider` Organization/Person carrying a
+`schema:contactPoint` and a `schema:PostalAddress`), **`place`**/**`bbox`**
+(spatial → `schema:Place`/GeoShape), **`period`** (temporal → an ISO 8601
+interval, reading `dcat:`/`schema:startDate`+`endDate` or `dcterms:start`+`end`),
+**`service`** (a `dcat:DataService` distribution → a `schema:WebAPI` whose
+endpoint becomes a `schema:potentialAction` EntryPoint), **`generatedby`**
+(`prov:wasGeneratedBy` → a `cdifProvActivity`: dual-typed
+`["schema:Action","prov:Activity"]`, mapping the PROV terms to their schema.org
+equivalents and populating the shape-required `prov:used` from the activity's
+inputs; an activity with no usable input stays a plain `prov:Activity`), and
+**`relatedlink`** / **`attribution`** (the relation family and
+`prov:qualifiedAttribution` → role-tagged links / contributors).
+
+### `build_corpus.py` — the regression harness
+
+[`build_corpus.py`](build_corpus.py) rebuilds `cdifOK/` from `dcatExamplesOK/`:
+it groups sources by directory + stem, **merges every serialization of one
+logical example into a single rdflib graph** (many `.ttl`/`.jsonld` pairs differ
+upstream), and converts once so the converter sees the union. On every run it
+verifies, and reports zero for both: **no source predicate reaches no record**
+(coverage — nothing silently dropped) and **every conformant record validates**
+against its declared CDIF profile. `--check` verifies without writing; plain
+run regenerates the corpus. Run it after any change to the table or the code.
 
 ## Usage
 
@@ -129,23 +232,42 @@ python DCAT/dcat_to_cdif.py psdi-dcat.jsonld \
 
 Each converted record is a CDIF-conformant JSON-LD file with:
 
-- `@context` declaring `schema`, `dcterms`, `dcat`, `prov` prefixes
+- `@context` declaring `schema`, `dcterms`, `dcat`, `prov` and whatever other
+  prefixes the mapped/passed-through values need
 - `@type: ["schema:Dataset"]`
-- `schema:` prefixed property names for all mapped properties
-- `schema:subjectOf` with `dcat:CatalogRecord`, `dcterms:conformsTo` (core/1.0 and/or discovery/1.0), and documentation of all mappings applied
-- Unmapped DCAT properties preserved with their original prefixes
+- `schema:` (and `prov:`/`dcterms:`) property names for all mapped properties
+- a `schema:subjectOf` `dcat:CatalogRecord` carrying `dcterms:conformsTo`
+- unmapped DCAT properties preserved verbatim with their original prefixes
 
-The profile (`core` or `discovery`) is auto-detected based on whether the record has spatial or temporal coverage. Records with `dcterms:spatial` or `dcterms:temporal` get `discovery/1.0` conformance; others get `core/1.0` only.
+The `dcterms:conformsTo` set is **derived from the record's content** by
+`detect_conformance` — e.g. `core/1.1` plus `discovery/1.1` when the record has
+spatial/temporal coverage or other discovery-level content, and further profiles
+(`data_description`, `provenance`, …) when the content warrants. Detection finding
+nothing means the declaration is **omitted**, not defaulted (the built-in claim
+applies only under `--static-conformance`, or when `detect_conformance` cannot be
+imported). See [`../../detect_conformance.py`](../../detect_conformance.py).
 
 ## Requirements
 
 - Python 3.8+
-- `pyyaml` (for catalog parsing)
-- `jsonschema` (optional, for `--validate`)
+- `rdflib` — to parse non-JSON-LD serializations (`.ttl`/`.rdf`/`.xml`) and to
+  merge them in `build_corpus.py`. `dcat_to_cdif.py` itself ingests JSON-LD.
+- `jsonschema` — optional, for `--validate` and the `build_corpus.py` schema check.
+- `detect_conformance.py` (repo root) — imported for content-derived `conformsTo`.
 
-## Known Limitations
+## Known limitations
 
-- `dcat:contactPoint` with vcard properties is mapped to `schema:provider` (closest schema.org equivalent); the vcard structure is simplified to name + email
-- Spatial coverage conversion supports `dcat:bbox` (WKT) and named places but not all geometry types
-- Temporal coverage assumes `dcat:startDate`/`dcat:endDate` pattern; complex temporal extents may need manual review
-- Nested catalog structures (catalog-of-catalogs) are traversed recursively to find all `dcat:Dataset` nodes at any depth
+- `dcat:contactPoint` maps to `schema:provider` (CDIF's closest slot); the vcard
+  contact is shaped to a `schema:Person`/`Organization` with a
+  `schema:contactPoint` (email/url/telephone) and a `schema:PostalAddress`.
+  This diverges from W3C's direct `schema:contactPoint` — a deliberate choice.
+- Spatial coverage supports `dcat:bbox`, DCAT-US bounding-box coordinates and
+  named places, but not every geometry type.
+- Temporal coverage reads `dcat:`/`schema:startDate`+`endDate` and
+  `dcterms:start`+`end`; unusual temporal extents may need review.
+- Provenance: a `prov:wasGeneratedBy` activity is shaped into a `cdifProvActivity`
+  only when it has a resource for the shape-required `prov:used` (a `prov:used`
+  value or an input entity); an activity carrying only agent/time stays a plain
+  `prov:Activity` reference rather than being forced (or fabricated) into one.
+- Catalog-of-catalogs inputs are traversed recursively; every `dcat:Dataset` at
+  any depth is found and converted.
