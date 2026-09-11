@@ -994,6 +994,44 @@ def _tf_generatedby(value, ds, rule, doc):
     return out or None
 
 
+def _tf_rights(value, ds, rule, doc):
+    """dcterms:rights -> a labelled schema:conditionsOfAccess entry, and, when the
+    value is an odrs:RightsStatement, fan its sub-properties out to the dataset:
+    odrs:dataLicense -> schema:license (only if none yet), odrs:attributionText ->
+    schema:creditText, odrs:attributionURL -> a schema:relatedLink. A rights value
+    that carries no odrs term falls through to the conditionsOfAccess behaviour."""
+    passthrough = []
+    for node in _as_list(value):
+        seen = False
+        if isinstance(node, dict):
+            lic = node.get("odrs:dataLicense")
+            if lic:
+                seen = True
+                l = _tf_iri(lic, ds, rule, doc)
+                l = l[0] if isinstance(l, list) and l else l
+                if l and not doc.get("schema:license"):
+                    doc["schema:license"] = [{"@id": l} if isinstance(l, str)
+                                             and l.startswith("http") else l]
+            cred = _get_str(node.get("odrs:attributionText"))
+            if cred:
+                seen = True
+                doc.setdefault("schema:creditText", cred)
+            url = node.get("odrs:attributionURL")
+            if url:
+                seen = True
+                u = _tf_iri(url, ds, rule, doc)
+                u = u[0] if isinstance(u, list) and u else u
+                if u:
+                    rl = doc.setdefault("schema:relatedLink", [])
+                    if isinstance(rl, list):
+                        rl.append({"schema:linkRelationship": "odrs:attributionURL",
+                                   "schema:target": {"@type": ["schema:EntryPoint"],
+                                                     "schema:url": u}})
+        if not seen:
+            passthrough.append(node)
+    return _tf_prefixedtext(passthrough, ds, rule, doc) if passthrough else None
+
+
 _TRANSFORMS = {
     "": _tf_text,
     "text": _tf_text,
@@ -1004,6 +1042,7 @@ _TRANSFORMS = {
     "list": _tf_list,
     "describe": _tf_describe,
     "prefixedtext": _tf_prefixedtext,
+    "rights": _tf_rights,
     "theme": _tf_theme,
     "bytes": _tf_bytes,
     "mediatype": _tf_mediatype,
