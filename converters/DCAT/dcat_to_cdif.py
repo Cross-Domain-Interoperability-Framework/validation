@@ -1898,6 +1898,16 @@ def convert_dcat_to_cdif(ds, catalog_name="", catalog_url="", profile="core",
     if actual_profile == "discovery":
         conformsTo.append({"@id": "https://w3id.org/cdif/discovery/1.1"})
 
+    # schema:url is a URI-typed slot; an empty string (or the [] it frames to)
+    # is not a valid URI. We usually do not know the source catalog's URL, so
+    # omit the property rather than assert an empty one -- it is optional.
+    included_in = {
+        "@type": ["schema:DataCatalog"],
+        "schema:name": catalog_name or "Unknown Catalog",
+    }
+    if catalog_url:
+        included_in["schema:url"] = catalog_url
+
     doc["schema:subjectOf"] = {
         "@type": ["schema:Dataset"],
         "schema:additionalType": [{"@id": "dcat:CatalogRecord"}],
@@ -1905,11 +1915,7 @@ def convert_dcat_to_cdif(ds, catalog_name="", catalog_url="", profile="core",
         "schema:name": f"Metadata record for: {doc['schema:name'][:120]}",
         "schema:about": {"@id": dsid},
         "dcterms:conformsTo": conformsTo,
-        "schema:includedInDataCatalog": {
-            "@type": ["schema:DataCatalog"],
-            "schema:name": catalog_name or "Unknown Catalog",
-            "schema:url": catalog_url or "",
-        },
+        "schema:includedInDataCatalog": included_in,
         "schema:description": (
             f"Converted from DCAT to CDIF {actual_profile} profile by "
             f"dcat_to_cdif.py. Mappings applied: {'; '.join(changes)}. "
