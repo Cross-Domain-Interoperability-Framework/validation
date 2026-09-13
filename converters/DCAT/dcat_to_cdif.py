@@ -1815,6 +1815,16 @@ def convert_dcat_to_cdif(ds, catalog_name="", catalog_url="", profile="core",
     if not doc.get("schema:name"):
         doc["schema:name"] = "Untitled"
 
+    # CDIF core requires schema:identifier. When the source gives neither
+    # dcterms:identifier nor adms:identifier (the two rows that fill it above),
+    # the dataset's own URI -- the subject of `<> a dcat:Dataset`, which is the
+    # record's @id -- identifies it. Use that, so a dataset that names itself
+    # still meets core rather than failing for want of a duplicated identifier.
+    if not doc.get("schema:identifier") and _is_iri(dsid):
+        doc["schema:identifier"] = dsid
+        changes.append("schema:identifier set from the dataset @id "
+                       "(no dcterms:/adms: identifier)")
+
     # dcterms:issued also serves as dateModified when nothing else does.
     if "schema:dateModified" not in doc and doc.get("schema:datePublished"):
         doc["schema:dateModified"] = doc["schema:datePublished"]
