@@ -175,6 +175,36 @@ def _declare_prefix_of(curie, context):
             context[prefix] = ns
 
 
+def _declare_used_prefixes(node, context, depth=0):
+    """Declare the namespace of every CURIE prefix used as a property key, or as
+    an @type / @id value, anywhere in the built record.
+
+    Root-level keys are declared as they are passed through, and the root @type
+    is handled separately, but a shaper can place nested content the passthrough
+    never sees -- a distribution's spdx:checksum is the case that bit us: its
+    spdx: terms went in with no spdx in @context, an undeclared spdx: CURIE
+    parses as an absolute IRI (scheme "spdx"), and it then collides with the
+    frame's spdx prefix on compaction ("Absolute IRI confused with prefix"), so
+    the record never frames. Declaring every used prefix once, here, keeps any
+    shaper's output frameable without each shaper having to remember to."""
+    if depth > 12:
+        return
+    if isinstance(node, dict):
+        for k, v in node.items():
+            if k == "@context":
+                continue
+            if not k.startswith("@"):
+                _declare_prefix_of(k, context)
+            if k in ("@type", "@id"):
+                for val in (v if isinstance(v, list) else [v]):
+                    _declare_prefix_of(val, context)
+            else:
+                _declare_used_prefixes(v, context, depth + 1)
+    elif isinstance(node, list):
+        for x in node:
+            _declare_used_prefixes(x, context, depth + 1)
+
+
 def _prefix_keys(key, value, context, depth=0):
     """(key, value) with every absolute-IRI property key turned into a CURIE.
 
@@ -1957,6 +1987,11 @@ def convert_dcat_to_cdif(ds, catalog_name="", catalog_url="", profile="core",
         # key deleted the value the row had just written.
         if _key not in _ROOT_TARGETS:
             doc.pop(_key, None)
+
+    # Every CURIE prefix the record now uses -- including ones a shaper placed in
+    # nested content (e.g. a distribution's spdx:checksum) -- must be in
+    # @context, or the record will not frame.
+    _declare_used_prefixes(doc, doc["@context"])
 
     # Derive dcterms:conformsTo from the record's actual content (overrides the
     # built-in default), preserving any non-cdif domain claims.
