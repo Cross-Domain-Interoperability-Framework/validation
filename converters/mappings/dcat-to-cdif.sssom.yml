@@ -121,6 +121,10 @@ comment: |
                     adms:representationTechnique routes by value: an INSPIRE
                     SpatialRepresentationType URI passes through on the root
                     (geometry-model info), any other concept -> dcterms:conformsTo
+    homepage        a dataset-level foaf:homepage (DCAT reserves foaf:homepage
+                    for a dcat:Catalog; publishers use it for the dataset's own
+                    page): fills schema:url when no dcat:landingPage/accessURL
+                    has, else a schema:relatedLink tagged foaf:homepage
     relatedlink     an IRI -> a schema:relatedLink whose schema:linkRelationship
                     is the source property, so every relation routed here
                     (dcterms:relation/references/replaces/isReferencedBy/...,

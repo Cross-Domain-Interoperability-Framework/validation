@@ -1107,6 +1107,30 @@ def _tf_rights(value, ds, rule, doc):
     return _tf_prefixedtext(passthrough, ds, rule, doc) if passthrough else _CONSUMED
 
 
+def _tf_homepage(value, ds, rule, doc):
+    """foaf:homepage on a dcat:Dataset. DCAT reserves foaf:homepage for a
+    dcat:Catalog (handled by its own row); publishers nonetheless put it on the
+    dataset to mean the dataset's own web page. Treat that as a landing page:
+    fill schema:url when nothing else has (dcat:landingPage / accessURL run
+    first, this row runs last), otherwise keep it as a schema:relatedLink tagged
+    with the relation it came from, so the primary url stays the landingPage."""
+    target = _tf_iri(value, ds, rule, doc)
+    if isinstance(target, list):
+        target = target[0] if target else None
+    if not isinstance(target, str) or not target:
+        return None                       # nothing usable -> let it pass through
+    if not doc.get("schema:url"):
+        doc["schema:url"] = target
+    else:
+        rl = doc.setdefault("schema:relatedLink", [])
+        if not isinstance(rl, list):
+            rl = doc["schema:relatedLink"] = [rl]
+        rl.append({"schema:linkRelationship": rule["subject_id"],
+                   "schema:target": {"@type": ["schema:EntryPoint"],
+                                     "schema:url": target}})
+    return _CONSUMED
+
+
 _TRANSFORMS = {
     "": _tf_text,
     "text": _tf_text,
@@ -1121,6 +1145,7 @@ _TRANSFORMS = {
     "rightsholder": _tf_rightsholder,
     "representationtechnique": _tf_representationtechnique,
     "odrlpolicy": _tf_odrlpolicy,
+    "homepage": _tf_homepage,
     "theme": _tf_theme,
     "bytes": _tf_bytes,
     "mediatype": _tf_mediatype,

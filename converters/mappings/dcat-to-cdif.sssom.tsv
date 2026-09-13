@@ -253,3 +253,4 @@ time:hasEnd	hasEnd	time:Interval	skos:closeMatch		temporalCoverageEnd	$.schema:t
 time:inXSDDateTime	inXSDDateTime	time:Instant	skos:closeMatch		temporalInstant	$.schema:temporalCoverage	period-part	semapv:ManualMappingCuration	The time:Instant datetime read by the period shaper for a hasBeginning/hasEnd bound.			
 time:years	years	time:DurationDescription					passthrough	semapv:ManualMappingCuration	OWL-Time interval detail on a period; candidate dcat:startDate/endDate - for review.			
 skos:hasTopConcept	hasTopConcept	skos:ConceptScheme					passthrough	semapv:ManualMappingCuration	SKOS concept-scheme structure; unmapped - for review.			
+foaf:homepage	homepage	dcat:Dataset	skos:closeMatch	schema:url	url	$.schema:url	homepage	semapv:ManualMappingCuration	Dataset-level foaf:homepage (non-standard; DCAT reserves it for dcat:Catalog): fills schema:url when no dcat:landingPage/accessURL, else a relatedLink tagged foaf:homepage. Row runs last so mapped urls win.			
