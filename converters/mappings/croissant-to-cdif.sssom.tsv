@@ -120,3 +120,18 @@ prov:used	used	sc:Dataset	skos:exactMatch	prov:used	used	$.prov:wasGeneratedBy.p
 prov:wasDerivedFrom	wasDerivedFrom	sc:Dataset	skos:exactMatch	prov:wasDerivedFrom	wasDerivedFrom	$.prov:wasDerivedFrom	derived	semapv:ManualMappingCuration	Present in Croissant produced from CDIF; reshaped rather than passed through, which would leave nodes typed in Croissant's spelling.
 sc:name	name	sc:DataCatalog	skos:exactMatch	schema:name	name	$.schema:subjectOf.schema:includedInDataCatalog.schema:name	structural	semapv:ManualMappingCuration	The catalog the record belongs to. Placed by the catalog-record builder inside schema:subjectOf, where a CDIF catalog record lives, not on the dataset root.
 sc:url	url	sc:DataCatalog	skos:exactMatch	schema:url	url	$.schema:subjectOf.schema:includedInDataCatalog.schema:url	structural	semapv:ManualMappingCuration	Placed by the catalog-record builder inside schema:subjectOf, where a CDIF catalog record lives, not on the dataset root.
+schema:contributor	contributor	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	schema:contributor is a CDIF term; carried verbatim by the passthrough list.
+schema:measurementTechnique	measurementTechnique	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	CDIF term; carried verbatim by the passthrough list.
+schema:subjectOf	subjectOf	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Carried verbatim by the passthrough list; its catalog-record internals are not mapped term-by-term.
+odrl:hasPolicy	hasPolicy	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	ODRL policy reference; no CDIF term, preserved verbatim.
+schema:about	about	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	On the passed-through subjectOf catalog record.
+schema:maintainer	maintainer	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Present on schema:Dataset nodes in the corpus; carried verbatim, no CDIF term.
+schema:sdDatePublished	sdDatePublished	sc:Dataset	skos:closeMatch				passthrough	semapv:ManualMappingCuration	Present on schema:Dataset nodes; carried verbatim, no CDIF term.
+schema:additionalType	additionalType	sc:Thing	skos:closeMatch				passthrough	semapv:ManualMappingCuration	On schema:Thing nodes; carried within its parent.
+schema:location	location	sc:Event	skos:closeMatch				passthrough	semapv:ManualMappingCuration	On schema:Event nodes; carried within its parent.
+schema:mainEntity	mainEntity	sc:Event	skos:closeMatch				passthrough	semapv:ManualMappingCuration	On schema:Event nodes; carried within its parent.
+schema:startDate	startDate	sc:Event	skos:closeMatch				passthrough	semapv:ManualMappingCuration	On schema:Event nodes; carried within its parent.
+schema:termCode	termCode	sc:DefinedTerm	skos:closeMatch				passthrough	semapv:ManualMappingCuration	On schema:DefinedTerm nodes; carried within its parent.
+schema:roleName	roleName	sc:Role	skos:closeMatch				passthrough	semapv:ManualMappingCuration	On schema:Role nodes; carried within its parent.
+cr:dataType	dataType	cr:RecordSet	skos:closeMatch				passthrough	semapv:ManualMappingCuration	dataType on a RecordSet marks an enumeration; no CDIF slot (the Field-level row carries physical type).
+cr:field	field	cr:Source	skos:closeMatch				structural	semapv:ManualMappingCuration	A field reference inside a source; consumed by the foreign-key builder.

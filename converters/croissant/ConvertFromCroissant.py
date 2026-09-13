@@ -238,7 +238,15 @@ def croissant_curie(key, context=None):
     says so, and otherwise falls to the context's @vocab, which Croissant sets
     to https://schema.org/ -- hence the sc: prefix the table keys on.
     """
-    if ":" in key or key.startswith("@"):
+    if key.startswith("@"):
+        return key
+    # An expanded schema.org IRI is the sc: term written out; fold it back so a
+    # producer that emits `https://schema.org/identifier` resolves the same as
+    # the bare `identifier`.
+    for _base in ("https://schema.org/", "http://schema.org/"):
+        if key.startswith(_base):
+            return "sc:" + key[len(_base):]
+    if ":" in key:
         return key
     if isinstance(context, dict):
         bound = context.get(key)
@@ -1479,6 +1487,7 @@ def convert(croissant, verbose=False):
         "schema:measurementTechnique",
         "schema:contributor",
         "schema:subjectOf",
+        "odrl:hasPolicy",
     ]
     for key in PASS_THROUGH:
         if key in croissant:

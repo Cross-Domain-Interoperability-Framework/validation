@@ -305,13 +305,30 @@ def _walk(node, context, table, parent_prop=None, out=None):
     return out
 
 
+# The subject_class column is a dispatch key on one class and documentation on
+# the rest. ConvertFromCroissant applies the table only at sc:Dataset
+# (DATASET_CLASSES); the FileObject / FileSet / RecordSet / Field / Source /
+# Extract / Transform nodes are walked by hand-written code that branches on
+# their class, so subject_class is load-bearing there too. Everywhere else --
+# the generic schema.org container nodes (sc:Person, sc:Place, sc:Event,
+# sc:Role, sc:CreativeWork, sc:DefinedTerm, sc:Organization, ...) the converter
+# copies whole -- a descriptive property like sc:name or sc:identifier
+# legitimately appears on any of them, and no subject_class can (or should)
+# enumerate them all. So the misfiled check runs where class decides handling
+# and is skipped where it does not. `absent` stays enforced everywhere: a
+# property with no row at all is a gap regardless of the class carrying it.
+def _class_enforced(cls):
+    return cls == "sc:Dataset" or str(cls).startswith("cr:")
+
+
 def check_classes():
     """Does the table cover the corpus at every depth, on the right classes?
 
     Two findings, and conflating them hides the worse one. A property absent
     from the table is a gap anyone can see. A property present but filed under
     a class it never occurs on LOOKS covered -- it is right there in the file
-    -- and is inert. Only a per-class census tells them apart.
+    -- and is inert. Only a per-class census tells them apart. The class half
+    is checked only where subject_class decides handling (see _class_enforced).
     """
     table = FROM.CROISSANT_TO_CDIF
     by_class = collections.defaultdict(set)
@@ -336,7 +353,7 @@ def check_classes():
             if curie not in everywhere:
                 absent[curie] += 1
                 where.setdefault(curie, os.path.basename(path))
-            elif curie not in by_class.get(cls, set()):
+            elif _class_enforced(cls) and curie not in by_class.get(cls, set()):
                 misfiled[(cls, curie)] += 1
                 where.setdefault((cls, curie), os.path.basename(path))
 
