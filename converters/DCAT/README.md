@@ -14,14 +14,18 @@ This converter enables DCAT catalog records to be consumed by CDIF-aware tools b
 |---|---|
 | [`dcat-examples/`](dcat-examples/) | 783 upstream files — DCAT-AP, its extensions and national derivatives, DCAT-US 3.0 and 1.1/POD, CKAN fixtures. Mixed purpose: catalogs, data services, vocabularies, SHACL shapes, fragments. |
 | [`dcatExamplesOK/`](dcatExamplesOK/) | The 238 of those that actually **describe a `dcat:Dataset`**, selected structurally (rdflib for RDF; POD JSON matched on its `dataset` array). |
-| [`cdifOK/`](cdifOK/) | 239 CDIF records converted from them by [`build_corpus.py`](build_corpus.py). 90 conformant, 149 named `-frag`. |
+| [`cdifOK/`](cdifOK/) | 239 CDIF records converted from them by [`build_corpus.py`](build_corpus.py). All 239 are CDIF-core conformant, and all frame and validate. |
 
 Each has a `README.md` and an `INDEX.json` recording provenance.
 
-**`-frag`** marks a record whose content does not meet CDIF core. It declares **no**
-`dcterms:conformsTo` rather than claiming a profile it does not satisfy. That is most of
-the corpus, and it is a property of the sources: many DCAT-AP specification examples are
-single-feature fragments carrying a title, a description and one extension property.
+**`-frag`** marks a record whose content does not meet CDIF core — it declares **no**
+`dcterms:conformsTo` rather than claiming a profile it does not satisfy. The corpus
+currently has **none**: CDIF core requires a `schema:identifier`, and a DCAT dataset always
+carries one — its own URI, the subject of `<> a dcat:Dataset` that becomes the record
+`@id`, is used as `schema:identifier` when the source gives neither `dcterms:identifier`
+nor `adms:identifier`. Many DCAT-AP specification examples are otherwise single-feature
+fragments (a title, a description, one extension property), so before that fallback most
+of the corpus was `-frag`.
 
 **Merging.** The corpus ships many examples in more than one serialization, and 45 of the
 78 such pairs are **not the same graph** — the `.ttl` and `.jsonld` carry different
@@ -35,6 +39,7 @@ indistinguishable from an oversight — the record says the value is knowably ab
 
 | Missing | Emitted |
 |---|---|
+| no `dcterms:identifier` and no `adms:identifier` | `schema:identifier` = the dataset's own URI (its `@id`), so the record still meets CDIF core |
 | no landing page **and** no distribution; a `DataDownload` with no access URL | `schema:url` / `schema:contentUrl` = the OGC `nil:missing` URI, **as a string** (both are declared `sh:datatype xsd:string`) |
 | no licence | `schema:license` = the same URI |
 | no usable `dcterms:modified` | the conversion timestamp |
@@ -48,10 +53,14 @@ the declaration is **removed** rather than falling back to a built-in claim — 
 fallback exists only for `--static-conformance` and for when `detect_conformance` cannot
 be imported.
 
-Passed-through properties (open world, deliberately preserved) get a **prefix declared**
-in the record's `@context`. An absolute IRI as a JSON-LD key does not frame — the part
-before the first colon is read as a prefix — and a CURIE whose prefix the record never
-declares fails the same way, in `@type` and `@id` positions as readily as in keys.
+Every CURIE prefix the built record uses gets **declared** in the record's `@context` —
+not only passed-through keys but any prefix a shaper places in nested content (a
+distribution's `spdx:checksum`, an address's `locn:` terms). An absolute IRI as a JSON-LD
+key does not frame — the part before the first colon is read as a prefix — and a CURIE
+whose prefix the record never declares fails the same way (parsing as an absolute IRI
+whose *scheme* is the prefix, which then collides with the frame's own prefix on
+compaction), in `@type` and `@id` positions as readily as in keys. A single post-build
+pass (`_declare_used_prefixes`) walks the finished record and declares them all.
 
 ## The mapping process
 
@@ -84,9 +93,15 @@ for review; unmapped values are still preserved in the output (open world).
 The `transform` vocabulary (authoritatively described in the `.yml` `comment:`):
 `text` / `iri` / `idref` / `date` / `langcode` / `list` / `bytes` /
 `mediatype` (scalar coercions); `agent`, `vcard`, `place`, `bbox`, `period`,
-`distribution`, `service`, `generatedby`, `attribution`, `checksum`,
-`measurement`, `concept`, `theme`, `relatedlink`, `identifier`, `describe`,
-`prefixedtext` (structural shapers); and the sentinels `passthrough` (copy
+`distribution`, `service`, `generatedby`, `attribution`, `contributorid`,
+`checksum`, `measurement`, `concept`, `theme`, `relatedlink`, `identifier`,
+`describe`, `prefixedtext`, `rights`, `rightsholder`, `odrlpolicy`,
+`representationtechnique`, `homepage` (structural / value-routing shapers — the
+last few branch on the value, e.g. `representationtechnique` sends an INSPIRE
+SpatialRepresentationType URI to a passthrough but any other concept to
+`dcterms:conformsTo`, and `homepage` sends a dataset-level `foaf:homepage` to
+`schema:url` when there is no landing page yet, else to a related link); and the
+sentinels `passthrough` (copy
 verbatim, open world), `catalog-walk` (descend, don't map) and `<name>-part`
 (consumed by the shaper of that name on the parent — e.g. `vcard-part`,
 `period-part`). Row order is precedence: for a scalar target the first row to
@@ -114,8 +129,11 @@ semantics and generalizing the target to any `schema:CreativeWork`) rather than
 W3C's `schema:isRelatedTo`; `dcat:contactPoint` → `schema:provider`;
 `prov:wasGeneratedBy` is kept (DCAT-native) rather than inverted to
 `schema:result`; `dcat:endpointURL` lands in a WebAPI `schema:potentialAction`;
-and `dcterms:accrualPeriodicity` stays a passthrough (`schema:repeatFrequency`
-is a poor semantic fit).
+`dcterms:accrualPeriodicity` stays a passthrough (`schema:repeatFrequency` is a
+poor semantic fit); and `foaf:homepage`, which DCAT reserves for a `dcat:Catalog`
+(→ the catalog record's `schema:url`), is also handled when publishers put it
+non-standardly on a `dcat:Dataset` — it fills the dataset's `schema:url` if no
+`dcat:landingPage`/`accessURL` did, else becomes a `foaf:homepage` related link.
 
 ## How the converter works
 
@@ -135,17 +153,20 @@ is a poor semantic fit).
       `object_id`, respecting `_TARGET_ARITY` (which targets are arrays that
       accumulate vs. single values where the first row wins).
    4. **CDIF-required, DCAT-silent** fields are then filled — `schema:name`
-      falls back to `"Untitled"`, `schema:dateModified` to `datePublished` then
-      to conversion time, `schema:url`/`contentUrl`/`license` to the OGC
-      `nil:missing` URI — and dates are normalized to the CDIF pattern.
+      falls back to `"Untitled"`, `schema:identifier` to the dataset `@id` when
+      the source gave no `dcterms:`/`adms:` identifier, `schema:dateModified` to
+      `datePublished` then to conversion time, `schema:url`/`contentUrl`/`license`
+      to the OGC `nil:missing` URI — and dates are normalized to the CDIF pattern.
    5. The `schema:subjectOf` `dcat:CatalogRecord` is added (CDIF's own record
       about the dataset; its `dcterms:conformsTo` is derived, not copied).
    6. **`_apply_nested`** runs the deep-path rows *after* the catalog record
       exists (e.g. `$.schema:provider.schema:address.*`), building only the
       containers it can build unambiguously (`_NESTABLE_PARENTS`).
-   7. **Unmapped** source properties pass through verbatim, each with its prefix
-      declared in `@context` (an undeclared CURIE or absolute-IRI key won't
-      frame — in key, `@type`, or `@id` position).
+   7. **Unmapped** source properties pass through verbatim, then a single pass
+      (`_declare_used_prefixes`) declares in `@context` every CURIE prefix the
+      finished record uses — passed-through keys and any prefix a shaper placed
+      in nested content alike — because an undeclared CURIE or absolute-IRI key
+      won't frame (in key, `@type`, or `@id` position).
    8. **`detect_conformance` / `apply_conformance`** derive `dcterms:conformsTo`
       from the record's *content* (`--static-conformance` opts out; a stub is
       used only when `detect_conformance` can't be imported).
