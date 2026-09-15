@@ -32,6 +32,34 @@ of the corpus was `-frag`.
 triples upstream. All serializations of one logical example are parsed into a single
 graph and converted once, so the converter sees the union.
 
+## DCAT profiles and flavours the mapping covers
+
+The mapping table was built and exercised against examples from the base vocabulary and
+the profile family below — the W3C DCAT 3 core, the European DCAT-AP line with its
+domain and national extensions, and the US line (DCAT-US 3.0 and the legacy Project Open
+Data JSON it supersedes). Each has a subdirectory under
+[`dcatExamplesOK/`](dcatExamplesOK/) (see that directory's `README.md` for per-profile
+counts). The converter maps every profile-specific term the corpus uses; a term with no
+CDIF home is preserved (open world), and each profile's namespace is declared in
+[`../mappings/dcat-to-cdif.sssom.yml`](../mappings/dcat-to-cdif.sssom.yml)'s `curie_map`.
+
+| Profile | Corpus dir | Namespace / key IRI | Reference |
+|---|---|---|---|
+| **W3C DCAT 3** (base vocabulary) | — (all) | `http://www.w3.org/ns/dcat#` | <https://www.w3.org/TR/vocab-dcat-3/> |
+| **DCAT-AP** 3.0.1 (core) | `01-dcat-ap/3.0.1-core` | `http://data.europa.eu/r5r/` (`dcatap:`) | <https://semiceu.github.io/DCAT-AP/releases/3.0.1/> |
+| **DCAT-AP HVD** (High-Value Datasets) | `01-dcat-ap/3.0.0-hvd` | `http://data.europa.eu/it6/` (`it6:`) | <https://semiceu.github.io/DCAT-AP/releases/3.0.0-hvd/> |
+| **GeoDCAT-AP** | `02-geodcat-ap` | (GeoDCAT-AP terms; INSPIRE) | <https://semiceu.github.io/GeoDCAT-AP/releases/3.1.0/> |
+| **mobilityDCAT-AP** 1.1.0 | `03-mobilitydcat-ap-1.1.0` | `https://w3id.org/mobilitydcat-ap#` (`mdcat:`) | <https://mobilitydcat-ap.github.io/mobilityDCAT-AP/releases/> |
+| **HealthDCAT-AP** | `04-healthdcat-ap` | `http://healthdataportal.eu/ns/health#` (`healthdcat:`) | <https://healthdcat-ap.github.io/> |
+| **MLDCAT-AP** 3.1.0 | `05-mldcat-ap-3.1.0` | (MLDCAT-AP terms) | <https://semiceu.github.io/MLDCAT-AP/releases/> |
+| **DCAT-AP national profiles** — Germany (DCAT-AP.de), Spain (DCAT-AP-ES), Norway (DCAT-AP-NO) | `07-national-profiles/{de-dcat-ap-de,es-dcat-ap-es,no-dcat-ap-no}` | e.g. `http://dcat-ap.de/def/dcatde/` (`dcatde:`) | DE <https://www.dcat-ap.de/> · SEMIC national profiles hub <https://interoperable-europe.ec.europa.eu/collection/semic-support-centre/solution/dcat-application-profile-data-portals-europe> |
+| **DCAT-US 3.0** | `10-dcat-us-3.0` | `http://resources.data.gov/ontology/dcat-us#` (`dcat-us:`) | <https://doi-do.github.io/dcat-us/> · <https://resources.data.gov/resources/dcat-us/> |
+| **DCAT-US 1.1 / Project Open Data** (JSON, not RDF) | `11-dcat-us-1.1-pod` | `https://project-open-data.cio.gov/v1.1/schema#` (`pod:`) | <https://resources.data.gov/resources/dcat-us/> · <https://project-open-data.cio.gov/v1.1/schema/> |
+
+[`dcat-ap-vs-dcat-us.md`](dcat-ap-vs-dcat-us.md) compares the two governance lines
+(DCAT-AP vs DCAT-US) in depth — requirements, extension surfaces, deployment maturity,
+and how each reaches schema.org — for the reasoning behind the mapping choices.
+
 ## What the converter does when the source is silent
 
 CDIF requires things DCAT does not. Rather than omit them — silence being
