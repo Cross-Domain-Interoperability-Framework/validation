@@ -1215,37 +1215,9 @@
                                                         "minItems": 1,
                                                         "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
                                                     },
-                                                    "cdi:externalDefinition": {
-                                                        "type": "object",
-                                                        "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used.",
-                                                        "properties": {
-                                                            "@type": {
-                                                                "type": "array",
-                                                                "items": {
-                                                                    "type": "string"
-                                                                },
-                                                                "contains": {
-                                                                    "const": "cdif:Reference"
-                                                                },
-                                                                "minItems": 1
-                                                            },
-                                                            "schema:url": {
-                                                                "type": "string",
-                                                                "format": "uri",
-                                                                "description": "URL of the referenced resource."
-                                                            },
-                                                            "schema:name": {
-                                                                "type": "string",
-                                                                "description": "Human-readable name of the referenced resource."
-                                                            },
-                                                            "schema:description": {
-                                                                "type": "string",
-                                                                "description": "Human-readable description of the reference."
-                                                            }
-                                                        },
-                                                        "required": [
-                                                            "@type"
-                                                        ]
+                                                    "cdif:externalDefinition": {
+                                                        "$ref": "#/$defs/Reference",
+                                                        "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
                                                     },
                                                     "cdi:identifier": {
                                                         "$ref": "#/$defs/Identifier",
@@ -1305,37 +1277,9 @@
                                         "minItems": 1,
                                         "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
                                     },
-                                    "cdi:externalDefinition": {
-                                        "type": "object",
-                                        "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used.",
-                                        "properties": {
-                                            "@type": {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "string"
-                                                },
-                                                "contains": {
-                                                    "const": "cdif:Reference"
-                                                },
-                                                "minItems": 1
-                                            },
-                                            "schema:url": {
-                                                "type": "string",
-                                                "format": "uri",
-                                                "description": "URL of the referenced resource."
-                                            },
-                                            "schema:name": {
-                                                "type": "string",
-                                                "description": "Human-readable name of the referenced resource."
-                                            },
-                                            "schema:description": {
-                                                "type": "string",
-                                                "description": "Human-readable description of the reference."
-                                            }
-                                        },
-                                        "required": [
-                                            "@type"
-                                        ]
+                                    "cdif:externalDefinition": {
+                                        "$ref": "#/$defs/Reference",
+                                        "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
                                     },
                                     "cdi:identifier": {
                                         "$ref": "#/$defs/Identifier",
@@ -1610,35 +1554,7 @@
                                     "description": "link to a web page useful for interpreting the variable"
                                 },
                                 {
-                                    "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
-                                    "type": "object",
-                                    "properties": {
-                                        "@type": {
-                                            "default": "schema:CreativeWork",
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            },
-                                            "contains": {
-                                                "const": "schema:CreativeWork"
-                                            },
-                                            "minItems": 1
-                                        },
-                                        "schema:name": {
-                                            "type": "string"
-                                        },
-                                        "schema:description": {
-                                            "type": "string"
-                                        },
-                                        "schema:url": {
-                                            "type": "string",
-                                            "format": "uri"
-                                        }
-                                    },
-                                    "required": [
-                                        "@type",
-                                        "schema:url"
-                                    ]
+                                    "$ref": "#/$defs/Reference"
                                 }
                             ]
                         }
@@ -1662,7 +1578,7 @@
                             "cdi:describedUnitOfMeasure": false,
                             "cdi:unitOfMeasureKind": false,
                             "cdi:measures": false,
-                            "cdi:externalDefinition": false,
+                            "cdif:externalDefinition": false,
                             "cdif:uses_Concept": false,
                             "cdif:definition": false
                         },
@@ -2488,55 +2404,43 @@
             ]
         },
         "Reference": {
+            "description": "Schema for a labeled link, a profile of schema.org/CreativeWork: a resolvable URL with an optional name and description. Optionally carries the DCAT relation surface (dcat:hadRole, dcterms:relation) for a link that expresses a typed relationship rather than a plain reference.\nThose two properties were a separate block, cdifDataType/cdifReference, which was an allOf of this schema plus exactly those two optional properties and nothing else -- its dcat:Relationship co-type mandate had already been removed because it made every labeled link unsatisfiable and broke every schema:license example that followed schema.org's own advice. Since both are optional, folding them in here changes no document's validity while removing a block and five levels of $defs/Reference indirection. cdifReference was retired 2026-09-23.",
             "type": "object",
-            "description": "Building block to implement relations to other resources using a URL and some semantics.",
-            "allOf": [
-                {
-                    "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
-                    "type": "object",
-                    "properties": {
-                        "@type": {
-                            "default": "schema:CreativeWork",
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
-                            "contains": {
-                                "const": "schema:CreativeWork"
-                            },
-                            "minItems": 1
-                        },
-                        "schema:name": {
-                            "type": "string"
-                        },
-                        "schema:description": {
-                            "type": "string"
-                        },
-                        "schema:url": {
-                            "type": "string",
-                            "format": "uri"
-                        }
+            "properties": {
+                "@type": {
+                    "default": "schema:CreativeWork",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
                     },
-                    "required": [
-                        "@type",
-                        "schema:url"
-                    ]
+                    "contains": {
+                        "const": "schema:CreativeWork"
+                    },
+                    "minItems": 1
                 },
-                {
-                    "type": "object",
-                    "description": "DCAT Relationship surface added on top of the schema.org labeled link construct. This block is an allOf of labeledLink and this surface, so a \"@type\" with contains: dcat:Relationship here applied to EVERY cdifReference -- alongside labeledLink's contains: schema:CreativeWork -- making the two co-types mandatory and the block unsatisfiable for an ordinary labeled link. schema:license recommends exactly such a link (\"recommend using schema:CreativeWork to provide a label (name) for the license\"), and every example that followed that advice failed. The co-type mandate is therefore gone: @type is governed solely by labeledLink, which already requires schema:CreativeWork and permits dcat:Relationship alongside it. This matches rules.shacl, where cdifReferenceShape targets dcat:Relationship as a class -- the relation rules apply to nodes that declare it, rather than forcing every labeled link to.",
-                    "properties": {
-                        "dcat:hadRole": {
-                            "$ref": "#/$defs/cdifConceptOrTermOrString",
-                            "description": "Role of the related resource as a SKOS Concept (DCAT canonical role slot)."
-                        },
-                        "dcterms:relation": {
-                            "type": "string",
-                            "format": "uri",
-                            "description": "URI of the related resource (DCAT canonical pointer to what is being related to; distinct from schema:url which is the presentation URL inherited from labeledLink)."
-                        }
-                    }
+                "schema:name": {
+                    "type": "string"
+                },
+                "schema:description": {
+                    "type": "string"
+                },
+                "schema:url": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "dcat:hadRole": {
+                    "$ref": "#/$defs/cdifConceptOrTermOrString",
+                    "description": "Role of the related resource as a SKOS Concept (DCAT canonical role slot). Present only on a link that expresses a relationship; a plain labeled link such as a license omits it."
+                },
+                "dcterms:relation": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "URI of the related resource -- the DCAT canonical pointer to what is being related to, which is distinct from schema:url, the presentation URL of the link itself."
                 }
+            },
+            "required": [
+                "@type",
+                "schema:url"
             ]
         },
         "Statistics": {
