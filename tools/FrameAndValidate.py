@@ -552,6 +552,18 @@ def remove_nulls_and_normalize(obj, parent_key=None):
         obj_type = result.get('@type', '')
         type_list = obj_type if isinstance(obj_type, list) else ([obj_type] if obj_type else [])
 
+        # cdif:displayLabel is an array on a Category, a RepresentedVariable, a
+        # UnitType and a TextMapping, but a plain string on cdifValueDomain's
+        # SubstantiveValueDomain and SentinelValueDomain. It therefore cannot go in
+        # ARRAY_PROPERTIES, which matches on property name alone -- that would wrap
+        # the two value-domain labels and break them. Keyed on the containing @type
+        # instead, excluding only those two. Framing collapses a one-element array to
+        # a scalar, which is how ["Jan"] on a cdi:Category became "Jan" and failed a
+        # schema the source document satisfied.
+        if 'cdif:displayLabel' in result and not isinstance(result['cdif:displayLabel'], list):
+            if not ({'cdif:SubstantiveValueDomain', 'cdif:SentinelValueDomain'} & set(type_list)):
+                result['cdif:displayLabel'] = [result['cdif:displayLabel']]
+
         # schema:propertyID: array inside variableMeasured and additionalProperty items,
         # string on plain Identifier PropertyValues (e.g. inside schema:identifier)
         pid_array_context = (parent_key in ('schema:variableMeasured', 'schema:additionalProperty') or
