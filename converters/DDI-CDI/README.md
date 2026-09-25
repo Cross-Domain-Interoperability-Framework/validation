@@ -61,7 +61,7 @@ encoded in the sibling **`ucmism2m`** project
 | `WideDataStructure` / `LongDataStructure` / `DimensionalDataStructure` | `cdif:isStructuredBy` → `cdi:<X>DataStructure` (distribution typed `cdi:StructuredDataSet` / `cdi:LongStructureDataSet` / `cdi:DimensionalDataSet`) |
 | `DataStructure_has_DataStructureComponent` → `Identifier`/`Measure`/`Dimension`/`AttributeComponent` | `cdi:has_DataStructureComponent` → `cdi:<Component>` |
 | `DataStructureComponent_isDefinedBy_RepresentedVariable` | `cdif:isDefinedBy_RepresentedVariable` → `{@id}` of the variable |
-| `DataStructure_has_PrimaryKey` | `cdi:has_PrimaryKey` |
+| `DataStructure_has_PrimaryKey` | `cdif:has_PrimaryKey` |
 
 `detect_conformance` now adds **`data_structure/1.1`** to the declared profiles.
 

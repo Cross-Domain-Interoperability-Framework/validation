@@ -324,7 +324,7 @@ def build_data_structure(objects, index):
 
     pk_id = ref_target(child(struct, "DataStructure_has_PrimaryKey"))
     if pk_id:
-        node["cdi:has_PrimaryKey"] = {"@id": as_id(pk_id)}
+        node["cdif:has_PrimaryKey"] = {"@id": as_id(pk_id)}
 
     return node, DATASET_TYPE.get(stype, "cdi:StructuredDataSet")
 
