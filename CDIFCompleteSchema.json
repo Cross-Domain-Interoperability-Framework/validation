@@ -982,7 +982,47 @@
                         }
                     }
                 }
-            }
+            },
+            "allOf": [
+                {
+                    "if": {
+                        "required": [
+                            "@type"
+                        ],
+                        "properties": {
+                            "@type": {
+                                "contains": {
+                                    "const": "cdif:TextMapping"
+                                }
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": [
+                            "cdif:index"
+                        ]
+                    }
+                },
+                {
+                    "if": {
+                        "required": [
+                            "@type"
+                        ],
+                        "properties": {
+                            "@type": {
+                                "contains": {
+                                    "const": "cdif:LocatorMapping"
+                                }
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": [
+                            "cdi:locator"
+                        ]
+                    }
+                }
+            ]
         },
         "CdifRepresentedVariable": {
             "title": "DDI-CDI Represented Variable",
@@ -3985,7 +4025,8 @@
                     },
                     "required": [
                         "@type",
-                        "cdif:hasValuesFrom"
+                        "cdif:hasValuesFrom",
+                        "cdif:name"
                     ]
                 },
                 "cdi:refersTo": {
