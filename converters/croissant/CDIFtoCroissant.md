@@ -159,8 +159,8 @@ The CDIF **Data Structure profile** (`https://w3id.org/cdif/data_structure/1.0`)
 |---|---|---|
 | `cdi:isStructuredBy` → `cdi:DataStructure` / `cdi:WideDataStructure` / `cdi:LongDataStructure` / `cdi:DimensionalDataStructure` | `cr:RecordSet` (one per structured file) | The structure flavour is not represented in Croissant; the RecordSet is generated from the physical mappings, not the component list |
 | `cdi:has_DataStructureComponent` → `IdentifierComponent` / `MeasureComponent` / `AttributeComponent` / `DimensionComponent` (the `cdif:role`) | _(no equivalent)_ | Croissant `cr:Field` has no role concept; component role is carried only in passed-through CDIF properties |
-| `cdi:has_PrimaryKey` (DataStructure level) and dataset-level `cdif:hasPrimaryKey` | `cr:RecordSet.key` | Realized: key variables → key field `@id`s |
-| `cdi:has_ForeignKey` → `cdif:ForeignKey` (references another structure/variable) | `cr:Field.references` (`{"@id": <target field>}`) | The closest analog; emitted only when the target resolves to a field in the generated RecordSets |
+| `cdif:has_PrimaryKey` (DataStructure level) and dataset-level `cdif:hasPrimaryKey` | `cr:RecordSet.key` | Realized: key variables → key field `@id`s |
+| `cdif:has_ForeignKey` → `cdif:ForeignKey` (references another structure/variable) | `cr:Field.references` (`{"@id": <target field>}`) | The closest analog; emitted only when the target resolves to a field in the generated RecordSets |
 | `cdif:isDefinedBy_RepresentedVariable` → `cdi:RepresentedVariable` | folded into `cr:Field` | RepresentedVariable-level name/definition/type are surfaced on the field; the RepresentedVariable node itself is not reproduced |
 
 > **`cdi:qualifies` is not a foreign key.** A variable's `cdi:qualifies` (attribute-qualifies-measure, i.e. metadata-about-data such as a quality flag) is **not** mapped to `cr:Field.references`. `references` is reserved for true foreign keys (`cdif:ForeignKey`). `cdi:qualifies` has no clean Croissant equivalent and is passed through in the CDIF properties.

@@ -522,8 +522,8 @@ def _convert_record_sets(tabular_files, var_index, cdif, verbose=False):
     cdi:qualifies, and that was wrong twice over: cdi:qualifies says a
     variable is metadata ABOUT another, not that its values reference them,
     and mapping it crashed mlcroissant. The real foreign key is
-    cdi:has_ForeignKey on the data structure, which this converter does not
-    read -- see the cdi:has_ForeignKey row in cdif-to-croissant.sssom.tsv.
+    cdif:has_ForeignKey on the data structure, which this converter does not
+    read -- see the cdif:has_ForeignKey row in cdif-to-croissant.sssom.tsv.
     """
     record_sets = []
 

@@ -1133,7 +1133,7 @@ def _convert_foreign_keys(record_sets_by_file, field_ref_to_var_id, verbose=Fals
 
     Croissant states a foreign key flat, on the field: these values reference
     that field's. CDIF states it on the data structure, because a key can span
-    several columns -- cdi:has_ForeignKey holds a cdif:ForeignKey whose
+    several columns -- cdif:has_ForeignKey holds a cdif:ForeignKey whose
     cdif:isComposedOf is an ordered list of cdi:ComponentPosition wrappers,
     each indexing one variable at one position. A Croissant reference is always
     single-column, so each becomes a one-position key.
@@ -1437,7 +1437,7 @@ def convert(croissant, verbose=False):
             continue
         structure = node.setdefault("cdi:isStructuredBy",
                                     {"@type": ["cdi:DataStructure"]})
-        structure.setdefault("cdi:has_ForeignKey", []).extend(keys)
+        structure.setdefault("cdif:has_ForeignKey", []).extend(keys)
 
     # A FileObject that no RecordSet draws data from is not a distribution of
     # this dataset — a distribution is another downloadable form of the same

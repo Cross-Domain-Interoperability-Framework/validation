@@ -242,6 +242,21 @@ REFERENCE_ONLY_KEYS = (
     # cdif:isDefinedBy_Variable and may legitimately be inline, so it must NOT
     # be added here; the two used to share this name and no longer do.
     'cdif:isDefinedBy_RepresentedVariable',
+    # Sealed {@id} in cdifPhysicalMapping -- its own description reads
+    # "Reference to a variable defined in schema:variableMeasured", so the
+    # target is always present elsewhere and collapsing the framing-embedded
+    # copy is non-lossy.
+    'cdif:formats_InstanceVariable',
+    # A key names variables that are declared once (in schema:variableMeasured)
+    # and referenced from each ComponentPosition, so the framing-embedded copy
+    # is never the only copy. Safe under a name-keyed collapse because every
+    # definition of this name permits a bare reference: the three CDIF sites
+    # (cdifKey, and ForeignKey / PrimaryKey in cdifDataStructure) are now
+    # objectReference-only, and the eleven canonical ddiProperties sites are
+    # anyOf[inline, ddicdiDataTypes#/$defs/id-reference], whose id-reference is
+    # exactly {@id}. This was NOT safe before 2026-09-24, when two CDIF sites
+    # still admitted an inline variable that a collapse would have destroyed.
+    'cdi:indexes',
 )
 
 # Keys the (bare-structure) schema requires as arrays but framing collapses to a
@@ -289,6 +304,23 @@ def normalize_bare_structure(obj):
             out[k] = v
         return out
     return obj
+
+
+def _normalize_structure_subtrees(obj):
+    """Apply normalize_bare_structure to every cdi:isStructuredBy value, leaving
+    the rest of a Dataset / manifest / data-description document untouched."""
+    if isinstance(obj, list):
+        return [_normalize_structure_subtrees(x) for x in obj]
+    if isinstance(obj, dict):
+        out = {}
+        for k, v in obj.items():
+            if k == 'cdi:isStructuredBy':
+                out[k] = normalize_bare_structure(v)
+            else:
+                out[k] = _normalize_structure_subtrees(v)
+        return out
+    return obj
+
 
 
 def _is_catalog_record(item):
@@ -520,6 +552,18 @@ def remove_nulls_and_normalize(obj, parent_key=None):
         obj_type = result.get('@type', '')
         type_list = obj_type if isinstance(obj_type, list) else ([obj_type] if obj_type else [])
 
+        # cdif:displayLabel is an array on a Category, a RepresentedVariable, a
+        # UnitType and a TextMapping, but a plain string on cdifValueDomain's
+        # SubstantiveValueDomain and SentinelValueDomain. It therefore cannot go in
+        # ARRAY_PROPERTIES, which matches on property name alone -- that would wrap
+        # the two value-domain labels and break them. Keyed on the containing @type
+        # instead, excluding only those two. Framing collapses a one-element array to
+        # a scalar, which is how ["Jan"] on a cdi:Category became "Jan" and failed a
+        # schema the source document satisfied.
+        if 'cdif:displayLabel' in result and not isinstance(result['cdif:displayLabel'], list):
+            if not ({'cdif:SubstantiveValueDomain', 'cdif:SentinelValueDomain'} & set(type_list)):
+                result['cdif:displayLabel'] = [result['cdif:displayLabel']]
+
         # schema:propertyID: array inside variableMeasured and additionalProperty items,
         # string on plain Identifier PropertyValues (e.g. inside schema:identifier)
         pid_array_context = (parent_key in ('schema:variableMeasured', 'schema:additionalProperty') or
@@ -666,11 +710,20 @@ def frame_cdif_document(doc_path, frame_path=None):
     print("Post-processing output...")
     result = remove_nulls_and_normalize(result)
 
+    # Originally gated on a structure-rooted document, because the same keys are
+    # typed differently on Dataset / manifest / data-description docs. That held
+    # only while the profile frames were dropping cdi:isStructuredBy from
+    # dataset-rooted documents, so the grammar never appeared in one. With the
+    # frames fixed it does, and inside it cdi:qualifies is type: array on an
+    # AttributeComponent exactly as in a bare structure, while compaction still
+    # flattens the single-valued case.
     # Step 6: For bare DataStructure documents only, apply structure-specific
     # normalizations (reference collapse + array wrapping) that must NOT run on
     # Dataset / manifest / data-description docs (same keys, different types).
     if _is_structure_rooted(doc):
         result = normalize_bare_structure(result)
+    else:
+        result = _normalize_structure_subtrees(result)
 
     return result
 
