@@ -2,7 +2,7 @@
 
 This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule sets for validating CDIF metadata documents.
 
-> **The format converters moved out.** DCAT, DDI, DDI-CDI, Croissant, SOSO and RO-Crate conversion now live in [`Cross-Domain-Interoperability-Framework/converters`](https://github.com/Cross-Domain-Interoperability-Framework/converters), which bundles this repo as a git submodule and imports `detect_conformance.py` from it. Any section or `python converters/…` command below describes tools in that repo, not this one.
+> **The format converters moved out.** DCAT, DDI, DDI-CDI, Croissant, SOSO and RO-Crate conversion now live in [`Cross-Domain-Interoperability-Framework/converters`](https://github.com/Cross-Domain-Interoperability-Framework/converters) — see that repo for the tools, mappings, and usage. It bundles this repo as a git submodule and imports `detect_conformance.py` from it to derive `conformsTo`.
 
 ## Table of Contents
 
@@ -12,10 +12,7 @@ This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule s
   - [Step 1: Frame the JSON-LD Document](#step-1-frame-the-json-ld-document)
   - [Step 2: Validate Against Schema](#step-2-validate-against-schema)
 - [Conformance-URI-Driven Validation (ConformanceValidate.py)](#conformance-uri-driven-validation-conformancevalidatepy)
-- [RO-Crate Conversion and Validation](#ro-crate-conversion-and-validation)
-- [Croissant Conversion](#croissant-conversion)
-  - [How the Croissant Conversion Works](#how-the-croissant-conversion-works)
-  - [Croissant Usage](#croissant-usage)
+- [Format converters (moved)](#format-converters-moved)
 - [Usage Examples](#usage-examples)
   - [Command Line (Recommended)](#command-line-recommended)
   - [oXygen XML Editor](#oxygen-xml-editor)
@@ -346,44 +343,11 @@ to propagate; see [`tools/README.md`](tools/README.md). When you want to ask
 "what does this document actually conform to, and how well?", use
 `ConformanceValidate.py`.
 
-## RO-Crate Conversion and Validation
+## Format converters (moved)
 
-The RO-Crate tools live in [`converters/ROCrate/`](converters/ROCrate/): `ConvertToROCrate.py` (CDIF → RO-Crate 1.2), `ROCrateToCDIF.py` (RO-Crate → CDIF) and `ValidateROCrate.py` (structural + optional SHACL). See that directory's [README](converters/ROCrate/README.md) for usage.
-
-They had been moved out to a `packaging` repository, which no longer exists — the 2026-05 reorg renamed it `profile-manifest` — so both links here were dead. They came back on 2026-09-08, beside the other format converters. The conceptual background stays in `profile-manifest`: [`docs/RO-Crate-relationship.md`](https://github.com/Cross-Domain-Interoperability-Framework/profile-manifest/blob/main/docs/RO-Crate-relationship.md).
-
-## Croissant Conversion
-
-Two converters live in `croissant/`. Forward (CDIF → Croissant) and inverse
-(Croissant → CDIF DataDescription / Discovery).
-
-The converters target **Croissant 1.1** (`http://mlcommons.org/croissant/1.1`)
-and the current **`cdif:` CDIF schema**; the inverse accepts Croissant 1.0 or 1.1.
-
-```bash
-# Forward: CDIF -> Croissant 1.1
-python converters/croissant/ConvertToCroissant.py input.jsonld -o output-croissant.json
-python -c "import mlcroissant as mlc; mlc.Dataset(jsonld='output-croissant.json')"  # optional
-
-# Inverse: Croissant -> CDIF DataDescription / Discovery
-python converters/croissant/ConvertFromCroissant.py input-croissant.json -o output.jsonld
-# then validate against the current Discovery / DataDescription profile schema
-```
-
-The inverse is **lossy** — Croissant carries no equivalents for
-`prov:wasGeneratedBy`, `dqv:hasQualityMeasurement`, `schema:measurementTechnique`,
-`schema:spatialCoverage`/`temporalCoverage`, the CSVW table block, or the Data
-Structure component roles. The script preserves anything the forward converter
-passed through verbatim, reconstructs `schema:identifier` from a DOI in
-`citeAs`/`url`, and maps `cr:RecordSet.key` → `cdif:hasPrimaryKey`. If the source
-Croissant has no `recordSet`, the output validates against the Discovery schema
-rather than the DataDescription schema (the appropriate profile in that case).
-
-See [`converters/croissant/README.md`](converters/croissant/README.md) for detailed documentation on
-both converters, property mappings, and example output. The full
-property-by-property mappings are in [`converters/croissant/CDIFtoCroissant.md`](converters/croissant/CDIFtoCroissant.md)
-(forward) and [`converters/croissant/CroissantToCDIF.md`](converters/croissant/CroissantToCDIF.md)
-(inverse).
+CDIF↔RO-Crate 1.2 (with structural/SHACL validation) and CDIF↔Croissant 1.1
+conversion now live in the [`converters`](https://github.com/Cross-Domain-Interoperability-Framework/converters) repo. See its README and the
+per-format docs there for pipelines, mappings, and usage.
 
 ## Usage Examples
 
@@ -548,7 +512,7 @@ Domain-specific metadata may also use extension namespace prefixes. For example,
 | `xas` | `http://cdi4exas.org/` | XAS-specific types and properties (beamline, detector, edge energy, etc.) |
 | `cdifq` | `http://crossdomaininteroperability.org/cdifq/` | Placeholder namespace for data structure properties (`nColumns`, `nRows`) not yet assigned to a formal vocabulary |
 
-The `cdifq` namespace is a temporary placeholder. Properties using it (such as row/column counts on data structures) may migrate to DDI-CDI, CSVW, or another standard vocabulary in the future. `converters/croissant/ConvertToCroissant.py` includes `cdifq` in its output context so that these terms resolve correctly during JSON-LD processing.
+The `cdifq` namespace is a temporary placeholder. Properties using it (such as row/column counts on data structures) may migrate to DDI-CDI, CSVW, or another standard vocabulary in the future. the Croissant converter (in the converters repo) includes `cdifq` in its output context so that these terms resolve correctly during JSON-LD processing.
 
 ### Legacy Schema Requirements
 
@@ -802,47 +766,11 @@ python geocodes_harvester.py --count 5 --output ./raw-examples
 
 The CDIF conversion handles: property prefixing (`schema:`), `@context`/`@type` normalization, `@list` wrapping for creators, distribution fixes, `subjectOf` with `conformsTo`, type mappings (FundingAgency to Organization, Grant to MonetaryGrant, Croissant sc:Dataset to Dataset), Person name synthesis, and sameAs array normalization. All conversions are documented in each record's `subjectOf` description. Extra properties from the source are preserved (open-world assumption).
 
-## DCAT Conversion
+## DCAT and DDI conversion (moved)
 
-`converters/DCAT/dcat_to_cdif.py` converts DCAT JSON-LD catalogs or individual dataset records to CDIF-conformant schema.org JSON-LD. Maps DCAT/Dublin Core properties to schema.org equivalents per the [CDIF DCAT implementation guide](https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/dcat.html).
-
-```bash
-# List datasets in a DCAT catalog
-python converters/DCAT/dcat_to_cdif.py catalog.jsonld --list
-
-# Convert selected records, validate output
-python converters/DCAT/dcat_to_cdif.py catalog.jsonld --output ./examples \
-  --select 0,3,5 --catalog-name "My Catalog" --catalog-url "https://example.org/" \
-  --validate
-```
-
-```bash
-# Rebuild the example corpus and verify it, from converters/DCAT/
-python converters/DCAT/build_corpus.py
-```
-
-The mappings are not restated here or in the code: the converter **reads** [converters/mappings/dcat-to-cdif.sssom.tsv](converters/mappings/dcat-to-cdif.sssom.tsv), which covers every property the DCAT specification defines — the union of the editor's draft and the RDF vocabulary, which disagree — plus every property found in the example corpus. Source IRIs that are not the IRI the publisher meant are rewritten first through [dcat-aliases.sssom.tsv](converters/mappings/dcat-aliases.sssom.tsv); most of those come from official context documents rather than careless records. Unmapped properties are preserved (open world), and the profile is derived from content by `detect_conformance`.
-
-See [converters/DCAT/README.md](converters/DCAT/README.md) for the corpora, the PSDI catalog example, and known limitations.
-
-## DDI Conversion
-
-`converters/DDI/ddi2cdif.py` is the single entry point: it sniffs the input's DDI flavor and routes it. **DDI Codebook 1.2.2 and 2.5** go to the source-agnostic data-driven engine `converters/DDI/ddi_sssom_to_cdif.py`, which applies the SSSOM crosswalk under `converters/mappings` and builds the value domains, statistics, deduplicated code lists, structured contributors, and per-column physical mappings; **DDI-CDI** (RDF/JSON-LD) and **DDI Lifecycle 3.x** are separate branches. See [converters/DDI/README.md](converters/DDI/README.md) and [converters/DDICodebook/README.md](converters/DDICodebook/README.md).
-
-```bash
-# Convert any DDI Codebook file (flavor + version auto-detected)
-python converters/DDI/ddi2cdif.py input.xml -o output.json
-python converters/DDI/ddi2cdif.py input.xml --print-flavor   # just report the detected flavor
-```
-
-`converters/DDI/ddi_to_cdif.py` is a **source-specific Harvard Dataverse** tool, deliberately outside the dispatcher: it delegates the base conversion to the engine and adds only the live Dataverse-API enrichment the offline engine cannot do — file size/checksum and the `.tab` header row (→ `cdif:hasPhysicalMapping`):
-
-```bash
-python converters/DDI/ddi_to_cdif.py input.xml --doi https://doi.org/10.7910/DVN/XXXXXX \
-  --fetch-headers --fetch-file-meta -o output.json
-```
-
-> **Note:** Data-structure properties use the current `cdif:` prefix (`cdif:role`, `cdif:physicalDataType`, `cdif:hasPhysicalMapping`, `cdif:index`, `cdif:formats_InstanceVariable`); the DDI-CDI node types (`cdi:InstanceVariable`, `cdi:TabularTextDataSet`) keep the `cdi:` prefix.
+DCAT→CDIF and the DDI family (Codebook 1.2.2/2.5, DDI-CDI) → CDIF now live in the
+[`converters`](https://github.com/Cross-Domain-Interoperability-Framework/converters) repo, with their SSSOM mapping tables, example corpora,
+and `build_corpus.py` regression harness. See its README and per-format docs.
 
 ## MetadataExamples
 
