@@ -1100,7 +1100,7 @@
                                                     },
                                                     "schema:name": {
                                                         "type": "string",
-                                                        "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic)."
+                                                        "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic)."
                                                     },
                                                     "cdif:references": {
                                                         "description": "CDIF codelist (skos:ConceptScheme) whose concepts define the allowed values of this enumeration domain.",
@@ -1510,7 +1510,7 @@
                                                 },
                                                 "schema:name": {
                                                     "type": "string",
-                                                    "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic)."
+                                                    "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic)."
                                                 },
                                                 "cdif:references": {
                                                     "description": "CDIF codelist (skos:ConceptScheme) whose concepts define the allowed values of this enumeration domain.",
@@ -1932,6 +1932,7 @@
                                     "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
                                 },
                                 "cdif:uses_Concept": {
+                                    "description": "Specifies the concept(s) that this variable expresses or aligns with.",
                                     "type": "array",
                                     "items": {
                                         "anyOf": [
@@ -1994,6 +1995,7 @@
                     "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
                 },
                 "cdif:uses_Concept": {
+                    "description": "Specifies the concept(s) that this variable expresses or aligns with.",
                     "type": "array",
                     "items": {
                         "anyOf": [
@@ -2835,6 +2837,7 @@
                                     "description": "Identifier for this DataStructure node"
                                 },
                                 "cdif:has_ForeignKey": {
+                                    "description": "Variables whose values identify records in a different dataset.",
                                     "type": "array",
                                     "items": {
                                         "anyOf": [
@@ -2884,7 +2887,8 @@
                                     "minItems": 1
                                 },
                                 "cdif:has_PrimaryKey": {
-                                    "$ref": "#/$defs/CdifKey"
+                                    "$ref": "#/$defs/CdifKey",
+                                    "description": "Variables in the structure that uniquely identify a record."
                                 }
                             },
                             "required": [
@@ -2947,9 +2951,11 @@
                                     "minItems": 1
                                 },
                                 "cdif:has_PrimaryKey": {
-                                    "$ref": "#/$defs/CdifKey"
+                                    "$ref": "#/$defs/CdifKey",
+                                    "description": "Variables in the structure that uniquely identify a record."
                                 },
                                 "cdif:has_ForeignKey": {
+                                    "description": "Variables whose values identify records in a different dataset.",
                                     "type": "array",
                                     "items": {
                                         "anyOf": [
@@ -3032,7 +3038,8 @@
                                     "minItems": 3
                                 },
                                 "cdif:has_PrimaryKey": {
-                                    "$ref": "#/$defs/CdifKey"
+                                    "$ref": "#/$defs/CdifKey",
+                                    "description": "Variables in the structure that uniquely identify a record."
                                 }
                             },
                             "required": [
@@ -3079,9 +3086,11 @@
                                     "minItems": 1
                                 },
                                 "cdif:has_PrimaryKey": {
-                                    "$ref": "#/$defs/CdifKey"
+                                    "$ref": "#/$defs/CdifKey",
+                                    "description": "Variables in the structure that uniquely identify a record."
                                 },
                                 "cdif:has_ForeignKey": {
+                                    "description": "Variables whose values identify records in a different dataset.",
                                     "type": "array",
                                     "items": {
                                         "anyOf": [
@@ -3131,6 +3140,7 @@
                                         "description": "Identifier for this DataStructure node"
                                     },
                                     "cdif:has_ForeignKey": {
+                                        "description": "Variables whose values identify records in a different dataset.",
                                         "type": "array",
                                         "items": {
                                             "anyOf": [
@@ -3180,7 +3190,8 @@
                                         "minItems": 1
                                     },
                                     "cdif:has_PrimaryKey": {
-                                        "$ref": "#/$defs/CdifKey"
+                                        "$ref": "#/$defs/CdifKey",
+                                        "description": "Variables in the structure that uniquely identify a record."
                                     }
                                 },
                                 "required": [
@@ -3243,9 +3254,11 @@
                                         "minItems": 1
                                     },
                                     "cdif:has_PrimaryKey": {
-                                        "$ref": "#/$defs/CdifKey"
+                                        "$ref": "#/$defs/CdifKey",
+                                        "description": "Variables in the structure that uniquely identify a record."
                                     },
                                     "cdif:has_ForeignKey": {
+                                        "description": "Variables whose values identify records in a different dataset.",
                                         "type": "array",
                                         "items": {
                                             "anyOf": [
@@ -3328,7 +3341,8 @@
                                         "minItems": 3
                                     },
                                     "cdif:has_PrimaryKey": {
-                                        "$ref": "#/$defs/CdifKey"
+                                        "$ref": "#/$defs/CdifKey",
+                                        "description": "Variables in the structure that uniquely identify a record."
                                     }
                                 },
                                 "required": [
@@ -3375,9 +3389,11 @@
                                         "minItems": 1
                                     },
                                     "cdif:has_PrimaryKey": {
-                                        "$ref": "#/$defs/CdifKey"
+                                        "$ref": "#/$defs/CdifKey",
+                                        "description": "Variables in the structure that uniquely identify a record."
                                     },
                                     "cdif:has_ForeignKey": {
+                                        "description": "Variables whose values identify records in a different dataset.",
                                         "type": "array",
                                         "items": {
                                             "anyOf": [
@@ -3447,7 +3463,7 @@
                         "type": "string"
                     },
                     "minItems": 1,
-                    "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+                    "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
                 },
                 "cdi:identifier": {
                     "$ref": "#/$defs/Identifier",
