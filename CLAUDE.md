@@ -4,7 +4,7 @@
 
 This repository contains validation tools for **CDIF (Cross-Domain Interoperability Framework)** JSON-LD metadata documents describing scientific datasets. Validation uses JSON Schema, SHACL rules, and RO-Crate structural checks.
 
-> **The format converters moved out.** DCAT, DDI, DDI-CDI, Croissant, SOSO and RO-Crate conversion now live in [`Cross-Domain-Interoperability-Framework/converters`](https://github.com/Cross-Domain-Interoperability-Framework/converters). That repo bundles this one as a git submodule and imports `detect_conformance.py` from it. Any section or `python converters/…` command below describes tools in that repo, not this one.
+> **The format converters moved out.** DCAT, DDI, DDI-CDI, Croissant, SOSO and RO-Crate conversion now live in [`Cross-Domain-Interoperability-Framework/converters`](https://github.com/Cross-Domain-Interoperability-Framework/converters) — see that repo for the tools, mappings, and usage. It bundles this repo as a git submodule and imports `detect_conformance.py` from it to derive `conformsTo`.
 
 ## Key concepts
 
@@ -70,17 +70,8 @@ python tools/FlattenCDIF.py path/to/metadata.jsonld -o flattened.json
 python tools/sync_frameandvalidate.py
 python tools/sync_frameandvalidate.py --apply
 
-# Convert CDIF to RO-Crate (standalone, no validation)
-python ConvertToROCrate.py path/to/metadata.jsonld -o output-rocrate.jsonld
-
-# Validate as RO-Crate (converts then validates)
-python ValidateROCrate.py path/to/metadata.jsonld
-
-# Convert CDIF to Croissant (ML dataset format)
-python converters/croissant/ConvertToCroissant.py path/to/metadata.jsonld -o output-croissant.json -v
-
-# Validate Croissant output (requires: pip install mlcroissant)
-mlcroissant validate --jsonld output-croissant.json
+# Convert CDIF to/from other formats (RO-Crate, Croissant, DCAT, DDI, SOSO):
+# see the converters repo -- https://github.com/Cross-Domain-Interoperability-Framework/converters
 
 # SHACL validation (discovery profile)
 python ShaclValidation/ShaclJSONLDContext.py metadata.jsonld ShaclValidation/CDIF-Discovery-Shapes.ttl
@@ -121,13 +112,11 @@ python ShaclValidation/generate_shacl_shapes.py --bb-dir /path/to/_sources --out
 
 ```bash
 pip install PyLD jsonschema rdflib pyshacl
-
-# Optional: for thorough SHACL-based RO-Crate validation (requires Python >= 3.10)
-pip install roc-validator
-
-# Optional: for Croissant output validation
-pip install mlcroissant
 ```
+
+(The format converters and their extra dependencies live in the
+[`converters`](https://github.com/Cross-Domain-Interoperability-Framework/converters)
+repo.)
 
 ## Flattened graph schema (generate_graph_schema.py)
 
@@ -238,48 +227,14 @@ The frame reshapes flattened JSON-LD graphs into nested trees rooted at `schema:
 
 Other notable frame sections: `schema:distribution` embeds `schema:hasPart` for archive sub-files with physical mappings, `schema:creator`/`schema:contributor` embed affiliations and identifiers, and `schema:subjectOf` filters on `@type: schema:Dataset` for metadata-about-metadata records.
 
-## ConvertToROCrate.py / ValidateROCrate.py architecture
+## Format converters (moved)
 
-Conversion and validation are split into two modules:
-- **`ConvertToROCrate.py`** -- pure conversion library + standalone CLI. Can be imported (`from ConvertToROCrate import convert_to_rocrate`) or run directly.
-- **`ValidateROCrate.py`** -- validation-only script that imports conversion from `ConvertToROCrate`. CLI unchanged.
-
-**Conversion pipeline** (in `ConvertToROCrate.py`, uses `pyld`):
-1. Enrich input `@context` with CDIF namespace prefixes (forces `schema` to `http://` for RO-Crate compatibility)
-2. Expand (resolve all prefixes to full IRIs)
-3. Flatten (produce `@graph` with flat entities and `@id` references)
-4. Compact with RO-Crate 1.1 context
-5. Inject `ro-crate-metadata.json` descriptor entity, remap root Dataset `@id` to `"./"`
-
-**Current validation** (in `ValidateROCrate.py`): 13 hand-coded structural checks (context present, `@graph` is flat array, metadata descriptor with `conformsTo`, root Dataset with `datePublished`/`name`/`description`/`license`, all entities have `@id` and `@type`, no nested entities, no `../` in IDs, context references RO-Crate 1.1).
-
-### rocrate-validator integration
-
-The `rocrate-validator` library provides thorough SHACL-based RO-Crate validation alongside the existing custom structural checks.
-
-- **PyPI package**: `roc-validator` (`pip install roc-validator`), requires Python >= 3.10
-- **Import name**: `rocrate_validator` (underscore)
-- **Key API**: `rocrate_validator.services.validate_metadata_as_dict(metadata_dict, settings)` validates an in-memory dict without needing files on disk
-- **Settings**: `rocrate_validator.services.ValidationSettings(rocrate_uri='.', profile_identifier='ro-crate-1.1', requirement_severity=models.Severity.REQUIRED)`
-- **Severity levels**: `rocrate_validator.models.Severity` enum: `OPTIONAL`, `RECOMMENDED`, `REQUIRED`
-- **Result object**: `ValidationResult` with `.has_issues()`, `.passed()`, `.get_issues()` methods
-- **Issue objects**: `CheckIssue` with `.message`, `.severity`, `.check.identifier`, `.violatingEntity`, `.violatingProperty`
-- **Import should be optional** with graceful fallback when library is not installed
-- Runs after the existing 13 custom structural checks, printing results in a matching format
-- CLI flags: `--no-rocrate-validator` to skip, `--severity` to control minimum level (REQUIRED, RECOMMENDED, OPTIONAL)
-
-## ConvertToCroissant.py (CDIF to Croissant)
-
-Converts CDIF JSON-LD metadata to [Croissant](https://docs.mlcommons.org/croissant/docs/croissant-spec.html) 1.1 (mlcommons.org/croissant/1.1) JSON-LD for ML dataset discovery and loading. The inverse `converters/croissant/ConvertFromCroissant.py` converts Croissant (1.0 or 1.1) back to CDIF DataDescription/Discovery (lossy). See `converters/croissant/CDIFtoCroissant.md` (forward) and `converters/croissant/CroissantToCDIF.md` (inverse) for the full mapping documentation.
-
-**Key mappings:**
-- `schema:DataDownload` → `cr:FileObject`; archive `hasPart` items become FileObjects with `containedIn`
-- `schema:variableMeasured` + `cdif:hasPhysicalMapping` → `cr:RecordSet` + `cr:Field` with `source.extract.column`
-- `schema:propertyID` / `cdif:uses` → `cr:Field.equivalentProperty`
-- CDIF-only properties (`prov:wasGeneratedBy`, `dqv:hasQualityMeasurement`, `schema:spatialCoverage`, etc.) are passed through verbatim with namespace prefixes added to `@context`
-- Missing `schema:license` gets OGC `nil:missing` placeholder
-
-**Data type mapping:** `xsd:decimal`→`sc:Float`, `String`→`sc:Text`, `xsd:dateTime`→`sc:Date`, `xsd:integer`→`sc:Integer`, `xsd:boolean`→`sc:Boolean`
+CDIF↔RO-Crate, Croissant, DCAT, DDI/DDI-CDI and SOSO conversion now lives in the
+[`converters`](https://github.com/Cross-Domain-Interoperability-Framework/converters)
+repo (RO-Crate 1.2 conversion + structural/SHACL validation, Croissant 1.1, DCAT,
+the DDI family, and SOSO). That repo bundles this one as a git submodule and imports
+`detect_conformance.py` (below) from it to derive `conformsTo`. See its README and
+per-format docs for pipelines, mappings and usage.
 
 ## Test documents
 
