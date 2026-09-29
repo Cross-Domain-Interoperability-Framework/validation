@@ -39,7 +39,6 @@ AT_KEYS = ("schema:additionalType", "additionalType")
 DEFAULT_TARGETS = [
     "testJSONMetadata",
     "MetadataExamples",
-    "converters",
 ]
 
 

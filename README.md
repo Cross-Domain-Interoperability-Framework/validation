@@ -2,6 +2,8 @@
 
 This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule sets for validating CDIF metadata documents.
 
+> **The format converters moved out.** DCAT, DDI, DDI-CDI, Croissant, SOSO and RO-Crate conversion now live in [`Cross-Domain-Interoperability-Framework/converters`](https://github.com/Cross-Domain-Interoperability-Framework/converters), which bundles this repo as a git submodule and imports `detect_conformance.py` from it. Any section or `python converters/…` command below describes tools in that repo, not this one.
+
 ## Table of Contents
 
 - [Files](#files)
@@ -63,8 +65,7 @@ This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule s
 | `tools/FrameAndValidate.py` | Python script for framing and validation (**normative source** for the release-repo copies; see [`tools/README.md`](tools/README.md)). When a repo ships more than one `*-frame.jsonld`, it auto-selects the frame whose root `@type` matches the input document's root `@type`. |
 | `tools/sync_frameandvalidate.py` | Propagates the normative `FrameAndValidate.py` to the release repos (banner + `src-sha256` + read-only, with example-regression verification) |
 | `tools/check_w3id_redirects.py` | Guards two version pins that fail silently rather than loudly. (1) Each `w3id.org/cdif/<profile>/<version>/schema` is fetched and the artifact that comes back must declare the version the URI names — a rule left pointing at Pages after a newer minor ships serves the wrong spec and nothing errors. (2) The CDIF book pins its artifact links to release tags, so a patch release leaves them a version behind; the book's source tarball is scanned and each linked repo's pin compared with its newest tag (`STALE`, or `MIXED` when a sweep was only partly applied). `--strict` exits 1. Run weekly by `.github/workflows/check-w3id-redirects.yml` |
-| `converters/croissant/ConvertToCroissant.py` | Converts current-`cdif:` CDIF JSON-LD to Croissant 1.1 (mlcommons.org/croissant/1.1) format |
-| `converters/croissant/ConvertFromCroissant.py` | Converts Croissant JSON-LD to CDIF DataDescription (lossy inverse) — see [`converters/croissant/CroissantToCDIF.md`](converters/croissant/CroissantToCDIF.md) |
+| **Format converters** (DCAT, DDI, DDI-CDI, Croissant, SOSO, RO-Crate) | **Moved** to [`Cross-Domain-Interoperability-Framework/converters`](https://github.com/Cross-Domain-Interoperability-Framework/converters). `detect_conformance.py` (this repo) is bundled there as a submodule; the converters import it to derive `conformsTo`. |
 | `validate_building_blocks.py` | Validates building block schemas, SHACL shapes, and examples across the BB source tree |
 | `validate-cdif.bat` | Windows batch script for oXygen XML Editor integration |
 | `batch_validate.py` | Batch validation of CDIF metadata files across multiple file groups (JSON Schema + SHACL) |
@@ -74,9 +75,6 @@ This repository contains JSON schema, JSON-LD frames, contexts, and SHACL rule s
 | `docs/CDIF-Conformance-Declaration-Convention.md` | Convention spec for the per-building-block `conformance.json` sidecar (conformsTo URI + presence ASK + content `validityShapes`) that `detect_conformance.py` consumes |
 | `docs/conformance-declaration.schema.json` | JSON Schema (`https://w3id.org/cdif/schema/conformance-declaration/0.1`) validating those sidecar files |
 | `geocodes_harvester.py` | Harvests dataset metadata from the [EarthCube GeoCodes](https://geocodes.earthcube.org/) SPARQL endpoint, extracts original JSON-LD from landing pages, and optionally converts to CDIF core or discovery profile format |
-| `converters/DCAT/dcat_to_cdif.py` | Converts DCAT JSON-LD catalogs to CDIF schema.org format. **Reads its mappings** from [converters/mappings/dcat-to-cdif.sssom.tsv](converters/mappings/dcat-to-cdif.sssom.tsv) rather than restating them; covers every property the DCAT specification defines plus every one found in the example corpus. See [converters/DCAT/README.md](converters/DCAT/README.md) |
-| `converters/DCAT/build_corpus.py` | Rebuilds `converters/DCAT/cdifOK/` from `dcatExamplesOK/`, merging every serialization of a logical example into one graph, and verifies on each run that no source property is dropped and that every conformant record validates. |
-| `converters/DDI/ddi_to_cdif.py` | Converts DDI Codebook 2.5 XML (e.g., from Harvard Dataverse) to CDIF DataDescription JSON-LD: study-level metadata, `<var>` → `schema:variableMeasured`, `<fileDscr>` → `schema:DataDownload`/`cdi:TabularTextDataSet`, tab-file headers → physical mappings |
 
 ### DDI-CDI Resolved Schema
 
