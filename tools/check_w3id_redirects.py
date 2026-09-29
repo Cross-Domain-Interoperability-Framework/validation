@@ -18,6 +18,12 @@ release tags rather than to main. A stale pin there does not 404 -- it serves a
 correct-looking page describing an older release -- so it needs the same kind of
 guard for the same reason.
 
+Third, it checks the XAS identifier space (w3id.org/cdif/xas/*), which nothing
+checked until 2026-09-29. That space was repointed from a personal account to
+the CDIF-4-XAS organisation, and a wrong base there would have left this
+workflow green -- not a rule that stopped working, but a space no rule
+covered.
+
     python tools/check_w3id_redirects.py            # report
     python tools/check_w3id_redirects.py --strict   # exit 1 on any mismatch
 
@@ -228,6 +234,159 @@ def check_book():
     return bad
 
 
+# ---------------------------------------------------------------------------
+# Third check: do the XAS identifiers resolve through the organisation?
+#
+# w3id.org/cdif/xas/* is the XAS SKOS glossary and its three value-list
+# vocabularies -- the largest identifier space CDIF publishes, and until
+# 2026-09-29 the only one resolving through an individual's GitHub account
+# rather than an organisation. It was repointed to CDIF-4-XAS then
+# (perma-id/w3id.org#6767).
+#
+# Nothing checked it before. The two checks above cover the versioned
+# conformance URIs and the book's tag pins, so a wrong XAS_PAGES base -- stale,
+# or back on a personal fork -- would have left this workflow green. That is
+# the same failure family as an un-repointed rule, one step further back: not a
+# rule that stopped working, but a space no rule ever covered.
+#
+# What is asserted is deliberately narrow: the 303 lands on the expected base,
+# and the target it names serves. The exact path per rule is NOT asserted --
+# that would duplicate the rewrite table in ids/cdif/.htaccess and drift from
+# it. The path is printed so a human reviewing a diff can see it move.
+#
+# Limit worth knowing: a concept URI under a value list resolves to a FRAGMENT
+# of the whole-vocabulary document (`...#kalpha`), and HTTP cannot tell whether
+# a fragment exists -- the file returns 200 either way. So these cases prove
+# the document is reachable, not that the concept is in it.
+# ---------------------------------------------------------------------------
+
+XAS_EXPECTED_BASE = "https://cdif-4-xas.github.io/XAS-CDIF"
+
+# Accepted, reported as PENDING, and NOT a --strict failure: the base the rules
+# still carry until perma-id/w3id.org#6767 merges and w3id redeploys. The repo
+# already uses this shape for a migration in flight -- the four retired XAS
+# terms accept both spellings for the same reason -- because a guard that is red
+# for weeks is a guard people learn to ignore, and this one has to be trusted on
+# the day the base is wrong for real.
+#
+# DELETE THIS CONSTANT once the live redirects move. Leaving it is not harmless:
+# with it in place the check cannot tell "repointed" from "never repointed",
+# which is the single question it exists to answer.
+XAS_TRANSITIONAL_BASE = "https://smrgeoinfo.github.io/XAS-CDIF"
+
+# One per rule family in ids/cdif/.htaccess, not one per rule.
+# (uri path, Accept header or None, what the rule family is for)
+XAS_CASES = [
+    ("xas/", None, "namespace root"),
+    ("xas/facility", None, "concept, default Accept"),
+    ("xas/facility", "application/ld+json", "concept, JSON-LD"),
+    ("xas/facility/jsonld", None, "concept, explicit suffix"),
+    ("xas/edge/", None, "value list, whole document"),
+    ("xas/emissionline/", None, "value list, whole document"),
+    ("xas/detectionmode/", None, "value list, whole document"),
+    ("xas/edge/k", None, "value-list concept (fragment)"),
+    ("xas/CDIF4XAS_Reference_Concepts", None, "ConceptScheme URI"),
+    ("xas/XAS_AbsorptionEdges", None, "ConceptScheme URI"),
+]
+
+
+class _NoRedirect(urllib.request.HTTPRedirectHandler):
+    """Stop at the 303 so its Location can be inspected, not followed."""
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
+
+
+def _location(url, accept):
+    """(status, Location) for *url* without following the redirect."""
+    opener = urllib.request.build_opener(_NoRedirect)
+    headers = {"Accept": accept} if accept else {}
+    req = urllib.request.Request(url, headers=headers)
+    try:
+        with opener.open(req, timeout=TIMEOUT) as r:
+            return r.status, r.headers.get("Location", "")
+    except urllib.error.HTTPError as e:
+        return e.code, e.headers.get("Location", "")
+
+
+def _serves(url):
+    try:
+        req = urllib.request.Request(url, method="HEAD")
+        with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
+            return r.status
+    except urllib.error.HTTPError as e:
+        return e.code
+    except (urllib.error.URLError, OSError):
+        return None
+
+
+def check_xas():
+    print(f"{'XAS identifier':<46} {'result':<8} detail")
+    print("-" * 96)
+    bad = []
+    n_pending = [0]
+    for path, accept, what in XAS_CASES:
+        uri = f"{BASE}/{path}"
+        label = uri.replace("https://", "")
+        if accept:
+            label += "  (ld+json)"
+        try:
+            status, location = _location(uri, accept)
+        except (urllib.error.URLError, OSError) as e:
+            print(f"{label:<46} {'SKIP':<8} unreachable: {e}")
+            continue
+
+        if status not in (301, 302, 303, 307, 308) or not location:
+            print(f"{label:<46} {'WRONG':<8} HTTP {status}, no redirect ({what})")
+            bad.append((uri, f"HTTP {status}, no redirect"))
+            continue
+
+        target = location.split("#")[0]
+        pending = (XAS_TRANSITIONAL_BASE
+                   and location.startswith(XAS_TRANSITIONAL_BASE))
+        if not location.startswith(XAS_EXPECTED_BASE) and not pending:
+            print(f"{label:<46} {'WRONG':<8} -> {location}")
+            bad.append((uri, f"resolves outside {XAS_EXPECTED_BASE}: {location}"))
+            continue
+
+        served = _serves(target)
+        base = XAS_TRANSITIONAL_BASE if pending else XAS_EXPECTED_BASE
+        tail = location[len(base):] or "/"
+        if served != 200:
+            print(f"{label:<46} {'WRONG':<8} 303 -> {tail} but that returns "
+                  f"{served} ({what})")
+            bad.append((uri, f"303 to {served}: {location}"))
+            continue
+        # A 303 to a target that serves is the substance of the check either
+        # way; PENDING records that the base is the one being migrated off.
+        print(f"{label:<46} {'PENDING' if pending else 'OK':<8} -> {tail}")
+        if pending:
+            n_pending[0] += 1
+
+    print()
+    if bad:
+        print(f"::error::{len(bad)} XAS identifier(s) do not resolve as expected.")
+        for uri, detail in bad:
+            print(f"    {uri}: {detail}")
+        print()
+        print("XAS_PAGES in ids/cdif/.htaccess names the base these resolve")
+        print("through; it must be the CDIF-4-XAS organisation's Pages site.")
+        print("A 303 to a 404 is worse than leaving a redirect where it was --")
+        print("confirm the new site serves before repointing it.")
+    elif n_pending[0]:
+        print(f"{n_pending[0]} of {len(XAS_CASES)} XAS identifier families still "
+              f"resolve through {XAS_TRANSITIONAL_BASE.replace('https://', '')}, "
+              f"the base being migrated off.")
+        print("Not an error yet: perma-id/w3id.org#6767 repoints XAS_PAGES to")
+        print("the CDIF-4-XAS organisation and has not merged. When the live")
+        print("redirects move, delete XAS_TRANSITIONAL_BASE -- until it is gone")
+        print("this check cannot tell 'repointed' from 'never repointed'.")
+    else:
+        print(f"All {len(XAS_CASES)} XAS identifier families resolve through "
+              f"{XAS_EXPECTED_BASE.replace('https://', '')} and serve.")
+    return bad
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -266,7 +425,10 @@ def main():
     print()
     book_bad = check_book()
 
-    return 1 if ((bad or book_bad) and args.strict) else 0
+    print()
+    xas_bad = check_xas()
+
+    return 1 if ((bad or book_bad or xas_bad) and args.strict) else 0
 
 
 if __name__ == "__main__":
