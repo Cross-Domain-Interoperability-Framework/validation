@@ -210,7 +210,7 @@
                     "type": "string",
                     "description": "Identifier for this AttributeComponent node"
                 },
-                "cdi:qualifies": {
+                "cdif:qualifies": {
                     "type": "array",
                     "items": {
                         "anyOf": [
@@ -232,7 +232,7 @@
                                         "type": "string",
                                         "description": "Identifier for this DataStructureComponent node"
                                     },
-                                    "cdi:identifier": {
+                                    "cdif:identifier": {
                                         "$ref": "#/$defs/Identifier",
                                         "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                                     },
@@ -270,7 +270,7 @@
                     },
                     "minItems": 1
                 },
-                "cdi:identifier": {
+                "cdif:identifier": {
                     "$ref": "#/$defs/Identifier",
                     "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                 },
@@ -592,7 +592,7 @@
                     "$ref": "#/$defs/cdifConceptOrTermOrString",
                     "description": "The application or technical system context in which the variable has been realized - typically a statistical processing package or processing environment (InstanceVariable.platformType)."
                 },
-                "cdi:source": {
+                "cdif:source": {
                     "anyOf": [
                         {
                             "type": "string"
@@ -656,7 +656,7 @@
                         }
                     ]
                 },
-                "cdi:qualifies": {
+                "cdif:qualifies": {
                     "type": "object",
                     "required": [
                         "@id"
@@ -1919,7 +1919,7 @@
                                     "$ref": "#/$defs/Reference",
                                     "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
                                 },
-                                "cdi:identifier": {
+                                "cdif:identifier": {
                                     "$ref": "#/$defs/Identifier",
                                     "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                                 },
@@ -1982,7 +1982,7 @@
                     "$ref": "#/$defs/Reference",
                     "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
                 },
-                "cdi:identifier": {
+                "cdif:identifier": {
                     "$ref": "#/$defs/Identifier",
                     "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                 },
@@ -3465,7 +3465,7 @@
                     "minItems": 1,
                     "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
                 },
-                "cdi:identifier": {
+                "cdif:identifier": {
                     "$ref": "#/$defs/Identifier",
                     "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                 },
@@ -3898,11 +3898,11 @@
                     "type": "string",
                     "description": "A formal description of the set of values in human-readable language."
                 },
-                "cdi:formatPattern": {
+                "cdif:formatPattern": {
                     "type": "string",
                     "description": "A pattern for a number as described in Unicode Locale Data Markup Language (LDML) (http://www.unicode.org/reports/tr35/tr35.html) Part 3: Numbers (http://www.unicode.org/reports/tr35/tr35-numbers.html#Number_Format_Patterns) and Part 4. Dates (http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns) . Examples would be #,##0.### to describe the pattern for a decimal number, or yyyy.MM.dd G 'at' HH:mm:ss zzz for a datetime pattern."
                 },
-                "cdi:logicalExpression": {
+                "cdif:logicalExpression": {
                     "type": "string",
                     "description": "A logical expression where the values of \"x\" making the expression true are the members of the set of valid values. For example, \"(all reals x such that x > 0)\" describes the real numbers greater than 0."
                 },
@@ -3922,7 +3922,7 @@
                     "type": "string",
                     "description": "A string denoting the minimum possible value. From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"minimum: An atomic property that contains a single number or string that is the minimum valid value (inclusive); equivalent to minInclusive. The value of this property becomes the minimum annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
                 },
-                "cdi:regularExpression": {
+                "cdif:regularExpression": {
                     "type": "string",
                     "description": "A regular expression where strings matching the expression belong to the set of valid values."
                 }
@@ -4048,7 +4048,7 @@
                 "cdi:refersTo": {
                     "$ref": "#/$defs/ObjectReference"
                 },
-                "cdi:identifier": {
+                "cdif:identifier": {
                     "$ref": "#/$defs/Identifier",
                     "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                 },
@@ -4084,7 +4084,7 @@
                     "type": "string",
                     "description": "Identifier for this VariableValueComponent node"
                 },
-                "cdi:identifier": {
+                "cdif:identifier": {
                     "$ref": "#/$defs/Identifier",
                     "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                 },

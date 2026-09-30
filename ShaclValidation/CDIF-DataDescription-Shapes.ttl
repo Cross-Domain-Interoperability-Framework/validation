@@ -626,7 +626,7 @@ cdifd:PropertyIDUriShouldBeIRIShape a sh:NodeShape ;
 cdifd:QualifiesCoherenceShape a sh:NodeShape ;
     sh:severity sh:Warning ;
     sh:sparql [ a sh:SPARQLConstraint ;
-            sh:message "cdi:qualifies @id should reference the @id of another variableMeasured instance variable defined for the same dataset." ;
+            sh:message "cdif:qualifies @id should reference the @id of another variableMeasured instance variable defined for the same dataset." ;
             sh:prefixes ( [ sh:namespace "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/" ;
                         sh:prefix "cdi" ] [ sh:namespace "https://w3id.org/cdif/" ;
                         sh:prefix "cdif" ] [ sh:namespace "http://schema.org/" ;
@@ -635,9 +635,9 @@ cdifd:QualifiesCoherenceShape a sh:NodeShape ;
             PREFIX cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/>
             PREFIX cdif: <https://w3id.org/cdif/>
             PREFIX schema: <http://schema.org/>
-            SELECT $this (cdi:qualifies AS ?path) (?target AS ?value)
+            SELECT $this (cdif:qualifies AS ?path) (?target AS ?value)
             WHERE {
-                $this cdi:qualifies ?target .
+                $this cdif:qualifies ?target .
                 FILTER NOT EXISTS {
                     ?dataset schema:variableMeasured ?target .
                     ?dataset schema:variableMeasured $this .
@@ -660,8 +660,8 @@ cdifd:QualifiesCoherenceShape a sh:NodeShape ;
 
 cdifd:QualifiesNotAllowedWithoutAttributeShape a sh:NodeShape ;
     sh:property [ sh:maxCount 0 ;
-            sh:message "cdi:qualifies should not be used when cdif:role is absent or not Attribute." ;
-            sh:path cdi:qualifies ;
+            sh:message "cdif:qualifies should not be used when cdif:role is absent or not Attribute." ;
+            sh:path <https://w3id.org/cdif/qualifies> ;
             sh:severity sh:Warning ] ;
     sh:target [ a sh:SPARQLTarget ;
             sh:prefixes ( [ sh:namespace "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/" ;
@@ -683,13 +683,13 @@ cdifd:QualifiesNotAllowedWithoutAttributeShape a sh:NodeShape ;
             }""" ] .
 
 cdifd:QualifiesRequiredForAttributeShape a sh:NodeShape ;
-    sh:property [ sh:message "cdi:qualifies is required when cdif:role is Attribute." ;
+    sh:property [ sh:message "cdif:qualifies is required when cdif:role is Attribute." ;
             sh:minCount 1 ;
-            sh:path cdi:qualifies ;
+            sh:path <https://w3id.org/cdif/qualifies> ;
             sh:severity sh:Violation ],
-        [ sh:message "cdi:qualifies must be an object with an @id referencing another instance variable defined for this dataset." ;
+        [ sh:message "cdif:qualifies must be an object with an @id referencing another instance variable defined for this dataset." ;
             sh:nodeKind sh:BlankNodeOrIRI ;
-            sh:path cdi:qualifies ;
+            sh:path <https://w3id.org/cdif/qualifies> ;
             sh:severity sh:Violation ] ;
     sh:target [ a sh:SPARQLTarget ;
             sh:prefixes ( [ sh:namespace "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/" ;
