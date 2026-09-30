@@ -262,17 +262,13 @@ def check_book():
 
 XAS_EXPECTED_BASE = "https://cdif-4-xas.github.io/XAS-CDIF"
 
-# Accepted, reported as PENDING, and NOT a --strict failure: the base the rules
-# still carry until perma-id/w3id.org#6767 merges and w3id redeploys. The repo
-# already uses this shape for a migration in flight -- the four retired XAS
-# terms accept both spellings for the same reason -- because a guard that is red
-# for weeks is a guard people learn to ignore, and this one has to be trusted on
-# the day the base is wrong for real.
-#
-# DELETE THIS CONSTANT once the live redirects move. Leaving it is not harmless:
-# with it in place the check cannot tell "repointed" from "never repointed",
-# which is the single question it exists to answer.
-XAS_TRANSITIONAL_BASE = "https://smrgeoinfo.github.io/XAS-CDIF"
+# The transition is over. perma-id/w3id.org#6767 merged 2026-09-29 23:18Z
+# (93b9432b7) and the live redirects moved: all ten families resolve through the
+# organisation. XAS_TRANSITIONAL_BASE, which accepted the old personal-account
+# base and reported it as PENDING rather than failing, is gone -- while it
+# existed this check could not tell "repointed" from "never repointed", which is
+# the one question it is for. Any resolution outside XAS_EXPECTED_BASE is now a
+# --strict failure.
 
 # One per rule family in ids/cdif/.htaccess, not one per rule.
 # (uri path, Accept header or None, what the rule family is for)
@@ -324,7 +320,6 @@ def check_xas():
     print(f"{'XAS identifier':<46} {'result':<8} detail")
     print("-" * 96)
     bad = []
-    n_pending = [0]
     for path, accept, what in XAS_CASES:
         uri = f"{BASE}/{path}"
         label = uri.replace("https://", "")
@@ -342,26 +337,19 @@ def check_xas():
             continue
 
         target = location.split("#")[0]
-        pending = (XAS_TRANSITIONAL_BASE
-                   and location.startswith(XAS_TRANSITIONAL_BASE))
-        if not location.startswith(XAS_EXPECTED_BASE) and not pending:
+        if not location.startswith(XAS_EXPECTED_BASE):
             print(f"{label:<46} {'WRONG':<8} -> {location}")
             bad.append((uri, f"resolves outside {XAS_EXPECTED_BASE}: {location}"))
             continue
 
         served = _serves(target)
-        base = XAS_TRANSITIONAL_BASE if pending else XAS_EXPECTED_BASE
-        tail = location[len(base):] or "/"
+        tail = location[len(XAS_EXPECTED_BASE):] or "/"
         if served != 200:
             print(f"{label:<46} {'WRONG':<8} 303 -> {tail} but that returns "
                   f"{served} ({what})")
             bad.append((uri, f"303 to {served}: {location}"))
             continue
-        # A 303 to a target that serves is the substance of the check either
-        # way; PENDING records that the base is the one being migrated off.
-        print(f"{label:<46} {'PENDING' if pending else 'OK':<8} -> {tail}")
-        if pending:
-            n_pending[0] += 1
+        print(f"{label:<46} {'OK':<8} -> {tail}")
 
     print()
     if bad:
@@ -373,14 +361,6 @@ def check_xas():
         print("through; it must be the CDIF-4-XAS organisation's Pages site.")
         print("A 303 to a 404 is worse than leaving a redirect where it was --")
         print("confirm the new site serves before repointing it.")
-    elif n_pending[0]:
-        print(f"{n_pending[0]} of {len(XAS_CASES)} XAS identifier families still "
-              f"resolve through {XAS_TRANSITIONAL_BASE.replace('https://', '')}, "
-              f"the base being migrated off.")
-        print("Not an error yet: perma-id/w3id.org#6767 repoints XAS_PAGES to")
-        print("the CDIF-4-XAS organisation and has not merged. When the live")
-        print("redirects move, delete XAS_TRANSITIONAL_BASE -- until it is gone")
-        print("this check cannot tell 'repointed' from 'never repointed'.")
     else:
         print(f"All {len(XAS_CASES)} XAS identifier families resolve through "
               f"{XAS_EXPECTED_BASE.replace('https://', '')} and serve.")
