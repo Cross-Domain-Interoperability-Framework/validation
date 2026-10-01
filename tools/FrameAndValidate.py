@@ -95,6 +95,12 @@ ARRAY_PROPERTIES = [
     'cdif:uses',
     'cdif:recommendedDataType',
     'cdif:isComposedOf',
+    # type: array at all three of its sites in cdifDataStructure (DataStructure,
+    # DimensionalDataStructure, WideDataStructure), so a structure carrying ONE
+    # foreign key framed to a bare object and failed its own schema. Note
+    # cdif:has_PrimaryKey is deliberately NOT here: it is a $ref to a single
+    # object, so wrapping it would break the case this fixes.
+    'cdif:has_ForeignKey',
     'cdif:has_Statistics',
     'cdif:has_CategoryStatistics',
     'cdif:appliesTo',
