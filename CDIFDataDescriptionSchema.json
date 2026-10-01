@@ -323,19 +323,8 @@
                     "description": "Essentially the same as schema:propertyID. References the concept(s) this variable measures or represents -- and nothing else. A RepresentedVariable is NOT a legal value: that link is cdif:isDefinedBy_RepresentedVariable, which is reference-only and carries the no-duplication rule. The RepresentedVariable branch was removed 2026-09-25. It never widened what could be *written*, because cdifConceptOrTerm's first branch is already a sealed {@id} reference, so it only ever admitted an inline RepresentedVariable node -- which framing produced and nothing authored. Keeping it cost the property its single value type, made it a partial exception to the CDIF convention of disambiguating polymorphic DDI-CDI role names by target, and left it not type-compatible with canonical cdi:uses, which is valued by a Concept. The RepresentedVariable branch is not new behaviour: it is what the rest of CDIF already documents and enforces. description.md calls cdif:uses \"concepts (or, under the Data Structure profile, the RepresentedVariable)\"; agents.md describes the InstanceVariable as \"a pointer (via cdif:uses) into a richer RepresentedVariable\"; the six NoDuplicate*Shape rules in cdifDataStructure traverse cdif:uses to reach that RepresentedVariable; and RepresentedVariableMustBeInstantiatedShape requires the link to exist. Only this schema said Concepts-only, and it was the outlier -- documents conforming to those rules could not be expressed here. A bare {@id} always matched via cdifConceptOrTerm; the branch is needed for the embedded form, because framing inlines a node whose @id is defined in the same document. cdif:isDefinedBy_RepresentedVariable remains the way to say that this InstanceVariable DEFERS its represented-variable-level properties to that RepresentedVariable; it is reference-only and carries the exclusivity rule. The cost is that cdif:uses no longer has a single value type, so it is a partial exception to the CDIF convention of disambiguating polymorphic DDI-CDI role names by target, and no longer strictly type-compatible with canonical cdi:uses, which is valued by a Concept."
                 },
                 "cdif:isDefinedBy_RepresentedVariable": {
-                    "title": "Object Reference",
-                    "description": "The RepresentedVariable this InstanceVariable instantiates. A reference only (@id, nothing else): the point of the link is that the represented-variable-level properties are defined once on the RepresentedVariable and NOT duplicated here, so an inline copy would defeat it. The equivalent link within a data structure is cdif:isDefinedBy_Variable on cdifDataStructureComponent -- a different name because it means something wider: it accepts an InstanceVariable as well (in DDI-CDI an InstanceVariable IS a RepresentedVariable), and accepts one inline, because a structure may define a variable that exists nowhere else. This property stays narrow: the RepresentedVariable an InstanceVariable instantiates, by reference.",
-                    "type": "object",
-                    "properties": {
-                        "@id": {
-                            "type": "string",
-                            "description": "resolvable @id of the referenced node"
-                        }
-                    },
-                    "required": [
-                        "@id"
-                    ],
-                    "additionalProperties": false
+                    "$ref": "#/$defs/ObjectReference",
+                    "description": "The RepresentedVariable this InstanceVariable instantiates. A reference only (@id, nothing else): the point of the link is that the represented-variable-level properties are defined once on the RepresentedVariable and NOT duplicated here, so an inline copy would defeat it. The equivalent link within a data structure is cdif:isDefinedBy_Variable on cdifDataStructureComponent -- a different name because it means something wider: it accepts an InstanceVariable as well (in DDI-CDI an InstanceVariable IS a RepresentedVariable), and accepts one inline, because a structure may define a variable that exists nowhere else. This property stays narrow: the RepresentedVariable an InstanceVariable instantiates, by reference."
                 },
                 "cdif:function": {
                     "type": "array",
@@ -569,15 +558,25 @@
                                     "type": "object",
                                     "properties": {
                                         "@type": {
+                                            "description": "Either construct, or both. A labeled link is a schema:CreativeWork at a URL; a dcat:Relationship is DCAT's association class for a typed relation to another resource. A node may declare both -- CDIF's own relation examples do -- but NEITHER IS REQUIRED TO ACCOMPANY THE OTHER.\nThat is the whole point of the anyOf. Until 2026-09-08 this block's Relation half required contains: dcat:Relationship while the labeled-link half required contains: schema:CreativeWork, and under allOf both applied to every instance, so an ordinary labeled link was unsatisfiable. Of profile-core's licenses the 29 plain strings and 1 @id-reference passed while the 10 that followed schema.org's own recommendation -- \"use schema:CreativeWork to provide a label (name) for the license\" -- failed. 412782113 fixed that by deleting the dcat:Relationship mandate outright, which left the JSON Schema with no notion of dcat:Relationship at all while rules.shacl went on targeting it as a class. A pure DCAT relation then met a SHACL requirement with no schema counterpart. This anyOf restores the type to the schema WITHOUT restoring the conjunction.",
                                             "default": "schema:CreativeWork",
                                             "type": "array",
                                             "items": {
                                                 "type": "string"
                                             },
-                                            "contains": {
-                                                "const": "schema:CreativeWork"
-                                            },
-                                            "minItems": 1
+                                            "minItems": 1,
+                                            "anyOf": [
+                                                {
+                                                    "contains": {
+                                                        "const": "schema:CreativeWork"
+                                                    }
+                                                },
+                                                {
+                                                    "contains": {
+                                                        "const": "dcat:Relationship"
+                                                    }
+                                                }
+                                            ]
                                         },
                                         "schema:name": {
                                             "type": "string"
@@ -590,18 +589,72 @@
                                             "format": "uri"
                                         },
                                         "dcat:hadRole": {
-                                            "$ref": "#/$defs/cdifConceptOrTermOrString",
-                                            "description": "Role of the related resource as a SKOS Concept (DCAT canonical role slot). Present only on a link that expresses a relationship; a plain labeled link such as a license omits it."
+                                            "description": "Role of the related resource. Present only on a link that expresses a relationship; a plain labeled link such as a license omits it.\nDCAT's declared range is dcat:Role (dcat.ttl: rdfs:range dcat:Role, and dcat:Role rdfs:subClassOf skos:Concept), so the DCAT-native form is a node typed dcat:Role. That form was NOT accepted here before 2026-10-01: this property was cdifConceptOrTermOrString alone, which matches a bare string, a sealed @id reference, a schema:DefinedTerm or a skos:Concept -- none of which a dcat:Role-typed node satisfies, because JSON Schema does no subclass reasoning.\ndcat:Role is added as a branch rather than replacing the others, so the DCAT-native form becomes valid without invalidating anything already written. Note this leaves CDIF LOOSER than DCAT, deliberately: DCAT's range is dcat:Role alone, and CDIF also accepts a plain skos:Concept, a DefinedTerm, an @id reference and a string. That is the same both-forms stance taken on dcterms:relation, and it is a choice rather than an oversight -- do not read the extra branches as something not yet tightened.",
+                                            "anyOf": [
+                                                {
+                                                    "description": "A dcat:Role -- DCAT's declared range for dcat:hadRole. Defined inline rather than as its own building block because nothing else in the register needs it yet; dcat:hadRole's domain is owl:unionOf [prov:Attribution, dcat:Relationship], so promote it to a block if a qualified attribution ever needs the same shape.\ndcat:Role rdfs:subClassOf skos:Concept, so the skos:prefLabel / skos:inScheme furniture of a concept is permitted alongside; it is not required here because DCAT states no cardinality constraints on the class -- dcat.ttl declares no rdfs:subClassOf and no owl:Restriction on dcat:Relationship, and the \"mandatory\" wording in the DCAT-3 document is prose in the spec tables rather than an axiom in the vocabulary.",
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "@id": {
+                                                            "type": "string",
+                                                            "description": "IRI of the role concept, ideally from a controlled vocabulary."
+                                                        },
+                                                        "@type": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string"
+                                                            },
+                                                            "contains": {
+                                                                "const": "dcat:Role"
+                                                            },
+                                                            "minItems": 1
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "@type"
+                                                    ]
+                                                },
+                                                {
+                                                    "$ref": "#/$defs/cdifConceptOrTermOrString"
+                                                }
+                                            ]
                                         },
                                         "dcterms:relation": {
-                                            "type": "string",
-                                            "format": "uri",
-                                            "description": "URI of the related resource -- the DCAT canonical pointer to what is being related to, which is distinct from schema:url, the presentation URL of the link itself."
+                                            "description": "The related resource -- the DCAT canonical pointer to what is being related to, which is distinct from schema:url, the presentation URL of the link itself.\nAn @id reference is the RECOMMENDED form and a string is permitted, which is DCMI's own position: \"Recommended practice is to identify the related resource by means of a URI. If this is not possible or feasible, a string conforming to a formal identification system may be provided.\" DCMI declares no rdfs:range for this property, and of the 13 DCMI properties carrying an \"intended to be used with non-literal values\" restriction, this is deliberately not one. dcat.ttl does not re-declare or constrain it at all -- the only triple mentioning it in the whole DCAT vocabulary is `dcat:distribution rdfs:subPropertyOf dcterms:relation`.\nSo objectReference-only would be stricter than both DCAT and DCMI and would reject a form the specification sanctions. The anyOf matches how schema:additionalType is handled here: both forms valid, the object form used in examples and required only where a `contains` pins a specific value.\nIt was string-only until 2026-10-01, which rejected the @id form outright. Reported from outside by a PSDI validator taking a things-not-strings approach (profile-core#16): their DCAT catalogue mirrors the DCAT-3 spec examples and wrote {\"@id\": ...}, which failed both layers -- while CDIF's own documented URI serialization policy (agents.md) says URI values SHOULD be {\"@id\": ...}. The register required the one form its own policy argues against.",
+                                            "anyOf": [
+                                                {
+                                                    "$ref": "#/$defs/ObjectReference"
+                                                },
+                                                {
+                                                    "type": "string",
+                                                    "format": "uri"
+                                                }
+                                            ]
                                         }
                                     },
                                     "required": [
-                                        "@type",
-                                        "schema:url"
+                                        "@type"
+                                    ],
+                                    "allOf": [
+                                        {
+                                            "if": {
+                                                "required": [
+                                                    "@type"
+                                                ],
+                                                "properties": {
+                                                    "@type": {
+                                                        "contains": {
+                                                            "const": "schema:CreativeWork"
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "then": {
+                                                "required": [
+                                                    "schema:url"
+                                                ]
+                                            }
+                                        }
                                     ]
                                 }
                             ]
@@ -1259,6 +1312,21 @@
                 "@value",
                 "@language"
             ]
+        },
+        "ObjectReference": {
+            "title": "Object Reference",
+            "description": "A reference to a node defined elsewhere, by its @id.",
+            "type": "object",
+            "properties": {
+                "@id": {
+                    "type": "string",
+                    "description": "resolvable @id of the referenced node"
+                }
+            },
+            "required": [
+                "@id"
+            ],
+            "additionalProperties": false
         },
         "Person": {
             "description": "schema for cdif profile of schema.org/Person",
