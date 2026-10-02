@@ -855,7 +855,7 @@ cdifd:cdifRepresentedVariable_ConceptSystemShape a sh:NodeShape ;
     sh:targetClass cdi:ConceptSystem .
 
 cdifd:cdifRepresentedVariable_RepresentedVariableShape a sh:NodeShape ;
-    sh:property [ sh:message "A cdi:RepresentedVariable should carry at least one cdif:name (ObjectName)." ;
+    sh:property [ sh:message "A cdi:RepresentedVariable should carry at least one cdif:name: a plain string. CDIF flattens DDI-CDI's dt-ObjectName wrapper, which is why the property is cdif: and not cdi:; writing the wrapper here fails the JSON Schema." ;
             sh:minCount 1 ;
             sh:path <https://w3id.org/cdif/name> ;
             sh:severity sh:Warning ],
@@ -866,7 +866,7 @@ cdifd:cdifRepresentedVariable_RepresentedVariableShape a sh:NodeShape ;
     sh:targetClass cdi:RepresentedVariable .
 
 cdifd:cdifRepresentedVariable_UnitTypeShape a sh:NodeShape ;
-    sh:property [ sh:message "A cdi:UnitType should carry at least one cdif:name (ObjectName)." ;
+    sh:property [ sh:message "A cdi:UnitType should carry at least one cdif:name: a plain string. CDIF flattens DDI-CDI's dt-ObjectName wrapper, which is why the property is cdif: and not cdi:; writing the wrapper here fails the JSON Schema." ;
             sh:minCount 1 ;
             sh:path <https://w3id.org/cdif/name> ;
             sh:severity sh:Warning ] ;
