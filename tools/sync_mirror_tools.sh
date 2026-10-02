@@ -8,7 +8,20 @@
 # edited in the mirror. Only the files listed here are touched — the mirror's
 # examples/ and readme.md are deliberately left alone.
 #
-# Used by .github/workflows/sync-mirror-tools.yml, and runnable by hand.
+# Invoked by the cdif-umlmodel repo's own workflow
+# (.github/workflows/sync-tools-from-validation.yml), which CHECKS OUT this repo
+# and runs this script. It is also runnable by hand:
+#
+#   bash tools/sync_mirror_tools.sh . ../cdif-umlmodel/tools
+#
+# The direction was inverted on 2026-10-02. This repo used to push into the
+# mirror via .github/workflows/sync-mirror-tools.yml, which needed a cross-repo
+# write credential (MIRROR_SYNC_TOKEN) that was never created -- and whose guard
+# degraded to "do nothing and pass", so it reported success on every push for its
+# entire life while the mirror went stale in all 15 files. Pulling needs no
+# credential: both repos are public, and a job writing to its own repo has the
+# built-in GITHUB_TOKEN. That workflow is deleted; do not reinstate a
+# push-based one.
 set -euo pipefail
 
 SRC="${1:?usage: sync_mirror_tools.sh <validation-root> <mirror-tools-dir>}"
