@@ -87,10 +87,18 @@
                                     "minItems": 1
                                 },
                                 "cdif:name": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string"
-                                    },
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "minItems": 1
+                                        }
+                                    ],
                                     "description": "Human-understandable name(s). CDIF-simplified from DDI-CDI Category.name (ObjectName) to plain strings."
                                 },
                                 "cdif:descriptiveText": {
