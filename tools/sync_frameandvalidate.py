@@ -19,6 +19,12 @@ Usage:
     python tools/sync_frameandvalidate.py --apply --force  # write even on regression
     python tools/sync_frameandvalidate.py --list          # list discovered target repos
     python tools/sync_frameandvalidate.py --no-verify      # skip the example regression check
+    python tools/sync_frameandvalidate.py --skip NAME ...  # exclude these repo dir names
+    python tools/sync_frameandvalidate.py --include NAME   # sync a DEFAULT_SKIP repo anyway
+
+Exclusions: DEFAULT_SKIP below names targets held back by a standing decision
+(currently cdif-umlmodel) and they are skipped unless --include'd. --skip adds
+one-off exclusions. Skipped targets are always listed in the output.
 
 Drift hash: the src-sha256 is computed over the script body *after* the banner
 block (line endings normalized to LF), so banner text / line-ending differences
@@ -41,6 +47,25 @@ VALIDATION_DIR = TOOLS_DIR.parent
 BANNER_OPEN = "# >>> CDIF-SYNC GENERATED >>>"
 BANNER_CLOSE = "# <<< CDIF-SYNC GENERATED <<<"
 END_MARKERS = ("# <<< CDIF-SYNC NORMATIVE <<<", "# <<< CDIF-SYNC GENERATED <<<")
+
+# Targets held back by a standing decision, with the reason. Skipped unless
+# named in --include, and every run prints them, so the exclusion is never
+# silent.
+#
+# A --skip flag alone would not have been enough. cdif-umlmodel was written
+# twice on 2026-10-01 and reverted twice, because the only thing holding it back
+# was the operator remembering -- and on the first of those runs it was the
+# regression gate that happened to catch it, which is not the gate's job. An
+# exclusion enforced by a check that may or may not fire is the same "unfired
+# rule reads as a pass" shape this register keeps hitting, so the decision
+# belongs here, where it holds by default.
+DEFAULT_SKIP = {
+    "cdif-umlmodel": (
+        "regression gate proves nothing there -- no example passes under either "
+        "the current copy or the candidate, so a sync could break it invisibly. "
+        "Fix its schema auto-detection first, then --include it."
+    ),
+}
 
 
 def canonical_body(text):
@@ -212,6 +237,10 @@ def main(argv=None):
                     help="also deploy the drift-check GitHub Action into each repo")
     ap.add_argument("--list", action="store_true", help="list discovered target repos and exit")
     ap.add_argument("--repos", nargs="*", help="limit to these repo dir names")
+    ap.add_argument("--skip", nargs="*", default=[], metavar="NAME",
+                    help="exclude these repo dir names from this run")
+    ap.add_argument("--include", nargs="*", default=[], metavar="NAME",
+                    help="sync a DEFAULT_SKIP repo anyway (overrides the standing skip)")
     args = ap.parse_args(argv)
 
     if not NORMATIVE.exists():
@@ -223,9 +252,24 @@ def main(argv=None):
         want = set(args.repos)
         targets = [t for t in targets if t.name in want]
 
+    # Build the exclusion set BEFORE --list, so --list shows what would actually
+    # be written rather than everything discovered.
+    included = set(args.include)
+    unknown = [n for n in args.skip + args.include
+               if n not in {t.name for t in targets}]
+    skipping = {}
+    for t in targets:
+        if t.name in args.skip:
+            skipping[t.name] = "--skip"
+        elif t.name in DEFAULT_SKIP and t.name not in included:
+            skipping[t.name] = DEFAULT_SKIP[t.name]
+    targets = [t for t in targets if t.name not in skipping]
+
     if args.list:
         for t in targets:
             print(t.name)
+        for name, why in sorted(skipping.items()):
+            print(f"{name}  [skipped: {why}]")
         return 0
 
     src_text = NORMATIVE.read_text(encoding="utf-8")
@@ -234,7 +278,16 @@ def main(argv=None):
     print(f"Normative: {NORMATIVE}")
     print(f"src-sha256: {src_sha}")
     print(f"Targets: {len(targets)}   mode: {'APPLY' if args.apply else 'dry-run'}"
-          f"{'  (no-verify)' if args.no_verify else ''}\n")
+          f"{'  (no-verify)' if args.no_verify else ''}")
+    # Printed every run. A skip that is not reported is indistinguishable from a
+    # target that was never discovered, which is how a repo silently falls out of
+    # the set and goes stale without anyone noticing.
+    for name, why in sorted(skipping.items()):
+        print(f"  SKIPPED {name}: {why}")
+    for name in unknown:
+        print(f"  ::warning::--skip/--include named {name!r}, which is not a "
+              f"discovered target; check the spelling")
+    print()
 
     wrote = skipped = uptodate = 0
     for repo in targets:
