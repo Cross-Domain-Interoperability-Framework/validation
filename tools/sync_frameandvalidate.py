@@ -59,11 +59,19 @@ END_MARKERS = ("# <<< CDIF-SYNC NORMATIVE <<<", "# <<< CDIF-SYNC GENERATED <<<")
 # exclusion enforced by a check that may or may not fire is the same "unfired
 # rule reads as a pass" shape this register keeps hitting, so the decision
 # belongs here, where it holds by default.
+#
+# Belt and braces, deliberately. Once the mirror holds a VERBATIM copy of the
+# normative script it carries the NORMATIVE banner, so _is_generated_copy is
+# false and script_dir / discover_targets stop finding it at all -- the
+# exclusion becomes structural. It is kept anyway, because that only holds while
+# the mirror is up to date: any run of sync_frameandvalidate against a mirror
+# whose copy still carries an old GENERATED banner would claim it back.
 DEFAULT_SKIP = {
     "cdif-umlmodel": (
-        "regression gate proves nothing there -- no example passes under either "
-        "the current copy or the candidate, so a sync could break it invisibly. "
-        "Fix its schema auto-detection first, then --include it."
+        "not a release repo -- its tools/ is a MIRROR owned by "
+        "tools/sync_mirror_tools.sh, which copies this script verbatim along "
+        "with the schemas, frame, context and SHACL shapes it needs. Two "
+        "mechanisms were writing the same file; the mirror is the right one."
     ),
 }
 
