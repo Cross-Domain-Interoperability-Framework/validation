@@ -113,7 +113,7 @@ which bundles this repo as a git submodule and imports `detect_conformance.py` f
 | [`testJSONMetadata/`](testJSONMetadata/) | 77 ADA metadata test files (the primary `batch_validate.py` corpus) plus a `README.md` |
 | [`HPCA_burstData_NASA/`](HPCA_burstData_NASA/) | A NASA MMS HPCA burst-data worked example: the CDIF record alongside its source CDF/HAPI structure descriptions |
 | [`archive/`](archive/) | Superseded pre-2026 schemas, frames, contexts, and legacy SHACL examples (kept for reference; not used by current validation) |
-| `.github/` | CI workflows: `check-w3id-redirects.yml` (weekly redirect/tag-pin guard) and `sync-mirror-tools.yml` |
+| `.github/` | CI workflows: `check-w3id-redirects.yml` (weekly redirect/tag-pin guard). The cdif-umlmodel tools mirror is **pulled by that repo**, not pushed from here -- see `tools/sync_mirror_tools.sh` |
 | `.githooks/` | A `pre-commit` hook |
 | `.idea/` | JetBrains IDE project settings (not needed to run anything) |
 
