@@ -682,21 +682,20 @@ def build_type_media_object(loader, bb_dir):
             },
             # --- Optional cdifTabularData properties (from cdifTabularDataSchema) ---
             "cdi:arrayBase": {"type": "integer"},
-            "csvw:commentPrefix": {"type": "string"},
-            "csvw:delimiter": {"type": "string"},
-            "csvw:header": {"type": "boolean"},
-            "csvw:headerRowCount": {"type": "integer", "minimum": 0, "default": 1},
+            "cdi:commentPrefix": {"type": "string"},
+            "cdi:delimiter": {"type": "string"},
+            "cdi:hasHeader": {"type": "boolean"},
+            "cdi:headerRowCount": {"type": "integer", "minimum": 0, "default": 1},
             "cdi:isDelimited": {"type": "boolean"},
             "cdi:isFixedWidth": {"type": "boolean"},
-            "csvw:lineTerminators": {
-                "type": "string",
-                "enum": ["CRLF", "LF", "\r\n", "\n"]
-            },
-            "csvw:quoteChar": {"type": "string", "default": "\""},
-            "csvw:skipBlankRows": {"type": "boolean", "default": False},
-            "csvw:skipColumns": {"type": "integer", "default": 0},
-            "csvw:skipInitialSpace": {"type": "boolean", "default": True},
-            "csvw:skipRows": {"type": "integer", "default": 0},
+            # canonical cdi:lineTerminator is array<string>, not the scalar
+            # enum csvw:lineTerminators used here before 2026-10-05
+            "cdi:lineTerminator": {"type": "array", "items": {"type": "string"}},
+            "cdi:quoteCharacter": {"type": "string", "default": "\""},
+            "cdi:skipBlankRows": {"type": "boolean", "default": False},
+            "cdi:skipDataColumns": {"type": "integer", "default": 0},
+            "cdi:skipInitialSpace": {"type": "boolean", "default": True},
+            "cdi:skipRows": {"type": "integer", "default": 0},
             "countRows": {"type": "integer"},
             "countColumns": {"type": "integer"},
             # --- Optional cdifDataCube locator extension ---
