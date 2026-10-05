@@ -169,10 +169,19 @@ The `cdifTabularData/schema.yaml` building block and `CDIFCompleteSchema.json` a
 
 ## 5. Long Data Structure Mapping
 
-**CDIF location:** `cdifLongData/schema.yaml` building block
+**RETIRED 2026-10-05.** The `cdifLongData` building block was retired to `archive/` on
+2026-09-05 (metadataBuildingBlocks `7c3d3852d`) and `type-LongStructureDataSet` was removed from
+the graph schema on 2026-10-05. `cdi:LongStructureDataSet` appears in **neither** the canonical
+DDI-CDI XMI nor any live CDIF schema -- it was a CDIF-invented name under the `cdi:` prefix, which
+is what the "No single class" note below was already recording. The canonical class for long-format
+data is `cdi:LongDataSet`. A long-format distribution is now described as a `schema:DataDownload`
+carrying `cdi:LongDataSet`, with the component cardinality enforced by `cdifDataStructure`'s
+`cdi:LongDataStructure`. The mapping below is kept as a record of what the retired block declared.
+
+**CDIF location:** `archive/cdifDataType/cdifLongData/` (retired)
 **DDI-CDI classes:** No single class -- a CDIF design combining dataset and layout concepts
 
-CDIF types long-format data as `cdi:LongStructureDataSet`. Long (narrow) format has each row representing a single observation, with descriptor columns identifying the variable and reference columns holding the value. The long-data building block shares most PhysicalSegmentLayout properties with the tabular data building block.
+CDIF typed long-format data as `cdi:LongStructureDataSet`. Long (narrow) format has each row representing a single observation, with descriptor columns identifying the variable and reference columns holding the value. The long-data building block shares most PhysicalSegmentLayout properties with the tabular data building block.
 
 | CDIF Property | Type in CDIF | DDI-CDI Property | DDI-CDI Class | Notes |
 |---|---|---|---|---|

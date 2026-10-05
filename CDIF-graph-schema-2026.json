@@ -450,24 +450,27 @@
             ]
         },
         "type-CreativeWork": {
-            "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
+            "description": "Schema for a labeled link, a profile of schema.org/CreativeWork: a resolvable URL with an optional name and description. Optionally carries the DCAT relation surface (dcat:hadRole, dcterms:relation) for a link that expresses a typed relationship rather than a plain reference.\nThose two properties were a separate block, cdifDataType/cdifReference, which was an allOf of this schema plus exactly those two optional properties and nothing else -- its dcat:Relationship co-type mandate had already been removed because it made every labeled link unsatisfiable and broke every schema:license example that followed schema.org's own advice. Since both are optional, folding them in here changes no document's validity while removing a block and five levels of $defs/Reference indirection. cdifReference was retired 2026-09-23.",
             "type": "object",
             "properties": {
                 "@type": {
+                    "description": "Either construct, or both. A labeled link is a schema:CreativeWork at a URL; a dcat:Relationship is DCAT's association class for a typed relation to another resource. A node may declare both -- CDIF's own relation examples do -- but NEITHER IS REQUIRED TO ACCOMPANY THE OTHER.\nThat is the whole point of the anyOf. Until 2026-09-08 this block's Relation half required contains: dcat:Relationship while the labeled-link half required contains: schema:CreativeWork, and under allOf both applied to every instance, so an ordinary labeled link was unsatisfiable. Of profile-core's licenses the 29 plain strings and 1 @id-reference passed while the 10 that followed schema.org's own recommendation -- \"use schema:CreativeWork to provide a label (name) for the license\" -- failed. 412782113 fixed that by deleting the dcat:Relationship mandate outright, which left the JSON Schema with no notion of dcat:Relationship at all while rules.shacl went on targeting it as a class. A pure DCAT relation then met a SHACL requirement with no schema counterpart. This anyOf restores the type to the schema WITHOUT restoring the conjunction.",
+                    "default": "schema:CreativeWork",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "minItems": 1,
                     "anyOf": [
                         {
-                            "type": "string"
-                        },
-                        {
-                            "default": "schema:CreativeWork",
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
                             "contains": {
                                 "const": "schema:CreativeWork"
-                            },
-                            "minItems": 1
+                            }
+                        },
+                        {
+                            "contains": {
+                                "const": "dcat:Relationship"
+                            }
                         }
                     ]
                 },
@@ -481,13 +484,76 @@
                     "type": "string",
                     "format": "uri"
                 },
+                "dcat:hadRole": {
+                    "description": "Role of the related resource. Present only on a link that expresses a relationship; a plain labeled link such as a license omits it.\nDCAT's declared range is dcat:Role (dcat.ttl: rdfs:range dcat:Role, and dcat:Role rdfs:subClassOf skos:Concept), so the DCAT-native form is a node typed dcat:Role. That form was NOT accepted here before 2026-10-01: this property was cdifConceptOrTermOrString alone, which matches a bare string, a sealed @id reference, a schema:DefinedTerm or a skos:Concept -- none of which a dcat:Role-typed node satisfies, because JSON Schema does no subclass reasoning.\ndcat:Role is added as a branch rather than replacing the others, so the DCAT-native form becomes valid without invalidating anything already written. Note this leaves CDIF LOOSER than DCAT, deliberately: DCAT's range is dcat:Role alone, and CDIF also accepts a plain skos:Concept, a DefinedTerm, an @id reference and a string. That is the same both-forms stance taken on dcterms:relation, and it is a choice rather than an oversight -- do not read the extra branches as something not yet tightened.",
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/type-CreativeWork--DcatRole"
+                        },
+                        {
+                            "$ref": "#/$defs/type-CreativeWork--cdifConceptOrTermOrString"
+                        }
+                    ]
+                },
+                "dcterms:relation": {
+                    "description": "The related resource -- the DCAT canonical pointer to what is being related to, which is distinct from schema:url, the presentation URL of the link itself.\nAn @id reference is the RECOMMENDED form and a string is permitted, which is DCMI's own position: \"Recommended practice is to identify the related resource by means of a URI. If this is not possible or feasible, a string conforming to a formal identification system may be provided.\" DCMI declares no rdfs:range for this property, and of the 13 DCMI properties carrying an \"intended to be used with non-literal values\" restriction, this is deliberately not one. dcat.ttl does not re-declare or constrain it at all -- the only triple mentioning it in the whole DCAT vocabulary is `dcat:distribution rdfs:subPropertyOf dcterms:relation`.\nSo objectReference-only would be stricter than both DCAT and DCMI and would reject a form the specification sanctions. The anyOf matches how schema:additionalType is handled here: both forms valid, the object form used in examples and required only where a `contains` pins a specific value.\nIt was string-only until 2026-10-01, which rejected the @id form outright. Reported from outside by a PSDI validator taking a things-not-strings approach (profile-core#16): their DCAT catalogue mirrors the DCAT-3 spec examples and wrote {\"@id\": ...}, which failed both layers -- while CDIF's own documented URI serialization policy (agents.md) says URI values SHOULD be {\"@id\": ...}. The register required the one form its own policy argues against.",
+                    "anyOf": [
+                        {
+                            "$schema": "https://json-schema.org/draft/2020-12/schema",
+                            "title": "Object Reference",
+                            "description": "A reference to a node defined elsewhere, by its @id.",
+                            "type": "object",
+                            "properties": {
+                                "@id": {
+                                    "type": "string",
+                                    "description": "resolvable @id of the referenced node"
+                                }
+                            },
+                            "required": [
+                                "@id"
+                            ],
+                            "additionalProperties": false
+                        },
+                        {
+                            "type": "string",
+                            "format": "uri"
+                        }
+                    ]
+                },
                 "@id": {
                     "type": "string"
                 }
             },
             "required": [
-                "@type",
-                "schema:url"
+                "@type"
+            ],
+            "allOf": [
+                {
+                    "if": {
+                        "required": [
+                            "@type"
+                        ],
+                        "properties": {
+                            "@type": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "contains": {
+                                            "const": "schema:CreativeWork"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": [
+                            "schema:url"
+                        ]
+                    }
+                }
             ]
         },
         "type-DataDownload": {
@@ -533,6 +599,13 @@
                         "type": "string"
                     }
                 },
+                "schema:additionalType": {
+                    "type": "array",
+                    "description": "Domain-specific type classification for this distribution: what KIND of thing the file is, beyond its MIME type. schema:encodingFormat says how to parse the bytes; this says what they are. A plain string is accepted, but a schema:DefinedTerm carrying schema:inDefinedTermSet is preferred where the value comes from a controlled vocabulary, so the vocabulary travels with the data rather than being asserted only in a profile.",
+                    "items": {
+                        "$ref": "#/$defs/type-DataDownload--cdifConceptOrTermOrString"
+                    }
+                },
                 "schema:contentSize": {
                     "type": "string",
                     "description": "File size of this distribution, e.g. '2.5 MB' or a byte count. Per schema.org/contentSize."
@@ -566,7 +639,9 @@
                         }
                     },
                     "required": [
-                        "@type"
+                        "@type",
+                        "spdx:algorithm",
+                        "spdx:checksumValue"
                     ]
                 },
                 "dcterms:conformsTo": {
@@ -633,8 +708,44 @@
                 }
             },
             "required": [
-                "schema:contentUrl",
                 "@type"
+            ],
+            "allOf": [
+                {
+                    "if": {
+                        "not": {
+                            "type": "object",
+                            "required": [
+                                "@type"
+                            ],
+                            "properties": {
+                                "@type": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "array",
+                                            "contains": {
+                                                "const": "schema:Collection"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": [
+                            "schema:contentUrl"
+                        ]
+                    },
+                    "else": {
+                        "required": [
+                            "schema:hasPart"
+                        ]
+                    }
+                }
             ]
         },
         "type-MediaObject": {
@@ -859,6 +970,60 @@
                                         }
                                     }
                                 },
+                                "allOf": [
+                                    {
+                                        "if": {
+                                            "required": [
+                                                "@type"
+                                            ],
+                                            "properties": {
+                                                "@type": {
+                                                    "anyOf": [
+                                                        {
+                                                            "type": "string"
+                                                        },
+                                                        {
+                                                            "contains": {
+                                                                "const": "cdif:TextMapping"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        },
+                                        "then": {
+                                            "required": [
+                                                "cdif:index"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "if": {
+                                            "required": [
+                                                "@type"
+                                            ],
+                                            "properties": {
+                                                "@type": {
+                                                    "anyOf": [
+                                                        {
+                                                            "type": "string"
+                                                        },
+                                                        {
+                                                            "contains": {
+                                                                "const": "cdif:LocatorMapping"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        },
+                                        "then": {
+                                            "required": [
+                                                "cdi:locator"
+                                            ]
+                                        }
+                                    }
+                                ],
                                 "$defs": {
                                     "cdifConceptOrTermOrString": {
                                         "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -979,24 +1144,30 @@
                 },
                 "schema:termsOfService": {
                     "description": "Description of access privileges required to use the API, e.g. registration, licensing, payments. Note that access constraints applying to all distributions of the resource should be specified in the access constraints for the resource description as a whole.",
-                    "oneOf": [
+                    "anyOf": [
                         {
                             "type": "string",
                             "default": "not specified"
                         },
                         {
-                            "$ref": "#/$defs/type-WebAPI--Reference"
+                            "$ref": "#/$defs/type-CreativeWork"
+                        },
+                        {
+                            "$ref": "#/$defs/id-reference"
                         }
                     ]
                 },
                 "schema:documentation": {
                     "description": "a document that provides a machine-actionable description of a service instance. Examples include OpenAPI documents, OGC Capabilities documents. Software designed to utilise a particular service type will typically include functionality to parse such a description document and engage with the service endpoint. If such a document is available for the service instance providing the resource distribution, it should be included in the distribution metadata.",
-                    "oneOf": [
+                    "anyOf": [
                         {
                             "type": "string"
                         },
                         {
-                            "$ref": "#/$defs/type-WebAPI--Reference"
+                            "$ref": "#/$defs/type-CreativeWork"
+                        },
+                        {
+                            "$ref": "#/$defs/id-reference"
                         }
                     ]
                 },
@@ -1291,30 +1462,7 @@
                     "description": "Domain-specific type classifications for this place (e.g. facility type,laboratory classification, feature type).",
                     "type": "array",
                     "items": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "$ref": "#/$defs/type-DefinedTerm"
-                            },
-                            {
-                                "type": "object",
-                                "additionalProperties": false,
-                                "required": [
-                                    "@id"
-                                ],
-                                "properties": {
-                                    "@id": {
-                                        "type": "string",
-                                        "description": "reference to a term defined elsewhere"
-                                    }
-                                }
-                            },
-                            {
-                                "$ref": "#/$defs/id-reference"
-                            }
-                        ]
+                        "$ref": "#/$defs/type-Place--cdifConceptOrTermOrString"
                     }
                 },
                 "schema:name": {
@@ -1528,7 +1676,10 @@
                                 }
                             }
                         }
-                    }
+                    },
+                    "required": [
+                        "geosparql:asWKT"
+                    ]
                 },
                 "@id": {
                     "type": "string"
@@ -2647,7 +2798,7 @@
                     "items": {
                         "$ref": "#/$defs/type-InstanceVariable--cdifConceptOrTermOrString"
                     },
-                    "description": "Essentially the same as schema:propertyID. References to the concept(s) that this variable measures or represents. Concepts only -- to point at the RepresentedVariable that supplies the represented-variable-level properties, use cdif:isDefinedBy_RepresentedVariable. Splitting the two targets follows the CDIF convention of disambiguating the polymorphic DDI-CDI role names by target, so each JSON key has a single value type; it also keeps cdif:uses type-compatible with canonical cdi:uses on InstanceVariable, which is valued by a Concept."
+                    "description": "Essentially the same as schema:propertyID. References the concept(s) this variable measures or represents -- and nothing else. A RepresentedVariable is NOT a legal value: that link is cdif:isDefinedBy_RepresentedVariable, which is reference-only and carries the no-duplication rule. The RepresentedVariable branch was removed 2026-09-25. It never widened what could be *written*, because cdifConceptOrTerm's first branch is already a sealed {@id} reference, so it only ever admitted an inline RepresentedVariable node -- which framing produced and nothing authored. Keeping it cost the property its single value type, made it a partial exception to the CDIF convention of disambiguating polymorphic DDI-CDI role names by target, and left it not type-compatible with canonical cdi:uses, which is valued by a Concept. The RepresentedVariable branch is not new behaviour: it is what the rest of CDIF already documents and enforces. description.md calls cdif:uses \"concepts (or, under the Data Structure profile, the RepresentedVariable)\"; agents.md describes the InstanceVariable as \"a pointer (via cdif:uses) into a richer RepresentedVariable\"; the six NoDuplicate*Shape rules in cdifDataStructure traverse cdif:uses to reach that RepresentedVariable; and RepresentedVariableMustBeInstantiatedShape requires the link to exist. Only this schema said Concepts-only, and it was the outlier -- documents conforming to those rules could not be expressed here. A bare {@id} always matched via cdifConceptOrTerm; the branch is needed for the embedded form, because framing inlines a node whose @id is defined in the same document. cdif:isDefinedBy_RepresentedVariable remains the way to say that this InstanceVariable DEFERS its represented-variable-level properties to that RepresentedVariable; it is reference-only and carries the exclusivity rule. The cost is that cdif:uses no longer has a single value type, so it is a partial exception to the CDIF convention of disambiguating polymorphic DDI-CDI role names by target, and no longer strictly type-compatible with canonical cdi:uses, which is valued by a Concept."
                 },
                 "cdif:isDefinedBy_RepresentedVariable": {
                     "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -2665,18 +2816,18 @@
                     ],
                     "additionalProperties": false
                 },
-                "cdi:function": {
+                "cdif:function": {
                     "type": "array",
                     "items": {
                         "$ref": "#/$defs/type-InstanceVariable--cdifConceptOrTermOrString"
                     },
                     "description": "Immutable characteristic of the variable such as geographic designator, weight, temporal designation, etc. (InstanceVariable.function)."
                 },
-                "cdi:platformType": {
+                "cdif:platformType": {
                     "$ref": "#/$defs/type-InstanceVariable--cdifConceptOrTermOrString",
                     "description": "The application or technical system context in which the variable has been realized - typically a statistical processing package or processing environment (InstanceVariable.platformType)."
                 },
-                "cdi:source": {
+                "cdif:source": {
                     "anyOf": [
                         {
                             "type": "string"
@@ -2716,11 +2867,11 @@
                         }
                     ]
                 },
-                "cdi:describedUnitOfMeasure": {
+                "cdif:describedUnitOfMeasure": {
                     "$ref": "#/$defs/type-InstanceVariable--cdifConceptOrTerm",
                     "description": "The unit in which the data values are measured, expressed as a controlled-vocabulary entry (RepresentedVariable.describedUnitOfMeasure). For a plain-string unit, use cdif:simpleUnitOfMeasure instead."
                 },
-                "cdi:qualifies": {
+                "cdif:qualifies": {
                     "type": "object",
                     "required": [
                         "@id"
@@ -2739,6 +2890,27 @@
                     "required": [
                         "@type"
                     ]
+                },
+                {
+                    "if": {
+                        "required": [
+                            "cdif:isDefinedBy_RepresentedVariable"
+                        ]
+                    },
+                    "then": {
+                        "properties": {
+                            "cdi:takesSubstantiveValuesFrom": false,
+                            "cdi:takesSentinelValuesFrom": false,
+                            "cdif:hasIntendedDataType": false,
+                            "cdif:describedUnitOfMeasure": false,
+                            "cdif:unitOfMeasureKind": false,
+                            "cdi:measures": false,
+                            "cdif:externalDefinition": false,
+                            "cdif:uses_Concept": false,
+                            "cdif:definition": false
+                        },
+                        "description": "When cdif:isDefinedBy_RepresentedVariable is present, the represented-variable-level properties live on that RepresentedVariable and may not be declared inline on the InstanceVariable."
+                    }
                 }
             ],
             "additionalProperties": true
@@ -2768,23 +2940,7 @@
                     "type": "array",
                     "description": "additional type assertions for the catalog record node. dcat:CatalogRecord is required.",
                     "items": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "object",
-                                "additionalProperties": false,
-                                "required": [
-                                    "@id"
-                                ],
-                                "properties": {
-                                    "@id": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        ]
+                        "$ref": "#/$defs/type-CatalogRecord--cdifConceptOrTermOrString"
                     },
                     "contains": {
                         "type": "object",
@@ -3076,9 +3232,6 @@
                                 "$ref": "#/$defs/type-TabularTextDataSet"
                             },
                             {
-                                "$ref": "#/$defs/type-LongStructureDataSet"
-                            },
-                            {
                                 "$ref": "#/$defs/id-reference"
                             }
                         ]
@@ -3086,64 +3239,9 @@
                 },
                 "schema:relatedLink": {
                     "type": "array",
-                    "description": "links to related resources; linkRelationship specifies how the resource is related.",
+                    "description": "Links to related resources. schema:linkRelationship says how the target relates to this resource. Defined by schemaorgProperties/linkRole since 2026-09-23; it was inline here, which is why schemaorgProperties/instrument could not reuse it and defined the same property as a labeled link instead.",
                     "items": {
-                        "type": "object",
-                        "properties": {
-                            "@type": {
-                                "anyOf": [
-                                    {
-                                        "type": "string"
-                                    },
-                                    {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "string"
-                                        },
-                                        "contains": {
-                                            "const": "schema:LinkRole"
-                                        },
-                                        "minItems": 1
-                                    }
-                                ]
-                            },
-                            "schema:linkRelationship": {
-                                "$ref": "#/$defs/type-Dataset--cdifConceptOrTermOrString"
-                            },
-                            "schema:target": {
-                                "type": "object",
-                                "properties": {
-                                    "@type": {
-                                        "anyOf": [
-                                            {
-                                                "type": "string"
-                                            },
-                                            {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "string"
-                                                },
-                                                "contains": {
-                                                    "const": "schema:EntryPoint"
-                                                },
-                                                "minItems": 1
-                                            }
-                                        ]
-                                    },
-                                    "schema:encodingFormat": {
-                                        "type": "string",
-                                        "description": "registered MIME types are expected"
-                                    },
-                                    "schema:name": {
-                                        "type": "string"
-                                    },
-                                    "schema:url": {
-                                        "type": "string",
-                                        "format": "uri"
-                                    }
-                                }
-                            }
-                        }
+                        "$ref": "#/$defs/type-Dataset--LinkRole"
                     }
                 },
                 "schema:publishingPrinciples": {
@@ -3392,7 +3490,7 @@
                                 },
                                 "cdif:isComposedOf": {
                                     "type": "array",
-                                    "description": "Ordered list of cdi:ComponentPosition wrappers. Each wrapper carries cdi:indexes (an inline cdifInstanceVariable or @id-reference to one declared elsewhere in the dataset) and cdi:value (the integer position in the key, 0- or 1-based).",
+                                    "description": "Ordered list of cdi:ComponentPosition wrappers. Each wrapper carries cdi:indexes (an @id-reference to a cdi:InstanceVariable declared elsewhere in the dataset) and cdi:value (the 1-based integer position in the key).",
                                     "items": {
                                         "type": "object",
                                         "description": "ComponentPosition wrapper indexing one variable's position in the key.",
@@ -3419,28 +3517,26 @@
                                                 "description": "Identifier for this ComponentPosition node."
                                             },
                                             "cdi:indexes": {
-                                                "anyOf": [
-                                                    {
-                                                        "$ref": "#/$defs/type-InstanceVariable"
-                                                    },
-                                                    {
-                                                        "type": "object",
-                                                        "additionalProperties": false,
-                                                        "description": "object reference via @id to a cdifInstanceVariable declared elsewhere",
-                                                        "properties": {
-                                                            "@id": {
-                                                                "type": "string"
-                                                            }
-                                                        },
-                                                        "required": [
-                                                            "@id"
-                                                        ]
+                                                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                                "title": "Object Reference",
+                                                "description": "A reference to a node defined elsewhere, by its @id.",
+                                                "type": "object",
+                                                "properties": {
+                                                    "@id": {
+                                                        "type": "string",
+                                                        "description": "resolvable @id of the referenced node"
                                                     }
-                                                ]
+                                                },
+                                                "required": [
+                                                    "@id"
+                                                ],
+                                                "additionalProperties": false
                                             },
                                             "cdi:value": {
                                                 "type": "integer",
-                                                "description": "Index value (position) of the variable in the ordered key."
+                                                "minimum": 1,
+                                                "default": 1,
+                                                "description": "1-based position of this variable in the ordered key. Pinned to a minimum of 1 because a key that might be 0- or 1-based has ambiguous ordering, which defeats the purpose of recording a position at all -- and because both structure-level key definitions already rejected 0, so the latitude this description used to advertise was never honoured anywhere."
                                             }
                                         },
                                         "required": [
@@ -3610,7 +3706,7 @@
                                                     }
                                                 ]
                                             },
-                                            "cdi:typeOfStatistic": {
+                                            "cdif:typeOfStatistic": {
                                                 "description": "Controlled-vocabulary entry naming the kind of statistic — e.g. mean, median, count, sum, stdDev.",
                                                 "$ref": "#/$defs/type-Dataset--cdifConceptOrTermOrString"
                                             },
@@ -3725,7 +3821,7 @@
                                                     }
                                                 ]
                                             },
-                                            "cdi:typeOfStatistic": {
+                                            "cdif:typeOfStatistic": {
                                                 "description": "Controlled-vocabulary entry naming the kind of statistic.",
                                                 "$ref": "#/$defs/type-Dataset--cdifConceptOrTermOrString"
                                             },
@@ -3890,10 +3986,18 @@
                                                 ]
                                             },
                                             "cdif:name": {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "string"
-                                                },
+                                                "anyOf": [
+                                                    {
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        },
+                                                        "minItems": 1
+                                                    }
+                                                ],
                                                 "description": "Human-understandable name(s). CDIF-simplified from DDI-CDI Category.name (ObjectName) to plain strings."
                                             },
                                             "cdif:descriptiveText": {
@@ -4363,6 +4467,50 @@
                             ]
                         }
                     ]
+                },
+                {
+                    "description": "a bundle distribution with no schema:contentUrl obliges the dataset to publish a landing page in schema:url, so that the record still states a way to reach the data",
+                    "if": {
+                        "required": [
+                            "schema:distribution"
+                        ],
+                        "properties": {
+                            "schema:distribution": {
+                                "type": "array",
+                                "contains": {
+                                    "type": "object",
+                                    "required": [
+                                        "@type"
+                                    ],
+                                    "properties": {
+                                        "@type": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "array",
+                                                    "contains": {
+                                                        "const": "schema:Collection"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "not": {
+                                        "required": [
+                                            "schema:contentUrl"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": [
+                            "schema:url"
+                        ]
+                    }
                 }
             ]
         },
@@ -4415,6 +4563,13 @@
                         "type": "string"
                     }
                 },
+                "schema:additionalType": {
+                    "type": "array",
+                    "description": "Domain-specific type classification for this distribution: what KIND of thing the file is, beyond its MIME type. schema:encodingFormat says how to parse the bytes; this says what they are. A plain string is accepted, but a schema:DefinedTerm carrying schema:inDefinedTermSet is preferred where the value comes from a controlled vocabulary, so the vocabulary travels with the data rather than being asserted only in a profile.",
+                    "items": {
+                        "$ref": "#/$defs/type-StructuredDataSet--cdifConceptOrTermOrString"
+                    }
+                },
                 "schema:contentSize": {
                     "type": "string",
                     "description": "File size of this distribution, e.g. '2.5 MB' or a byte count. Per schema.org/contentSize."
@@ -4448,7 +4603,9 @@
                         }
                     },
                     "required": [
-                        "@type"
+                        "@type",
+                        "spdx:algorithm",
+                        "spdx:checksumValue"
                     ]
                 },
                 "dcterms:conformsTo": {
@@ -4542,7 +4699,7 @@
                                         "description": "A format for number expressed as a string, or date format like YYYY/MM or MM-DD-YY."
                                     },
                                     "cdif:physicalDataType": {
-                                        "$ref": "#/$defs/cdifConceptOrTermOrString",
+                                        "$ref": "#/$defs/type-StructuredDataSet--cdifConceptOrTermOrString",
                                         "description": "identifier or name for the data type concept."
                                     },
                                     "cdi:numberPattern": {
@@ -4588,6 +4745,60 @@
                                         }
                                     }
                                 },
+                                "allOf": [
+                                    {
+                                        "if": {
+                                            "required": [
+                                                "@type"
+                                            ],
+                                            "properties": {
+                                                "@type": {
+                                                    "anyOf": [
+                                                        {
+                                                            "type": "string"
+                                                        },
+                                                        {
+                                                            "contains": {
+                                                                "const": "cdif:TextMapping"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        },
+                                        "then": {
+                                            "required": [
+                                                "cdif:index"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "if": {
+                                            "required": [
+                                                "@type"
+                                            ],
+                                            "properties": {
+                                                "@type": {
+                                                    "anyOf": [
+                                                        {
+                                                            "type": "string"
+                                                        },
+                                                        {
+                                                            "contains": {
+                                                                "const": "cdif:LocatorMapping"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        },
+                                        "then": {
+                                            "required": [
+                                                "cdi:locator"
+                                            ]
+                                        }
+                                    }
+                                ],
                                 "$defs": {
                                     "cdifConceptOrTermOrString": {
                                         "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -4718,6 +4929,13 @@
                         "type": "string"
                     }
                 },
+                "schema:additionalType": {
+                    "type": "array",
+                    "description": "Domain-specific type classification for this distribution: what KIND of thing the file is, beyond its MIME type. schema:encodingFormat says how to parse the bytes; this says what they are. A plain string is accepted, but a schema:DefinedTerm carrying schema:inDefinedTermSet is preferred where the value comes from a controlled vocabulary, so the vocabulary travels with the data rather than being asserted only in a profile.",
+                    "items": {
+                        "$ref": "#/$defs/type-TabularTextDataSet--cdifConceptOrTermOrString"
+                    }
+                },
                 "schema:contentSize": {
                     "type": "string",
                     "description": "File size of this distribution, e.g. '2.5 MB' or a byte count. Per schema.org/contentSize."
@@ -4751,7 +4969,9 @@
                         }
                     },
                     "required": [
-                        "@type"
+                        "@type",
+                        "spdx:algorithm",
+                        "spdx:checksumValue"
                     ]
                 },
                 "dcterms:conformsTo": {
@@ -4947,7 +5167,7 @@
                                 "description": "A format for number expressed as a string, or date format like YYYY/MM or MM-DD-YY."
                             },
                             "cdif:physicalDataType": {
-                                "$ref": "#/$defs/cdifConceptOrTermOrString",
+                                "$ref": "#/$defs/type-TabularTextDataSet--cdifConceptOrTermOrString",
                                 "description": "identifier or name for the data type concept."
                             },
                             "cdi:numberPattern": {
@@ -4993,6 +5213,60 @@
                                 }
                             }
                         },
+                        "allOf": [
+                            {
+                                "if": {
+                                    "required": [
+                                        "@type"
+                                    ],
+                                    "properties": {
+                                        "@type": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "contains": {
+                                                        "const": "cdif:TextMapping"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                },
+                                "then": {
+                                    "required": [
+                                        "cdif:index"
+                                    ]
+                                }
+                            },
+                            {
+                                "if": {
+                                    "required": [
+                                        "@type"
+                                    ],
+                                    "properties": {
+                                        "@type": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "contains": {
+                                                        "const": "cdif:LocatorMapping"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                },
+                                "then": {
+                                    "required": [
+                                        "cdi:locator"
+                                    ]
+                                }
+                            }
+                        ],
                         "$defs": {
                             "cdifConceptOrTermOrString": {
                                 "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -5097,376 +5371,6 @@
                 }
             ]
         },
-        "type-LongStructureDataSet": {
-            "type": "object",
-            "properties": {
-                "@id": {
-                    "type": "string"
-                },
-                "@type": {
-                    "anyOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
-                            "allOf": [
-                                {
-                                    "contains": {
-                                        "const": "schema:DataDownload"
-                                    }
-                                },
-                                {
-                                    "contains": {
-                                        "const": "cdi:LongStructureDataSet"
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                "schema:name": {
-                    "type": "string"
-                },
-                "schema:description": {
-                    "type": "string",
-                    "description": "Description of this distribution, e.g. what format, access constraints, etc."
-                },
-                "schema:contentUrl": {
-                    "type": "string",
-                    "format": "uri"
-                },
-                "schema:encodingFormat": {
-                    "type": "array",
-                    "description": "MIME type with extension; should indicate the serialization scheme in sufficient detail that machine can know how to parse.",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "schema:contentSize": {
-                    "type": "string",
-                    "description": "File size of this distribution, e.g. '2.5 MB' or a byte count. Per schema.org/contentSize."
-                },
-                "spdx:checksum": {
-                    "type": "object",
-                    "description": "A string value calculated from the content of the resource representation, used to test if content has been modified. The checksum is a property of a particular distribution/DataDownload.",
-                    "properties": {
-                        "@type": {
-                            "anyOf": [
-                                {
-                                    "type": "string"
-                                },
-                                {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string"
-                                    },
-                                    "contains": {
-                                        "const": "spdx:Checksum"
-                                    },
-                                    "minItems": 1
-                                }
-                            ]
-                        },
-                        "spdx:algorithm": {
-                            "type": "string"
-                        },
-                        "spdx:checksumValue": {
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "@type"
-                    ]
-                },
-                "dcterms:conformsTo": {
-                    "description": "An identifier for a standard or specification that the distribution conforms to. Recommended to enable machine-actionable data access.",
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "type": "object",
-                        "required": [
-                            "@id"
-                        ],
-                        "additionalProperties": false,
-                        "properties": {
-                            "@id": {
-                                "type": "string",
-                                "description": "uri for specification that this distribution conforms to"
-                            }
-                        }
-                    }
-                },
-                "schema:provider": {
-                    "type": "array",
-                    "description": "Party who maintains this particular distribution option for the dataset. Use this property if there are multiple distributions from different providers",
-                    "items": {
-                        "anyOf": [
-                            {
-                                "type": "object",
-                                "additionalProperties": false,
-                                "properties": {
-                                    "@id": {
-                                        "type": "string",
-                                        "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable"
-                                    }
-                                },
-                                "required": [
-                                    "@id"
-                                ]
-                            },
-                            {
-                                "$ref": "#/$defs/type-Person"
-                            },
-                            {
-                                "$ref": "#/$defs/type-Organization"
-                            },
-                            {
-                                "$ref": "#/$defs/id-reference"
-                            }
-                        ]
-                    }
-                },
-                "cdif:hasPhysicalMapping": {
-                    "type": "array",
-                    "description": "Links variables to their physical representation in this dataset.",
-                    "items": {
-                        "$schema": "https://json-schema.org/draft/2020-12/schema",
-                        "title": "Physical Mapping Type",
-                        "description": "Defines implementation-specific properties for the representation of a variable in a dataset. Aligned with CDIF 2026 schema using DDI-CDI flat per-column mapping structure.",
-                        "type": "object",
-                        "properties": {
-                            "@type": {
-                                "anyOf": [
-                                    {
-                                        "type": "string"
-                                    },
-                                    {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "string"
-                                        },
-                                        "contains": {
-                                            "enum": [
-                                                "cdif:PhysicalMapping",
-                                                "cdif:TextMapping",
-                                                "cdif:LocatorMapping"
-                                            ]
-                                        },
-                                        "minItems": 1,
-                                        "description": "Must include a physical-mapping family type. A plain physical mapping uses cdif:PhysicalMapping; the cdifTextMapping / cdifLocatorMapping specializations narrow this to cdif:TextMapping / cdif:LocatorMapping respectively (they compose this schema via allOf, so the base accepts any of the family rather than requiring the cdif:PhysicalMapping token)."
-                                    }
-                                ]
-                            },
-                            "cdif:index": {
-                                "type": "integer",
-                                "minimum": 0,
-                                "description": "Non-negative integer that orders the fields in the data structure (column number)."
-                            },
-                            "cdif:format": {
-                                "type": "string",
-                                "description": "A format for number expressed as a string, or date format like YYYY/MM or MM-DD-YY."
-                            },
-                            "cdif:physicalDataType": {
-                                "$ref": "#/$defs/cdifConceptOrTermOrString",
-                                "description": "identifier or name for the data type concept."
-                            },
-                            "cdi:numberPattern": {
-                                "type": "string",
-                                "description": "Number format pattern for the field (PhysicalMapping.numberPattern). Text-format properties (column width, decimal/digit-group separators, display label) live on cdifTextMapping."
-                            },
-                            "cdi:nullSequence": {
-                                "type": "string",
-                                "description": "The value of this property becomes the null annotation for the described column."
-                            },
-                            "cdi:defaultValue": {
-                                "type": "string",
-                                "description": "A default string indicating the value to substitute for an empty string."
-                            },
-                            "cdi:scale": {
-                                "type": "integer"
-                            },
-                            "cdi:decimalPositions": {
-                                "type": "integer"
-                            },
-                            "cdi:minimumLength": {
-                                "type": "integer"
-                            },
-                            "cdi:maximumLength": {
-                                "type": "integer"
-                            },
-                            "cdi:isRequired": {
-                                "type": "boolean",
-                                "default": false
-                            },
-                            "cdif:formats_InstanceVariable": {
-                                "type": "object",
-                                "required": [
-                                    "@id"
-                                ],
-                                "additionalProperties": false,
-                                "description": "Reference to a variable defined in schema:variableMeasured.",
-                                "properties": {
-                                    "@id": {
-                                        "type": "string",
-                                        "description": "This should be a reference to a variable defined in the schema:variableMeasured section."
-                                    }
-                                }
-                            }
-                        },
-                        "$defs": {
-                            "cdifConceptOrTermOrString": {
-                                "$schema": "https://json-schema.org/draft/2020-12/schema",
-                                "title": "CDIF Concept-or-Term-or-String",
-                                "description": "Shared shape for a CDIF property that carries either a controlled-vocabulary value or a bare string label. Wraps cdifConceptOrTerm (SKOS-concept @id-ref, schema:DefinedTerm, or inline cdif:Concept) with a plain-string alternative used for legacy or single-word labels not yet bound to a vocabulary.",
-                                "anyOf": [
-                                    {
-                                        "type": "string"
-                                    },
-                                    {
-                                        "$schema": "https://json-schema.org/draft/2020-12/schema",
-                                        "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
-                                        "anyOf": [
-                                            {
-                                                "type": "object",
-                                                "required": [
-                                                    "@id"
-                                                ],
-                                                "additionalProperties": false,
-                                                "properties": {
-                                                    "@id": {
-                                                        "type": "string",
-                                                        "description": "reference to a skos concept for the data type"
-                                                    }
-                                                }
-                                            },
-                                            {
-                                                "$ref": "#/$defs/type-DefinedTerm"
-                                            },
-                                            {
-                                                "type": "object"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            "cdifConceptOrTerm": {
-                                "$schema": "https://json-schema.org/draft/2020-12/schema",
-                                "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
-                                "anyOf": [
-                                    {
-                                        "type": "object",
-                                        "required": [
-                                            "@id"
-                                        ],
-                                        "additionalProperties": false,
-                                        "properties": {
-                                            "@id": {
-                                                "type": "string",
-                                                "description": "reference to a skos concept for the data type"
-                                            }
-                                        }
-                                    },
-                                    {
-                                        "$ref": "#/$defs/type-DefinedTerm"
-                                    },
-                                    {
-                                        "type": "object"
-                                    }
-                                ]
-                            }
-                        }
-                    }
-                },
-                "cdi:isStructuredBy": {
-                    "description": "Reference to the LongDataStructure node (cdifDataStructure $def) that describes how this distribution's bytes are organized.",
-                    "anyOf": [
-                        {
-                            "type": "object"
-                        },
-                        {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "properties": {
-                                "@id": {
-                                    "type": "string"
-                                }
-                            },
-                            "required": [
-                                "@id"
-                            ]
-                        }
-                    ]
-                },
-                "cdi:arrayBase": {
-                    "type": "integer"
-                },
-                "csvw:delimiter": {
-                    "type": "string",
-                    "description": "Sets the delimiter flag to the single provided value, which MUST be a string. The default is ','."
-                },
-                "csvw:header": {
-                    "type": "boolean",
-                    "description": "If true, sets the header row count flag to 1, and if false to 0, unless headerRowCount is provided, in which case the value provided for the header property is ignored. The default is true."
-                },
-                "csvw:headerRowCount": {
-                    "type": "integer",
-                    "minimum": 0,
-                    "default": 1,
-                    "description": "A numeric atomic property that sets the header row count flag to the single provided value, which MUST be a non-negative integer."
-                },
-                "csvw:commentPrefix": {
-                    "type": "string",
-                    "description": "An atomic property that sets the comment prefix flag to the single provided value, which MUST be a string. The default is '#'."
-                },
-                "csvw:skipBlankRows": {
-                    "type": "boolean",
-                    "default": false
-                },
-                "csvw:skipInitialSpace": {
-                    "type": "boolean",
-                    "default": true
-                },
-                "csvw:skipRows": {
-                    "type": "integer",
-                    "description": "The number of rows to skip at the beginning of the file, before a header row or tabular data.",
-                    "default": 0
-                },
-                "csvw:lineTerminators": {
-                    "type": "string",
-                    "enum": [
-                        "CRLF",
-                        "LF",
-                        "\r\n",
-                        "\n"
-                    ]
-                },
-                "csvw:quoteChar": {
-                    "type": "string",
-                    "default": "\"",
-                    "description": "Same as DDI-CDI quoteCharacter. The string that is used around escaped cells."
-                },
-                "cdi:isDelimited": {
-                    "type": "boolean",
-                    "description": "Indicates whether the data uses a delimiter to separate fields."
-                },
-                "cdi:isFixedWidth": {
-                    "type": "boolean",
-                    "description": "Indicates whether the data uses fixed-width fields."
-                },
-                "cdi:escapeCharacter": {
-                    "type": "string",
-                    "description": "The character used to escape special characters in the data. From DDI-CDI PhysicalSegmentLayout.escapeCharacter."
-                }
-            },
-            "required": [
-                "schema:contentUrl",
-                "@type"
-            ]
-        },
         "type-Organization--cdifConceptOrTermOrString": {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
             "title": "CDIF Concept-or-Term-or-String",
@@ -5502,16 +5406,138 @@
                 }
             ]
         },
-        "type-WebAPI--Reference": {
+        "type-CreativeWork--cdifConceptOrTermOrString": {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
-            "type": "object",
-            "description": "Building block to implement relations to other resources using a URL and some semantics.",
-            "allOf": [
+            "title": "CDIF Concept-or-Term-or-String",
+            "description": "Shared shape for a CDIF property that carries either a controlled-vocabulary value or a bare string label. Wraps cdifConceptOrTerm (SKOS-concept @id-ref, schema:DefinedTerm, or inline cdif:Concept) with a plain-string alternative used for legacy or single-word labels not yet bound to a vocabulary.",
+            "anyOf": [
                 {
-                    "$ref": "#/$defs/type-CreativeWork"
+                    "type": "string"
                 },
                 {
-                    "$ref": "#/$defs/type-WebAPI--Reference--Relation"
+                    "$schema": "https://json-schema.org/draft/2020-12/schema",
+                    "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
+                    "anyOf": [
+                        {
+                            "type": "object",
+                            "required": [
+                                "@id"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                                "@id": {
+                                    "type": "string",
+                                    "description": "reference to a skos concept for the data type"
+                                }
+                            }
+                        },
+                        {
+                            "$ref": "#/$defs/type-DefinedTerm"
+                        },
+                        {
+                            "type": "object"
+                        }
+                    ]
+                }
+            ]
+        },
+        "type-CreativeWork--DcatRole": {
+            "description": "A dcat:Role -- DCAT's declared range for dcat:hadRole. Defined inline rather than as its own building block because nothing else in the register needs it yet; dcat:hadRole's domain is owl:unionOf [prov:Attribution, dcat:Relationship], so promote it to a block if a qualified attribution ever needs the same shape.\ndcat:Role rdfs:subClassOf skos:Concept, so the skos:prefLabel / skos:inScheme furniture of a concept is permitted alongside; it is not required here because DCAT states no cardinality constraints on the class -- dcat.ttl declares no rdfs:subClassOf and no owl:Restriction on dcat:Relationship, and the \"mandatory\" wording in the DCAT-3 document is prose in the spec tables rather than an axiom in the vocabulary.",
+            "type": "object",
+            "properties": {
+                "@id": {
+                    "type": "string",
+                    "description": "IRI of the role concept, ideally from a controlled vocabulary."
+                },
+                "@type": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "contains": {
+                                "const": "dcat:Role"
+                            },
+                            "minItems": 1
+                        }
+                    ]
+                }
+            },
+            "required": [
+                "@type"
+            ]
+        },
+        "type-DataDownload--cdifConceptOrTermOrString": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "title": "CDIF Concept-or-Term-or-String",
+            "description": "Shared shape for a CDIF property that carries either a controlled-vocabulary value or a bare string label. Wraps cdifConceptOrTerm (SKOS-concept @id-ref, schema:DefinedTerm, or inline cdif:Concept) with a plain-string alternative used for legacy or single-word labels not yet bound to a vocabulary.",
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "$schema": "https://json-schema.org/draft/2020-12/schema",
+                    "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
+                    "anyOf": [
+                        {
+                            "type": "object",
+                            "required": [
+                                "@id"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                                "@id": {
+                                    "type": "string",
+                                    "description": "reference to a skos concept for the data type"
+                                }
+                            }
+                        },
+                        {
+                            "$ref": "#/$defs/type-DefinedTerm"
+                        },
+                        {
+                            "type": "object"
+                        }
+                    ]
+                }
+            ]
+        },
+        "type-Place--cdifConceptOrTermOrString": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "title": "CDIF Concept-or-Term-or-String",
+            "description": "Shared shape for a CDIF property that carries either a controlled-vocabulary value or a bare string label. Wraps cdifConceptOrTerm (SKOS-concept @id-ref, schema:DefinedTerm, or inline cdif:Concept) with a plain-string alternative used for legacy or single-word labels not yet bound to a vocabulary.",
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "$schema": "https://json-schema.org/draft/2020-12/schema",
+                    "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
+                    "anyOf": [
+                        {
+                            "type": "object",
+                            "required": [
+                                "@id"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                                "@id": {
+                                    "type": "string",
+                                    "description": "reference to a skos concept for the data type"
+                                }
+                            }
+                        },
+                        {
+                            "$ref": "#/$defs/type-DefinedTerm"
+                        },
+                        {
+                            "type": "object"
+                        }
+                    ]
                 }
             ]
         },
@@ -5642,23 +5668,7 @@
                     "description": "Domain-specific type classifications. Should include a scientific instrument type URI (e.g. wd:Q3099911 for Wikidata scientific instrument).",
                     "type": "array",
                     "items": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "object",
-                                "additionalProperties": false,
-                                "required": [
-                                    "@id"
-                                ],
-                                "properties": {
-                                    "@id": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        ]
+                        "$ref": "#/$defs/type-Activity--Instrument--cdifConceptOrTermOrString"
                     },
                     "minItems": 1
                 },
@@ -5825,9 +5835,9 @@
                 },
                 "schema:relatedLink": {
                     "type": "array",
-                    "description": "Links to related resources (manuals, datasheets, calibration records, related instruments).",
+                    "description": "Links to related resources (manuals, datasheets, calibration records, related instruments), each naming how the target relates to the instrument. Uses the same linkRole block as cdifCore; before 2026-09-23 this property was a labeled link here and a LinkRole there.",
                     "items": {
-                        "$ref": "#/$defs/type-Activity--Instrument--Reference"
+                        "$ref": "#/$defs/type-Activity--Instrument--LinkRole"
                     }
                 },
                 "schema:subjectOf": {
@@ -6088,6 +6098,110 @@
                 }
             ]
         },
+        "type-CatalogRecord--cdifConceptOrTermOrString": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "title": "CDIF Concept-or-Term-or-String",
+            "description": "Shared shape for a CDIF property that carries either a controlled-vocabulary value or a bare string label. Wraps cdifConceptOrTerm (SKOS-concept @id-ref, schema:DefinedTerm, or inline cdif:Concept) with a plain-string alternative used for legacy or single-word labels not yet bound to a vocabulary.",
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "$schema": "https://json-schema.org/draft/2020-12/schema",
+                    "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
+                    "anyOf": [
+                        {
+                            "type": "object",
+                            "required": [
+                                "@id"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                                "@id": {
+                                    "type": "string",
+                                    "description": "reference to a skos concept for the data type"
+                                }
+                            }
+                        },
+                        {
+                            "$ref": "#/$defs/type-DefinedTerm"
+                        },
+                        {
+                            "type": "object"
+                        }
+                    ]
+                }
+            ]
+        },
+        "type-Dataset--LinkRole": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "description": "A typed link, implemented as a schema.org LinkRole: schema:linkRelationship names how the target relates to the subject, and schema:target carries the EntryPoint actually being linked to.\nThis is the right shape when the relationship itself is the point -- \"this is the canonical version of\", \"this is the download endpoint for\". Where the value is simply a work at a URL, such as a license or a terms-of-service document, use schemaorgProperties/labeledLink instead: a licence is a work, not a role, and wrapping it in a Role forces every consumer through an indirection to reach the thing itself.\nDefined here as a block rather than inline in a profile (where it lived until 2026-09-23) so that more than one consumer can reuse it. While it was inline in cdifCore, schemaorgProperties/instrument could not reach it and defined schema:relatedLink as a labeled link instead -- the same property carrying two different shapes depending on which node held it.",
+            "type": "object",
+            "properties": {
+                "@type": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "default": "schema:LinkRole",
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "contains": {
+                                "const": "schema:LinkRole"
+                            },
+                            "minItems": 1
+                        }
+                    ]
+                },
+                "schema:linkRelationship": {
+                    "description": "How the target relates to the subject, as a controlled-vocabulary value or a plain string label. Required: a typed link whose relationship is unstated carries no more information than a bare URL, which is what schemaorgProperties/labeledLink is for.",
+                    "default": "missing",
+                    "$ref": "#/$defs/type-Dataset--cdifConceptOrTermOrString"
+                },
+                "schema:target": {
+                    "type": "object",
+                    "description": "The entry point being linked to. Deliberately not sealed: real targets also carry schema:httpMethod, schema:urlTemplate, schema:contentType and domain-specific properties, and JSON-LD is open-world.",
+                    "properties": {
+                        "@type": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "default": "schema:EntryPoint",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "contains": {
+                                        "const": "schema:EntryPoint"
+                                    },
+                                    "minItems": 1
+                                }
+                            ]
+                        },
+                        "schema:name": {
+                            "type": "string"
+                        },
+                        "schema:url": {
+                            "type": "string",
+                            "format": "uri"
+                        },
+                        "schema:encodingFormat": {
+                            "type": "string",
+                            "description": "registered MIME types are expected"
+                        }
+                    }
+                }
+            },
+            "required": [
+                "@type",
+                "schema:linkRelationship"
+            ]
+        },
         "type-Dataset--cdifConceptOrTermOrString": {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
             "title": "CDIF Concept-or-Term-or-String",
@@ -6123,19 +6237,6 @@
                 }
             ]
         },
-        "type-Dataset--Reference": {
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
-            "type": "object",
-            "description": "Building block to implement relations to other resources using a URL and some semantics.",
-            "allOf": [
-                {
-                    "$ref": "#/$defs/type-CreativeWork"
-                },
-                {
-                    "$ref": "#/$defs/type-Dataset--Reference--Relation"
-                }
-            ]
-        },
         "type-Dataset--cdifConceptOrTerm": {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
             "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
@@ -6161,7 +6262,7 @@
                 }
             ]
         },
-        "type-WebAPI--Reference--cdifConceptOrTermOrString": {
+        "type-StructuredDataSet--cdifConceptOrTermOrString": {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
             "title": "CDIF Concept-or-Term-or-String",
             "description": "Shared shape for a CDIF property that carries either a controlled-vocabulary value or a bare string label. Wraps cdifConceptOrTerm (SKOS-concept @id-ref, schema:DefinedTerm, or inline cdif:Concept) with a plain-string alternative used for legacy or single-word labels not yet bound to a vocabulary.",
@@ -6196,62 +6297,75 @@
                 }
             ]
         },
-        "type-WebAPI--Reference--cdifConceptOrTerm": {
+        "type-TabularTextDataSet--cdifConceptOrTermOrString": {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
-            "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
+            "title": "CDIF Concept-or-Term-or-String",
+            "description": "Shared shape for a CDIF property that carries either a controlled-vocabulary value or a bare string label. Wraps cdifConceptOrTerm (SKOS-concept @id-ref, schema:DefinedTerm, or inline cdif:Concept) with a plain-string alternative used for legacy or single-word labels not yet bound to a vocabulary.",
             "anyOf": [
                 {
-                    "type": "object",
-                    "required": [
-                        "@id"
-                    ],
-                    "additionalProperties": false,
-                    "properties": {
-                        "@id": {
-                            "type": "string",
-                            "description": "reference to a skos concept for the data type"
+                    "type": "string"
+                },
+                {
+                    "$schema": "https://json-schema.org/draft/2020-12/schema",
+                    "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
+                    "anyOf": [
+                        {
+                            "type": "object",
+                            "required": [
+                                "@id"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                                "@id": {
+                                    "type": "string",
+                                    "description": "reference to a skos concept for the data type"
+                                }
+                            }
+                        },
+                        {
+                            "$ref": "#/$defs/type-DefinedTerm"
+                        },
+                        {
+                            "type": "object"
                         }
-                    }
-                },
-                {
-                    "$ref": "#/$defs/type-DefinedTerm"
-                },
-                {
-                    "type": "object"
+                    ]
                 }
             ]
         },
-        "type-WebAPI--Reference--Relation": {
-            "type": "object",
-            "description": "DCAT Relationship surface added on top of the schema.org labeled link construct.",
-            "properties": {
-                "@type": {
+        "type-Activity--Instrument--cdifConceptOrTermOrString": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "title": "CDIF Concept-or-Term-or-String",
+            "description": "Shared shape for a CDIF property that carries either a controlled-vocabulary value or a bare string label. Wraps cdifConceptOrTerm (SKOS-concept @id-ref, schema:DefinedTerm, or inline cdif:Concept) with a plain-string alternative used for legacy or single-word labels not yet bound to a vocabulary.",
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "$schema": "https://json-schema.org/draft/2020-12/schema",
+                    "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
                     "anyOf": [
                         {
-                            "type": "string"
+                            "type": "object",
+                            "required": [
+                                "@id"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                                "@id": {
+                                    "type": "string",
+                                    "description": "reference to a skos concept for the data type"
+                                }
+                            }
                         },
                         {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
-                            "contains": {
-                                "const": "dcat:Relationship"
-                            },
-                            "minItems": 1
+                            "$ref": "#/$defs/type-DefinedTerm"
+                        },
+                        {
+                            "type": "object"
                         }
                     ]
-                },
-                "dcat:hadRole": {
-                    "description": "Role of the related resource as a SKOS Concept (DCAT canonical role slot).",
-                    "$ref": "#/$defs/type-WebAPI--Reference--cdifConceptOrTermOrString"
-                },
-                "dcterms:relation": {
-                    "type": "string",
-                    "format": "uri",
-                    "description": "URI of the related resource (DCAT canonical pointer to what is being related to; distinct from schema:url which is the presentation URL inherited from labeledLink)."
                 }
-            }
+            ]
         },
         "type-Activity--Instrument--AdditionalPropertySpecification": {
             "type": "object",
@@ -6284,17 +6398,73 @@
                 "schema:name"
             ]
         },
-        "type-Activity--Instrument--Reference": {
+        "type-Activity--Instrument--LinkRole": {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "description": "A typed link, implemented as a schema.org LinkRole: schema:linkRelationship names how the target relates to the subject, and schema:target carries the EntryPoint actually being linked to.\nThis is the right shape when the relationship itself is the point -- \"this is the canonical version of\", \"this is the download endpoint for\". Where the value is simply a work at a URL, such as a license or a terms-of-service document, use schemaorgProperties/labeledLink instead: a licence is a work, not a role, and wrapping it in a Role forces every consumer through an indirection to reach the thing itself.\nDefined here as a block rather than inline in a profile (where it lived until 2026-09-23) so that more than one consumer can reuse it. While it was inline in cdifCore, schemaorgProperties/instrument could not reach it and defined schema:relatedLink as a labeled link instead -- the same property carrying two different shapes depending on which node held it.",
             "type": "object",
-            "description": "Building block to implement relations to other resources using a URL and some semantics.",
-            "allOf": [
-                {
-                    "$ref": "#/$defs/type-CreativeWork"
+            "properties": {
+                "@type": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "default": "schema:LinkRole",
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "contains": {
+                                "const": "schema:LinkRole"
+                            },
+                            "minItems": 1
+                        }
+                    ]
                 },
-                {
-                    "$ref": "#/$defs/type-Activity--Instrument--Reference--Relation"
+                "schema:linkRelationship": {
+                    "description": "How the target relates to the subject, as a controlled-vocabulary value or a plain string label. Required: a typed link whose relationship is unstated carries no more information than a bare URL, which is what schemaorgProperties/labeledLink is for.",
+                    "default": "missing",
+                    "$ref": "#/$defs/type-Activity--Instrument--cdifConceptOrTermOrString"
+                },
+                "schema:target": {
+                    "type": "object",
+                    "description": "The entry point being linked to. Deliberately not sealed: real targets also carry schema:httpMethod, schema:urlTemplate, schema:contentType and domain-specific properties, and JSON-LD is open-world.",
+                    "properties": {
+                        "@type": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "default": "schema:EntryPoint",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "contains": {
+                                        "const": "schema:EntryPoint"
+                                    },
+                                    "minItems": 1
+                                }
+                            ]
+                        },
+                        "schema:name": {
+                            "type": "string"
+                        },
+                        "schema:url": {
+                            "type": "string",
+                            "format": "uri"
+                        },
+                        "schema:encodingFormat": {
+                            "type": "string",
+                            "description": "registered MIME types are expected"
+                        }
+                    }
                 }
+            },
+            "required": [
+                "@type",
+                "schema:linkRelationship"
             ]
         },
         "type-Activity--Instrument--InstrumentComponent": {
@@ -6348,23 +6518,7 @@
                     "description": "Component type classification.",
                     "type": "array",
                     "items": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "object",
-                                "additionalProperties": false,
-                                "required": [
-                                    "@id"
-                                ],
-                                "properties": {
-                                    "@id": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        ]
+                        "$ref": "#/$defs/type-Activity--Instrument--cdifConceptOrTermOrString"
                     }
                 },
                 "schema:additionalProperty": {
@@ -6443,7 +6597,7 @@
                 "schema:name"
             ]
         },
-        "type-Dataset--Reference--cdifConceptOrTermOrString": {
+        "type-Dataset--LinkRole--cdifConceptOrTermOrString": {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
             "title": "CDIF Concept-or-Term-or-String",
             "description": "Shared shape for a CDIF property that carries either a controlled-vocabulary value or a bare string label. Wraps cdifConceptOrTerm (SKOS-concept @id-ref, schema:DefinedTerm, or inline cdif:Concept) with a plain-string alternative used for legacy or single-word labels not yet bound to a vocabulary.",
@@ -6478,64 +6632,7 @@
                 }
             ]
         },
-        "type-Dataset--Reference--cdifConceptOrTerm": {
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
-            "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
-            "anyOf": [
-                {
-                    "type": "object",
-                    "required": [
-                        "@id"
-                    ],
-                    "additionalProperties": false,
-                    "properties": {
-                        "@id": {
-                            "type": "string",
-                            "description": "reference to a skos concept for the data type"
-                        }
-                    }
-                },
-                {
-                    "$ref": "#/$defs/type-DefinedTerm"
-                },
-                {
-                    "type": "object"
-                }
-            ]
-        },
-        "type-Dataset--Reference--Relation": {
-            "type": "object",
-            "description": "DCAT Relationship surface added on top of the schema.org labeled link construct.",
-            "properties": {
-                "@type": {
-                    "anyOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
-                            "contains": {
-                                "const": "dcat:Relationship"
-                            },
-                            "minItems": 1
-                        }
-                    ]
-                },
-                "dcat:hadRole": {
-                    "description": "Role of the related resource as a SKOS Concept (DCAT canonical role slot).",
-                    "$ref": "#/$defs/type-Dataset--cdifConceptOrTermOrString"
-                },
-                "dcterms:relation": {
-                    "type": "string",
-                    "format": "uri",
-                    "description": "URI of the related resource (DCAT canonical pointer to what is being related to; distinct from schema:url which is the presentation URL inherited from labeledLink)."
-                }
-            }
-        },
-        "type-Activity--Instrument--Reference--cdifConceptOrTermOrString": {
+        "type-Activity--Instrument--LinkRole--cdifConceptOrTermOrString": {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
             "title": "CDIF Concept-or-Term-or-String",
             "description": "Shared shape for a CDIF property that carries either a controlled-vocabulary value or a bare string label. Wraps cdifConceptOrTerm (SKOS-concept @id-ref, schema:DefinedTerm, or inline cdif:Concept) with a plain-string alternative used for legacy or single-word labels not yet bound to a vocabulary.",
@@ -6569,63 +6666,6 @@
                     ]
                 }
             ]
-        },
-        "type-Activity--Instrument--Reference--cdifConceptOrTerm": {
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
-            "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
-            "anyOf": [
-                {
-                    "type": "object",
-                    "required": [
-                        "@id"
-                    ],
-                    "additionalProperties": false,
-                    "properties": {
-                        "@id": {
-                            "type": "string",
-                            "description": "reference to a skos concept for the data type"
-                        }
-                    }
-                },
-                {
-                    "$ref": "#/$defs/type-DefinedTerm"
-                },
-                {
-                    "type": "object"
-                }
-            ]
-        },
-        "type-Activity--Instrument--Reference--Relation": {
-            "type": "object",
-            "description": "DCAT Relationship surface added on top of the schema.org labeled link construct.",
-            "properties": {
-                "@type": {
-                    "anyOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
-                            "contains": {
-                                "const": "dcat:Relationship"
-                            },
-                            "minItems": 1
-                        }
-                    ]
-                },
-                "dcat:hadRole": {
-                    "description": "Role of the related resource as a SKOS Concept (DCAT canonical role slot).",
-                    "$ref": "#/$defs/type-Activity--Instrument--Reference--cdifConceptOrTermOrString"
-                },
-                "dcterms:relation": {
-                    "type": "string",
-                    "format": "uri",
-                    "description": "URI of the related resource (DCAT canonical pointer to what is being related to; distinct from schema:url which is the presentation URL inherited from labeledLink)."
-                }
-            }
         },
         "root-object": {
             "type": "object",
@@ -6677,29 +6717,6 @@
                     },
                     "then": {
                         "$ref": "#/$defs/type-TabularTextDataSet"
-                    },
-                    "else": false
-                },
-                {
-                    "if": {
-                        "properties": {
-                            "@type": {
-                                "anyOf": [
-                                    {
-                                        "const": "cdi:LongStructureDataSet"
-                                    },
-                                    {
-                                        "type": "array",
-                                        "contains": {
-                                            "const": "cdi:LongStructureDataSet"
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    },
-                    "then": {
-                        "$ref": "#/$defs/type-LongStructureDataSet"
                     },
                     "else": false
                 },
@@ -7262,31 +7279,31 @@
             },
             "additionalProperties": false
         },
-        "LanguageTaggedValue": {
-            "type": "object"
-        },
-        "Statistics": {
-            "type": "object"
-        },
         "CategoryStatistics": {
-            "type": "object"
-        },
-        "Concept": {
-            "type": "object"
-        },
-        "ConceptRef": {
             "type": "object"
         },
         "Category": {
             "type": "object"
         },
-        "cdifConceptOrTermOrString": {
+        "Statistics": {
             "type": "object"
         },
         "StatisticsCollection": {
             "type": "object"
         },
+        "LanguageTaggedValue": {
+            "type": "object"
+        },
+        "ConceptRef": {
+            "type": "object"
+        },
         "Statistic": {
+            "type": "object"
+        },
+        "Concept": {
+            "type": "object"
+        },
+        "cdifConceptOrTermOrString": {
             "type": "object"
         }
     }

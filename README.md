@@ -635,7 +635,12 @@ The 2026 schema adds support for:
   - `csvw:delimiter`, `csvw:header`, `csvw:headerRowCount`
   - `cdi:isDelimited` OR `cdi:isFixedWidth`
   - `cdif:hasPhysicalMapping` - Links variables to physical representation
-- `cdi:LongStructureDataSet` - For long/narrow data format where each row is a single observation:
+- `cdi:LongDataSet` - For long/narrow data format where each row is a single observation.
+  The dedicated `cdifLongData` building block was retired on 2026-09-05 and the graph schema has
+  no `type-LongStructureDataSet` since 2026-10-05, so such a distribution is now validated as a
+  plain `type-DataDownload`: the properties below are permitted (JSON-LD is open-world) but no
+  longer constrained here. The class is `cdi:LongDataSet`, which is canonical DDI-CDI;
+  `cdi:LongStructureDataSet` was a CDIF-invented name under the `cdi:` prefix and is gone.
   - A descriptor column identifies which variable each row measures (`cdif:role: Descriptor`)
   - A reference column holds the actual value (`cdif:role: ReferenceVariable`)
   - Optional CSVW properties (delimiter, header, etc.) and DDI-CDI physical properties
@@ -692,7 +697,7 @@ The generated schema has this high-level structure:
 - **`root-graph`**: validates `@context` prefix declarations + `@graph` array of nodes
 - **`root-object`**: a nested if/then/else chain dispatching objects by `@type` to the correct type definition
 - **`id-reference`**: shared `{"@id": "string"}` definition for cross-node references
-- **24 type definitions**: `type-Dataset`, `type-Person`, `type-Organization`, `type-PropertyValue`, `type-DefinedTerm`, `type-CreativeWork`, `type-DataDownload`, `type-MediaObject`, `type-WebAPI`, `type-Action`, `type-HowTo`, `type-Place`, `type-ProperInterval`, `type-MonetaryGrant`, `type-Role`, `type-Activity`, `type-QualityMeasurement`, `type-Claim`, `type-CatalogRecord`, `type-Identifier`, `type-InstanceVariable`, `type-StructuredDataSet`, `type-TabularTextDataSet`, `type-LongStructureDataSet`
+- **23 type definitions**: `type-Dataset`, `type-Person`, `type-Organization`, `type-PropertyValue`, `type-DefinedTerm`, `type-CreativeWork`, `type-DataDownload`, `type-MediaObject`, `type-WebAPI`, `type-Action`, `type-HowTo`, `type-Place`, `type-ProperInterval`, `type-MonetaryGrant`, `type-Role`, `type-Activity`, `type-QualityMeasurement`, `type-Claim`, `type-CatalogRecord`, `type-Identifier`, `type-InstanceVariable`, `type-StructuredDataSet`, `type-TabularTextDataSet`
 
 Type dispatch is ordered most-specific-first (e.g., `cdi:StructuredDataSet` before `schema:Dataset`) so that subtypes are matched before their parent types.
 
@@ -704,7 +709,7 @@ The generator applies these transformations when reading building block source s
 2. **`anyOf` alternatives** -- Properties that reference other building block types get `anyOf [type-ref, id-reference]` so they accept either inline objects or `@id` cross-references
 3. **`@type` disambiguation** -- Composite types get additional type markers for dispatch (e.g., cdifCatalogRecord becomes `dcat:CatalogRecord`, identifier adds `cdi:Identifier`)
 4. **`@context` stripping** -- Context declarations are removed from non-root types (the `@context` goes on the root-graph wrapper only)
-5. **Composite type assembly** -- Complex types like `type-Dataset` merge mandatory + optional building blocks; `type-StructuredDataSet`/`type-TabularTextDataSet`/`type-LongStructureDataSet` compose dataDownload + CDI extensions
+5. **Composite type assembly** -- Complex types like `type-Dataset` merge mandatory + optional building blocks; `type-StructuredDataSet`/`type-TabularTextDataSet` compose dataDownload + CDI extensions
 6. **Extended provenance** -- `type-Activity` built from `cdifProv` building block, requiring multi-typed `@type: ["schema:Action", "prov:Activity"]`, merging base `generatedBy` properties (`prov:used`) with schema.org Action properties (`schema:agent`, `schema:actionProcess`, etc.). Instruments are nested within `prov:used` items via `schema:instrument` sub-key (instruments are `prov:Entity` subclasses). `type-HowTo` and `type-Claim` added as new dispatch types for methodology and assertion objects
 
 ## Troubleshooting
@@ -808,7 +813,7 @@ The `MetadataExamples/` directory contains sample CDIF JSON-LD documents for tes
 | `xanes-2arx-b516.json` | XANES | X-ray absorption near-edge structure |
 | `yv1f-jb20.json` | -- | General dataset |
 | `test_se_na2so4-testschemaorg-cdiv3.json` | XAS | X-ray absorption spectroscopy with DDI-CDI data structure (WideDataStructure, InstanceVariable, ValueMapping). Uses `xas:` and `cdifq:` extension namespaces |
-| `nwis-water-quality-longdata.json` | Water Quality | NWIS groundwater nutrient analysis (464 rows, 20 columns) in `cdi:LongStructureDataSet` long (narrow) format with `Descriptor`/`ReferenceVariable` roles, `cdif:hasPhysicalMapping`, and 5 `Measure` domain variables. Declares `core`/`discovery`/`data_description`/`data_structure` 1.1 conformance. Validates against graph schema (`CDIF-graph-schema-2026.json`) |
+| `nwis-water-quality-longdata.json` | Water Quality | NWIS groundwater nutrient analysis (464 rows, 20 columns) in `cdi:LongDataSet` long (narrow) format with `Descriptor`/`ReferenceVariable` roles, `cdif:hasPhysicalMapping`, and 5 `Measure` domain variables. Declares `core`/`discovery`/`data_description`/`data_structure` 1.1 conformance. Validates against graph schema (`CDIF-graph-schema-2026.json`) |
 | `prov-ocean-temp-example.json` | Ocean Temperature | Extended provenance example demonstrating `cdifProv` building block: action chaining (`schema:object`/`schema:result`), multi-typed `["schema:Action", "prov:Activity"]` activities, agents with Role wrappers, inline `schema:HowTo` methodology via `schema:actionProcess` with 3 steps, diverse instruments, facility location, and backward-compatible `prov:used`. Validates against graph schema |
 
 Corresponding Croissant output files are in the [`croissant/`](croissant/) directory.
