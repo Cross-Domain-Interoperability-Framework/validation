@@ -441,6 +441,8 @@ While framing is essential for JSON Schema validation, the flattened (`@graph`) 
 
 **Graph schema validation.** CDIF provides `CDIF-graph-schema-2026.json`, a JSON Schema that validates flattened `@graph` documents directly without framing. It uses an `if`/`then`/`else` dispatch chain on `@type` to validate each node in the `@graph` array against the correct type-specific sub-schema.
 
+This schema is **indicative rather than normative**: it is generated from the building blocks, but `.yaml` `$ref`s are substituted with a permissive `{"type": "object"}` rather than resolved, which leaves 25 permissive subschemas (from `cdifValueDomain`'s two value domains, `cdifStatistics#/$defs/StatisticsCollection` and `skosConcept#/$defs/Concept`). Wherever a property resolves through one of those, the graph schema accepts any object -- so a pass here is a shape check, not conformance. Validate against the block or profile schema for a real verdict.
+
 ## Summary
 
 | Concept | Key point |

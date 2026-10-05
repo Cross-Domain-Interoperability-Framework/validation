@@ -14,6 +14,7 @@ detected relative to this script or via the CDIF_BB_DIR environment variable.
 """
 
 import argparse
+from collections import Counter
 import copy
 import json
 import os
@@ -169,6 +170,15 @@ def is_external_bb_ref(ref_str):
     return file_part.endswith("Schema.json")
 
 
+# Every place the emitted schema is deliberately WEAKER than the block schema it
+# derives from. This artifact is INDICATIVE, not normative: a .yaml $ref is not
+# resolved, it is replaced with a permissive object, so the graph schema accepts
+# values the source block would reject. Recorded as it happens and reported at
+# the end, because a silent permissive substitution is indistinguishable from a
+# real constraint when reading the output.
+PERMISSIVE = []
+
+
 def is_yaml_ref(ref_str):
     """Check if a $ref points into a .yaml source file.
 
@@ -242,6 +252,13 @@ def resolve_and_transform(schema, base_dir, loader, depth=0):
             # Advanced .yaml-defined sub-structure (value domain, statistics,
             # concept, data structure). Permissive: accept inline object or
             # {@id} reference. (Sibling description, if any, is dropped.)
+            # This is where the emitted schema becomes LOOSER than its source:
+            # cdifConceptOrTermOrString's third branch is
+            # skosConcept/schema.yaml#/$defs/Concept, so after substitution the
+            # union accepts ANY object -- {"junk": 1} and {} included -- where
+            # the block admits only a string, a sealed {@id}, a
+            # schema:DefinedTerm or an inline cdif:Concept.
+            PERMISSIVE.append((".yaml ref not resolved", ref))
             return {"type": "object"}
         if is_external_bb_ref(ref):
             bb_name = ref_to_bb_name(ref)
@@ -264,6 +281,7 @@ def resolve_and_transform(schema, base_dir, loader, depth=0):
                 if isinstance(def_schema, dict) and "$ref" in def_schema and len(def_schema) == 1:
                     ref = def_schema["$ref"]
                     if is_yaml_ref(ref):
+                        PERMISSIVE.append((".yaml ref not resolved ($defs)", ref))
                         new_defs[def_name] = {"type": "object"}
                     elif is_external_bb_ref(ref):
                         bb_name = ref_to_bb_name(ref)
@@ -1875,6 +1893,36 @@ def main():
             print(f"  {ref}")
     else:
         print("All internal references resolved successfully.")
+
+    # ---- how far this artifact falls short of its sources ------------------
+    # The graph schema is INDICATIVE, not normative. Report every deliberate
+    # weakening so a reader of the output never has to guess which constraints
+    # are real. A permissive {"type": "object"} looks exactly like a constraint
+    # until you compare it with the block it came from.
+    permissive_values = _count_permissive(output)
+    if PERMISSIVE or permissive_values:
+        groups = Counter(reason for reason, _ in PERMISSIVE)
+        print()
+        print("INDICATIVE SCHEMA -- weaker than the building blocks it derives from")
+        print(f"  {permissive_values} permissive {{\"type\": \"object\"}} value(s) in the output")
+        for reason, n in sorted(groups.items()):
+            print(f"  {n:3} x {reason}")
+        seen = sorted({ref for _, ref in PERMISSIVE})
+        for ref in seen:
+            print(f"        {ref}")
+        print("  Anywhere above, the output accepts values the source block rejects.")
+        print("  Do not treat a pass against this schema as conformance; validate")
+        print("  against the block or profile schema for that.")
+
+
+def _count_permissive(node):
+    """Count bare {\"type\": \"object\"} subschemas in the emitted output."""
+    if isinstance(node, dict):
+        n = 1 if node == {"type": "object"} else 0
+        return n + sum(_count_permissive(v) for v in node.values())
+    if isinstance(node, list):
+        return sum(_count_permissive(v) for v in node)
+    return 0
 
 
 def _stub_missing_defs(defs):

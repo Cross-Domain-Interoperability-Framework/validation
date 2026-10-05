@@ -12,6 +12,17 @@ This repository contains validation tools for **CDIF (Cross-Domain Interoperabil
 - JSON-LD is a **graph format**; JSON Schema validates **trees**. The **framing** step (via `CDIF-frame-2026.jsonld`) reshapes graphs into trees for schema validation.
 - The framed (tree) schemas are split by profile: `CDIFDiscoverySchema.json` (discovery only), `CDIFDataDescriptionSchema.json` (discovery + data description), and `CDIFCompleteSchema.json` (discovery + data description + archive + provenance). The original all-in-one `CDIF-JSONLD-schema-2026.json` is in `archive/`.
 - The graph schema (`CDIF-graph-schema-2026.json`) validates **flattened** JSON-LD with `@graph` arrays directly, without framing. Generated from building block source schemas by `generate_graph_schema.py`.
+  **It is INDICATIVE, not normative, and that is by design.** The generator does not
+  resolve `.yaml` `$ref`s -- it substitutes a permissive `{"type": "object"}`, which as
+  of 2026-10-05 leaves **25 permissive subschemas** from four targets
+  (`cdifValueDomain`'s two value domains, `cdifStatistics#/$defs/StatisticsCollection`,
+  `skosConcept#/$defs/Concept`). Consequence worth remembering: `cdifConceptOrTermOrString`
+  routes through that `Concept` ref, so `cdif:physicalDataType` accepts `{"junk": 1}` and
+  `{}` here while the block rejects both. **A pass against the graph schema is not
+  conformance** -- it is a shape check. Nothing generates it in CI and nothing validates
+  against it, so do not treat it as a gate. The generator now prints every substitution at
+  the end of a run; if you are tempted to "fix" one, read the plan discussion first -- naive
+  resolution grows the artifact 334 KB -> 1.07 MB while INCREASING the stub count.
 - **`@type` flexibility**: All framed schema `@type` definitions use `anyOf` to accept either a string or an array. JSON-LD framing compacts single-element arrays to strings; `FrameAndValidate.py` recursively normalizes all `@type` values back to arrays throughout the entire document tree (in `remove_nulls_and_normalize()`).
 - **`spdx:Checksum` typing**: All `spdx:checksum` objects must include `"@type": "spdx:Checksum"` (required by both JSON Schema and SHACL `sh:class spdx:Checksum`). The `@type` uses the same `anyOf` pattern (string or array) as other typed nodes.
 
