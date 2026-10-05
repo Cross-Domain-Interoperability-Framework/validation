@@ -1570,6 +1570,39 @@ def build_root_object_dispatch(type_dispatch):
     }
 
 
+def _find_nested_defs(node, path=()):
+    """Depth-first search for a dict carrying "$defs" below the type root.
+
+    promote_internal_defs only ever looked at type_schema["$defs"]. A $defs
+    nested deeper -- cdifPhysicalMapping embedded inside
+    cdif:hasPhysicalMapping/items/allOf/0, cdifStatistics inside
+    cdif:statistics/items/anyOf/0 -- was left where it sat, and that is NOT a
+    harmless leftover: "$ref": "#/$defs/X" always resolves from the DOCUMENT
+    ROOT, so every ref into a nested $defs misses it, falls through to
+    _stub_missing_defs and becomes {"type": "object"}. For
+    cdifConceptOrTermOrString that is worse than permissive -- the real type is
+    anyOf[string, cdifConceptOrTerm], so the stub REJECTS the bare-string form
+    records actually write for cdif:physicalDataType.
+
+    Returns (container, path) for the deepest-first match, or (None, ()).
+    """
+    if isinstance(node, dict):
+        for k, v in node.items():
+            if k == "$defs":
+                continue
+            found, fpath = _find_nested_defs(v, path + (k,))
+            if found is not None:
+                return found, fpath
+        if "$defs" in node and path:
+            return node, path
+    elif isinstance(node, list):
+        for i, v in enumerate(node):
+            found, fpath = _find_nested_defs(v, path + (str(i),))
+            if found is not None:
+                return found, fpath
+    return None, ()
+
+
 def promote_internal_defs(defs):
     """
     Promote internal $defs from each type definition to the root level.
@@ -1591,8 +1624,15 @@ def promote_internal_defs(defs):
             if not isinstance(type_schema, dict):
                 continue
             internal_defs = type_schema.get("$defs", {})
+            container = type_schema
             if not internal_defs:
-                continue
+                # Nothing at the type root -- look deeper. A nested $defs is
+                # unreachable (refs resolve from the document root), so it must
+                # be promoted too or its refs end up stubbed.
+                container, _npath = _find_nested_defs(type_schema)
+                if container is None:
+                    continue
+                internal_defs = container["$defs"]
 
             changed = True
 
@@ -1610,8 +1650,8 @@ def promote_internal_defs(defs):
                 ref_mapping[f"#/$defs/{def_name}"] = f"#/$defs/{qualified_name}"
                 promoted[qualified_name] = def_schema
 
-            # Remove the internal $defs from the type schema
-            del type_schema["$defs"]
+            # Remove the internal $defs from wherever it was found
+            del container["$defs"]
 
             # Rewrite all refs within this type schema
             _replace_refs(type_schema, ref_mapping)
