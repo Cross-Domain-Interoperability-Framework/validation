@@ -91,7 +91,7 @@ note at the top.)
 | `README.md` | This file |
 | `CLAUDE.md` | Project guide for Claude Code (concepts, file roles, common commands, current status) |
 | `AGENTS.md` | AI-agent workflows and conventions for working in this repo |
-| `LICENSE` | Repository license |
+| `LICENSE`, `LICENSE-CC-BY-4.0` | Apache-2.0 (software) and CC BY 4.0 (schemas, shapes, docs, example metadata); see [License](#license) |
 | `.gitattributes`, `.gitignore` | Git configuration |
 
 ### Format converters — moved
@@ -862,3 +862,16 @@ See `ddi-cdi/cls-InstanceVariable-resolved-README.md` for full details on the ge
 - For SHACL validation, use the corresponding `.shacl` or `.ttl` files in this repository.
 - **`@type` flexibility**: All `@type` definitions in the framed schemas use `anyOf` to accept either a string (`"schema:Dataset"`) or an array (`["schema:Dataset"]`). JSON-LD framing may compact single-element arrays to strings; `FrameAndValidate.py` recursively normalizes all `@type` values back to arrays.
 - **`spdx:Checksum` typing**: All `spdx:checksum` objects must include `"@type": "spdx:Checksum"`. This is required by both the JSON Schema (`required: ["@type"]`) and SHACL shapes (`sh:class spdx:Checksum`).
+
+## License
+
+This repository is dual-licensed by content type:
+
+| Content | License |
+|---------|---------|
+| Software: the Python tools and generators (`*.py`), the oXygen batch wrapper (`validate-cdif.bat`), the Node.js CLI (`validate-cdif.js`), and the CI workflows (`.github/`) | [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0) — see [`LICENSE`](LICENSE) |
+| The JSON Schemas (`*.json`), the JSON-LD frame and context (`*.jsonld`), the SHACL shape bundles (`ShaclValidation/*.ttl`), the documentation (`*.md`), and the example metadata records (e.g. `MetadataExamples/`, `testJSONMetadata/`) | [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/) — see [`LICENSE-CC-BY-4.0`](LICENSE-CC-BY-4.0) |
+
+Third-party material bundled here for testing and reference keeps its own
+license: the DDI-CDI normative schemas under `ddi-cdi/`, the `HPCA_burstData_NASA/`
+source structure descriptions, and the superseded artifacts in `archive/`.
