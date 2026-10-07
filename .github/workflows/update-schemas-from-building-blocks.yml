@@ -1,0 +1,155 @@
+name: Update schemas from building blocks
+
+# PULL direction: this workflow runs in the repo it writes to, so it needs no credential.
+#
+# Its push-based twin lives in metadataBuildingBlocks
+# (.github/workflows/update-validation-schemas.yml) and needs VALIDATION_REPO_PAT, because a
+# repository's built-in GITHUB_TOKEN cannot write to another repository. A PAT expires, and the
+# failure is quiet: the push there sits behind an "are there changes" test, so most runs never
+# exercise the token and still conclude success.
+#
+# This is the same inversion that fixed the cdif-umlmodel mirror on 2026-10-02, where a secret that
+# had never been set left the sync reporting success while copying nothing for weeks. Both repos
+# are public, so checking metadataBuildingBlocks out here needs no authentication, and writing
+# needs only this repo's own GITHUB_TOKEN.
+#
+# DISPATCH-ONLY, deliberately. While the push-based twin still exists, adding a schedule here would
+# leave two mechanisms writing the same nine files, and the result would be whichever ran last --
+# the trap that had sync_frameandvalidate.py and sync_mirror_tools.sh fighting over
+# FrameAndValidate.py twice on 2026-10-01. Add the schedule in the SAME change that deletes the
+# twin, not before.
+
+on:
+  workflow_dispatch:
+    inputs:
+      bb_ref:
+        description: "metadataBuildingBlocks ref to generate from"
+        required: false
+        default: main
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-schemas-from-bb
+  cancel-in-progress: false
+
+jobs:
+  update-schemas:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout this repo (validation)
+        uses: actions/checkout@v5
+
+      - name: Checkout metadataBuildingBlocks
+        uses: actions/checkout@v5
+        with:
+          repository: Cross-Domain-Interoperability-Framework/metadataBuildingBlocks
+          ref: ${{ inputs.bb_ref }}
+          path: bb
+          persist-credentials: false
+
+      - name: Record which building-blocks commit this run used
+        id: bb
+        working-directory: bb
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install rdflib jsonschema
+
+      - name: Generate CDIFDiscoverySchema.json
+        run: |
+          python generate_validation_schema.py \
+            bb/_sources/profiles/cdifCompositeProfile/CoreDiscovery/resolvedSchema.json \
+            -o CDIFDiscoverySchema.json \
+            -t "CDIF Discovery metadata schema" \
+            -d "JSON schema for validating framed JSON-LD documents that describe science datasets for the CDIF discovery profile. Combines cdifCore building block with discovery properties and @type enum constraint. Generated from CDIFDiscoveryProfile building block profile resolvedSchema.json (https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/profiles/cdifCompositeProfile/CoreDiscovery/resolvedSchema.json)." \
+            -v
+
+      - name: Generate CDIFDataDescriptionSchema.json
+        run: |
+          python generate_validation_schema.py \
+            bb/_sources/profiles/cdifCompositeProfile/DiscoveryDataDescription/resolvedSchema.json \
+            -o CDIFDataDescriptionSchema.json \
+            -t "CDIF Data Description metadata schema" \
+            -d "JSON schema for validating framed JSON-LD documents conforming to the CDIF Data Description profile (discovery + data description). Generated from CDIFDataDescriptionProfile building block profile resolvedSchema.json (https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/profiles/cdifCompositeProfile/DiscoveryDataDescription/resolvedSchema.json)." \
+            -v
+
+      - name: Generate CDIFCompleteSchema.json
+        run: |
+          python generate_validation_schema.py \
+            bb/_sources/profiles/cdifCompositeProfile/cdifComplete/resolvedSchema.json \
+            -o CDIFCompleteSchema.json \
+            -t "CDIF Complete metadata schema" \
+            -d "JSON schema for validating framed JSON-LD documents that describe science datasets for the CDIF complete profile, combining discovery metadata with data description, archive distribution, and provenance extensions. Generated from CDIFcompleteProfile building block profile resolvedSchema.json (https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/profiles/cdifCompositeProfile/cdifComplete/resolvedSchema.json)." \
+            -v
+
+      - name: Generate the six SHACL shape bundles
+        run: |
+          set -e
+          generate() {
+            echo "::group::$1 -> ShaclValidation/$2"
+            python ShaclValidation/generate_shacl_shapes.py \
+              --profile "$1" \
+              --bb-dir bb/_sources \
+              --output "ShaclValidation/$2" \
+              -v
+            echo "::endgroup::"
+          }
+          generate discovery        CDIF-Discovery-Shapes.ttl
+          generate complete         CDIF-Complete-Shapes.ttl
+          generate data_description CDIF-DataDescription-Shapes.ttl
+          generate data_structure   CDIF-DataStructure-Shapes.ttl
+          generate provenance       CDIF-Provenance-Shapes.ttl
+          generate manifest         CDIF-Manifest-Shapes.ttl
+
+      - name: Check every generated artifact exists and is non-empty
+        run: |
+          # A generator that writes nothing leaves the previous file in place, so the run has
+          # "no changes" and reports success. One that writes an empty file commits the emptiness.
+          # Neither is distinguishable from a correct run downstream, so assert here.
+          fail=0
+          for f in CDIFDiscoverySchema.json CDIFDataDescriptionSchema.json CDIFCompleteSchema.json \
+                   ShaclValidation/CDIF-Discovery-Shapes.ttl ShaclValidation/CDIF-Complete-Shapes.ttl \
+                   ShaclValidation/CDIF-DataDescription-Shapes.ttl ShaclValidation/CDIF-DataStructure-Shapes.ttl \
+                   ShaclValidation/CDIF-Provenance-Shapes.ttl ShaclValidation/CDIF-Manifest-Shapes.ttl; do
+            if [ ! -s "$f" ]; then
+              echo "::error file=$f::missing or empty after generation"
+              fail=1
+            fi
+          done
+          exit $fail
+
+      - name: Commit the result
+        env:
+          BB_SHA: ${{ steps.bb.outputs.sha }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add CDIFDiscoverySchema.json CDIFDataDescriptionSchema.json CDIFCompleteSchema.json \
+                  ShaclValidation/CDIF-Discovery-Shapes.ttl ShaclValidation/CDIF-Complete-Shapes.ttl \
+                  ShaclValidation/CDIF-DataDescription-Shapes.ttl ShaclValidation/CDIF-DataStructure-Shapes.ttl \
+                  ShaclValidation/CDIF-Provenance-Shapes.ttl ShaclValidation/CDIF-Manifest-Shapes.ttl
+
+          # Name which of the two outcomes happened, in words that differ. A run that changed
+          # nothing and a run that could not write used to look identical from the outside.
+          if git diff --cached --quiet; then
+            echo "NO CHANGES -- already current with metadataBuildingBlocks@$BB_SHA"
+            echo "Outcome: **no changes**; already current with metadataBuildingBlocks@\`$BB_SHA\`." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          changed=$(git diff --cached --name-only | wc -l)
+          git commit -m "Update validation schemas and SHACL shapes from building blocks [automated]" \
+                     -m "Generated from metadataBuildingBlocks@$BB_SHA."
+          git push
+          echo "PUSHED $changed file(s)"
+          echo "Outcome: **updated $changed file(s)** from metadataBuildingBlocks@\`$BB_SHA\`." >> "$GITHUB_STEP_SUMMARY"
+          git show --name-only --format='' HEAD | sed 's|^|  - |' >> "$GITHUB_STEP_SUMMARY" || true
