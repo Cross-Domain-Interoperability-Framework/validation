@@ -13,13 +13,23 @@ name: Update schemas from building blocks
 # are public, so checking metadataBuildingBlocks out here needs no authentication, and writing
 # needs only this repo's own GITHUB_TOKEN.
 #
-# DISPATCH-ONLY, deliberately. While the push-based twin still exists, adding a schedule here would
-# leave two mechanisms writing the same nine files, and the result would be whichever ran last --
-# the trap that had sync_frameandvalidate.py and sync_mirror_tools.sh fighting over
-# FrameAndValidate.py twice on 2026-10-01. Add the schedule in the SAME change that deletes the
-# twin, not before.
+# This is now the ONLY mechanism. The push-based twin was deleted in metadataBuildingBlocks
+# 89b314547, in the same change that enabled the schedule below, because two mechanisms writing
+# these same nine files would be decided by whichever ran last -- the trap that had
+# sync_frameandvalidate.py and sync_mirror_tools.sh fighting over FrameAndValidate.py twice on
+# 2026-10-01. Do not re-add a push-based one.
+#
+# The twin triggered on each metadataBuildingBlocks push to main, via workflow_run. A pull cannot
+# do that: workflow_run only fires for workflows in the same repository, and any cross-repo trigger
+# needs a token, which is the thing being removed. So the handoff is a schedule instead, and that
+# is a real trade -- these artifacts now lag a building-block change by up to the cron interval
+# rather than arriving within minutes. Dispatch manually when a change needs to land sooner.
 
 on:
+  # Every six hours. A full run is ~2 minutes and most are no-ops, so the cost is small against
+  # the cost of the release repos validating against stale shapes with nothing saying so.
+  schedule:
+    - cron: '0 */6 * * *'
   workflow_dispatch:
     inputs:
       bb_ref:
