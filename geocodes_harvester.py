@@ -319,21 +319,66 @@ def harvest_record(dataset_info, verbose=False):
 UNKNOWN_NS = "https://ex.org/unknown/"
 UNKNOWN_PREFIX = "unk"
 
+_SCHEMA_ORG_IRIS = ("http://schema.org/", "https://schema.org/")
 
-def _prefix_keys(obj, depth=0, assumed_schema_keys=None, unknown_keys=None):
+#: An absolute URI, as the CDIF SHACL rules test a contentUrl.
+_URI_PATTERN = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.-]*:[^\s]*$")
+#: "Value missing" as a dereferenceable IRI, where a URL slot must be filled.
+OGC_NIL_MISSING = "http://www.opengis.net/def/nil/OGC/0/missing"
+
+
+def _source_vocabulary(ctx):
+    """What the source record's own @context says its unprefixed names mean.
+
+    Returns (schema_vocab, terms). *schema_vocab* is True when the context
+    makes schema.org the default vocabulary -- an ``@vocab`` of schema.org,
+    or the schema.org context itself given by URL (``"@context":
+    "http://schema.org"``). Then every unprefixed name is a schema.org term
+    by definition, and SCHEMA_PROPS/SCHEMA_TYPES, which list only a subset,
+    must not decide it. *terms* maps each name the context defines to its
+    IRI; a term definition takes precedence over @vocab, so PANGAEA's
+    ``"conformsTo": "dct:conformsTo"`` stays dct:, not schema:.
+    """
+    schema_vocab = False
+    terms = {}
+    for item in (ctx if isinstance(ctx, list) else [ctx]):
+        if isinstance(item, str):
+            if item.rstrip("/") + "/" in _SCHEMA_ORG_IRIS:
+                schema_vocab = True
+        elif isinstance(item, dict):
+            vocab = item.get("@vocab")
+            if isinstance(vocab, str) and vocab.rstrip("/") + "/" in _SCHEMA_ORG_IRIS:
+                schema_vocab = True
+            for key, defn in item.items():
+                if key.startswith("@") or ":" in key:
+                    continue
+                iri = defn.get("@id") if isinstance(defn, dict) else defn
+                # A value ending in / or # declares a prefix, not a term.
+                if isinstance(iri, str) and ":" in iri and not iri.endswith(("/", "#")):
+                    terms[key] = iri
+    return schema_vocab, terms
+
+
+def _prefix_keys(obj, depth=0, assumed_schema_keys=None, unknown_keys=None,
+                 schema_vocab=False, terms=None):
     """Recursively prefix unprefixed property names.
 
-    Known schema.org properties get ``schema:``.  Unprefixed keys that match
-    schema.org class or property names (in SCHEMA_PROPS or SCHEMA_TYPES) are
-    assumed to be schema.org and prefixed with ``schema:``, tracked in
-    *assumed_schema_keys*.  Any remaining unprefixed key is assigned to the
-    ``unk:`` (https://ex.org/unknown/) namespace.  *unknown_keys* collects
-    these truly unknown names.
+    A name the source @context defines (*terms*) takes that IRI.  Known
+    schema.org properties get ``schema:``.  Unprefixed keys that match
+    schema.org class names (in SCHEMA_TYPES) are assumed to be schema.org
+    and prefixed with ``schema:``, tracked in *assumed_schema_keys*.  When the
+    source context makes schema.org the default vocabulary (*schema_vocab*),
+    every other unprefixed key is schema.org too.  Only otherwise is a
+    remaining key assigned to the ``unk:`` (https://ex.org/unknown/)
+    namespace; *unknown_keys* collects those.
     """
     if depth > 20:
         return obj
+    if terms is None:
+        terms = {}
     if isinstance(obj, list):
-        return [_prefix_keys(item, depth + 1, assumed_schema_keys, unknown_keys)
+        return [_prefix_keys(item, depth + 1, assumed_schema_keys, unknown_keys,
+                             schema_vocab, terms)
                 for item in obj]
     if not isinstance(obj, dict):
         return obj
@@ -343,26 +388,43 @@ def _prefix_keys(obj, depth=0, assumed_schema_keys=None, unknown_keys=None):
         unknown_keys = set()
     result = {}
     for key, value in obj.items():
+        if key == "@context":
+            # The context declares prefixes and terms; it is not data, and
+            # prefixing its keys turned "cr" into "unk:cr" (or "schema:cr"),
+            # which left every cr:/dct: key in the output unresolvable.
+            result[key] = value
+            continue
         new_key = key
         if not key.startswith("@") and ":" not in key and not key.startswith("http"):
-            if key in SCHEMA_PROPS:
+            if key in terms:
+                new_key = terms[key]
+            elif key in SCHEMA_PROPS:
                 new_key = "schema:" + key
             elif key in SCHEMA_TYPES:
                 # Type name used as property — unusual but assume schema.org
                 new_key = "schema:" + key
                 assumed_schema_keys.add(key)
+            elif schema_vocab:
+                new_key = "schema:" + key
             else:
                 new_key = UNKNOWN_PREFIX + ":" + key
                 unknown_keys.add(key)
         result[new_key] = _prefix_keys(value, depth + 1,
-                                       assumed_schema_keys, unknown_keys)
+                                       assumed_schema_keys, unknown_keys,
+                                       schema_vocab, terms)
     return result
 
 
-def _fix_types(obj):
-    """Recursively normalize @type to arrays with schema: prefix."""
+def _fix_types(obj, schema_vocab=False, terms=None):
+    """Recursively normalize @type to arrays with schema: prefix.
+
+    *schema_vocab* and *terms* are as for _prefix_keys: @type values are
+    vocabulary-relative, so the source context decides them the same way.
+    """
+    if terms is None:
+        terms = {}
     if isinstance(obj, list):
-        return [_fix_types(item) for item in obj]
+        return [_fix_types(item, schema_vocab, terms) for item in obj]
     if not isinstance(obj, dict):
         return obj
     if "@type" in obj:
@@ -379,7 +441,11 @@ def _fix_types(obj):
         for t in types:
             if t in _TYPE_MAP:
                 normalized.append(_TYPE_MAP[t])
+            elif t in terms:
+                normalized.append(terms[t])
             elif t in SCHEMA_TYPES:
+                normalized.append("schema:" + t)
+            elif schema_vocab and ":" not in t and not t.startswith("http"):
                 normalized.append("schema:" + t)
             elif ":" not in t and not t.startswith("http"):
                 # Unprefixed type not in schema.org — assign to unk:
@@ -390,7 +456,7 @@ def _fix_types(obj):
         obj["@type"] = types
     for k, v in obj.items():
         if k != "@type":
-            obj[k] = _fix_types(v)
+            obj[k] = _fix_types(v, schema_vocab, terms)
     return obj
 
 
@@ -433,11 +499,23 @@ def convert_to_cdif(doc, publisher_label, profile="core"):
 
     # 1. Prefix property names — known schema.org props get schema:,
     #    unknown unprefixed props get unk: (https://ex.org/unknown/)
+    #    The source's own @context is read first: it is replaced in step 2,
+    #    and it is what says whether an unprefixed name is schema.org.
+    schema_vocab, terms = _source_vocabulary(doc.get("@context", {}))
     assumed_schema_keys = set()
     unknown_keys = set()
     doc = _prefix_keys(doc, assumed_schema_keys=assumed_schema_keys,
-                       unknown_keys=unknown_keys)
+                       unknown_keys=unknown_keys,
+                       schema_vocab=schema_vocab, terms=terms)
     changes.append("Property names prefixed with schema: namespace")
+    if schema_vocab:
+        changes.append(
+            "Unprefixed names resolved as schema.org, which the source "
+            "@context makes the default vocabulary")
+    if terms:
+        changes.append(
+            "Names the source @context defines kept their own IRIs: "
+            + ", ".join(f"{k} -> {v}" for k, v in sorted(terms.items())))
     if assumed_schema_keys:
         changes.append(
             f"Unprefixed properties assumed to be schema.org based on "
@@ -454,18 +532,16 @@ def convert_to_cdif(doc, publisher_label, profile="core"):
     # 2. Fix @context — set CDIF required prefixes, preserve any extras
     orig_ctx = doc.get("@context", {})
     extra = {}
-    if isinstance(orig_ctx, dict):
-        for k, v in orig_ctx.items():
-            if k not in ("@vocab", "@language", "schema", "dcterms", "dcat", "prov") \
-               and isinstance(v, str):
-                extra[k] = v
-    elif isinstance(orig_ctx, list):
-        for item in orig_ctx:
-            if isinstance(item, dict):
-                for k, v in item.items():
-                    if k not in ("@vocab", "@language", "schema", "dcterms", "dcat", "prov") \
-                       and isinstance(v, str):
-                        extra[k] = v
+    # Prefix declarations only. A term alias such as "conformsTo":
+    # "dct:conformsTo" has already been applied to the keys in step 1;
+    # keeping it would make compaction rename dct:conformsTo back to
+    # conformsTo, which the CDIF schemas do not know.
+    for item in (orig_ctx if isinstance(orig_ctx, list) else [orig_ctx]):
+        if isinstance(item, dict):
+            for k, v in item.items():
+                if k not in ("@vocab", "@language", "schema", "dcterms", "dcat", "prov") \
+                   and isinstance(v, str) and v.endswith(("/", "#")):
+                    extra[k] = v
     ctx = {**CDIF_CONTEXT, **extra}
     if unknown_keys:
         ctx[UNKNOWN_PREFIX] = UNKNOWN_NS
@@ -473,7 +549,7 @@ def convert_to_cdif(doc, publisher_label, profile="core"):
     changes.append("@context set to CDIF prefix declarations (extra prefixes preserved)")
 
     # 3. Normalize types
-    doc = _fix_types(doc)
+    doc = _fix_types(doc, schema_vocab, terms)
     changes.append("@type values normalized to arrays with schema: prefix")
 
     # 4. Ensure @id
@@ -512,6 +588,7 @@ def convert_to_cdif(doc, publisher_label, profile="core"):
 
     # 8. Fix distributions
     if "schema:distribution" in doc:
+        nil_content_urls = 0
         dists = _ensure_array(doc["schema:distribution"])
         doc["schema:distribution"] = dists
         for dist in dists:
@@ -525,7 +602,27 @@ def convert_to_cdif(doc, publisher_label, profile="core"):
             # schema:url on a DataDownload → schema:contentUrl
             if "schema:contentUrl" not in dist and "schema:url" in dist:
                 dist["schema:contentUrl"] = dist["schema:url"]
+            # A DataDownload must have a contentUrl (a Collection has hasPart
+            # instead). Where the source gave none, or a value that is not a
+            # URL -- GeoCodes records carry the placeholder "/dataset/filename"
+            # -- say "missing" with the OGC nil IRI rather than keep a value
+            # a client would try to fetch.
+            types = _ensure_array(dist.get("@type")) or []
+            if "schema:DataDownload" in types and "schema:Collection" not in types:
+                urls = [u for u in (_ensure_array(dist.get("schema:contentUrl")) or [])
+                        if isinstance(u, str) and _URI_PATTERN.match(u)]
+                given = _ensure_array(dist.get("schema:contentUrl")) or []
+                if not urls:
+                    dist["schema:contentUrl"] = OGC_NIL_MISSING
+                    nil_content_urls += 1
+                elif len(urls) < len(given):
+                    # Keep the URLs; drop the non-URL entries beside them.
+                    dist["schema:contentUrl"] = urls if len(urls) > 1 else urls[0]
         changes.append("Distributions normalized")
+        if nil_content_urls:
+            changes.append(
+                f"schema:contentUrl set to {OGC_NIL_MISSING} on "
+                f"{nil_content_urls} DataDownload(s) with no valid URL")
 
     # 9. Fix creator
     if "schema:creator" in doc:
