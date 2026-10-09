@@ -644,17 +644,8 @@
                     "description": "The unit in which the data values are measured, expressed as a controlled-vocabulary entry (RepresentedVariable.describedUnitOfMeasure). For a plain-string unit, use cdif:simpleUnitOfMeasure instead.",
                     "anyOf": [
                         {
-                            "type": "object",
-                            "required": [
-                                "@id"
-                            ],
-                            "additionalProperties": false,
-                            "properties": {
-                                "@id": {
-                                    "type": "string",
-                                    "description": "reference to a skos concept for the data type"
-                                }
-                            }
+                            "$ref": "#/$defs/ObjectReference",
+                            "description": "reference to a skos concept for the data type"
                         },
                         {
                             "$ref": "#/$defs/DefinedTerm"
@@ -2467,7 +2458,7 @@
                                 },
                                 "schema:contactPoint": {
                                     "type": "object",
-                                    "description": "restrict to email only. Schema.org allows telephone and postal contacts as well",
+                                    "description": "An email address or a contact web page (a form, an issue tracker), or both; at least one is required. Schema.org also allows telephone and postal contacts. A URL-only contact is ordinary in DCAT (a vcard:Kind with only vcard:hasURL), so requiring email made such records invalid.",
                                     "properties": {
                                         "@type": {
                                             "default": [
@@ -2484,11 +2475,26 @@
                                         },
                                         "schema:email": {
                                             "type": "string"
+                                        },
+                                        "schema:url": {
+                                            "type": "string",
+                                            "format": "uri"
                                         }
                                     },
                                     "required": [
-                                        "@type",
-                                        "schema:email"
+                                        "@type"
+                                    ],
+                                    "anyOf": [
+                                        {
+                                            "required": [
+                                                "schema:email"
+                                            ]
+                                        },
+                                        {
+                                            "required": [
+                                                "schema:url"
+                                            ]
+                                        }
                                     ]
                                 },
                                 "schema:sameAs": {
@@ -4248,17 +4254,8 @@
                     "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
                     "anyOf": [
                         {
-                            "type": "object",
-                            "required": [
-                                "@id"
-                            ],
-                            "additionalProperties": false,
-                            "properties": {
-                                "@id": {
-                                    "type": "string",
-                                    "description": "reference to a skos concept for the data type"
-                                }
-                            }
+                            "$ref": "#/$defs/ObjectReference",
+                            "description": "reference to a skos concept for the data type"
                         },
                         {
                             "$ref": "#/$defs/DefinedTerm"

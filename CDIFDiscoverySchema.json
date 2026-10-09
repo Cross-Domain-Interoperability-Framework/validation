@@ -625,7 +625,7 @@
                 },
                 "schema:contactPoint": {
                     "type": "object",
-                    "description": "restrict to email only. Schema.org allows telephone and postal contacts as well",
+                    "description": "An email address or a contact web page (a form, an issue tracker), or both; at least one is required. Schema.org also allows telephone and postal contacts. A URL-only contact is ordinary in DCAT (a vcard:Kind with only vcard:hasURL), so requiring email made such records invalid.",
                     "properties": {
                         "@type": {
                             "default": [
@@ -642,11 +642,26 @@
                         },
                         "schema:email": {
                             "type": "string"
+                        },
+                        "schema:url": {
+                            "type": "string",
+                            "format": "uri"
                         }
                     },
                     "required": [
-                        "@type",
-                        "schema:email"
+                        "@type"
+                    ],
+                    "anyOf": [
+                        {
+                            "required": [
+                                "schema:email"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "schema:url"
+                            ]
+                        }
                     ]
                 },
                 "schema:sameAs": {
@@ -824,17 +839,19 @@
                     "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
                     "anyOf": [
                         {
+                            "title": "Object Reference",
+                            "description": "reference to a skos concept for the data type",
                             "type": "object",
-                            "required": [
-                                "@id"
-                            ],
-                            "additionalProperties": false,
                             "properties": {
                                 "@id": {
                                     "type": "string",
-                                    "description": "reference to a skos concept for the data type"
+                                    "description": "resolvable @id of the referenced node"
                                 }
-                            }
+                            },
+                            "required": [
+                                "@id"
+                            ],
+                            "additionalProperties": false
                         },
                         {
                             "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) — plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
