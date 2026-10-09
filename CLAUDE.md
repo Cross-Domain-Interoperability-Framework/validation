@@ -41,7 +41,7 @@ This repository contains validation tools for **CDIF (Cross-Domain Interoperabil
 | `detect_conformance.py` | Content-derived conformance detection: for each CDIF class, a presence SPARQL ASK (what the class introduces beyond its base) gated by a content-SHACL validity check (only `sh:Violation` blocks; warnings/info are advisory). `apply_conformance()` writes detected `cdif:` URIs into `schema:subjectOf/dcterms:conformsTo`, preserving any non-`cdif:` (domain) claims. `--apply`/`--from-source` CLI; importable. `CDIF_CONFORMANCE_FROM_SOURCE=1` (or `--from-source`) reads rules from BB `conformance.json` sidecars via `load_bb_conformance()` instead of the in-code `CONFORMANCE_CLASSES` registry |
 | `docs/CDIF-Conformance-Declaration-Convention.md` | Spec for the per-building-block `conformance.json` sidecar (conformsTo URI + presence ASK + content `validityShapes`) consumed by `detect_conformance.py` |
 | `docs/conformance-declaration.schema.json` | JSON Schema (`.../conformance-declaration/0.1`) validating the sidecar files |
-| `geocodes_harvester.py` | Harvests dataset metadata from the EarthCube GeoCodes SPARQL endpoint and optionally converts to CDIF core/discovery profile |
+| `geocodes_harvester.py` | *Moved* to the [`converters`](https://github.com/Cross-Domain-Interoperability-Framework/converters) repo, `harvesters/geocodes_harvester.py` |
 | `CDIFDiscoverySchema.json` | JSON Schema for framed (tree) CDIF discovery profile metadata |
 | `CDIFCompleteSchema.json` | JSON Schema for framed (tree) CDIF complete profile metadata |
 | `CDIFDataDescriptionSchema.json` | JSON Schema for framed (tree) CDIF data description profile metadata |

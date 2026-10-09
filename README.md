@@ -81,7 +81,7 @@ note at the top.)
 
 | File | Description |
 |------|-------------|
-| `geocodes_harvester.py` | Harvests dataset metadata from the [EarthCube GeoCodes](https://geocodes.earthcube.org/) SPARQL endpoint, extracts JSON-LD from landing pages, and optionally converts to CDIF core/discovery |
+| `geocodes_harvester.py` | *Moved* to the [`converters`](https://github.com/Cross-Domain-Interoperability-Framework/converters) repo, `harvesters/geocodes_harvester.py` |
 | `normalize_catalogrecord_type.py` | One-off migration: rewrites `schema:additionalType`/`dcat:CatalogRecord` string tags to the required `{"@id": …}` IRI form across a corpus |
 
 ### Project docs & configuration (root)
@@ -796,25 +796,14 @@ See [`ShaclValidation/README.md`](ShaclValidation/README.md) for detailed docume
 
 **Recommendation**: Use both JSON Schema and SHACL validation for comprehensive coverage. `batch_validate.py` runs both automatically across multiple file groups.
 
-## GeoCodes Harvester
+## GeoCodes harvester (moved)
 
-`geocodes_harvester.py` harvests dataset metadata from the [EarthCube GeoCodes](https://geocodes.earthcube.org/) catalog (~170K indexed datasets). It queries the Blazegraph SPARQL endpoint, fetches original JSON-LD from source landing pages when available, and optionally converts records to CDIF profile format.
-
-```bash
-# List publishers and dataset counts
-python geocodes_harvester.py --list-publishers
-
-# Harvest 5 records from diverse publishers, convert to CDIF Discovery
-python geocodes_harvester.py --count 5 --output ./examples --cdif discovery
-
-# Harvest from a specific publisher
-python geocodes_harvester.py --publisher "PANGAEA" --count 3 --output ./examples
-
-# Harvest without CDIF conversion (raw schema.org JSON-LD)
-python geocodes_harvester.py --count 5 --output ./raw-examples
-```
-
-The CDIF conversion handles: property prefixing (`schema:`), `@context`/`@type` normalization, `@list` wrapping for creators, distribution fixes, `subjectOf` with `conformsTo`, type mappings (FundingAgency to Organization, Grant to MonetaryGrant, Croissant sc:Dataset to Dataset), Person name synthesis, and sameAs array normalization. All conversions are documented in each record's `subjectOf` description. Extra properties from the source are preserved (open-world assumption).
+`geocodes_harvester.py` now lives in the
+[`converters`](https://github.com/Cross-Domain-Interoperability-Framework/converters) repo as
+`harvesters/geocodes_harvester.py`, beside the OHDSI harvester and the format
+converters. It queries the EarthCube GeoCodes SPARQL catalog, fetches each
+record's landing-page JSON-LD and optionally converts it to CDIF core or
+discovery. See the converters README for usage.
 
 ## DCAT and DDI conversion (moved)
 
