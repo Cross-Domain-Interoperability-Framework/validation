@@ -271,30 +271,12 @@
                     "description": "Concept scheme(s) this concept belongs to.",
                     "anyOf": [
                         {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "properties": {
-                                "@id": {
-                                    "type": "string"
-                                }
-                            },
-                            "required": [
-                                "@id"
-                            ]
+                            "$ref": "#/$defs/ObjectReference"
                         },
                         {
                             "type": "array",
                             "items": {
-                                "type": "object",
-                                "additionalProperties": false,
-                                "properties": {
-                                    "@id": {
-                                        "type": "string"
-                                    }
-                                },
-                                "required": [
-                                    "@id"
-                                ]
+                                "$ref": "#/$defs/ObjectReference"
                             }
                         }
                     ]
@@ -303,30 +285,12 @@
                     "description": "Concept scheme(s) for which this is a top concept.",
                     "anyOf": [
                         {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "properties": {
-                                "@id": {
-                                    "type": "string"
-                                }
-                            },
-                            "required": [
-                                "@id"
-                            ]
+                            "$ref": "#/$defs/ObjectReference"
                         },
                         {
                             "type": "array",
                             "items": {
-                                "type": "object",
-                                "additionalProperties": false,
-                                "properties": {
-                                    "@id": {
-                                        "type": "string"
-                                    }
-                                },
-                                "required": [
-                                    "@id"
-                                ]
+                                "$ref": "#/$defs/ObjectReference"
                             }
                         }
                     ]
@@ -337,18 +301,7 @@
                     "items": {
                         "anyOf": [
                             {
-                                "type": "object",
-                                "additionalProperties": false,
-                                "description": "A reference to a SKOS Concept by URI.",
-                                "properties": {
-                                    "@id": {
-                                        "type": "string",
-                                        "description": "URI of the referenced concept."
-                                    }
-                                },
-                                "required": [
-                                    "@id"
-                                ]
+                                "$ref": "#/$defs/ObjectReference"
                             },
                             {
                                 "$ref": "#/$defs/Concept"
@@ -362,18 +315,7 @@
                     "items": {
                         "anyOf": [
                             {
-                                "type": "object",
-                                "additionalProperties": false,
-                                "description": "A reference to a SKOS Concept by URI.",
-                                "properties": {
-                                    "@id": {
-                                        "type": "string",
-                                        "description": "URI of the referenced concept."
-                                    }
-                                },
-                                "required": [
-                                    "@id"
-                                ]
+                                "$ref": "#/$defs/ObjectReference"
                             },
                             {
                                 "$ref": "#/$defs/Concept"
@@ -409,16 +351,7 @@
                             "type": "string"
                         },
                         {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "required": [
-                                "@id"
-                            ],
-                            "properties": {
-                                "@id": {
-                                    "type": "string"
-                                }
-                            }
+                            "$ref": "#/$defs/ObjectReference"
                         }
                     ],
                     "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability. URI-shape values MUST be serialized as JSON-LD IRI references ({\"@id\":\"...\"}) so they participate in RDF entailment; free-label strings remain valid as strings."
@@ -472,6 +405,21 @@
                 "@value",
                 "@language"
             ]
+        },
+        "ObjectReference": {
+            "title": "Object Reference",
+            "description": "A reference to a node defined elsewhere, by its @id.",
+            "type": "object",
+            "properties": {
+                "@id": {
+                    "type": "string",
+                    "description": "resolvable @id of the referenced node"
+                }
+            },
+            "required": [
+                "@id"
+            ],
+            "additionalProperties": false
         },
         "Person": {
             "description": "schema for cdif profile of schema.org/Person",
@@ -586,16 +534,7 @@
                                         "type": "string"
                                     },
                                     {
-                                        "type": "object",
-                                        "required": [
-                                            "@id"
-                                        ],
-                                        "additionalProperties": false,
-                                        "properties": {
-                                            "@id": {
-                                                "type": "string"
-                                            }
-                                        }
+                                        "$ref": "#/$defs/ObjectReference"
                                     }
                                 ]
                             }
@@ -673,16 +612,7 @@
                                 "type": "string"
                             },
                             {
-                                "type": "object",
-                                "required": [
-                                    "@id"
-                                ],
-                                "additionalProperties": false,
-                                "properties": {
-                                    "@id": {
-                                        "type": "string"
-                                    }
-                                }
+                                "$ref": "#/$defs/ObjectReference"
                             }
                         ]
                     }
@@ -782,19 +712,7 @@
                     "description": "The related resource -- the DCAT canonical pointer to what is being related to, which is distinct from schema:url, the presentation URL of the link itself.\nAn @id reference is the RECOMMENDED form and a string is permitted, which is DCMI's own position: \"Recommended practice is to identify the related resource by means of a URI. If this is not possible or feasible, a string conforming to a formal identification system may be provided.\" DCMI declares no rdfs:range for this property, and of the 13 DCMI properties carrying an \"intended to be used with non-literal values\" restriction, this is deliberately not one. dcat.ttl does not re-declare or constrain it at all -- the only triple mentioning it in the whole DCAT vocabulary is `dcat:distribution rdfs:subPropertyOf dcterms:relation`.\nSo objectReference-only would be stricter than both DCAT and DCMI and would reject a form the specification sanctions. The anyOf matches how schema:additionalType is handled here: both forms valid, the object form used in examples and required only where a `contains` pins a specific value.\nIt was string-only until 2026-10-01, which rejected the @id form outright. Reported from outside by a PSDI validator taking a things-not-strings approach (profile-core#16): their DCAT catalogue mirrors the DCAT-3 spec examples and wrote {\"@id\": ...}, which failed both layers -- while CDIF's own documented URI serialization policy (agents.md) says URI values SHOULD be {\"@id\": ...}. The register required the one form its own policy argues against.",
                     "anyOf": [
                         {
-                            "title": "Object Reference",
-                            "description": "A reference to a node defined elsewhere, by its @id.",
-                            "type": "object",
-                            "properties": {
-                                "@id": {
-                                    "type": "string",
-                                    "description": "resolvable @id of the referenced node"
-                                }
-                            },
-                            "required": [
-                                "@id"
-                            ],
-                            "additionalProperties": false
+                            "$ref": "#/$defs/ObjectReference"
                         },
                         {
                             "type": "string",
@@ -839,19 +757,8 @@
                     "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
                     "anyOf": [
                         {
-                            "title": "Object Reference",
-                            "description": "reference to a skos concept for the data type",
-                            "type": "object",
-                            "properties": {
-                                "@id": {
-                                    "type": "string",
-                                    "description": "resolvable @id of the referenced node"
-                                }
-                            },
-                            "required": [
-                                "@id"
-                            ],
-                            "additionalProperties": false
+                            "$ref": "#/$defs/ObjectReference",
+                            "description": "reference to a skos concept for the data type"
                         },
                         {
                             "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) — plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
@@ -888,16 +795,7 @@
                                             "type": "string"
                                         },
                                         {
-                                            "type": "object",
-                                            "required": [
-                                                "@id"
-                                            ],
-                                            "additionalProperties": false,
-                                            "properties": {
-                                                "@id": {
-                                                    "type": "string"
-                                                }
-                                            }
+                                            "$ref": "#/$defs/ObjectReference"
                                         }
                                     ]
                                 },
