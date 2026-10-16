@@ -130,27 +130,51 @@ stage-1 engine cannot express, which is why they get a second pass
 
 ### Ties are honest, and reported — not resolved
 
-Some technique variants genuinely cannot be separated by content. The ICP-MS
-Mc/Q/Sf variants (`laMcicpms` / `laQicpms` / `laSficpms`, etc.) all carry the
-same `ada:componentType`; `componentType` does not discriminate them, so a
-`priority` order would pick a favourite and be **wrong two times in three**. For
-those, give the group members **equal `priority`**: the engine then reports a
-**declared tie** (`result.ties`) and declares none of them, which is the honest
-answer ("one of these three; the content can't say which"). Breaking the tie
-needs a *different* presence signal (instrument, or a declared
-`measurementTechnique`), expressed as a narrower `presence` ASK — not a guessed
-ranking.
+Some technique variants genuinely cannot be separated by `componentType` — and,
+per a 2026-10 domain decision (Steve), **never will be**. There is **one
+`componentType` per product kind, permanently**: the Mc/Q/Sf difference is
+*procedure-side* (it lives in the `tapp/` and `detail/` metadata — 128 shared
+items, MC unique in 15 — and never reaches the file), so `componentType`, which
+classifies the file, is correctly one each. A future proposal to mint
+`ada:LAICPMSMap.mc` / `.q` / `.sf` should be **refused on this basis, not
+re-measured**. The variant identity a record *can* carry is the **TAPP reference**
+(`prov:used` → a TAPP definition naming `laMcicpmsTAPP` etc.) — the axis Mc/Q/Sf
+actually lives on.
+
+So the LA- and Solution-ICP-MS families (`laMcicpms` / `laQicpms` / `laSficpms`,
+and the U-Pb and solution analogues) share one `componentType`; a `priority`
+order would pick a favourite and be **wrong two times in three**. Give those
+group members **equal `priority`**: the engine reports a **declared tie**
+(`result.ties`) and declares none of them — the honest answer ("one of these
+three; the content can't say which"). The tie is not a defect in the vocabulary
+that better modelling removes; it is the correct result of `componentType` not
+carrying instrument-variant information, by design.
+
+**A tie is not a failure.** It does not fail the CLI by default (only `withheld`
+requires/validity failures do; `--strict-ties` opts in). This matters for
+sequencing: **no record carries a TAPP reference yet** (0 of 7,447), so the
+discriminating signal does not exist in the corpus — those families will tie for
+every matching record, and that is *correct behaviour*, not a gap. If and when a
+record carries a TAPP reference, a `presence` ASK that tests it (via `prov:used`)
+makes exactly one member's presence hold and the tie resolves **through
+presence** — no engine or `priority` change. Breaking a tie is always a narrower
+presence signal, never a guessed ranking.
 
 ### Authoring the `presence` ASK for a technique profile
 
 The ASK must test only the componentTypes that **discriminate** this profile.
-Generic componentTypes shared across unrelated techniques (`report`,
-`quickLook`, `analysisLocation`, `contextPhotography`, …) must be **left out of
-the ASK**, not ranked — a presence rule that includes them selects the profile
-for every record. (The resolved profile schema does **not** narrow
-`ada:componentType`, so a presence rule cannot be derived from it; the
-discriminating list comes from the same config the profile's `hasPart` branches
-are generated from.)
+Generic componentTypes shared across unrelated techniques — `ada:analysisLocation`
+(393 records), `ada:report` (210), `ada:contextPhotography` (54), `ada:quickLook`
+(47) — must be **left out of the ASK**, not ranked: a presence rule that includes
+them selects the profile for every record. Excluding them loses nothing, because
+every record carrying one already names its real technique in
+`schema:measurementTechnique`. (The resolved profile schema does **not** narrow
+`ada:componentType` — it inlines the universal ~238-type enum, so every profile
+admits everything — so a presence rule **cannot** be derived from it; the
+discriminating list comes from `build_tapp.TAPP_CONFIGS[<tapp>]["component_types"]`,
+the same config the profile's `hasPart` branches are generated from. The honest
+guarantee is "selection comes from the same config the profile is generated
+from," not "backed by a validation narrowing.")
 
 ### Failures are reported, never hidden
 
