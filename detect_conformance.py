@@ -623,6 +623,58 @@ def detect_domain_conformance(doc, prior_uris, bb_dir, manage_prefix=GEOCHEM_BAS
     return result
 
 
+# Stage-2 technique profiles classify a record by its file componentType. gBB
+# confirmed (2026-10-16): the property is this IRI (ada: => ada.astromat.org),
+# and its VALUES are plain string LITERALS like "ada:SEMImageMap" (no @type
+# coercion in the context), NOT IRIs.
+COMPONENT_TYPE_PROPERTY = "https://ada.astromat.org/metadata/componentType"
+
+
+def _sparql_str_literal(s):
+    """Render a Python str as a SPARQL double-quoted string literal."""
+    esc = (s.replace("\\", "\\\\").replace('"', '\\"')
+            .replace("\n", "\\n").replace("\r", "\\r").replace("\t", "\\t"))
+    return f'"{esc}"'
+
+
+def build_component_presence_ask(component_type_values,
+                                 property_iri=COMPONENT_TYPE_PROPERTY):
+    """Build a stage-2 technique-profile ``presence`` ASK from its DISCRIMINATING
+    componentType values, so the generator passes a list and never hand-writes
+    SPARQL. Returns the ASK string to store as the sidecar's ``presence``.
+
+    Encodes two facts gBB confirmed (2026-10-16), each a known failure mode:
+
+    * **Literal, not IRI.** componentType values are plain string literals
+      (``"ada:componentType": "ada:SEMImageMap"``) — no ``@type`` coercion in the
+      context — so the ASK matches a *literal*. Matching an IRI-valued property as
+      a literal (or the reverse) is what made 35 gBB SHACL shapes select zero
+      focus nodes (gBB PR #141); this avoids it.
+    * **Path-agnostic.** componentType has two legal homes: on a bundle's
+      ``schema:hasPart`` member, or on a monolithic single-file
+      ``schema:distribution`` itself (gBB #136). A ``hasPart``-pinned ASK would
+      silently miss the monolithic form by reporting "not present". The marker is
+      therefore "the record carries componentType in {values}" at *any* path —
+      measured to occur nowhere spurious (21,974 occurrences, all under
+      distribution/hasPart, zero elsewhere).
+
+    ``component_type_values`` is the discriminating list (from
+    ``build_tapp.TAPP_CONFIGS[<tapp>]["component_types"]``) with the generic
+    shared types (analysisLocation/report/contextPhotography/quickLook) already
+    excluded. The ASK uses a full-IRI predicate and literal values, so it needs no
+    prefixes beyond the engine's standard preamble. To break an ICP-MS family tie
+    once records carry a TAPP reference, narrow the returned ASK with a
+    ``prov:used`` clause for that reference — not covered here until the TAPP
+    reference shape exists."""
+    if not component_type_values:
+        raise ValueError("component_type_values must be a non-empty list")
+    values = " ".join(_sparql_str_literal(v) for v in component_type_values)
+    return (f"ASK {{\n"
+            f"  ?node <{property_iri}> ?ct .\n"
+            f"  VALUES ?ct {{ {values} }}\n"
+            f"}}")
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__,
                                 formatter_class=argparse.RawDescriptionHelpFormatter)

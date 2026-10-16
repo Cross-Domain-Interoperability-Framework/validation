@@ -280,5 +280,68 @@ class ApplyConformanceTest(_DomainBase):
         self.assertEqual(after[-1], G)
 
 
+class PresenceBuilderTest(unittest.TestCase):
+    ADA_NS = "https://ada.astromat.org/metadata/"
+
+    def _ctx(self):
+        return {"schema": "http://schema.org/", "ada": self.ADA_NS}
+
+    def _matches(self, doc, ask):
+        g = dc._to_graph(doc)
+        return bool(g.query(dc.PREFIXES + ask).askAnswer)
+
+    def test_property_iri_and_structure(self):
+        ask = dc.build_component_presence_ask(["ada:SEMImageMap"])
+        self.assertIn("<https://ada.astromat.org/metadata/componentType>", ask)
+        self.assertIn('"ada:SEMImageMap"', ask)   # a STRING literal, not <IRI>
+        self.assertNotIn("<ada:SEMImageMap>", ask)
+
+    def test_matches_literal_value_under_haspart(self):
+        ask = dc.build_component_presence_ask(["ada:SEMImageMap", "ada:SEMImageTabular"])
+        doc = {"@context": self._ctx(), "@id": "https://ex/r",
+               "@type": ["schema:Dataset"],
+               "schema:distribution": [{"@id": "https://ex/d",
+                   "@type": ["schema:DataDownload", "schema:Collection"],
+                   "schema:hasPart": [{"@id": "https://ex/c",
+                       "ada:componentType": "ada:SEMImageMap"}]}]}
+        self.assertTrue(self._matches(doc, ask))
+
+    def test_path_agnostic_matches_on_monolithic_distribution(self):
+        # componentType on the distribution itself (no hasPart) — gBB #136.
+        ask = dc.build_component_presence_ask(["ada:SEMImageMap"])
+        doc = {"@context": self._ctx(), "@id": "https://ex/r",
+               "@type": ["schema:Dataset"],
+               "schema:distribution": [{"@id": "https://ex/d",
+                   "@type": ["schema:DataDownload"],
+                   "ada:componentType": "ada:SEMImageMap"}]}
+        self.assertTrue(self._matches(doc, ask))
+
+    def test_no_match_on_other_value(self):
+        ask = dc.build_component_presence_ask(["ada:SEMImageMap"])
+        doc = {"@context": self._ctx(), "@id": "https://ex/r",
+               "@type": ["schema:Dataset"],
+               "schema:distribution": [{"@id": "https://ex/d",
+                   "ada:componentType": "ada:XRFTabular"}]}
+        self.assertFalse(self._matches(doc, ask))
+
+    def test_literal_discipline_iri_value_does_not_match(self):
+        # If componentType were (wrongly) an @id node, the literal ASK must NOT
+        # match — the PR#141 failure mode, guarded.
+        ask = dc.build_component_presence_ask(["ada:SEMImageMap"])
+        doc = {"@context": self._ctx(), "@id": "https://ex/r",
+               "@type": ["schema:Dataset"],
+               "schema:distribution": [{"@id": "https://ex/d",
+                   "ada:componentType": {"@id": "ada:SEMImageMap"}}]}
+        self.assertFalse(self._matches(doc, ask))
+
+    def test_empty_list_raises(self):
+        with self.assertRaises(ValueError):
+            dc.build_component_presence_ask([])
+
+    def test_special_characters_are_escaped(self):
+        ask = dc.build_component_presence_ask(['ada:weird"name'])
+        self.assertIn(r'"ada:weird\"name"', ask)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
