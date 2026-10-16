@@ -160,6 +160,13 @@ makes exactly one member's presence hold and the tie resolves **through
 presence** — no engine or `priority` change. Breaking a tie is always a narrower
 presence signal, never a guessed ranking.
 
+**Nothing about these families is revisited at migration.** Their `conformsTo`,
+`requires`, `exclusiveGroup` and `priority` are fixed; the profile set, the groups
+and the rankings do not change when TAPP references appear. The *only* thing that
+changes is each member's `presence` ASK getting narrower, and that is a
+regeneration of one field from the same config — not a redesign. A family member's
+sidecar is written once and left alone.
+
 ### Authoring the `presence` ASK for a technique profile
 
 The ASK must test only the componentTypes that **discriminate** this profile.
