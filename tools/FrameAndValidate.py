@@ -1017,7 +1017,11 @@ def _load_detect_conformance():
                 sys.path.insert(0, str(c))
             break
     try:
-        from detect_conformance import detect_conformance, apply_conformance
+        from detect_conformance import apply_conformance
+        try:  # new name (stage-1 engine); fall back to the deprecated alias
+            from detect_conformance import detect_cdif_conformance as detect_conformance
+        except ImportError:
+            from detect_conformance import detect_conformance
         return detect_conformance, apply_conformance
     except Exception:
         return None, None

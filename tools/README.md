@@ -29,7 +29,9 @@ the framed result, which silently narrowed what it wrote: framing drops evidence
 below `schema:distribution`, so `exampleCDIFDataStructureMinimal.json` was
 written `[core, discovery, data_description]` when its content supports
 `data_structure/1.1` as well. Because this flag *persists* its answer, that loss
-went into the output file rather than merely being reported. The import of `detect_conformance` is
+went into the output file rather than merely being reported. The import of the
+detection function (`detect_cdif_conformance`, formerly `detect_conformance` —
+which is kept as a deprecated alias, so this import still works either way) is
 best-effort: it works in the validation repo (which ships it and can reach the
 building-block SHACL gates) and is a no-op in a release repo that doesn't have it.
 

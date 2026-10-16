@@ -1,21 +1,21 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://w3id.org/cdif/schema/conformance-declaration/0.1",
+  "$id": "https://w3id.org/cdif/schema/conformance-declaration/0.2",
   "title": "CDIF building-block conformance declaration",
-  "description": "Schema for a building block's conformance.json sidecar: how detect_conformance decides whether a record should declare this block's conformance class. See docs/CDIF-Conformance-Declaration-Convention.md.",
+  "description": "Schema for a building block's conformance.json sidecar: how detect_conformance decides whether a record should declare this block's conformance class. 0.2 is a backward-compatible superset of 0.1 — it adds the optional stage-2 fields (requires, exclusiveGroup, priority) used by domain profiles (geochem/ADA/technique); a 0.1 sidecar (CDIF modules) is a valid 0.2 sidecar. See docs/CDIF-Conformance-Declaration-Convention.md.",
   "type": "object",
   "required": ["conformsTo", "presence"],
   "additionalProperties": false,
   "properties": {
     "$schema": {
       "type": "string",
-      "description": "This declaration schema's identifier."
+      "description": "This declaration schema's identifier (0.1 or 0.2)."
     },
     "conformsTo": {
       "type": "string",
       "format": "uri",
-      "description": "The canonical CDIF profile URI this building block defines (the value written into schema:subjectOf/dcterms:conformsTo when declared). Version aliasing (1.0/1.1) is handled by the resolver map, not here.",
-      "examples": ["https://w3id.org/cdif/provenance/1.1"]
+      "description": "The canonical profile URI this building block defines (the value written into schema:subjectOf/dcterms:conformsTo when declared). Version aliasing (1.0/1.1) is handled by the resolver map, not here.",
+      "examples": ["https://w3id.org/cdif/provenance/1.1", "https://w3id.org/geochem/metadata/profiles/geochemProduct/1.0"]
     },
     "title": {
       "type": "string",
@@ -27,15 +27,30 @@
     },
     "presence": {
       "type": "string",
-      "description": "A SPARQL ASK query (evaluated on the record's RDF graph) that is true iff the record uses the elements this class introduces BEYOND its base. The standard CDIF prefix preamble (schema, prov, cdi, cdif, dcterms, dcat, rdf) is prepended automatically, so the ASK body may use those prefixes without redeclaring them.",
+      "description": "A SPARQL ASK query (evaluated on the record's RDF graph) that is true iff the record uses the elements this class introduces BEYOND its base. The standard CDIF prefix preamble (schema, prov, cdi, cdif, dcterms, dcat, rdf) is prepended automatically, so the ASK body may use those prefixes without redeclaring them. For a technique profile this should test only the componentTypes that DISCRIMINATE this profile — generic componentTypes shared across unrelated techniques (e.g. report, quickLook, analysisLocation) must be left out of the ASK, not ranked.",
       "examples": [
         "ASK { ?d prov:wasGeneratedBy ?a . ?a a prov:Activity, schema:Action ; ?p ?o . FILTER (?p NOT IN (rdf:type, prov:used)) }"
       ]
     },
     "validityShapes": {
       "type": ["string", "null"],
-      "description": "Path (relative to the _sources root) to this class's CONTENT SHACL shapes, used as the validity gate: the class is declared only if these shapes raise no sh:Violation on the record (sh:Warning / sh:Info are advisory and never block). Use the building-block content shapes (cdifDataType/<block>/rules.shacl), NOT the profile rules.shacl, which are circular for this purpose. null => presence-only (structural validity is the JSON Schema's job).",
+      "description": "Path (relative to the _sources root) to this class's CONTENT SHACL shapes, used as the validity gate: the class is declared only if these shapes raise no sh:Violation on the record (sh:Warning / sh:Info are advisory and never block). Use the building-block content shapes (cdifDataType/<block>/rules.shacl), NOT the profile rules.shacl, which are circular for this purpose (they select records that already DECLARE the profile). null => presence-only (structural validity is the JSON Schema's job).",
       "examples": ["cdifDataType/cdifProvActivity/rules.shacl", null]
+    },
+    "requires": {
+      "type": "array",
+      "items": {"type": "string", "format": "uri"},
+      "description": "Stage-2 only. conformsTo URIs that must ALREADY be declared — by stage 1 (a CDIF module) or by an earlier stage-2 class — before this class is eligible. A class whose presence holds but whose requires are not satisfied is WITHHELD with a reason, never silently dropped. Example: geochemProduct requires the five CDIF modules; adaProduct requires geochemProduct; a technique profile requires adaProduct.",
+      "examples": [["https://w3id.org/cdif/core/1.1", "https://w3id.org/cdif/discovery/1.1"]]
+    },
+    "exclusiveGroup": {
+      "type": "string",
+      "description": "Stage-2 only. Classes sharing a group name are mutually exclusive alternatives (e.g. the technique profiles). Among the group members whose presence holds and whose requires are satisfied, the single highest `priority` is declared. Omit for independent classes."
+    },
+    "priority": {
+      "type": "number",
+      "description": "Stage-2 only, within an exclusiveGroup. Higher wins (most specific). When the top priority is shared by more than one applicable member the result is a DECLARED TIE: reported as ambiguous and none declared, never resolved by guessing. Use EQUAL priority to declare an honest tie for variants the content genuinely cannot separate (e.g. ICP-MS Mc/Q/Sf). Default 0.",
+      "default": 0
     }
   }
 }

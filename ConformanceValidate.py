@@ -654,7 +654,11 @@ def conformance_consistency(doc, declared):
     and apply_conformance preserves it.
     """
     try:
-        from detect_conformance import detect_conformance, CONFORMANCE_CLASSES
+        from detect_conformance import CONFORMANCE_CLASSES
+        try:  # new name (stage-1 engine); fall back to the deprecated alias
+            from detect_conformance import detect_cdif_conformance as detect_conformance
+        except ImportError:
+            from detect_conformance import detect_conformance
     except Exception:
         return None
     try:

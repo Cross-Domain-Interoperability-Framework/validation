@@ -38,14 +38,23 @@ Each **profile** building block (`_sources/profiles/cdifProfile/<name>/`) carrie
 metaschema validation or tooling.
 
 Fields (full schema: [`conformance-declaration.schema.json`](./conformance-declaration.schema.json),
-canonical id `https://w3id.org/cdif/schema/conformance-declaration/0.1`):
+canonical id `https://w3id.org/cdif/schema/conformance-declaration/0.2` — a
+backward-compatible superset of `0.1`; a stage-1 CDIF-module sidecar that still
+declares `0.1` is a valid `0.2` sidecar):
 
-| field | required | meaning |
-|-------|----------|---------|
-| `conformsTo` | yes | Canonical CDIF profile URI written into `dcterms:conformsTo` when declared. Version aliasing (1.0/1.1) is the resolver map's job, not this file's. |
-| `presence` | yes | SPARQL `ASK` true iff the record uses what this class adds beyond its base. The standard prefix preamble (`schema`, `prov`, `cdi`, `cdif`, `dcterms`, `dcat`, `rdf`) is prepended automatically. |
-| `validityShapes` | no | Path **relative to the `_sources` root** to the class's **content** SHACL (`cdifDataType/<block>/rules.shacl`), used as the validity gate. `null`/omitted ⇒ presence-only. |
-| `title`, `description` | no | Documentation. |
+| field | required | stage | meaning |
+|-------|----------|-------|---------|
+| `conformsTo` | yes | 1 & 2 | Canonical profile URI written into `dcterms:conformsTo` when declared. Version aliasing (1.0/1.1) is the resolver map's job, not this file's. |
+| `presence` | yes | 1 & 2 | SPARQL `ASK` true iff the record uses what this class adds beyond its base. The standard prefix preamble (`schema`, `prov`, `cdi`, `cdif`, `dcterms`, `dcat`, `rdf`) is prepended automatically. |
+| `validityShapes` | no | 1 & 2 | Path **relative to the `_sources` root** to the class's **content** SHACL (`cdifDataType/<block>/rules.shacl`), used as the validity gate. `null`/omitted ⇒ presence-only. |
+| `requires` | no | 2 | Array of `conformsTo` URIs that must **already** be declared (by stage 1 or an earlier stage-2 class) before this class is eligible. |
+| `exclusiveGroup` | no | 2 | Classes sharing a group name are mutually exclusive alternatives (the technique profiles). |
+| `priority` | no | 2 | Within an `exclusiveGroup`, higher wins (most specific). **Equal top priority is a declared tie** — reported, not resolved. Default 0. |
+| `title`, `description` | no | 1 & 2 | Documentation. |
+
+The `requires` / `exclusiveGroup` / `priority` fields are the **stage-2** additions
+(0.2); stage 1 (the CDIF modules) never reads them. See
+[Stage 2 — domain profiles](#stage-2--domain-profiles) below.
 
 ### Example — `cdifProvenance/conformance.json`
 
@@ -72,18 +81,24 @@ must therefore point at the building-block **content** shapes
 ## How `detect_conformance` consumes it
 
 ```python
-from detect_conformance import detect_conformance, apply_conformance, load_bb_conformance
+from detect_conformance import detect_cdif_conformance, apply_conformance, load_bb_conformance
 
-uris = detect_conformance(doc, use_bb_source=True)   # read BB conformance.json sidecars
-apply_conformance(doc, uris)                          # write dcterms:conformsTo (in place)
+uris = detect_cdif_conformance(doc, use_bb_source=True)  # read BB conformance.json sidecars
+apply_conformance(doc, uris)                             # write dcterms:conformsTo (in place)
 ```
 
+> The function was renamed `detect_conformance` → **`detect_cdif_conformance`**
+> (stage 1). `detect_conformance` remains as a **deprecated alias** so existing
+> callers (the converters, `ConformanceValidate.py`, `tools/FrameAndValidate.py`)
+> keep working.
+
 `load_bb_conformance(bb_dir)` globs `**/conformance.json` under the `_sources`
-tree and returns entries in the same `{uri, presence, shacl}` shape as the
-in-file `CONFORMANCE_CLASSES` registry, so the engine consumes either source
-identically. `apply_conformance` reconciles only the CDIF-managed profile space
-(URIs under `https://w3id.org/cdif/`) and **preserves** any domain profile already
-present (e.g. `ada:profile/adaNGNSMS`).
+tree and returns entries in the same `{uri, presence, shacl, requires,
+exclusiveGroup, priority}` shape as the in-file `CONFORMANCE_CLASSES` registry, so
+the engine consumes either source identically (stage 1 ignores the stage-2
+fields). `apply_conformance` reconciles only the profile space under its
+`manage_prefix` (stage 1: `https://w3id.org/cdif/`) and **preserves** any claim
+outside it (e.g. `ada:profile/adaNGNSMS`).
 
 CLI / env:
 
@@ -91,6 +106,92 @@ CLI / env:
 python detect_conformance.py record.jsonld --from-source     # read sidecars
 CDIF_CONFORMANCE_FROM_SOURCE=1 python detect_conformance.py record.jsonld
 ```
+
+## Stage 2 — domain profiles
+
+Stage 1 answers "which CDIF modules?" — six independent yes/no classes. **Domain
+profiles** (geochem / ADA / technique) are different in three ways that the
+stage-1 engine cannot express, which is why they get a second pass
+(`detect_domain_conformance(doc, prior_uris, bb_dir, manage_prefix=…)`):
+
+1. **They depend on each other.** `geochemProduct` needs the five CDIF modules;
+   `adaProduct` needs `geochemProduct`; a technique profile needs `adaProduct`.
+   So stage 2 takes stage 1's result as input (`prior_uris`) and resolves the
+   `requires` chain to a fixpoint — a class is eligible only once every URI in
+   its `requires` is already declared.
+2. **They live in a different `_sources` tree** (`geochemBuildingBlocks`, not
+   `metadataBuildingBlocks`) and **manage a different namespace**
+   (`https://w3id.org/geochem/metadata/profiles/`). `apply_conformance(…,
+   manage_prefix=GEOCHEM_BASE, append=True)` writes the domain URIs while leaving
+   the stage-1 CDIF entries (and everything else) untouched, CDIF first.
+3. **Technique profiles are a choice, not a set.** They share an
+   `exclusiveGroup`; among the members whose presence holds and whose `requires`
+   are met, the single highest `priority` (most specific) is declared.
+
+### Ties are honest, and reported — not resolved
+
+Some technique variants genuinely cannot be separated by content. The ICP-MS
+Mc/Q/Sf variants (`laMcicpms` / `laQicpms` / `laSficpms`, etc.) all carry the
+same `ada:componentType`; `componentType` does not discriminate them, so a
+`priority` order would pick a favourite and be **wrong two times in three**. For
+those, give the group members **equal `priority`**: the engine then reports a
+**declared tie** (`result.ties`) and declares none of them, which is the honest
+answer ("one of these three; the content can't say which"). Breaking the tie
+needs a *different* presence signal (instrument, or a declared
+`measurementTechnique`), expressed as a narrower `presence` ASK — not a guessed
+ranking.
+
+### Authoring the `presence` ASK for a technique profile
+
+The ASK must test only the componentTypes that **discriminate** this profile.
+Generic componentTypes shared across unrelated techniques (`report`,
+`quickLook`, `analysisLocation`, `contextPhotography`, …) must be **left out of
+the ASK**, not ranked — a presence rule that includes them selects the profile
+for every record. (The resolved profile schema does **not** narrow
+`ada:componentType`, so a presence rule cannot be derived from it; the
+discriminating list comes from the same config the profile's `hasPart` branches
+are generated from.)
+
+### Failures are reported, never hidden
+
+`detect_domain_conformance` returns a `DomainConformanceResult`:
+
+| field | meaning |
+|-------|---------|
+| `declared` | domain URIs declared, in resolution order |
+| `withheld` | classes whose **presence held but that were not declared** — `{uri, reason, detail}`, reason `"unsatisfied requires"` or `"validity gate failed"`. **A failure.** |
+| `ties` | `{group, priority, candidates}` — ambiguous, not a failure |
+| `.ok` | nothing withheld | 
+| `.clean` | nothing withheld **and** no ties |
+
+Withholding a class whose presence held is a real failure: *detect-then-validate*
+must never silently declare less than presence says applies — otherwise validation
+always "passes". The CLI (`--domain-bb-dir`) **exits non-zero** when anything is
+withheld; a tie fails only under `--strict-ties`.
+
+```python
+from detect_conformance import (detect_cdif_conformance,
+                                 detect_domain_conformance, apply_conformance,
+                                 GEOCHEM_BASE)
+
+cdif = detect_cdif_conformance(doc, use_bb_source=True)
+dom  = detect_domain_conformance(doc, cdif, bb_dir=GEOCHEM_SOURCES)
+apply_conformance(doc, cdif)                                   # CDIF modules
+apply_conformance(doc, dom.declared, manage_prefix=GEOCHEM_BASE, append=True)
+if not dom.ok:        # something withheld -> surface it, don't ship a silent pass
+    ...
+```
+
+```bash
+python detect_conformance.py record.jsonld --domain-bb-dir /path/to/geochemBuildingBlocks/_sources
+```
+
+> **Do not** point `validityShapes` at a profile `rules.shacl`. Those select
+> records by the `conformsTo` they already declare (circular), and — as of
+> 2026-10 — the geochem profile shapes were additionally *inert*, matching
+> `schema:additionalType "dcat:CatalogRecord"` as a string literal while records
+> carry the IRI, so they selected zero focus nodes. The validity gate must be a
+> **content** shape that tests the data.
 
 ## Migration status
 
