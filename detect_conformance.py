@@ -284,9 +284,32 @@ class _ShapesResolver:
 
 
 def _to_graph(doc):
-    """Parse a CDIF JSON-LD dict into an rdflib Graph (expanded triples)."""
+    """Parse a CDIF JSON-LD dict into an rdflib Graph (expanded triples).
+
+    Fails LOUDLY if JSON-LD parsing is unavailable or yields nothing from a
+    non-empty document: otherwise an empty graph makes every presence ASK false
+    and detection silently reports zero conformance — indistinguishable from a
+    record that genuinely conforms to nothing."""
     g = rdflib.Graph()
-    g.parse(data=json.dumps(doc), format="json-ld")
+    try:
+        g.parse(data=json.dumps(doc), format="json-ld")
+    except Exception as e:  # missing/!registered json-ld parser, bad context, ...
+        raise RuntimeError(
+            f"rdflib could not parse the document as JSON-LD "
+            f"({type(e).__name__}: {e}). Ensure JSON-LD support is active "
+            f"(rdflib>=6 has it built in; older rdflib needs the rdflib-jsonld "
+            f"plugin). rdflib in use: {rdflib.__version__}.") from e
+    # A real CDIF record (more than a bare @context) always yields triples. An
+    # empty graph here means the parser did not run, not that the record is empty.
+    substantive = isinstance(doc, dict) and (
+        doc.get("@graph") or [k for k in doc if k != "@context"])
+    if len(g) == 0 and substantive:
+        raise RuntimeError(
+            "JSON-LD parsed to an EMPTY graph from a non-empty document, so "
+            "conformance detection would wrongly report nothing. rdflib's "
+            "JSON-LD parser is likely not active here "
+            f"(rdflib {rdflib.__version__}); verify format='json-ld' parses a "
+            "known-good CDIF record to a non-empty graph.")
     return g
 
 
