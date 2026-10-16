@@ -128,6 +128,39 @@ stage-1 engine cannot express, which is why they get a second pass
    `exclusiveGroup`; among the members whose presence holds and whose `requires`
    are met, the single highest `priority` (most specific) is declared.
 
+### Deriving `requires` from the schema (not hand-listing)
+
+`requires` is **derived from the profile's own schema composition**, never
+hand-enumerated — hand-listing a contract the schema already states is how the
+two sides drift. The rule:
+
+> A profile's `requires` = the module URIs of the CDIF profiles its schema
+> composes **unconditionally** in `allOf`. A **conditional** (`if/then`)
+> composition is **not** a flat require — stage 1 declares that module on its own
+> when its trigger content appears. A nested `$defs` `$ref` (using another block's
+> shape for one node) is **not** an inherited profile.
+
+Worked example — `geochemProduct/schema.yaml` composes, unconditionally,
+`cdifCore` + `cdifDataDescription` + `cdifProvenance` (and `cdifManifest` only
+`if` a distribution is a `schema:Collection` bundle). So:
+
+```
+requires = [
+  https://w3id.org/cdif/core/1.1,
+  https://w3id.org/cdif/discovery/1.1,          # entailed by data_description
+  https://w3id.org/cdif/data_description/1.1,
+  https://w3id.org/cdif/provenance/1.1
+]
+```
+
+`manifest/1.1` is **excluded** (conditional — a single-file product never carries
+it, and `requires` cannot say "only if bundle"; a bundle still gets `manifest/1.1`
+from stage 1 on its own). `data_structure/1.1` is **excluded** (not composed — it
+appears only as a nested `$defs` ref for an optional DataStructure node). Down the
+chain each profile derives from its own `allOf`: `adaProduct.requires =
+[geochemProduct]`, `technique.requires = [adaProduct]`; the CDIF modules are gated
+transitively through geochemProduct. Confirmed with Steve 2026-10-16.
+
 ### Ties are honest, and reported — not resolved
 
 Some technique variants genuinely cannot be separated by `componentType` — and,
