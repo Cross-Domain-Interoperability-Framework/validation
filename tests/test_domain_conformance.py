@@ -218,6 +218,57 @@ class TieTest(_DomainBase):
         self.assertFalse(r.clean)      # not clean (a tie was reported)
 
 
+class UmbrellaMemberTest(_DomainBase):
+    """An umbrella profile (superset) and a more specific member. A record
+    satisfying the member also satisfies the umbrella, so detection must return
+    BOTH -- which requires the member to `require` the umbrella AND the umbrella
+    to sit OUTSIDE the members' exclusiveGroup. (The geochem SEM family hit this:
+    adaSEMImaging suppressed adaSEM when they shared a group.)"""
+    UMB = dc.GEOCHEM_BASE + "adaSEM/1.0"
+    MEMBER = dc.GEOCHEM_BASE + "adaSEMImaging/1.0"
+
+    def _base(self):
+        _write_sidecar(self.root, "geochemProduct", conformsTo=G,
+                       presence=_ask("?d a ada:GeochemProduct"),
+                       requires=CDIF_MODULES)
+        _write_sidecar(self.root, "adaProduct", conformsTo=A,
+                       presence=_ask("?d a ada:AdaProduct"), requires=[G])
+
+    def _doc(self):
+        return _doc(types=["ada:GeochemProduct", "ada:AdaProduct"],
+                    component_types=["ada:TypeAlpha"])
+
+    def test_shared_group_suppresses_umbrella(self):
+        # Member and umbrella in ONE group, member does not require the umbrella:
+        # the member wins on priority and the umbrella is lost (the original bug).
+        self._base()
+        _write_sidecar(self.root, "umb", conformsTo=self.UMB,
+                       presence=_ask("?c ada:componentType ada:TypeAlpha"),
+                       requires=[A], exclusiveGroup="sem", priority=5)
+        _write_sidecar(self.root, "member", conformsTo=self.MEMBER,
+                       presence=_ask("?c ada:componentType ada:TypeAlpha"),
+                       requires=[A], exclusiveGroup="sem", priority=10)
+        r = dc.detect_domain_conformance(self._doc(), CDIF_MODULES,
+                                         bb_dir=self.root, do_shacl=False)
+        self.assertIn(self.MEMBER, r.declared)
+        self.assertNotIn(self.UMB, r.declared)
+
+    def test_separate_group_plus_requires_yields_both(self):
+        # The fix: umbrella in its own group, member requires the umbrella.
+        self._base()
+        _write_sidecar(self.root, "umb", conformsTo=self.UMB,
+                       presence=_ask("?c ada:componentType ada:TypeAlpha"),
+                       requires=[A], exclusiveGroup="sem-umbrella", priority=5)
+        _write_sidecar(self.root, "member", conformsTo=self.MEMBER,
+                       presence=_ask("?c ada:componentType ada:TypeAlpha"),
+                       requires=[A, self.UMB], exclusiveGroup="sem-member",
+                       priority=10)
+        r = dc.detect_domain_conformance(self._doc(), CDIF_MODULES,
+                                         bb_dir=self.root, do_shacl=False)
+        self.assertIn(self.UMB, r.declared)
+        self.assertIn(self.MEMBER, r.declared)
+
+
 @unittest.skipUnless(dc.HAS_PYSHACL, "pyshacl not installed")
 class ValidityGateTest(_DomainBase):
     SHAPES = (
