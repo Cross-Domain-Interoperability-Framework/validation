@@ -253,6 +253,23 @@ class UmbrellaMemberTest(_DomainBase):
         self.assertIn(self.MEMBER, r.declared)
         self.assertNotIn(self.UMB, r.declared)
 
+    def test_shared_group_with_requires_flips_to_umbrella_only(self):
+        # The dangerous middle case: adding `requires` but leaving member and
+        # umbrella in ONE group does NOT yield both -- it flips the single winner
+        # from member to umbrella. A regression into this must fail, since it
+        # looks like a fix.
+        self._base()
+        _write_sidecar(self.root, "umb", conformsTo=self.UMB,
+                       presence=_ask("?c ada:componentType ada:TypeAlpha"),
+                       requires=[A], exclusiveGroup="sem", priority=5)
+        _write_sidecar(self.root, "member", conformsTo=self.MEMBER,
+                       presence=_ask("?c ada:componentType ada:TypeAlpha"),
+                       requires=[A, self.UMB], exclusiveGroup="sem", priority=10)
+        r = dc.detect_domain_conformance(self._doc(), CDIF_MODULES,
+                                         bb_dir=self.root, do_shacl=False)
+        self.assertIn(self.UMB, r.declared)
+        self.assertNotIn(self.MEMBER, r.declared)
+
     def test_separate_group_plus_requires_yields_both(self):
         # The fix: umbrella in its own group, member requires the umbrella.
         self._base()
