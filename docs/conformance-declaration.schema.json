@@ -27,7 +27,7 @@
     },
     "presence": {
       "type": "string",
-      "description": "A SPARQL ASK query (evaluated on the record's RDF graph) that is true iff the record uses the elements this class introduces BEYOND its base. The standard CDIF prefix preamble (schema, prov, cdi, cdif, dcterms, dcat, rdf) is prepended automatically, so the ASK body may use those prefixes without redeclaring them. For a technique profile this should test only the componentTypes that DISCRIMINATE this profile — generic componentTypes shared across unrelated techniques (e.g. report, quickLook, analysisLocation) must be left out of the ASK, not ranked.",
+      "description": "A SPARQL ASK query (evaluated on the record's RDF graph) that is true iff the record uses the elements this class introduces BEYOND its base. The standard CDIF prefix preamble (schema, prov, cdi, cdif, dcterms, dcat, rdf, dqv) is prepended automatically, so the ASK body may use those prefixes without redeclaring them. For a technique profile this should test only the componentTypes that DISCRIMINATE this profile — generic componentTypes shared across unrelated techniques (e.g. report, quickLook, analysisLocation) must be left out of the ASK, not ranked.",
       "examples": [
         "ASK { ?d prov:wasGeneratedBy ?a . ?a a prov:Activity, schema:Action ; ?p ?o . FILTER (?p NOT IN (rdf:type, prov:used)) }"
       ]

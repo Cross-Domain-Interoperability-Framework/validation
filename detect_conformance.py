@@ -91,6 +91,7 @@ PREFIX cdif: <https://w3id.org/cdif/>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX dcat: <http://www.w3.org/ns/dcat#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX dqv: <http://www.w3.org/ns/dqv#>
 """
 
 # Interim registry. Each entry mirrors what would live with the building block
@@ -110,12 +111,20 @@ CONFORMANCE_CLASSES = [
     },
     {
         "uri": "https://w3id.org/cdif/discovery/1.1",
-        # Discovery is the baseline discoverable-dataset profile: any core record
-        # is discovery-conformant (the module adds optional enrichment, no new
-        # requirements). Declared alongside core.
+        # Marked by USE of the enrichment properties cdifDiscovery introduces
+        # beyond core -- measurementTechnique, variableMeasured, spatialCoverage,
+        # temporalCoverage, dqv:hasQualityMeasurement -- not by name+identifier
+        # (which is a core marker and fires for every dataset). schema:subjectOf
+        # is also a cdifDiscovery property but is the catalog-record pointer every
+        # CDIF record carries, so it does not discriminate and is excluded.
         "presence": """ASK {
-            ?d a schema:Dataset ; schema:name ?n ; schema:identifier ?i .
+            ?d a schema:Dataset .
             FILTER NOT EXISTS { ?d schema:additionalType dcat:CatalogRecord }
+            { ?d schema:measurementTechnique ?x } UNION
+            { ?d schema:variableMeasured ?x } UNION
+            { ?d schema:spatialCoverage ?x } UNION
+            { ?d schema:temporalCoverage ?x } UNION
+            { ?d dqv:hasQualityMeasurement ?x }
         }""",
         "shacl": None,  # cdifDiscovery is a thin wrapper (no rules.shacl)
     },

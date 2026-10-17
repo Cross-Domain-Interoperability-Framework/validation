@@ -78,8 +78,17 @@ def _write_sidecar(root, folder, **fields):
 
 
 class StageOneAliasTest(unittest.TestCase):
-    def test_new_name_detects_core_and_discovery(self):
+    def test_bare_record_is_core_not_discovery(self):
+        # Use-based discovery rule: name+identifier alone is core, not discovery.
         uris = dc.detect_cdif_conformance(_doc(), do_shacl=False)
+        self.assertIn("https://w3id.org/cdif/core/1.1", uris)
+        self.assertNotIn("https://w3id.org/cdif/discovery/1.1", uris)
+
+    def test_discovery_detected_on_enrichment_use(self):
+        doc = _doc()
+        doc["schema:spatialCoverage"] = {"@type": "schema:Place",
+                                         "schema:name": "Somewhere"}
+        uris = dc.detect_cdif_conformance(doc, do_shacl=False)
         self.assertIn("https://w3id.org/cdif/core/1.1", uris)
         self.assertIn("https://w3id.org/cdif/discovery/1.1", uris)
 

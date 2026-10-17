@@ -45,7 +45,7 @@ declares `0.1` is a valid `0.2` sidecar):
 | field | required | stage | meaning |
 |-------|----------|-------|---------|
 | `conformsTo` | yes | 1 & 2 | Canonical profile URI written into `dcterms:conformsTo` when declared. Version aliasing (1.0/1.1) is the resolver map's job, not this file's. |
-| `presence` | yes | 1 & 2 | SPARQL `ASK` true iff the record uses what this class adds beyond its base. The standard prefix preamble (`schema`, `prov`, `cdi`, `cdif`, `dcterms`, `dcat`, `rdf`) is prepended automatically. |
+| `presence` | yes | 1 & 2 | SPARQL `ASK` true iff the record uses what this class adds beyond its base. The standard prefix preamble (`schema`, `prov`, `cdi`, `cdif`, `dcterms`, `dcat`, `rdf`, `dqv`) is prepended automatically. |
 | `validityShapes` | no | 1 & 2 | Path **relative to the `_sources` root** to the class's **content** SHACL (`cdifDataType/<block>/rules.shacl`), used as the validity gate. `null`/omitted ⇒ presence-only. |
 | `requires` | no | 2 | Array of `conformsTo` URIs that must **already** be declared (by stage 1 or an earlier stage-2 class) before this class is eligible. |
 | `exclusiveGroup` | no | 2 | Classes sharing a group name are mutually exclusive alternatives (the technique profiles). |
