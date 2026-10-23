@@ -50,8 +50,17 @@ from collections import Counter
 from pathlib import Path
 
 import requests
-from pyld import jsonld
 from jsonschema import Draft202012Validator
+
+# Framing and normalization are shared with FrameAndValidate.py, which sits in
+# tools/ here and beside this file in the cdif-umlmodel mirror
+# (tools/sync_mirror_tools.sh copies both into one directory).
+_HERE = Path(__file__).resolve().parent
+for _dir in (_HERE, _HERE / "tools"):
+    if (_dir / "FrameAndValidate.py").exists():
+        sys.path.insert(0, str(_dir))
+        break
+import FrameAndValidate as _fav  # noqa: E402
 
 try:
     from pyshacl import validate as shacl_validate
@@ -74,115 +83,16 @@ SHACL_SUBPATH = "/shacl"
 SCHEMA_ACCEPT = "application/schema+json"
 SHACL_ACCEPT = "text/turtle"
 
-# Default frame for JSON Schema validation: match top-level schema:Dataset.
-DEFAULT_FRAME = {
-    "@type": "http://schema.org/Dataset",
-    "@embed": "@always",
-}
-
-# Compaction context applied after framing. Uses namespace prefixes for
-# the vocabularies that the StructuredSchemas reference by prefix
-# (schema, cdi, csvw, skos, dcat), and explicit term mappings (without a
-# namespace prefix entry) for the other vocabularies. Mixing both forms
-# avoids pyld's "Absolute IRI confused with prefix" error when a
-# compacted IRI's local part happens to match a prefix term name
-# (e.g. spdx:checksum colliding with the `spdx` prefix term).
-CDIF_OUTPUT_CONTEXT = {
-    # Namespace prefixes (safe — no CURIE-conflict risk in practice)
-    "schema": "http://schema.org/",
-    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "csvw": "http://www.w3.org/ns/csvw#",
-    "dcat": "http://www.w3.org/ns/dcat#",
-    "skos": "http://www.w3.org/2004/02/skos/core#",
-
-    # Explicit term mappings — these vocabularies are NOT registered as
-    # prefixes, to avoid compaction-time CURIE/IRI ambiguity. Each known
-    # term is renamed below in TERM_MAPPINGS so the validator sees the
-    # prefixed form the StructuredSchemas expect.
-    "conformsTo": "http://purl.org/dc/terms/conformsTo",
-    "wasGeneratedBy": "http://www.w3.org/ns/prov#wasGeneratedBy",
-    "wasDerivedFrom": "http://www.w3.org/ns/prov#wasDerivedFrom",
-    "used": "http://www.w3.org/ns/prov#used",
-    "Activity": "http://www.w3.org/ns/prov#Activity",
-    "hasQualityMeasurement": "http://www.w3.org/ns/dqv#hasQualityMeasurement",
-    "isMeasurementOf": "http://www.w3.org/ns/dqv#isMeasurementOf",
-    "QualityMeasurement": "http://www.w3.org/ns/dqv#QualityMeasurement",
-    "hasGeometry": "http://www.opengis.net/ont/geosparql#hasGeometry",
-    "asWKT": "http://www.opengis.net/ont/geosparql#asWKT",
-    "wktLiteral": "http://www.opengis.net/ont/geosparql#wktLiteral",
-    "checksum": "http://spdx.org/rdf/terms#checksum",
-    "algorithm": "http://spdx.org/rdf/terms#algorithm",
-    "checksumValue": "http://spdx.org/rdf/terms#checksumValue",
-    "Checksum": "http://spdx.org/rdf/terms#Checksum",
-    "hasBeginning": "http://www.w3.org/2006/time#hasBeginning",
-    "hasEnd": "http://www.w3.org/2006/time#hasEnd",
-    "inTimePosition": "http://www.w3.org/2006/time#inTimePosition",
-    "hasTRS": "http://www.w3.org/2006/time#hasTRS",
-    "numericPosition": "http://www.w3.org/2006/time#numericPosition",
-}
-
-# Post-compaction rename: unprefixed compaction output -> prefixed term
-# the StructuredSchemas expect. Mirrors the per-profile FrameAndValidate.
-TERM_MAPPINGS = {
-    "conformsTo": "dcterms:conformsTo",
-    "Activity": "prov:Activity",
-    "Checksum": "spdx:Checksum",
-    "wasGeneratedBy": "prov:wasGeneratedBy",
-    "wasDerivedFrom": "prov:wasDerivedFrom",
-    "used": "prov:used",
-    "hasQualityMeasurement": "dqv:hasQualityMeasurement",
-    "isMeasurementOf": "dqv:isMeasurementOf",
-    "hasGeometry": "geosparql:hasGeometry",
-    "asWKT": "geosparql:asWKT",
-    "checksum": "spdx:checksum",
-    "algorithm": "spdx:algorithm",
-    "checksumValue": "spdx:checksumValue",
-    "hasBeginning": "time:hasBeginning",
-    "hasEnd": "time:hasEnd",
-    "inTimePosition": "time:inTimePosition",
-    "hasTRS": "time:hasTRS",
-    "numericPosition": "time:numericPosition",
-}
-
-# Properties the StructuredSchemas expect as arrays. Single-valued framed
-# output is wrapped at the top level so cardinality constraints pass.
-ARRAY_PROPERTIES = {
-    "@type",
-    # schema:subjectOf left intentionally OUT — profiles disagree on whether
-    # it's array (codelist, conceptscheme) or single object (core, discovery).
-    # Source shape passes through; per-profile validators can re-wrap.
-    "schema:distribution",
-    "schema:license",
-    "schema:conditionsOfAccess",
-    "schema:keywords",
-    "schema:additionalType",
-    "schema:contributor",
-    "schema:provider",
-    "schema:funding",
-    "schema:variableMeasured",
-    "schema:spatialCoverage",
-    "schema:temporalCoverage",
-    "schema:sameAs",
-    "schema:potentialAction",
-    "schema:participant",
-    "schema:additionalProperty",
-    # CDIF intentionally types these as arrays (per the description in
-    # schemaorgProperties/additionalProperty/schema.yaml: "Multiple values
-    # can specify the property at different levels of granularity").
-    # Compaction unwraps single-element arrays to scalars; re-wrap here so
-    # validation against the array-typed schemas sees the right shape.
-    "schema:propertyID",
-    "schema:alternateName",
-    "schema:encodingFormat",
-    "prov:wasGeneratedBy",
-    "prov:wasDerivedFrom",
-    "prov:used",
-    "dqv:hasQualityMeasurement",
-    "dcterms:conformsTo",
-    "cdi:hasPhysicalMapping",
-    "cdi:uses",
-    "cdi:physicalDataType",
-}
+# Default frame for JSON Schema validation: CDIF-frame-2026.jsonld, which sits
+# beside this file both here and in the mirror. It is the frame the README runs
+# FrameAndValidate.py with, and the one FrameAndValidate.py picks up itself in
+# the mirror. Its @context declares the prefixes the schemas check for (dcat:,
+# dcterms:, prov:, ...); FrameAndValidate's frame-less template does not, so
+# validating with it fails core on every record. None (no frame file) falls
+# back to that template.
+_CDIF_FRAME_PATH = _HERE / "CDIF-frame-2026.jsonld"
+DEFAULT_FRAME = (json.loads(_CDIF_FRAME_PATH.read_text(encoding="utf-8"))
+                 if _CDIF_FRAME_PATH.exists() else None)
 
 
 # ---------------------------------------------------------------------------
@@ -360,129 +270,24 @@ def fetch_shacl(uri, cache_dir=None, verbose=False, use_accept=False):
 # Validation passes
 # ---------------------------------------------------------------------------
 
-def _normalize(obj, parent=None):
-    """Drop nulls; rename unprefixed terms (TERM_MAPPINGS) on dict keys
-    AND on @type values; ensure ARRAY_PROPERTIES are arrays; @type
-    always an array.
-
-    Context-aware unwrap: schema:contributor is an array at the dataset
-    level but a single object inside a schema:Role wrapper. After the
-    array-wrap pass, walk back and unwrap single-element arrays where
-    the parent's @type indicates a scalar-expecting context.
-    """
-    if isinstance(obj, list):
-        out = [_normalize(v, parent) for v in obj if v is not None]
-        # @type values: compaction emits bare terms ("Activity"); rewrite
-        # them to the prefixed form ("prov:Activity") that the schemas want.
-        if parent == "@type":
-            out = [TERM_MAPPINGS.get(v, v) if isinstance(v, str) else v
-                   for v in out]
-        return out
-    if isinstance(obj, dict):
-        result = {}
-        for k, v in obj.items():
-            if v is None:
-                continue
-            new_key = TERM_MAPPINGS.get(k, k)
-            nv = _normalize(v, new_key)
-            if nv is None:
-                continue
-            if new_key == "@type":
-                if isinstance(nv, str):
-                    nv = [TERM_MAPPINGS.get(nv, nv)]
-                elif isinstance(nv, list):
-                    nv = [TERM_MAPPINGS.get(t, t) if isinstance(t, str) else t
-                          for t in nv]
-            # schema:propertyID is contextual: an array inside
-            # schema:additionalProperty items (per CDIF additionalProperty
-            # schema's "Multiple values can specify the property at different
-            # levels of granularity") but a single string inside
-            # schema:identifier (per the schemaorgProperties/identifier
-            # schema). Skip the array-wrap in identifier context.
-            skip_wrap = (parent == "schema:identifier"
-                         and new_key == "schema:propertyID")
-            if (not skip_wrap and new_key in ARRAY_PROPERTIES
-                    and not isinstance(nv, list)):
-                nv = [nv]
-            result[new_key] = nv
-
-        # Context-aware unwrap: properties that are array at the dataset
-        # level but scalar inside specific nested wrappers.
-        at = result.get("@type", [])
-        if isinstance(at, str):
-            at = [at]
-
-        # schema:Role wrapper: nested schema:contributor expects single
-        # Person/Organization (agentInRole schema is single-valued there).
-        if "schema:Role" in at:
-            inner = result.get("schema:contributor")
-            if isinstance(inner, list) and len(inner) == 1:
-                result["schema:contributor"] = inner[0]
-
-        # Inner instrument-component pattern: nodes typed
-        # [schema:Thing, schema:Product] (XAS hasPart items, sample,
-        # source, monochromator, etc.) carry schema:additionalType as a
-        # single const string per the XAS schemas — not the array form
-        # used on the root Dataset.
-        if "schema:Thing" in at and "schema:Product" in at:
-            inner = result.get("schema:additionalType")
-            if isinstance(inner, list) and len(inner) == 1:
-                result["schema:additionalType"] = inner[0]
-
-        return result
-    if isinstance(obj, str) and parent == "@type":
-        return TERM_MAPPINGS.get(obj, obj)
-    return obj
-
-
 def frame_doc(doc, frame):
-    """Frame the document around schema:Dataset, compact with the CDIF
-    output context, and normalize array/null shape. Returns the picked
-    dataset (skipping catalog-record entities that share the Dataset
-    type), in the prefixed form the StructuredSchemas validate against.
+    """Frame the document around schema:Dataset and normalize it into the
+    prefixed form the StructuredSchemas validate against.
+
+    Delegates to FrameAndValidate.frame_cdif, so this tool and
+    tools/FrameAndValidate.py validate the same normalized form. Each used to
+    carry its own compaction context and normalization, and this copy fell
+    behind: its context had no cdif: prefix, so every cdif: property reached the
+    schemas as a full IRI. Required cdif: properties then failed, and every
+    constraint on an optional one went unchecked. Adding the prefix alone was not
+    enough, because the rest of the cdif:-aware normalization (re-expanding
+    cdif: @id values, collapsing framing-inlined references, cdif: array
+    properties) lived only in FrameAndValidate.
+
+    `frame` is a frame object (compacted with its own @context), or None for
+    FrameAndValidate's minimal Dataset template.
     """
-    expanded = jsonld.expand(doc)
-    framed = jsonld.frame(expanded, frame)
-    compacted = jsonld.compact(framed, CDIF_OUTPUT_CONTEXT)
-
-    # Augment the @context with the namespace prefixes the StructuredSchemas
-    # require to be declared (dcterms, prov, dqv, spdx, time, geosparql).
-    # Compaction with explicit term mappings produced unprefixed keys for
-    # those vocabs in the body; declaring the prefixes here keeps the
-    # output @context shape that the schemas check.
-    ctx = compacted.get("@context")
-    if isinstance(ctx, dict):
-        ctx.setdefault("dcterms", "http://purl.org/dc/terms/")
-        ctx.setdefault("prov", "http://www.w3.org/ns/prov#")
-        ctx.setdefault("dqv", "http://www.w3.org/ns/dqv#")
-        ctx.setdefault("spdx", "http://spdx.org/rdf/terms#")
-        ctx.setdefault("time", "http://www.w3.org/2006/time#")
-        ctx.setdefault("geosparql", "http://www.opengis.net/ont/geosparql#")
-
-    if "@graph" in compacted and isinstance(compacted["@graph"], list):
-        picked = None
-        for item in compacted["@graph"]:
-            at = item.get("schema:additionalType") or item.get("additionalType", [])
-            if not isinstance(at, list):
-                at = [at]
-            # additionalType may carry dcat:CatalogRecord as a string, an
-            # {"@id": ...} reference (the CDIF convention), or a full IRI.
-            types = {v.get("@id") if isinstance(v, dict) else v for v in at}
-            if types & {"dcat:CatalogRecord",
-                        "http://www.w3.org/ns/dcat#CatalogRecord"}:
-                continue
-            picked = item
-            break
-        if picked is None and compacted["@graph"]:
-            picked = compacted["@graph"][0]
-        if picked is not None:
-            result = {"@context": compacted.get("@context"), **picked}
-        else:
-            result = compacted
-    else:
-        result = compacted
-
-    return _normalize(result)
+    return _fav.frame_cdif(doc, frame)
 
 
 def validate_with_jsonschema(framed, schema):
@@ -1037,8 +842,8 @@ Examples:
     parser.add_argument("--summary", "-s", action="store_true",
                         help="Directory mode: print only the aggregate summary")
     parser.add_argument("--frame",
-                        help="Custom JSON-LD frame (default: minimal "
-                             "schema:Dataset frame)")
+                        help="Custom JSON-LD frame (default: CDIF-frame-2026.jsonld "
+                             "beside this script)")
     parser.add_argument("--cache-dir",
                         help="Directory for caching fetched schema/SHACL files "
                              "between runs (w3id source only)")
