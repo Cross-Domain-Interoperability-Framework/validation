@@ -26,6 +26,7 @@ Usage:
                                [--schema schema.json] [--frame frame.jsonld]
 """
 
+import copy
 import json
 import argparse
 import sys
@@ -766,12 +767,26 @@ def frame_cdif_document(doc_path, frame_path=None):
         doc = json.load(f)
 
     # Load custom frame if provided, otherwise use minimal frame template
+    frame = None
     if frame_path:
         print(f"Loading frame: {frame_path}")
         with open(frame_path, 'r', encoding='utf-8') as f:
             frame = json.load(f)
-    else:
-        frame = FRAME_TEMPLATE
+
+    return frame_cdif(doc, frame, verbose=True)
+
+
+def frame_cdif(doc, frame=None, verbose=False):
+    """Frame an in-memory CDIF JSON-LD document and normalize it into the form
+    the StructuredSchemas validate against. `frame` is a frame object, or None
+    for FRAME_TEMPLATE compacted with OUTPUT_CONTEXT. Works on copies, so the
+    caller's document and frame are not modified. ConformanceValidate.py frames
+    through this function too, so both tools validate the same normalized form.
+    """
+    doc = copy.deepcopy(doc)
+    custom_frame = frame is not None
+    frame = copy.deepcopy(frame) if custom_frame else FRAME_TEMPLATE
+    say = print if verbose else (lambda *a, **k: None)
 
     # Merge contexts bidirectionally so both expansion and compaction work with
     # all prefixes from either source:
@@ -779,7 +794,7 @@ def frame_cdif_document(doc_path, frame_path=None):
     #    expand to full IRIs even if the document's own context is incomplete.
     # 2. Document prefixes -> frame context: domain-specific prefixes (ada:, xas:,
     #    skos:, ...) compact correctly without requiring every prefix in the frame.
-    if frame_path and isinstance(frame, dict) and '@context' in frame:
+    if custom_frame and isinstance(frame, dict) and '@context' in frame:
         doc_ctx = doc.get('@context', {})
         if isinstance(doc_ctx, dict):
             frame_ctx = frame['@context']
@@ -792,16 +807,16 @@ def frame_cdif_document(doc_path, frame_path=None):
                     frame_ctx[k] = v
 
     # Step 1: Expand the document (resolves all prefixes to full IRIs)
-    print("Expanding document...")
+    say("Expanding document...")
     expanded = jsonld.expand(doc)
 
     # Step 2: Frame the document
-    print("Framing document...")
+    say("Framing document...")
     framed = jsonld.frame(expanded, frame)
 
     # Step 3: Compact with our desired output context (if using template frame)
-    if not frame_path:
-        print("Compacting with output context...")
+    if not custom_frame:
+        say("Compacting with output context...")
         framed = jsonld.compact(framed, OUTPUT_CONTEXT)
 
     # Step 4: Extract the main entity from @graph if present
@@ -812,7 +827,7 @@ def frame_cdif_document(doc_path, frame_path=None):
             result = {'@context': framed.get('@context'), **entity}
 
     # Step 5: Post-process to remove nulls, normalize terms and array properties
-    print("Post-processing output...")
+    say("Post-processing output...")
     result = remove_nulls_and_normalize(result)
 
     # Originally gated on a structure-rooted document, because the same keys are
