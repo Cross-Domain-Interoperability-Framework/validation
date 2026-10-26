@@ -517,6 +517,11 @@ def run_conformance(doc, resolver, do_schema=True, do_shacl=True,
     not_installed | error. The function never prints and never exits — it is
     safe to import and call from a web application.
     """
+    # Rewrite any non-canonical namespace aliases (e.g. dct: -> dcterms:) so
+    # conformsTo discovery, framing and schema checks all see the prefixes the
+    # CDIF schemas expect, regardless of which alias the source document used.
+    doc = _fav.canonicalize_cdif_prefixes(doc)
+
     uris = [u for u in extract_conforms_to(doc) if not is_ignored_uri(u)]
 
     framed = None
@@ -875,6 +880,7 @@ Examples:
 
     with open(args.input, "r", encoding="utf-8") as f:
         doc = json.load(f)
+    doc = _fav.canonicalize_cdif_prefixes(doc)
 
     if args.verbose:
         discovered = [u for u in extract_conforms_to(doc)
