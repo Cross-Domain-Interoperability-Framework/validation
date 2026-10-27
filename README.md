@@ -164,12 +164,11 @@ Group summaries and an overall summary list all violations and schema failures.
 
 ### Current Validation Status
 
-As of June 2026, validation across testJSONMetadata (77 files) and all 5 CDIF profile examples shows. Each record is validated against exactly the profiles its catalog record declares (per-declared-profile, via `ConformanceValidate.py`); the 77 testJSONMetadata declare core + discovery + manifest + provenance.
+`batch_validate.py` runs JSON Schema + SHACL across 92 files (77 `testJSONMetadata` + 10 `cdifbook` + 5 `cdifProfiles`). Each record is validated against exactly the profiles its catalog record declares (per-declared-profile, via `ConformanceValidate.py`); the 77 `testJSONMetadata` declare core + discovery + manifest + provenance.
 
-- **JSON Schema**: 77/77 testJSONMetadata pass the Discovery JSON Schema (the only framed-tree schema among their declared profiles; core, manifest, and provenance are validated by SHACL only)
-- **Profile examples**: 5/5 pass (Discovery, DiscoveryMinimal, DiscoveryComplete, DataDescription, Complete)
-- **SHACL Violations**: 0 across all files
-- **SHACL Warnings/Info**: All files pass with warnings/info only — these reflect optional-but-recommended properties (missing activity descriptions, contact points, physical data types, etc.)
+- **JSON Schema**: 92/92 pass (77/77 `testJSONMetadata` against the Discovery schema — the only framed-tree schema among their declared profiles; 10/10 `cdifbook`; 5/5 composite-profile examples)
+- **SHACL**: 89/92 clean — `testJSONMetadata` 77/77 and `cdifbook` 10/10 are clean; only 3 `cdifProfiles` building-block examples (`exampleCDIFDiscovery`, `exampleCDIFDataDescription`, `exampleCDIFDataStructureComplete`) carry non-lint violations (sibling-repo examples, out of scope here)
+- **SHACL Warnings/Info**: the clean files pass with warnings/info only — optional-but-recommended properties (missing activity descriptions, contact points, physical data types, etc.)
 
 SHACL severity levels are aligned with JSON Schema: properties that are optional in the JSON Schema are `sh:Warning` (not `sh:Violation`) in SHACL.
 
