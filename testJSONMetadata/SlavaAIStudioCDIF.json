@@ -1,0 +1,354 @@
+{
+    "@context": {
+        "schema": "http://schema.org/",
+        "dcterms": "http://purl.org/dc/terms/",
+        "dcat": "http://www.w3.org/ns/dcat#",
+        "spdx": "http://spdx.org/rdf/terms#",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "cdif": "https://w3id.org/cdif/",
+        "csvw": "http://www.w3.org/ns/csvw#",
+        "prov": "http://www.w3.org/ns/prov#",
+        "dqv": "http://www.w3.org/ns/dqv#",
+        "cr": "http://mlcommons.org/croissant/",
+        "rai": "http://mlcommons.org/croissant/RAI/",
+        "sc": "https://schema.org/",
+        "wd": "https://www.wikidata.org/wiki/"
+    },
+    "@type": ["schema:Dataset"],
+    "@id": "https://ai.codata.org/export?ds=https%3A%2F%2Fdoi.org%2F10.7910%2FDVN%2FCM5QX9&file=https%3A%2F%2Fdataverse.harvard.edu%2Fapi%2Faccess%2Fdatafile%2F10501933%3Fformat%3Doriginal",
+    "schema:name": "Urban Wireless Sensor Network (WSN) Dataset for Environmental Monitoring, Communication Analysis, and Anomaly Detection",
+    "schema:description": "This dataset is a comprehensive synthetic representation of data collected from a real-world **urban Wireless Sensor Network (WSN)** deployed for environmental monitoring, communication analysis, and anomaly detection. The dataset simulates the activity of **500 sensor nodes** distributed across an urban environment, capturing over **1 million data points**. Each sensor node records multiple environmental variables, communication metrics, and operational data, providing a rich source for research and analysis in various fields such as IoT-based smart cities, sensor network optimization, anomaly detection, and urban environmental studies. The dataset is available in **Parquet** and **CSV** formats, with each file containing '1,000,000 rows' and '12 columns'. The Parquet format is particularly suited for large-scale data processing, as it allows efficient data compression and columnar storage, while the CSV format ensures compatibility with a wide range of tools and platforms for analysis. Dataset Features: 1. `sensor_id` (Integer): - Unique identifier for each of the 500 sensor nodes in the network. - Range: **1 to 500**. - Purpose: Distinguishes between different sensor nodes, allowing analysis of node-specific behavior. 2. `timestamp` (Datetime): - The exact time at which each sensor reading was recorded. - Range: Randomly generated timestamps spanning one year. - Purpose: Enables time-series analysis, trend discovery, and temporal anomaly detection. Useful for studying patterns over time, such as seasonal environmental changes or sensor failures. 3. `temperature` (Float): - The temperature reading recorded by each sensor node (in Celsius). - Range: **10\u00b0C to 40\u00b0C**. - Purpose: Captures temperature variations in the urban area, which could be used for climate studies, urban heat mapping, or environmental modeling. 4. `humidity` (Float): - The relative humidity recorded by the sensor node (in percentage). - Range: **20% to 90%**. - Purpose: Useful for studying atmospheric conditions, correlating humidity with other environmental variables, or examining anomalies related to sensor faults or weather conditions. 5. `ambient_light` (Float): - The level of ambient light measured by the sensor (in Lux). - Range: **100 to 1000 Lux**. - Purpose: Useful for urban lighting studies, detecting lighting failures in smart cities, or assessing sunlight exposure patterns in specific locations. 6. `sensor_reading` (Float): - The general sensor data reading (arbitrary units). - Range: **0 to 100**. - Purpose: Represents operational sensor output. It could be an aggregation of different parameters, or abstract sensor readings used for system health analysis or anomaly detection. 7. **`signal_strength`** (Float): - The strength of the signal transmitted by the sensor node, measured in decibel-milliwatts (dBm). - Range: **-100 dBm to -30 dBm**. - Purpose: Reflects communication performance and network reliability. Can be used to study signal attenuation in urban environments or evaluate network performance under different conditions. 8. `battery_level` (Float): - The remaining battery level of the sensor node (in percentage). - Range: **10% to 100%**. - Purpose: Monitors sensor node power levels. It can be used to optimize sensor node maintenance, analyze power consumption patterns, or develop energy-efficient algorithms for IoT networks. 9. `latitude` (Float): - The geographical latitude of the sensor node. - Range: **40.7128 to 40.7484** (simulating a section of New York City). - Purpose: Useful for geospatial analysis of sensor data, identifying patterns based on location, and integrating with mapping tools for visualization. 10. `longitude` (Float): - The geographical longitude of the sensor node. - Range: **-74.0060 to -73.9352**. - Purpose: Paired with latitude, it allows spatial analysis of the network's behavior and performance. It can also be used for geolocation-based anomaly detection or optimization. 11. `packet_loss_rate` (Float): - The percentage of data packets lost during communication between the sensor and the central network. - Range: **0% to 5%**. - Purpose: Assesses the reliability of sensor communication. Can be used to detect network issues, optimize routing protocols, or improve network robustness. 12. `anomalous_event` (Binary): - A binary flag indicating whether an anomalous event occurred (0 = Normal, 1 = Anomaly). - Range: **0 or 1** (5% of the data is labeled as anomalies). - Purpose: Enables research on anomaly detection, failure prediction, and system reliability improvement. The anomalies could represent sensor malfunctions, environmental events, or communication failures. Potential Applications of the Dataset: 1. Anomaly Detection: - The dataset provides rich information on anomalous events, which can be used for developing, testing, and benchmarking anomaly detection algorithms. Researchers can use the data to identify patterns that signal failures in sensor nodes, such as rapid battery...",
+    "schema:url": "https://doi.org/10.7910/DVN/CM5QX9",
+    "schema:license": [
+        {"@id": "http://creativecommons.org/publicdomain/zero/1.0"}
+    ],
+    "schema:datePublished": "2024-09-06",
+    "schema:dateModified": "2024-10-03",
+    "schema:creator": {
+        "@list": [
+            {
+                "@type": "schema:Person",
+                "schema:name": "M, Gowtham",
+                "schema:affiliation": {
+                    "@type": "schema:Organization",
+                    "schema:name": "Team TenZero"
+                }
+            },
+            {
+                "@type": "schema:Person",
+                "schema:name": "A. Vijayaraj",
+                "schema:affiliation": {
+                    "@type": "schema:Organization",
+                    "schema:name": "R.M.K Engineering College"
+                }
+            },
+            {
+                "@type": "schema:Person",
+                "schema:name": "N. Mageshkumar",
+                "schema:affiliation": {
+                    "@type": "schema:Organization",
+                    "schema:name": "Madanapalle Institute of Technology & Science"
+                }
+            },
+            {
+                "@type": "schema:Person",
+                "schema:name": "Adlin Sheeba",
+                "schema:affiliation": {
+                    "@type": "schema:Organization",
+                    "schema:name": "St. Joseph's Institute of Technology"
+                }
+            },
+            {
+                "@type": "schema:Person",
+                "schema:name": "Gururama Senthilvel",
+                "schema:affiliation": {
+                    "@type": "schema:Organization",
+                    "schema:name": "Saveetha School of Engineering"
+                }
+            }
+        ]
+    },
+    "schema:publisher": {
+        "@type": "schema:Organization",
+        "schema:name": "Harvard Dataverse"
+    },
+    "schema:keywords": [
+        "Engineering",
+        "Computer and Information Science",
+        "Wireless Sensor Network (WSN), Anomaly Detection, Environmental Monitoring, Sensor Data, Packet Loss Rate, Geospatial Analysis, Signal Strength"
+    ],
+    "schema:version": "1.1",
+    "dcterms:bibliographicCitation": "@data{DVN/CM5QX9_2024,author = {M, Gowtham and A. Vijayaraj and N. Mageshkumar and Adlin Sheeba and Gururama Senthilvel},publisher = {Harvard Dataverse},title = {Urban Wireless Sensor Network (WSN) Dataset for Environmental Monitoring, Communication Analysis, and Anomaly Detection},year = {2024},url = {https://doi.org/10.7910/DVN/CM5QX9}}",
+    "schema:identifier": {
+        "@type": ["schema:PropertyValue"],
+        "schema:propertyID": {"@id": "https://registry.identifiers.org/registry/doi"},
+        "schema:value": "10.7910/DVN/CM5QX9",
+        "schema:url": "https://doi.org/10.7910/DVN/CM5QX9"
+    },
+    "schema:distribution": [
+        {
+            "@id": "wsn_data_extended.csv",
+            "schema:name": "wsn_data_extended.csv",
+            "schema:encodingFormat": ["text/csv"],
+            "schema:contentUrl": "https://dataverse.harvard.edu/api/access/datafile/10501933?format=original",
+            "schema:size": {
+                "@type": ["schema:QuantitativeValue"],
+                "schema:value": 88762877,
+                "schema:unitText": "byte"
+            },
+            "spdx:checksum": {
+                "@type": ["spdx:Checksum"],
+                "spdx:checksumAlgorithm": "checksumAlgorithm_md5",
+                "spdx:checksumValue": "2e889a9613957e2d32d393f8e4cf4086"
+            },
+            "@type": [
+                "schema:DataDownload",
+                "cdi:TabularTextDataSet"
+            ],
+            "cdi:isDelimited": true,
+            "csvw:delimiter": ",",
+            "cdif:hasPhysicalMapping": [
+                {
+                    "cdif:index": 1,
+                    "cdif:formats_InstanceVariable": {"@id": "#sensorid"},
+                    "cdif:physicalDataType": "xsd:integer"
+                },
+                {
+                    "cdif:index": 2,
+                    "cdif:formats_InstanceVariable": {"@id": "#timestamp"},
+                    "cdif:physicalDataType": "xsd:string"
+                },
+                {
+                    "cdif:index": 3,
+                    "cdif:formats_InstanceVariable": {"@id": "#temperature"},
+                    "cdif:physicalDataType": "xsd:decimal"
+                },
+                {
+                    "cdif:index": 4,
+                    "cdif:formats_InstanceVariable": {"@id": "#humidity"},
+                    "cdif:physicalDataType": "xsd:decimal"
+                },
+                {
+                    "cdif:index": 5,
+                    "cdif:formats_InstanceVariable": {"@id": "#ambientlight"},
+                    "cdif:physicalDataType": "xsd:decimal"
+                },
+                {
+                    "cdif:index": 6,
+                    "cdif:formats_InstanceVariable": {"@id": "#sensorreading"},
+                    "cdif:physicalDataType": "xsd:decimal"
+                },
+                {
+                    "cdif:index": 7,
+                    "cdif:formats_InstanceVariable": {"@id": "#signalstrength"},
+                    "cdif:physicalDataType": "xsd:decimal"
+                },
+                {
+                    "cdif:index": 8,
+                    "cdif:formats_InstanceVariable": {"@id": "#batterylevel"},
+                    "cdif:physicalDataType": "xsd:decimal"
+                },
+                {
+                    "cdif:index": 9,
+                    "cdif:formats_InstanceVariable": {"@id": "#latitude"},
+                    "cdif:physicalDataType": "xsd:decimal"
+                },
+                {
+                    "cdif:index": 10,
+                    "cdif:formats_InstanceVariable": {"@id": "#longitude"},
+                    "cdif:physicalDataType": "xsd:decimal"
+                },
+                {
+                    "cdif:index": 11,
+                    "cdif:formats_InstanceVariable": {"@id": "#packetlossrate"},
+                    "cdif:physicalDataType": "xsd:decimal"
+                },
+                {
+                    "cdif:index": 12,
+                    "cdif:formats_InstanceVariable": {"@id": "#anomalousevent"},
+                    "cdif:physicalDataType": "xsd:integer"
+                }
+            ]
+        }
+    ],
+    "schema:hasPart": [
+        {
+            "@type": ["schema:CreativeWork"],
+            "@id": "wsn_data_extended.parquet",
+            "schema:name": "wsn_data_extended.parquet",
+            "schema:distribution": [
+                {
+                    "@type": ["schema:DataDownload"],
+                    "schema:contentUrl": "https://dataverse.harvard.edu/api/access/datafile/10501932",
+                    "schema:encodingFormat": ["application/octet-stream"],
+                    "spdx:checksum": {
+                        "@type": ["spdx:Checksum"],
+                        "spdx:checksumAlgorithm": "checksumAlgorithm_md5",
+                        "spdx:checksumValue": "60441c6e0c4e0ea454d67c1109079c92"
+                    },
+                    "schema:size": {
+                        "@type": ["schema:QuantitativeValue"],
+                        "schema:value": 26592601,
+                        "schema:unitText": "byte"
+                    }
+                }
+            ],
+            "schema:url": "https://dataverse.harvard.edu/api/access/datafile/10501932"
+        }
+    ],
+    "schema:variableMeasured": [
+        {
+            "@id": "#sensorid",
+            "@type": [
+                "schema:PropertyValue",
+                "cdi:InstanceVariable"
+            ],
+            "schema:name": "sensor_id",
+            "schema:description": "sensor_id",
+            "cdif:physicalDataType": "xsd:integer",
+            "cdi:hasIntendedDataType": {"@id": "https://www.w3.org/TR/xmlschema-2/#integer"}
+        },
+        {
+            "@id": "#timestamp",
+            "@type": [
+                "schema:PropertyValue",
+                "cdi:InstanceVariable"
+            ],
+            "schema:name": "timestamp",
+            "schema:description": "timestamp",
+            "cdif:physicalDataType": "xsd:string",
+            "cdi:hasIntendedDataType": {"@id": "https://www.w3.org/TR/xmlschema-2/#string"}
+        },
+        {
+            "@id": "#temperature",
+            "@type": [
+                "schema:PropertyValue",
+                "cdi:InstanceVariable"
+            ],
+            "schema:name": "temperature",
+            "schema:description": "temperature",
+            "cdif:physicalDataType": "xsd:decimal",
+            "cdi:hasIntendedDataType": {"@id": "https://www.w3.org/TR/xmlschema-2/#decimal"}
+        },
+        {
+            "@id": "#humidity",
+            "@type": [
+                "schema:PropertyValue",
+                "cdi:InstanceVariable"
+            ],
+            "schema:name": "humidity",
+            "schema:description": "humidity",
+            "cdif:physicalDataType": "xsd:decimal",
+            "cdi:hasIntendedDataType": {"@id": "https://www.w3.org/TR/xmlschema-2/#decimal"}
+        },
+        {
+            "@id": "#ambientlight",
+            "@type": [
+                "schema:PropertyValue",
+                "cdi:InstanceVariable"
+            ],
+            "schema:name": "ambient_light",
+            "schema:description": "ambient_light",
+            "cdif:physicalDataType": "xsd:decimal",
+            "cdi:hasIntendedDataType": {"@id": "https://www.w3.org/TR/xmlschema-2/#decimal"}
+        },
+        {
+            "@id": "#sensorreading",
+            "@type": [
+                "schema:PropertyValue",
+                "cdi:InstanceVariable"
+            ],
+            "schema:name": "sensor_reading",
+            "schema:description": "sensor_reading",
+            "cdif:physicalDataType": "xsd:decimal",
+            "cdi:hasIntendedDataType": {"@id": "https://www.w3.org/TR/xmlschema-2/#decimal"}
+        },
+        {
+            "@id": "#signalstrength",
+            "@type": [
+                "schema:PropertyValue",
+                "cdi:InstanceVariable"
+            ],
+            "schema:name": "signal_strength",
+            "schema:description": "signal_strength",
+            "cdif:physicalDataType": "xsd:decimal",
+            "cdi:hasIntendedDataType": {"@id": "https://www.w3.org/TR/xmlschema-2/#decimal"}
+        },
+        {
+            "@id": "#batterylevel",
+            "@type": [
+                "schema:PropertyValue",
+                "cdi:InstanceVariable"
+            ],
+            "schema:name": "battery_level",
+            "schema:description": "battery_level",
+            "cdif:physicalDataType": "xsd:decimal",
+            "cdi:hasIntendedDataType": {"@id": "https://www.w3.org/TR/xmlschema-2/#decimal"}
+        },
+        {
+            "@id": "#latitude",
+            "@type": [
+                "schema:PropertyValue",
+                "cdi:InstanceVariable"
+            ],
+            "schema:name": "latitude",
+            "schema:description": "latitude",
+            "cdif:physicalDataType": "xsd:decimal",
+            "cdi:hasIntendedDataType": {"@id": "https://www.w3.org/TR/xmlschema-2/#decimal"}
+        },
+        {
+            "@id": "#longitude",
+            "@type": [
+                "schema:PropertyValue",
+                "cdi:InstanceVariable"
+            ],
+            "schema:name": "longitude",
+            "schema:description": "longitude",
+            "cdif:physicalDataType": "xsd:decimal",
+            "cdi:hasIntendedDataType": {"@id": "https://www.w3.org/TR/xmlschema-2/#decimal"}
+        },
+        {
+            "@id": "#packetlossrate",
+            "@type": [
+                "schema:PropertyValue",
+                "cdi:InstanceVariable"
+            ],
+            "schema:name": "packet_loss_rate",
+            "schema:description": "packet_loss_rate",
+            "cdif:physicalDataType": "xsd:decimal",
+            "cdi:hasIntendedDataType": {"@id": "https://www.w3.org/TR/xmlschema-2/#decimal"}
+        },
+        {
+            "@id": "#anomalousevent",
+            "@type": [
+                "schema:PropertyValue",
+                "cdi:InstanceVariable"
+            ],
+            "schema:name": "anomalous_event",
+            "schema:description": "anomalous_event",
+            "cdif:physicalDataType": "xsd:integer",
+            "cdi:hasIntendedDataType": {"@id": "https://www.w3.org/TR/xmlschema-2/#integer"}
+        }
+    ],
+    "schema:subjectOf": {
+        "@type": ["schema:Dataset"],
+        "schema:additionalType": [
+            {"@id": "dcat:CatalogRecord"}
+        ],
+        "schema:about": {"@id": "https://doi.org/10.7910/DVN/CM5QX9"},
+        "@id": "https://doi.org/10.7910/DVN/CM5QX9/metadata",
+        "schema:sdDatePublished": "2024-10-03",
+        "schema:includedInDataCatalog": {
+            "@type": ["schema:DataCatalog"],
+            "schema:name": "Harvard Dataverse",
+            "schema:url": "https://dataverse.harvard.edu"
+        },
+        "dcterms:conformsTo": [
+            {"@id": "https://w3id.org/cdif/core/1.1"},
+            {"@id": "https://w3id.org/cdif/discovery/1.1"},
+            {"@id": "https://w3id.org/cdif/data_description/1.1"},
+            {"@id": "https://w3id.org/cdif/manifest/1.1"}
+        ]
+    },
+    "prov:wasDerivedFrom": {"@id": "https://dataverse.harvard.edu/api/access/datafile/10501933?format=original"}
+}
