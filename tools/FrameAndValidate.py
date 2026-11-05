@@ -724,13 +724,16 @@ def remove_nulls_and_normalize(obj, parent_key=None):
                 result['schema:contributor'] = inner[0]
 
         # schema:alternateName: array on variableMeasured and spatialCoverage items,
-        # string on Person/Organization
+        # on an instrument and on its schema:hasPart components (typed schema:Thing,
+        # which separates them from a manifest's parts), string on Person/Organization
         is_var_or_place = ('cdi:InstanceVariable' in type_list or
                            'schema:PropertyValue' in type_list and parent_key == 'schema:variableMeasured' or
                            'schema:Place' in type_list)
+        is_instrument_or_part = (parent_key == 'schema:instrument' or
+                                 parent_key == 'schema:hasPart' and 'schema:Thing' in type_list)
         alt = result.get('schema:alternateName')
         if alt is not None:
-            if is_var_or_place and not isinstance(alt, list):
+            if (is_var_or_place or is_instrument_or_part) and not isinstance(alt, list):
                 result['schema:alternateName'] = [alt]
 
         # schema:identifier: single object/string on Person/Organization agents
