@@ -215,6 +215,28 @@ cdifd:CDIFDatasetMandatoryShape a sh:NodeShape ;
               FILTER NOT EXISTS { ?dpu prov:used ?this . }
               FILTER NOT EXISTS { ?dib schema:isBasedOn ?this . }
               FILTER NOT EXISTS { ?dsrc dcterms:source ?this . }
+              # Exclude datasets that are MEMBERS OF A DISTRIBUTION -- files
+              # inside a packaged download. Measured 2026-11-06 against the
+              # Astromat record in doc-discoverydatadescription: a zip
+              # distribution lists its two component files as schema:hasPart,
+              # both typed schema:Dataset, and this shape then demanded an
+              # identifier, a licence, a dateModified and a landing page of
+              # each -- 8 of that record's 11 violations -- while the
+              # distribution's own description says the components "are not
+              # individually accessible". The only way to satisfy it was to
+              # invent metadata for a file nobody can fetch.
+              #
+              # Scoped to parts of a DISTRIBUTION rather than to every object
+              # of schema:hasPart, deliberately: hasPart carries several
+              # different meanings in CDIF, and a member dataset of a
+              # collection IS an independently documented resource that should
+              # still be held to these requirements. Only a component of a
+              # packaged download is not. Same discipline as the exclusions
+              # above -- the documented resource is never reached this way.
+              FILTER NOT EXISTS {
+                ?dsd schema:distribution ?dist .
+                ?dist schema:hasPart ?this .
+              }
             }
           """ ] .
 
