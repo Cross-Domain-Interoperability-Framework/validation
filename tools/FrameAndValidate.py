@@ -324,8 +324,11 @@ STRUCTURE_ROOT_TYPES = frozenset({
 # it. Framing with @embed:@always inlines the whole target; these get collapsed
 # back to a bare {@id} because the full node is retained at its own slot (or is
 # an external resource) and the tightened schemas type these slots as {@id}-only
-# references. The collapse runs on EVERY doc type (see remove_nulls_and_normalize),
-# not just bare-structure docs -- cdif:qualifies also appears in dataset-rooted
+# references. collapse_reference_slots checks that premise per node: a copy is
+# collapsed only when a copy of the same @id with the same properties survives
+# elsewhere, and is otherwise left inline for the schema to judge. The collapse
+# runs on EVERY doc type (last step of frame_cdif_document), not just
+# bare-structure docs -- cdif:qualifies also appears in dataset-rooted
 # data-description docs, and schema:about (manifest part -> documented file) /
 # schema:result (activity -> produced entity) are reference slots on manifest /
 # provenance / dataset docs.
@@ -370,15 +373,50 @@ REFERENCE_ONLY_KEYS = (
 STRUCTURE_ARRAY_KEYS = ('cdif:name', 'cdif:qualifies', 'cdif:semantic')
 
 
-def _collapse_to_id_ref(value):
-    """Reduce an embedded node (a dict carrying @id plus other keys) to a bare
-    {@id} reference. Recurses into lists; leaves inline objects without @id (e.g.
-    an anonymous role) and plain strings untouched."""
-    if isinstance(value, list):
-        return [_collapse_to_id_ref(v) for v in value]
-    if isinstance(value, dict) and '@id' in value and len(value) > 1:
-        return {'@id': value['@id']}
-    return value
+def collapse_reference_slots(tree, keys=REFERENCE_ONLY_KEYS):
+    """Reduce framing-embedded nodes under reference-only `keys` to a bare
+    {@id} -- but only where that is non-lossy: some copy of the same @id that
+    survives elsewhere in `tree` carries at least the same properties.
+    Otherwise the inline node is kept, so its description reaches the schema.
+
+    The premise that the target "is defined elsewhere" does not always hold. An
+    activity's schema:result is very often the ONLY place its output is
+    described (name, @type, encodingFormat); collapsing it unconditionally threw
+    those triples away before validation, and the record passed while its
+    outputs were never checked. A node kept inline here counts as surviving, so
+    a later reference-slot copy of the same @id collapses against it, and the
+    reference slots inside it are judged the same way. Inline objects without
+    @id and plain strings are left untouched. Mutates and returns `tree`."""
+    kept = {}        # @id -> key sets of the copies that survive
+    queue = []       # (container, index-or-key, node) under a reference slot
+
+    def scan(o):
+        if isinstance(o, list):
+            for x in o:
+                scan(x)
+        elif isinstance(o, dict):
+            if '@id' in o and len(o) > 1:
+                kept.setdefault(o['@id'], []).append(set(o))
+            for k, v in o.items():
+                if k not in keys:
+                    scan(v)
+                    continue
+                slots = ([(v, i, x) for i, x in enumerate(v)]
+                         if isinstance(v, list) else [(o, k, v)])
+                for container, slot, node in slots:
+                    if isinstance(node, dict) and '@id' in node and len(node) > 1:
+                        queue.append((container, slot, node))
+                    else:
+                        scan(node)
+
+    scan(tree)
+    while queue:
+        container, slot, node = queue.pop(0)
+        if any(ks >= set(node) for ks in kept.get(node['@id'], ())):
+            container[slot] = {'@id': node['@id']}
+        else:
+            scan(node)
+    return tree
 
 
 def _is_structure_rooted(doc):
@@ -394,17 +432,15 @@ def _is_structure_rooted(doc):
 
 
 def normalize_bare_structure(obj):
-    """Recursive normalizations for bare DataStructure documents: collapse
-    framing-inlined component references (cdif:qualifies / cdi:refersTo) back to
-    bare {@id}, and wrap single-valued STRUCTURE_ARRAY_KEYS into arrays."""
+    """Recursive normalizations for bare DataStructure documents: wrap
+    single-valued STRUCTURE_ARRAY_KEYS into arrays. (Framing-inlined component
+    references are collapsed for every doc type by collapse_reference_slots.)"""
     if isinstance(obj, list):
         return [normalize_bare_structure(x) for x in obj]
     if isinstance(obj, dict):
         out = {}
         for k, v in obj.items():
             v = normalize_bare_structure(v)
-            if k in REFERENCE_ONLY_KEYS:
-                v = _collapse_to_id_ref(v)
             if k in STRUCTURE_ARRAY_KEYS and not isinstance(v, list):
                 v = [v]
             out[k] = v
@@ -640,13 +676,6 @@ def remove_nulls_and_normalize(obj, parent_key=None):
             # Convert bare @id references to strings for identifier fields
             if new_key == 'schema:identifier' and is_bare_id_reference(new_value):
                 new_value = new_value['@id']
-
-            # Collapse framing-embedded references back to a bare {@id} for
-            # reference-only slots (the tightened schemas type these as {@id};
-            # framing with @embed:@always inlines the whole target). Ungated --
-            # runs on every doc type, before the array wrap below.
-            if new_key in REFERENCE_ONLY_KEYS:
-                new_value = _collapse_to_id_ref(new_value)
 
             # Wrap in array if schema expects array and value is not already an array
             if new_key in ARRAY_PROPERTIES and not isinstance(new_value, list):
@@ -948,6 +977,11 @@ def frame_cdif(doc, frame=None, verbose=False):
         result = normalize_bare_structure(result)
     else:
         result = _normalize_structure_subtrees(result)
+
+    # Step 7: collapse framing-embedded copies in reference-only slots back to a
+    # bare {@id} where the node's description survives elsewhere. Last, so the
+    # "survives elsewhere" test sees the document exactly as it will be validated.
+    result = collapse_reference_slots(result)
 
     return result
 
