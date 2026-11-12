@@ -905,6 +905,11 @@ def canonicalize_cdif_prefixes(doc):
     return walk(doc, is_root=True)
 
 
+# JSON-LD 1.1 gen-delim characters: a simple term can serve as a prefix only when
+# its IRI ends in one of these (JSON-LD 1.1, 4.1.2 "Compact IRIs").
+GEN_DELIMS = (':', '/', '?', '#', '[', ']', '@')
+
+
 def frame_cdif(doc, frame=None, verbose=False):
     """Frame an in-memory CDIF JSON-LD document and normalize it into the form
     the StructuredSchemas validate against. `frame` is a frame object, or None
@@ -935,8 +940,14 @@ def frame_cdif(doc, frame=None, verbose=False):
                 if isinstance(v, str) and k not in doc_ctx:
                     doc_ctx[k] = v
             doc['@context'] = doc_ctx
+            # Prefixes only. A term alias ("prefLabel": "skos:prefLabel") copied
+            # into the frame context makes compaction write the alias instead of
+            # the CURIE the StructuredSchemas require, so a document that is
+            # perfectly valid JSON-LD fails on every aliased property. JSON-LD 1.1
+            # (4.1.2) lets a simple term act as a prefix only when its IRI ends in
+            # a gen-delim character, so that is the test.
             for k, v in doc_ctx.items():
-                if isinstance(v, str) and k not in frame_ctx:
+                if isinstance(v, str) and k not in frame_ctx and v.endswith(GEN_DELIMS):
                     frame_ctx[k] = v
 
     # Step 1: Expand the document (resolves all prefixes to full IRIs)
