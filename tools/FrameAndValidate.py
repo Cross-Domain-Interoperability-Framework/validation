@@ -26,6 +26,7 @@ Usage:
                                [--schema schema.json] [--frame frame.jsonld]
 """
 
+import collections
 import copy
 import json
 import argparse
@@ -994,7 +995,49 @@ def frame_cdif(doc, frame=None, verbose=False):
     # "survives elsewhere" test sees the document exactly as it will be validated.
     result = collapse_reference_slots(result)
 
+    # Step 8: drop blank-node @ids that identify nothing.
+    result = prune_unreferenced_blank_ids(result)
+
     return result
+
+
+def prune_unreferenced_blank_ids(doc):
+    """Remove each blank-node @id (_:...) that occurs only once in the document.
+
+    Framing labels every node, so a node the source left anonymous comes out with
+    an @id such as "_:b22". A schema rule that an object must carry @id -- the core
+    prov:used item, for one -- then passes for every inline entity, identified or
+    not. A label used once links nothing, so removing it changes no triple. pyld
+    already prunes labels used once, but it counts over the whole framed @graph:
+    when a second top-level match (a catalog record whose schema:about points back
+    at the dataset) embeds the dataset again, every label in it occurs twice and is
+    kept, and after pick_main_entity each occurs once. Labels that occur more than
+    once in the validated document are references and are kept.
+    """
+    counts = collections.Counter()
+
+    def count(node):
+        if isinstance(node, dict):
+            v = node.get('@id')
+            if isinstance(v, str) and v.startswith('_:'):
+                counts[v] += 1
+            for x in node.values():
+                count(x)
+        elif isinstance(node, list):
+            for x in node:
+                count(x)
+
+    def prune(node):
+        if isinstance(node, dict):
+            return {k: prune(v) for k, v in node.items()
+                    if not (k == '@id' and isinstance(v, str)
+                            and v.startswith('_:') and counts[v] == 1)}
+        if isinstance(node, list):
+            return [prune(x) for x in node]
+        return node
+
+    count(doc)
+    return prune(doc)
 
 
 # Files the schema globs match but which are not schemas. conformance-schema-map
