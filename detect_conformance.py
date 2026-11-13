@@ -194,6 +194,21 @@ CONFORMANCE_CLASSES = [
         }""",
         "shacl": None,  # cdifArchiveDistribution has no content rules.shacl yet
     },
+    {
+        "uri": "https://w3id.org/cdif/niaid/1.0",
+        # The NIAID Data Discovery Portal profile (cdifNIAID composite: cdifCore
+        # + niaidDataset). Marked by any NIAID nde: property on the dataset, not
+        # the catalog record: portal records carry nde:date or one of its
+        # annotated terms. Mirrors cdifNIAID/conformance.json in the building
+        # blocks. PREFIXES has no nde:, so the ASK declares it.
+        "presence": """PREFIX nde: <https://discovery.biothings.io/ns/nde/>
+        ASK {
+            ?d a schema:Dataset ; ?p ?x .
+            FILTER NOT EXISTS { ?d schema:additionalType dcat:CatalogRecord }
+            FILTER(STRSTARTS(STR(?p), STR(nde:)))
+        }""",
+        "shacl": None,  # as the sidecar: niaidDataset's rules travel with the $ref graph
+    },
 ]
 
 

@@ -736,8 +736,14 @@ def remove_nulls_and_normalize(obj, parent_key=None):
                 result['schema:about'] = [about]
 
         # schema:encodingFormat: array on DataDownload and on MediaObject
-        # (archive member files in schema:hasPart), string on EntryPoint
-        if 'schema:DataDownload' in type_list or 'schema:MediaObject' in type_list:
+        # (archive member files in schema:hasPart), string on EntryPoint.
+        # A schema:hasPart item is a manifest part whatever its type -- untyped
+        # parts (NIAID's) carry an encodingFormat the manifest types as an array.
+        # Keyed on the parent rather than added to ARRAY_PROPERTIES because 19
+        # constraints (an OpenAPI content item, a related link's EntryPoint
+        # target) type it as a string; none of those sit under schema:hasPart.
+        if ('schema:DataDownload' in type_list or 'schema:MediaObject' in type_list
+                or parent_key == 'schema:hasPart' and 'schema:EntryPoint' not in type_list):
             ef = result.get('schema:encodingFormat')
             if ef is not None and not isinstance(ef, list):
                 result['schema:encodingFormat'] = [ef]
