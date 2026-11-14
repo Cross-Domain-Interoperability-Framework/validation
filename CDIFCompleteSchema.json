@@ -2992,8 +2992,16 @@
                     }
                 },
                 "schema:actionProcess": {
-                    "$ref": "#/$defs/HowTo",
-                    "description": "Sub-procedure for this step, a nested schema:HowTo with its own ordered steps. Use it for a step whose internal procedure has several phases."
+                    "description": "Sub-procedure for this step, a nested schema:HowTo with its own ordered steps. Use it for a step whose internal procedure has several phases. An {@id} reference names a HowTo described elsewhere in the document or outside it: a sub-procedure several steps share, or one a framed document cuts to its @id where the procedures refer to each other.",
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/HowTo"
+                        },
+                        {
+                            "$ref": "#/$defs/ObjectReference",
+                            "description": "reference to a sub-procedure defined elsewhere"
+                        }
+                    ]
                 }
             },
             "required": [
