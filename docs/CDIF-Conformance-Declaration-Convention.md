@@ -63,8 +63,8 @@ The `requires` / `exclusiveGroup` / `priority` fields are the **stage-2** additi
   "$schema": "https://w3id.org/cdif/schema/conformance-declaration/0.1",
   "conformsTo": "https://w3id.org/cdif/provenance/1.1",
   "title": "CDIF Provenance profile",
-  "description": "Marked by a dual-typed prov:Activity + schema:Action carrying properties beyond prov:used (not merely prov:wasGeneratedBy, which is core).",
-  "presence": "ASK {\n  ?d prov:wasGeneratedBy ?a .\n  ?a a prov:Activity, schema:Action ; ?p ?o .\n  FILTER (?p NOT IN (rdf:type, prov:used))\n}",
+  "description": "Marked by a dual-typed prov:Activity + schema:Action with at least one of schema:instrument, schema:object or schema:actionProcess (not merely prov:wasGeneratedBy, which is core).",
+  "presence": "ASK {\n  ?d prov:wasGeneratedBy ?a .\n  ?a a prov:Activity, schema:Action .\n  { ?a schema:instrument ?x } UNION\n  { ?a schema:object ?x } UNION\n  { ?a schema:actionProcess ?x }\n}",
   "validityShapes": "cdifDataType/cdifProvActivity/rules.shacl"
 }
 ```
