@@ -51,6 +51,15 @@ PROFILES = [
     # provenance/1.1 is deliberately absent: profile-provenance is still in
     # review, has no v1.1.0 tag, and its Pages source is its review branch. Add
     # it here when it is released.
+    #
+    # The XAS tiers live on metadataBuildingBlocks main, with superseded
+    # versions pinned to commits, and their schemas name their own URI.
+    ("xasCore", "1.0"), ("xasCore", "1.1"), ("xasCore", "1.2"),
+    ("xasOptional", "1.0"), ("xasOptional", "1.1"), ("xasOptional", "1.2"),
+    # xasDocument's resolved schema never names xasDocument; it names the
+    # xasCore version it requires, which is the version it is. The third field
+    # is the URI the artifact declares, when that is not the component itself.
+    ("xasDocument", "1.1", "xasCore"), ("xasDocument", "1.2", "xasCore"),
 ]
 
 TIMEOUT = 30
@@ -62,9 +71,10 @@ def fetch(url):
         return r.status, r.headers.get("Content-Type", ""), r.read().decode("utf-8", "replace")
 
 
-def check(component, version):
+def check(component, version, declares=None):
     """Return (ok, detail). ok is None when the check could not run."""
     uri = f"{BASE}/{component}/{version}/schema"
+    component = declares or component  # the URI the artifact itself names
     want = f"w3id.org/cdif/{component}/{version}"
     try:
         status, ctype, body = fetch(uri)
@@ -377,8 +387,8 @@ def main():
     print(f"{'conformance URI':<46} {'result':<8} detail")
     print("-" * 96)
     bad, skipped = [], []
-    for component, version in PROFILES:
-        ok, detail = check(component, version)
+    for component, version, *declares in PROFILES:
+        ok, detail = check(component, version, *declares)
         label = f"{BASE}/{component}/{version}/schema".replace("https://", "")
         mark = "OK" if ok else ("SKIP" if ok is None else "WRONG")
         print(f"{label:<46} {mark:<8} {detail}")
