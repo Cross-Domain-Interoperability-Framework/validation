@@ -466,21 +466,51 @@ def _normalize_structure_subtrees(obj):
 
 
 
+_CATALOG_RECORD_TOKENS = frozenset({
+    'dcat:CatalogRecord',
+    'http://www.w3.org/ns/dcat#CatalogRecord',
+})
+
+
 def _is_catalog_record(item):
     """True if the item's schema:additionalType marks it as a catalog record.
 
     The CDIF schema:subjectOf wrapper is itself @type=schema:Dataset (so the
     Dataset frame matches it), but is distinguished by schema:additionalType
-    containing 'dcat:CatalogRecord'. The main-entity picker uses this to skip
-    the catalog-record entity."""
+    dcat:CatalogRecord. The main-entity picker uses this to skip the
+    catalog-record entity.
+
+    The value may be the compact CURIE 'dcat:CatalogRecord' or the full dcat#
+    IRI, as a bare string or an {@id} object -- the IRI-lint normalization emits
+    the {@id} form -- singly or in a list. All of these are recognized; matching
+    only the compact string let an {@id}-form catalog record through as an
+    ordinary candidate."""
     if not isinstance(item, dict):
         return False
     at = item.get('schema:additionalType')
     if at is None:
         return False
-    if isinstance(at, str):
-        at = [at]
-    return 'dcat:CatalogRecord' in at
+    for v in (at if isinstance(at, list) else [at]):
+        if isinstance(v, dict):
+            v = v.get('@id')
+        if isinstance(v, str) and v in _CATALOG_RECORD_TOKENS:
+            return True
+    return False
+
+
+def _has_catalog_record_subjectof(item):
+    """True if item carries schema:subjectOf whose value is a catalog record.
+
+    This is the CDIF metadata-about-metadata wrapper that marks the described
+    resource -- the document's root -- as distinct from a related dataset or a
+    schema:hasPart member, neither of which carries it. A bare schema:subjectOf
+    is not enough: its value must itself be tagged dcat:CatalogRecord."""
+    so = item.get('schema:subjectOf') if isinstance(item, dict) else None
+    if so is None:
+        return False
+    return any(_is_catalog_record(v)
+               for v in (so if isinstance(so, list) else [so])
+               if isinstance(v, dict))
 
 
 def _frame_root_types(frame):
@@ -548,24 +578,81 @@ def _referenced_ids(graph):
     return refs
 
 
+def _haspart_member_ids(graph):
+    """@ids of nodes that appear as a schema:hasPart member anywhere in the
+    graph -- i.e. parts of some other node.
+
+    A part is never the document's main entity, so the picker excludes these.
+    Collected across the whole tree (the hasPart may sit on a nested node),
+    from both an embedded member (a dict carrying its own @id) and a bare
+    {@id} reference."""
+    ids = set()
+
+    def collect(value):
+        if isinstance(value, dict):
+            got = value.get('@id')
+            if isinstance(got, str):
+                ids.add(got)
+        elif isinstance(value, list):
+            for v in value:
+                collect(v)
+
+    def walk(node):
+        if isinstance(node, dict):
+            for key, value in node.items():
+                if key == 'schema:hasPart':
+                    collect(value)
+                walk(value)
+        elif isinstance(node, list):
+            for v in node:
+                walk(v)
+
+    for item in graph:
+        walk(item)
+    return ids
+
+
 def pick_main_entity(graph, frame):
     """Choose the document's main entity from a framed @graph.
 
-    Profile-agnostic: prefer a node nothing else references (the root of a
-    hasPart tree), then one whose @type matches the frame's root type
-    (skipping catalog records), then a node with schema:distribution, then one
-    with schema:url, then the first non-catalog-record node.
+    Profile-agnostic: skip catalog records and schema:hasPart members, prefer
+    the node carrying schema:subjectOf (its catalog record), then a node
+    nothing else references (the root of a hasPart tree), then one with
+    schema:distribution, then one with schema:url, then one whose @type matches
+    the frame's root type, then the first remaining node.
 
-    The unreferenced-node check has to come FIRST. Without it, a dataset
-    whose parts carry the distributions -- a package of independently
-    accessible resources, where the aggregate itself has no single
-    download -- loses to its own first part on the schema:distribution
-    test, and the validator then reports on the part while silently
-    discarding the dataset. Every such record passes, because the thing
-    being checked was never the thing being described.
+    A schema:hasPart member is excluded first because it is a child of some
+    other node, never the subject. Without this, a record whose root and one of
+    its parts are both schema:Dataset can validate the part: framing hoists both
+    to the @graph, and a part that sorts first and carries a schema:url wins the
+    url test below (CDIF-validation issue #20). schema:subjectOf then names the
+    root positively, since the catalog record's schema:about back-reference
+    keeps the root from looking "unreferenced".
+
+    The unreferenced-node check still matters for packages whose parts carry the
+    distributions -- a set of independently accessible resources where the
+    aggregate has no single download -- so the aggregate is not lost to its own
+    first part on the schema:distribution test.
     """
     candidates = [it for it in graph
                   if isinstance(it, dict) and not _is_catalog_record(it)]
+    # A schema:hasPart member is a child, never the main entity. Drop parts up
+    # front so a part that happens to carry a distribution or url (and sorts
+    # before the aggregate in the framed @graph) can't be chosen over the
+    # resource that contains it. Guarded: never empty the candidate set.
+    part_ids = _haspart_member_ids(graph)
+    if part_ids:
+        non_parts = [it for it in candidates if it.get('@id') not in part_ids]
+        if non_parts:
+            candidates = non_parts
+    # The described resource carries schema:subjectOf whose value is its catalog
+    # record (schema:additionalType dcat:CatalogRecord); a related dataset or a
+    # part does not. Prefer it -- this is the root even when the catalog record's
+    # schema:about back-reference makes it look "referenced" below. Guarded: only
+    # narrows when such a node exists.
+    subj = [it for it in candidates if _has_catalog_record_subjectof(it)]
+    if subj:
+        candidates = subj
     if len(candidates) > 1:
         referenced = _referenced_ids(graph)
         roots = [it for it in candidates
