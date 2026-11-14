@@ -15,6 +15,24 @@ module detection, plus the sidecars and loader wiring that feed it.
 
 ---
 
+## Update — 2026-11-14 (current status)
+
+Re-verified each open problem against the live repo state (not just commit logs).
+
+| # | Item | Owner repo | Status |
+|---|------|-----------|--------|
+| O1 | `#None` physical-mapping refs | amds-ldeo/metadata | 🟡 largely fixed — 912→78 refs, 877→3 records; residual in 3 files |
+| O2 | base-fixture over-match | geochemBuildingBlocks | 🟡 partially fixed — `examplegeochemProduct` & `-monolithic` clean; `exampleadaProduct`→adaEPMA persists |
+| O3 | `cdifDiscovery` presence too broad | mBB + validation | ✅ resolved both sides |
+| O4 | commit geochem sidecars | geochemBuildingBlocks | ✅ done — 66 sidecars tracked |
+| O5 | wire both detection stages into loader | amds-ldeo/metadata | ✅ done |
+| O6 | ICP-MS TAPP tie-break | validation + gBB + metadata | ⚪ open by design |
+
+Net: O3/O4/O5 done, O1/O2 down to residuals, O6 intentionally pending. Per-item
+detail is annotated inline under each heading below (**Status (2026-11-14)**).
+
+---
+
 ## Status — the validation engine is done and validated
 
 Landed and **pushed** to validation `main`: two-stage engine
@@ -74,6 +92,11 @@ engine.)
   to real `cdi:InstanceVariable` nodes.
 - **Target repo.** `amds-ldeo/metadata` (the ADA `json_table` → CDIF generator).
 - **Owner.** *metadata Geochem forms interface*. Open.
+- **Status (2026-11-14).** 🟡 Largely fixed. `#None` refs down from 912 to **78**,
+  and from 877 records to **3** (`metadata_10.60707-3kzn-r786`, `-ejdm-g828`,
+  `-sjkk-h605`). Residual only; the generator now emits a missing
+  `cdif:physicalDataType` as an object reference (metadata commits `e6bc11d`,
+  `70c9c60`).
 
 ### O2 — Base-fixture over-match (gBB acceptance group 4)
 - **Problem.** 3 base fixtures over-match: `exampleadaProduct*` pick up
@@ -83,6 +106,11 @@ engine.)
   not satisfy a narrower profile's marker.
 - **Target repo.** `amds-ldeo/geochemBuildingBlocks`.
 - **Owner.** *gBB TAPPS*. Open (gBB's defect).
+- **Status (2026-11-14).** 🟡 Partially fixed (presence-level detection).
+  `examplegeochemProduct` → `[geochemProduct]` only (the adaProduct over-match is
+  gone); `exampleadaProduct-monolithic` clean; but `exampleadaProduct` still picks
+  up `adaEPMA`. The base `geochemProduct` presence is still the broad
+  `ASK { ?d prov:wasGeneratedBy ?a }`. Still gBB-owned.
 
 ### O3 — `cdifDiscovery` presence rule is too broad
 - **Problem.** `cdifDiscovery`'s presence is `?d a schema:Dataset ; schema:name ;
@@ -96,6 +124,12 @@ engine.)
 - **Target repo.** `metadataBuildingBlocks` (`cdifDiscovery/conformance.json`) +
   the `CONFORMANCE_CLASSES` registry in `validation/detect_conformance.py`.
 - **Owner.** Needs **Steve's design decision**; then mBB + validation. Open.
+- **Status (2026-11-14).** ✅ Resolved both sides. The decision was made and
+  applied: `cdifDiscovery` presence now keys on use of optional markers
+  (`measurementTechnique` / `variableMeasured` / `spatialCoverage` /
+  `temporalCoverage` / `dqv:hasQualityMeasurement`), catalog-record-filtered — in
+  the mBB sidecar (`cdifDiscovery/conformance.json`) and the validation in-code
+  registry (`detect_conformance.py`).
 
 ### O4 — Generate and commit the geochem sidecars
 - **Problem / status.** ~63 `conformance.json` sidecars generated across 76
@@ -107,6 +141,8 @@ engine.)
   TAPP-over-legacy; ICP-MS families equal-priority ties), then commit.
 - **Target repo.** `amds-ldeo/geochemBuildingBlocks`.
 - **Owner.** *gBB TAPPS*. Open.
+- **Status (2026-11-14).** ✅ Done. 66 `conformance.json` sidecars under gBB
+  `_sources`, all git-tracked (the handoff estimated ~63, uncommitted).
 
 ### O5 — Wire both detection stages into the loader
 - **Problem.** The ADA loader must run stage 1, then stage 2, and write both into
@@ -120,6 +156,10 @@ engine.)
   `prior_uris` (the check that would have caught the earlier wrapper bug).
 - **Target repo.** `amds-ldeo/metadata`.
 - **Owner.** *metadata Geochem forms interface*. Open (waits on O4).
+- **Status (2026-11-14).** ✅ Done. `ada_metadata_forms/core/services/conformance.py`
+  runs stage 1 (`detect_cdif_conformance`), stage 2 (`detect_domain_conformance`,
+  with `bb_dir`), then `apply_conformance` twice (CDIF, then `GEOCHEM_BASE`
+  `append=True`) — exactly the proposed wiring.
 
 ### O6 — ICP-MS tie-break when TAPP references exist
 - **Problem.** The six ICP-MS families tie today because no record carries a TAPP
@@ -131,6 +171,10 @@ engine.)
 - **Target repos.** `validation` (builder) + `amds-ldeo/geochemBuildingBlocks`
   (regenerate those families' presence) + `amds-ldeo/metadata` (records carry the
   ref). Open by design, sequenced last.
+- **Status (2026-11-14).** ⚪ Still open by design. `build_component_presence_ask`
+  exists in `detect_conformance.py`, but its docstring confirms the
+  TAPP-reference clause is deferred until the TAPP shape arrives. No records carry
+  a TAPP reference yet, so the ICP-MS families remain an honest tie (correct).
 
 ---
 
