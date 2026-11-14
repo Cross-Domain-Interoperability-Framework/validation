@@ -167,11 +167,18 @@ CONFORMANCE_CLASSES = [
         "uri": "https://w3id.org/cdif/provenance/1.1",
         # NOT merely prov:wasGeneratedBy (that minimal prov:Activity + prov:used
         # is declared in cdifCore). The cdifProv class is marked by a dual-typed
-        # prov:Activity + schema:Action carrying properties beyond prov:used.
+        # prov:Activity + schema:Action with at least one of schema:instrument,
+        # schema:object or schema:actionProcess -- the cdifProvActivity required
+        # one-of (metadataBuildingBlocks #81). Until 2026-11-14 any property
+        # other than rdf:type and prov:used counted, so an activity with only a
+        # name was "present"; the SHACL gate still rejected it, but --no-shacl
+        # declared it.
         "presence": """ASK {
             ?d prov:wasGeneratedBy ?a .
-            ?a a prov:Activity, schema:Action ; ?p ?o .
-            FILTER (?p NOT IN (rdf:type, prov:used))
+            ?a a prov:Activity, schema:Action .
+            { ?a schema:instrument ?x } UNION
+            { ?a schema:object ?x } UNION
+            { ?a schema:actionProcess ?x }
         }""",
         "shacl": "cdifDataType/cdifProvActivity/rules.shacl",
     },
