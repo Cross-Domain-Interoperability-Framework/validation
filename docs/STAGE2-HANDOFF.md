@@ -21,16 +21,17 @@ Re-verified each open problem against the live repo state (not just commit logs)
 
 | # | Item | Owner repo | Status |
 |---|------|-----------|--------|
-| O1 | `#None` physical-mapping refs | amds-ldeo/metadata | 🟡 largely fixed — 912→78 refs, 877→3 records; residual in 3 files |
+| O1 | `#None` physical-mapping refs | amds-ldeo/metadata | ✅ resolved — cause was None-label→`"None"` at source (`8443d5f`); all 81 fixtures regenerated & pushed; now 0/7,447 rows, 0/81 files |
 | O2 | base-fixture over-match | test expectation (not gBB) | ✅ resolved / reframed — real over-match gone; `adaEPMA` matches are correct detection |
 | O3 | `cdifDiscovery` presence too broad | mBB + validation | ✅ resolved both sides |
 | O4 | commit geochem sidecars | geochemBuildingBlocks | ✅ done — 66 sidecars tracked |
 | O5 | wire both detection stages into loader | amds-ldeo/metadata | ✅ done |
 | O6 | ICP-MS TAPP tie-break | validation + gBB + metadata | ⚪ open by design |
 
-Net: O2/O3/O4/O5 done (O2 reframed — see its note), O1 down to a residual, O6
-intentionally pending. Per-item
-detail is annotated inline under each heading below (**Status (2026-11-14)**).
+Net: O1/O2/O3/O4/O5 done (O1 resolved — see its 2026-11-15 note; O2 reframed — see
+its note), O6 intentionally pending. Per-item
+detail is annotated inline under each heading below (**Status (2026-11-14)**,
+with 2026-11-15 corrections where noted).
 
 ---
 
@@ -98,6 +99,30 @@ engine.)
   `-sjkk-h605`). Residual only; the generator now emits a missing
   `cdif:physicalDataType` as an object reference (metadata commits `e6bc11d`,
   `70c9c60`).
+- **Status (2026-11-15, corrects the note above).** ✅ Resolved. The *metadata
+  Geochem forms interface* session established, and this session verified on disk,
+  that the note above mischaracterized the fix in three ways:
+  - **Root cause.** The `#None` refs were not the physicalDataType-object commits
+    (`e6bc11d`/`70c9c60`); they were a **`None` `label` stringified to the literal
+    `"None"`** and emitted as `schema:name`/`@id`. Fixed **at source** by
+    `8443d5f` (2026-10-16), upstream of CDIF generation.
+  - **Scope.** It was never "3 residual files." **All 81** `testJSONMetadata`
+    fixtures were **stale pre-fix snapshots**; the "78 refs / 3 records" figure was
+    read from that stale corpus, not from live output. The corpus was fully
+    regenerated (metadata `111617b`, now at `6bf026c`) and **pushed** — present on
+    both `origin/metadata_form` and `usgin/metadata_form`, branch 0/0.
+  - **The 912/877 figure is UNVERIFIABLE, not merely unreconciled.** The only data
+    that could reproduce it — the pre-2026-10-16 generated JSON in
+    `ada_subjects.json_table` — was **overwritten in place** during the 2026-11-09/10
+    regeneration, with no backup or snapshot. The only figures now reachable from
+    current data are **0 of 7,447 rows** (`ada_subjects`) and **0 of 81 files**
+    (`testJSONMetadata`). Recovering 912/877 would require a production `ada2` read
+    of the pre-fix output; that is the data owner's call and was not pursued.
+  - **Caution for future readers.** A clean validation run is **not** evidence that
+    generated fixtures are current — stale snapshots can validate fine. (Stage-2
+    `detect_conformance` is content-based and does **not** key off validation
+    pass/fail, so it is unaffected; this caution is about reading corpus freshness
+    from validation results, which you cannot do.)
 
 ### O2 — Base-fixture over-match (gBB acceptance group 4)
 - **Problem.** 3 base fixtures over-match: `exampleadaProduct*` pick up
