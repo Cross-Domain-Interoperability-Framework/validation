@@ -17,6 +17,15 @@ is the **union** across all profiles (wrapping an absent property is a no-op), a
 the main-entity picker matches the frame's root `@type`, so it handles both
 Dataset-rooted and SKOS `ConceptScheme`-rooted profiles.
 
+When framing yields a `@graph` with several candidate roots, the picker chooses
+the **record root**, not a nested packaged `schema:Dataset`: it excludes any node
+that appears as a `schema:hasPart` member of another, and — among what remains —
+prefers the node whose `schema:subjectOf` carries a catalog record
+(`schema:additionalType` ∈ `dcat:CatalogRecord`, matched in both the string and
+`{"@id": …}` IRI forms). This is the issue&nbsp;#20 fix: without it, a dataset
+that bundles sub-datasets under `schema:hasPart` could be framed with one of its
+parts selected as the main entity.
+
 ### Detecting conformance while framing
 
 `FrameAndValidate.py --conformance` frames the document, then derives which CDIF

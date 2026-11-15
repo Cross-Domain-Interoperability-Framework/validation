@@ -108,11 +108,11 @@ which bundles this repo as a git submodule and imports `detect_conformance.py` f
 | [`tools/`](tools/) | `FrameAndValidate.py` (the **normative** framing+validation script propagated to the release repos), `sync_frameandvalidate.py`, `check_w3id_redirects.py`, `FlattenCDIF.py` (tree → `@graph`), `migrate_corpus_cdi_to_cdif.py`, `sync_mirror_tools.sh`, `templates/` (a CI-workflow template), and `README.md` |
 | [`ShaclValidation/`](ShaclValidation/) | The six composite SHACL shape bundles (`CDIF-{Discovery,DataDescription,DataStructure,Provenance,Manifest,Complete}-Shapes.ttl`), their generator `generate_shacl_shapes.py`, the report generator `generate_shacl_report.py`, the `ShaclJSONLDContext.py` runner, and `README.md` |
 | [`ddi-cdi/`](ddi-cdi/) | DDI-CDI JSON Schemas: the full `ddi-cdi.schema_normative.json` (395 definitions), the self-contained `cls-InstanceVariable-resolved.json` (+ README), and class schemas (`ActivitySchema`, `AgentHierarchySchema`, `SubstantiveValueDomainSchema`, `SentinelValueDomainSchema`) |
-| [`docs/`](docs/) | Specs and design notes: the conformance-declaration convention + its JSON Schema, the provenance building-blocks comparison, the CDIF↔DDI-CDI mapping, the profiles/metadata-validation notes, the w3id redirect policy, and project notes |
+| [`docs/`](docs/) | Specs and design notes: the conformance-declaration convention + its JSON Schema, the provenance building-blocks comparison, the CDIF↔DDI-CDI mapping, the profiles/metadata-validation notes, and the w3id redirect policy |
 | [`MetadataExamples/`](MetadataExamples/) | Curated CDIF metadata example records used as regression fixtures (`cdifComplete-example`, `nwis-water-quality-longdata`, `prov-ocean-temp-example`, and XAS/XRD/XANES examples) |
 | [`testJSONMetadata/`](testJSONMetadata/) | 77 ADA metadata test files (the primary `batch_validate.py` corpus) plus a `README.md` |
 | [`HPCA_burstData_NASA/`](HPCA_burstData_NASA/) | A NASA MMS HPCA burst-data worked example: the CDIF record alongside its source CDF/HAPI structure descriptions |
-| [`archive/`](archive/) | Superseded pre-2026 schemas, frames, contexts, and legacy SHACL examples (kept for reference; not used by current validation) |
+| [`archive/`](archive/) | Superseded material kept for reference (not used by current validation): pre-2026 schemas, frames, contexts, legacy SHACL examples, and migrated project notes (`project-notes.md`) |
 | `.github/` | CI workflows: `check-w3id-redirects.yml` (weekly redirect/tag-pin guard). The cdif-umlmodel tools mirror is **pulled by that repo**, not pushed from here -- see `tools/sync_mirror_tools.sh` |
 | `.githooks/` | A `pre-commit` hook |
 | `.idea/` | JetBrains IDE project settings (not needed to run anything) |
@@ -381,13 +381,13 @@ The `FrameAndValidate.py` script handles the complete workflow:
 
 ```bash
 # Validate with 2026 schema (default)
-python FrameAndValidate.py my-metadata.jsonld -v
+python tools/FrameAndValidate.py my-metadata.jsonld -v
 
 # Save framed output
-python FrameAndValidate.py my-metadata.jsonld -o framed.json -v
+python tools/FrameAndValidate.py my-metadata.jsonld -o framed.json -v
 
 # Use legacy schema
-python FrameAndValidate.py my-metadata.jsonld --frame archive/CDIF-frame.jsonld --schema archive/CDIF-JSONLD-schema-schemaprefix.json -v
+python tools/FrameAndValidate.py my-metadata.jsonld --frame archive/CDIF-frame.jsonld --schema archive/CDIF-JSONLD-schema-schemaprefix.json -v
 ```
 
 **Options:**
@@ -759,7 +759,7 @@ The generator applies these transformations when reading building block source s
 To see the framed output before validation:
 
 ```bash
-python FrameAndValidate.py my-metadata.jsonld -o framed.json
+python tools/FrameAndValidate.py my-metadata.jsonld -o framed.json
 ```
 
 Or in Python:
@@ -824,7 +824,7 @@ The `MetadataExamples/` directory contains sample CDIF JSON-LD documents for tes
 | `nwis-water-quality-longdata.json` | Water Quality | NWIS groundwater nutrient analysis (464 rows, 20 columns) in `cdi:LongDataSet` long (narrow) format with `Descriptor`/`ReferenceVariable` roles, `cdif:hasPhysicalMapping`, and 5 `Measure` domain variables. Declares `core`/`discovery`/`data_description`/`data_structure` 1.1 conformance. Validates against graph schema (`CDIF-graph-schema-2026.json`) |
 | `prov-ocean-temp-example.json` | Ocean Temperature | Extended provenance example demonstrating `cdifProv` building block: action chaining (`schema:object`/`schema:result`), multi-typed `["schema:Action", "prov:Activity"]` activities, agents with Role wrappers, inline `schema:HowTo` methodology via `schema:actionProcess` with 3 steps, diverse instruments, facility location, and backward-compatible `prov:used`. Validates against graph schema |
 
-Corresponding Croissant output files are in the [`croissant/`](croissant/) directory.
+(The RO-Crate and Croissant renderings of these examples moved out with the [format converters](https://github.com/Cross-Domain-Interoperability-Framework/converters).)
 
 ## DDI-CDI Resolved Schema
 
