@@ -22,13 +22,14 @@ Re-verified each open problem against the live repo state (not just commit logs)
 | # | Item | Owner repo | Status |
 |---|------|-----------|--------|
 | O1 | `#None` physical-mapping refs | amds-ldeo/metadata | 🟡 largely fixed — 912→78 refs, 877→3 records; residual in 3 files |
-| O2 | base-fixture over-match | geochemBuildingBlocks | 🟡 partially fixed — `examplegeochemProduct` & `-monolithic` clean; `exampleadaProduct`→adaEPMA persists |
+| O2 | base-fixture over-match | test expectation (not gBB) | ✅ resolved / reframed — real over-match gone; `adaEPMA` matches are correct detection |
 | O3 | `cdifDiscovery` presence too broad | mBB + validation | ✅ resolved both sides |
 | O4 | commit geochem sidecars | geochemBuildingBlocks | ✅ done — 66 sidecars tracked |
 | O5 | wire both detection stages into loader | amds-ldeo/metadata | ✅ done |
 | O6 | ICP-MS TAPP tie-break | validation + gBB + metadata | ⚪ open by design |
 
-Net: O3/O4/O5 done, O1/O2 down to residuals, O6 intentionally pending. Per-item
+Net: O2/O3/O4/O5 done (O2 reframed — see its note), O1 down to a residual, O6
+intentionally pending. Per-item
 detail is annotated inline under each heading below (**Status (2026-11-14)**).
 
 ---
@@ -111,6 +112,25 @@ engine.)
   gone); `exampleadaProduct-monolithic` clean; but `exampleadaProduct` still picks
   up `adaEPMA`. The base `geochemProduct` presence is still the broad
   `ASK { ?d prov:wasGeneratedBy ?a }`. Still gBB-owned.
+- **Status (2026-11-15, corrects the note above).** ✅ Resolved / reframed —
+  **not a gBB defect.** Verified in gBB `_sources` with the gBB TAPPS session: the
+  only real base over-match (`examplegeochemProduct` → `adaProduct`) is gone. The
+  remaining `exampleadaProduct` → `[geochemProduct, adaProduct, adaEPMA]` is
+  **correct detection**, not an over-match: the fixture declares an EPMA component
+  (`ada:componentType: ada:EPMAImage`, EPMA `additionalType`), and `adaEPMA`'s
+  presence ASK is a narrow, correct componentType check (six EPMA values). A
+  technique-neutral `adaProduct` fixture is **not expressible** — all 131
+  product-type `contains` labels name a technique — so the acceptance-group-4
+  expectation that a base `adaProduct` matches no technique is unsatisfiable; the
+  **expectation** needs changing, not the engine or the sidecars.
+  `exampleadaProduct-monolithic` is clean only incidentally (its componentType is
+  `ada:other`); `exampleadaProduct-monolithic-tabular` carries `ada:EPMAQEATabular`
+  and will match `adaEPMA` identically once added to the stage-2 set (two fixtures,
+  not one). The 2026-11-14 "SHACL validity gate may withhold it in production"
+  caveat was wrong: **0 of 66** sidecars carry `validityShapes`, so there is no
+  gate — presence-only is the full answer. Separate gBB-owned gap (out of scope for
+  O2): no technique-neutral image componentType (only `ada:plot` is neutral; no
+  `ada:contextImage`).
 
 ### O3 — `cdifDiscovery` presence rule is too broad
 - **Problem.** `cdifDiscovery`'s presence is `?d a schema:Dataset ; schema:name ;
