@@ -839,12 +839,15 @@ def remove_nulls_and_normalize(obj, parent_key=None):
             if isinstance(ef, list) and len(ef) == 1:
                 result['schema:encodingFormat'] = ef[0]
 
-        # schema:contributor inside Role: unwrap single-element array to bare value
-        # (at root level it's an array of contributors, but inside Role it's a single agent)
+        # schema:contributor / schema:participant inside Role: unwrap a single-element
+        # array to the bare value. Both are in ARRAY_PROPERTIES (a dataset's contributors,
+        # an activity's participants), but inside a Role each holds the one agent in that
+        # role -- schema.org's Role pattern repeats the property the Role sits under.
         if 'schema:Role' in type_list:
-            inner = result.get('schema:contributor')
-            if isinstance(inner, list) and len(inner) == 1:
-                result['schema:contributor'] = inner[0]
+            for k in ('schema:contributor', 'schema:participant'):
+                inner = result.get(k)
+                if isinstance(inner, list) and len(inner) == 1:
+                    result[k] = inner[0]
 
         # schema:alternateName: array on variableMeasured and spatialCoverage items,
         # on an instrument and on its schema:hasPart components (typed schema:Thing,
