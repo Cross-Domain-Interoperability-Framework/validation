@@ -100,7 +100,8 @@ PREFIX dqv: <http://www.w3.org/ns/dqv#>
 # BB _sources dir) used as the validity gate. shacl=None => presence-only.
 CONFORMANCE_CLASSES = [
     {
-        "uri": "https://w3id.org/cdif/core/1.1",
+        "uri": "https://w3id.org/cdif/core/2.0",
+        "replaces": ["https://w3id.org/cdif/core/1.1", "https://w3id.org/cdif/core/1.0"],
         # A described dataset: a schema:Dataset (not the catalog record) with a
         # name and an identifier.
         "presence": """ASK {
@@ -110,7 +111,8 @@ CONFORMANCE_CLASSES = [
         "shacl": None,  # baseline; structural validity is the JSON Schema's job
     },
     {
-        "uri": "https://w3id.org/cdif/discovery/1.1",
+        "uri": "https://w3id.org/cdif/discovery/2.0",
+        "replaces": ["https://w3id.org/cdif/discovery/1.1", "https://w3id.org/cdif/discovery/1.0"],
         # Marked by USE of the enrichment properties cdifDiscovery introduces
         # beyond core -- measurementTechnique, variableMeasured, spatialCoverage,
         # temporalCoverage, dqv:hasQualityMeasurement -- not by name+identifier
@@ -129,7 +131,8 @@ CONFORMANCE_CLASSES = [
         "shacl": None,  # cdifDiscovery is a thin wrapper (no rules.shacl)
     },
     {
-        "uri": "https://w3id.org/cdif/data_description/1.1",
+        "uri": "https://w3id.org/cdif/data_description/2.0",
+        "replaces": ["https://w3id.org/cdif/data_description/1.1", "https://w3id.org/cdif/data_description/1.0"],
         # Marked by DDI-CDI InstanceVariable-typed variables (not just any
         # schema:variableMeasured, which is discovery-level PropertyValue).
         "presence": """ASK {
@@ -138,7 +141,8 @@ CONFORMANCE_CLASSES = [
         "shacl": "cdifDataType/cdifInstanceVariable/rules.shacl",
     },
     {
-        "uri": "https://w3id.org/cdif/data_structure/1.1",
+        "uri": "https://w3id.org/cdif/data_structure/2.0",
+        "replaces": ["https://w3id.org/cdif/data_structure/1.1", "https://w3id.org/cdif/data_structure/1.0"],
         # Marked by an explicit data-structure description: an isStructuredBy
         # link to a DataStructure node, or a node typed as one of the DDI-CDI
         # structure classes.
@@ -164,7 +168,8 @@ CONFORMANCE_CLASSES = [
         "shacl": "cdifDataType/cdifDataStructureComponent/rules.shacl",
     },
     {
-        "uri": "https://w3id.org/cdif/provenance/1.1",
+        "uri": "https://w3id.org/cdif/provenance/2.0",
+        "replaces": ["https://w3id.org/cdif/provenance/1.1", "https://w3id.org/cdif/provenance/1.0"],
         # NOT merely prov:wasGeneratedBy (that minimal prov:Activity + prov:used
         # is declared in cdifCore). The cdifProv class is marked by a dual-typed
         # prov:Activity + schema:Action with at least one of schema:instrument,
@@ -183,7 +188,8 @@ CONFORMANCE_CLASSES = [
         "shacl": "cdifDataType/cdifProvActivity/rules.shacl",
     },
     {
-        "uri": "https://w3id.org/cdif/manifest/1.1",
+        "uri": "https://w3id.org/cdif/manifest/2.0",
+        "replaces": ["https://w3id.org/cdif/manifest/1.1", "https://w3id.org/cdif/manifest/1.0"],
         # Marked by schema:hasPart in either of the two places the profile
         # declares it: on a distribution item, for archive members with no
         # address of their own (profile 3.5); or on the Dataset, for package
@@ -463,6 +469,24 @@ def detect_conformance(*args, **kwargs):
 # this space and leaves any other conformsTo entries (e.g. a domain-specific
 # profile) untouched.
 CDIF_BASE = "https://w3id.org/cdif/"
+
+
+def current_uri(uri, classes=None):
+    """The current URI of the conformance class a declared URI names: a record
+    declaring a replaced version (core/1.1, core/1.0) names the class whose current
+    URI is core/2.0. Any other URI is returned unchanged (trailing slash dropped).
+
+    CDIF moved its profiles from 1.1 to 2.0 in metadataBuildingBlocks d27f362
+    (2026-11-15). Detection declares 2.0, but records published as 1.1 stay valid
+    against the 1.1 release schemas that w3id still serves, so a 1.1 claim must
+    still count as a claim to the class."""
+    if not isinstance(uri, str):
+        return uri
+    u = uri.rstrip("/")
+    for cls in classes or CONFORMANCE_CLASSES:
+        if u == cls["uri"] or u in cls.get("replaces", ()):
+            return cls["uri"]
+    return u
 
 # Stage-2 domain profiles (geochemProduct, adaProduct, technique profiles) live
 # under this base. detect_domain_conformance / apply_conformance manage exactly

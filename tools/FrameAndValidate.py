@@ -1398,24 +1398,28 @@ def check_conformance_consistency(framed, source_doc=None):
     # one it has no rule for (codelist, complexCitation, ...) would otherwise
     # look like an over-claim every single time.
     try:
-        from detect_conformance import CONFORMANCE_CLASSES
+        from detect_conformance import CONFORMANCE_CLASSES, current_uri
         detectable = {c["uri"] for c in CONFORMANCE_CLASSES}
     except Exception:
         detectable = None
+        current_uri = lambda u: u  # noqa: E731
     subject = source_doc if source_doc is not None else framed
     detected = {u for u in (detect_fn(subject) or [])
                 if u.startswith(CDIF_URI_PREFIX)}
     declared_all = _declared_conformance(subject)
-    declared = {u for u in declared_all if u.startswith(CDIF_URI_PREFIX)}
+    declared_raw = {u for u in declared_all if u.startswith(CDIF_URI_PREFIX)}
+    # By class: a replaced version (core/1.1) claims the class now at core/2.0.
+    declared = {current_uri(u) for u in declared_raw}
     comparable = declared if detectable is None else (declared & detectable)
     return {
-        'declared': sorted(declared),
+        'declared': sorted(declared_raw),
         'detected': sorted(detected),
         'overclaimed': sorted(comparable - detected),
         'undeclared': sorted(detected - declared),
-        'other': sorted(declared_all - declared),
+        'other': sorted(declared_all - declared_raw),
         'unchecked': sorted(declared - comparable),
-        'lost_in_framing': bool(declared and not _declared_conformance(framed)),
+        'outdated': sorted(u for u in declared_raw if current_uri(u) != u.rstrip("/")),
+        'lost_in_framing': bool(declared_raw and not _declared_conformance(framed)),
     }
 
 
