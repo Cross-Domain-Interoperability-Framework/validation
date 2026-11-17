@@ -56,8 +56,8 @@ disagreement in both directions:
 
 ```
 Checking declared conformsTo against detected conformance...
-  DECLARED BUT NOT DETECTED: https://w3id.org/cdif/data_description/1.1
-  DETECTED BUT NOT DECLARED: https://w3id.org/cdif/discovery/1.1
+  DECLARED BUT NOT DETECTED: https://w3id.org/cdif/data_description/2.0
+  DETECTED BUT NOT DECLARED: https://w3id.org/cdif/discovery/2.0
   Conformance INCONSISTENT
 ```
 
@@ -76,7 +76,7 @@ even when JSON Schema validation passes:
 Validation PASSED
 
 FAILED: conformsTo declares 1 profile(s) the content does not support:
-  https://w3id.org/cdif/data_description/1.1
+  https://w3id.org/cdif/data_description/2.0
 ```
 
 The exit is deferred until after the schema pass, so a document with both

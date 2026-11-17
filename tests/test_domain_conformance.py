@@ -31,11 +31,11 @@ T_ALPHA_2 = dc.GEOCHEM_BASE + "technique/laQicpms/1.0"
 T_BETA = dc.GEOCHEM_BASE + "technique/solutionIcpms/1.0"
 
 CDIF_MODULES = [
-    "https://w3id.org/cdif/core/1.1",
-    "https://w3id.org/cdif/discovery/1.1",
-    "https://w3id.org/cdif/data_description/1.1",
-    "https://w3id.org/cdif/data_structure/1.1",
-    "https://w3id.org/cdif/provenance/1.1",
+    "https://w3id.org/cdif/core/2.0",
+    "https://w3id.org/cdif/discovery/2.0",
+    "https://w3id.org/cdif/data_description/2.0",
+    "https://w3id.org/cdif/data_structure/2.0",
+    "https://w3id.org/cdif/provenance/2.0",
 ]
 
 
@@ -81,22 +81,22 @@ class StageOneAliasTest(unittest.TestCase):
     def test_bare_record_is_core_not_discovery(self):
         # Use-based discovery rule: name+identifier alone is core, not discovery.
         uris = dc.detect_cdif_conformance(_doc(), do_shacl=False)
-        self.assertIn("https://w3id.org/cdif/core/1.1", uris)
-        self.assertNotIn("https://w3id.org/cdif/discovery/1.1", uris)
+        self.assertIn("https://w3id.org/cdif/core/2.0", uris)
+        self.assertNotIn("https://w3id.org/cdif/discovery/2.0", uris)
 
     def test_discovery_detected_on_enrichment_use(self):
         doc = _doc()
         doc["schema:spatialCoverage"] = {"@type": "schema:Place",
                                          "schema:name": "Somewhere"}
         uris = dc.detect_cdif_conformance(doc, do_shacl=False)
-        self.assertIn("https://w3id.org/cdif/core/1.1", uris)
-        self.assertIn("https://w3id.org/cdif/discovery/1.1", uris)
+        self.assertIn("https://w3id.org/cdif/core/2.0", uris)
+        self.assertIn("https://w3id.org/cdif/discovery/2.0", uris)
 
     def test_deprecated_alias_still_works_and_warns(self):
         with warnings.catch_warnings(record=True) as caught:
             warnings.simplefilter("always")
             uris = dc.detect_conformance(_doc(), do_shacl=False)
-        self.assertIn("https://w3id.org/cdif/core/1.1", uris)
+        self.assertIn("https://w3id.org/cdif/core/2.0", uris)
         self.assertTrue(any(issubclass(w.category, DeprecationWarning)
                             for w in caught),
                         "alias should emit a DeprecationWarning")

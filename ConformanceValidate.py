@@ -459,7 +459,7 @@ def conformance_consistency(doc, declared):
     and apply_conformance preserves it.
     """
     try:
-        from detect_conformance import CONFORMANCE_CLASSES
+        from detect_conformance import CONFORMANCE_CLASSES, current_uri
         try:  # new name (stage-1 engine); fall back to the deprecated alias
             from detect_conformance import detect_cdif_conformance as detect_conformance
         except ImportError:
@@ -474,18 +474,25 @@ def conformance_consistency(doc, declared):
     # Only profiles the registry can actually produce are comparable. Declaring
     # one it has no rule for (codelist, complexCitation, ...) would otherwise
     # look like an over-claim every single time.
+    # Compare by conformance class: a record declaring a replaced version
+    # (core/1.1) claims the class whose current URI is core/2.0. That claim is
+    # consistent -- 1.1 records validate against the 1.1 release schemas w3id
+    # serves -- and is listed under "outdated" rather than as an over-claim.
     detectable = {c["uri"] for c in CONFORMANCE_CLASSES}
     detected = {u for u in found if u.startswith(CDIF_URI_PREFIX)}
-    claimed = {u for u in declared if u.startswith(CDIF_URI_PREFIX)}
+    claimed_raw = {u for u in declared if u.startswith(CDIF_URI_PREFIX)}
+    claimed = {current_uri(u) for u in claimed_raw}
+    outdated = sorted(u for u in claimed_raw if current_uri(u) != u.rstrip("/"))
     unchecked = sorted(claimed - detectable)
     over = sorted((claimed & detectable) - detected)
     under = sorted(detected - claimed)
     return {"status": "consistent" if not (over or under) else "inconsistent",
-            "declared": sorted(claimed),
+            "declared": sorted(claimed_raw),
             "detected": sorted(detected),
             "overclaimed": over,
             "undeclared": under,
-            "unchecked": unchecked}
+            "unchecked": unchecked,
+            "outdated": outdated}
 
 
 def run_conformance(doc, resolver, do_schema=True, do_shacl=True,

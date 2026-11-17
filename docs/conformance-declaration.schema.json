@@ -15,7 +15,7 @@
       "type": "string",
       "format": "uri",
       "description": "The canonical profile URI this building block defines (the value written into schema:subjectOf/dcterms:conformsTo when declared). Version aliasing (1.0/1.1) is handled by the resolver map, not here.",
-      "examples": ["https://w3id.org/cdif/provenance/1.1", "https://w3id.org/geochem/metadata/profiles/geochemProduct/1.0"]
+      "examples": ["https://w3id.org/cdif/provenance/2.0", "https://w3id.org/geochem/metadata/profiles/geochemProduct/1.0"]
     },
     "title": {
       "type": "string",
@@ -41,7 +41,7 @@
       "type": "array",
       "items": {"type": "string", "format": "uri"},
       "description": "Stage-2 only. conformsTo URIs that must ALREADY be declared — by stage 1 (a CDIF module) or by an earlier stage-2 class — before this class is eligible. A class whose presence holds but whose requires are not satisfied is WITHHELD with a reason, never silently dropped. Example: geochemProduct requires the five CDIF modules; adaProduct requires geochemProduct; a technique profile requires adaProduct.",
-      "examples": [["https://w3id.org/cdif/core/1.1", "https://w3id.org/cdif/discovery/1.1"]]
+      "examples": [["https://w3id.org/cdif/core/2.0", "https://w3id.org/cdif/discovery/2.0"]]
     },
     "exclusiveGroup": {
       "type": "string",

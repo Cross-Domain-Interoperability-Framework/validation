@@ -1,22 +1,41 @@
 {
-  "_comment": "Local URI->schema/SHACL map for ConformanceValidate.py --source local. Each CDIF profile maps to its framed JSON Schema (where one exists in this repo: discovery, data_description, complete) and its per-profile SHACL shapes (scoped to that profile, no cross-profile requirements). A record is validated against exactly the profiles its catalog record declares, so a discovery+provenance+manifest record is checked against provenance/manifest shapes without being required to carry data-description content. Both 1.0 and 1.1 versions map to the same artifacts. Paths are relative to this file; trailing-slash and datadescription/data_description insensitive.",
-
+  "_comment": "Local URI->schema/SHACL map for ConformanceValidate.py --source local. Each CDIF profile maps to its framed JSON Schema (where one exists in this repo: discovery, data_description, complete) and its per-profile SHACL shapes (scoped to that profile, no cross-profile requirements). A record is validated against exactly the profiles its catalog record declares, so a discovery+provenance+manifest record is checked against provenance/manifest shapes without being required to carry data-description content. The 2.0, 1.1 and 1.0 versions all map to the same artifacts, which are regenerated from metadataBuildingBlocks main (CDIF 2.0 since d27f362). They are not the 1.1 release: to check a record against the published 1.1 schemas use --source w3id (the default), where core/1.1 resolves to the release and core/2.0 to the updates branch. Paths are relative to this file; trailing-slash and datadescription/data_description insensitive.",
+  "https://w3id.org/cdif/core/2.0": {
+    "shacl": "ShaclValidation/CDIF-Discovery-Shapes.ttl"
+  },
   "https://w3id.org/cdif/core/1.1": {
+    "shacl": "ShaclValidation/CDIF-Discovery-Shapes.ttl"
+  },
+  "https://w3id.org/cdif/discovery/2.0": {
+    "schema": "CDIFDiscoverySchema.json",
     "shacl": "ShaclValidation/CDIF-Discovery-Shapes.ttl"
   },
   "https://w3id.org/cdif/discovery/1.1": {
     "schema": "CDIFDiscoverySchema.json",
     "shacl": "ShaclValidation/CDIF-Discovery-Shapes.ttl"
   },
+  "https://w3id.org/cdif/data_description/2.0": {
+    "schema": "CDIFDataDescriptionSchema.json",
+    "shacl": "ShaclValidation/CDIF-DataDescription-Shapes.ttl"
+  },
   "https://w3id.org/cdif/data_description/1.1": {
     "schema": "CDIFDataDescriptionSchema.json",
     "shacl": "ShaclValidation/CDIF-DataDescription-Shapes.ttl"
   },
+  "https://w3id.org/cdif/data_structure/2.0": {
+    "shacl": "ShaclValidation/CDIF-DataStructure-Shapes.ttl"
+  },
   "https://w3id.org/cdif/data_structure/1.1": {
     "shacl": "ShaclValidation/CDIF-DataStructure-Shapes.ttl"
   },
+  "https://w3id.org/cdif/provenance/2.0": {
+    "shacl": "ShaclValidation/CDIF-Provenance-Shapes.ttl"
+  },
   "https://w3id.org/cdif/provenance/1.1": {
     "shacl": "ShaclValidation/CDIF-Provenance-Shapes.ttl"
+  },
+  "https://w3id.org/cdif/manifest/2.0": {
+    "shacl": "ShaclValidation/CDIF-Manifest-Shapes.ttl"
   },
   "https://w3id.org/cdif/manifest/1.1": {
     "shacl": "ShaclValidation/CDIF-Manifest-Shapes.ttl"
@@ -25,13 +44,11 @@
     "schema": "CDIFCompleteSchema.json",
     "shacl": "ShaclValidation/CDIF-Complete-Shapes.ttl"
   },
-
   "_comment_composite": "The cdifComplete COMPOSITE building-block URI is what records actually declare -- cdifComplete-example.json carries it alongside core/discovery/data_description/manifest/provenance and never declares complete/1.1. Without this entry a complete record resolved to the data_description schema, which passes while checking a fraction of it.",
   "https://w3id.org/cdif/bbr/metadata/profiles/cdifCompositeProfile/cdifComplete": {
     "schema": "CDIFCompleteSchema.json",
     "shacl": "ShaclValidation/CDIF-Complete-Shapes.ttl"
   },
-
   "https://w3id.org/cdif/core/1.0": {
     "shacl": "ShaclValidation/CDIF-Discovery-Shapes.ttl"
   },
