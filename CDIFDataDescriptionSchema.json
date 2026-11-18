@@ -1144,44 +1144,53 @@
             ],
             "additionalProperties": false
         },
-        "Person": {
-            "description": "schema for cdif profile of schema.org/Person",
+        "Organization": {
             "type": "object",
             "properties": {
                 "@id": {
                     "type": "string"
                 },
                 "@type": {
+                    "default": [
+                        "schema:Organization"
+                    ],
                     "type": "array",
                     "items": {
-                        "type": "string"
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "enum": [
+                                    "schema:Organization",
+                                    "schema:FundingAgency",
+                                    "schema:Consortium",
+                                    "schema:Corporation",
+                                    "schema:EducationalOrganization",
+                                    "schema:FundingScheme",
+                                    "schema:GovernmentOrganization",
+                                    "schema:NGO",
+                                    "schema:Project",
+                                    "schema:ResearchOrganization"
+                                ]
+                            }
+                        ]
                     },
                     "contains": {
-                        "const": "schema:Person"
+                        "const": "schema:Organization"
                     },
                     "minItems": 1
                 },
+                "schema:additionalType": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/cdifConceptOrTermOrString"
+                    }
+                },
                 "schema:name": {
                     "type": "string",
-                    "description": "string label for person that is meaningful for human users, should format consistently. Recommend 'Family Name, Given name' format."
-                },
-                "schema:description": {
-                    "type": "string",
-                    "description": "additional information about the agent or their relation to the described resource"
-                },
-                "schema:identifier": {
-                    "description": "identifier for person, recommend ORCID",
-                    "anyOf": [
-                        {
-                            "$ref": "#/$defs/Identifier"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ]
+                    "description": "string label for organization that is meaningful for human users"
                 },
                 "schema:alternateName": {
-                    "description": "other labels by which the person might be known. A list when there are several; a single label may be a plain string, as JSON-LD framing writes a one-item list.",
+                    "description": "other labels by which the organization might be known. A list when there are several; a single label may be a plain string, as JSON-LD framing writes a one-item list.",
                     "anyOf": [
                         {
                             "type": "string"
@@ -1194,53 +1203,103 @@
                         }
                     ]
                 },
-                "schema:affiliation": {
+                "schema:description": {
+                    "type": "string",
+                    "description": "additional information about the agent or their relation to the described resource"
+                },
+                "schema:identifier": {
+                    "description": "identifier for organization",
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Identifier"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "schema:sameAs": {
+                    "type": "array",
+                    "description": "other identifiers for the organization",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/$defs/ObjectReference"
+                            }
+                        ]
+                    }
+                }
+            },
+            "allOf": [
+                {
+                    "required": [
+                        "@type"
+                    ]
+                },
+                {
+                    "anyOf": [
+                        {
+                            "required": [
+                                "schema:name"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "schema:identifier"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "RoleFiller": {
+            "description": "The Person or Organization in this role.",
+            "anyOf": [
+                {
+                    "$ref": "#/$defs/ObjectReference",
+                    "description": "IRI reference to a Person or Organization defined elsewhere"
+                },
+                {
+                    "description": "schema for cdif profile of schema.org/Person",
                     "type": "object",
                     "properties": {
                         "@id": {
                             "type": "string"
                         },
                         "@type": {
-                            "default": [
-                                "schema:Organization"
-                            ],
                             "type": "array",
                             "items": {
-                                "anyOf": [
-                                    {
-                                        "type": "string",
-                                        "enum": [
-                                            "schema:Organization",
-                                            "schema:FundingAgency",
-                                            "schema:Consortium",
-                                            "schema:Corporation",
-                                            "schema:EducationalOrganization",
-                                            "schema:FundingScheme",
-                                            "schema:GovernmentOrganization",
-                                            "schema:NGO",
-                                            "schema:Project",
-                                            "schema:ResearchOrganization"
-                                        ]
-                                    }
-                                ]
+                                "type": "string"
                             },
                             "contains": {
-                                "const": "schema:Organization"
+                                "const": "schema:Person"
                             },
                             "minItems": 1
                         },
-                        "schema:additionalType": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/$defs/cdifConceptOrTermOrString"
-                            }
-                        },
                         "schema:name": {
                             "type": "string",
-                            "description": "string label for organization that is meaningful for human users"
+                            "description": "string label for person that is meaningful for human users, should format consistently. Recommend 'Family Name, Given name' format."
+                        },
+                        "schema:description": {
+                            "type": "string",
+                            "description": "additional information about the agent or their relation to the described resource"
+                        },
+                        "schema:identifier": {
+                            "description": "identifier for person, recommend ORCID",
+                            "anyOf": [
+                                {
+                                    "$ref": "#/$defs/Identifier"
+                                },
+                                {
+                                    "type": "string"
+                                }
+                            ]
                         },
                         "schema:alternateName": {
-                            "description": "other labels by which the organization might be known. A list when there are several; a single label may be a plain string, as JSON-LD framing writes a one-item list.",
+                            "description": "other labels by which the person might be known. A list when there are several; a single label may be a plain string, as JSON-LD framing writes a one-item list.",
                             "anyOf": [
                                 {
                                     "type": "string"
@@ -1253,24 +1312,54 @@
                                 }
                             ]
                         },
-                        "schema:description": {
-                            "type": "string",
-                            "description": "additional information about the agent or their relation to the described resource"
+                        "schema:affiliation": {
+                            "$ref": "#/$defs/Organization",
+                            "description": "if affiliation is present, value must be a schema:Organization."
                         },
-                        "schema:identifier": {
-                            "description": "identifier for organization",
+                        "schema:contactPoint": {
+                            "type": "object",
+                            "description": "An email address or a contact web page (a form, an issue tracker), or both; at least one is required. Schema.org also allows telephone and postal contacts. A URL-only contact is ordinary in DCAT (a vcard:Kind with only vcard:hasURL), so requiring email made such records invalid.",
+                            "properties": {
+                                "@type": {
+                                    "default": [
+                                        "schema:ContactPoint"
+                                    ],
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "contains": {
+                                        "const": "schema:ContactPoint"
+                                    },
+                                    "minItems": 1
+                                },
+                                "schema:email": {
+                                    "type": "string"
+                                },
+                                "schema:url": {
+                                    "type": "string",
+                                    "format": "uri"
+                                }
+                            },
+                            "required": [
+                                "@type"
+                            ],
                             "anyOf": [
                                 {
-                                    "$ref": "#/$defs/Identifier"
+                                    "required": [
+                                        "schema:email"
+                                    ]
                                 },
                                 {
-                                    "type": "string"
+                                    "required": [
+                                        "schema:url"
+                                    ]
                                 }
                             ]
                         },
                         "schema:sameAs": {
                             "type": "array",
-                            "description": "other identifiers for the organization",
+                            "description": "other identifiers for the person",
                             "items": {
                                 "anyOf": [
                                     {
@@ -1305,81 +1394,8 @@
                         }
                     ]
                 },
-                "schema:contactPoint": {
-                    "type": "object",
-                    "description": "An email address or a contact web page (a form, an issue tracker), or both; at least one is required. Schema.org also allows telephone and postal contacts. A URL-only contact is ordinary in DCAT (a vcard:Kind with only vcard:hasURL), so requiring email made such records invalid.",
-                    "properties": {
-                        "@type": {
-                            "default": [
-                                "schema:ContactPoint"
-                            ],
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
-                            "contains": {
-                                "const": "schema:ContactPoint"
-                            },
-                            "minItems": 1
-                        },
-                        "schema:email": {
-                            "type": "string"
-                        },
-                        "schema:url": {
-                            "type": "string",
-                            "format": "uri"
-                        }
-                    },
-                    "required": [
-                        "@type"
-                    ],
-                    "anyOf": [
-                        {
-                            "required": [
-                                "schema:email"
-                            ]
-                        },
-                        {
-                            "required": [
-                                "schema:url"
-                            ]
-                        }
-                    ]
-                },
-                "schema:sameAs": {
-                    "type": "array",
-                    "description": "other identifiers for the person",
-                    "items": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "$ref": "#/$defs/ObjectReference"
-                            }
-                        ]
-                    }
-                }
-            },
-            "allOf": [
                 {
-                    "required": [
-                        "@type"
-                    ]
-                },
-                {
-                    "anyOf": [
-                        {
-                            "required": [
-                                "schema:name"
-                            ]
-                        },
-                        {
-                            "required": [
-                                "schema:identifier"
-                            ]
-                        }
-                    ]
+                    "$ref": "#/$defs/Organization"
                 }
             ]
         },

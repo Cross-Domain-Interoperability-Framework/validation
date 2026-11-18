@@ -31,7 +31,7 @@
                                 "additionalProperties": false,
                                 "properties": {
                                     "@id": {
-                                        "const": "https://w3id.org/cdif/data_description/1.1"
+                                        "const": "https://w3id.org/cdif/data_description/2.0"
                                     }
                                 }
                             }
@@ -45,7 +45,7 @@
                                 "additionalProperties": false,
                                 "properties": {
                                     "@id": {
-                                        "const": "https://w3id.org/cdif/manifest/1.1"
+                                        "const": "https://w3id.org/cdif/manifest/2.0"
                                     }
                                 }
                             }
@@ -59,7 +59,7 @@
                                 "additionalProperties": false,
                                 "properties": {
                                     "@id": {
-                                        "const": "https://w3id.org/cdif/provenance/1.1"
+                                        "const": "https://w3id.org/cdif/provenance/2.0"
                                     }
                                 }
                             }
@@ -1195,7 +1195,7 @@
                                                                                     "additionalProperties": false,
                                                                                     "properties": {
                                                                                         "@id": {
-                                                                                            "const": "https://w3id.org/cdif/codelist/1.1"
+                                                                                            "const": "https://w3id.org/cdif/codelist/2.0"
                                                                                         }
                                                                                     }
                                                                                 },
@@ -1540,7 +1540,7 @@
                                                                                 "additionalProperties": false,
                                                                                 "properties": {
                                                                                     "@id": {
-                                                                                        "const": "https://w3id.org/cdif/codelist/1.1"
+                                                                                        "const": "https://w3id.org/cdif/codelist/2.0"
                                                                                     }
                                                                                 }
                                                                             },
@@ -2115,7 +2115,7 @@
             ]
         },
         "Contributor": {
-            "description": "For more granularity on how a person contributed to a Dataset, use schema:Role. The schema.org documentation does not state that the Role type is an expected data type of author, creator and contributor, but that is addressed in this blog post (http://blog.schema.org/2014/06/introducing-role.html). see https://github.com/ESIPFed/science-on-schema.org/blob/develop/guides/Dataset.md#roles-of-people",
+            "description": "For more granularity on how a person contributed to a Dataset, use schema:Role. The schema.org documentation does not state that the Role type is an expected data type of author, creator and contributor, but that is addressed in this blog post (http://blog.schema.org/2014/06/introducing-role.html). see https://github.com/ESIPFed/science-on-schema.org/blob/develop/guides/Dataset.md#roles-of-people. The Role holds the agent under the property it sits under, as schema.org's Role pattern and validator.schema.org require -- schema:contributor inside a contributor Role, schema:agent inside an activity's agent Role, schema:participant inside a participant Role. At least one is required.",
             "type": "object",
             "properties": {
                 "@type": {
@@ -2135,24 +2135,35 @@
                     "$ref": "#/$defs/cdifConceptOrTermOrString"
                 },
                 "schema:contributor": {
-                    "anyOf": [
-                        {
-                            "$ref": "#/$defs/ObjectReference",
-                            "description": "IRI reference to a Person or Organization defined elsewhere"
-                        },
-                        {
-                            "$ref": "#/$defs/Person"
-                        },
-                        {
-                            "$ref": "#/$defs/Organization"
-                        }
-                    ]
+                    "$ref": "#/$defs/RoleFiller"
+                },
+                "schema:agent": {
+                    "$ref": "#/$defs/RoleFiller"
+                },
+                "schema:participant": {
+                    "$ref": "#/$defs/RoleFiller"
                 }
             },
             "required": [
                 "@type",
-                "schema:roleName",
-                "schema:contributor"
+                "schema:roleName"
+            ],
+            "anyOf": [
+                {
+                    "required": [
+                        "schema:contributor"
+                    ]
+                },
+                {
+                    "required": [
+                        "schema:agent"
+                    ]
+                },
+                {
+                    "required": [
+                        "schema:participant"
+                    ]
+                }
             ]
         },
         "DefinedTerm": {
@@ -4286,6 +4297,21 @@
                             "schema:url"
                         ]
                     }
+                }
+            ]
+        },
+        "RoleFiller": {
+            "description": "The Person or Organization in this role.",
+            "anyOf": [
+                {
+                    "$ref": "#/$defs/ObjectReference",
+                    "description": "IRI reference to a Person or Organization defined elsewhere"
+                },
+                {
+                    "$ref": "#/$defs/Person"
+                },
+                {
+                    "$ref": "#/$defs/Organization"
                 }
             ]
         },
