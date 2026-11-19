@@ -439,10 +439,18 @@ def normalize_bare_structure(obj):
     if isinstance(obj, list):
         return [normalize_bare_structure(x) for x in obj]
     if isinstance(obj, dict):
+        # A component's cdif:isDefinedBy_Variable may be an InstanceVariable that
+        # framing inlined from schema:variableMeasured. There cdif:qualifies is a
+        # single objectReference (cdifInstanceVariable), not the component's
+        # array, so wrapping it would fail a valid variable.
+        t = obj.get('@type')
+        is_variable = any(_local_name(v) == 'InstanceVariable'
+                          for v in (t if isinstance(t, list) else [t]) if isinstance(v, str))
         out = {}
         for k, v in obj.items():
             v = normalize_bare_structure(v)
-            if k in STRUCTURE_ARRAY_KEYS and not isinstance(v, list):
+            if k in STRUCTURE_ARRAY_KEYS and not isinstance(v, list) and \
+                    not (is_variable and k == 'cdif:qualifies'):
                 v = [v]
             out[k] = v
         return out
