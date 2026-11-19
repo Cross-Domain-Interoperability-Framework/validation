@@ -189,7 +189,7 @@ def verify_repo(repo, candidate_body, src_sha):
         return [], 0, 0
     existing = sdir / "FrameAndValidate.py"
     cand = sdir / ".FrameAndValidate.candidate.py"
-    cand.write_text(generated_text(candidate_body, src_sha), encoding="utf-8")
+    cand.write_bytes(generated_text(candidate_body, src_sha).encode("utf-8"))
     regressions = []
     baseline_passes = 0
     try:
