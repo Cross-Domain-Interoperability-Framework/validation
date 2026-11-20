@@ -119,6 +119,54 @@
                         }
                     ]
                 },
+                "skos:altLabel": {
+                    "description": "Alternative lexical labels (acronyms, abbreviations, spelling variants).",
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "$ref": "#/$defs/LanguageTaggedValue"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "skos:hiddenLabel": {
+                    "description": "Labels accessible to free-text search but not displayed.",
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "$ref": "#/$defs/LanguageTaggedValue"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
                 "skos:notation": {
                     "description": "Classification code for this concept within a scheme (a single notation string, consistent with CdifCodelistConcept).",
                     "type": "string"
@@ -267,6 +315,30 @@
                         }
                     ]
                 },
+                "skos:example": {
+                    "description": "Example of the use of this concept.",
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "$ref": "#/$defs/LanguageTaggedValue"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
                 "skos:inScheme": {
                     "description": "Concept scheme(s) this concept belongs to.",
                     "anyOf": [
@@ -322,6 +394,90 @@
                             }
                         ]
                     }
+                },
+                "skos:related": {
+                    "description": "Associative (non-hierarchical) relations. Items are inline concept objects or @id references. Shaped like skos:broader/skos:narrower for consistency within this block. SKOS integrity condition S27 makes skos:related disjoint with the transitive closure of skos:broader; that is a graph-level constraint no JSON Schema can express, and rules.shacl does not yet assert it (it asserts only the reflexive skos:broader case).",
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/$defs/ObjectReference"
+                            },
+                            {
+                                "$ref": "#/$defs/Concept"
+                            }
+                        ]
+                    }
+                },
+                "skos:exactMatch": {
+                    "description": "Concepts in other schemes with equivalent meaning, by @id.",
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/ObjectReference"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/$defs/ObjectReference"
+                            }
+                        }
+                    ]
+                },
+                "skos:closeMatch": {
+                    "description": "Concepts in other schemes with sufficiently similar meaning to be interchangeable in some applications, by @id.",
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/ObjectReference"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/$defs/ObjectReference"
+                            }
+                        }
+                    ]
+                },
+                "skos:broadMatch": {
+                    "description": "Broader concepts in other schemes, by @id.",
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/ObjectReference"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/$defs/ObjectReference"
+                            }
+                        }
+                    ]
+                },
+                "skos:narrowMatch": {
+                    "description": "Narrower concepts in other schemes, by @id.",
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/ObjectReference"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/$defs/ObjectReference"
+                            }
+                        }
+                    ]
+                },
+                "skos:relatedMatch": {
+                    "description": "Associatively related concepts in other schemes, by @id.",
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/ObjectReference"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/$defs/ObjectReference"
+                            }
+                        }
+                    ]
                 }
             },
             "required": [
