@@ -59,7 +59,9 @@ PROFILES = [
     # xasDocument's resolved schema never names xasDocument; it names the
     # xasCore version it requires, which is the version it is. The third field
     # is the URI the artifact declares, when that is not the component itself.
-    ("xasDocument", "1.1", "xasCore"), ("xasDocument", "1.2", "xasCore"),
+    ("xasDocument", "1.1", "xasCore"),
+    # Add ("xasDocument", "1.2", "xasCore") when XAS-CDIF 1.2 reaches main:
+    # until then w3id.org/cdif/xasDocument/1.2 serves the 1.1 release/.
 ]
 
 TIMEOUT = 30
