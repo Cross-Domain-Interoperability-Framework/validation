@@ -1677,6 +1677,17 @@
                 "schema:termCode": {
                     "type": "string",
                     "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+                },
+                "schema:about": {
+                    "description": "What this term is about, or the part it plays in the record, as EITHER a plain string OR an object reference ({\"@id\": \"<uri>\"}). schema.org lists schema:DefinedTerm in the domain of schema:about. In CDIF records it marks where a keyword came from when that is not the dataset's own description: for example 'DCATtheme' for a keyword taken from dcat:theme, or 'portal level value' for one that describes the source portal and not the dataset.",
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "$ref": "#/$defs/ObjectReference"
+                        }
+                    ]
                 }
             },
             "allOf": [
