@@ -38,6 +38,11 @@ CDIF_MODULES = [
     "https://w3id.org/cdif/provenance/2.0",
 ]
 
+# The same five classes named by the versions 2.0 replaces. Building blocks
+# pinned to a CDIF 1.1 release spell their requires this way, so stage 2 must
+# treat these as claims to the same classes stage 1 declares at 2.0.
+CDIF_MODULES_1_1 = [u.replace("/2.0", "/1.1") for u in CDIF_MODULES]
+
 
 def _ask(body):
     return f"PREFIX ada: <{ADA}>\nASK {{ {body} }}"
@@ -110,11 +115,12 @@ class _DomainBase(unittest.TestCase):
     def tearDown(self):
         self._tmp.cleanup()
 
-    def _chain_sidecars(self, alpha_priorities=(2, 1), include_beta=False):
+    def _chain_sidecars(self, alpha_priorities=(2, 1), include_beta=False,
+                        cdif_requires=None):
         # geochemProduct <- adaProduct <- technique(s)
         _write_sidecar(self.root, "geochemProduct", conformsTo=G,
                        presence=_ask("?d a ada:GeochemProduct"),
-                       requires=CDIF_MODULES)
+                       requires=cdif_requires or CDIF_MODULES)
         _write_sidecar(self.root, "adaProduct", conformsTo=A,
                        presence=_ask("?d a ada:AdaProduct"), requires=[G])
         _write_sidecar(self.root, "tAlpha1", conformsTo=T_ALPHA_1,
@@ -159,6 +165,38 @@ class RequiresTest(_DomainBase):
         for w in r.withheld:
             self.assertEqual(w["reason"], "unsatisfied requires")
             self.assertIn(A, w["detail"])
+
+    def test_replaced_version_in_requires_still_satisfies(self):
+        # A sidecar built against CDIF 1.1 requires cdif/core/1.1 while stage 1
+        # declares cdif/core/2.0. Those name the same conformance class, so the
+        # chain must resolve. Compared as raw strings it did not, and because the
+        # root of the tree is the one class requiring CDIF modules, NOTHING was
+        # declared -- geochemProduct, adaProduct and every technique profile were
+        # withheld as "unsatisfied requires".
+        self._chain_sidecars(alpha_priorities=(2, 1),
+                             cdif_requires=CDIF_MODULES_1_1)
+        doc = _doc(types=["ada:GeochemProduct", "ada:AdaProduct"],
+                   component_types=["ada:TypeAlpha"])
+        r = dc.detect_domain_conformance(doc, CDIF_MODULES, bb_dir=self.root,
+                                         do_shacl=False)
+        self.assertEqual(r.declared, [G, A, T_ALPHA_1])
+        self.assertEqual(r.withheld, [])
+        self.assertTrue(r.clean)
+
+    def test_replaced_version_still_reported_when_genuinely_absent(self):
+        # The normalisation must not make a MISSING module look present: drop
+        # data_structure from what stage 1 declared, with the sidecar asking for
+        # it at 1.1. Still withheld, and the detail quotes the sidecar's own
+        # spelling rather than the normalised URI.
+        self._chain_sidecars(cdif_requires=CDIF_MODULES_1_1)
+        doc = _doc(types=["ada:GeochemProduct"])
+        prior = [u for u in CDIF_MODULES if "data_structure" not in u]
+        r = dc.detect_domain_conformance(doc, prior, bb_dir=self.root,
+                                         do_shacl=False)
+        self.assertEqual(r.declared, [])
+        self.assertEqual([w["uri"] for w in r.withheld], [G])
+        self.assertEqual(r.withheld[0]["reason"], "unsatisfied requires")
+        self.assertIn("data_structure/1.1", r.withheld[0]["detail"])
 
     def test_missing_cdif_module_blocks_geochemproduct(self):
         self._chain_sidecars()

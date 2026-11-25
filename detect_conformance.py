@@ -628,7 +628,12 @@ def detect_domain_conformance(doc, prior_uris, bb_dir, manage_prefix=GEOCHEM_BAS
         viol = list(rg.triples((None, sh.resultSeverity, sh.Violation)))
         return (not viol), (f"{len(viol)} SHACL violation(s)" if viol else None)
 
-    declared_set = set(prior_uris)   # CDIF modules + domain-declared-so-far
+    # Normalised by conformance class, not by literal URI: a sidecar requiring
+    # cdif/core/1.1 names the class whose current URI is cdif/core/2.0, and a 1.1
+    # claim counts as a claim to that class (see current_uri). Comparing raw
+    # strings here withheld every domain class whose sidecar named a replaced
+    # version, which is the whole tree when the root requires a CDIF module.
+    declared_set = {current_uri(u) for u in prior_uris}
     decided = set()                  # uris finalized (declared / withheld / superseded)
 
     def _group_key(c):
@@ -639,7 +644,8 @@ def detect_domain_conformance(doc, prior_uris, bb_dir, manage_prefix=GEOCHEM_BAS
         changed = False
         ready = [c for c in classes
                  if present[c["uri"]] and c["uri"] not in decided
-                 and all(r in declared_set for r in c.get("requires", []))]
+                 and all(current_uri(r) in declared_set
+                         for r in c.get("requires", []))]
         groups = {}
         for c in ready:
             groups.setdefault(_group_key(c), []).append(c)
@@ -652,7 +658,7 @@ def detect_domain_conformance(doc, prior_uris, bb_dir, manage_prefix=GEOCHEM_BAS
             winner = top[0]
             ok, detail = _valid(winner)
             if ok:
-                declared_set.add(winner["uri"])
+                declared_set.add(current_uri(winner["uri"]))
                 result.declared.append(winner["uri"])
             else:
                 result.withheld.append({"uri": winner["uri"],
@@ -674,7 +680,8 @@ def detect_domain_conformance(doc, prior_uris, bb_dir, manage_prefix=GEOCHEM_BAS
         u = c["uri"]
         if u in decided or not present[u]:
             continue
-        missing = [r for r in c.get("requires", []) if r not in declared_set]
+        missing = [r for r in c.get("requires", [])
+                   if current_uri(r) not in declared_set]
         if missing:
             result.withheld.append({"uri": u, "reason": "unsatisfied requires",
                                     "detail": "missing: " + ", ".join(missing)})
@@ -683,7 +690,8 @@ def detect_domain_conformance(doc, prior_uris, bb_dir, manage_prefix=GEOCHEM_BAS
             sibs = [m for m in classes
                     if m.get("exclusiveGroup") == grp and grp is not None
                     and present[m["uri"]] and m["uri"] not in decided
-                    and all(r in declared_set for r in m.get("requires", []))]
+                    and all(current_uri(r) in declared_set
+                            for r in m.get("requires", []))]
             if sibs:
                 maxp = max(m.get("priority", 0) for m in sibs)
                 cands = sorted(m["uri"] for m in sibs
