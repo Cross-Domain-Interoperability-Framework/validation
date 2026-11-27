@@ -43,6 +43,15 @@ class CollapseReferenceSlots(unittest.TestCase):
         out = collapse_reference_slots(doc)
         self.assertEqual(out["prov:wasGeneratedBy"][0]["schema:result"], OUT)
 
+    def test_foreign_key_target_is_collapsed(self):
+        key = {"@id": "#pk", "@type": ["cdif:Key"],
+               "cdif:isComposedOf": [{"@type": ["cdi:ComponentPosition"], "cdi:value": 1}]}
+        doc = {"@id": "#root", "cdif:has_PrimaryKey": dict(key),
+               "cdif:has_ForeignKey": [{"cdif:references_PrimaryKey": dict(key)}]}
+        out = collapse_reference_slots(doc)
+        self.assertEqual(out["cdif:has_ForeignKey"][0]["cdif:references_PrimaryKey"], {"@id": "#pk"})
+        self.assertEqual(out["cdif:has_PrimaryKey"], key)
+
     def test_reference_to_root_is_collapsed(self):
         doc = {"@id": "#root", "schema:name": "Root",
                "schema:subjectOf": {"@id": "#rec", "schema:about": {"@id": "#root", "schema:name": "Root"}}}

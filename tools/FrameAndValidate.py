@@ -367,6 +367,10 @@ REFERENCE_ONLY_KEYS = (
     # exactly {@id}. This was NOT safe before 2026-09-24, when two CDIF sites
     # still admitted an inline variable that a collapse would have destroyed.
     'cdi:indexes',
+    # Sealed {@id} on cdif:ForeignKey, its only definition. A key in the same
+    # document is held as cdif:has_PrimaryKey (or cdif:hasPrimaryKey) on the
+    # referenced data, and framing embeds a second copy here.
+    'cdif:references_PrimaryKey',
 )
 
 # Keys the (bare-structure) schema requires as arrays but framing collapses to a
