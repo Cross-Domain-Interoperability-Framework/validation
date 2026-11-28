@@ -1728,6 +1728,33 @@
                 "cdif:has_Statistics"
             ]
         },
+        "calendarInstant_type": {
+            "type": "object",
+            "properties": {
+                "@type": {
+                    "default": [
+                        "time:Instant"
+                    ],
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "time:Instant"
+                    },
+                    "minItems": 1
+                },
+                "time:inXSDDate": {
+                    "type": "string",
+                    "description": "the date of the instant, as an xsd:date",
+                    "pattern": "^-?\\d{4,}-\\d{2}-\\d{2}(Z|[+-]\\d{2}:\\d{2})?$"
+                }
+            },
+            "required": [
+                "@type",
+                "time:inXSDDate"
+            ]
+        },
         "cdifConceptOrTermOrString": {
             "title": "CDIF Concept-or-Term-or-String",
             "description": "Shared shape for a CDIF property that carries either a controlled-vocabulary value or a bare string label. Wraps cdifConceptOrTerm (SKOS-concept @id-ref, schema:DefinedTerm, or inline cdif:Concept) with a plain-string alternative used for legacy or single-word labels not yet bound to a vocabulary.",
@@ -1750,6 +1777,56 @@
                         }
                     ]
                 }
+            ]
+        },
+        "numericInstant_type": {
+            "type": "object",
+            "properties": {
+                "@type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "time:Instant"
+                    },
+                    "minItems": 1
+                },
+                "time:inTimePosition": {
+                    "type": "object",
+                    "properties": {
+                        "@type": {
+                            "default": [
+                                "time:TimePosition"
+                            ],
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "contains": {
+                                "const": "time:TimePosition"
+                            },
+                            "minItems": 1
+                        },
+                        "time:hasTRS": {
+                            "type": "string",
+                            "description": "identifier for a temporal reference system; default is million years before prsent as a decimal number",
+                            "default": "http://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime"
+                        },
+                        "time:numericPosition": {
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "@type",
+                        "time:hasTRS",
+                        "time:numericPosition"
+                    ]
+                }
+            },
+            "required": [
+                "@type",
+                "time:inTimePosition"
             ]
         }
     },
